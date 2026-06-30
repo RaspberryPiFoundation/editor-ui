@@ -27,15 +27,16 @@ import ToastCloseButton from "../utils/ToastCloseButton";
 import Loader from "../components/Loader/Loader";
 import LoadFailed from "../components/LoadFailed/LoadFailed";
 
-import internalStyles from "../assets/stylesheets/InternalStyles.scss";
-import externalStyles from "../assets/stylesheets/ExternalStyles.scss";
-import editorStyles from "../assets/stylesheets/index.scss";
+import internalStyles from "../assets/stylesheets/InternalStyles.scss?inline";
+import externalStyles from "../assets/stylesheets/ExternalStyles.scss?inline";
+import editorStyles from "../assets/stylesheets/index.scss?inline";
 import "../assets/stylesheets/Notifications.scss";
 import Style from "style-it";
 import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
 } from "../events/WebComponentCustomEvents";
+import { getRuntimeEnv } from "../utils/runtimeConfig";
 
 const CODE_EDITOR_FEEDBACK_URL =
   "https://form.raspberrypi.org/f/code-editor-feedback";
@@ -59,8 +60,8 @@ const WebComponentLoader = (props) => {
     outputSplitView = false,
     sidebarPlugins = [],
     projectNameEditable = false,
-    reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
-    scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
+    reactAppApiEndpoint = getRuntimeEnv("REACT_APP_API_ENDPOINT"),
+    scratchApiEndpoint = getRuntimeEnv("REACT_APP_API_ENDPOINT"),
     readOnly = false,
     senseHatAlwaysEnabled = false,
     friendlyErrorsEnabled = false,

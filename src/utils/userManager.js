@@ -1,12 +1,13 @@
 import { createUserManager } from "redux-oidc";
 import { WebStorageStateStore } from "oidc-client";
+import { getRuntimeEnv } from "./runtimeConfig";
 
 const host = `${window.location.protocol}//${window.location.hostname}${
   window.location.port ? `:${window.location.port}` : ""
 }`;
 
 const userManagerConfig = ({ reactAppAuthenticationUrl }) => ({
-  client_id: process.env.REACT_APP_AUTHENTICATION_CLIENT_ID,
+  client_id: getRuntimeEnv("REACT_APP_AUTHENTICATION_CLIENT_ID"),
   redirect_uri: `${host}/auth/callback`,
   post_logout_redirect_uri: host,
   response_type: "code",

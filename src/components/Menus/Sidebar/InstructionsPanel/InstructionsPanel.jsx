@@ -7,7 +7,7 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SidebarPanel from "../SidebarPanel";
 
 import Prism from "prismjs";
-import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";

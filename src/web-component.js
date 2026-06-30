@@ -13,13 +13,14 @@ import { resetStore } from "./redux/RootSlice";
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
 import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
+import { getRuntimeEnv } from "./utils/runtimeConfig";
 
 dedupeDesignSystemWarnings();
 
 Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_DSN,
+  dsn: getRuntimeEnv("REACT_APP_SENTRY_DSN"),
   integrations: [new BrowserTracing()],
-  environment: process.env.REACT_APP_SENTRY_ENV,
+  environment: getRuntimeEnv("REACT_APP_SENTRY_ENV"),
   tracesSampleRate: 0.1,
 });
 

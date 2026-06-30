@@ -28,18 +28,8 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
-
-const getWorkerURL = (url) => {
-  const content = `
-    /* global PyodideWorker */
-    console.log("Worker loading");
-    importScripts("${url}");
-    const pyodide = PyodideWorker();
-    console.log("Worker loaded");
-  `;
-  const blob = new Blob([content], { type: "application/javascript" });
-  return URL.createObjectURL(blob);
-};
+import { publicPath } from "../../../../../utils/runtimeConfig";
+import { createPyodideWorkerUrl } from "../../../../../utils/pyodideWorkerUrl";
 
 const PyodideRunner = ({
   active,
@@ -81,9 +71,7 @@ const PyodideRunner = ({
 
   useEffect(() => {
     if (active) {
-      const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
-      );
+      const workerUrl = createPyodideWorkerUrl();
       const worker = new Worker(workerUrl);
       setPyodideWorker(worker);
     }
@@ -93,7 +81,7 @@ const PyodideRunner = ({
     if (friendlyErrorsEnabled) {
       try {
         loadCopydeckFor(i18n.language, {
-          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+          base: publicPath("python-error-copydecks/"),
         });
         registerAdapter("pyodide", cpythonAdapter);
       } catch {

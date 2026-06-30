@@ -1,3 +1,5 @@
+import { getAssetsUrl } from "./runtimeConfig";
+
 export const getScratchIframeContentWindow = () => {
   const webComponent = document.querySelector("editor-wc");
   return webComponent.shadowRoot.querySelector("iframe[title='Scratch']")
@@ -6,7 +8,7 @@ export const getScratchIframeContentWindow = () => {
 
 export const getScratchAllowedOrigin = () => {
   const fallbackOrigin = window.location.origin;
-  const configuredAssetsUrl = process.env.ASSETS_URL;
+  const configuredAssetsUrl = getAssetsUrl();
 
   if (!configuredAssetsUrl) {
     return fallbackOrigin;

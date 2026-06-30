@@ -48,7 +48,7 @@ jest.mock("./i18n", () => ({
   t: (string) => string,
 }));
 
-jest.mock("../assets/markdown/demoInstructions.md", () => {
+jest.mock("../assets/markdown/demoInstructions.md?raw", () => {
   return "demoInstructions.md";
 });
 
