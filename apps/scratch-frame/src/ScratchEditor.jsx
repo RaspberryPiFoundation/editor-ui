@@ -1,4 +1,5 @@
 import scratchProjectSave from "./utils/scratchProjectSave.js";
+import React from "react";
 import { useCallback, useRef, useEffect, useState } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
