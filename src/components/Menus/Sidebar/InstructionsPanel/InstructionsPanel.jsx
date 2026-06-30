@@ -21,8 +21,6 @@ import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import ProgressBar from "./ProgressBar/ProgressBar";
 
 const InstructionsPanel = () => {
-  const { i18n } = useTranslation();
-
   useEffect(() => {
     // prism and prism plugin config
     Prism.manual = true;
@@ -52,7 +50,7 @@ const InstructionsPanel = () => {
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
