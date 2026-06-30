@@ -12,54 +12,6 @@ let publicUrl = process.env.PUBLIC_URL || "/";
 if (!publicUrl.endsWith("/")) {
   publicUrl += "/";
 }
-const isDev = process.env.NODE_ENV !== "production";
-
-const toOrigin = (envVarName, value) => {
-  const normalizedValue = String(value || "")
-    .trim()
-    .replace(/^['"]|['"]$/g, "");
-
-  if (!normalizedValue) return "";
-
-  try {
-    return new URL(normalizedValue).origin;
-  } catch (_) {
-    throw new Error(
-      `Invalid URL in ${envVarName}: "${value}". ` +
-        `Expected an absolute URL, for example "https://example.com".`,
-    );
-  }
-};
-
-const cspApiOrigin = toOrigin(
-  "REACT_APP_API_ENDPOINT",
-  process.env.REACT_APP_API_ENDPOINT,
-);
-const cspAssetOrigin = toOrigin("ASSETS_URL", process.env.ASSETS_URL);
-
-// Keep in sync with SCRATCH_LIBRARY_ASSET_URL_TEMPLATE in ScratchEditor.jsx
-const cspScratchLibraryAssetOrigin = "https://editor-assets.raspberrypi.org";
-
-// When present these override cspApiOrigin for CSP API/connect-src origins.
-// This supports staging setups that need to allow multiple API origins,
-// such as also reaching the test API.
-const cspApiMultipleOrigins = String(process.env.CSP_API_MULTIPLE_ORIGINS || "")
-  .split(/[\s,]+/)
-  .map((originValue, index) =>
-    toOrigin(`CSP_API_MULTIPLE_ORIGINS[${index}]`, originValue),
-  )
-  .filter(Boolean)
-  .join(" ");
-
-const scratchStaticDir = path.resolve(
-  __dirname,
-  "node_modules/@RaspberryPiFoundation/scratch-gui/dist/static",
-);
-
-const scratchChunkDir = path.resolve(
-  __dirname,
-  "node_modules/@RaspberryPiFoundation/scratch-gui/dist/chunks",
-);
 
 const moduleRules = [
   {
@@ -184,20 +136,12 @@ const mainConfig = {
         directory: path.join(__dirname, "src", "projects"),
         publicPath: `${publicUrl}projects`,
       },
-      {
-        directory: scratchStaticDir,
-        publicPath: `${publicUrl}scratch-gui/static`,
-      },
-      {
-        directory: scratchChunkDir,
-        publicPath: `${publicUrl}scratch-gui/chunks`,
-      },
     ],
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization",
+        "X-Requested-With, content-type, Authorization, x-run-id, x-project-id",
       // Pyodide - required for input and code interruption - needed on the host app
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
@@ -209,8 +153,8 @@ const mainConfig = {
             "/pyodide/shims/_internal_sense_hat.js",
             "/pyodide/shims/pygal.js",
             "/PyodideWorker.js",
+            "/api/scratch/projects/cool-scratch.json",
           ].includes(req.url) ||
-          req.url.startsWith("/scratch.html") ||
           req.url.startsWith("/html-renderer.html")
         ) {
           res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
@@ -253,83 +197,4 @@ const mainConfig = {
   stats: "minimal",
 };
 
-const scratchConfig = {
-  entry: {
-    scratch: path.resolve(__dirname, "./src/scratch.jsx"),
-  },
-  module: { rules: moduleRules },
-  resolve: {
-    extensions: [".*", ".js", ".jsx", ".css"],
-  },
-  output: {
-    path: path.resolve(__dirname, "./build"),
-    filename: "[name].js",
-    publicPath: publicUrl,
-  },
-  externals: [
-    function ({ request }, callback) {
-      if (request === "@RaspberryPiFoundation/scratch-gui")
-        return callback(null, "GUI");
-      if (request === "react") return callback(null, "React");
-      if (request === "react-dom" || request.startsWith("react-dom/"))
-        return callback(null, "ReactDOM");
-      if (request === "redux") return callback(null, "Redux");
-      if (request === "react-redux") return callback(null, "ReactRedux");
-      callback();
-    },
-  ],
-  plugins: [
-    new Dotenv({
-      path: "./.env",
-      systemvars: true,
-    }),
-    new HtmlWebpackPlugin({
-      inject: "body",
-      template: "src/scratch.html",
-      filename: "scratch.html",
-      chunks: ["scratch"],
-      templateParameters: {
-        publicUrl: publicUrl,
-        cspApiOrigin,
-        cspApiMultipleOrigins,
-        cspAssetOrigin,
-        cspScratchLibraryAssetOrigin,
-        isDev,
-      },
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: scratchStaticDir, to: "scratch-gui/static" },
-        { from: `${scratchStaticDir}/assets`, to: "vendor/static/assets" },
-        { from: scratchChunkDir, to: "chunks" },
-        {
-          from: "node_modules/scratchReactVendor/umd/react.production.min.js",
-          to: "vendor/react.production.min.js",
-        },
-        {
-          from: "node_modules/scratchReactDomVendor/umd/react-dom.production.min.js",
-          to: "vendor/react-dom.production.min.js",
-        },
-        {
-          from: "node_modules/redux/dist/redux.min.js",
-          to: "vendor/redux.min.js",
-        },
-        {
-          from: "node_modules/react-redux/dist/react-redux.min.js",
-          to: "vendor/react-redux.min.js",
-        },
-        {
-          from: "node_modules/@RaspberryPiFoundation/scratch-gui/dist/scratch-gui.js",
-          to: "vendor/scratch-gui.js",
-        },
-        {
-          from: "node_modules/@RaspberryPiFoundation/scratch-gui/dist/scratch-gui.js.LICENSE.txt",
-          to: "vendor/scratch-gui.js.LICENSE.txt",
-        },
-      ],
-    }),
-  ],
-  stats: "minimal",
-};
-
-module.exports = [mainConfig, scratchConfig];
+module.exports = [mainConfig];

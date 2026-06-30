@@ -219,5 +219,8 @@
     ],
     "resetMocks": true
   },
+  "workspaces": [
+    "apps/*"
+  ],
   "packageManager": "yarn@4.12.0"
 }
