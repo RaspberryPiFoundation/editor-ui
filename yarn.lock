@@ -4239,10 +4239,9 @@ __metadata:
     resolve-url-loader: "npm:^3.1.2"
     sass: "npm:^1.51.0"
     sass-loader: "npm:^13.3.3"
-    scratchblocks: "npm:^3.7.0"
-    semver: "npm:7.3.2"
     scratchReactDomVendor: "npm:react-dom@18.3.1"
     scratchReactVendor: "npm:react@18.3.1"
+    scratchblocks: "npm:^3.7.0"
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
     style-it: "npm:^2.1.4"
@@ -19463,10 +19462,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scratchblocks@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "scratchblocks@npm:3.7.0"
-  checksum: 10/5464d5cbbff72457a562fe7d4d8492b15e3e17e0bd8ced1e2554432185971b1bdb1c3b1ddf8e245d8dc72b051615016cd02b62324c5d8cd913808b4d3ec12dd0
 "scratchReactDomVendor@npm:react-dom@18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
@@ -19485,6 +19480,13 @@ __metadata:
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: 10/261137d3f3993eaa2368a83110466fc0e558bc2c7f7ae7ca52d94f03aac945f45146bd85e5f481044db1758a1dbb57879e2fcdd33924e2dde1bdc550ce73f7bf
+  languageName: node
+  linkType: hard
+
+"scratchblocks@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "scratchblocks@npm:3.7.0"
+  checksum: 10/5464d5cbbff72457a562fe7d4d8492b15e3e17e0bd8ced1e2554432185971b1bdb1c3b1ddf8e245d8dc72b051615016cd02b62324c5d8cd913808b4d3ec12dd0
   languageName: node
   linkType: hard
 
