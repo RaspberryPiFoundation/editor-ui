@@ -142,6 +142,7 @@ jobs:
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
           ASSETS_URL: ${{ needs.setup-environment.outputs.assets_url }}
+          REACT_APP_SCRATCH_FRAME_URL: ${{ needs.setup-environment.outputs.assets_url }}
           HTML_RENDERER_URL: ${{ needs.setup-environment.outputs.html_renderer_url }}
           REACT_APP_API_ENDPOINT: ${{ inputs.react_app_api_endpoint }}
           REACT_APP_AUTHENTICATION_CLIENT_ID: ${{ inputs.react_app_authentication_client_id }}

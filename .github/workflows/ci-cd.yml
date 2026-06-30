@@ -80,6 +80,7 @@ jobs:
         env:
           JEST_JUNIT_OUTPUT_DIR: ./coverage/
           REACT_APP_API_ENDPOINT: http://localhost:3009
+          REACT_APP_SCRATCH_FRAME_URL: "http://scratch-frame.example.com"
       - name: Record coverage
         run: ./.github/workflows/record_coverage
         env:

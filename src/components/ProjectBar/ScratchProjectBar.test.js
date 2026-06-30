@@ -85,7 +85,7 @@ const renderSignedInScratchProjectBar = ({
     },
   });
 
-const getScratchOrigin = () => process.env.ASSETS_URL || window.location.origin;
+const getScratchOrigin = () => process.env.REACT_APP_SCRATCH_FRAME_URL;
 
 const dispatchScratchMessage = (type, origin = getScratchOrigin()) => {
   act(() => {

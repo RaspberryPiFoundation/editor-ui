@@ -64,7 +64,7 @@ describe("scratch handshake retries", () => {
     mockRenderRoot.mockClear();
     process.env = {
       ...originalEnv,
-      ASSETS_URL: "https://assets.example.com",
+      REACT_APP_SCRATCH_FRAME_URL: "https://scratch-frame.example.com",
     };
 
     document.body.innerHTML =

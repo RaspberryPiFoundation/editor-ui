@@ -80,7 +80,10 @@ describe("ScratchContainer", () => {
     };
   };
 
-  const dispatchMessage = (data, origin = "https://example.com") => {
+  const dispatchMessage = (
+    data,
+    origin = "https://scratch-frame.example.com",
+  ) => {
     window.dispatchEvent(
       new MessageEvent("message", {
         origin,
@@ -117,11 +120,12 @@ describe("ScratchContainer", () => {
     });
   };
 
-  let originalAssetsUrl;
+  let originalScratchFrameUrl;
 
   beforeEach(() => {
-    originalAssetsUrl = process.env.ASSETS_URL;
-    process.env.ASSETS_URL = "https://example.com";
+    originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
+    process.env.REACT_APP_SCRATCH_FRAME_URL =
+      "https://scratch-frame.example.com";
     localStorage.clear();
     mockOverlayScrollbarsComponent.mockImplementation(
       renderMockOverlayScrollbarsComponent,
@@ -129,7 +133,7 @@ describe("ScratchContainer", () => {
   });
 
   afterEach(() => {
-    process.env.ASSETS_URL = originalAssetsUrl;
+    process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
     jest.clearAllMocks();
   });
 
@@ -414,8 +418,9 @@ describe("ScratchContainer", () => {
     });
   });
 
-  test("accepts scratch-gui-ready from origin when ASSETS_URL includes path", () => {
-    process.env.ASSETS_URL = "https://example.com/branches/main";
+  test("accepts scratch-gui-ready from origin when REACT_APP_SCRATCH_FRAME_URL includes path", () => {
+    process.env.REACT_APP_SCRATCH_FRAME_URL =
+      "https://example.com/branches/main";
     const store = buildStore({
       authReducer: (state = { user: { access_token: "token-123" } }) => state,
     });
