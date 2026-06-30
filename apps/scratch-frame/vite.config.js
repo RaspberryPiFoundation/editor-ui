@@ -30,6 +30,46 @@ export default defineConfig(({ mode }) => {
     publicUrl += "/";
   }
 
+  const cspApiOrigin = toOrigin(
+    "REACT_APP_API_ENDPOINT",
+    env.REACT_APP_API_ENDPOINT,
+  );
+  const cspAssetOrigin = toOrigin("ASSETS_URL", env.ASSETS_URL);
+
+  // Keep in sync with SCRATCH_LIBRARY_ASSET_URL_TEMPLATE in ScratchEditor.jsx
+  const cspScratchLibraryAssetOrigin = "https://editor-assets.raspberrypi.org";
+
+  // When present these override cspApiOrigin for CSP API/connect-src origins.
+  // This supports staging setups that need to allow multiple API origins,
+  // such as also reaching the test API.
+  const cspApiMultipleOrigins = String(env.CSP_API_MULTIPLE_ORIGINS || "")
+    .split(/[\s,]+/)
+    .map((originValue, index) =>
+      toOrigin(`CSP_API_MULTIPLE_ORIGINS[${index}]`, originValue),
+    )
+    .filter(Boolean)
+    .join(" ");
+
+  const htmlTransform = () => {
+    return {
+      name: "html-transform",
+      transformIndexHtml(html) {
+        html = html.replaceAll(
+          "%cspApiMultipleOrigins%",
+          cspApiMultipleOrigins || cspApiOrigin,
+        );
+        html = html.replaceAll("%cspAssetOrigin%", cspAssetOrigin);
+        html = html.replaceAll(
+          "%cspScratchLibraryAssetOrigin%",
+          cspScratchLibraryAssetOrigin,
+        );
+        html = html.replaceAll("%webSocketOrigin%", isDev ? "ws: wss:" : "");
+        html = html.replaceAll("%PUBLIC_URL%", publicUrl);
+        return html;
+      },
+    };
+  };
+
   const resolveFromApp = (request) =>
     require.resolve(request, { paths: [__dirname] });
 
@@ -76,10 +116,17 @@ export default defineConfig(({ mode }) => {
   });
 
   return {
-    plugins: [react({ jsxRuntime: "classic" }), staticCopy],
+    plugins: [react({ jsxRuntime: "classic" }), htmlTransform(), staticCopy],
     envDir: path.resolve(__dirname, "../../"),
     envPrefix: "REACT_APP_",
     base: publicUrl,
+    define: {
+      "import.meta.env.CSP_API_MULTIPLE_ORIGINS": JSON.stringify(
+        env.CSP_API_MULTIPLE_ORIGINS,
+      ),
+      "import.meta.env.NODE_ENV": JSON.stringify(env.NODE_ENV),
+      "import.meta.env.ASSETS_URL": JSON.stringify(env.ASSETS_URL),
+    },
     build: {
       rolldownOptions: {
         input: {
