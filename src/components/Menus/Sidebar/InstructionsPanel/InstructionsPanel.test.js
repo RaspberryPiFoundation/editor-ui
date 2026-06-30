@@ -6,12 +6,30 @@ import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { act } from "react";
 import Modal from "react-modal";
 import Prism from "prismjs";
+import { scratchblocksInit } from "../../../../utils/scratchblocks";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
 jest.mock("prismjs", () => ({
   ...jest.requireActual("prismjs"),
   highlightElement: jest.fn(),
 }));
+jest.mock("../../../../utils/scratchblocks", () => ({
+  scratchblocksInit: jest.fn(),
+}));
+
+// Stand-in for the real (jsdom-unfriendly) scratchblocks SVG rendering: swap
+// each .language-blocks element for an svg so we can assert it was processed.
+// Set as the implementation per-test because jest `resetMocks: true` clears it.
+const fakeScratchblocksInit = (_locale, container) => {
+  container.querySelectorAll(".language-blocks").forEach((block) => {
+    const svg = global.document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "svg",
+    );
+    svg.setAttribute("data-testid", "scratchblock");
+    block.parentNode.replaceChild(svg, block);
+  });
+};
 
 describe("When instructionsEditable is true", () => {
   describe("When there are instructions", () => {
@@ -354,6 +372,115 @@ describe("When instructions are not editable", () => {
 
     test("Does not render the progress bar", () => {
       expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("When the project is a scratch project", () => {
+    const scratchSteps = [
+      {
+        content: "<pre><code class='language-blocks'>say [hello]</code></pre>",
+      },
+      {
+        content:
+          "<pre><code class='language-blocks'>move (10) steps</code></pre>",
+      },
+    ];
+
+    const renderAtStep = (currentStepPosition) => {
+      const mockStore = configureStore([]);
+      const store = mockStore({
+        editor: {
+          project: { project_type: "code_editor_scratch" },
+          instructionsEditable: false,
+        },
+        instructions: {
+          project: { steps: scratchSteps },
+          quiz: {},
+          currentStepPosition,
+        },
+      });
+      return render(
+        <Provider store={store}>
+          <InstructionsPanel />
+        </Provider>,
+      );
+    };
+
+    beforeEach(() => {
+      scratchblocksInit.mockImplementation(fakeScratchblocksInit);
+    });
+
+    test("Renders the scratch block as an svg", () => {
+      renderAtStep(0);
+      expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
+    });
+
+    test("Initialises scratchblocks with the step content container", () => {
+      renderAtStep(0);
+      expect(scratchblocksInit).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(HTMLElement),
+      );
+    });
+
+    test("Re-renders scratch blocks when navigating to another step", () => {
+      const { rerender } = renderAtStep(0);
+      scratchblocksInit.mockClear();
+
+      const mockStore = configureStore([]);
+      const store = mockStore({
+        editor: {
+          project: { project_type: "code_editor_scratch" },
+          instructionsEditable: false,
+        },
+        instructions: {
+          project: { steps: scratchSteps },
+          quiz: {},
+          currentStepPosition: 1,
+        },
+      });
+      rerender(
+        <Provider store={store}>
+          <InstructionsPanel />
+        </Provider>,
+      );
+
+      expect(scratchblocksInit).toHaveBeenCalled();
+      expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
+    });
+  });
+
+  describe("When the project is not a scratch project", () => {
+    beforeEach(() => {
+      scratchblocksInit.mockClear();
+      const mockStore = configureStore([]);
+      const store = mockStore({
+        editor: {
+          project: { project_type: "python" },
+          instructionsEditable: false,
+        },
+        instructions: {
+          project: {
+            steps: [
+              {
+                content:
+                  "<pre><code class='language-blocks'>say [hello]</code></pre>",
+              },
+            ],
+          },
+          quiz: {},
+          currentStepPosition: 0,
+        },
+      });
+      render(
+        <Provider store={store}>
+          <InstructionsPanel />
+        </Provider>,
+      );
+    });
+
+    test("Does not initialise scratchblocks", () => {
+      expect(scratchblocksInit).not.toHaveBeenCalled();
     });
   });
 
