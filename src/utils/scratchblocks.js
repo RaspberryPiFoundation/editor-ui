@@ -3,6 +3,8 @@ import scratchblocks from "scratchblocks";
 
 import locales from "./scratchblocksLocales";
 
+scratchblocks.loadLanguages(locales);
+
 const localeMap = {
   "am-ET": "am",
   "ar-SA": "ar",
@@ -70,8 +72,6 @@ export const scratchblocksInit = (currentLocale, container = document) => {
     ".language-blocks": "scratch2",
     ".language-blocks3": "scratch3",
   };
-
-  scratchblocks.loadLanguages(locales);
 
   return Object.entries(selectors).forEach((entry) => {
     const [selector, style] = entry;
