@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 // This is disabled because the empty anchor tag is used for translation and will have content when rendered.
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,18 +8,21 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SidebarPanel from "../SidebarPanel";
 
 import Prism from "prismjs";
+import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
 import "../../../../assets/stylesheets/Instructions.scss";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
+import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import ProgressBar from "./ProgressBar/ProgressBar";
-import PlusIcon from "../../../../assets/icons/plus.svg";
 
 const InstructionsPanel = () => {
+  const { i18n } = useTranslation();
+
   useEffect(() => {
     // prism and prism plugin config
     Prism.manual = true;
@@ -64,6 +68,7 @@ const InstructionsPanel = () => {
 
   const hasInstructions = steps && steps.length > 0;
   const hasMultipleSteps = numberOfSteps > 1;
+  const isScratchProject = project?.project_type === "code_editor_scratch";
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
@@ -96,6 +101,9 @@ const InstructionsPanel = () => {
         stepContent.current?.parentElement.scrollTo({ top: 0 });
         stepContent.current.innerHTML = content;
         applySyntaxHighlighting(stepContent.current);
+        if (isScratchProject) {
+          scratchblocksInit(i18n.language, stepContent.current);
+        }
       }
     };
     if (isQuiz && !quizCompleted) {
@@ -112,6 +120,8 @@ const InstructionsPanel = () => {
     quizCompleted,
     isQuiz,
     instructionsTab,
+    isScratchProject,
+    i18n.language,
   ]);
 
   useEffect(() => {
