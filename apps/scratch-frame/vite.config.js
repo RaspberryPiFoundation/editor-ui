@@ -24,6 +24,46 @@ const toOrigin = (envVarName, value) => {
 export default defineConfig(({ mode }) => {
   const envDir = path.resolve(__dirname, "../../");
   const env = loadEnv(mode, envDir, "");
+  const isDev = mode === "development";
+
+  const cspApiOrigin = toOrigin(
+    "REACT_APP_API_ENDPOINT",
+    env.REACT_APP_API_ENDPOINT,
+  );
+  const cspAssetOrigin = toOrigin("ASSETS_URL", env.ASSETS_URL);
+
+  // Keep in sync with SCRATCH_LIBRARY_ASSET_URL_TEMPLATE in ScratchEditor.jsx
+  const cspScratchLibraryAssetOrigin = "https://editor-assets.raspberrypi.org";
+
+  // When present these override cspApiOrigin for CSP API/connect-src origins.
+  // This supports staging setups that need to allow multiple API origins,
+  // such as also reaching the test API.
+  const cspApiMultipleOrigins = String(env.CSP_API_MULTIPLE_ORIGINS || "")
+    .split(/[\s,]+/)
+    .map((originValue, index) =>
+      toOrigin(`CSP_API_MULTIPLE_ORIGINS[${index}]`, originValue),
+    )
+    .filter(Boolean)
+    .join(" ");
+
+  const htmlTransform = () => {
+    return {
+      name: "html-transform",
+      transformIndexHtml(html) {
+        html = html.replaceAll(
+          "%cspApiMultipleOrigins%",
+          cspApiMultipleOrigins || cspApiOrigin,
+        );
+        html = html.replaceAll("%cspAssetOrigin%", cspAssetOrigin);
+        html = html.replaceAll(
+          "%cspScratchLibraryAssetOrigin%",
+          cspScratchLibraryAssetOrigin,
+        );
+        html = html.replaceAll("%webSocketOrigin%", isDev ? "ws: wss:" : "");
+        return html;
+      },
+    };
+  };
 
   const resolveFromApp = (request) =>
     require.resolve(request, { paths: [__dirname] });
@@ -71,7 +111,7 @@ export default defineConfig(({ mode }) => {
   });
 
   return {
-    plugins: [react({ jsxRuntime: "classic" }), staticCopy],
+    plugins: [react({ jsxRuntime: "classic" }), htmlTransform(), staticCopy],
     envDir: path.resolve(__dirname, "../../"),
     envPrefix: "REACT_APP_",
     base: env.REACT_APP_SCRATCH_FRAME_URL,

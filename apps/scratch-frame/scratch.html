@@ -13,10 +13,10 @@
         style-src 'self' 'unsafe-inline';
         worker-src 'self' blob:;
         child-src 'self' blob:;
-        connect-src 'self' <%= cspApiMultipleOrigins || cspApiOrigin %> <%= cspAssetOrigin %> <%= cspScratchLibraryAssetOrigin %> <%= isDev ? "ws: wss:" : "" %>;
-        img-src 'self' data: blob: <%= cspAssetOrigin %> <%= cspScratchLibraryAssetOrigin %>;
-        media-src 'self' blob: <%= cspAssetOrigin %> <%= cspScratchLibraryAssetOrigin %>;
-        font-src 'self' data: <%= cspAssetOrigin %>;
+        connect-src 'self' %cspApiMultipleOrigins% %cspAssetOrigin% %cspScratchLibraryAssetOrigin% %webSocketOrigin%;
+        img-src 'self' data: blob: %cspAssetOrigin% %cspScratchLibraryAssetOrigin%;
+        media-src 'self' blob: %cspAssetOrigin% %cspScratchLibraryAssetOrigin%;
+        font-src 'self' data: %cspAssetOrigin%;
         form-action 'self';
         upgrade-insecure-requests;
       "
