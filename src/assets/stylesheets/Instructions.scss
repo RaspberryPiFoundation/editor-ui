@@ -7,6 +7,36 @@
 .project-instructions {
   block-size: 100%;
 
+  code.block3control {
+    background-color: #ffab19;
+  }
+  code.block3events {
+    background-color: #ffbf00;
+  }
+  code.block3extensions {
+    background-color: #0fbd8c;
+  }
+  code.block3looks {
+    background-color: #9966ff;
+  }
+  code.block3motion {
+    background-color: #4c97ff;
+  }
+  code.block3myblocks {
+    background-color: #ff6680;
+  }
+  code.block3operators {
+    background-color: #59c059;
+  }
+  code.block3sensing {
+    background-color: #5cb1d6;
+  }
+  code.block3sound {
+    background-color: #cf63cf;
+  }
+  code.block3variables {
+    background-color: #ff8c1a;
+  }
   &__content {
     padding-block-end: var(--project-instructions-padding, $space-1);
   }
