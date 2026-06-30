@@ -4552,6 +4552,7 @@ __metadata:
     resolve-url-loader: "npm:^3.1.2"
     sass: "npm:^1.51.0"
     sass-loader: "npm:^13.3.3"
+    scratchblocks: "npm:^3.7.0"
     semver: "npm:7.3.2"
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
@@ -21996,6 +21997,13 @@ __metadata:
   version: 1.0.7
   resolution: "scratch-translate-extension-languages@npm:1.0.7"
   checksum: 10/0caf8422bfc33eeddcd9498695af28b1e83b899777271fb60eb1b8be139608f7c098dc969240907f29daf4dcd71ecdffec5848e9bc30d17ea49f86da7e550ca3
+  languageName: node
+  linkType: hard
+
+"scratchblocks@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "scratchblocks@npm:3.7.0"
+  checksum: 10/5464d5cbbff72457a562fe7d4d8492b15e3e17e0bd8ced1e2554432185971b1bdb1c3b1ddf8e245d8dc72b051615016cd02b62324c5d8cd913808b4d3ec12dd0
   languageName: node
   linkType: hard
 

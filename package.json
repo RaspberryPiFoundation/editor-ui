@@ -79,6 +79,7 @@
     "react-toggle": "^4.1.3",
     "redux": "^4.2.1",
     "redux-oidc": "^4.0.0-beta1",
+    "scratchblocks": "^3.7.0",
     "skulpt": "^1.2.0",
     "stream-browserify": "^3.0.0",
     "three": "0.169.0",
