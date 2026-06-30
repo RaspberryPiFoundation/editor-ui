@@ -93,20 +93,21 @@ const renderScratchblock = (block, currentLocale, style) => {
   // rendering, but occurs as part of some projects.  This `:: +` is the "diff"
   // syntax.  This replacement doesn't work for more complex examples like
   // `:: // #a23aaa +` or whatever.
-  let blockText = block.innerHTML.replace(/:: \+/g, ":: ");
-  let parsed = scratchblocks.parse(blockText, {
-    style,
-  });
-
-  parsed.translate(scratchblocksLocale(currentLocale));
-
-  let translated = scratchblocks.newView(parsed, {
-    style,
-  });
+  const blockText = block.innerHTML.replace(/:: \+/g, ":: ");
 
   let svg;
 
   try {
+    const parsed = scratchblocks.parse(blockText, {
+      style,
+    });
+
+    parsed.translate(scratchblocksLocale(currentLocale));
+
+    const translated = scratchblocks.newView(parsed, {
+      style,
+    });
+
     // render() builds the SVG element, but its stylesheet is only injected
     // into document.head (via scratchblocks' appendStyles on import). Because
     // the editor renders inside a shadow root, those head styles don't apply.
