@@ -5,11 +5,6 @@ const configureStore = require("redux-mock-store").default;
 
 jest.mock("file-saver", () => ({ saveAs: jest.fn() }));
 jest.mock("./utils/events.js", () => ({ postScratchGuiEvent: jest.fn() }));
-jest.mock("@RaspberryPiFoundation/scratch-gui", () => ({
-  remixProject: () => ({ type: "remix" }),
-  manualUpdateProject: () => ({ type: "manualUpdate" }),
-  setStageSize: () => ({ type: "setStageSize" }),
-}));
 
 const ScratchIntegrationHOC = require("./ScratchIntegrationHOC").default;
 const { postScratchGuiEvent } = require("./utils/events.js");
@@ -48,11 +43,17 @@ describe("ScratchIntegrationHOC", () => {
     });
     const Dummy = () =>
       React.createElement("div", { "data-testid": "wrapped" });
+    window.GUI = {
+      remixProject: () => ({ type: "remix" }),
+      manualUpdateProject: () => ({ type: "manualUpdate" }),
+      setStageSize: () => ({ type: "setStageSize" }),
+    };
     Wrapped = ScratchIntegrationHOC(Dummy);
   });
 
   afterEach(() => {
     delete process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS;
+    delete window.GUI;
   });
 
   const getVmHandler = (eventName) =>
