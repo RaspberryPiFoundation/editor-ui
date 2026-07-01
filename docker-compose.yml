@@ -14,5 +14,10 @@ services:
     command: sh -c "yarn install && yarn start"
     ports:
       - "3011:3011"
+  scratch-frame:
+    <<: *x-app
+    command: sh -c "yarn install && yarn workspace @raspberrypifoundation/scratch-frame dev --host 0.0.0.0"
+    ports:
+      - "3014:3014"
 volumes:
   node_modules: null
