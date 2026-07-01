@@ -245,6 +245,39 @@ describe("ScratchContainer", () => {
       expect(runStartedHandler).not.toHaveBeenCalled();
     });
 
+    test("dispatches editor-runStarted when project identifier changes during debounce", () => {
+      const store = buildStore();
+      const view = render(
+        <Provider store={store}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      act(() => {
+        dispatchMessage({ type: "scratch-gui-project-run-started" });
+      });
+
+      const updatedStore = buildStore({
+        editorOverrides: {
+          project: {
+            identifier: "project-456",
+            project_type: "code_editor_scratch",
+          },
+          scratchIframeProjectIdentifier: "project-456",
+        },
+      });
+
+      view.rerender(
+        <Provider store={updatedStore}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+    });
+
     test("collapses rapid scratch runs into one debounced dispatch", () => {
       renderScratchContainer();
 

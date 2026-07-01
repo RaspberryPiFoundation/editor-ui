@@ -49,6 +49,8 @@ export default function ScratchContainer() {
     nonce: null,
     hadAccessToken: false,
   });
+  const projectIdentifierRef = useRef(projectIdentifier);
+  projectIdentifierRef.current = projectIdentifier;
 
   useEffect(() => {
     return subscribeToScratchProjectIdentifierUpdates(
@@ -79,7 +81,7 @@ export default function ScratchContainer() {
       if (event.data?.type !== "scratch-gui-project-run-started") return;
 
       scheduleRunEventCycle(
-        projectIdentifier,
+        projectIdentifierRef.current,
         null,
         { bypassSnapshot: true },
         {
@@ -95,7 +97,7 @@ export default function ScratchContainer() {
       window.removeEventListener("message", handleScratchRunStarted);
       cancelPendingRunEventDebounce();
     };
-  }, [projectIdentifier]);
+  }, []);
 
   useEffect(() => {
     const allowedOrigin = getScratchAllowedOrigin();
