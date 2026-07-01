@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
@@ -25,6 +25,11 @@ import {
   runStartedEvent,
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
+import {
+  beginRunEventCycle,
+  endRunEventCycle,
+  shouldEmitRunCompletedEvent,
+} from "./runEventCodeSnapshot";
 import {
   getPrevCodeRunTriggered,
   setPrevCodeRunTriggered,
@@ -60,7 +65,10 @@ const WebComponentProject = ({
   const error = useSelector((state) => state.editor.error);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const friendlyError = useSelector((state) => state.editor.friendlyError);
-  const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const projectComponents = useSelector(
+    (state) => state.editor.project.components,
+  );
+  const readOnly = useSelector((state) => state.editor.readOnly);
   const projectInstructions = useSelector(
     (state) => state.editor.project.instructions,
   );
@@ -71,7 +79,6 @@ const WebComponentProject = ({
     (state) => state.instructions.permitOverride,
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
   const dispatch = useDispatch();
   const renderer = new marked.Renderer();
 
@@ -83,7 +90,6 @@ const WebComponentProject = ({
   }, [editableInstructions, outputSplitView, outputOnly, dispatch]);
 
   useEffect(() => {
-    setCodeHasRun(false);
     const timeout = setTimeout(() => {
       document.dispatchEvent(codeChangedEvent({ step: currentStepPosition }));
     }, 2000);
@@ -135,45 +141,53 @@ const WebComponentProject = ({
     const wasTriggered = getPrevCodeRunTriggered();
 
     if (codeRunTriggered && !wasTriggered) {
-      document.dispatchEvent(
-        runStartedEvent({
-          step: currentStepPosition,
-          projectIdentifier,
-          projectType,
-        }),
-      );
-      setCodeHasRun(true);
+      if (
+        beginRunEventCycle(projectIdentifier, projectComponents, {
+          bypassSnapshot: readOnly,
+        })
+      ) {
+        document.dispatchEvent(
+          runStartedEvent({
+            step: currentStepPosition,
+            projectIdentifier,
+            projectType,
+          }),
+        );
+      }
     }
 
-    if (!codeRunTriggered && wasTriggered && codeHasRun) {
-      const mz_criteria = Sk.sense_hat
-        ? Sk.sense_hat.mz_criteria
-        : { ...defaultMZCriteria };
+    if (!codeRunTriggered && wasTriggered) {
+      if (shouldEmitRunCompletedEvent()) {
+        const mz_criteria = Sk.sense_hat
+          ? Sk.sense_hat.mz_criteria
+          : { ...defaultMZCriteria };
 
-      const payload = outputOnly
-        ? {
-            errorDetails,
-            step: currentStepPosition,
-            projectIdentifier,
-            projectType,
-          }
-        : {
-            isErrorFree: error === "",
-            step: currentStepPosition,
-            errorDetails,
-            friendlyErrorShown: Boolean(friendlyError?.html),
-            projectIdentifier,
-            projectType,
-            ...mz_criteria,
-          };
+        const payload = outputOnly
+          ? {
+              errorDetails,
+              step: currentStepPosition,
+              projectIdentifier,
+              projectType,
+            }
+          : {
+              isErrorFree: error === "",
+              step: currentStepPosition,
+              errorDetails,
+              friendlyErrorShown: Boolean(friendlyError?.html),
+              projectIdentifier,
+              projectType,
+              ...mz_criteria,
+            };
 
-      document.dispatchEvent(runCompletedEvent(payload));
+        document.dispatchEvent(runCompletedEvent(payload));
+      }
+
+      endRunEventCycle();
     }
 
     setPrevCodeRunTriggered(codeRunTriggered);
   }, [
     codeRunTriggered,
-    codeHasRun,
     outputOnly,
     error,
     errorDetails,
@@ -181,6 +195,8 @@ const WebComponentProject = ({
     currentStepPosition,
     projectIdentifier,
     projectType,
+    readOnly,
+    projectComponents,
   ]);
 
   useEffect(() => {

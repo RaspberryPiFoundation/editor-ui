@@ -442,6 +442,206 @@ describe("When code run finishes", () => {
   });
 });
 
+describe("When code is unchanged between runs", () => {
+  const middlewares = [];
+  const mockStoreFactory = configureStore(middlewares);
+
+  const baseEditor = {
+    project: {
+      identifier: "test-project",
+      project_type: "python",
+      components: [
+        { name: "main", extension: "py", content: "print('hello')" },
+      ],
+      image_list: [],
+    },
+    loading: "success",
+    openFiles: [],
+    focussedFileIndices: [],
+    error: "",
+    errorDetails: undefined,
+    friendlyError: undefined,
+  };
+
+  const renderRunCycle = (editorOverrides = {}) => {
+    const editor = { ...baseEditor, ...editorOverrides };
+    const instructions = {
+      currentStepPosition: 3,
+      permitOverride: true,
+    };
+
+    store = mockStoreFactory({ editor, instructions, auth: {} });
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    return { view, editor, instructions };
+  };
+
+  beforeEach(() => {
+    runStartedHandler.mockClear();
+    runCompletedHandler.mockClear();
+  });
+
+  test("does not emit run events on repeated runs with the same code", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+    });
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: true, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+  });
+
+  test("emits run events again after code changes", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+    });
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    const updatedEditor = {
+      ...editor,
+      project: {
+        ...editor.project,
+        components: [
+          { name: "main", extension: "py", content: "print('world')" },
+        ],
+      },
+      codeRunTriggered: true,
+      codeHasBeenRun: true,
+    };
+
+    store = mockStoreFactory({
+      editor: updatedEditor,
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(2);
+
+    store = mockStoreFactory({
+      editor: { ...updatedEditor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(2);
+  });
+
+  test("emits run events on repeated runs when read only", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+      readOnly: true,
+    });
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: {
+        ...editor,
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        readOnly: true,
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(2);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, readOnly: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(2);
+  });
+});
+
 describe("When remounted during a run", () => {
   beforeEach(() => {
     runStartedHandler.mockClear();

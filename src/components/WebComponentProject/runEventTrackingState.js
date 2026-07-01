@@ -1,3 +1,5 @@
+import { resetRunEventCodeSnapshot } from "./runEventCodeSnapshot";
+
 let prevCodeRunTriggered = false;
 let trackedProjectIdentifier = null;
 
@@ -10,6 +12,7 @@ export const setPrevCodeRunTriggered = (value) => {
 export const resetCodeRunEventTracking = () => {
   prevCodeRunTriggered = false;
   trackedProjectIdentifier = null;
+  resetRunEventCodeSnapshot();
 };
 
 export const syncRunEventTrackingProject = (
