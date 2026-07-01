@@ -124,6 +124,7 @@ export default defineConfig(({ mode }) => {
       "import.meta.env.ASSETS_URL": JSON.stringify(env.ASSETS_URL),
     },
     build: {
+      outDir: path.resolve(__dirname, "../../build"),
       rolldownOptions: {
         input: {
           scratch: "scratch.html",
