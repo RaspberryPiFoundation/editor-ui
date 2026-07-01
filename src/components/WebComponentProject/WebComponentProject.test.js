@@ -5,6 +5,7 @@ import configureStore from "redux-mock-store";
 import WebComponentProject, {
   resetCodeRunEventTracking,
 } from "./WebComponentProject";
+import { RUN_EVENT_DEBOUNCE_MS } from "./runEventCodeSnapshot";
 
 const codeChangedHandler = jest.fn();
 const runStartedHandler = jest.fn();
@@ -22,7 +23,7 @@ jest.useFakeTimers();
 
 const flushRunEventDebounce = () => {
   act(() => {
-    jest.advanceTimersByTime(250);
+    jest.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
   });
 };
 
@@ -328,6 +329,17 @@ describe("When code run finishes", () => {
         projectType: "python",
         errorDetails: undefined,
         friendlyErrorShown: false,
+      }),
+    );
+  });
+
+  test("reports isErrorFree when error state is undefined", () => {
+    renderRunCompletion({ error: undefined });
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+    expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
+      expect.objectContaining({
+        isErrorFree: true,
       }),
     );
   });

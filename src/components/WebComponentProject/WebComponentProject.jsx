@@ -62,7 +62,7 @@ const WebComponentProject = ({
     (state) => state.editor.codeRunTriggered,
   );
 
-  const error = useSelector((state) => state.editor.error);
+  const error = useSelector((state) => state.editor.error) ?? "";
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const friendlyError = useSelector((state) => state.editor.friendlyError);
   const projectComponents = useSelector(
