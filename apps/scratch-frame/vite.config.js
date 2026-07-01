@@ -24,6 +24,7 @@ const toOrigin = (envVarName, value) => {
 export default defineConfig(({ mode }) => {
   const envDir = path.resolve(__dirname, "../../");
   const env = loadEnv(mode, envDir, "");
+  const isDev = mode === "development";
 
   let publicUrl = env.PUBLIC_URL || "/";
   if (!publicUrl.endsWith("/")) {
