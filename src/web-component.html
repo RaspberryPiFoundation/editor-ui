@@ -96,10 +96,12 @@
         
         newWebComp.setAttribute("with_projectbar", "true");
         newWebComp.setAttribute("with_sidebar", "true");
+        newWebComp.setAttribute("friendly_errors_enabled", "true");
         newWebComp.setAttribute("use_editor_styles", "true");
         newWebComp.setAttribute("friendly_errors_enabled", "true");
         // see "Offline support" section in README for more details
         newWebComp.setAttribute("offline_enabled", "true");
+
         newWebComp.setAttribute(
           "sidebar_options",
           JSON.stringify([

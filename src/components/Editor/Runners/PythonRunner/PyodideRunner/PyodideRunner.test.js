@@ -21,6 +21,7 @@ import {
   openFile,
   setFocussedFileIndex,
   setFriendlyError,
+  setIsOutputOnly,
 } from "../../../../../redux/EditorSlice.js";
 import store from "../../../../../app/store";
 
@@ -436,6 +437,31 @@ describe("When an error is received", () => {
       type: "editor/setError",
       payload:
         "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
+    });
+  });
+
+  describe("When output-only is enabled", () => {
+    beforeEach(() => {
+      act(() => {
+        store.dispatch(setIsOutputOnly(true));
+      });
+
+      const worker = PyodideWorker.getLastInstance();
+      worker.postMessageFromWorker({
+        method: "handleError",
+        line: 2,
+        file: "main.py",
+        type: "SyntaxError",
+        info: "something's wrong",
+      });
+    });
+
+    test("it displays the error message", () => {
+      expect(
+        screen.queryByText(
+          "SyntaxError: something's wrong on line 2 of main.py",
+        ),
+      ).toBeInTheDocument();
     });
   });
 

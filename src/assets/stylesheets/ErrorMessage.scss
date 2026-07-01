@@ -8,6 +8,7 @@
   padding: var(--space-1);
   overflow-y: auto;
   scrollbar-width: thin;
+  max-block-size: 30%;
 
   &__error {
     padding: 0;
