@@ -68,6 +68,7 @@
     "redux-oidc": "^4.0.0-beta1",
     "scratchReactDomVendor": "npm:react-dom@18.3.1",
     "scratchReactVendor": "npm:react@18.3.1",
+    "scratchblocks": "^3.7.0",
     "skulpt": "^1.2.0",
     "stream-browserify": "^3.0.0",
     "three": "0.169.0",
