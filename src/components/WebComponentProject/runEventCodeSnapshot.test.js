@@ -1,4 +1,5 @@
 import {
+  cancelPendingRunEventDebounce,
   endRunEventCycle,
   handleRunEndedForEventCycle,
   resetRunEventCodeSnapshot,
@@ -144,5 +145,21 @@ describe("runEventCodeSnapshot", () => {
 
     expect(onRunStarted).toHaveBeenCalledTimes(2);
     expect(shouldEmitRunCompletedEvent()).toBe(true);
+  });
+
+  test("does not fire pending callbacks after debounce is cancelled", () => {
+    const onRunStarted = jest.fn();
+
+    scheduleRunEventCycle(
+      "project-a",
+      components,
+      { bypassSnapshot: true },
+      { onRunStarted },
+    );
+    cancelPendingRunEventDebounce();
+    flushDebounce();
+
+    expect(onRunStarted).not.toHaveBeenCalled();
+    expect(shouldEmitRunCompletedEvent()).toBe(false);
   });
 });

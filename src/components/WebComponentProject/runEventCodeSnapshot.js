@@ -115,11 +115,15 @@ export const endRunEventCycle = () => {
   runEndedWhileDebouncing = false;
 };
 
-export const resetRunEventCodeSnapshot = () => {
+export const cancelPendingRunEventDebounce = () => {
   clearDebounceTimer();
   pendingCallbacks = null;
+  runEndedWhileDebouncing = false;
+};
+
+export const resetRunEventCodeSnapshot = () => {
+  cancelPendingRunEventDebounce();
   lastEmittedCodeSnapshot = null;
   trackedProjectIdentifier = null;
   emitRunEventsForCurrentCycle = false;
-  runEndedWhileDebouncing = false;
 };

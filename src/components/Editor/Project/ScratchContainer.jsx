@@ -4,7 +4,10 @@ import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
 import { runStartedEvent } from "../../../events/WebComponentCustomEvents";
-import { scheduleRunEventCycle } from "../../WebComponentProject/runEventCodeSnapshot";
+import {
+  cancelPendingRunEventDebounce,
+  scheduleRunEventCycle,
+} from "../../WebComponentProject/runEventCodeSnapshot";
 import {
   subscribeToScratchProjectIdentifierUpdates,
   postMessageToScratchIframe,
@@ -90,6 +93,7 @@ export default function ScratchContainer() {
     window.addEventListener("message", handleScratchRunStarted);
     return () => {
       window.removeEventListener("message", handleScratchRunStarted);
+      cancelPendingRunEventDebounce();
     };
   }, [projectIdentifier]);
 

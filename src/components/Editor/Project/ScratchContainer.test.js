@@ -227,6 +227,24 @@ describe("ScratchContainer", () => {
       expect(runStartedHandler).not.toHaveBeenCalled();
     });
 
+    test("does not dispatch editor-runStarted when unmounted before debounce fires", () => {
+      const store = buildStore();
+      const { unmount } = render(
+        <Provider store={store}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      act(() => {
+        dispatchMessage({ type: "scratch-gui-project-run-started" });
+      });
+
+      unmount();
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).not.toHaveBeenCalled();
+    });
+
     test("collapses rapid scratch runs into one debounced dispatch", () => {
       renderScratchContainer();
 
