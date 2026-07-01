@@ -10,7 +10,7 @@ window.redux = Redux;
 window["react-redux"] = ReactRedux;
 
 const scratchFrameUrl = import.meta.env.REACT_APP_SCRATCH_FRAME_URL;
-const scratchGuiScriptUrl = `${scratchFrameUrl}/vendor/scratch-gui.js`;
+const scratchGuiScriptUrl = `${scratchFrameUrl}/scratch-gui/scratch-gui.js`;
 
 const loadScratchGuiScript = () => {
   if (window.GUI) {
