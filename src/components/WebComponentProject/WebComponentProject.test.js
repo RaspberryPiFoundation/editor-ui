@@ -2,7 +2,9 @@ import React from "react";
 import { act, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import WebComponentProject from "./WebComponentProject";
+import WebComponentProject, {
+  resetCodeRunEventTracking,
+} from "./WebComponentProject";
 
 const codeChangedHandler = jest.fn();
 const runStartedHandler = jest.fn();
@@ -17,6 +19,10 @@ beforeAll(() => {
 });
 
 jest.useFakeTimers();
+
+beforeEach(() => {
+  resetCodeRunEventTracking();
+});
 
 let store;
 
@@ -433,6 +439,58 @@ describe("When code run finishes", () => {
     );
 
     expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("When remounted during a run", () => {
+  beforeEach(() => {
+    runStartedHandler.mockClear();
+  });
+
+  test("does not trigger runStarted again", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          identifier: "test-project",
+          project_type: "python",
+          components: [
+            { name: "main", extension: "py", content: "print('hello')" },
+          ],
+          image_list: [],
+        },
+        loading: "success",
+        openFiles: [],
+        focussedFileIndices: [],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+      },
+      instructions: {
+        currentStepPosition: 3,
+        permitOverride: true,
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    view.unmount();
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
   });
 });
 

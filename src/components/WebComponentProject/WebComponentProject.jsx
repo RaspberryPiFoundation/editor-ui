@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
@@ -25,6 +25,13 @@ import {
   runStartedEvent,
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
+import {
+  getPrevCodeRunTriggered,
+  setPrevCodeRunTriggered,
+  syncRunEventTrackingProject,
+} from "./runEventTrackingState";
+
+export { resetCodeRunEventTracking } from "./runEventTrackingState";
 
 const WebComponentProject = ({
   withProjectbar = false,
@@ -65,7 +72,6 @@ const WebComponentProject = ({
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
-  const prevCodeRunTriggeredRef = useRef(false);
   const dispatch = useDispatch();
   const renderer = new marked.Renderer();
 
@@ -122,7 +128,11 @@ const WebComponentProject = ({
   }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
-    const wasTriggered = prevCodeRunTriggeredRef.current;
+    syncRunEventTrackingProject(projectIdentifier, codeRunTriggered);
+  }, [projectIdentifier, codeRunTriggered]);
+
+  useEffect(() => {
+    const wasTriggered = getPrevCodeRunTriggered();
 
     if (codeRunTriggered && !wasTriggered) {
       document.dispatchEvent(
@@ -160,7 +170,7 @@ const WebComponentProject = ({
       document.dispatchEvent(runCompletedEvent(payload));
     }
 
-    prevCodeRunTriggeredRef.current = codeRunTriggered;
+    setPrevCodeRunTriggered(codeRunTriggered);
   }, [
     codeRunTriggered,
     codeHasRun,
