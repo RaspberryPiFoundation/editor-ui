@@ -5,6 +5,10 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
 import { runStartedEvent } from "../../../events/WebComponentCustomEvents";
 import {
+  cancelPendingRunEventDebounce,
+  scheduleRunEventCycle,
+} from "../../WebComponentProject/runEventCodeSnapshot";
+import {
   subscribeToScratchProjectIdentifierUpdates,
   postMessageToScratchIframe,
   getScratchAllowedOrigin,
@@ -45,6 +49,8 @@ export default function ScratchContainer() {
     nonce: null,
     hadAccessToken: false,
   });
+  const projectIdentifierRef = useRef(projectIdentifier);
+  projectIdentifierRef.current = projectIdentifier;
 
   useEffect(() => {
     return subscribeToScratchProjectIdentifierUpdates(
@@ -74,12 +80,22 @@ export default function ScratchContainer() {
       if (event.origin !== allowedOrigin) return;
       if (event.data?.type !== "scratch-gui-project-run-started") return;
 
-      document.dispatchEvent(runStartedEvent({}));
+      scheduleRunEventCycle(
+        projectIdentifierRef.current,
+        null,
+        { bypassSnapshot: true },
+        {
+          onRunStarted: () => {
+            document.dispatchEvent(runStartedEvent({}));
+          },
+        },
+      );
     };
 
     window.addEventListener("message", handleScratchRunStarted);
     return () => {
       window.removeEventListener("message", handleScratchRunStarted);
+      cancelPendingRunEventDebounce();
     };
   }, []);
 

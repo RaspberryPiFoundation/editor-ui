@@ -2,7 +2,10 @@ import React from "react";
 import { act, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import WebComponentProject from "./WebComponentProject";
+import WebComponentProject, {
+  resetCodeRunEventTracking,
+} from "./WebComponentProject";
+import { RUN_EVENT_DEBOUNCE_MS } from "./runEventCodeSnapshot";
 
 const codeChangedHandler = jest.fn();
 const runStartedHandler = jest.fn();
@@ -17,6 +20,16 @@ beforeAll(() => {
 });
 
 jest.useFakeTimers();
+
+const flushRunEventDebounce = () => {
+  act(() => {
+    jest.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
+  });
+};
+
+beforeEach(() => {
+  resetCodeRunEventTracking();
+});
 
 let store;
 
@@ -78,6 +91,7 @@ describe("When state set", () => {
       instructions: "My amazing instructions",
       codeRunTriggered: true,
     });
+    flushRunEventDebounce();
   });
 
   test("Renders", () => {
@@ -246,12 +260,67 @@ describe("When overriding instructions is not permitted", () => {
 });
 
 describe("When code run finishes", () => {
-  test("Triggers runCompletedEvent", () => {
-    renderWebComponentProject({
-      projectType: "python",
+  const renderRunCompletion = (editorOverrides = {}, props = {}) => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const baseEditor = {
+      project: {
+        identifier: "test-project",
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      loading: "success",
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered: true,
       codeHasBeenRun: true,
+      error: "",
+      errorDetails: undefined,
+      friendlyError: undefined,
+      ...editorOverrides,
+    };
+    const initialState = {
+      editor: baseEditor,
+      instructions: {
+        currentStepPosition: 3,
+        permitOverride: true,
+      },
+      auth: {},
+    };
+    store = mockStore(initialState);
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject {...props} />
+      </Provider>,
+    );
+
+    store = mockStore({
+      ...initialState,
+      editor: { ...baseEditor, codeRunTriggered: false },
     });
-    expect(runCompletedHandler).toHaveBeenCalled();
+
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject {...props} />
+      </Provider>,
+    );
+
+    flushRunEventDebounce();
+
+    return view;
+  };
+
+  beforeEach(() => {
+    runCompletedHandler.mockClear();
+  });
+
+  test("Triggers runCompletedEvent", () => {
+    renderRunCompletion();
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
     expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
       expect.objectContaining({
         isErrorFree: true,
@@ -264,50 +333,32 @@ describe("When code run finishes", () => {
     );
   });
 
-  test("includes error details and friendly error state when a run failed", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          identifier: "test-project",
-          project_type: "python",
-          components: [
-            { name: "main", extension: "py", content: "print('hello')" },
-          ],
-          image_list: [],
-        },
-        loading: "success",
-        openFiles: [],
-        focussedFileIndices: [],
-        codeRunTriggered: false,
-        codeHasBeenRun: true,
-        error: "NameError: name 'kettle' is not defined on line 5 of main.py",
-        errorDetails: {
-          type: "NameError",
-          file: "main.py",
-          line: 5,
-          description: "name 'kettle' is not defined",
-        },
-        friendlyError: {
-          html: "<p>Friendly error</p>",
-        },
-      },
-      instructions: {
-        currentStepPosition: 3,
-        permitOverride: true,
-      },
-      auth: {},
-    };
-    store = mockStore(initialState);
+  test("reports isErrorFree when error state is undefined", () => {
+    renderRunCompletion({ error: undefined });
 
-    render(
-      <Provider store={store}>
-        <WebComponentProject />
-      </Provider>,
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+    expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
+      expect.objectContaining({
+        isErrorFree: true,
+      }),
     );
+  });
 
-    expect(runCompletedHandler).toHaveBeenCalled();
+  test("includes error details and friendly error state when a run failed", () => {
+    renderRunCompletion({
+      error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+      errorDetails: {
+        type: "NameError",
+        file: "main.py",
+        line: 5,
+        description: "name 'kettle' is not defined",
+      },
+      friendlyError: {
+        html: "<p>Friendly error</p>",
+      },
+    });
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
     expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
       expect.objectContaining({
         isErrorFree: false,
@@ -325,12 +376,8 @@ describe("When code run finishes", () => {
   });
 
   test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
-    renderWebComponentProject({
-      projectType: "python",
-      codeHasBeenRun: true,
-      props: { outputOnly: true },
-    });
-    expect(runCompletedHandler).toHaveBeenCalled();
+    renderRunCompletion({}, { outputOnly: true });
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
     expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
       expect.objectContaining({
         errorDetails: undefined,
@@ -339,6 +386,471 @@ describe("When code run finishes", () => {
         projectType: "python",
       }),
     );
+  });
+
+  test("does not trigger runCompletedEvent again when error state updates after the run ends", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const editor = {
+      project: {
+        identifier: "test-project",
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      loading: "success",
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered: true,
+      codeHasBeenRun: true,
+      error: "",
+      errorDetails: undefined,
+      friendlyError: undefined,
+    };
+    const instructions = {
+      currentStepPosition: 3,
+      permitOverride: true,
+    };
+
+    store = mockStore({ editor, instructions, auth: {} });
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStore({
+      editor: { ...editor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    flushRunEventDebounce();
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStore({
+      editor: {
+        ...editor,
+        codeRunTriggered: false,
+        error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+        errorDetails: {
+          type: "NameError",
+          file: "main.py",
+          line: 5,
+          description: "name 'kettle' is not defined",
+        },
+        friendlyError: {
+          html: "<p>Friendly error</p>",
+        },
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+  });
+
+  test("emits runCompleted with latest error state when run ends during debounce", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const editor = {
+      project: {
+        identifier: "test-project",
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      loading: "success",
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered: true,
+      codeHasBeenRun: true,
+      error: "",
+      errorDetails: undefined,
+      friendlyError: undefined,
+    };
+    const instructions = {
+      currentStepPosition: 3,
+      permitOverride: true,
+    };
+
+    store = mockStore({ editor, instructions, auth: {} });
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStore({
+      editor: { ...editor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStore({
+      editor: {
+        ...editor,
+        codeRunTriggered: false,
+        error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+        errorDetails: {
+          type: "NameError",
+          file: "main.py",
+          line: 5,
+          description: "name 'kettle' is not defined",
+        },
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    flushRunEventDebounce();
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+    expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
+      expect.objectContaining({
+        isErrorFree: false,
+        errorDetails: {
+          type: "NameError",
+          file: "main.py",
+          line: 5,
+          description: "name 'kettle' is not defined",
+        },
+      }),
+    );
+  });
+});
+
+describe("When code is unchanged between runs", () => {
+  const middlewares = [];
+  const mockStoreFactory = configureStore(middlewares);
+
+  const baseEditor = {
+    project: {
+      identifier: "test-project",
+      project_type: "python",
+      components: [
+        { name: "main", extension: "py", content: "print('hello')" },
+      ],
+      image_list: [],
+    },
+    loading: "success",
+    openFiles: [],
+    focussedFileIndices: [],
+    error: "",
+    errorDetails: undefined,
+    friendlyError: undefined,
+  };
+
+  const renderRunCycle = (editorOverrides = {}) => {
+    const editor = { ...baseEditor, ...editorOverrides };
+    const instructions = {
+      currentStepPosition: 3,
+      permitOverride: true,
+    };
+
+    store = mockStoreFactory({ editor, instructions, auth: {} });
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    return { view, editor, instructions };
+  };
+
+  beforeEach(() => {
+    runStartedHandler.mockClear();
+    runCompletedHandler.mockClear();
+  });
+
+  test("does not emit run events on repeated runs with the same code", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+    });
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: true, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+  });
+
+  test("emits run events again after code changes", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+    });
+    flushRunEventDebounce();
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    flushRunEventDebounce();
+
+    const updatedEditor = {
+      ...editor,
+      project: {
+        ...editor.project,
+        components: [
+          { name: "main", extension: "py", content: "print('world')" },
+        ],
+      },
+      codeRunTriggered: true,
+      codeHasBeenRun: true,
+    };
+
+    store = mockStoreFactory({
+      editor: updatedEditor,
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(2);
+
+    store = mockStoreFactory({
+      editor: { ...updatedEditor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(2);
+  });
+
+  test("emits run events on repeated runs when read only", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+      readOnly: true,
+    });
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    flushRunEventDebounce();
+
+    store = mockStoreFactory({
+      editor: {
+        ...editor,
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        readOnly: true,
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(2);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, readOnly: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(2);
+  });
+
+  test("collapses rapid read-only reruns into one debounced dispatch", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+      readOnly: true,
+    });
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStoreFactory({
+      editor: {
+        ...editor,
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        readOnly: true,
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("When remounted during a run", () => {
+  beforeEach(() => {
+    runStartedHandler.mockClear();
+  });
+
+  test("does not trigger runStarted again", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          identifier: "test-project",
+          project_type: "python",
+          components: [
+            { name: "main", extension: "py", content: "print('hello')" },
+          ],
+          image_list: [],
+        },
+        loading: "success",
+        openFiles: [],
+        focussedFileIndices: [],
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+      },
+      instructions: {
+        currentStepPosition: 3,
+        permitOverride: true,
+      },
+      auth: {},
+    };
+    const store = mockStore(initialState);
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    view.unmount();
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
   });
 });
 
