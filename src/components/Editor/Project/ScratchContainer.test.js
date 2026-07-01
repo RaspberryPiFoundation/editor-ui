@@ -7,6 +7,7 @@ import * as scratchIframeUtils from "../../../utils/scratchIframe";
 import webComponentStore from "../../../redux/stores/WebComponentStore";
 import { setUser } from "../../../redux/WebComponentAuthSlice";
 import { resetStore } from "../../../redux/RootSlice";
+import { resetRunEventCodeSnapshot } from "../../WebComponentProject/runEventCodeSnapshot";
 
 jest.mock("../../../utils/scratchIframe", () => ({
   ...jest.requireActual("../../../utils/scratchIframe"),
@@ -51,14 +52,17 @@ describe("ScratchContainer", () => {
     scratchApiEndpoint: "https://api.example.com/v1",
   };
 
-  const buildStore = ({ authReducer } = {}) =>
+  const buildStore = ({ authReducer, editorOverrides } = {}) =>
     configureStore({
       reducer: {
         editor: EditorReducer,
         ...(authReducer ? { auth: authReducer } : {}),
       },
       preloadedState: {
-        editor: defaultEditorState,
+        editor: {
+          ...defaultEditorState,
+          ...editorOverrides,
+        },
       },
     });
 
@@ -174,13 +178,22 @@ describe("ScratchContainer", () => {
     let runStartedHandler;
 
     beforeEach(() => {
+      jest.useFakeTimers();
+      resetRunEventCodeSnapshot();
       runStartedHandler = jest.fn();
       document.addEventListener("editor-runStarted", runStartedHandler);
     });
 
     afterEach(() => {
+      jest.useRealTimers();
       document.removeEventListener("editor-runStarted", runStartedHandler);
     });
+
+    const flushScratchRunDebounce = () => {
+      act(() => {
+        jest.advanceTimersByTime(250);
+      });
+    };
 
     test("dispatches editor-runStarted when scratch-gui-project-run-started is received", () => {
       renderScratchContainer();
@@ -190,6 +203,8 @@ describe("ScratchContainer", () => {
           type: "scratch-gui-project-run-started",
         });
       });
+
+      flushScratchRunDebounce();
 
       expect(runStartedHandler).toHaveBeenCalledTimes(1);
       expect(runStartedHandler.mock.calls[0][0].detail).toEqual({});
@@ -210,6 +225,106 @@ describe("ScratchContainer", () => {
       });
 
       expect(runStartedHandler).not.toHaveBeenCalled();
+    });
+
+    test("collapses rapid scratch runs into one debounced dispatch", () => {
+      renderScratchContainer();
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(0);
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+    });
+
+    test("allows separate scratch bursts after debounce quiet period", () => {
+      renderScratchContainer();
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      act(() => {
+        jest.advanceTimersByTime(250);
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(2);
+    });
+
+    test("collapses rapid read-only scratch runs into one debounced dispatch", () => {
+      renderScratchContainer(
+        buildStore({ editorOverrides: { readOnly: true } }),
+      );
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(0);
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+    });
+
+    test("allows read-only scratch runs after the debounce window", () => {
+      renderScratchContainer(
+        buildStore({ editorOverrides: { readOnly: true } }),
+      );
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      act(() => {
+        jest.advanceTimersByTime(250);
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(2);
     });
   });
 

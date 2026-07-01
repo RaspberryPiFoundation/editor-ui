@@ -20,6 +20,12 @@ beforeAll(() => {
 
 jest.useFakeTimers();
 
+const flushRunEventDebounce = () => {
+  act(() => {
+    jest.advanceTimersByTime(250);
+  });
+};
+
 beforeEach(() => {
   resetCodeRunEventTracking();
 });
@@ -84,6 +90,7 @@ describe("When state set", () => {
       instructions: "My amazing instructions",
       codeRunTriggered: true,
     });
+    flushRunEventDebounce();
   });
 
   test("Renders", () => {
@@ -301,6 +308,8 @@ describe("When code run finishes", () => {
       </Provider>,
     );
 
+    flushRunEventDebounce();
+
     return view;
   };
 
@@ -412,6 +421,8 @@ describe("When code run finishes", () => {
       </Provider>,
     );
 
+    flushRunEventDebounce();
+
     expect(runCompletedHandler).toHaveBeenCalledTimes(1);
 
     store = mockStore({
@@ -490,6 +501,7 @@ describe("When code is unchanged between runs", () => {
     const { view, editor, instructions } = renderRunCycle({
       codeRunTriggered: true,
     });
+    flushRunEventDebounce();
 
     expect(runStartedHandler).toHaveBeenCalledTimes(1);
 
@@ -516,6 +528,7 @@ describe("When code is unchanged between runs", () => {
         <WebComponentProject />
       </Provider>,
     );
+    flushRunEventDebounce();
 
     expect(runStartedHandler).toHaveBeenCalledTimes(1);
 
@@ -537,6 +550,7 @@ describe("When code is unchanged between runs", () => {
     const { view, editor, instructions } = renderRunCycle({
       codeRunTriggered: true,
     });
+    flushRunEventDebounce();
 
     store = mockStoreFactory({
       editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
@@ -548,6 +562,8 @@ describe("When code is unchanged between runs", () => {
         <WebComponentProject />
       </Provider>,
     );
+
+    flushRunEventDebounce();
 
     const updatedEditor = {
       ...editor,
@@ -571,6 +587,7 @@ describe("When code is unchanged between runs", () => {
         <WebComponentProject />
       </Provider>,
     );
+    flushRunEventDebounce();
 
     expect(runStartedHandler).toHaveBeenCalledTimes(2);
 
@@ -593,6 +610,7 @@ describe("When code is unchanged between runs", () => {
       codeRunTriggered: true,
       readOnly: true,
     });
+    flushRunEventDebounce();
 
     expect(runStartedHandler).toHaveBeenCalledTimes(1);
 
@@ -608,6 +626,61 @@ describe("When code is unchanged between runs", () => {
     );
 
     expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    flushRunEventDebounce();
+
+    store = mockStoreFactory({
+      editor: {
+        ...editor,
+        codeRunTriggered: true,
+        codeHasBeenRun: true,
+        readOnly: true,
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(2);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, readOnly: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(2);
+  });
+
+  test("collapses rapid read-only reruns into one debounced dispatch", () => {
+    const { view, editor, instructions } = renderRunCycle({
+      codeRunTriggered: true,
+      readOnly: true,
+    });
+    flushRunEventDebounce();
+
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStoreFactory({
+      editor: { ...editor, codeRunTriggered: false, codeHasBeenRun: true },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
 
     store = mockStoreFactory({
       editor: {
@@ -625,20 +698,11 @@ describe("When code is unchanged between runs", () => {
       </Provider>,
     );
 
+    expect(runStartedHandler).toHaveBeenCalledTimes(1);
+
+    flushRunEventDebounce();
+
     expect(runStartedHandler).toHaveBeenCalledTimes(2);
-
-    store = mockStoreFactory({
-      editor: { ...editor, codeRunTriggered: false, readOnly: true },
-      instructions,
-      auth: {},
-    });
-    view.rerender(
-      <Provider store={store}>
-        <WebComponentProject />
-      </Provider>,
-    );
-
-    expect(runCompletedHandler).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -679,6 +743,8 @@ describe("When remounted during a run", () => {
         <WebComponentProject />
       </Provider>,
     );
+
+    flushRunEventDebounce();
 
     expect(runStartedHandler).toHaveBeenCalledTimes(1);
 

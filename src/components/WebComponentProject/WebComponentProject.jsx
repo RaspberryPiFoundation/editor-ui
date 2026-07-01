@@ -26,9 +26,9 @@ import {
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
 import {
-  beginRunEventCycle,
   endRunEventCycle,
-  shouldEmitRunCompletedEvent,
+  handleRunEndedForEventCycle,
+  scheduleRunEventCycle,
 } from "./runEventCodeSnapshot";
 import {
   getPrevCodeRunTriggered,
@@ -140,47 +140,59 @@ const WebComponentProject = ({
   useEffect(() => {
     const wasTriggered = getPrevCodeRunTriggered();
 
-    if (codeRunTriggered && !wasTriggered) {
-      if (
-        beginRunEventCycle(projectIdentifier, projectComponents, {
-          bypassSnapshot: readOnly,
-        })
-      ) {
-        document.dispatchEvent(
-          runStartedEvent({
+    const buildRunCompletedPayload = () => {
+      const mz_criteria = Sk.sense_hat
+        ? Sk.sense_hat.mz_criteria
+        : { ...defaultMZCriteria };
+
+      return outputOnly
+        ? {
+            errorDetails,
             step: currentStepPosition,
             projectIdentifier,
             projectType,
-          }),
-        );
-      }
+          }
+        : {
+            isErrorFree: error === "",
+            step: currentStepPosition,
+            errorDetails,
+            friendlyErrorShown: Boolean(friendlyError?.html),
+            projectIdentifier,
+            projectType,
+            ...mz_criteria,
+          };
+    };
+
+    if (codeRunTriggered && !wasTriggered) {
+      scheduleRunEventCycle(
+        projectIdentifier,
+        projectComponents,
+        { bypassSnapshot: readOnly },
+        {
+          onRunStarted: () => {
+            document.dispatchEvent(
+              runStartedEvent({
+                step: currentStepPosition,
+                projectIdentifier,
+                projectType,
+              }),
+            );
+          },
+          onRunCompletedIfRunAlreadyEnded: () => {
+            document.dispatchEvent(
+              runCompletedEvent(buildRunCompletedPayload()),
+            );
+          },
+        },
+      );
     }
 
     if (!codeRunTriggered && wasTriggered) {
-      if (shouldEmitRunCompletedEvent()) {
-        const mz_criteria = Sk.sense_hat
-          ? Sk.sense_hat.mz_criteria
-          : { ...defaultMZCriteria };
-
-        const payload = outputOnly
-          ? {
-              errorDetails,
-              step: currentStepPosition,
-              projectIdentifier,
-              projectType,
-            }
-          : {
-              isErrorFree: error === "",
-              step: currentStepPosition,
-              errorDetails,
-              friendlyErrorShown: Boolean(friendlyError?.html),
-              projectIdentifier,
-              projectType,
-              ...mz_criteria,
-            };
-
-        document.dispatchEvent(runCompletedEvent(payload));
-      }
+      handleRunEndedForEventCycle({
+        onRunCompleted: () => {
+          document.dispatchEvent(runCompletedEvent(buildRunCompletedPayload()));
+        },
+      });
 
       endRunEventCycle();
     }
