@@ -112,7 +112,7 @@ jobs:
         with:
           install: false
           start: |
-            yarn start
+            yarn start:all
           wait-on: "http://localhost:3011"
           quiet: true
           config-file: cypress.config.mjs
@@ -122,6 +122,8 @@ jobs:
           PUBLIC_URL: "http://localhost:3011"
           ASSETS_URL: "http://localhost:3011"
           REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
+          CSP_API_MULTIPLE_ORIGINS: "http://localhost:3011,http://localhost:3009"
+          REACT_APP_SCRATCH_FRAME_URL: "http://localhost:3014"
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v4.6.0

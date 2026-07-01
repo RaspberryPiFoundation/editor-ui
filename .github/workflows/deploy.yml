@@ -138,7 +138,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build WC and HTML renderer bundles
-        run: yarn build
+        run: yarn build:all
         env:
           PUBLIC_URL: ${{ needs.setup-environment.outputs.public_url }}
           ASSETS_URL: ${{ needs.setup-environment.outputs.assets_url }}

@@ -111,6 +111,7 @@ export default defineConfig(({ mode }) => {
     envPrefix: "REACT_APP_",
     base: env.REACT_APP_SCRATCH_FRAME_URL,
     build: {
+      outDir: path.resolve(__dirname, "../../build"),
       rolldownOptions: {
         input: {
           scratch: "scratch.html",
@@ -118,6 +119,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      host: true,
       port: 3014,
       headers: {
         "Access-Control-Allow-Origin": "*",
