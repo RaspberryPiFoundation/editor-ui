@@ -90,22 +90,17 @@ export default defineConfig(({ mode }) => {
     targets: [
       {
         src: scratchGuiBundlePath,
-        dest: "vendor",
+        dest: "scratch-gui",
         rename: { stripBase: true, name: "scratch-gui.js" },
       },
       {
         src: scratchGuiLicensePath,
-        dest: "vendor",
+        dest: "scratch-gui",
         rename: { stripBase: true, name: "scratch-gui.js.LICENSE.txt" },
       },
       {
         src: `${scratchStaticDir}/**/*`,
         dest: "scratch-gui/static",
-        rename: { stripBase: 5 },
-      },
-      {
-        src: `${scratchStaticDir}/**/*`,
-        dest: "vendor/static",
         rename: { stripBase: 5 },
       },
       {
