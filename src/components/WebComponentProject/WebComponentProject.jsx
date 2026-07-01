@@ -122,7 +122,9 @@ const WebComponentProject = ({
   }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
-    if (codeRunTriggered && !prevCodeRunTriggeredRef.current) {
+    const wasTriggered = prevCodeRunTriggeredRef.current;
+
+    if (codeRunTriggered && !wasTriggered) {
       document.dispatchEvent(
         runStartedEvent({
           step: currentStepPosition,
@@ -132,11 +134,8 @@ const WebComponentProject = ({
       );
       setCodeHasRun(true);
     }
-    prevCodeRunTriggeredRef.current = codeRunTriggered;
-  }, [codeRunTriggered, currentStepPosition, projectIdentifier, projectType]);
 
-  useEffect(() => {
-    if (!codeRunTriggered && codeHasRun) {
+    if (!codeRunTriggered && wasTriggered && codeHasRun) {
       const mz_criteria = Sk.sense_hat
         ? Sk.sense_hat.mz_criteria
         : { ...defaultMZCriteria };
@@ -160,6 +159,8 @@ const WebComponentProject = ({
 
       document.dispatchEvent(runCompletedEvent(payload));
     }
+
+    prevCodeRunTriggeredRef.current = codeRunTriggered;
   }, [
     codeRunTriggered,
     codeHasRun,

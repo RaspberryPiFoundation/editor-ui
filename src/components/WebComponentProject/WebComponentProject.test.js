@@ -246,12 +246,65 @@ describe("When overriding instructions is not permitted", () => {
 });
 
 describe("When code run finishes", () => {
-  test("Triggers runCompletedEvent", () => {
-    renderWebComponentProject({
-      projectType: "python",
+  const renderRunCompletion = (editorOverrides = {}, props = {}) => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const baseEditor = {
+      project: {
+        identifier: "test-project",
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      loading: "success",
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered: true,
       codeHasBeenRun: true,
+      error: "",
+      errorDetails: undefined,
+      friendlyError: undefined,
+      ...editorOverrides,
+    };
+    const initialState = {
+      editor: baseEditor,
+      instructions: {
+        currentStepPosition: 3,
+        permitOverride: true,
+      },
+      auth: {},
+    };
+    store = mockStore(initialState);
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject {...props} />
+      </Provider>,
+    );
+
+    store = mockStore({
+      ...initialState,
+      editor: { ...baseEditor, codeRunTriggered: false },
     });
-    expect(runCompletedHandler).toHaveBeenCalled();
+
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject {...props} />
+      </Provider>,
+    );
+
+    return view;
+  };
+
+  beforeEach(() => {
+    runCompletedHandler.mockClear();
+  });
+
+  test("Triggers runCompletedEvent", () => {
+    renderRunCompletion();
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
     expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
       expect.objectContaining({
         isErrorFree: true,
@@ -265,49 +318,20 @@ describe("When code run finishes", () => {
   });
 
   test("includes error details and friendly error state when a run failed", () => {
-    const middlewares = [];
-    const mockStore = configureStore(middlewares);
-    const initialState = {
-      editor: {
-        project: {
-          identifier: "test-project",
-          project_type: "python",
-          components: [
-            { name: "main", extension: "py", content: "print('hello')" },
-          ],
-          image_list: [],
-        },
-        loading: "success",
-        openFiles: [],
-        focussedFileIndices: [],
-        codeRunTriggered: false,
-        codeHasBeenRun: true,
-        error: "NameError: name 'kettle' is not defined on line 5 of main.py",
-        errorDetails: {
-          type: "NameError",
-          file: "main.py",
-          line: 5,
-          description: "name 'kettle' is not defined",
-        },
-        friendlyError: {
-          html: "<p>Friendly error</p>",
-        },
+    renderRunCompletion({
+      error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+      errorDetails: {
+        type: "NameError",
+        file: "main.py",
+        line: 5,
+        description: "name 'kettle' is not defined",
       },
-      instructions: {
-        currentStepPosition: 3,
-        permitOverride: true,
+      friendlyError: {
+        html: "<p>Friendly error</p>",
       },
-      auth: {},
-    };
-    store = mockStore(initialState);
+    });
 
-    render(
-      <Provider store={store}>
-        <WebComponentProject />
-      </Provider>,
-    );
-
-    expect(runCompletedHandler).toHaveBeenCalled();
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
     expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
       expect.objectContaining({
         isErrorFree: false,
@@ -325,12 +349,8 @@ describe("When code run finishes", () => {
   });
 
   test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
-    renderWebComponentProject({
-      projectType: "python",
-      codeHasBeenRun: true,
-      props: { outputOnly: true },
-    });
-    expect(runCompletedHandler).toHaveBeenCalled();
+    renderRunCompletion({}, { outputOnly: true });
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
     expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
       expect.objectContaining({
         errorDetails: undefined,
@@ -339,6 +359,80 @@ describe("When code run finishes", () => {
         projectType: "python",
       }),
     );
+  });
+
+  test("does not trigger runCompletedEvent again when error state updates after the run ends", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const editor = {
+      project: {
+        identifier: "test-project",
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      loading: "success",
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered: true,
+      codeHasBeenRun: true,
+      error: "",
+      errorDetails: undefined,
+      friendlyError: undefined,
+    };
+    const instructions = {
+      currentStepPosition: 3,
+      permitOverride: true,
+    };
+
+    store = mockStore({ editor, instructions, auth: {} });
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStore({
+      editor: { ...editor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+
+    store = mockStore({
+      editor: {
+        ...editor,
+        codeRunTriggered: false,
+        error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+        errorDetails: {
+          type: "NameError",
+          file: "main.py",
+          line: 5,
+          description: "name 'kettle' is not defined",
+        },
+        friendlyError: {
+          html: "<p>Friendly error</p>",
+        },
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
   });
 });
 
