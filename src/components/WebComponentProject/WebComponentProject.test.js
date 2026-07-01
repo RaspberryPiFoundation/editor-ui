@@ -451,6 +451,88 @@ describe("When code run finishes", () => {
 
     expect(runCompletedHandler).toHaveBeenCalledTimes(1);
   });
+
+  test("emits runCompleted with latest error state when run ends during debounce", () => {
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const editor = {
+      project: {
+        identifier: "test-project",
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      loading: "success",
+      openFiles: [],
+      focussedFileIndices: [],
+      codeRunTriggered: true,
+      codeHasBeenRun: true,
+      error: "",
+      errorDetails: undefined,
+      friendlyError: undefined,
+    };
+    const instructions = {
+      currentStepPosition: 3,
+      permitOverride: true,
+    };
+
+    store = mockStore({ editor, instructions, auth: {} });
+
+    const view = render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStore({
+      editor: { ...editor, codeRunTriggered: false },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    store = mockStore({
+      editor: {
+        ...editor,
+        codeRunTriggered: false,
+        error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+        errorDetails: {
+          type: "NameError",
+          file: "main.py",
+          line: 5,
+          description: "name 'kettle' is not defined",
+        },
+      },
+      instructions,
+      auth: {},
+    });
+    view.rerender(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+
+    flushRunEventDebounce();
+
+    expect(runCompletedHandler).toHaveBeenCalledTimes(1);
+    expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
+      expect.objectContaining({
+        isErrorFree: false,
+        errorDetails: {
+          type: "NameError",
+          file: "main.py",
+          line: 5,
+          description: "name 'kettle' is not defined",
+        },
+      }),
+    );
+  });
 });
 
 describe("When code is unchanged between runs", () => {

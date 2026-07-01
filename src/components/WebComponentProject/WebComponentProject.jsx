@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
@@ -82,6 +82,30 @@ const WebComponentProject = ({
   const dispatch = useDispatch();
   const renderer = new marked.Renderer();
 
+  const buildRunCompletedPayloadRef = useRef(() => ({}));
+  buildRunCompletedPayloadRef.current = () => {
+    const mz_criteria = Sk.sense_hat
+      ? Sk.sense_hat.mz_criteria
+      : { ...defaultMZCriteria };
+
+    return outputOnly
+      ? {
+          errorDetails,
+          step: currentStepPosition,
+          projectIdentifier,
+          projectType,
+        }
+      : {
+          isErrorFree: error === "",
+          step: currentStepPosition,
+          errorDetails,
+          friendlyErrorShown: Boolean(friendlyError?.html),
+          projectIdentifier,
+          projectType,
+          ...mz_criteria,
+        };
+  };
+
   useEffect(() => {
     dispatch(setIsSplitView(outputSplitView));
     dispatch(setWebComponent(true));
@@ -140,29 +164,6 @@ const WebComponentProject = ({
   useEffect(() => {
     const wasTriggered = getPrevCodeRunTriggered();
 
-    const buildRunCompletedPayload = () => {
-      const mz_criteria = Sk.sense_hat
-        ? Sk.sense_hat.mz_criteria
-        : { ...defaultMZCriteria };
-
-      return outputOnly
-        ? {
-            errorDetails,
-            step: currentStepPosition,
-            projectIdentifier,
-            projectType,
-          }
-        : {
-            isErrorFree: error === "",
-            step: currentStepPosition,
-            errorDetails,
-            friendlyErrorShown: Boolean(friendlyError?.html),
-            projectIdentifier,
-            projectType,
-            ...mz_criteria,
-          };
-    };
-
     if (codeRunTriggered && !wasTriggered) {
       scheduleRunEventCycle(
         projectIdentifier,
@@ -180,7 +181,7 @@ const WebComponentProject = ({
           },
           onRunCompletedIfRunAlreadyEnded: () => {
             document.dispatchEvent(
-              runCompletedEvent(buildRunCompletedPayload()),
+              runCompletedEvent(buildRunCompletedPayloadRef.current()),
             );
           },
         },
@@ -190,7 +191,9 @@ const WebComponentProject = ({
     if (!codeRunTriggered && wasTriggered) {
       handleRunEndedForEventCycle({
         onRunCompleted: () => {
-          document.dispatchEvent(runCompletedEvent(buildRunCompletedPayload()));
+          document.dispatchEvent(
+            runCompletedEvent(buildRunCompletedPayloadRef.current()),
+          );
         },
       });
 
