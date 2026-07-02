@@ -10,6 +10,7 @@ import camelCase from "camelcase";
 import { stopCodeRun, stopDraw, triggerCodeRun } from "./redux/EditorSlice";
 import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
+import { resetCodeRunEventTracking } from "./components/WebComponentProject/runEventTrackingState";
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
 import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
@@ -45,6 +46,7 @@ class WebComponent extends HTMLElement {
       console.log("Unmounted web-component...");
       this.root.unmount();
     }
+    resetCodeRunEventTracking();
     store.dispatch(resetStore());
   }
 

@@ -88,10 +88,9 @@ function HtmlRunner() {
   const [runningFile, setRunningFile] = useState(previewFile);
   const previewFileRef = useRef(previewFile);
 
-  const showModal = () => {
+  const showModal = useCallback(() => {
     dispatch(showErrorModal());
-    eventListener();
-  };
+  }, [dispatch]);
 
   const {
     externalLink,
@@ -100,34 +99,48 @@ function HtmlRunner() {
     handleExternalLinkError,
   } = useExternalLinkState(showModal);
 
-  const eventListener = () => {
-    window.addEventListener("message", (event) => {
-      if (event.data?.type === MSG_HTML_PREVIEW_EVENT) {
-        if (event.data?.msg === "ERROR: External link") {
-          handleExternalLinkError(showModal);
-        } else if (event.data?.msg === "Allowed external link") {
-          handleAllowedExternalLink(event.data.payload.linkTo);
-        } else if (event.data?.msg === "RELOAD") {
-          const nextPreviewFile = `${event.data.payload.linkTo}.html`;
-          setExternalLink(null);
-
-          if (nextPreviewFile === previewFileRef.current) {
-            reloadAfterPreviewChange.current = false;
-            dispatch(triggerCodeRun());
-          } else {
-            reloadAfterPreviewChange.current = true;
-            setPreviewFile(nextPreviewFile);
-          }
-        }
-      }
-    });
-  };
+  const handleAllowedExternalLinkRef = useRef(handleAllowedExternalLink);
+  const handleExternalLinkErrorRef = useRef(handleExternalLinkError);
+  handleAllowedExternalLinkRef.current = handleAllowedExternalLink;
+  handleExternalLinkErrorRef.current = handleExternalLinkError;
 
   useEffect(() => {
-    eventListener();
+    const handleIframeMessage = (event) => {
+      const { data } = event;
+
+      if (data?.type === MSG_HTML_PREVIEW_READY) {
+        setRendererReady(true);
+        return;
+      }
+
+      if (data?.type !== MSG_HTML_PREVIEW_EVENT) {
+        return;
+      }
+
+      if (data.msg === "ERROR: External link") {
+        handleExternalLinkErrorRef.current();
+      } else if (data.msg === "Allowed external link") {
+        handleAllowedExternalLinkRef.current(data.payload.linkTo);
+      } else if (data.msg === "RELOAD") {
+        const nextPreviewFile = `${data.payload.linkTo}.html`;
+        setExternalLink(null);
+
+        if (nextPreviewFile === previewFileRef.current) {
+          reloadAfterPreviewChange.current = false;
+          dispatch(triggerCodeRun());
+        } else {
+          reloadAfterPreviewChange.current = true;
+          setPreviewFile(nextPreviewFile);
+        }
+      }
+    };
+
+    window.addEventListener("message", handleIframeMessage);
     dispatch(loadingRunner("html"));
     dispatch(setLoadedRunner("html"));
-  }, []);
+
+    return () => window.removeEventListener("message", handleIframeMessage);
+  }, [dispatch, setExternalLink]);
 
   let timeout;
 
@@ -171,21 +184,6 @@ function HtmlRunner() {
       dispatch(setPage(runningFile));
     }
   }, [runningFile]);
-
-  useEffect(() => {
-    window.addEventListener("message", listener);
-    return () => window.removeEventListener("message", listener);
-  });
-
-  const listener = useCallback(
-    (event) => {
-      const message = event.data;
-      if (message?.type === MSG_HTML_PREVIEW_READY) {
-        setRendererReady(true);
-      }
-    },
-    [setRendererReady],
-  );
 
   const runCode = () => {
     setRunningFile(previewFile);
