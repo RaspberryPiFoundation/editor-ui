@@ -84,6 +84,7 @@
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' cypress/**/*.js 'apps/**/*.{js,jsx}'",
     "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
     "test": "node scripts/test.js",
+    "test:scratch-frame": "yarn workspace @raspberrypifoundation/scratch-frame test",
     "watch-css": "sass --load-path=./ -q --watch src:src"
   },
   "browserslist": {
