@@ -85,6 +85,8 @@ jobs:
         run: ./.github/workflows/record_coverage
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Run Scratch Frame tests
+        run: yarn run test:scratch-frame
 
   test-cypress:
     runs-on: ubuntu-latest
@@ -113,7 +115,7 @@ jobs:
           install: false
           start: |
             yarn start:all
-          wait-on: "http://localhost:3011"
+          wait-on: "http://localhost:3011, http://localhost:3014/scratch.html"
           quiet: true
           config-file: cypress.config.mjs
           browser: chrome

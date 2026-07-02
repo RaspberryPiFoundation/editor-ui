@@ -51,6 +51,14 @@
         "cy": "readonly",
         "Cypress": "readonly"
       }
+    },
+    {
+      "files": ["apps/scratch-frame/**/*.test.js", "apps/scratch-frame/**/*.test.jsx"],
+      "globals": {
+        "vi": "readonly",
+        "test": "readonly",
+        "describe": "readonly"
+      }
     }
   ]
 }

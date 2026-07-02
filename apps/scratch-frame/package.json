@@ -15,11 +15,13 @@
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "devDependencies": {
     "@testing-library/react": "14.3.1",
-    "redux-mock-store": "^1.5.4"
+    "redux-mock-store": "^1.5.4",
+    "vitest": "^4.1.9"
   },
   "packageManager": "yarn@4.12.0"
 }

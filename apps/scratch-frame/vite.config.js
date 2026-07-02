@@ -132,5 +132,9 @@ export default defineConfig(({ mode }) => {
         "Cross-Origin-Resource-Policy": "cross-origin",
       },
     },
+    test: {
+      globals: true,
+      environment: "jsdom",
+    },
   };
 });
