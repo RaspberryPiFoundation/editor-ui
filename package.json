@@ -78,9 +78,9 @@
     "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
     "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
     "analyze": "ANALYZE_WEBPACK_BUNDLE=true yarn build",
-    "lint": "eslint 'src/**/*.{js,jsx}' cypress/**/*.js",
-    "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' cypress/**/*.js",
-    "stylelint": "stylelint src/**/*.scss",
+    "lint": "eslint 'src/**/*.{js,jsx}' cypress/**/*.js 'apps/**/*.{js,jsx}'",
+    "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' cypress/**/*.js 'apps/**/*.{js,jsx}'",
+    "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
     "test": "node scripts/test.js",
     "watch-css": "sass --load-path=./ -q --watch src:src"
   },
