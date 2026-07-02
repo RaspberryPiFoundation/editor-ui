@@ -17,9 +17,9 @@
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
-  inline-size: 100%;
   overflow-wrap: break-word;
   overflow-y: auto;
+  scrollbar-width: thin;
 
   &--medium {
     @include font-size-1-5(regular);
