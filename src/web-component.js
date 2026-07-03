@@ -136,8 +136,16 @@ class WebComponent extends HTMLElement {
   }
 
   get codeChangedSinceInitialLoad() {
-    const { project, initialComponents } = store.getState().editor;
-    return projectHasChangedSinceInitialLoad(project, initialComponents);
+    const {
+      project,
+      initialComponents,
+      initialProjectName,
+      initialProjectInstructions,
+    } = store.getState().editor;
+    return projectHasChangedSinceInitialLoad(project, initialComponents, {
+      initialName: initialProjectName,
+      initialInstructions: initialProjectInstructions,
+    });
   }
 
   get menuItems() {

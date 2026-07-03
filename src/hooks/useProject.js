@@ -33,6 +33,12 @@ export const useProject = ({
   const initialComponents = useSelector(
     (state) => state.editor.initialComponents,
   );
+  const initialProjectName = useSelector(
+    (state) => state.editor.initialProjectName,
+  );
+  const initialProjectInstructions = useSelector(
+    (state) => state.editor.initialProjectInstructions,
+  );
   const loadDispatched = useRef(false);
 
   const getCachedProject = (id) =>
@@ -75,6 +81,10 @@ export const useProject = ({
       const currentProjectChanged = projectHasChangedSinceInitialLoad(
         project,
         initialComponents,
+        {
+          initialName: initialProjectName,
+          initialInstructions: initialProjectInstructions,
+        },
       );
 
       // If this same project has local edits, keep them across rerenders such

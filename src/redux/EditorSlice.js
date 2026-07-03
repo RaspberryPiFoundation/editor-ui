@@ -5,6 +5,7 @@ import {
   loadProjectRejected,
 } from "./reducers/loadProjectReducers";
 import ApiCallHandler from "../utils/apiCallHandler";
+import { syncInitialProjectSnapshot } from "../utils/projectHelpers";
 
 export const syncProject = (actionName) =>
   createAsyncThunk(
@@ -125,6 +126,8 @@ export const editorInitialState = {
   errorDetails: {},
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
+  initialProjectName: undefined,
+  initialProjectInstructions: undefined,
   scratchIframeProjectIdentifier: null,
   friendlyErrorsEnabled: false,
   friendlyError: null,
@@ -210,11 +213,7 @@ const EditorSlice = createSlice({
     },
     setProject: (state, action) => {
       state.project = action.payload;
-      state.initialComponents = (action.payload.components || []).map((c) => ({
-        name: c.name,
-        extension: c.extension,
-        content: c.content,
-      }));
+      syncInitialProjectSnapshot(state, action.payload);
       state.scratchIframeProjectIdentifier =
         action.payload.project_type === "code_editor_scratch"
           ? action.payload.identifier || null
@@ -450,11 +449,7 @@ const EditorSlice = createSlice({
         state.project = action.payload.project;
         state.loading = "idle";
       }
-      state.initialComponents = (state.project.components || []).map((c) => ({
-        name: c.name,
-        extension: c.extension,
-        content: c.content,
-      }));
+      syncInitialProjectSnapshot(state, state.project);
     });
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";
@@ -469,13 +464,7 @@ const EditorSlice = createSlice({
       state.saving = "success";
       state.project = action.payload.project;
       state.loading = "idle";
-      state.initialComponents = (action.payload.project.components || []).map(
-        (c) => ({
-          name: c.name,
-          extension: c.extension,
-          content: c.content,
-        }),
-      );
+      syncInitialProjectSnapshot(state, action.payload.project);
     });
     builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
     builder.addCase("editor/loadRemixProject/fulfilled", (state, action) => {

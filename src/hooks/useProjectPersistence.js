@@ -26,6 +26,18 @@ export const useProjectPersistence = ({
   const initialComponents = useSelector(
     (state) => state.editor.initialComponents,
   );
+  const initialProjectName = useSelector(
+    (state) => state.editor.initialProjectName,
+  );
+  const initialProjectInstructions = useSelector(
+    (state) => state.editor.initialProjectInstructions,
+  );
+
+  const projectHasChanged = () =>
+    projectHasChangedSinceInitialLoad(project, initialComponents, {
+      initialName: initialProjectName,
+      initialInstructions: initialProjectInstructions,
+    });
 
   const combinedFileSize = project.components?.reduce(
     (sum, component) => sum + component.content.length,
@@ -81,9 +93,17 @@ export const useProjectPersistence = ({
     let debouncer = setTimeout(() => {
       if (project) {
         if (isOwner(user, project) && project.identifier) {
+          const projectChangedSinceInitialLoad = projectHasChanged();
+
           if (justLoaded) {
             dispatch(expireJustLoaded());
+            if (!projectChangedSinceInitialLoad) {
+              return;
+            }
+          } else if (!projectChangedSinceInitialLoad) {
+            return;
           }
+
           dispatch(
             syncProject("save")({
               reactAppApiEndpoint,
@@ -93,8 +113,7 @@ export const useProjectPersistence = ({
             }),
           );
         } else {
-          const projectChangedSinceInitialLoad =
-            projectHasChangedSinceInitialLoad(project, initialComponents);
+          const projectChangedSinceInitialLoad = projectHasChanged();
 
           if (justLoaded) {
             dispatch(expireJustLoaded());

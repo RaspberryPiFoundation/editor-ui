@@ -8,12 +8,20 @@ import {
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
 let mockInitialComponents = [];
+let mockInitialProjectName = undefined;
+let mockInitialProjectInstructions = undefined;
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
   useDispatch: () => jest.fn(),
   useSelector: (selector) =>
-    selector({ editor: { initialComponents: mockInitialComponents } }),
+    selector({
+      editor: {
+        initialComponents: mockInitialComponents,
+        initialProjectName: mockInitialProjectName,
+        initialProjectInstructions: mockInitialProjectInstructions,
+      },
+    }),
 }));
 
 jest.mock("../redux/EditorSlice", () => ({
@@ -77,10 +85,14 @@ const editedProject = {
 
 beforeEach(() => {
   mockInitialComponents = initialComponents;
+  mockInitialProjectName = project.name;
+  mockInitialProjectInstructions = project.instructions ?? null;
 });
 
 afterEach(() => {
   mockInitialComponents = [];
+  mockInitialProjectName = undefined;
+  mockInitialProjectInstructions = undefined;
   localStorage.clear();
 });
 
@@ -343,7 +355,7 @@ describe("When logged in", () => {
       syncProject.mockImplementation(jest.fn((_) => saveProject));
     });
 
-    test("Project autosaved to database if save not triggered", async () => {
+    test("Does not autosave unchanged project to database", () => {
       renderHook(() =>
         useProjectPersistence({
           user: user1,
@@ -352,16 +364,60 @@ describe("When logged in", () => {
         }),
       );
       jest.runAllTimers();
+      expect(saveProject).not.toHaveBeenCalled();
+    });
+
+    test("Autosaves project to database when it has changed", async () => {
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: editedProject,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
-        project,
+        project: editedProject,
         accessToken: user1.access_token,
         autosave: true,
       });
     });
 
+    test("Does not autosave unchanged project after load", () => {
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: project,
+          justLoaded: true,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
+      expect(saveProject).not.toHaveBeenCalled();
+      expect(expireJustLoaded).toHaveBeenCalled();
+    });
+
+    test("Autosaves changed project after load once debounce elapses", () => {
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: editedProject,
+          justLoaded: true,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
+      expect(saveProject).toHaveBeenCalledWith({
+        project: editedProject,
+        accessToken: user1.access_token,
+        autosave: true,
+      });
+      expect(expireJustLoaded).toHaveBeenCalled();
+    });
+
     test("Increases save interval for large projects", async () => {
       const largeProject = {
-        ...project,
+        ...editedProject,
         components: [
           {
             name: "main",

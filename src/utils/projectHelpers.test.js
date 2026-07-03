@@ -154,4 +154,27 @@ describe("projectHasChangedSinceInitialLoad", () => {
       ),
     ).toBe(true);
   });
+
+  test("returns true when project name has changed", () => {
+    expect(
+      projectHasChangedSinceInitialLoad(
+        { name: "renamed project", components: initialComponents },
+        initialComponents,
+        { initialName: "original project" },
+      ),
+    ).toBe(true);
+  });
+
+  test("returns true when project instructions have changed", () => {
+    expect(
+      projectHasChangedSinceInitialLoad(
+        {
+          components: initialComponents,
+          instructions: "Updated steps",
+        },
+        initialComponents,
+        { initialInstructions: "Original steps" },
+      ),
+    ).toBe(true);
+  });
 });

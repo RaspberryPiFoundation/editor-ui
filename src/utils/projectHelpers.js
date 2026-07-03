@@ -14,7 +14,22 @@ const componentHasChanged = (component, initialComponent) =>
 export const projectHasChangedSinceInitialLoad = (
   project,
   initialComponents = null,
+  { initialName, initialInstructions } = {},
 ) => {
+  if (
+    initialName !== undefined &&
+    (project?.name ?? null) !== initialName
+  ) {
+    return true;
+  }
+
+  if (
+    initialInstructions !== undefined &&
+    (project?.instructions ?? null) !== initialInstructions
+  ) {
+    return true;
+  }
+
   const currentComponents = project?.components;
 
   if (!Array.isArray(currentComponents) || !Array.isArray(initialComponents)) {
@@ -26,4 +41,21 @@ export const projectHasChangedSinceInitialLoad = (
   return currentComponents.some((component, index) =>
     componentHasChanged(component, initialComponents[index]),
   );
+};
+
+const projectSnapshotFromProject = (project) => ({
+  initialComponents: (project?.components || []).map((component) => ({
+    name: component.name,
+    extension: component.extension,
+    content: component.content,
+  })),
+  initialProjectName: project?.name ?? null,
+  initialProjectInstructions: project?.instructions ?? null,
+});
+
+export const syncInitialProjectSnapshot = (state, project) => {
+  const snapshot = projectSnapshotFromProject(project);
+  state.initialComponents = snapshot.initialComponents;
+  state.initialProjectName = snapshot.initialProjectName;
+  state.initialProjectInstructions = snapshot.initialProjectInstructions;
 };

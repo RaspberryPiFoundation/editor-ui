@@ -371,6 +371,8 @@ describe("When project has no identifier", () => {
           content: "# hello",
         },
       ],
+      initialProjectName: "hello world",
+      initialProjectInstructions: null,
     };
 
     expect(
@@ -468,6 +470,8 @@ describe("When project has an identifier", () => {
           content: "# hello",
         },
       ],
+      initialProjectName: "hello world",
+      initialProjectInstructions: null,
     };
 
     expect(
@@ -511,6 +515,8 @@ describe("When project has an identifier", () => {
           content: "# hello",
         },
       ],
+      initialProjectName: "hello world",
+      initialProjectInstructions: null,
     };
 
     expect(

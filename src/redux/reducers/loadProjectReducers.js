@@ -1,3 +1,5 @@
+import { syncInitialProjectSnapshot } from "../../utils/projectHelpers";
+
 const loadProjectPending = (state, action) => {
   state.loading = "pending";
   state.remixLoadFailed = false; // We need to reset this at the start of any project load
@@ -5,6 +7,8 @@ const loadProjectPending = (state, action) => {
   state.currentLoadingRequestId = action.meta.requestId;
   state.lastSavedTime = null;
   state.scratchIframeProjectIdentifier = null;
+  state.initialProjectName = undefined;
+  state.initialProjectInstructions = undefined;
 };
 
 const loadProjectFulfilled = (state, action) => {
@@ -13,13 +17,7 @@ const loadProjectFulfilled = (state, action) => {
     state.currentLoadingRequestId === action.meta.requestId
   ) {
     state.project = action.payload.project;
-    state.initialComponents = (action.payload.project.components || []).map(
-      (c) => ({
-        name: c.name,
-        extension: c.extension,
-        content: c.content,
-      }),
-    );
+    syncInitialProjectSnapshot(state, action.payload.project);
     state.loading = "success";
     state.justLoaded = true;
     state.saving = "idle";
