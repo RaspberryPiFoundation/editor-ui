@@ -1,3 +1,6 @@
+This licence applies to files in this project unless otherwise specified.
+See COPYRIGHT file for more.
+
 
                                  Apache License
                            Version 2.0, January 2004
