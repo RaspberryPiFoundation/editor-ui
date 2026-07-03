@@ -132,6 +132,10 @@ describe("When a code run has been triggered", () => {
       });
     });
   });
+
+  test("it dispatches beginCodeRun action", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "editor/beginCodeRun" });
+  });
 });
 
 describe("When the code has been stopped", () => {
@@ -253,6 +257,23 @@ describe("When output is received", () => {
 
   test("it displays the output", () => {
     expect(screen.queryByText("hello")).toBeInTheDocument();
+  });
+});
+
+describe("When a python run completes", () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleRunComplete" });
+  });
+
+  test("it dispatches codeRunHandled action", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "editor/codeRunHandled" });
   });
 });
 

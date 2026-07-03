@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   isOwner,
@@ -9,6 +9,9 @@ import { syncProject } from "../redux/EditorSlice";
 export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const dispatch = useDispatch();
   const saving = useSelector((state) => state.editor.saving);
+  const codeRunInProgress = useSelector(
+    (state) => state.editor.codeRunInProgress,
+  );
   const initialComponents = useSelector(
     (state) => state.editor.initialComponents,
   );
@@ -22,13 +25,16 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const queuedRef = useRef(false);
   const inFlightRef = useRef(false);
   const savingRef = useRef(saving);
+  const codeRunInProgressRef = useRef(codeRunInProgress);
   const projectRef = useRef(project);
   const userRef = useRef(user);
   const initialComponentsRef = useRef(initialComponents);
   const initialProjectNameRef = useRef(initialProjectName);
   const initialProjectInstructionsRef = useRef(initialProjectInstructions);
+  const prevCodeRunInProgressRef = useRef(codeRunInProgress);
 
   savingRef.current = saving;
+  codeRunInProgressRef.current = codeRunInProgress;
   projectRef.current = project;
   userRef.current = user;
   initialComponentsRef.current = initialComponents;
@@ -51,9 +57,20 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       return;
     }
 
+    if (
+      codeRunInProgressRef.current ||
+      inFlightRef.current ||
+      savingRef.current === "pending"
+    ) {
+      return;
+    }
+
     queuedRef.current = false;
     startOwnerAutoSave();
   };
+
+  const flushQueuedSaveRef = useRef(flushQueuedSave);
+  flushQueuedSaveRef.current = flushQueuedSave;
 
   const startOwnerAutoSave = () => {
     const currentProject = projectRef.current;
@@ -76,7 +93,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       })
       .finally(() => {
         inFlightRef.current = false;
-        flushQueuedSave();
+        flushQueuedSaveRef.current();
       });
   };
 
@@ -92,13 +109,26 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       return;
     }
 
-    if (inFlightRef.current || savingRef.current === "pending") {
+    if (
+      codeRunInProgressRef.current ||
+      inFlightRef.current ||
+      savingRef.current === "pending"
+    ) {
       queuedRef.current = true;
       return;
     }
 
     startOwnerAutoSave();
   };
+
+  useEffect(() => {
+    const wasInProgress = prevCodeRunInProgressRef.current;
+    prevCodeRunInProgressRef.current = codeRunInProgress;
+
+    if (wasInProgress && !codeRunInProgress) {
+      flushQueuedSaveRef.current();
+    }
+  }, [codeRunInProgress]);
 
   return { requestOwnerAutoSave };
 };

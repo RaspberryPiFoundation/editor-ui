@@ -6,6 +6,7 @@ let mockInitialComponents = [];
 let mockInitialProjectName = undefined;
 let mockInitialProjectInstructions = undefined;
 let mockSaving = "idle";
+let mockCodeRunInProgress = false;
 let mockDispatch;
 let resolveSave;
 let rejectSave;
@@ -20,6 +21,7 @@ jest.mock("react-redux", () => ({
         initialProjectName: mockInitialProjectName,
         initialProjectInstructions: mockInitialProjectInstructions,
         saving: mockSaving,
+        codeRunInProgress: mockCodeRunInProgress,
       },
     }),
 }));
@@ -76,6 +78,7 @@ beforeEach(() => {
   mockInitialProjectName = project.name;
   mockInitialProjectInstructions = project.instructions ?? null;
   mockSaving = "idle";
+  mockCodeRunInProgress = false;
   syncProject.mockImplementation(jest.fn((_) => saveProject));
 
   mockDispatch = jest.fn(() => {
@@ -91,6 +94,7 @@ afterEach(() => {
   mockInitialProjectName = undefined;
   mockInitialProjectInstructions = undefined;
   mockSaving = "idle";
+  mockCodeRunInProgress = false;
 });
 
 describe("useOwnerAutoSave", () => {
@@ -187,6 +191,54 @@ describe("useOwnerAutoSave", () => {
     });
 
     expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  test("queues autosave while python code is running", () => {
+    mockCodeRunInProgress = true;
+
+    const { result } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  test("retries a queued autosave when a python run completes", async () => {
+    const { result, rerender } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    mockCodeRunInProgress = true;
+    rerender();
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+
+    mockCodeRunInProgress = false;
+    rerender();
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(saveProject).toHaveBeenCalledWith({
+      project: editedProject,
+      accessToken: user1.access_token,
+      autosave: true,
+      reactAppApiEndpoint: "http://example.com",
+    });
   });
 
   test("retries a queued autosave after an in-flight save fails", async () => {

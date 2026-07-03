@@ -12,6 +12,7 @@ import {
   setErrorDetails,
   setFriendlyError,
   codeRunHandled,
+  beginCodeRun,
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
@@ -482,6 +483,7 @@ const SkulptRunner = ({
   };
 
   const runCode = () => {
+    dispatch(beginCodeRun());
     // clear previous output
     dispatch(setError(""));
     dispatch(setErrorDetails({}));

@@ -9,6 +9,7 @@ import {
   setErrorDetails,
   setFriendlyError,
   codeRunHandled,
+  beginCodeRun,
   setLoadedRunner,
   updateProjectComponent,
   addProjectComponent,
@@ -145,6 +146,9 @@ const PyodideRunner = ({
           case "handleSenseHatEvent":
             handleSenseHatEvent(data.type);
             break;
+          case "handleRunComplete":
+            handleRunComplete();
+            break;
           default:
             throw new Error(`Unsupported method: ${data.method}`);
         }
@@ -273,6 +277,12 @@ const PyodideRunner = ({
     dispatch(setError(errorMessage));
     dispatch(setErrorDetails(errorDetails));
     disableInput();
+    dispatch(codeRunHandled());
+  };
+
+  const handleRunComplete = () => {
+    disableInput();
+    dispatch(codeRunHandled());
   };
 
   const handleFileWrite = (filename, content, mode, cascadeUpdate) => {
@@ -316,6 +326,7 @@ const PyodideRunner = ({
   };
 
   const handleRun = async () => {
+    dispatch(beginCodeRun());
     output.current.innerHTML = "";
     dispatch(setError(""));
     dispatch(setErrorDetails({}));

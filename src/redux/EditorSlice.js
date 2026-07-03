@@ -108,6 +108,7 @@ export const editorInitialState = {
   loadedRunner: null,
   codeRunLoading: false,
   codeRunStopped: false,
+  codeRunInProgress: false,
   projectList: [],
   projectListLoaded: "idle",
   lastSaveAutosave: false,
@@ -362,6 +363,9 @@ const EditorSlice = createSlice({
       state.codeRunTriggered = true;
       state.codeHasBeenRun = true;
     },
+    beginCodeRun: (state) => {
+      state.codeRunInProgress = true;
+    },
     stopCodeRun: (state) => {
       state.codeRunStopped = true;
     },
@@ -388,6 +392,7 @@ const EditorSlice = createSlice({
       state.codeRunLoading = false;
       state.codeRunTriggered = false;
       state.codeRunStopped = false;
+      state.codeRunInProgress = false;
       state.runnerBeingLoaded = null;
     },
     showBetaModal: (state) => {
@@ -492,6 +497,7 @@ export const {
   loadingRunner,
   setLoadedRunner,
   codeRunHandled,
+  beginCodeRun,
   expireJustLoaded,
   closeFile,
   openFile,

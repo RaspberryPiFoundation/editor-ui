@@ -73,6 +73,7 @@ const PyodideWorker = () => {
     }
 
     await clearPyodideData();
+    postMessage({ method: "handleRunComplete" });
   };
 
   const checkIfStopped = () => {
