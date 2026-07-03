@@ -437,6 +437,10 @@ describe("When logged in", () => {
         await Promise.resolve();
       });
 
+      act(() => {
+        jest.advanceTimersByTime(10000);
+      });
+
       expect(saveProject).toHaveBeenCalledTimes(2);
       expect(saveProject).toHaveBeenLastCalledWith({
         project: furtherEditedProject,

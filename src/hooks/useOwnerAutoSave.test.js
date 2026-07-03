@@ -166,6 +166,10 @@ describe("useOwnerAutoSave", () => {
       await Promise.resolve();
     });
 
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
     expect(mockDispatch).toHaveBeenCalledTimes(2);
     expect(saveProject).toHaveBeenLastCalledWith({
       project: editedProject,
@@ -231,6 +235,90 @@ describe("useOwnerAutoSave", () => {
 
     mockCodeRunInProgress = false;
     rerender();
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(saveProject).toHaveBeenCalledWith({
+      project: editedProject,
+      accessToken: user1.access_token,
+      autosave: true,
+      reactAppApiEndpoint: "http://example.com",
+    });
+  });
+
+  test("queues autosave during cooldown after a successful auto-save", async () => {
+    const { result } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    await act(async () => {
+      resolveSave(saveAction);
+      await Promise.resolve();
+    });
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(2);
+  });
+
+  test("flushPendingAutoSave bypasses cooldown", async () => {
+    const { result } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    await act(async () => {
+      resolveSave(saveAction);
+      await Promise.resolve();
+    });
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      result.current.flushPendingAutoSave();
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(2);
+  });
+
+  test("flushPendingAutoSave on pagehide saves pending changes", async () => {
+    renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    act(() => {
+      window.dispatchEvent(new Event("pagehide"));
+    });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
     expect(saveProject).toHaveBeenCalledWith({
