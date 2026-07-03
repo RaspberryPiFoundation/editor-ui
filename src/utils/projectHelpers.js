@@ -16,10 +16,7 @@ export const projectHasChangedSinceInitialLoad = (
   initialComponents = null,
   { initialName, initialInstructions } = {},
 ) => {
-  if (
-    initialName !== undefined &&
-    (project?.name ?? null) !== initialName
-  ) {
+  if (initialName !== undefined && (project?.name ?? null) !== initialName) {
     return true;
   }
 

@@ -10,6 +10,7 @@ import {
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
+import { useOwnerAutoSave } from "./useOwnerAutoSave";
 
 const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
 
@@ -33,11 +34,11 @@ export const useProjectPersistence = ({
     (state) => state.editor.initialProjectInstructions,
   );
 
-  const projectHasChanged = () =>
-    projectHasChangedSinceInitialLoad(project, initialComponents, {
-      initialName: initialProjectName,
-      initialInstructions: initialProjectInstructions,
-    });
+  const { requestOwnerAutoSave } = useOwnerAutoSave({
+    user,
+    project,
+    reactAppApiEndpoint,
+  });
 
   const combinedFileSize = project.components?.reduce(
     (sum, component) => sum + component.content.length,
@@ -93,27 +94,16 @@ export const useProjectPersistence = ({
     let debouncer = setTimeout(() => {
       if (project) {
         if (isOwner(user, project) && project.identifier) {
-          const projectChangedSinceInitialLoad = projectHasChanged();
-
           if (justLoaded) {
             dispatch(expireJustLoaded());
-            if (!projectChangedSinceInitialLoad) {
-              return;
-            }
-          } else if (!projectChangedSinceInitialLoad) {
-            return;
           }
-
-          dispatch(
-            syncProject("save")({
-              reactAppApiEndpoint,
-              project,
-              accessToken: user.access_token,
-              autosave: true,
-            }),
-          );
+          requestOwnerAutoSave();
         } else {
-          const projectChangedSinceInitialLoad = projectHasChanged();
+          const projectChangedSinceInitialLoad =
+            projectHasChangedSinceInitialLoad(project, initialComponents, {
+              initialName: initialProjectName,
+              initialInstructions: initialProjectInstructions,
+            });
 
           if (justLoaded) {
             dispatch(expireJustLoaded());
@@ -131,7 +121,7 @@ export const useProjectPersistence = ({
     }, autoSaveInterval);
 
     return () => clearTimeout(debouncer);
-  }, [dispatch, project, user, hasShownSavePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dispatch, project, user, hasShownSavePrompt, autoSaveInterval]); // eslint-disable-line react-hooks/exhaustive-deps
   // Disabling exhasutive dependencies linting rule because adding justLoaded to the dependency array
-  // triggers the save/login prompt too early
+  // triggers the save/login prompt too early. requestOwnerAutoSave reads latest state via refs.
 };

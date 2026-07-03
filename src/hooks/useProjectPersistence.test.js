@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { useProjectPersistence } from "./useProjectPersistence";
 import {
   expireJustLoaded,
@@ -10,16 +10,19 @@ import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 let mockInitialComponents = [];
 let mockInitialProjectName = undefined;
 let mockInitialProjectInstructions = undefined;
+let mockSaving = "idle";
+let mockDispatch;
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
-  useDispatch: () => jest.fn(),
+  useDispatch: () => mockDispatch,
   useSelector: (selector) =>
     selector({
       editor: {
         initialComponents: mockInitialComponents,
         initialProjectName: mockInitialProjectName,
         initialProjectInstructions: mockInitialProjectInstructions,
+        saving: mockSaving,
       },
     }),
 }));
@@ -87,12 +90,15 @@ beforeEach(() => {
   mockInitialComponents = initialComponents;
   mockInitialProjectName = project.name;
   mockInitialProjectInstructions = project.instructions ?? null;
+  mockSaving = "idle";
+  mockDispatch = jest.fn(() => Promise.resolve(saveAction));
 });
 
 afterEach(() => {
   mockInitialComponents = [];
   mockInitialProjectName = undefined;
   mockInitialProjectInstructions = undefined;
+  mockSaving = "idle";
   localStorage.clear();
 });
 
@@ -378,6 +384,62 @@ describe("When logged in", () => {
       jest.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
         project: editedProject,
+        accessToken: user1.access_token,
+        autosave: true,
+      });
+    });
+
+    test("Retries queued autosave when debounce fires during an in-flight save", async () => {
+      const furtherEditedProject = {
+        ...editedProject,
+        components: [
+          {
+            ...editedProject.components[0],
+            content: "# hello edited again",
+          },
+        ],
+      };
+
+      let resolveFirstSave;
+      mockDispatch.mockImplementation(
+        () =>
+          new Promise((resolve) => {
+            resolveFirstSave = resolve;
+          }),
+      );
+
+      const { rerender } = renderHook(
+        ({ project: currentProject }) =>
+          useProjectPersistence({
+            user: user1,
+            project: currentProject,
+            saveTriggered: false,
+          }),
+        { initialProps: { project: editedProject } },
+      );
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      expect(saveProject).toHaveBeenCalledTimes(1);
+
+      rerender({ project: furtherEditedProject });
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      expect(saveProject).toHaveBeenCalledTimes(1);
+
+      await act(async () => {
+        resolveFirstSave(saveAction);
+        await Promise.resolve();
+      });
+
+      expect(saveProject).toHaveBeenCalledTimes(2);
+      expect(saveProject).toHaveBeenLastCalledWith({
+        project: furtherEditedProject,
         accessToken: user1.access_token,
         autosave: true,
       });
