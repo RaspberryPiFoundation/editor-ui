@@ -32,7 +32,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   const canSave = Boolean(user && !readOnly);
   const saveDisabled = useSelector((state) => state.editor.saveDisabled);
   const { saveScratchProject, shouldRemixOnSave } = useScratchSave({
-    enabled: canSave,
+    enabled: canSave && !saveDisabled,
   });
 
   const projectIdentifier = project?.identifier;

@@ -99,7 +99,7 @@ describe("When logged in and save is disabled", () => {
   beforeEach(() => {
     renderProjectBar({
       editor: {
-        project,
+        project: { ...project, user_id: "someone-else" },
         saveDisabled: true,
         lastSavedTime: new Date().getTime(),
       },

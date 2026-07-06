@@ -212,6 +212,7 @@ describe("When project is Scratch", () => {
 
   test("does not show the manual Save button if save is disabled", () => {
     renderSignedInScratchProjectBar({
+      project: { ...scratchProject, user_id: "someone-else" },
       editor: {
         saveDisabled: true,
       },
