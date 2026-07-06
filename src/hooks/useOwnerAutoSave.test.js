@@ -300,8 +300,11 @@ describe("useOwnerAutoSave", () => {
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
 
-    act(() => {
-      result.current.flushPendingAutoSave();
+    await act(async () => {
+      const flushPromise = result.current.flushPendingAutoSave();
+      await Promise.resolve();
+      resolveSave(saveAction);
+      await flushPromise;
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(2);
@@ -316,8 +319,10 @@ describe("useOwnerAutoSave", () => {
       }),
     );
 
-    act(() => {
+    await act(async () => {
       window.dispatchEvent(new Event("pagehide"));
+      await Promise.resolve();
+      resolveSave(saveAction);
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
@@ -326,6 +331,62 @@ describe("useOwnerAutoSave", () => {
       accessToken: user1.access_token,
       autosave: true,
       reactAppApiEndpoint: "http://example.com",
+    });
+  });
+
+  test("flushPendingAutoSave waits for an in-flight save before saving again", async () => {
+    const { result, rerender } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    act(() => {
+      result.current.requestOwnerAutoSave();
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+    let flushPromise;
+    act(() => {
+      flushPromise = result.current.flushPendingAutoSave();
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+    mockInitialComponents = editedProject.components.map((component) => ({
+      name: component.name,
+      extension: component.extension,
+      content: component.content,
+    }));
+    rerender();
+
+    await act(async () => {
+      resolveSave(saveAction);
+      await flushPromise;
+    });
+  });
+
+  test("rejects flushPendingAutoSave when the save fails", async () => {
+    const { result } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    let flushPromise;
+    act(() => {
+      flushPromise = result.current.flushPendingAutoSave();
+    });
+
+    await act(async () => {
+      await Promise.resolve();
+      rejectSave(new Error("save failed"));
+      await expect(flushPromise).rejects.toThrow("owner autosave failed");
     });
   });
 
