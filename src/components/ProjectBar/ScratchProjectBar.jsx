@@ -30,6 +30,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const canSave = Boolean(user && !readOnly);
+  const saveDisabled = useSelector((state) => state.editor.saveDisabled);
   const { saveScratchProject, shouldRemixOnSave } = useScratchSave({
     enabled: canSave,
   });
@@ -39,7 +40,8 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   const isScratchSaveFailed = saving === "failed";
   const isNewProject = !projectIdentifier;
   const canAutoSave = Boolean(projectIdentifier && !shouldRemixOnSave);
-  const showSaveButton = canSave && (isNewProject || shouldRemixOnSave);
+  const showSaveButton =
+    canSave && (isNewProject || shouldRemixOnSave) && !saveDisabled;
   const showSaveStatus =
     canSave && canAutoSave && Boolean(lastSavedTime) && !isScratchSaveFailed;
   const projectLastSavedTime = getProjectLastSavedTime(project?.updated_at);

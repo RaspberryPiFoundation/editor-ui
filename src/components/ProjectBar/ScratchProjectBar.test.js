@@ -209,6 +209,18 @@ describe("When project is Scratch", () => {
       type: "scratch-gui-save",
     });
   });
+
+  test("does not show the manual Save button if save is disabled", () => {
+    renderSignedInScratchProjectBar({
+      editor: {
+        saveDisabled: true,
+      },
+    });
+
+    expect(
+      screen.queryByRole("button", { name: "header.save" }),
+    ).not.toBeInTheDocument();
+  });
 });
 
 describe("Additional Scratch manual save states", () => {
