@@ -11,8 +11,9 @@ x-app: &x-app
 services:
   app:
     <<: *x-app
-    command: sh -c "yarn install && yarn start"
+    command: sh -c "yarn install && yarn start:all"
     ports:
       - "3011:3011"
+      - "3014:3014"
 volumes:
   node_modules: null

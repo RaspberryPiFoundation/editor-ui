@@ -8,6 +8,7 @@ import {
 } from "../helpers/scratch.js";
 
 const origin = "http://localhost:3011/web-component.html";
+const scratchFrameOrigin = Cypress.env("REACT_APP_SCRATCH_FRAME_URL");
 const authKey = "oidc.user:https://auth-v1.raspberrypi.org:editor-api";
 const user = {
   access_token: "dummy-access-token",
@@ -124,7 +125,7 @@ describe("Scratch save integration", () => {
     cy.window().then((win) => {
       win.dispatchEvent(
         new win.MessageEvent("message", {
-          origin: win.location.origin,
+          origin: scratchFrameOrigin,
           data: {
             type: "scratch-gui-project-id-updated",
             projectId: "student-remix",
@@ -133,7 +134,7 @@ describe("Scratch save integration", () => {
       );
       win.dispatchEvent(
         new win.MessageEvent("message", {
-          origin: win.location.origin,
+          origin: scratchFrameOrigin,
           data: {
             type: "scratch-gui-remixing-succeeded",
           },
@@ -166,7 +167,7 @@ describe("Scratch save integration", () => {
     cy.window().then((win) => {
       win.dispatchEvent(
         new win.MessageEvent("message", {
-          origin: win.location.origin,
+          origin: scratchFrameOrigin,
           data: {
             type: "scratch-gui-project-changed",
           },

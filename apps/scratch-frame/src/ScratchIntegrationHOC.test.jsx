@@ -1,45 +1,43 @@
-const React = require("react");
-const { render, waitFor } = require("@testing-library/react");
-const { Provider } = require("react-redux");
-const configureStore = require("redux-mock-store").default;
+import React from "react";
+import { render, waitFor } from "@testing-library/react";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
+import { saveAs } from "file-saver";
+import { postScratchGuiEvent } from "./utils/events.js";
 
-jest.mock("file-saver", () => ({ saveAs: jest.fn() }));
-jest.mock("./events.js", () => ({ postScratchGuiEvent: jest.fn() }));
-jest.mock("@RaspberryPiFoundation/scratch-gui", () => ({
-  remixProject: () => ({ type: "remix" }),
-  manualUpdateProject: () => ({ type: "manualUpdate" }),
-  setStageSize: () => ({ type: "setStageSize" }),
+const { mockSaveAs, mockPostScratchGuiEvent } = vi.hoisted(() => ({
+  mockSaveAs: vi.fn(),
+  mockPostScratchGuiEvent: vi.fn(),
 }));
 
-const ScratchIntegrationHOC = require("./ScratchIntegrationHOC").default;
-const { postScratchGuiEvent } = require("./events.js");
+vi.mock("file-saver", () => ({ saveAs: mockSaveAs }));
+vi.mock("./utils/events.js", () => ({
+  postScratchGuiEvent: mockPostScratchGuiEvent,
+}));
 
 describe("ScratchIntegrationHOC", () => {
-  const mockSaveProjectSb3 = jest.fn();
-  const mockLoadProject = jest.fn();
+  const mockSaveProjectSb3 = vi.fn();
+  const mockLoadProject = vi.fn();
   const mockVm = {
     saveProjectSb3: mockSaveProjectSb3,
     loadProject: mockLoadProject,
-    on: jest.fn(),
-    removeListener: jest.fn(),
+    on: vi.fn(),
+    removeListener: vi.fn(),
   };
-  const allowedOrigin = "https://editor.example.com";
+  const allowedOrigin =
+    import.meta.env.REACT_APP_ALLOWED_IFRAME_ORIGINS?.split(",")[0] ||
+    "http://localhost:3011";
   let store;
   let Wrapped;
-  let saveAs;
 
-  beforeEach(() => {
-    const fileSaver = require("file-saver");
-    saveAs = fileSaver.saveAs || fileSaver;
-    if (typeof saveAs.mockClear === "function") {
-      saveAs.mockClear();
-    }
+  beforeEach(async () => {
+    vi.resetModules();
+    saveAs.mockClear();
     mockSaveProjectSb3.mockClear();
     mockLoadProject.mockClear();
     mockVm.on.mockClear();
     mockVm.removeListener.mockClear();
     postScratchGuiEvent.mockClear();
-    process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS = allowedOrigin;
     const mockStore = configureStore([]);
     store = mockStore({
       scratchGui: {
@@ -48,11 +46,19 @@ describe("ScratchIntegrationHOC", () => {
     });
     const Dummy = () =>
       React.createElement("div", { "data-testid": "wrapped" });
+    window.GUI = {
+      remixProject: () => ({ type: "remix" }),
+      manualUpdateProject: () => ({ type: "manualUpdate" }),
+      setStageSize: () => ({ type: "setStageSize" }),
+    };
+
+    const { default: ScratchIntegrationHOC } =
+      await import("./ScratchIntegrationHOC.jsx");
     Wrapped = ScratchIntegrationHOC(Dummy);
   });
 
   afterEach(() => {
-    delete process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS;
+    delete window.GUI;
   });
 
   const getVmHandler = (eventName) =>
@@ -92,7 +98,7 @@ describe("ScratchIntegrationHOC", () => {
     it("calls loadProject with arrayBuffer from event.data.file", async () => {
       const arrayBuffer = new ArrayBuffer(8);
       const file = {
-        arrayBuffer: jest.fn().mockResolvedValue(arrayBuffer),
+        arrayBuffer: vi.fn().mockResolvedValue(arrayBuffer),
       };
       mockLoadProject.mockResolvedValue();
 

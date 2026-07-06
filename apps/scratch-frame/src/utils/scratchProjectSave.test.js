@@ -2,14 +2,14 @@ import scratchProjectSave from "./scratchProjectSave";
 
 describe("scratchProjectSave", () => {
   const buildScratchFetchApi = () => ({
-    scratchFetch: jest.fn(),
+    scratchFetch: vi.fn(),
   });
 
   test("updates an existing project through scratchFetch", async () => {
     const scratchFetchApi = buildScratchFetchApi();
     scratchFetchApi.scratchFetch.mockResolvedValue({
       status: 200,
-      json: jest.fn().mockResolvedValue({ ok: true }),
+      json: vi.fn().mockResolvedValue({ ok: true }),
     });
 
     const response = await scratchProjectSave({
@@ -38,9 +38,7 @@ describe("scratchProjectSave", () => {
     const scratchFetchApi = buildScratchFetchApi();
     scratchFetchApi.scratchFetch.mockResolvedValue({
       status: 200,
-      json: jest
-        .fn()
-        .mockResolvedValue({ "content-name": "created-project-id" }),
+      json: vi.fn().mockResolvedValue({ "content-name": "created-project-id" }),
     });
 
     const response = await scratchProjectSave({
@@ -76,7 +74,7 @@ describe("scratchProjectSave", () => {
     const scratchFetchApi = buildScratchFetchApi();
     scratchFetchApi.scratchFetch.mockResolvedValue({
       status: 401,
-      json: jest.fn(),
+      json: vi.fn(),
     });
 
     await expect(

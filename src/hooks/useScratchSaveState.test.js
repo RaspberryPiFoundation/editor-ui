@@ -17,7 +17,7 @@ jest.mock("../utils/scratchIframe", () => ({
 
 jest.useFakeTimers();
 
-const scratchOrigin = "https://assets.example.com";
+const scratchOrigin = "https://scratch-frame.example.com";
 const scratchProject = {
   identifier: "scratch-project",
   project_type: "code_editor_scratch",
@@ -60,17 +60,17 @@ const dispatchScratchMessage = (type, origin = scratchOrigin) => {
 };
 
 describe("useScratchSaveState", () => {
-  const originalAssetsUrl = process.env.ASSETS_URL;
+  const originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    process.env.ASSETS_URL = scratchOrigin;
+    process.env.REACT_APP_SCRATCH_FRAME_URL = scratchOrigin;
     getScratchAllowedOrigin.mockReturnValue(scratchOrigin);
   });
 
   afterEach(() => {
     jest.clearAllTimers();
-    process.env.ASSETS_URL = originalAssetsUrl;
+    process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
   });
 
   test("posts the scratch save command", () => {
@@ -282,8 +282,8 @@ describe("useScratchSaveState", () => {
     expect(store.getState().editor.saving).toBe("idle");
   });
 
-  test("accepts messages when ASSETS_URL contains a path", () => {
-    process.env.ASSETS_URL = `${scratchOrigin}/branches/main`;
+  test("accepts messages when REACT_APP_SCRATCH_FRAME_URL contains a path", () => {
+    process.env.REACT_APP_SCRATCH_FRAME_URL = `${scratchOrigin}/branches/main`;
     getScratchAllowedOrigin.mockReturnValue(scratchOrigin);
 
     const { store } = renderScratchSaveState({ enabled: true });

@@ -1,20 +1,17 @@
 import React from "react";
+
 import { createRoot } from "react-dom/client";
-import process from "process";
 import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
 
-import ScratchStyles from "./assets/stylesheets/Scratch.scss";
-import ScratchEditor from "./components/ScratchEditor/ScratchEditor.jsx";
-import {
-  postScratchGuiEvent,
-  allowedParentOrigin,
-} from "./components/ScratchEditor/events.js";
+import ScratchStyles from "./stylesheets/Scratch.scss?inline";
+import ScratchEditor from "./ScratchEditor.jsx";
+import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
 dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");
 const scratchLoading = document.getElementById("scratch-loading");
 
-if (process.env.NODE_ENV === "production" && typeof window === "object") {
+if (import.meta.env.PROD && typeof window === "object") {
   // Warn before navigating away
   window.onbeforeunload = () => true;
 }
