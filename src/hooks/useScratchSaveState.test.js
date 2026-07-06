@@ -9,6 +9,10 @@ import {
   getScratchAllowedOrigin,
   postMessageToScratchIframe,
 } from "../utils/scratchIframe";
+import {
+  clearScratchAutoSaveHostApi,
+  getOwnerAutoSaveHostApi,
+} from "../utils/ownerAutoSaveHostApi";
 
 jest.mock("../utils/scratchIframe", () => ({
   getScratchAllowedOrigin: jest.fn(),
@@ -38,12 +42,17 @@ const createScratchStore = () =>
     },
   });
 
+let scratchSaveUnmount = null;
+
 const renderScratchSaveState = (options) => {
+  scratchSaveUnmount?.();
+
   const store = createScratchStore();
   const wrapper = ({ children }) => (
     <Provider store={store}>{children}</Provider>
   );
   const hook = renderHook(() => useScratchSaveState(options), { wrapper });
+  scratchSaveUnmount = hook.unmount;
 
   return { ...hook, store };
 };
@@ -59,6 +68,15 @@ const dispatchScratchMessage = (type, origin = scratchOrigin) => {
   });
 };
 
+const dispatchScratchMessageEvent = (type, origin = scratchOrigin) => {
+  window.dispatchEvent(
+    new MessageEvent("message", {
+      origin,
+      data: { type },
+    }),
+  );
+};
+
 describe("useScratchSaveState", () => {
   const originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
 
@@ -69,6 +87,9 @@ describe("useScratchSaveState", () => {
   });
 
   afterEach(() => {
+    scratchSaveUnmount?.();
+    scratchSaveUnmount = null;
+    clearScratchAutoSaveHostApi();
     jest.clearAllTimers();
     process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
   });
@@ -291,5 +312,95 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-saving-started");
 
     expect(store.getState().editor.saving).toBe("pending");
+  });
+
+  test("queues autosave during cooldown after a successful auto-save", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
+  });
+
+  test("does not auto-save while a Scratch project run is in progress", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-run-started");
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+
+    dispatchScratchMessage("scratch-gui-project-run-stopped");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
+  });
+
+  test("flushPendingAutoSave bypasses cooldown", async () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      const flushPromise = getOwnerAutoSaveHostApi().flushPendingAutoSave();
+      await Promise.resolve();
+      await Promise.resolve();
+      dispatchScratchMessageEvent("scratch-gui-saving-started");
+      dispatchScratchMessageEvent("scratch-gui-saving-succeeded");
+      await flushPromise;
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
+  });
+
+  test("registers scratch flush state with the host API", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    expect(getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
   });
 });

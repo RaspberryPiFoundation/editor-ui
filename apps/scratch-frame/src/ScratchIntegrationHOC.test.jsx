@@ -181,5 +181,28 @@ describe("ScratchIntegrationHOC", () => {
         "scratch-gui-project-run-started",
       );
     });
+
+    it("registers a PROJECT_RUN_STOP listener on mount", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      expect(mockVm.on).toHaveBeenCalledWith(
+        "PROJECT_RUN_STOP",
+        expect.any(Function),
+      );
+    });
+
+    it("posts a project-run-stopped event when PROJECT_RUN_STOP fires", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      getVmHandler("PROJECT_RUN_STOP")();
+
+      expect(postScratchGuiEvent).toHaveBeenCalledWith(
+        "scratch-gui-project-run-stopped",
+      );
+    });
   });
 });

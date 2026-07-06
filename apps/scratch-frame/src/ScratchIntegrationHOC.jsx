@@ -19,11 +19,13 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.handleSave = this.handleSave.bind(this);
       this.handleProjectChanged = this.handleProjectChanged.bind(this);
       this.handleProjectRunStart = this.handleProjectRunStart.bind(this);
+      this.handleProjectRunStop = this.handleProjectRunStop.bind(this);
     }
     componentDidMount() {
       window.addEventListener("message", this.handleMessage);
       this.props.vm.on("PROJECT_CHANGED", this.handleProjectChanged);
       this.props.vm.on("PROJECT_RUN_START", this.handleProjectRunStart);
+      this.props.vm.on("PROJECT_RUN_STOP", this.handleProjectRunStop);
       this.props.setStageSize();
     }
     componentWillUnmount() {
@@ -35,6 +37,10 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.vm.removeListener(
         "PROJECT_RUN_START",
         this.handleProjectRunStart,
+      );
+      this.props.vm.removeListener(
+        "PROJECT_RUN_STOP",
+        this.handleProjectRunStop,
       );
     }
 
@@ -95,6 +101,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
     handleProjectRunStart() {
       postScratchGuiEvent("scratch-gui-project-run-started");
+    }
+    handleProjectRunStop() {
+      postScratchGuiEvent("scratch-gui-project-run-stopped");
     }
     render() {
       const {
