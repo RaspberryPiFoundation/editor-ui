@@ -432,6 +432,7 @@
     }
 
     .react-tabs__tab-panel {
+      margin-block-end: var(--space-1);
       .project-instructions {
         padding-inline: var(--space-1);
       }
