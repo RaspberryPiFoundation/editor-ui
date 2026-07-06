@@ -7,6 +7,7 @@ import * as scratchIframeUtils from "../../../utils/scratchIframe";
 import webComponentStore from "../../../redux/stores/WebComponentStore";
 import { setUser } from "../../../redux/WebComponentAuthSlice";
 import { resetStore } from "../../../redux/RootSlice";
+import { resetRunEventCodeSnapshot } from "../../WebComponentProject/runEventCodeSnapshot";
 
 jest.mock("../../../utils/scratchIframe", () => ({
   ...jest.requireActual("../../../utils/scratchIframe"),
@@ -51,14 +52,17 @@ describe("ScratchContainer", () => {
     scratchApiEndpoint: "https://api.example.com/v1",
   };
 
-  const buildStore = ({ authReducer } = {}) =>
+  const buildStore = ({ authReducer, editorOverrides } = {}) =>
     configureStore({
       reducer: {
         editor: EditorReducer,
         ...(authReducer ? { auth: authReducer } : {}),
       },
       preloadedState: {
-        editor: defaultEditorState,
+        editor: {
+          ...defaultEditorState,
+          ...editorOverrides,
+        },
       },
     });
 
@@ -76,7 +80,10 @@ describe("ScratchContainer", () => {
     };
   };
 
-  const dispatchMessage = (data, origin = "https://example.com") => {
+  const dispatchMessage = (
+    data,
+    origin = "https://scratch-frame.example.com",
+  ) => {
     window.dispatchEvent(
       new MessageEvent("message", {
         origin,
@@ -113,11 +120,12 @@ describe("ScratchContainer", () => {
     });
   };
 
-  let originalAssetsUrl;
+  let originalScratchFrameUrl;
 
   beforeEach(() => {
-    originalAssetsUrl = process.env.ASSETS_URL;
-    process.env.ASSETS_URL = "https://example.com";
+    originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
+    process.env.REACT_APP_SCRATCH_FRAME_URL =
+      "https://scratch-frame.example.com";
     localStorage.clear();
     mockOverlayScrollbarsComponent.mockImplementation(
       renderMockOverlayScrollbarsComponent,
@@ -125,7 +133,7 @@ describe("ScratchContainer", () => {
   });
 
   afterEach(() => {
-    process.env.ASSETS_URL = originalAssetsUrl;
+    process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
     jest.clearAllMocks();
   });
 
@@ -174,13 +182,22 @@ describe("ScratchContainer", () => {
     let runStartedHandler;
 
     beforeEach(() => {
+      jest.useFakeTimers();
+      resetRunEventCodeSnapshot();
       runStartedHandler = jest.fn();
       document.addEventListener("editor-runStarted", runStartedHandler);
     });
 
     afterEach(() => {
+      jest.useRealTimers();
       document.removeEventListener("editor-runStarted", runStartedHandler);
     });
+
+    const flushScratchRunDebounce = () => {
+      act(() => {
+        jest.advanceTimersByTime(250);
+      });
+    };
 
     test("dispatches editor-runStarted when scratch-gui-project-run-started is received", () => {
       renderScratchContainer();
@@ -190,6 +207,8 @@ describe("ScratchContainer", () => {
           type: "scratch-gui-project-run-started",
         });
       });
+
+      flushScratchRunDebounce();
 
       expect(runStartedHandler).toHaveBeenCalledTimes(1);
       expect(runStartedHandler.mock.calls[0][0].detail).toEqual({});
@@ -210,6 +229,157 @@ describe("ScratchContainer", () => {
       });
 
       expect(runStartedHandler).not.toHaveBeenCalled();
+    });
+
+    test("does not dispatch editor-runStarted when unmounted before debounce fires", () => {
+      const store = buildStore();
+      const { unmount } = render(
+        <Provider store={store}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      act(() => {
+        dispatchMessage({ type: "scratch-gui-project-run-started" });
+      });
+
+      unmount();
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).not.toHaveBeenCalled();
+    });
+
+    test("dispatches editor-runStarted when project identifier changes during debounce", () => {
+      const store = buildStore();
+      const view = render(
+        <Provider store={store}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      act(() => {
+        dispatchMessage({ type: "scratch-gui-project-run-started" });
+      });
+
+      const updatedStore = buildStore({
+        editorOverrides: {
+          project: {
+            identifier: "project-456",
+            project_type: "code_editor_scratch",
+          },
+          scratchIframeProjectIdentifier: "project-456",
+        },
+      });
+
+      view.rerender(
+        <Provider store={updatedStore}>
+          <ScratchContainer />
+        </Provider>,
+      );
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+    });
+
+    test("collapses rapid scratch runs into one debounced dispatch", () => {
+      renderScratchContainer();
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(0);
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+    });
+
+    test("allows separate scratch bursts after debounce quiet period", () => {
+      renderScratchContainer();
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      act(() => {
+        jest.advanceTimersByTime(250);
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(2);
+    });
+
+    test("collapses rapid read-only scratch runs into one debounced dispatch", () => {
+      renderScratchContainer(
+        buildStore({ editorOverrides: { readOnly: true } }),
+      );
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(0);
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(1);
+    });
+
+    test("allows read-only scratch runs after the debounce window", () => {
+      renderScratchContainer(
+        buildStore({ editorOverrides: { readOnly: true } }),
+      );
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      act(() => {
+        jest.advanceTimersByTime(250);
+      });
+
+      act(() => {
+        dispatchMessage({
+          type: "scratch-gui-project-run-started",
+        });
+      });
+
+      flushScratchRunDebounce();
+
+      expect(runStartedHandler).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -248,8 +418,9 @@ describe("ScratchContainer", () => {
     });
   });
 
-  test("accepts scratch-gui-ready from origin when ASSETS_URL includes path", () => {
-    process.env.ASSETS_URL = "https://example.com/branches/main";
+  test("accepts scratch-gui-ready from origin when REACT_APP_SCRATCH_FRAME_URL includes path", () => {
+    process.env.REACT_APP_SCRATCH_FRAME_URL =
+      "https://example.com/branches/main";
     const store = buildStore({
       authReducer: (state = { user: { access_token: "token-123" } }) => state,
     });

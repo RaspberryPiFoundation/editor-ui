@@ -1,12 +1,19 @@
-jest.mock("./utils/dedupeScratchWarnings.js", () => jest.fn());
-jest.mock("./assets/stylesheets/Scratch.scss", () => "");
-jest.mock("./components/ScratchEditor/WrappedScratchGui.jsx", () => (props) => {
-  return null;
-});
+import { createRoot } from "react-dom/client";
 
-const mockRenderRoot = jest.fn();
-jest.mock("react-dom/client", () => ({
-  createRoot: jest.fn(() => ({
+vi.mock("./utils/dedupeScratchWarnings.js", () => ({
+  default: vi.fn(),
+}));
+vi.mock("./stylesheets/Scratch.scss", () => "");
+const { mockRenderRoot } = vi.hoisted(() => ({
+  mockRenderRoot: vi.fn(),
+}));
+
+vi.mock("./WrappedScratchGui.jsx", () => ({
+  default: () => null,
+}));
+
+vi.mock("react-dom/client", () => ({
+  createRoot: vi.fn(() => ({
     render: mockRenderRoot,
   })),
 }));
@@ -17,11 +24,7 @@ describe("scratch handshake retries", () => {
   let consoleErrorSpy;
   let removeEventListenerSpy;
 
-  const loadScratchModule = () => {
-    jest.isolateModules(() => {
-      require("./scratch.jsx");
-    });
-  };
+  const loadScratchModule = () => import("./scratch.jsx");
 
   const getHandshakeNonce = () => postMessageSpy.mock.calls[0][0].nonce;
 
@@ -45,11 +48,11 @@ describe("scratch handshake retries", () => {
   };
 
   const advanceToTimeout = () => {
-    jest.advanceTimersByTime(15000);
+    vi.advanceTimersByTime(15000);
   };
 
   const expectRetriesStopped = (callsAfterHandshake) => {
-    jest.advanceTimersByTime(20000);
+    vi.advanceTimersByTime(20000);
     expect(postMessageSpy).toHaveBeenCalledTimes(callsAfterHandshake);
     expect(consoleErrorSpy).not.toHaveBeenCalled();
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
@@ -59,12 +62,13 @@ describe("scratch handshake retries", () => {
   };
 
   beforeEach(() => {
-    jest.useFakeTimers();
-    jest.resetModules();
+    vi.useFakeTimers();
+    vi.resetModules();
+    createRoot.mockClear();
     mockRenderRoot.mockClear();
     process.env = {
       ...originalEnv,
-      ASSETS_URL: "https://assets.example.com",
+      REACT_APP_SCRATCH_FRAME_URL: "https://scratch-frame.example.com",
     };
 
     document.body.innerHTML =
@@ -75,23 +79,23 @@ describe("scratch handshake retries", () => {
       "/scratch.html?project_id=project-123&api_url=https://api.example.com",
     );
 
-    postMessageSpy = jest.spyOn(window.parent, "postMessage");
-    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    postMessageSpy = vi.spyOn(window.parent, "postMessage");
+    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
 
-    removeEventListenerSpy = jest.spyOn(window, "removeEventListener");
+    removeEventListenerSpy = vi.spyOn(window, "removeEventListener");
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    vi.runOnlyPendingTimers();
+    vi.useRealTimers();
     process.env = originalEnv;
     postMessageSpy.mockRestore();
     consoleErrorSpy.mockRestore();
     removeEventListenerSpy.mockRestore();
   });
 
-  test("retries ready handshake until timeout then stops", () => {
-    loadScratchModule();
+  test("retries ready handshake until timeout then stops", async () => {
+    await loadScratchModule();
 
     expect(postMessageSpy).toHaveBeenCalledTimes(1);
 
@@ -103,12 +107,12 @@ describe("scratch handshake retries", () => {
     );
 
     const callsAtTimeout = postMessageSpy.mock.calls.length;
-    jest.advanceTimersByTime(5000);
+    vi.advanceTimersByTime(5000);
     expect(postMessageSpy).toHaveBeenCalledTimes(callsAtTimeout);
   });
 
-  test("stops retries and mounts after valid token message", () => {
-    loadScratchModule();
+  test("stops retries and mounts after valid token message", async () => {
+    await loadScratchModule();
 
     const nonce = getHandshakeNonce();
     dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
@@ -118,7 +122,7 @@ describe("scratch handshake retries", () => {
   });
 
   test("passes accessToken as a prop", async () => {
-    loadScratchModule();
+    await loadScratchModule();
 
     const nonce = getHandshakeNonce();
     dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
@@ -129,14 +133,14 @@ describe("scratch handshake retries", () => {
     expect(scratchEditorComponent.props.accessToken).toBe("token-123");
   });
 
-  test("keeps retrying when auth is required but token is missing", () => {
-    loadScratchModule();
+  test("keeps retrying when auth is required but token is missing", async () => {
+    await loadScratchModule();
 
     const nonce = getHandshakeNonce();
     dispatchSetTokenMessage({ nonce, accessToken: null });
 
     const callsAfterNullToken = postMessageSpy.mock.calls.length;
-    jest.advanceTimersByTime(1000);
+    vi.advanceTimersByTime(1000);
     expect(postMessageSpy.mock.calls.length).toBeGreaterThan(
       callsAfterNullToken,
     );
@@ -147,8 +151,8 @@ describe("scratch handshake retries", () => {
     expectRetriesStopped(callsAfterOneRetry);
   });
 
-  test("logs auth-specific timeout error when auth is required but token never arrives", () => {
-    loadScratchModule();
+  test("logs auth-specific timeout error when auth is required but token never arrives", async () => {
+    await loadScratchModule();
 
     const nonce = getHandshakeNonce();
     dispatchSetTokenMessage({ nonce, accessToken: null });
@@ -159,8 +163,8 @@ describe("scratch handshake retries", () => {
     );
   });
 
-  test("removes message listener when handshake times out", () => {
-    loadScratchModule();
+  test("removes message listener when handshake times out", async () => {
+    await loadScratchModule();
     advanceToTimeout();
 
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
@@ -169,10 +173,9 @@ describe("scratch handshake retries", () => {
     );
   });
 
-  test("ignores late token messages after timeout", () => {
-    loadScratchModule();
+  test("ignores late token messages after timeout", async () => {
+    await loadScratchModule();
 
-    const { createRoot } = require("react-dom/client");
     const nonce = getHandshakeNonce();
 
     advanceToTimeout();

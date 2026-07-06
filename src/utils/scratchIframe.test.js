@@ -44,7 +44,7 @@ describe("scratchIframe", () => {
     beforeEach(() => {
       process.env = {
         ...originalEnv,
-        ASSETS_URL: "https://assets.example.com",
+        REACT_APP_SCRATCH_FRAME_URL: "https://scratch-frame.example.com",
       };
     });
 
@@ -58,34 +58,36 @@ describe("scratchIframe", () => {
       expect(mockPostMessage).toHaveBeenCalledTimes(1);
       expect(mockPostMessage).toHaveBeenCalledWith(
         message,
-        "https://assets.example.com",
+        "https://scratch-frame.example.com",
       );
     });
 
-    it("uses only the origin when ASSETS_URL includes a path", () => {
+    it("uses only the origin when REACT_APP_SCRATCH_FRAME_URL includes a path", () => {
       process.env = {
         ...originalEnv,
-        ASSETS_URL: "https://assets.example.com/branches/main",
+        REACT_APP_SCRATCH_FRAME_URL:
+          "https://scratch-frame.example.com/branches/main",
       };
       const message = { type: "scratch-gui-download", filename: "cool.sb3" };
       postMessageToScratchIframe(message);
       expect(mockPostMessage).toHaveBeenCalledTimes(1);
       expect(mockPostMessage).toHaveBeenCalledWith(
         message,
-        "https://assets.example.com",
+        "https://scratch-frame.example.com",
       );
     });
   });
 
   describe("subscribeToScratchProjectIdentifierUpdates", () => {
-    const originalAssetsUrl = process.env.ASSETS_URL;
+    const originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
 
     beforeEach(() => {
-      process.env.ASSETS_URL = "https://assets.example.com";
+      process.env.REACT_APP_SCRATCH_FRAME_URL =
+        "https://scratch-frame.example.com";
     });
 
     afterEach(() => {
-      process.env.ASSETS_URL = originalAssetsUrl;
+      process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
     });
 
     it("calls the handler with the updated project id", () => {
@@ -94,7 +96,7 @@ describe("scratchIframe", () => {
 
       window.dispatchEvent(
         new MessageEvent("message", {
-          origin: "https://assets.example.com",
+          origin: "https://scratch-frame.example.com",
           data: {
             type: "scratch-gui-project-id-updated",
             projectId: "project-456",
@@ -106,14 +108,15 @@ describe("scratchIframe", () => {
       unsubscribe();
     });
 
-    it("accepts updates when ASSETS_URL contains a path", () => {
-      process.env.ASSETS_URL = "https://assets.example.com/branches/main";
+    it("accepts updates when REACT_APP_SCRATCH_FRAME_URL contains a path", () => {
+      process.env.REACT_APP_SCRATCH_FRAME_URL =
+        "https://scratch-frame.example.com/branches/main";
       const handler = jest.fn();
       const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
 
       window.dispatchEvent(
         new MessageEvent("message", {
-          origin: "https://assets.example.com",
+          origin: "https://scratch-frame.example.com",
           data: {
             type: "scratch-gui-project-id-updated",
             projectId: "project-789",
@@ -141,7 +144,7 @@ describe("scratchIframe", () => {
 
       window.dispatchEvent(
         new MessageEvent("message", {
-          origin: "https://assets.example.com",
+          origin: "https://scratch-frame.example.com",
           data: {
             type: "scratch-gui-saving-succeeded",
           },
@@ -160,12 +163,15 @@ describe("scratchIframe", () => {
       process.env = originalEnv;
     });
 
-    it("returns origin when ASSETS_URL contains a path", () => {
+    it("returns origin when REACT_APP_SCRATCH_FRAME_URL contains a path", () => {
       process.env = {
         ...originalEnv,
-        ASSETS_URL: "https://assets.example.com/branches/main",
+        REACT_APP_SCRATCH_FRAME_URL:
+          "https://scratch-frame.example.com/branches/main",
       };
-      expect(getScratchAllowedOrigin()).toBe("https://assets.example.com");
+      expect(getScratchAllowedOrigin()).toBe(
+        "https://scratch-frame.example.com",
+      );
     });
   });
 

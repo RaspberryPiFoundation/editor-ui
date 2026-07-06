@@ -80,10 +80,13 @@ jobs:
         env:
           JEST_JUNIT_OUTPUT_DIR: ./coverage/
           REACT_APP_API_ENDPOINT: http://localhost:3009
+          REACT_APP_SCRATCH_FRAME_URL: "http://scratch-frame.example.com"
       - name: Record coverage
         run: ./.github/workflows/record_coverage
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Run Scratch Frame tests
+        run: yarn run test:scratch-frame
 
   test-cypress:
     runs-on: ubuntu-latest
@@ -111,8 +114,8 @@ jobs:
         with:
           install: false
           start: |
-            yarn start
-          wait-on: "http://localhost:3011"
+            yarn start:all
+          wait-on: "http://localhost:3011, http://localhost:3014/scratch.html"
           quiet: true
           config-file: cypress.config.mjs
           browser: chrome
@@ -121,6 +124,8 @@ jobs:
           PUBLIC_URL: "http://localhost:3011"
           ASSETS_URL: "http://localhost:3011"
           REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
+          CSP_API_MULTIPLE_ORIGINS: "http://localhost:3011,http://localhost:3009"
+          REACT_APP_SCRATCH_FRAME_URL: "http://localhost:3014"
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v4.6.0

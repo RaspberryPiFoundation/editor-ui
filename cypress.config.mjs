@@ -111,5 +111,6 @@ export default defineConfig({
   },
   env: {
     REACT_APP_API_ENDPOINT: process.env.REACT_APP_API_ENDPOINT,
+    REACT_APP_SCRATCH_FRAME_URL: process.env.REACT_APP_SCRATCH_FRAME_URL,
   },
 });

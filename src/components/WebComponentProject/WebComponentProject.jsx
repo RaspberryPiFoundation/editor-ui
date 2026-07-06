@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
@@ -25,6 +25,18 @@ import {
   runStartedEvent,
   stepChangedEvent,
 } from "../../events/WebComponentCustomEvents";
+import {
+  endRunEventCycle,
+  handleRunEndedForEventCycle,
+  scheduleRunEventCycle,
+} from "./runEventCodeSnapshot";
+import {
+  getPrevCodeRunTriggered,
+  setPrevCodeRunTriggered,
+  syncRunEventTrackingProject,
+} from "./runEventTrackingState";
+
+export { resetCodeRunEventTracking } from "./runEventTrackingState";
 
 const WebComponentProject = ({
   withProjectbar = false,
@@ -50,10 +62,13 @@ const WebComponentProject = ({
     (state) => state.editor.codeRunTriggered,
   );
 
-  const error = useSelector((state) => state.editor.error);
+  const error = useSelector((state) => state.editor.error) ?? "";
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const friendlyError = useSelector((state) => state.editor.friendlyError);
-  const codeHasBeenRun = useSelector((state) => state.editor.codeHasBeenRun);
+  const projectComponents = useSelector(
+    (state) => state.editor.project.components,
+  );
+  const readOnly = useSelector((state) => state.editor.readOnly);
   const projectInstructions = useSelector(
     (state) => state.editor.project.instructions,
   );
@@ -64,10 +79,32 @@ const WebComponentProject = ({
     (state) => state.instructions.permitOverride,
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const [codeHasRun, setCodeHasRun] = useState(codeHasBeenRun);
-  const prevCodeRunTriggeredRef = useRef(false);
   const dispatch = useDispatch();
   const renderer = new marked.Renderer();
+
+  const buildRunCompletedPayloadRef = useRef(() => ({}));
+  buildRunCompletedPayloadRef.current = () => {
+    const mz_criteria = Sk.sense_hat
+      ? Sk.sense_hat.mz_criteria
+      : { ...defaultMZCriteria };
+
+    return outputOnly
+      ? {
+          errorDetails,
+          step: currentStepPosition,
+          projectIdentifier,
+          projectType,
+        }
+      : {
+          isErrorFree: error === "",
+          step: currentStepPosition,
+          errorDetails,
+          friendlyErrorShown: Boolean(friendlyError?.html),
+          projectIdentifier,
+          projectType,
+          ...mz_criteria,
+        };
+  };
 
   useEffect(() => {
     dispatch(setIsSplitView(outputSplitView));
@@ -77,7 +114,6 @@ const WebComponentProject = ({
   }, [editableInstructions, outputSplitView, outputOnly, dispatch]);
 
   useEffect(() => {
-    setCodeHasRun(false);
     const timeout = setTimeout(() => {
       document.dispatchEvent(codeChangedEvent({ step: currentStepPosition }));
     }, 2000);
@@ -122,47 +158,51 @@ const WebComponentProject = ({
   }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
-    if (codeRunTriggered && !prevCodeRunTriggeredRef.current) {
-      document.dispatchEvent(
-        runStartedEvent({
-          step: currentStepPosition,
-          projectIdentifier,
-          projectType,
-        }),
-      );
-      setCodeHasRun(true);
-    }
-    prevCodeRunTriggeredRef.current = codeRunTriggered;
-  }, [codeRunTriggered, currentStepPosition, projectIdentifier, projectType]);
+    syncRunEventTrackingProject(projectIdentifier, codeRunTriggered);
+  }, [projectIdentifier, codeRunTriggered]);
 
   useEffect(() => {
-    if (!codeRunTriggered && codeHasRun) {
-      const mz_criteria = Sk.sense_hat
-        ? Sk.sense_hat.mz_criteria
-        : { ...defaultMZCriteria };
+    const wasTriggered = getPrevCodeRunTriggered();
 
-      const payload = outputOnly
-        ? {
-            errorDetails,
-            step: currentStepPosition,
-            projectIdentifier,
-            projectType,
-          }
-        : {
-            isErrorFree: error === "",
-            step: currentStepPosition,
-            errorDetails,
-            friendlyErrorShown: Boolean(friendlyError?.html),
-            projectIdentifier,
-            projectType,
-            ...mz_criteria,
-          };
-
-      document.dispatchEvent(runCompletedEvent(payload));
+    if (codeRunTriggered && !wasTriggered) {
+      scheduleRunEventCycle(
+        projectIdentifier,
+        projectComponents,
+        { bypassSnapshot: readOnly },
+        {
+          onRunStarted: () => {
+            document.dispatchEvent(
+              runStartedEvent({
+                step: currentStepPosition,
+                projectIdentifier,
+                projectType,
+              }),
+            );
+          },
+          onRunCompletedIfRunAlreadyEnded: () => {
+            document.dispatchEvent(
+              runCompletedEvent(buildRunCompletedPayloadRef.current()),
+            );
+          },
+        },
+      );
     }
+
+    if (!codeRunTriggered && wasTriggered) {
+      handleRunEndedForEventCycle({
+        onRunCompleted: () => {
+          document.dispatchEvent(
+            runCompletedEvent(buildRunCompletedPayloadRef.current()),
+          );
+        },
+      });
+
+      endRunEventCycle();
+    }
+
+    setPrevCodeRunTriggered(codeRunTriggered);
   }, [
     codeRunTriggered,
-    codeHasRun,
     outputOnly,
     error,
     errorDetails,
@@ -170,6 +210,8 @@ const WebComponentProject = ({
     currentStepPosition,
     projectIdentifier,
     projectType,
+    readOnly,
+    projectComponents,
   ]);
 
   useEffect(() => {

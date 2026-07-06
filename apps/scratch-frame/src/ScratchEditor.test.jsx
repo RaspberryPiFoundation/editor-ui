@@ -1,20 +1,25 @@
+import React from "react";
 import { render, cleanup, act } from "@testing-library/react";
 import ScratchEditor, {
   SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
 } from "./ScratchEditor.jsx";
 
-const mockWrappedScratchGui = jest.fn();
-const mockScratchProjectSave = jest.fn();
+const { mockWrappedScratchGui, mockScratchProjectSave } = vi.hoisted(() => ({
+  mockWrappedScratchGui: vi.fn(),
+  mockScratchProjectSave: vi.fn(),
+}));
 
-jest.mock("../../utils/scratchProjectSave.js", () => ({
+vi.mock("./utils/scratchProjectSave.js", () => ({
   __esModule: true,
   default: (params) => mockScratchProjectSave(params),
 }));
 
-jest.mock("./WrappedScratchGui.jsx", () => (props) => {
-  mockWrappedScratchGui(props);
-  return <div data-testid="wrapped-scratch-gui" />;
-});
+vi.mock("./WrappedScratchGui.jsx", () => ({
+  default: (props) => {
+    mockWrappedScratchGui(props);
+    return <div data-testid="wrapped-scratch-gui" />;
+  },
+}));
 
 describe("ScratchEditor", () => {
   afterEach(() => {
@@ -56,7 +61,7 @@ describe("ScratchEditor", () => {
     const scratchGuiProps = mockWrappedScratchGui.mock.calls[0][0];
     const scratchStorage = {
       scratchFetch: {
-        setMetadata: jest.fn(),
+        setMetadata: vi.fn(),
       },
     };
 
@@ -93,7 +98,7 @@ describe("ScratchEditor", () => {
     const scratchGuiProps = mockWrappedScratchGui.mock.calls[0][0];
     const scratchStorage = {
       scratchFetch: {
-        setMetadata: jest.fn(),
+        setMetadata: vi.fn(),
       },
     };
 

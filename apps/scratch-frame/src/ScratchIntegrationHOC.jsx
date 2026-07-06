@@ -2,13 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { saveAs } from "file-saver";
-import {
-  remixProject,
-  manualUpdateProject,
-  setStageSize,
-} from "@RaspberryPiFoundation/scratch-gui";
-import { allowedIframeHost } from "../../utils/iframeUtils";
-import { postScratchGuiEvent } from "./events.js";
+import { allowedIframeHost } from "./utils/iframeUtils";
+import { postScratchGuiEvent } from "./utils/events.js";
+
+const ScratchGui = window.GUI;
 
 const ScratchIntegrationHOC = function (WrappedComponent) {
   class ScratchIntegrationComponent extends React.Component {
@@ -123,9 +120,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
   });
 
   const mapDispatchToProps = (dispatch) => ({
-    onClickRemix: () => dispatch(remixProject()),
-    onClickSave: () => dispatch(manualUpdateProject()),
-    setStageSize: () => dispatch(setStageSize("small")),
+    onClickRemix: () => dispatch(ScratchGui.remixProject()),
+    onClickSave: () => dispatch(ScratchGui.manualUpdateProject()),
+    setStageSize: () => dispatch(ScratchGui.setStageSize("small")),
   });
 
   ScratchIntegrationComponent.propTypes = {

@@ -16,6 +16,7 @@ import { MemoryRouter } from "react-router-dom";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../utils/mediaQueryBreakpoints";
 import {
+  MSG_HTML_PREVIEW_EVENT,
   MSG_HTML_PREVIEW_READY,
   MSG_HTML_PROJECT_UPDATE,
 } from "../../../../utils/iframeUtils";
@@ -442,5 +443,77 @@ describe("When run is triggered", () => {
       const runButtonContainer = runButton.parentElement.parentElement;
       expect(runButtonContainer).toHaveClass("react-tabs__tab-container");
     });
+  });
+});
+
+describe("iframe message listener", () => {
+  const htmlRunnerState = {
+    project: {
+      components: [indexPage],
+    },
+    focussedFileIndices: [0],
+    openFiles: [["index.html"]],
+    codeHasBeenRun: true,
+    errorModalShowing: false,
+  };
+
+  const renderHtmlRunner = (store) =>
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <div id="app">
+            <HtmlRunner />
+          </div>
+        </MemoryRouter>
+      </Provider>,
+    );
+
+  test("does not handle preview messages after unmount", () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({ editor: htmlRunnerState });
+    const { unmount } = renderHtmlRunner(store);
+    const actionsAfterMount = store.getActions().length;
+
+    unmount();
+
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          data: {
+            type: MSG_HTML_PREVIEW_EVENT,
+            msg: "RELOAD",
+            payload: { linkTo: "index" },
+          },
+        }),
+      );
+    });
+
+    expect(store.getActions().length).toBe(actionsAfterMount);
+  });
+
+  test("dispatches triggerCodeRun once per RELOAD message after remount", () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({ editor: htmlRunnerState });
+    const first = renderHtmlRunner(store);
+    first.unmount();
+
+    renderHtmlRunner(store);
+
+    act(() => {
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          data: {
+            type: MSG_HTML_PREVIEW_EVENT,
+            msg: "RELOAD",
+            payload: { linkTo: "index" },
+          },
+        }),
+      );
+    });
+
+    const runActions = store
+      .getActions()
+      .filter((action) => action.type === triggerCodeRun().type);
+    expect(runActions).toHaveLength(1);
   });
 });

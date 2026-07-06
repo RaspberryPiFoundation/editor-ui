@@ -14,5 +14,6 @@ RUN corepack enable
 RUN chsh -s $(which zsh) ${USER}
 
 EXPOSE 3011
+EXPOSE 3014
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start:all"]
