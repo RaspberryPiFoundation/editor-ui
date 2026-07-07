@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Modal } from "@raspberrypifoundation/design-system-react";
 import SidebarPanel from "../SidebarPanel";
 
 import "../../../../assets/stylesheets/InfoPanel.scss";
@@ -24,6 +26,10 @@ const feedbackUrl = (url) => {
 
 const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
   const { t } = useTranslation();
+  const [isLicensesModalOpen, setIsLicensesModalOpen] = useState(false);
+  const projectType = useSelector((state) => state.editor.project.project_type);
+  const isScratchProject = projectType === "code_editor_scratch";
+
   const links = [
     {
       id: "help",
@@ -74,8 +80,28 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
             {link.text}
           </a>
         ))}
+        {isScratchProject && (
+          <button
+            type="button"
+            className="info-panel__link"
+            onClick={() => setIsLicensesModalOpen(true)}
+          >
+            {t("sidebar.licenses")}
+          </button>
+        )}
         <p>{t("sidebar.charity")}</p>
       </div>
+
+      {isScratchProject && (
+        <Modal
+          isOpen={isLicensesModalOpen}
+          setIsOpen={setIsLicensesModalOpen}
+          heading={t("sidebar.licenses")}
+          showCloseButton
+        >
+          <p>Hello, this is a test modal content.</p>
+        </Modal>
+      )}
     </SidebarPanel>
   );
 };
