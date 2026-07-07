@@ -403,4 +403,23 @@ describe("useScratchSaveState", () => {
 
     expect(getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
   });
+
+  test("beforeunload warns during the debounce window before auto-save fires", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+    expect(getOwnerAutoSaveHostApi().hasPendingAutoSave()).toBe(false);
+    expect(getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
+
+    const beforeUnloadEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(beforeUnloadEvent);
+
+    expect(beforeUnloadEvent.defaultPrevented).toBe(true);
+  });
 });
