@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useEffectEvent, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   isOwner,
@@ -81,31 +81,6 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       },
     );
 
-  const hasPendingAutoSave = () => {
-    const currentProject = projectRef.current;
-    const currentUser = userRef.current;
-
-    return (
-      isOwner(currentUser, currentProject) &&
-      currentProject?.identifier &&
-      hasProjectChanged() &&
-      (queuedRef.current ||
-        inFlightRef.current ||
-        getRemainingAutoSaveCooldownMs() > 0)
-    );
-  };
-
-  const shouldFlushBeforeNavigation = () => {
-    const currentProject = projectRef.current;
-    const currentUser = userRef.current;
-
-    return (
-      isOwner(currentUser, currentProject) &&
-      currentProject?.identifier &&
-      hasProjectChanged()
-    );
-  };
-
   const waitForPendingSave = () => {
     if (savingRef.current !== "pending") {
       return Promise.resolve();
@@ -126,40 +101,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     }
   };
 
-  const startOwnerAutoSave = () => {
-    const currentProject = projectRef.current;
-    const currentUser = userRef.current;
-
-    inFlightRef.current = true;
-
-    const savePromise = Promise.resolve(
-      dispatch(
-        syncProject("save")({
-          reactAppApiEndpoint,
-          project: currentProject,
-          accessToken: currentUser.access_token,
-          autosave: true,
-        }),
-      ),
-    )
-      .then(() => {
-        lastAutoSaveCompletedAtRef.current = Date.now();
-      })
-      .catch(() => {
-        queuedRef.current = true;
-        throw new Error("owner autosave failed");
-      })
-      .finally(() => {
-        inFlightRef.current = false;
-        inFlightSavePromiseRef.current = null;
-        flushQueuedSaveRef.current();
-      });
-
-    inFlightSavePromiseRef.current = savePromise;
-    return savePromise;
-  };
-
-  const flushQueuedSave = () => {
+  const flushQueuedSave = useEffectEvent(() => {
     if (!queuedRef.current || !hasProjectChanged()) {
       queuedRef.current = false;
       return;
@@ -174,21 +116,18 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     }
 
     if (getRemainingAutoSaveCooldownMs() > 0) {
-      scheduleCooldownFlushRef.current();
+      scheduleCooldownFlush();
       return;
     }
 
     queuedRef.current = false;
     startOwnerAutoSave().catch(() => {});
-  };
+  });
 
-  const flushQueuedSaveRef = useRef(flushQueuedSave);
-  flushQueuedSaveRef.current = flushQueuedSave;
-
-  const scheduleCooldownFlush = () => {
+  const scheduleCooldownFlush = useEffectEvent(() => {
     const remainingCooldown = getRemainingAutoSaveCooldownMs();
     if (remainingCooldown <= 0) {
-      flushQueuedSaveRef.current();
+      flushQueuedSave();
       return;
     }
 
@@ -198,18 +137,64 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
 
     cooldownTimerRef.current = setTimeout(() => {
       cooldownTimerRef.current = null;
-      flushQueuedSaveRef.current();
+      flushQueuedSave();
     }, remainingCooldown);
-  };
+  });
 
-  const scheduleCooldownFlushRef = useRef(scheduleCooldownFlush);
-  scheduleCooldownFlushRef.current = scheduleCooldownFlush;
+  const startOwnerAutoSave = useEffectEvent(() => {
+    inFlightRef.current = true;
 
-  const requestOwnerAutoSave = () => {
-    const currentProject = projectRef.current;
-    const currentUser = userRef.current;
+    const savePromise = Promise.resolve(
+      dispatch(
+        syncProject("save")({
+          reactAppApiEndpoint,
+          project: projectRef.current,
+          accessToken: userRef.current.access_token,
+          autosave: true,
+        }),
+      ),
+    )
+      .then(() => {
+        lastAutoSaveCompletedAtRef.current = Date.now();
+      })
+      .catch(() => {
+        queuedRef.current = true;
+        throw new Error("owner autosave failed");
+      })
+      .finally(() => {
+        inFlightRef.current = false;
+        inFlightSavePromiseRef.current = null;
+        flushQueuedSave();
+      });
 
-    if (!isOwner(currentUser, currentProject) || !currentProject?.identifier) {
+    inFlightSavePromiseRef.current = savePromise;
+    return savePromise;
+  });
+
+  const hasPendingAutoSave = useEffectEvent(() => {
+    return (
+      isOwner(userRef.current, projectRef.current) &&
+      projectRef.current?.identifier &&
+      hasProjectChanged() &&
+      (queuedRef.current ||
+        inFlightRef.current ||
+        getRemainingAutoSaveCooldownMs() > 0)
+    );
+  });
+
+  const shouldFlushBeforeNavigation = useEffectEvent(() => {
+    return (
+      isOwner(userRef.current, projectRef.current) &&
+      projectRef.current?.identifier &&
+      hasProjectChanged()
+    );
+  });
+
+  const requestOwnerAutoSave = useEffectEvent(() => {
+    if (
+      !isOwner(userRef.current, projectRef.current) ||
+      !projectRef.current?.identifier
+    ) {
       return;
     }
 
@@ -228,19 +213,19 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
 
     if (getRemainingAutoSaveCooldownMs() > 0) {
       queuedRef.current = true;
-      scheduleCooldownFlushRef.current();
+      scheduleCooldownFlush();
       return;
     }
 
     queuedRef.current = false;
     startOwnerAutoSave().catch(() => {});
-  };
+  });
 
-  const flushPendingAutoSave = async () => {
-    const currentProject = projectRef.current;
-    const currentUser = userRef.current;
-
-    if (!isOwner(currentUser, currentProject) || !currentProject?.identifier) {
+  const flushPendingAutoSave = useEffectEvent(async () => {
+    if (
+      !isOwner(userRef.current, projectRef.current) ||
+      !projectRef.current?.identifier
+    ) {
       return;
     }
 
@@ -264,16 +249,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
 
     queuedRef.current = false;
     return startOwnerAutoSave();
-  };
-
-  const flushPendingAutoSaveRef = useRef(flushPendingAutoSave);
-  flushPendingAutoSaveRef.current = flushPendingAutoSave;
-
-  const hasPendingAutoSaveRef = useRef(hasPendingAutoSave);
-  hasPendingAutoSaveRef.current = hasPendingAutoSave;
-
-  const shouldFlushBeforeNavigationRef = useRef(shouldFlushBeforeNavigation);
-  shouldFlushBeforeNavigationRef.current = shouldFlushBeforeNavigation;
+  });
 
   // Resume flush waiters when a Redux save (manual or autosave) leaves pending.
   useEffect(() => {
@@ -287,18 +263,17 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   // Register host API and page lifecycle handlers on mount.
   useEffect(() => {
     registerOwnerAutoSaveHostApi({
-      hasPendingAutoSave: () => hasPendingAutoSaveRef.current(),
-      flushPendingAutoSave: () => flushPendingAutoSaveRef.current(),
-      shouldFlushBeforeNavigation: () =>
-        shouldFlushBeforeNavigationRef.current(),
+      hasPendingAutoSave,
+      flushPendingAutoSave,
+      shouldFlushBeforeNavigation,
     });
 
     const handlePageHide = () => {
-      flushPendingAutoSaveRef.current();
+      flushPendingAutoSave();
     };
 
     const handleBeforeUnload = (event) => {
-      if (!shouldFlushBeforeNavigationRef.current()) {
+      if (!shouldFlushBeforeNavigation()) {
         return;
       }
 
@@ -313,9 +288,11 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       window.removeEventListener("pagehide", handlePageHide);
       window.removeEventListener("beforeunload", handleBeforeUnload);
       clearCooldownTimer();
-      flushPendingAutoSaveRef.current();
+      flushPendingAutoSave();
       clearOwnerAutoSaveHostApi();
     };
+    // useEffectEvent callbacks are stable and always invoke the latest logic.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Retry queued autosave when a Python code run finishes.
@@ -324,8 +301,9 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     prevCodeRunInProgressRef.current = codeRunInProgress;
 
     if (wasInProgress && !codeRunInProgress) {
-      flushQueuedSaveRef.current();
+      flushQueuedSave();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [codeRunInProgress]);
 
   return {
