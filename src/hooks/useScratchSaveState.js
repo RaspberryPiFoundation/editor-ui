@@ -261,6 +261,7 @@ export const useScratchSaveState = ({
       clearAutoSaveTimeout();
       clearCooldownTimer();
       clearQueue();
+      projectDirtyRef.current = false;
     }
   }, [autoSaveEnabled, enabled]);
 
@@ -308,7 +309,9 @@ export const useScratchSaveState = ({
       window.removeEventListener("beforeunload", handleBeforeUnload);
       clearCooldownTimer();
       clearAutoSaveTimeout();
-      flushPendingAutoSave();
+      if (projectDirtyRef.current) {
+        flushPendingAutoSave();
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);

@@ -77,6 +77,10 @@ const dispatchScratchMessageEvent = (type, origin = scratchOrigin) => {
   );
 };
 
+const dispatchScratchUserEdit = () => {
+  dispatchScratchMessage("scratch-gui-project-changed");
+};
+
 describe("useScratchSaveState", () => {
   const originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
 
@@ -130,10 +134,25 @@ describe("useScratchSaveState", () => {
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
   });
 
+  test("auto-saves 2 seconds after scratch-gui-ready without suppressing the first edit", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchUserEdit();
+    dispatchScratchMessage("scratch-gui-ready");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
+  });
+
   test("auto-saves 2 seconds after a Scratch project change", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1999);
@@ -153,7 +172,7 @@ describe("useScratchSaveState", () => {
   test("does not reset a scheduled auto-save after repeated Scratch project changes", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -181,7 +200,7 @@ describe("useScratchSaveState", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-saving-started");
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -210,7 +229,7 @@ describe("useScratchSaveState", () => {
       autoSaveEnabled: true,
     });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(2000);
@@ -269,7 +288,7 @@ describe("useScratchSaveState", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-saving-started");
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -317,7 +336,7 @@ describe("useScratchSaveState", () => {
   test("queues autosave during cooldown after a successful auto-save", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(2000);
@@ -345,7 +364,7 @@ describe("useScratchSaveState", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-project-run-started");
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(2000);
@@ -367,7 +386,7 @@ describe("useScratchSaveState", () => {
   test("flushPendingAutoSave bypasses cooldown", async () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(2000);
@@ -399,7 +418,7 @@ describe("useScratchSaveState", () => {
   test("registers scratch flush state with the host API", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     expect(getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
   });
@@ -407,7 +426,7 @@ describe("useScratchSaveState", () => {
   test("beforeunload warns during the debounce window before auto-save fires", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);

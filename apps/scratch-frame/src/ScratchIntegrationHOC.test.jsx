@@ -42,6 +42,8 @@ describe("ScratchIntegrationHOC", () => {
     store = mockStore({
       scratchGui: {
         vm: mockVm,
+        projectState: { loadingState: "SHOWING_WITH_ID" },
+        projectChanged: false,
       },
     });
     const Dummy = () =>
@@ -126,6 +128,92 @@ describe("ScratchIntegrationHOC", () => {
     });
 
     describe("Scratch VM project changes", () => {
+      it("does not post project-changed while the project is loading", () => {
+        const loadingStore = mockStore({
+          scratchGui: {
+            vm: mockVm,
+            projectState: { loadingState: "LOADING_VM_WITH_ID" },
+            projectChanged: true,
+          },
+        });
+
+        render(
+          React.createElement(
+            Provider,
+            { store: loadingStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        getVmHandler("PROJECT_CHANGED")();
+
+        expect(postScratchGuiEvent).not.toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+      });
+
+      it("posts a project-changed event after the initial load has settled", () => {
+        const loadingStore = mockStore({
+          scratchGui: {
+            vm: mockVm,
+            projectState: { loadingState: "LOADING_VM_WITH_ID" },
+            projectChanged: true,
+          },
+        });
+
+        const { rerender } = render(
+          React.createElement(
+            Provider,
+            { store: loadingStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        getVmHandler("PROJECT_CHANGED")();
+        expect(postScratchGuiEvent).not.toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+
+        const settledStore = mockStore({
+          scratchGui: {
+            vm: mockVm,
+            projectState: { loadingState: "SHOWING_WITH_ID" },
+            projectChanged: true,
+          },
+        });
+
+        rerender(
+          React.createElement(
+            Provider,
+            { store: settledStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        const loadedStore = mockStore({
+          scratchGui: {
+            vm: mockVm,
+            projectState: { loadingState: "SHOWING_WITH_ID" },
+            projectChanged: false,
+          },
+        });
+
+        rerender(
+          React.createElement(
+            Provider,
+            { store: loadedStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        postScratchGuiEvent.mockClear();
+        getVmHandler("PROJECT_CHANGED")();
+
+        expect(postScratchGuiEvent).toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+      });
+
       it("posts a project-changed event to the parent window", () => {
         render(
           React.createElement(

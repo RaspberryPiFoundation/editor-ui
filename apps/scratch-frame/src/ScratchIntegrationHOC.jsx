@@ -7,11 +7,24 @@ import { postScratchGuiEvent } from "./utils/events.js";
 
 const ScratchGui = window.GUI;
 
+const SCRATCH_LOADING_VM_STATES = new Set([
+  "LOADING_VM_FILE_UPLOAD",
+  "LOADING_VM_WITH_ID",
+  "LOADING_VM_NEW_DEFAULT",
+]);
+
+const isScratchProjectLoading = (loadingState) =>
+  SCRATCH_LOADING_VM_STATES.has(loadingState);
+
+const isScratchProjectShowingWithId = (loadingState) =>
+  loadingState === "SHOWING_WITH_ID";
+
 const ScratchIntegrationHOC = function (WrappedComponent) {
   class ScratchIntegrationComponent extends React.Component {
     constructor(props) {
       super(props);
 
+      this.loadSettled = false;
       this.handleMessage = this.handleMessage.bind(this);
       this.handleDownload = this.handleDownload.bind(this);
       this.handleUpload = this.handleUpload.bind(this);
@@ -20,6 +33,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.handleProjectChanged = this.handleProjectChanged.bind(this);
       this.handleProjectRunStart = this.handleProjectRunStart.bind(this);
       this.handleProjectRunStop = this.handleProjectRunStop.bind(this);
+      this.syncLoadSettled = this.syncLoadSettled.bind(this);
     }
     componentDidMount() {
       window.addEventListener("message", this.handleMessage);
@@ -27,6 +41,32 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.vm.on("PROJECT_RUN_START", this.handleProjectRunStart);
       this.props.vm.on("PROJECT_RUN_STOP", this.handleProjectRunStop);
       this.props.setStageSize();
+      this.syncLoadSettled(null);
+    }
+    componentDidUpdate(prevProps) {
+      this.syncLoadSettled(prevProps);
+    }
+    // Scratch fires PROJECT_CHANGED during load, before setProjectUnchanged runs.
+    // Wait until the project is showing and that initial dirty spell has cleared.
+    syncLoadSettled(prevProps) {
+      const { isLoading, isShowingWithId, projectChanged } = this.props;
+      const prev = prevProps || {};
+
+      if (isLoading || !isShowingWithId) {
+        this.loadSettled = false;
+        return;
+      }
+
+      if (this.loadSettled) {
+        return;
+      }
+
+      const loadJustFinished = !prev.isShowingWithId || prev.isLoading;
+      const projectMarkedUnchanged = prev.projectChanged && !projectChanged;
+
+      if (projectMarkedUnchanged || (loadJustFinished && !projectChanged)) {
+        this.loadSettled = true;
+      }
     }
     componentWillUnmount() {
       window.removeEventListener("message", this.handleMessage);
@@ -88,7 +128,10 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       file
         ?.arrayBuffer()
         ?.then((arrayBuffer) => this.props.loadProject(arrayBuffer))
-        ?.then(this.handleProjectChanged);
+        ?.then(() => {
+          this.loadSettled = true;
+          this.handleProjectChanged();
+        });
     }
     handleRemix() {
       this.props.onClickRemix();
@@ -97,6 +140,10 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.onClickSave();
     }
     handleProjectChanged() {
+      if (!this.loadSettled) {
+        return;
+      }
+
       postScratchGuiEvent("scratch-gui-project-changed");
     }
     handleProjectRunStart() {
@@ -120,13 +167,20 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
   }
 
-  const mapStateToProps = (state) => ({
-    saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(
-      state.scratchGui.vm,
-    ),
-    loadProject: state.scratchGui.vm.loadProject.bind(state.scratchGui.vm),
-    vm: state.scratchGui.vm,
-  });
+  const mapStateToProps = (state) => {
+    const loadingState = state.scratchGui.projectState?.loadingState;
+
+    return {
+      saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(
+        state.scratchGui.vm,
+      ),
+      loadProject: state.scratchGui.vm.loadProject.bind(state.scratchGui.vm),
+      vm: state.scratchGui.vm,
+      isLoading: isScratchProjectLoading(loadingState),
+      isShowingWithId: isScratchProjectShowingWithId(loadingState),
+      projectChanged: state.scratchGui.projectChanged,
+    };
+  };
 
   const mapDispatchToProps = (dispatch) => ({
     onClickRemix: () => dispatch(ScratchGui.remixProject()),
@@ -141,6 +195,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     onClickSave: PropTypes.func,
     setStageSize: PropTypes.func,
     vm: PropTypes.object,
+    isLoading: PropTypes.bool,
+    isShowingWithId: PropTypes.bool,
+    projectChanged: PropTypes.bool,
   };
   return connect(
     mapStateToProps,
