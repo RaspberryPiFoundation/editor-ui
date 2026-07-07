@@ -48,6 +48,23 @@ describe("ScratchEditor", () => {
     );
   });
 
+  test("disables the Scratch GUI's own beforeunload handler", () => {
+    render(
+      <ScratchEditor
+        projectId="project-123"
+        locale="en"
+        apiUrl="https://api.example.com"
+        accessToken="token-123"
+      />,
+    );
+
+    expect(mockWrappedScratchGui).toHaveBeenCalledWith(
+      expect.objectContaining({
+        noBeforeUnloadHandler: true,
+      }),
+    );
+  });
+
   test("routes project saves through scratchFetch metadata after storage init", async () => {
     render(
       <ScratchEditor

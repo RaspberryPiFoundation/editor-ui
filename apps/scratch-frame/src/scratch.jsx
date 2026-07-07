@@ -11,10 +11,10 @@ dedupeScratchWarnings();
 const appTarget = document.getElementById("app");
 const scratchLoading = document.getElementById("scratch-loading");
 
-if (import.meta.env.PROD && typeof window === "object") {
-  // Warn before navigating away
-  window.onbeforeunload = () => true;
-}
+// The parent editor owns unsaved-change warnings and navigation flushing
+// (see useScratchSaveState / useOwnerAutoSave). A beforeunload handler inside
+// the iframe fires on the iframe's own window when the parent removes it during
+// in-app navigation, producing a duplicate leave prompt, so we don't set one here.
 
 const searchParams = new URLSearchParams(window.location.search);
 const projectId = searchParams.get("project_id");

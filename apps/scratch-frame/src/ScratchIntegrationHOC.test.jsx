@@ -63,6 +63,8 @@ describe("ScratchIntegrationHOC", () => {
     delete window.GUI;
   });
 
+  const createStore = (scratchGui) => configureStore([])({ scratchGui });
+
   const getVmHandler = (eventName) =>
     mockVm.on.mock.calls.find(
       ([registeredEventName]) => registeredEventName === eventName,
@@ -129,12 +131,10 @@ describe("ScratchIntegrationHOC", () => {
 
     describe("Scratch VM project changes", () => {
       it("does not post project-changed while the project is loading", () => {
-        const loadingStore = mockStore({
-          scratchGui: {
-            vm: mockVm,
-            projectState: { loadingState: "LOADING_VM_WITH_ID" },
-            projectChanged: true,
-          },
+        const loadingStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "LOADING_VM_WITH_ID" },
+          projectChanged: true,
         });
 
         render(
@@ -153,12 +153,10 @@ describe("ScratchIntegrationHOC", () => {
       });
 
       it("posts a project-changed event after the initial load has settled", () => {
-        const loadingStore = mockStore({
-          scratchGui: {
-            vm: mockVm,
-            projectState: { loadingState: "LOADING_VM_WITH_ID" },
-            projectChanged: true,
-          },
+        const loadingStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "LOADING_VM_WITH_ID" },
+          projectChanged: true,
         });
 
         const { rerender } = render(
@@ -174,12 +172,10 @@ describe("ScratchIntegrationHOC", () => {
           "scratch-gui-project-changed",
         );
 
-        const settledStore = mockStore({
-          scratchGui: {
-            vm: mockVm,
-            projectState: { loadingState: "SHOWING_WITH_ID" },
-            projectChanged: true,
-          },
+        const settledStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "SHOWING_WITH_ID" },
+          projectChanged: true,
         });
 
         rerender(
@@ -190,12 +186,10 @@ describe("ScratchIntegrationHOC", () => {
           ),
         );
 
-        const loadedStore = mockStore({
-          scratchGui: {
-            vm: mockVm,
-            projectState: { loadingState: "SHOWING_WITH_ID" },
-            projectChanged: false,
-          },
+        const loadedStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "SHOWING_WITH_ID" },
+          projectChanged: false,
         });
 
         rerender(
