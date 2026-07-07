@@ -334,6 +334,63 @@ describe("useOwnerAutoSave", () => {
     });
   });
 
+  test("beforeunload warns when project has unsaved owner changes", () => {
+    renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    const beforeUnloadEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(beforeUnloadEvent);
+
+    expect(beforeUnloadEvent.defaultPrevented).toBe(true);
+  });
+
+  test("flushPendingAutoSave waits for a redux save in progress before saving again", async () => {
+    const { result, rerender } = renderHook(() =>
+      useOwnerAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    mockSaving = "pending";
+    rerender();
+
+    let flushPromise;
+    act(() => {
+      flushPromise = result.current.flushPendingAutoSave();
+    });
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+
+    mockSaving = "idle";
+    await act(async () => {
+      rerender();
+    });
+
+    await act(async () => {
+      resolveSave(saveAction);
+      await flushPromise;
+    });
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(saveProject).toHaveBeenCalledWith({
+      project: editedProject,
+      accessToken: user1.access_token,
+      autosave: true,
+      reactAppApiEndpoint: "http://example.com",
+    });
+  });
+
   test("flushPendingAutoSave waits for an in-flight save before saving again", async () => {
     const { result, rerender } = renderHook(() =>
       useOwnerAutoSave({

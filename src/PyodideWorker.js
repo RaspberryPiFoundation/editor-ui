@@ -66,14 +66,23 @@ const PyodideWorker = () => {
         await pyodide.runPython(python);
       });
     } catch (error) {
-      if (!(error instanceof pyodide.ffi.PythonError)) {
-        throw error;
+      if (error instanceof pyodide.ffi.PythonError) {
+        postMessage({ method: "handleError", ...parsePythonError(error) });
+      } else {
+        postMessage({
+          method: "handleError",
+          file: "main.py",
+          line: "",
+          mistake: "",
+          type: "RuntimeError",
+          info: error?.message || "Unexpected runtime error",
+          rawTraceback: String(error),
+        });
       }
-      postMessage({ method: "handleError", ...parsePythonError(error) });
+    } finally {
+      await clearPyodideData();
+      postMessage({ method: "handleRunComplete" });
     }
-
-    await clearPyodideData();
-    postMessage({ method: "handleRunComplete" });
   };
 
   const checkIfStopped = () => {

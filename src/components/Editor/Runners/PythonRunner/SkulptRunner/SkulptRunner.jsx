@@ -222,7 +222,6 @@ const SkulptRunner = ({
       input.removeAttribute("id");
       input.removeAttribute("contentEditable");
       dispatch(setError(t("output.errors.interrupted")));
-      dispatch(codeRunHandled());
     }
   }, [codeRunStopped]);
 

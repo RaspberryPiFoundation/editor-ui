@@ -31,6 +31,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const queuedRef = useRef(false);
   const inFlightRef = useRef(false);
   const inFlightSavePromiseRef = useRef(null);
+  const pendingSaveWaitersRef = useRef([]);
   const cooldownTimerRef = useRef(null);
   const lastAutoSaveCompletedAtRef = useRef(null);
   const savingRef = useRef(saving);
@@ -105,9 +106,23 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     );
   };
 
+  const waitForPendingSave = () => {
+    if (savingRef.current !== "pending") {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      pendingSaveWaitersRef.current.push(resolve);
+    });
+  };
+
   const waitForInFlightSave = async () => {
     if (inFlightSavePromiseRef.current) {
       await inFlightSavePromiseRef.current;
+    }
+
+    if (savingRef.current === "pending") {
+      await waitForPendingSave();
     }
   };
 
@@ -261,6 +276,14 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   shouldFlushBeforeNavigationRef.current = shouldFlushBeforeNavigation;
 
   useEffect(() => {
+    if (saving !== "pending") {
+      const waiters = pendingSaveWaitersRef.current;
+      pendingSaveWaitersRef.current = [];
+      waiters.forEach((resolve) => resolve());
+    }
+  }, [saving]);
+
+  useEffect(() => {
     registerOwnerAutoSaveHostApi({
       hasPendingAutoSave: () => hasPendingAutoSaveRef.current(),
       flushPendingAutoSave: () => flushPendingAutoSaveRef.current(),
@@ -288,7 +311,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     };
 
     const handleBeforeUnload = (event) => {
-      if (!hasPendingAutoSaveRef.current()) {
+      if (!shouldFlushBeforeNavigationRef.current()) {
         return;
       }
 

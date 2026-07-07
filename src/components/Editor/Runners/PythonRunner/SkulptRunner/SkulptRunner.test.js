@@ -6,7 +6,6 @@ import Sk from "skulpt";
 
 import SkulptRunner from "./SkulptRunner";
 import {
-  codeRunHandled,
   setError,
   setErrorDetails,
   triggerDraw,
@@ -165,12 +164,6 @@ describe("Testing stopping the code run with input", () => {
   test("Sets interruption error", () => {
     expect(store.getActions()).toEqual(
       expect.arrayContaining([setError("output.errors.interrupted")]),
-    );
-  });
-
-  test("Handles code run", () => {
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([codeRunHandled()]),
     );
   });
 });

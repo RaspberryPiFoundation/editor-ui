@@ -454,7 +454,7 @@ const EditorSlice = createSlice({
         state.project = action.payload.project;
         state.loading = "idle";
       }
-      syncInitialProjectSnapshot(state, state.project);
+      syncInitialProjectSnapshot(state, action.payload.project);
     });
     builder.addCase("editor/saveProject/rejected", (state) => {
       state.saving = "failed";

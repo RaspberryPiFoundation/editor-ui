@@ -277,7 +277,6 @@ const PyodideRunner = ({
     dispatch(setError(errorMessage));
     dispatch(setErrorDetails(errorDetails));
     disableInput();
-    dispatch(codeRunHandled());
   };
 
   const handleRunComplete = () => {
