@@ -1,7 +1,8 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
+import { configureStore } from "@reduxjs/toolkit";
+import configureMockStore from "redux-mock-store";
 import Sk from "skulpt";
 
 import SkulptRunner from "./SkulptRunner";
@@ -10,7 +11,11 @@ import {
   setErrorDetails,
   triggerDraw,
   setFriendlyError,
+  editorInitialState,
+  stopCodeRun,
+  triggerCodeRun,
 } from "../../../../../redux/EditorSlice";
+import editorReducer from "../../../../../redux/EditorSlice";
 import { SettingsContext } from "../../../../../utils/settings";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../../utils/mediaQueryBreakpoints";
@@ -41,7 +46,7 @@ describe("Testing basic input span functionality", () => {
 
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -97,7 +102,7 @@ describe("Testing basic input span functionality", () => {
 
 test("Input box not there when input function not called", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {
@@ -129,7 +134,7 @@ describe("Testing stopping the code run with input", () => {
   let store;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -168,11 +173,57 @@ describe("Testing stopping the code run with input", () => {
   });
 });
 
+describe("Stopping during input()", () => {
+  test("clears codeRunInProgress after rejecting the pending input promise", async () => {
+    const store = configureStore({
+      reducer: {
+        editor: editorReducer,
+        auth: (state = { user }) => state,
+      },
+      preloadedState: {
+        editor: {
+          ...editorInitialState,
+          project: {
+            components: [
+              {
+                name: "main",
+                extension: "py",
+                content: "input()",
+              },
+            ],
+            image_list: [],
+          },
+          loadedRunner: "skulpt",
+        },
+        auth: { user },
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+
+    store.dispatch(triggerCodeRun());
+
+    await waitFor(() => {
+      expect(document.getElementById("input")).toBeTruthy();
+    });
+
+    store.dispatch(stopCodeRun());
+
+    await waitFor(() => {
+      expect(store.getState().editor.codeRunInProgress).toBe(false);
+    });
+  });
+});
+
 describe("When an error occurs", () => {
   let store;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -289,7 +340,7 @@ describe("When an error originates in the sense_hat shim", () => {
   // environment.
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -352,7 +403,7 @@ describe("When an error has occurred", () => {
 
   beforeEach(() => {
     const middlewares = [];
-    mockStore = configureStore(middlewares);
+    mockStore = configureMockStore(middlewares);
     initialState = {
       editor: {
         project: {
@@ -405,7 +456,7 @@ describe("When there is an import error and the site is cross-origin isolated", 
   beforeEach(() => {
     window.crossOriginIsolated = true;
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -446,7 +497,7 @@ describe("When there is an import error and the site is cross-origin isolated", 
 
 //   beforeEach(() => {
 //     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
+//     const mockStore = configureMockStore(middlewares);
 //     const initialState = {
 //       editor: {
 //         project: {
@@ -492,7 +543,7 @@ describe("When in split view, py5 imported and code run", () => {
 
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -541,7 +592,7 @@ describe("When in split view, py5_imported imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -586,7 +637,7 @@ describe("When in split view, pygal imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -631,7 +682,7 @@ describe("When in split view, turtle imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -676,7 +727,7 @@ describe("When in split view, sense_hat imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -722,7 +773,7 @@ describe("When in split view, sense_hat imported and code run", () => {
 
 //   beforeEach(() => {
 //     const middlewares = [];
-//     const mockStore = configureStore(middlewares);
+//     const mockStore = configureMockStore(middlewares);
 //     const initialState = {
 //       editor: {
 //         project: {
@@ -768,7 +819,7 @@ describe("When in tabbed view, py5 imported and code run", () => {
 
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -817,7 +868,7 @@ describe("When in tabbed view, py5_imported imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -862,7 +913,7 @@ describe("When in tabbed view, pygal imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -907,7 +958,7 @@ describe("When in tabbed view, turtle imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -952,7 +1003,7 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
   let queryByText;
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -994,7 +1045,7 @@ describe("When in tabbed view, sense_hat imported and code run", () => {
 
 test("When embedded in split view with visual output does not render output view toggle", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {
@@ -1026,7 +1077,7 @@ test("When embedded in split view with visual output does not render output view
 
 test("When embedded in split view with no visual output does not render output view toggle", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {},
@@ -1049,7 +1100,7 @@ test("When embedded in split view with no visual output does not render output v
 
 test("When embedded in tabbed view does not render output view toggle", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {},
@@ -1071,7 +1122,7 @@ test("When embedded in tabbed view does not render output view toggle", () => {
 
 test("Tabbed view has text and visual tabs with same parent element", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {},
@@ -1095,7 +1146,7 @@ test("Tabbed view has text and visual tabs with same parent element", () => {
 
 test("Split view has text and visual tabs with different parent elements", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {},
@@ -1119,7 +1170,7 @@ test("Split view has text and visual tabs with different parent elements", () =>
 
 test("only displays text tab when outputPanels is set to just text", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {},
@@ -1141,7 +1192,7 @@ test("only displays text tab when outputPanels is set to just text", () => {
 
 test("only displays visual tab when outputPanels is set to just visual", () => {
   const middlewares = [];
-  const mockStore = configureStore(middlewares);
+  const mockStore = configureMockStore(middlewares);
   const initialState = {
     editor: {
       project: {},
@@ -1166,7 +1217,7 @@ describe("When font size is set", () => {
 
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {},
@@ -1201,7 +1252,7 @@ describe("When on desktop", () => {
       width: "1000px",
     });
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -1236,7 +1287,7 @@ describe("When on mobile and not embedded", () => {
       width: MOBILE_BREAKPOINT,
     });
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -1272,7 +1323,7 @@ describe("When on mobile and not embedded", () => {
 describe("When active and first loaded", () => {
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -1310,7 +1361,7 @@ describe("When active and first loaded", () => {
 describe("When not active", () => {
   beforeEach(() => {
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -1345,7 +1396,7 @@ describe("When not active and a code run has been triggered", () => {
   beforeEach(() => {
     Sk.misceval.asyncToPromise = jest.fn();
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const initialState = {
       editor: {
         project: {
@@ -1403,7 +1454,7 @@ describe("When turtle run setup is applied", () => {
     Sk.misceval.asyncToPromise = jest.fn(() => Promise.resolve());
 
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const store = mockStore({
       editor: {
         project: {
@@ -1448,7 +1499,7 @@ describe("When turtle run setup is applied", () => {
     });
 
     const middlewares = [];
-    const mockStore = configureStore(middlewares);
+    const mockStore = configureMockStore(middlewares);
     const store = mockStore({
       editor: {
         project: {
