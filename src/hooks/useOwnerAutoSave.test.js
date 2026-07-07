@@ -108,7 +108,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).not.toHaveBeenCalled();
@@ -124,7 +124,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(saveProject).toHaveBeenCalledWith({
@@ -150,13 +150,13 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
@@ -191,7 +191,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).not.toHaveBeenCalled();
@@ -209,7 +209,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).not.toHaveBeenCalled();
@@ -228,7 +228,7 @@ describe("useOwnerAutoSave", () => {
     rerender();
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).not.toHaveBeenCalled();
@@ -255,7 +255,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     await act(async () => {
@@ -264,7 +264,7 @@ describe("useOwnerAutoSave", () => {
     });
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
@@ -286,7 +286,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     await act(async () => {
@@ -295,7 +295,7 @@ describe("useOwnerAutoSave", () => {
     });
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
@@ -401,7 +401,7 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(1);
@@ -457,11 +457,11 @@ describe("useOwnerAutoSave", () => {
     );
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     act(() => {
-      result.current.requestOwnerAutoSave();
+      result.current.requestAutoSave();
     });
 
     await act(async () => {

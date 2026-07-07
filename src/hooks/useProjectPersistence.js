@@ -34,7 +34,7 @@ export const useProjectPersistence = ({
     (state) => state.editor.initialProjectInstructions,
   );
 
-  const { requestOwnerAutoSave } = useOwnerAutoSave({
+  const { requestAutoSave } = useOwnerAutoSave({
     user,
     project,
     reactAppApiEndpoint,
@@ -97,7 +97,7 @@ export const useProjectPersistence = ({
           if (justLoaded) {
             dispatch(expireJustLoaded());
           }
-          requestOwnerAutoSave();
+          requestAutoSave();
         } else {
           const projectChangedSinceInitialLoad =
             projectHasChangedSinceInitialLoad(project, initialComponents, {
@@ -123,5 +123,5 @@ export const useProjectPersistence = ({
     return () => clearTimeout(debouncer);
   }, [dispatch, project, user, hasShownSavePrompt, autoSaveInterval]); // eslint-disable-line react-hooks/exhaustive-deps
   // Disabling exhasutive dependencies linting rule because adding justLoaded to the dependency array
-  // triggers the save/login prompt too early. requestOwnerAutoSave reads latest state via refs.
+  // triggers the save/login prompt too early. requestAutoSave reads latest state via refs.
 };

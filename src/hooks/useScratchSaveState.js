@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useEffectEvent, useRef } from "react";
 import { useDispatch } from "react-redux";
 import {
   getScratchAllowedOrigin,
@@ -10,77 +10,109 @@ import {
   scratchSaveSucceeded,
 } from "../redux/EditorSlice";
 import {
+  AUTOSAVE_COOLDOWN_MS,
+  clearTimerRef,
+  getRemainingCooldownMs,
+  getRemainingDebounceMs,
+  hasOutstandingAutosaveWork,
+  isInAutosaveCooldown,
+} from "../utils/autoSaveScheduling";
+import {
   clearScratchAutoSaveHostApi,
   registerScratchAutoSaveHostApi,
 } from "../utils/ownerAutoSaveHostApi";
 
 const SCRATCH_AUTOSAVE_DELAY_MS = 2000;
-const SCRATCH_AUTOSAVE_COOLDOWN_MS = 10000;
 
+/**
+ * Scratch autosave state machine:
+ *
+ * - requestAutoSave: debounced autosave after project-changed, or queue when blocked/in cooldown.
+ * - flushQueuedSave: drains the queue when run/save/cooldown allows (may re-enter debounce).
+ * - flushPendingAutoSave: force-save for navigation/pagehide; bypasses cooldown, waits for
+ *   in-flight saves first.
+ *
+ * Blocked when: Scratch run in progress or a save is already in flight.
+ *
+ * hasPendingAutoSave: dirty and (queued | inFlight | in cooldown).
+ * shouldFlushBeforeNavigation: dirty only (navigation must save even during cooldown).
+ */
 export const useScratchSaveState = ({
   enabled = false,
   autoSaveEnabled = false,
 } = {}) => {
   const dispatch = useDispatch();
+  const schedulerRef = useRef({
+    queued: false,
+    inFlight: false,
+    lastCompletedAt: null,
+  });
   const autoSaveTimeoutRef = useRef(null);
   const cooldownTimerRef = useRef(null);
-  const saveInFlightRef = useRef(false);
   const inFlightSavePromiseRef = useRef(null);
   const inFlightSaveResolveRef = useRef(null);
   const inFlightSaveRejectRef = useRef(null);
   const currentSaveIsAutosaveRef = useRef(false);
   const autoSaveEnabledRef = useRef(false);
   const enabledRef = useRef(false);
-  const autoSaveQueuedAfterSaveRef = useRef(false);
   const projectChangedAtRef = useRef(null);
   const projectDirtyRef = useRef(false);
   const scratchRunInProgressRef = useRef(false);
-  const lastAutoSaveCompletedAtRef = useRef(null);
 
-  const getRemainingAutoSaveCooldownMs = () => {
-    if (lastAutoSaveCompletedAtRef.current == null) {
-      return 0;
-    }
+  const isEligibleForAutoSave = () =>
+    enabledRef.current && autoSaveEnabledRef.current;
 
-    return Math.max(
-      0,
-      lastAutoSaveCompletedAtRef.current +
-        SCRATCH_AUTOSAVE_COOLDOWN_MS -
-        Date.now(),
+  const isSaveBlocked = () =>
+    scratchRunInProgressRef.current || schedulerRef.current.inFlight;
+
+  const hasProjectChanged = () => projectDirtyRef.current;
+
+  const getRemainingAutoSaveCooldownMs = () =>
+    getRemainingCooldownMs(
+      schedulerRef.current.lastCompletedAt,
+      AUTOSAVE_COOLDOWN_MS,
     );
+
+  const clearAutoSaveTimeout = () => clearTimerRef(autoSaveTimeoutRef);
+
+  const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
+
+  const clearQueue = () => {
+    schedulerRef.current.queued = false;
   };
 
-  const clearAutoSaveTimeout = useCallback(() => {
-    if (autoSaveTimeoutRef.current) {
-      clearTimeout(autoSaveTimeoutRef.current);
-      autoSaveTimeoutRef.current = null;
+  const clearQueueIfUnchanged = () => {
+    if (!hasProjectChanged()) {
+      clearQueue();
+      return true;
     }
-  }, []);
 
-  const clearCooldownTimer = useCallback(() => {
-    if (cooldownTimerRef.current) {
-      clearTimeout(cooldownTimerRef.current);
-      cooldownTimerRef.current = null;
-    }
-  }, []);
+    return false;
+  };
 
-  const resolveInFlightSave = useCallback(() => {
+  const resolveInFlightSave = () => {
     inFlightSaveResolveRef.current?.();
     inFlightSavePromiseRef.current = null;
     inFlightSaveResolveRef.current = null;
     inFlightSaveRejectRef.current = null;
-  }, []);
+  };
 
-  const rejectInFlightSave = useCallback((error) => {
+  const rejectInFlightSave = (error) => {
     inFlightSaveRejectRef.current?.(error);
     inFlightSavePromiseRef.current = null;
     inFlightSaveResolveRef.current = null;
     inFlightSaveRejectRef.current = null;
-  }, []);
+  };
 
-  const postSaveRequest = useCallback(({ autosave }) => {
+  const waitForInFlightSave = async () => {
+    if (inFlightSavePromiseRef.current) {
+      await inFlightSavePromiseRef.current;
+    }
+  };
+
+  const postSaveRequest = useEffectEvent(({ autosave }) => {
     currentSaveIsAutosaveRef.current = autosave;
-    saveInFlightRef.current = true;
+    schedulerRef.current.inFlight = true;
 
     const savePromise = new Promise((resolve, reject) => {
       inFlightSaveResolveRef.current = resolve;
@@ -93,19 +125,16 @@ export const useScratchSaveState = ({
     });
 
     return savePromise;
-  }, []);
+  });
 
-  const startScratchAutoSave = useCallback(
-    ({ autosave = true } = {}) => {
-      return postSaveRequest({ autosave }).catch((error) => {
-        autoSaveQueuedAfterSaveRef.current = true;
-        throw error;
-      });
-    },
-    [postSaveRequest],
-  );
+  const startAutoSave = useEffectEvent(({ autosave = true } = {}) => {
+    return postSaveRequest({ autosave }).catch((error) => {
+      schedulerRef.current.queued = true;
+      throw error;
+    });
+  });
 
-  const scheduleAutoSave = useCallback(
+  const requestAutoSave = useEffectEvent(
     (delay = SCRATCH_AUTOSAVE_DELAY_MS) => {
       if (autoSaveTimeoutRef.current) {
         return;
@@ -114,67 +143,60 @@ export const useScratchSaveState = ({
       autoSaveTimeoutRef.current = setTimeout(() => {
         autoSaveTimeoutRef.current = null;
 
-        if (!autoSaveEnabledRef.current) {
+        if (!isEligibleForAutoSave()) {
           return;
         }
 
-        if (scratchRunInProgressRef.current) {
-          autoSaveQueuedAfterSaveRef.current = true;
+        if (isSaveBlocked()) {
+          schedulerRef.current.queued = true;
           return;
         }
 
-        if (saveInFlightRef.current) {
-          autoSaveQueuedAfterSaveRef.current = true;
+        if (isInAutosaveCooldown(schedulerRef.current.lastCompletedAt)) {
+          schedulerRef.current.queued = true;
+          scheduleCooldownFlush();
           return;
         }
 
-        if (getRemainingAutoSaveCooldownMs() > 0) {
-          autoSaveQueuedAfterSaveRef.current = true;
-          scheduleCooldownFlushRef.current();
-          return;
-        }
-
-        autoSaveQueuedAfterSaveRef.current = false;
-        startScratchAutoSave({ autosave: true }).catch(() => {});
+        clearQueue();
+        startAutoSave({ autosave: true }).catch(() => {});
       }, delay);
     },
-    [startScratchAutoSave],
   );
 
-  const scheduleQueuedAutoSave = useCallback(() => {
-    if (!autoSaveQueuedAfterSaveRef.current) {
+  const flushQueuedSave = useEffectEvent(() => {
+    if (!schedulerRef.current.queued) {
       return;
     }
 
-    if (!autoSaveEnabledRef.current || !projectDirtyRef.current) {
-      autoSaveQueuedAfterSaveRef.current = false;
+    if (!isEligibleForAutoSave() || !hasProjectChanged()) {
+      clearQueue();
       return;
     }
 
-    if (scratchRunInProgressRef.current || saveInFlightRef.current) {
+    if (isSaveBlocked()) {
       return;
     }
 
-    if (getRemainingAutoSaveCooldownMs() > 0) {
-      scheduleCooldownFlushRef.current();
+    if (isInAutosaveCooldown(schedulerRef.current.lastCompletedAt)) {
+      scheduleCooldownFlush();
       return;
     }
 
-    autoSaveQueuedAfterSaveRef.current = false;
+    clearQueue();
 
-    const lastChangedAt = projectChangedAtRef.current;
-    const remainingDebounceTime =
-      lastChangedAt == null
-        ? 0
-        : Math.max(0, lastChangedAt + SCRATCH_AUTOSAVE_DELAY_MS - Date.now());
+    const remainingDebounceTime = getRemainingDebounceMs(
+      projectChangedAtRef.current,
+      SCRATCH_AUTOSAVE_DELAY_MS,
+    );
 
-    scheduleAutoSave(remainingDebounceTime);
-  }, [scheduleAutoSave]);
+    requestAutoSave(remainingDebounceTime);
+  });
 
-  const scheduleCooldownFlush = useCallback(() => {
+  const scheduleCooldownFlush = useEffectEvent(() => {
     const remainingCooldown = getRemainingAutoSaveCooldownMs();
     if (remainingCooldown <= 0) {
-      scheduleQueuedAutoSave();
+      flushQueuedSave();
       return;
     }
 
@@ -184,84 +206,52 @@ export const useScratchSaveState = ({
 
     cooldownTimerRef.current = setTimeout(() => {
       cooldownTimerRef.current = null;
-      scheduleQueuedAutoSave();
+      flushQueuedSave();
     }, remainingCooldown);
-  }, [scheduleQueuedAutoSave]);
+  });
 
-  const scheduleCooldownFlushRef = useRef(scheduleCooldownFlush);
-  scheduleCooldownFlushRef.current = scheduleCooldownFlush;
-
-  const scheduleQueuedAutoSaveRef = useRef(scheduleQueuedAutoSave);
-  scheduleQueuedAutoSaveRef.current = scheduleQueuedAutoSave;
-
-  const waitForInFlightSave = useCallback(async () => {
-    if (inFlightSavePromiseRef.current) {
-      await inFlightSavePromiseRef.current;
-    }
-  }, []);
-
-  const hasPendingScratchAutoSave = useCallback(() => {
-    if (!enabledRef.current || !autoSaveEnabledRef.current) {
+  const hasPendingAutoSave = useEffectEvent(() => {
+    if (!isEligibleForAutoSave()) {
       return false;
     }
 
     return (
-      projectDirtyRef.current &&
-      (autoSaveQueuedAfterSaveRef.current ||
-        saveInFlightRef.current ||
-        getRemainingAutoSaveCooldownMs() > 0)
+      hasProjectChanged() &&
+      hasOutstandingAutosaveWork({
+        queued: schedulerRef.current.queued,
+        inFlight: schedulerRef.current.inFlight,
+        lastCompletedAt: schedulerRef.current.lastCompletedAt,
+      })
     );
-  }, []);
+  });
 
-  const shouldFlushBeforeNavigation = useCallback(() => {
-    return (
-      enabledRef.current &&
-      autoSaveEnabledRef.current &&
-      projectDirtyRef.current
-    );
-  }, []);
+  const shouldFlushBeforeNavigation = useEffectEvent(() => {
+    return isEligibleForAutoSave() && hasProjectChanged();
+  });
 
-  const flushPendingScratchAutoSave = useCallback(async () => {
-    if (!enabledRef.current || !autoSaveEnabledRef.current) {
+  const flushPendingAutoSave = useEffectEvent(async () => {
+    if (!isEligibleForAutoSave()) {
       return;
     }
 
     await waitForInFlightSave();
-
-    if (!projectDirtyRef.current) {
-      autoSaveQueuedAfterSaveRef.current = false;
+    if (clearQueueIfUnchanged()) {
       return;
     }
 
     clearCooldownTimer();
     clearAutoSaveTimeout();
 
-    if (saveInFlightRef.current) {
+    if (schedulerRef.current.inFlight) {
       await waitForInFlightSave();
     }
-
-    if (!projectDirtyRef.current) {
-      autoSaveQueuedAfterSaveRef.current = false;
+    if (clearQueueIfUnchanged()) {
       return;
     }
 
-    autoSaveQueuedAfterSaveRef.current = false;
-    return startScratchAutoSave({ autosave: true });
-  }, [
-    clearAutoSaveTimeout,
-    clearCooldownTimer,
-    startScratchAutoSave,
-    waitForInFlightSave,
-  ]);
-
-  const hasPendingScratchAutoSaveRef = useRef(hasPendingScratchAutoSave);
-  hasPendingScratchAutoSaveRef.current = hasPendingScratchAutoSave;
-
-  const shouldFlushBeforeNavigationRef = useRef(shouldFlushBeforeNavigation);
-  shouldFlushBeforeNavigationRef.current = shouldFlushBeforeNavigation;
-
-  const flushPendingScratchAutoSaveRef = useRef(flushPendingScratchAutoSave);
-  flushPendingScratchAutoSaveRef.current = flushPendingScratchAutoSave;
+    clearQueue();
+    return startAutoSave({ autosave: true });
+  });
 
   useEffect(() => {
     enabledRef.current = enabled;
@@ -270,9 +260,9 @@ export const useScratchSaveState = ({
     if (!autoSaveEnabledRef.current) {
       clearAutoSaveTimeout();
       clearCooldownTimer();
-      autoSaveQueuedAfterSaveRef.current = false;
+      clearQueue();
     }
-  }, [autoSaveEnabled, clearAutoSaveTimeout, clearCooldownTimer, enabled]);
+  }, [autoSaveEnabled, enabled]);
 
   useEffect(() => {
     if (!enabled) {
@@ -280,20 +270,52 @@ export const useScratchSaveState = ({
     }
 
     registerScratchAutoSaveHostApi({
-      hasPendingAutoSave: () => hasPendingScratchAutoSaveRef.current(),
-      flushPendingAutoSave: () => flushPendingScratchAutoSaveRef.current(),
-      shouldFlushBeforeNavigation: () =>
-        shouldFlushBeforeNavigationRef.current(),
+      hasPendingAutoSave,
+      flushPendingAutoSave,
+      shouldFlushBeforeNavigation,
     });
 
     return () => {
       clearScratchAutoSaveHostApi();
     };
+    // useEffectEvent callbacks are stable and always invoke the latest logic.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled]);
+
+  useEffect(() => {
+    if (!enabled) {
+      return undefined;
+    }
+
+    const handlePageHide = () => {
+      flushPendingAutoSave();
+    };
+
+    const handleBeforeUnload = (event) => {
+      if (!shouldFlushBeforeNavigation()) {
+        return;
+      }
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("pagehide", handlePageHide);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("pagehide", handlePageHide);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      clearCooldownTimer();
+      clearAutoSaveTimeout();
+      flushPendingAutoSave();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);
 
   useEffect(() => {
     const resetScratchSaveTracking = () => {
-      saveInFlightRef.current = false;
+      schedulerRef.current.inFlight = false;
       currentSaveIsAutosaveRef.current = false;
       if (inFlightSavePromiseRef.current) {
         rejectInFlightSave(new Error("scratch autosave failed"));
@@ -301,20 +323,20 @@ export const useScratchSaveState = ({
     };
 
     const markScratchSaveSucceeded = (autosave) => {
-      saveInFlightRef.current = false;
-      if (!autoSaveQueuedAfterSaveRef.current) {
+      schedulerRef.current.inFlight = false;
+      if (!schedulerRef.current.queued) {
         projectDirtyRef.current = false;
       }
       if (autosave) {
-        lastAutoSaveCompletedAtRef.current = Date.now();
+        schedulerRef.current.lastCompletedAt = Date.now();
       }
       resolveInFlightSave();
       currentSaveIsAutosaveRef.current = false;
-      scheduleQueuedAutoSaveRef.current();
+      flushQueuedSave();
     };
 
     if (!enabled) {
-      saveInFlightRef.current = false;
+      schedulerRef.current.inFlight = false;
       currentSaveIsAutosaveRef.current = false;
       if (inFlightSavePromiseRef.current) {
         rejectInFlightSave(new Error("scratch autosave cancelled"));
@@ -337,27 +359,27 @@ export const useScratchSaveState = ({
           }
           projectDirtyRef.current = true;
           projectChangedAtRef.current = Date.now();
-          if (scratchRunInProgressRef.current || saveInFlightRef.current) {
-            autoSaveQueuedAfterSaveRef.current = true;
+          if (isSaveBlocked()) {
+            schedulerRef.current.queued = true;
             break;
           }
-          if (getRemainingAutoSaveCooldownMs() > 0) {
-            autoSaveQueuedAfterSaveRef.current = true;
-            scheduleCooldownFlushRef.current();
+          if (isInAutosaveCooldown(schedulerRef.current.lastCompletedAt)) {
+            schedulerRef.current.queued = true;
+            scheduleCooldownFlush();
             break;
           }
-          scheduleAutoSave();
+          requestAutoSave();
           break;
         case "scratch-gui-project-run-started":
           scratchRunInProgressRef.current = true;
           break;
         case "scratch-gui-project-run-stopped":
           scratchRunInProgressRef.current = false;
-          scheduleQueuedAutoSaveRef.current();
+          flushQueuedSave();
           break;
         case "scratch-gui-saving-started":
         case "scratch-gui-remixing-started":
-          saveInFlightRef.current = true;
+          schedulerRef.current.inFlight = true;
           dispatch(scratchSaveStarted());
           break;
         case "scratch-gui-saving-succeeded":
@@ -377,53 +399,27 @@ export const useScratchSaveState = ({
           clearAutoSaveTimeout();
           resetScratchSaveTracking();
           dispatch(scratchSaveFailed());
-          scheduleQueuedAutoSaveRef.current();
+          flushQueuedSave();
           break;
         default:
           break;
       }
     };
 
-    const handlePageHide = () => {
-      flushPendingScratchAutoSaveRef.current();
-    };
-
-    const handleBeforeUnload = (event) => {
-      if (!hasPendingScratchAutoSaveRef.current()) {
-        return;
-      }
-
-      event.preventDefault();
-      event.returnValue = "";
-    };
-
     window.addEventListener("message", handleScratchMessage);
-    window.addEventListener("pagehide", handlePageHide);
-    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
       window.removeEventListener("message", handleScratchMessage);
-      window.removeEventListener("pagehide", handlePageHide);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      clearAutoSaveTimeout();
-      clearCooldownTimer();
-      flushPendingScratchAutoSaveRef.current();
     };
-  }, [
-    clearAutoSaveTimeout,
-    clearCooldownTimer,
-    dispatch,
-    enabled,
-    rejectInFlightSave,
-    resolveInFlightSave,
-    scheduleAutoSave,
-  ]);
+    // useEffectEvent callbacks are stable and always invoke the latest logic.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, enabled]);
 
   const saveScratchProject = useCallback(
     ({ shouldRemixOnSave = false } = {}) => {
       clearAutoSaveTimeout();
       clearCooldownTimer();
-      autoSaveQueuedAfterSaveRef.current = false;
+      clearQueue();
       currentSaveIsAutosaveRef.current = false;
       if (shouldRemixOnSave) {
         postMessageToScratchIframe({
@@ -435,7 +431,9 @@ export const useScratchSaveState = ({
       projectDirtyRef.current = true;
       postSaveRequest({ autosave: false });
     },
-    [clearAutoSaveTimeout, clearCooldownTimer, postSaveRequest],
+    // postSaveRequest is a useEffectEvent and is always current.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
 
   return {
