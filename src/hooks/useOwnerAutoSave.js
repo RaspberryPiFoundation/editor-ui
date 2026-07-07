@@ -275,6 +275,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const shouldFlushBeforeNavigationRef = useRef(shouldFlushBeforeNavigation);
   shouldFlushBeforeNavigationRef.current = shouldFlushBeforeNavigation;
 
+  // Resume flush waiters when a Redux save (manual or autosave) leaves pending.
   useEffect(() => {
     if (saving !== "pending") {
       const waiters = pendingSaveWaitersRef.current;
@@ -283,6 +284,7 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     }
   }, [saving]);
 
+  // Register host API and page lifecycle handlers on mount.
   useEffect(() => {
     registerOwnerAutoSaveHostApi({
       hasPendingAutoSave: () => hasPendingAutoSaveRef.current(),
@@ -291,21 +293,6 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
         shouldFlushBeforeNavigationRef.current(),
     });
 
-    return () => {
-      clearOwnerAutoSaveHostApi();
-    };
-  }, []);
-
-  useEffect(() => {
-    const wasInProgress = prevCodeRunInProgressRef.current;
-    prevCodeRunInProgressRef.current = codeRunInProgress;
-
-    if (wasInProgress && !codeRunInProgress) {
-      flushQueuedSaveRef.current();
-    }
-  }, [codeRunInProgress]);
-
-  useEffect(() => {
     const handlePageHide = () => {
       flushPendingAutoSaveRef.current();
     };
@@ -327,8 +314,19 @@ export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       clearCooldownTimer();
       flushPendingAutoSaveRef.current();
+      clearOwnerAutoSaveHostApi();
     };
   }, []);
+
+  // Retry queued autosave when a Python code run finishes.
+  useEffect(() => {
+    const wasInProgress = prevCodeRunInProgressRef.current;
+    prevCodeRunInProgressRef.current = codeRunInProgress;
+
+    if (wasInProgress && !codeRunInProgress) {
+      flushQueuedSaveRef.current();
+    }
+  }, [codeRunInProgress]);
 
   return {
     requestOwnerAutoSave,
