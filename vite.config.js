@@ -126,7 +126,7 @@ export default defineConfig(({ mode }) => {
     },
     build: iifeBuildOptions({
       root: __dirname,
-      entry: "src/web-component.js",
+      entry: "src/web-component.jsx",
       name: "web-component",
       primary: true,
     }),

@@ -102,7 +102,7 @@ const moduleRules = [
 
 const mainConfig = {
   entry: {
-    "web-component": path.resolve(__dirname, "./src/web-component.js"),
+    "web-component": path.resolve(__dirname, "./src/web-component.jsx"),
     PyodideWorker: path.resolve(__dirname, "./src/PyodideWorker.js"),
     "html-renderer": path.resolve(__dirname, "./src/html-renderer.jsx"),
   },
