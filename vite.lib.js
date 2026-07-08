@@ -118,10 +118,29 @@ const iifeBuildOptions = ({ root, entry, name, primary = false }) => ({
   },
 });
 
+// A vite-plugin-static-copy target that copies the *contents* of a directory
+// (recursively) into `dest`, preserving the structure inside it - the
+// copy-webpack-plugin `{ from: dir, to: dest }` behaviour. static-copy builds
+// each dest path relative to the project root, so without help a deep source
+// like node_modules/.../copydecks would be recreated verbatim under dest. We
+// strip exactly the leading segments up to and including `dir`, so only the
+// in-directory structure (e.g. copydecks/en/foo.json -> dest/en/foo.json) is
+// kept. Same approach as apps/scratch-frame's rename.stripBase.
+const copyDirTarget = ({ root, dir, dest }) => {
+  const abs = path.resolve(root, dir);
+  const stripBase = path.relative(root, abs).split(path.sep).length;
+  return {
+    src: `${abs.replace(/\\/g, "/")}/**/*`,
+    dest,
+    rename: { stripBase },
+  };
+};
+
 module.exports = {
   buildDefine,
   resolveBase,
   appPlugins,
   emitClassicHtml,
   iifeBuildOptions,
+  copyDirTarget,
 };

@@ -12,6 +12,7 @@ const {
   appPlugins,
   emitClassicHtml,
   iifeBuildOptions,
+  copyDirTarget,
 } = require("./vite.lib.js");
 
 // Paths that are fetched cross-origin from within the (COEP: require-corp)
@@ -82,19 +83,12 @@ export default defineConfig(({ mode }) => {
       // Replaces copy-webpack-plugin (public/ is handled natively by publicDir).
       viteStaticCopy({
         targets: [
-          {
-            src: path.resolve(__dirname, "src/projects/*").replace(/\\/g, "/"),
-            dest: "projects",
-          },
-          {
-            src: path
-              .resolve(
-                __dirname,
-                "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks/*",
-              )
-              .replace(/\\/g, "/"),
+          copyDirTarget({ root: __dirname, dir: "src/projects", dest: "projects" }),
+          copyDirTarget({
+            root: __dirname,
+            dir: "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks",
             dest: "python-error-copydecks",
-          },
+          }),
         ],
       }),
       crossOriginResourcePolicy(),
