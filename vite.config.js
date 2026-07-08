@@ -5,6 +5,7 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const path = require("path");
+const fs = require("fs");
 
 // Paths that are fetched cross-origin from within the (COEP: require-corp)
 // page or the Pyodide worker, so they must advertise a permissive CORP header.
@@ -15,6 +16,31 @@ const CORP_PATHS = [
   "/PyodideWorker.js",
   "/api/scratch/projects/cool-scratch.json",
 ];
+
+// In production PyodideWorker.js is emitted by vite.worker.config.js. In dev it
+// is not part of the module graph and the worker build is not run, so serve it
+// directly from source with the same process.env substitutions applied. Read on
+// each request so edits to the worker are picked up without a restart.
+const pyodideWorkerDevServer = (replacements) => ({
+  name: "pyodide-worker-dev-server",
+  apply: "serve",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = (req.url || "").split("?")[0];
+      if (url !== "/PyodideWorker.js") return next();
+      let code = fs.readFileSync(
+        path.resolve(__dirname, "src/PyodideWorker.js"),
+        "utf8",
+      );
+      for (const [from, to] of Object.entries(replacements)) {
+        code = code.split(from).join(to);
+      }
+      res.setHeader("Content-Type", "text/javascript");
+      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+      res.end(code);
+    });
+  },
+});
 
 const crossOriginResourcePolicy = () => ({
   name: "cross-origin-resource-policy",
@@ -126,6 +152,12 @@ export default defineConfig(({ mode }) => {
         ],
       }),
       crossOriginResourcePolicy(),
+      pyodideWorkerDevServer({
+        "process.env.ASSETS_URL": JSON.stringify(
+          env.ASSETS_URL || env.PUBLIC_URL || "",
+        ),
+        "process.env.NODE_ENV": JSON.stringify(mode),
+      }),
     ],
     server: {
       host: true,
