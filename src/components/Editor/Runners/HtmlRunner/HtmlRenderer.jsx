@@ -6,7 +6,7 @@ import {
   allowedInternalLinks,
   matchingRegexes,
 } from "../../../../utils/externalLinkHelper";
-import htmlRunnerStyles from "../../../../assets/stylesheets/HtmlRunner.scss";
+import htmlRunnerStyles from "../../../../assets/stylesheets/HtmlRunner.scss?inline";
 import {
   allowedIframeHost,
   MSG_HTML_PREVIEW_EVENT,

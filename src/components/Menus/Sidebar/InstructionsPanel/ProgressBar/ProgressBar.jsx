@@ -5,7 +5,7 @@ import ChevronLeft from "../../../../../assets/icons/chevron_left.svg";
 import ChevronRight from "../../../../../assets/icons/chevron_right.svg";
 import Button from "../../../../Button/Button";
 
-import "../../../../../assets/stylesheets/ProgressBar.scss";
+import "../../../../../assets/stylesheets/ProgressBar.scss?inline";
 import { useTranslation } from "react-i18next";
 
 const ProgressBar = ({ panelRef }) => {

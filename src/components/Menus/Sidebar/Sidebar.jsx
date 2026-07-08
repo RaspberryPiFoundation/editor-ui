@@ -17,7 +17,7 @@ import SaveIcon from "../../../assets/icons/save.svg";
 
 import ProjectsPanel from "./ProjectsPanel/ProjectsPanel";
 
-import "../../../assets/stylesheets/Sidebar.scss";
+import "../../../assets/stylesheets/Sidebar.scss?inline";
 import ImagePanel from "./ImagePanel/ImagePanel";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import FileIcon from "../../../utils/FileIcon";

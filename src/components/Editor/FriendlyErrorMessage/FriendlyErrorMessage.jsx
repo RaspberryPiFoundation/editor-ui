@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import "../../../assets/stylesheets/FriendlyErrorMessage.scss";
+import "../../../assets/stylesheets/FriendlyErrorMessage.scss?inline";
 import DOMPurify from "dompurify";
 
 const FriendlyErrorMessage = () => {

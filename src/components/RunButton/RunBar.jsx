@@ -1,7 +1,7 @@
 import React from "react";
 import RunnerControls from "./RunnerControls";
 
-import "../../assets/stylesheets/RunBar.scss";
+import "../../assets/stylesheets/RunBar.scss?inline";
 
 const RunBar = ({ embedded = false }) => {
   return (

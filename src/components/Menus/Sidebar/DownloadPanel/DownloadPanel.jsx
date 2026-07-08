@@ -13,7 +13,7 @@ import {
   logInEvent,
   signUpEvent,
 } from "../../../../events/WebComponentCustomEvents";
-import "../../../../assets/stylesheets/DownloadPanel.scss";
+import "../../../../assets/stylesheets/DownloadPanel.scss?inline";
 import UploadButton from "../../../UploadButton/UploadButton";
 
 const DownloadPanel = () => {

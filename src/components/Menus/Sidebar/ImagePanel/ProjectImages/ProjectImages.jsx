@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import "../../../../../assets/stylesheets/ProjectImages.scss";
+import "../../../../../assets/stylesheets/ProjectImages.scss?inline";
 
 const ProjectImages = () => {
   const projectImages = useSelector((state) => state.editor.project.image_list);

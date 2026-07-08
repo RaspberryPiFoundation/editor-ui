@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import "react-tabs/style/react-tabs.css";
-import "react-toastify/dist/ReactToastify.css";
+import "react-tabs/style/react-tabs.css?inline";
+import "react-toastify/dist/ReactToastify.css?inline";
 import classnames from "classnames";
 
-import "../../../assets/stylesheets/Project.scss";
+import "../../../assets/stylesheets/Project.scss?inline";
 import Output from "../Output/Output";
 import { showSavedMessage } from "../../../utils/Notifications";
 import ProjectBar from "../../ProjectBar/ProjectBar";
