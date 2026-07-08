@@ -2,7 +2,7 @@ import React from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 
-import "../../../../assets/stylesheets/ProjectsPanel.scss";
+import "../../../../assets/stylesheets/ProjectsPanel.scss?inline";
 import ProjectName from "../../../ProjectName/ProjectName";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
 import DownloadIcon from "../../../../assets/icons/download.svg";

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Resizable } from "re-resizable";
 
-import "../assets/stylesheets/ResizableWithHandle.scss";
+import "../assets/stylesheets/ResizableWithHandle.scss?inline";
 
 const VerticalHandle = () => (
   <svg

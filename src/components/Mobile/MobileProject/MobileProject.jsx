@@ -4,7 +4,7 @@ import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
 import MobileProjectBar from "../MobileProjectBar/MobileProjectBar";
 
-import "../../../assets/stylesheets/MobileProject.scss";
+import "../../../assets/stylesheets/MobileProject.scss?inline";
 import { useDispatch, useSelector } from "react-redux";
 import CodeIcon from "../../../assets/icons/code.svg";
 import MenuIcon from "../../../assets/icons/menu.svg";

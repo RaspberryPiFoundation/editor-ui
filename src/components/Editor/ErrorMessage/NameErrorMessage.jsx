@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../assets/stylesheets/ErrorMessage.scss";
+import "../../../assets/stylesheets/ErrorMessage.scss?inline";
 import { useSelector } from "react-redux";
 
 const NameErrorMessage = () => {

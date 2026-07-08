@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState, startTransition } from "react";
-import "../../../assets/stylesheets/AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss?inline";
 import Sk from "skulpt";
 
 const SliderInput = (props) => {

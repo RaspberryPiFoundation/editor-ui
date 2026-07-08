@@ -16,7 +16,7 @@ import DraggableTab from "../DraggableTabs/DraggableTab";
 import DroppableTabList from "../DraggableTabs/DroppableTabList";
 import RunBar from "../../RunButton/RunBar";
 
-import "../../../assets/stylesheets/EditorInput.scss";
+import "../../../assets/stylesheets/EditorInput.scss?inline";
 import RunnerControls from "../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import CloseIcon from "../../../utils/CloseIcon";

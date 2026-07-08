@@ -2,7 +2,7 @@ import React from "react";
 import Input from "./Input";
 import MotionInput from "./MotionInput";
 import SliderInput from "./SliderInput";
-import "../../../assets/stylesheets/AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss?inline";
 import Stopwatch from "./Stopwatch";
 import HumidityIcon from "../../../assets/icons/humidity.svg";
 import PressureIcon from "../../../assets/icons/pressure.svg";
