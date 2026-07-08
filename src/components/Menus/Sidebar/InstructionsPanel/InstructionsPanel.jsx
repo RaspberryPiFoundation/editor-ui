@@ -9,7 +9,7 @@ import SidebarPanel from "../SidebarPanel";
 
 import Prism from "prismjs";
 import PlusIcon from "../../../../assets/icons/plus.svg";
-import demoInstructions from "../../../../assets/markdown/demoInstructions.md";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
