@@ -173,13 +173,13 @@ const mainConfig = {
     }),
     new HtmlWebpackPlugin({
       inject: "body",
-      template: "src/web-component.html",
+      template: "web-component.html",
       filename: "web-component.html",
       chunks: ["web-component"],
     }),
     new HtmlWebpackPlugin({
       inject: "body",
-      template: "src/index-html-renderer.html",
+      template: "html-renderer.html",
       filename: "html-renderer.html",
       chunks: ["html-renderer"],
     }),
