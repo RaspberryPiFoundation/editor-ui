@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv, normalizePath } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -6,6 +6,13 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const path = require("path");
 const fs = require("fs");
+const {
+  buildDefine,
+  resolveBase,
+  appPlugins,
+  emitClassicHtml,
+  iifeBuildOptions,
+} = require("./vite.lib.js");
 
 // Paths that are fetched cross-origin from within the (COEP: require-corp)
 // page or the Pyodide worker, so they must advertise a permissive CORP header.
@@ -16,6 +23,19 @@ const CORP_PATHS = [
   "/PyodideWorker.js",
   "/api/scratch/projects/cool-scratch.json",
 ];
+
+const crossOriginResourcePolicy = () => ({
+  name: "cross-origin-resource-policy",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      const url = (req.url || "").split("?")[0];
+      if (CORP_PATHS.includes(url) || url.startsWith("/html-renderer.html")) {
+        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+      }
+      next();
+    });
+  },
+});
 
 // In production PyodideWorker.js is emitted by vite.worker.config.js. In dev it
 // is not part of the module graph and the worker build is not run, so serve it
@@ -42,111 +62,37 @@ const pyodideWorkerDevServer = (replacements) => ({
   },
 });
 
-const crossOriginResourcePolicy = () => ({
-  name: "cross-origin-resource-policy",
-  configureServer(server) {
-    server.middlewares.use((req, res, next) => {
-      const url = (req.url || "").split("?")[0];
-      if (CORP_PATHS.includes(url) || url.startsWith("/html-renderer.html")) {
-        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-      }
-      next();
-    });
-  },
-});
-
-// The app reads a fixed set of build-time variables via `process.env.*`. We keep
-// those references in the source (rather than migrating to import.meta.env) so
-// the Jest suite, which resolves them against the real Node env, keeps working.
-// Every key used in src/ must be listed here or a bare `process` reference would
-// throw in the browser.
-const buildDefine = (mode, env) => {
-  const stringify = (value) => JSON.stringify(value ?? "");
-  return {
-    "process.env.NODE_ENV": JSON.stringify(mode),
-    "process.env.PUBLIC_URL": stringify(env.PUBLIC_URL),
-    "process.env.ASSETS_URL": stringify(env.ASSETS_URL || env.PUBLIC_URL),
-    "process.env.HTML_RENDERER_URL": stringify(env.HTML_RENDERER_URL),
-    "process.env.REACT_APP_API_ENDPOINT": stringify(env.REACT_APP_API_ENDPOINT),
-    "process.env.REACT_APP_AUTHENTICATION_CLIENT_ID": stringify(
-      env.REACT_APP_AUTHENTICATION_CLIENT_ID,
-    ),
-    "process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS": stringify(
-      env.REACT_APP_ALLOWED_IFRAME_ORIGINS,
-    ),
-    "process.env.REACT_APP_SCRATCH_FRAME_URL": stringify(
-      env.REACT_APP_SCRATCH_FRAME_URL,
-    ),
-    "process.env.REACT_APP_SENTRY_DSN": stringify(env.REACT_APP_SENTRY_DSN),
-    "process.env.REACT_APP_SENTRY_ENV": stringify(env.REACT_APP_SENTRY_ENV),
-  };
-};
-
+// Primary build config. Emits the externally-embedded web-component.js bundle
+// (classic IIFE) and, on `yarn start`, serves the dev server for both HTML test
+// pages. html-renderer.js and PyodideWorker.js are emitted by their own configs
+// (chained in the build script) because a classic IIFE build cannot contain
+// more than one entry.
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
-  const isDev = mode === "development";
-
-  // In production the bundle is served from an absolute CDN origin (PUBLIC_URL)
-  // so async chunk imports resolve regardless of the embedding host; in dev the
-  // Vite server owns the origin, so a root-relative base is correct. This mirrors
-  // react-dev-utils' getPublicUrlOrPath behaviour under the old webpack build.
-  const rawPublicUrl = env.PUBLIC_URL || "/";
-  const publicUrl = rawPublicUrl.endsWith("/")
-    ? rawPublicUrl
-    : `${rawPublicUrl}/`;
 
   return {
-    base: isDev ? "/" : publicUrl,
+    base: resolveBase(mode, env),
+    // Multiple HTML test pages, no single index.html / SPA fallback.
+    appType: "mpa",
     envDir: __dirname,
     envPrefix: "REACT_APP_",
     define: buildDefine(mode, env),
     plugins: [
-      // Automatic JSX runtime matches babel-preset-react-app (and the Jest
-      // transform); many components do not import React, so classic would break.
-      // babel-plugin-prismjs is carried over from .babelrc.
-      react({
-        babel: {
-          plugins: [
-            [
-              "prismjs",
-              {
-                languages: ["javascript", "css", "python", "html"],
-                plugins: [
-                  "line-numbers",
-                  "line-highlight",
-                  "highlight-keywords",
-                  "normalize-whitespace",
-                ],
-                theme: "twilight",
-                css: true,
-              },
-            ],
-          ],
-        },
-      }),
-      // Only src/assets/icons/**/*.svg become React components (default export),
-      // matching the old @svgr/webpack rule; every other .svg stays a URL asset.
-      svgr({
-        include: "**/src/assets/icons/**/*.svg",
-        svgrOptions: { exportType: "default" },
-      }),
-      // Replaces webpack's resolve.fallback for node builtins reached
-      // transitively (e.g. by skulpt / jszip).
-      nodePolyfills({ include: ["stream", "path", "url", "assert"] }),
+      ...appPlugins(react, svgr, nodePolyfills),
       // Replaces copy-webpack-plugin (public/ is handled natively by publicDir).
       viteStaticCopy({
         targets: [
           {
-            src: normalizePath(path.resolve(__dirname, "src/projects/*")),
+            src: path.resolve(__dirname, "src/projects/*").replace(/\\/g, "/"),
             dest: "projects",
           },
           {
-            src: normalizePath(
-              path.resolve(
+            src: path
+              .resolve(
                 __dirname,
                 "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks/*",
-              ),
-            ),
+              )
+              .replace(/\\/g, "/"),
             dest: "python-error-copydecks",
           },
         ],
@@ -157,6 +103,12 @@ export default defineConfig(({ mode }) => {
           env.ASSETS_URL || env.PUBLIC_URL || "",
         ),
         "process.env.NODE_ENV": JSON.stringify(mode),
+      }),
+      // Deployed preview page loads the bundle exactly as an external host does.
+      emitClassicHtml({
+        template: path.resolve(__dirname, "web-component.html"),
+        fileName: "web-component.html",
+        bundle: "web-component.js",
       }),
     ],
     server: {
@@ -172,20 +124,11 @@ export default defineConfig(({ mode }) => {
         "Cross-Origin-Embedder-Policy": "require-corp",
       },
     },
-    build: {
-      outDir: path.resolve(__dirname, "build"),
-      emptyOutDir: true,
-      rolldownOptions: {
-        input: {
-          "web-component": path.resolve(__dirname, "web-component.html"),
-          "html-renderer": path.resolve(__dirname, "html-renderer.html"),
-        },
-        output: {
-          // External sites load /web-component.js (and /html-renderer.js) by a
-          // stable, unhashed name, exactly as webpack's `[name].js` emitted.
-          entryFileNames: "[name].js",
-        },
-      },
-    },
+    build: iifeBuildOptions({
+      root: __dirname,
+      entry: "src/web-component.js",
+      name: "web-component",
+      primary: true,
+    }),
   };
 });
