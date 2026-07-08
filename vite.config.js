@@ -12,6 +12,7 @@ const {
   editorVitePlugins,
   emitClassicBundleHtml,
   classicIifeBuildOptions,
+  copyDirectoryContentsTarget,
 } = require("./vite.lib.js");
 
 const crossOriginResourcePaths = [
@@ -71,19 +72,17 @@ export default defineConfig(({ mode }) => {
       ...editorVitePlugins(react, svgr, nodePolyfills),
       viteStaticCopy({
         targets: [
-          {
-            src: path.resolve(__dirname, "src/projects/*").replace(/\\/g, "/"),
+          copyDirectoryContentsTarget({
+            root: __dirname,
+            sourceDirectory: "src/projects",
             dest: "projects",
-          },
-          {
-            src: path
-              .resolve(
-                __dirname,
-                "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks/*",
-              )
-              .replace(/\\/g, "/"),
+          }),
+          copyDirectoryContentsTarget({
+            root: __dirname,
+            sourceDirectory:
+              "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks",
             dest: "python-error-copydecks",
-          },
+          }),
         ],
       }),
       crossOriginResourcePolicy(),
