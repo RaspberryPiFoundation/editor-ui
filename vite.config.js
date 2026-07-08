@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv, normalizePath } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -6,16 +6,23 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const path = require("path");
 const fs = require("fs");
+const {
+  processEnvBuildDefine,
+  resolveViteBase,
+  editorVitePlugins,
+  emitClassicBundleHtml,
+  classicIifeBuildOptions,
+} = require("./vite.lib.js");
 
-const CORP_PATHS = [
+const crossOriginResourcePaths = [
   "/pyodide/shims/_internal_sense_hat.js",
   "/pyodide/shims/pygal.js",
   "/PyodideWorker.js",
   "/api/scratch/projects/cool-scratch.json",
 ];
 
-const pyodideWorkerDevServer = (replacements) => ({
-  name: "pyodide-worker-dev-server",
+const serveStandalonePyodideWorkerInDev = (replacements) => ({
+  name: "serve-standalone-pyodide-worker-in-dev",
   apply: "serve",
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
@@ -40,7 +47,10 @@ const crossOriginResourcePolicy = () => ({
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       const url = (req.url || "").split("?")[0];
-      if (CORP_PATHS.includes(url) || url.startsWith("/html-renderer.html")) {
+      if (
+        crossOriginResourcePaths.includes(url) ||
+        url.startsWith("/html-renderer.html")
+      ) {
         res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
       }
       next();
@@ -48,91 +58,45 @@ const crossOriginResourcePolicy = () => ({
   },
 });
 
-const buildDefine = (mode, env) => {
-  const stringify = (value) => JSON.stringify(value ?? "");
-  return {
-    "process.env.NODE_ENV": JSON.stringify(mode),
-    "process.env.PUBLIC_URL": stringify(env.PUBLIC_URL),
-    "process.env.ASSETS_URL": stringify(env.ASSETS_URL || env.PUBLIC_URL),
-    "process.env.HTML_RENDERER_URL": stringify(env.HTML_RENDERER_URL),
-    "process.env.REACT_APP_API_ENDPOINT": stringify(env.REACT_APP_API_ENDPOINT),
-    "process.env.REACT_APP_AUTHENTICATION_CLIENT_ID": stringify(
-      env.REACT_APP_AUTHENTICATION_CLIENT_ID,
-    ),
-    "process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS": stringify(
-      env.REACT_APP_ALLOWED_IFRAME_ORIGINS,
-    ),
-    "process.env.REACT_APP_SCRATCH_FRAME_URL": stringify(
-      env.REACT_APP_SCRATCH_FRAME_URL,
-    ),
-    "process.env.REACT_APP_SENTRY_DSN": stringify(env.REACT_APP_SENTRY_DSN),
-    "process.env.REACT_APP_SENTRY_ENV": stringify(env.REACT_APP_SENTRY_ENV),
-  };
-};
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
-  const isDev = mode === "development";
-
-  const rawPublicUrl = env.PUBLIC_URL || "/";
-  const publicUrl = rawPublicUrl.endsWith("/")
-    ? rawPublicUrl
-    : `${rawPublicUrl}/`;
 
   return {
-    base: isDev ? "/" : publicUrl,
+    base: resolveViteBase(mode, env),
+    appType: "mpa",
     envDir: __dirname,
     envPrefix: "REACT_APP_",
-    define: buildDefine(mode, env),
+    define: processEnvBuildDefine(mode, env),
     plugins: [
-      react({
-        babel: {
-          plugins: [
-            [
-              "prismjs",
-              {
-                languages: ["javascript", "css", "python", "html"],
-                plugins: [
-                  "line-numbers",
-                  "line-highlight",
-                  "highlight-keywords",
-                  "normalize-whitespace",
-                ],
-                theme: "twilight",
-                css: true,
-              },
-            ],
-          ],
-        },
-      }),
-      svgr({
-        include: "**/src/assets/icons/**/*.svg",
-        svgrOptions: { exportType: "default" },
-      }),
-      nodePolyfills({ include: ["stream", "path", "url", "assert"] }),
+      ...editorVitePlugins(react, svgr, nodePolyfills),
       viteStaticCopy({
         targets: [
           {
-            src: normalizePath(path.resolve(__dirname, "src/projects/*")),
+            src: path.resolve(__dirname, "src/projects/*").replace(/\\/g, "/"),
             dest: "projects",
           },
           {
-            src: normalizePath(
-              path.resolve(
+            src: path
+              .resolve(
                 __dirname,
                 "node_modules/@raspberrypifoundation/python-friendly-error-messages/copydecks/*",
-              ),
-            ),
+              )
+              .replace(/\\/g, "/"),
             dest: "python-error-copydecks",
           },
         ],
       }),
       crossOriginResourcePolicy(),
-      pyodideWorkerDevServer({
+      serveStandalonePyodideWorkerInDev({
         "process.env.ASSETS_URL": JSON.stringify(
           env.ASSETS_URL || env.PUBLIC_URL || "",
         ),
         "process.env.NODE_ENV": JSON.stringify(mode),
+      }),
+      emitClassicBundleHtml({
+        template: path.resolve(__dirname, "web-component.html"),
+        fileName: "web-component.html",
+        bundle: "web-component.js",
       }),
     ],
     server: {
@@ -147,18 +111,11 @@ export default defineConfig(({ mode }) => {
         "Cross-Origin-Embedder-Policy": "require-corp",
       },
     },
-    build: {
-      outDir: path.resolve(__dirname, "build"),
-      emptyOutDir: true,
-      rolldownOptions: {
-        input: {
-          "web-component": path.resolve(__dirname, "web-component.html"),
-          "html-renderer": path.resolve(__dirname, "html-renderer.html"),
-        },
-        output: {
-          entryFileNames: "[name].js",
-        },
-      },
-    },
+    build: classicIifeBuildOptions({
+      root: __dirname,
+      entry: "src/web-component.js",
+      name: "web-component",
+      cleansOutput: true,
+    }),
   };
 });
