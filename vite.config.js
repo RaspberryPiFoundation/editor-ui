@@ -113,7 +113,7 @@ export default defineConfig(({ mode }) => {
     },
     build: classicIifeBuildOptions({
       root: __dirname,
-      entry: "src/web-component.js",
+      entry: "src/web-component.jsx",
       name: "web-component",
       cleansOutput: true,
     }),
