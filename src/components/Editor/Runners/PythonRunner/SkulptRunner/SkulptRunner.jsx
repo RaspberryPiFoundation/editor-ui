@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import "../../../../../assets/stylesheets/PythonRunner.scss";
+import "../../../../../assets/stylesheets/PythonRunner.scss?inline";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";

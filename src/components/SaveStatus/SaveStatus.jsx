@@ -6,7 +6,7 @@ import classNames from "classnames";
 import CloudTickIcon from "../../assets/icons/cloud_tick.svg";
 import CloudUploadIcon from "../../assets/icons/cloud_upload.svg";
 
-import "../../assets/stylesheets/SaveStatus.scss";
+import "../../assets/stylesheets/SaveStatus.scss?inline";
 import { formatRelativeTime } from "../../utils/formatRelativeTime";
 
 const SaveStatus = ({ isMobile = false }) => {

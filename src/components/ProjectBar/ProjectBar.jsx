@@ -9,7 +9,7 @@ import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
 import useIsOnline from "../../hooks/useIsOnline";
 
-import "../../assets/stylesheets/ProjectBar.scss";
+import "../../assets/stylesheets/ProjectBar.scss?inline";
 import { isOwner } from "../../utils/projectHelpers";
 
 const ProjectBar = ({ nameEditable = true }) => {

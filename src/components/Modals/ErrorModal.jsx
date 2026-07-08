@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { closeErrorModal, setError } from "../../redux/EditorSlice";
-import "../../assets/stylesheets/Modal.scss";
+import "../../assets/stylesheets/Modal.scss?inline";
 
 const ErrorModal = ({ errorType, additionalOnClose }) => {
   const dispatch = useDispatch();

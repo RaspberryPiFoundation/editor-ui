@@ -11,8 +11,8 @@ import {
   showNewFileModal,
 } from "../../../../redux/EditorSlice";
 
-import "../../../../assets/stylesheets/FilePanel.scss";
-import "../../../../assets/stylesheets/Sidebar.scss";
+import "../../../../assets/stylesheets/FilePanel.scss?inline";
+import "../../../../assets/stylesheets/Sidebar.scss?inline";
 import SidebarPanel from "../SidebarPanel";
 import FileIcon from "../../../../utils/FileIcon";
 import PlusIcon from "../../../../assets/icons/plus.svg";
