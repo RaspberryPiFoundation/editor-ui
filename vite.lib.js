@@ -90,10 +90,23 @@ const classicIifeBuildOptions = ({
   },
 });
 
+const copyDirectoryContentsTarget = ({ root, sourceDirectory, dest }) => {
+  const absoluteSourceDirectory = path.resolve(root, sourceDirectory);
+  const sourceDirectorySegmentCount = path
+    .relative(root, absoluteSourceDirectory)
+    .split(path.sep).length;
+  return {
+    src: `${absoluteSourceDirectory.replace(/\\/g, "/")}/**/*`,
+    dest,
+    rename: { stripBase: sourceDirectorySegmentCount },
+  };
+};
+
 module.exports = {
   processEnvBuildDefine,
   resolveViteBase,
   editorVitePlugins,
   emitClassicBundleHtml,
   classicIifeBuildOptions,
+  copyDirectoryContentsTarget,
 };
