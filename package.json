@@ -205,6 +205,7 @@
       "^react-native$": "react-native-web",
       "^(.+\\.scss)\\?inline$": "$1",
       "^(.+\\.css)\\?inline$": "$1",
+      "^(.+\\.md)\\?raw$": "$1",
       "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
