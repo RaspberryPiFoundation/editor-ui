@@ -1,14 +1,21 @@
 # Project Overview
-- Web component version of Raspberry Pi Code Editor, built with React and a
-  custom (ejected CRA) webpack setup.
+- Web component version of Raspberry Pi Code Editor, built with React and
+  Vite (migrated from an ejected-CRA webpack setup; the Jest test setup from
+  that era is unchanged, see Testing & CI below).
 - Primary entry is the web component bundle served by the dev server at
   `http://localhost:3011`.
+- Three Vite configs at the repo root, each producing one unhashed, classic
+  (non-module) IIFE bundle so it can be loaded via a plain `<script>` tag:
+  `vite.config.js` (`web-component.js` + dev server), `vite.html-renderer.config.js`
+  (`html-renderer.js`), `vite.worker.config.js` (`PyodideWorker.js`). Shared
+  helpers live in `vite.lib.js`. `yarn build` chains all three in that order.
 
 ## Repository Structure
 - `src/`: application code, redux, web component entrypoints.
 - `public/`: static assets, Python/Skulpt libraries and shims.
 - `cypress/`: end-to-end tests and fixtures.
-- `config/`: webpack/jest config and build helpers.
+- `config/`: Jest config and build helpers (CRA/webpack-era leftovers; not used
+  by the Vite build).
 - `.github/workflows/`: CI/CD and deploy pipelines.
 
 ## Quickstart Commands
@@ -22,7 +29,7 @@ yarn start
 - Node.js: use the version pinned in `.tool-versions`.
 - CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
-- Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
+- Dev server: `yarn start` (Vite dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
 - Build output goes to `build/` (gitignored).
 
@@ -103,7 +110,7 @@ yarn exec cypress open
 
 ### Service overview
 This is a single-service frontend application (no backend, database, or Docker required).
-The only service is the webpack dev server on port 3011, started with `yarn start`.
+The only service is the Vite dev server on port 3011, started with `yarn start`.
 
 ### Python execution caveat
 The editor's Python runtime (Pyodide) is loaded from the RPF-controlled asset
@@ -112,6 +119,7 @@ must allow that origin for Python execution. HTML/CSS/JS projects work fully
 offline. This does not affect unit tests or linting.
 
 ### Dev server startup
-`yarn start` takes ~15 seconds to compile. Wait for the
-`webpack compiled successfully` message before curling or browsing port 3011.
+`yarn start` (Vite) is ready in well under a second - modules are compiled
+on demand rather than bundled upfront. Wait for the `VITE vX.X.X ready in
+Xms` message before curling or browsing port 3011.
 The test page is served at port 3011 under path `/web-component.html`.

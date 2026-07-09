@@ -1,8 +1,8 @@
 # Editor Web Component
 
-To have the web component be able to use the same React components as the site application there needed to be a separate start script for the component. This required being able to customise how build was done and meant the `create-react-app` needed to be ejected. This copies configuration files into the project instead of running it all in create-react-app scripts.
+To have the web component be able to use the same React components as the site application there needed to be a separate start script for the component. This required being able to customise how the build was done, which is why the project has its own Vite config files rather than relying on a single shared build tool config.
 
-There is a custom webpack config file for the component `webpack.config.js` and a script in the `package.json`: `start` which will start serving the web component.
+There are custom Vite config files for the component: `vite.config.js` builds `web-component.js` and runs the `start` script's dev server; `vite.html-renderer.config.js` and `vite.worker.config.js` build the `html-renderer.js` and `PyodideWorker.js` bundles respectively (all three are combined into one `build` script in `package.json`).
 
 In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3011` will load the page with the web component mounted.
 
