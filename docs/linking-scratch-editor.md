@@ -28,10 +28,10 @@ Development/
 
 ## Temporary changes in editor-ui
 
-**1. `package.json`** — replace the GitHub Packages dependency with a file link (the name must match the package in scratch-editor):
+**1. `apps/scratch-frame/package.json`** — replace the GitHub Packages dependency with a file link (the name must match the package in scratch-editor):
 
 ```json
-"@RaspberryPiFoundation/scratch-gui": "file:../scratch-editor/packages/scratch-gui"
+"@RaspberryPiFoundation/scratch-gui": "file:../../../scratch-editor/packages/scratch-gui"
 ```
 
 **2. `docker-compose.yml`** — mount the scratch-editor repo into the container (read-only):
@@ -81,8 +81,6 @@ The container runs `yarn install` then `yarn start` on each start. The first sta
 
 ## Verify in the browser
 
-Scratch runs in an iframe served from editor-ui (port **3011**), not from the main web-component bundle alone.
-
 - Web component test page: open a **Scratch** sample, e.g.
   `http://localhost:3011/web-component.html`
   then choose **cool-scratch**.
@@ -90,7 +88,7 @@ Scratch runs in an iframe served from editor-ui (port **3011**), not from the ma
 
 ## Revert when finished
 
-1. Restore the GitHub Packages pin in `package.json`, for example:
+1. Restore the GitHub Packages pin in `apps/scratch-frame/package.json`, for example:
 
    ```json
    "@RaspberryPiFoundation/scratch-gui": "13.7.3-code-classroom.20260522151700"
