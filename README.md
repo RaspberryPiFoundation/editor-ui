@@ -1,6 +1,6 @@
 # Getting Started
 
-This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. Although originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app), the application has been ejected so all the build scripts etc. are now in the repo.
+This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. It was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and later ejected; the build now runs on [Vite](https://vite.dev) (see `vite.config.js`, `vite.html-renderer.config.js` and `vite.worker.config.js`), while tests still run on the Jest setup CRA generated.
 
 ## Install dependencies
 
@@ -81,12 +81,14 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Builds the app for production to the `build` folder.\
 It bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
+The build is minified, and the bundle filenames (`web-component.js`, `html-renderer.js`, `PyodideWorker.js`) are fixed rather than hashed, since other sites load `web-component.js` directly by name.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+See the [Deployment](#deployment) section below for more information.
 
 `yarn build:all` will also build support for Scratch projects
+
+`yarn analyze` (`ANALYZE=true yarn build`) additionally writes an interactive bundle size report to `build/stats.html`
 
 ## Linting
 
