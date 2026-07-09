@@ -83,6 +83,9 @@
     "renameSave": "Enregistrer le nom du projet",
     "save": "Enregistrer",
     "loginToSave": "Connectez-vous pour enregistrer",
+    "offline": "Offline",
+    "offlineTooltipDevice": "Code changes are being saved to your device.",
+    "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
     "settings": "Paramètres"
   },
   "imagePanel": {
