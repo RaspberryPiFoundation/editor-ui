@@ -59,8 +59,31 @@ const crossOriginResourcePolicy = () => ({
   },
 });
 
-export default defineConfig(({ mode }) => {
+const serveIndexAtRootForCypress = () => ({
+  name: "serve-index-at-root-for-cypress",
+  apply: "serve",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if ((req.url || "").split("?")[0] !== "/") return next();
+      res.setHeader("Content-Type", "text/html");
+      res.end(fs.readFileSync(path.resolve(__dirname, "public/index.html")));
+    });
+  },
+});
+
+const loadBundleAnalysisPlugin = async () => {
+  if (process.env.ANALYZE !== "true") return false;
+  const { visualizer } = await import("rollup-plugin-visualizer");
+  return visualizer({
+    filename: path.resolve(__dirname, "build/stats.html"),
+    gzipSize: true,
+    brotliSize: true,
+  });
+};
+
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+  const analyzePlugin = await loadBundleAnalysisPlugin();
 
   return {
     base: resolveViteBase(mode, env),
@@ -86,6 +109,7 @@ export default defineConfig(({ mode }) => {
         ],
       }),
       crossOriginResourcePolicy(),
+      serveIndexAtRootForCypress(),
       serveStandalonePyodideWorkerInDev({
         "process.env.ASSETS_URL": JSON.stringify(
           env.ASSETS_URL || env.PUBLIC_URL || "",
@@ -97,6 +121,7 @@ export default defineConfig(({ mode }) => {
         fileName: "web-component.html",
         bundle: "web-component.js",
       }),
+      analyzePlugin,
     ],
     server: {
       host: true,
