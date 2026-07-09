@@ -19,6 +19,7 @@ const ProjectBar = ({ nameEditable = true }) => {
   const loading = useSelector((state) => state.editor.loading);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
   const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
+  const saveDisabled = useSelector((state) => state.editor.saveDisabled);
   const projectOwner = isOwner(user, project);
   const readOnly = useSelector((state) => state.editor.readOnly);
   const isOnline = useIsOnline();
@@ -39,7 +40,7 @@ const ProjectBar = ({ nameEditable = true }) => {
             type="tertiary"
           />
         </div>
-        {!projectOwner && !readOnly && (
+        {!projectOwner && !readOnly && !saveDisabled && (
           <div className="project-bar__btn-wrapper">
             <SaveButton className="project-bar__btn btn--save" />
           </div>

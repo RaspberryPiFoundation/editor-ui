@@ -128,6 +128,7 @@ export const editorInitialState = {
   scratchIframeProjectIdentifier: null,
   friendlyErrorsEnabled: false,
   friendlyError: null,
+  saveDisabled: false,
 };
 
 const isScratchProject = (state) =>
@@ -299,6 +300,9 @@ const EditorSlice = createSlice({
     },
     setFriendlyError: (state, action) => {
       state.friendlyError = action.payload;
+    },
+    setSaveDisabled: (state, action) => {
+      state.saveDisabled = action.payload;
     },
     setLoadRemixDisabled: (state, action) => {
       state.loadRemixDisabled = action.payload;
@@ -531,6 +535,7 @@ export const {
   setSenseHatEnabled,
   setFriendlyErrorsEnabled,
   setLoadRemixDisabled,
+  setSaveDisabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
   stopCodeRun,
