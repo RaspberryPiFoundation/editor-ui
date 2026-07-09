@@ -63,13 +63,43 @@ const pyodideWorkerDevServer = (replacements) => ({
   },
 });
 
+// webpack-dev-server's `static` middleware served public/index.html for the
+// bare "/" request by default (standard static-file-server "index" document
+// convention). Vite's dev server does not: with appType "mpa" it has no SPA
+// fallback, and publicDir assets are only served at their exact path (e.g.
+// "/index.html", not "/"). CI's Cypress job waits on the bare origin
+// (http://localhost:3011) before starting, so "/" must return 2xx. Reproduce
+// the old behaviour by serving public/index.html verbatim for "/" in dev.
+const rootIndexDevServer = () => ({
+  name: "root-index-dev-server",
+  apply: "serve",
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if ((req.url || "").split("?")[0] !== "/") return next();
+      res.setHeader("Content-Type", "text/html");
+      res.end(fs.readFileSync(path.resolve(__dirname, "public/index.html")));
+    });
+  },
+});
+
 // Primary build config. Emits the externally-embedded web-component.js bundle
 // (classic IIFE) and, on `yarn start`, serves the dev server for both HTML test
 // pages. html-renderer.js and PyodideWorker.js are emitted by their own configs
 // (chained in the build script) because a classic IIFE build cannot contain
 // more than one entry.
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+
+  // rollup-plugin-visualizer is ESM-only; import it dynamically so `require`-ing
+  // this config never has to load it when ANALYZE is unset (the common case).
+  const analyzePlugin =
+    process.env.ANALYZE === "true"
+      ? (await import("rollup-plugin-visualizer")).visualizer({
+          filename: path.resolve(__dirname, "build/stats.html"),
+          gzipSize: true,
+          brotliSize: true,
+        })
+      : false;
 
   return {
     base: resolveBase(mode, env),
@@ -92,6 +122,7 @@ export default defineConfig(({ mode }) => {
         ],
       }),
       crossOriginResourcePolicy(),
+      rootIndexDevServer(),
       pyodideWorkerDevServer({
         "process.env.ASSETS_URL": JSON.stringify(
           env.ASSETS_URL || env.PUBLIC_URL || "",
@@ -104,6 +135,9 @@ export default defineConfig(({ mode }) => {
         fileName: "web-component.html",
         bundle: "web-component.js",
       }),
+      // `yarn analyze` (ANALYZE=true) replaces webpack-bundle-analyzer: writes an
+      // interactive treemap of web-component.js's contents to build/stats.html.
+      analyzePlugin,
     ],
     server: {
       host: true,

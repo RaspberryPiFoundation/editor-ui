@@ -72,11 +72,11 @@
     "url": "^0.11.4"
   },
   "scripts": {
-    "start": "NODE_ENV=development BABEL_ENV=development webpack serve -c ./webpack.config.js",
+    "start": "vite",
     "start:all": "yarn workspaces foreach -pi --all run start",
-    "build": "NODE_ENV=production BABEL_ENV=production webpack build -c ./webpack.config.js",
+    "build": "vite build && vite build --config vite.html-renderer.config.js && vite build --config vite.worker.config.js",
     "build:all": "yarn workspaces foreach --all run build",
-    "analyze": "ANALYZE_WEBPACK_BUNDLE=true yarn build",
+    "analyze": "ANALYZE=true yarn build",
     "lint": "eslint 'src/**/*.{js,jsx}' cypress/**/*.js 'apps/**/*.{js,jsx}'",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' cypress/**/*.js 'apps/**/*.{js,jsx}'",
     "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
@@ -148,6 +148,7 @@
     "react-dev-utils": "^11.0.3",
     "redux-mock-store": "^1.5.4",
     "resolve-url-loader": "^3.1.2",
+    "rollup-plugin-visualizer": "^7.0.1",
     "sass": "^1.51.0",
     "sass-loader": "^16.0.8",
     "style-it": "^2.1.4",
