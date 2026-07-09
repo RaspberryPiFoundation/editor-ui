@@ -24,7 +24,52 @@ import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
+import PluginSlot from "./PluginSlot";
+import MaterialSymbol from "./MaterialSymbol";
 import { setSidebarOption } from "../../../redux/EditorSlice";
+
+const resolvePluginIcon = (icon) => {
+  if (typeof icon === "string") {
+    return () => <MaterialSymbol name={icon} />;
+  }
+  return icon;
+};
+
+const buildPluginPanel = (plugin) => {
+  if (plugin.slots) {
+    const hasButtonsSlot = plugin.slots.includes("buttons");
+
+    return () => (
+      <SidebarPanel
+        heading={plugin.heading}
+        buttons={
+          hasButtonsSlot
+            ? [
+                <PluginSlot
+                  key="buttons"
+                  pluginName={plugin.name}
+                  slot="buttons"
+                />,
+              ]
+            : []
+        }
+      >
+        {plugin.slots.includes("panel") && (
+          <PluginSlot pluginName={plugin.name} slot="panel" />
+        )}
+      </SidebarPanel>
+    );
+  }
+
+  return () => (
+    <SidebarPanel
+      heading={plugin.heading}
+      buttons={plugin.buttons ? plugin.buttons() : []}
+    >
+      {plugin.panel()}
+    </SidebarPanel>
+  );
+};
 
 const Sidebar = ({
   options = [],
@@ -111,17 +156,10 @@ const Sidebar = ({
       plugins.map((plugin) => {
         return {
           name: plugin.name,
-          icon: plugin.icon,
+          icon: resolvePluginIcon(plugin.icon),
           title: plugin.title,
           position: plugin.position || "top",
-          panel: () => (
-            <SidebarPanel
-              heading={plugin.heading}
-              buttons={plugin.buttons ? plugin.buttons() : []}
-            >
-              {plugin.panel()}
-            </SidebarPanel>
-          ),
+          panel: buildPluginPanel(plugin),
         };
       }),
     [plugins],
