@@ -8,6 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const {
   buildDefine,
+  processEnvDevServer,
   resolveBase,
   appPlugins,
   emitClassicHtml,
@@ -123,6 +124,7 @@ export default defineConfig(async ({ mode }) => {
       }),
       crossOriginResourcePolicy(),
       rootIndexDevServer(),
+      processEnvDevServer(mode, env),
       pyodideWorkerDevServer({
         "process.env.ASSETS_URL": JSON.stringify(
           env.ASSETS_URL || env.PUBLIC_URL || "",

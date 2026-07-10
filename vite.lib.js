@@ -15,27 +15,60 @@ const path = require("path");
 // which resolves them against the real Node env, keeps working. Every key used
 // anywhere in src/ must appear here or a bare `process` access would throw in
 // the browser.
+const processEnvValues = (mode, env) => ({
+  NODE_ENV: mode,
+  PUBLIC_URL: env.PUBLIC_URL ?? "",
+  ASSETS_URL: env.ASSETS_URL || env.PUBLIC_URL || "",
+  HTML_RENDERER_URL: env.HTML_RENDERER_URL ?? "",
+  REACT_APP_API_ENDPOINT: env.REACT_APP_API_ENDPOINT ?? "",
+  REACT_APP_AUTHENTICATION_CLIENT_ID: env.REACT_APP_AUTHENTICATION_CLIENT_ID ?? "",
+  REACT_APP_ALLOWED_IFRAME_ORIGINS: env.REACT_APP_ALLOWED_IFRAME_ORIGINS ?? "",
+  REACT_APP_SCRATCH_FRAME_URL: env.REACT_APP_SCRATCH_FRAME_URL ?? "",
+  REACT_APP_SENTRY_DSN: env.REACT_APP_SENTRY_DSN ?? "",
+  REACT_APP_SENTRY_ENV: env.REACT_APP_SENTRY_ENV ?? "",
+});
+
+// Used during `vite build`: replaces each process.env.KEY reference with its
+// literal string value. Applied via Vite's `define`, which this Vite/Rolldown
+// version only wires into the bundler's own transform (i.e. builds) - see
+// processEnvDevServer below for why dev serving needs a different mechanism.
 const buildDefine = (mode, env) => {
-  const stringify = (value) => JSON.stringify(value ?? "");
-  return {
-    "process.env.NODE_ENV": JSON.stringify(mode),
-    "process.env.PUBLIC_URL": stringify(env.PUBLIC_URL),
-    "process.env.ASSETS_URL": stringify(env.ASSETS_URL || env.PUBLIC_URL),
-    "process.env.HTML_RENDERER_URL": stringify(env.HTML_RENDERER_URL),
-    "process.env.REACT_APP_API_ENDPOINT": stringify(env.REACT_APP_API_ENDPOINT),
-    "process.env.REACT_APP_AUTHENTICATION_CLIENT_ID": stringify(
-      env.REACT_APP_AUTHENTICATION_CLIENT_ID,
-    ),
-    "process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS": stringify(
-      env.REACT_APP_ALLOWED_IFRAME_ORIGINS,
-    ),
-    "process.env.REACT_APP_SCRATCH_FRAME_URL": stringify(
-      env.REACT_APP_SCRATCH_FRAME_URL,
-    ),
-    "process.env.REACT_APP_SENTRY_DSN": stringify(env.REACT_APP_SENTRY_DSN),
-    "process.env.REACT_APP_SENTRY_ENV": stringify(env.REACT_APP_SENTRY_ENV),
-  };
+  const values = processEnvValues(mode, env);
+  return Object.fromEntries(
+    Object.entries(values).map(([key, value]) => [
+      `process.env.${key}`,
+      JSON.stringify(value),
+    ]),
+  );
 };
+
+// Used during `yarn start`: as of vite@8.1.2, the built-in `vite:define` plugin
+// no-ops for the dev server's "client" consumer (its transform hook returns
+// early when `environment.config.consumer === "client"`), so `define` silently
+// does nothing for on-demand dev requests even though it works correctly for
+// `vite build` (bundled via rolldown, a separate code path). Without this,
+// every `process.env.X` reference stays as literal source text, `process` is
+// undefined in the browser, and any code path that evaluates it throws/rejects
+// at runtime. Work around it by injecting a real `window.process.env` object
+// into the page before any module script runs; classic <script> tags execute
+// synchronously during parsing, ahead of deferred `type="module"` scripts,
+// so ordering is safe without needing to be first in the document.
+const processEnvDevServer = (mode, env) => ({
+  name: "process-env-dev-server",
+  apply: "serve",
+  transformIndexHtml: {
+    order: "pre",
+    handler() {
+      return [
+        {
+          tag: "script",
+          injectTo: "head-prepend",
+          children: `window.process = { env: ${JSON.stringify(processEnvValues(mode, env))} };`,
+        },
+      ];
+    },
+  },
+});
 
 // In production the bundles are served from an absolute CDN origin (PUBLIC_URL)
 // and embedded cross-origin, so asset/chunk URLs must be absolute; in dev the
@@ -54,7 +87,15 @@ const resolveBase = (mode, env) => {
 // src/assets/icons/**/*.svg become React components (default export), matching
 // the old @svgr/webpack rule; every other .svg stays a URL asset. Node builtins
 // reached transitively (skulpt / jszip) are polyfilled, replacing webpack's
-// resolve.fallback.
+// resolve.fallback. `global` stays polyfilled - plotly.js references the Node
+// `global` object directly and throws ReferenceError without it. `process` is
+// turned off: it defaults to true and injects a per-module `process` binding
+// (with an empty, fake `.env`) that shadows any real `process` global (ours or
+// the browser's) purely via JS scoping, which silently broke every
+// `process.env.REACT_APP_X` read in the app (producing the literal string
+// "undefined" instead of throwing or using the real value). We provide
+// process.env ourselves instead (via `define` for builds, and
+// processEnvDevServer for dev).
 const appPlugins = (react, svgr, nodePolyfills) => [
   react({
     babel: {
@@ -80,7 +121,10 @@ const appPlugins = (react, svgr, nodePolyfills) => [
     include: "**/src/assets/icons/**/*.svg",
     svgrOptions: { exportType: "default" },
   }),
-  nodePolyfills({ include: ["stream", "path", "url", "assert"] }),
+  nodePolyfills({
+    include: ["stream", "path", "url", "assert"],
+    globals: { process: false, Buffer: true, global: true },
+  }),
 ];
 
 // On build, emit the entry's HTML template next to its bundle with the dev-only
@@ -138,6 +182,7 @@ const copyDirTarget = ({ root, dir, dest }) => {
 
 module.exports = {
   buildDefine,
+  processEnvDevServer,
   resolveBase,
   appPlugins,
   emitClassicHtml,
