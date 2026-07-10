@@ -1,27 +1,47 @@
 const fs = require("fs");
 const path = require("path");
 
+const browserProcessEnvValues = (mode, env) => ({
+  NODE_ENV: mode,
+  PUBLIC_URL: env.PUBLIC_URL ?? "",
+  ASSETS_URL: env.ASSETS_URL || env.PUBLIC_URL || "",
+  HTML_RENDERER_URL: env.HTML_RENDERER_URL ?? "",
+  REACT_APP_API_ENDPOINT: env.REACT_APP_API_ENDPOINT ?? "",
+  REACT_APP_AUTHENTICATION_CLIENT_ID:
+    env.REACT_APP_AUTHENTICATION_CLIENT_ID ?? "",
+  REACT_APP_ALLOWED_IFRAME_ORIGINS: env.REACT_APP_ALLOWED_IFRAME_ORIGINS ?? "",
+  REACT_APP_SCRATCH_FRAME_URL: env.REACT_APP_SCRATCH_FRAME_URL ?? "",
+  REACT_APP_SENTRY_DSN: env.REACT_APP_SENTRY_DSN ?? "",
+  REACT_APP_SENTRY_ENV: env.REACT_APP_SENTRY_ENV ?? "",
+});
+
 const processEnvBuildDefine = (mode, env) => {
-  const stringify = (value) => JSON.stringify(value ?? "");
-  return {
-    "process.env.NODE_ENV": JSON.stringify(mode),
-    "process.env.PUBLIC_URL": stringify(env.PUBLIC_URL),
-    "process.env.ASSETS_URL": stringify(env.ASSETS_URL || env.PUBLIC_URL),
-    "process.env.HTML_RENDERER_URL": stringify(env.HTML_RENDERER_URL),
-    "process.env.REACT_APP_API_ENDPOINT": stringify(env.REACT_APP_API_ENDPOINT),
-    "process.env.REACT_APP_AUTHENTICATION_CLIENT_ID": stringify(
-      env.REACT_APP_AUTHENTICATION_CLIENT_ID,
-    ),
-    "process.env.REACT_APP_ALLOWED_IFRAME_ORIGINS": stringify(
-      env.REACT_APP_ALLOWED_IFRAME_ORIGINS,
-    ),
-    "process.env.REACT_APP_SCRATCH_FRAME_URL": stringify(
-      env.REACT_APP_SCRATCH_FRAME_URL,
-    ),
-    "process.env.REACT_APP_SENTRY_DSN": stringify(env.REACT_APP_SENTRY_DSN),
-    "process.env.REACT_APP_SENTRY_ENV": stringify(env.REACT_APP_SENTRY_ENV),
-  };
+  const values = browserProcessEnvValues(mode, env);
+  return Object.fromEntries(
+    Object.entries(values).map(([key, value]) => [
+      `process.env.${key}`,
+      JSON.stringify(value),
+    ]),
+  );
 };
+
+// Vite dev serving does not transform these process.env references.
+const injectProcessEnvIntoDevHtml = (mode, env) => ({
+  name: "inject-process-env-into-dev-html",
+  apply: "serve",
+  transformIndexHtml: {
+    order: "pre",
+    handler() {
+      return [
+        {
+          tag: "script",
+          injectTo: "head-prepend",
+          children: `window.process = { env: ${JSON.stringify(browserProcessEnvValues(mode, env))} };`,
+        },
+      ];
+    },
+  },
+});
 
 const resolveViteBase = (mode, env) => {
   if (mode === "development") return "/";
@@ -54,7 +74,10 @@ const editorVitePlugins = (react, svgr, nodePolyfills) => [
     include: "**/src/assets/icons/**/*.svg",
     svgrOptions: { exportType: "default" },
   }),
-  nodePolyfills({ include: ["stream", "path", "url", "assert"] }),
+  nodePolyfills({
+    include: ["stream", "path", "url", "assert"],
+    globals: { process: false, Buffer: true, global: true },
+  }),
 ];
 
 const emitClassicBundleHtml = ({ template, fileName, bundle }) => ({
@@ -104,6 +127,7 @@ const copyDirectoryContentsTarget = ({ root, sourceDirectory, dest }) => {
 
 module.exports = {
   processEnvBuildDefine,
+  injectProcessEnvIntoDevHtml,
   resolveViteBase,
   editorVitePlugins,
   emitClassicBundleHtml,
