@@ -19,7 +19,6 @@
   white-space: -o-pre-wrap;
   overflow-wrap: break-word;
   overflow-y: auto;
-  scrollbar-width: thin;
 
   &--medium {
     @include font-size-1-5(regular);
