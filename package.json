@@ -3,7 +3,6 @@
   "version": "0.34.27",
   "private": true,
   "dependencies": {
-    "@RaspberryPiFoundation/scratch-gui": "13.7.3-code-classroom.20260522151700",
     "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
     "@codemirror/lang-css": "^6.0.0",
@@ -66,8 +65,6 @@
     "react-toastify": "^11.1.0",
     "redux": "^4.2.1",
     "redux-oidc": "^4.0.0-beta1",
-    "scratchReactDomVendor": "npm:react-dom@18.3.1",
-    "scratchReactVendor": "npm:react@18.3.1",
     "scratchblocks": "^3.7.0",
     "skulpt": "^1.2.0",
     "stream-browserify": "^3.0.0",

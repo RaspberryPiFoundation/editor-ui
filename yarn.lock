@@ -4171,7 +4171,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@raspberrypifoundation/editor-ui@workspace:."
   dependencies:
-    "@RaspberryPiFoundation/scratch-gui": "npm:13.7.3-code-classroom.20260522151700"
     "@babel/core": "npm:^7.17.10"
     "@codemirror/commands": "npm:^6.1.1"
     "@codemirror/lang-css": "npm:^6.0.0"
@@ -4286,8 +4285,6 @@ __metadata:
     resolve-url-loader: "npm:^3.1.2"
     sass: "npm:^1.51.0"
     sass-loader: "npm:^16.0.8"
-    scratchReactDomVendor: "npm:react-dom@18.3.1"
-    scratchReactVendor: "npm:react@18.3.1"
     scratchblocks: "npm:^3.7.0"
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
@@ -18536,7 +18533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.3.1, scratchReactDomVendor@npm:react-dom@18.3.1":
+"react-dom@npm:18.3.1":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
   dependencies:
@@ -18945,7 +18942,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.3.1, scratchReactVendor@npm:react@18.3.1":
+"react@npm:18.3.1":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
   dependencies:

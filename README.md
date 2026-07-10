@@ -6,7 +6,9 @@ This project provides a web component containing the Raspberry Pi Code Editor fo
 
 This repository uses Yarn (see `package.json` → `packageManager`).
 
-`@RaspberryPiFoundation/scratch-gui` is installed from [GitHub Packages](https://github.com/RaspberryPiFoundation/scratch-editor/pkgs/npm/scratch-gui). Complete the steps below, then run `yarn install`.
+The scratch-frame project depends on `@RaspberryPiFoundation/scratch-gui` which is installed from [GitHub Packages](https://github.com/RaspberryPiFoundation/scratch-editor/pkgs/npm/scratch-gui). Complete the steps below, then run `yarn install`.
+
+Or skip installing scratch-frame dependencies run: `yarn workspaces focus @raspberrypifoundation/editor-ui`
 
 ### Set a personal access token
 
@@ -65,10 +67,14 @@ Open [http://localhost:3011](http://localhost:3011) to view the web component te
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+`yarn start:all` will also run with support for Scratch projects.
+
 ### `yarn test`
 
 Launches the test runner in interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+`yarn test:scratch-frame` will run the tests for the Scratch Frame project
 
 ### `yarn build`
 
@@ -79,6 +85,8 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+`yarn build:all` will also build support for Scratch projects
 
 ## Linting
 
