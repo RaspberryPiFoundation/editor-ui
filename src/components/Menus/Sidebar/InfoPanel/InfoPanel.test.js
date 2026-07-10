@@ -43,12 +43,6 @@ describe("Info panel", () => {
     expect(screen.queryByText("sidebar.privacy")).toBeInTheDocument();
   });
 
-  test("The licenses link is not rendered for non-Scratch projects", () => {
-    renderInfoPanel();
-
-    expect(screen.queryByText("sidebar.licenses")).not.toBeInTheDocument();
-  });
-
   test("Links have the expected default source", () => {
     renderInfoPanel();
 
@@ -91,10 +85,10 @@ describe("Info panel", () => {
     },
   );
 
-  test("the licenses modal is not rendered for non-Scratch projects", () => {
+  test("the licences modal is not rendered for non-Scratch projects", () => {
     renderInfoPanel();
 
-    expect(screen.queryByText("sidebar.licenses")).not.toBeInTheDocument();
+    expect(screen.queryByText("sidebar.licences")).not.toBeInTheDocument();
   });
 });
 
@@ -114,16 +108,16 @@ describe("when the project is a Scratch project", () => {
     Modal.setAppElement("#app");
   });
 
-  test("the licenses link is rendered", () => {
+  test("the licences link is rendered", () => {
     renderInfoPanel({}, scratchInitialState);
 
-    expect(screen.queryByText("sidebar.licenses")).toBeInTheDocument();
+    expect(screen.queryByText("sidebar.licences")).toBeInTheDocument();
   });
 
-  test("the licenses modal opens when the licenses link is clicked", () => {
+  test("the licences modal opens when the licences link is clicked", () => {
     renderInfoPanel({}, scratchInitialState);
 
-    fireEvent.click(screen.getByText("sidebar.licenses"));
+    fireEvent.click(screen.getByText("sidebar.licences"));
 
     expect(screen.queryByText("Scratch Editor")).toBeInTheDocument();
     expect(screen.queryByText("Scratch Frame")).toBeInTheDocument();

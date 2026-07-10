@@ -27,7 +27,7 @@ const feedbackUrl = (url) => {
 
 const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
   const { t } = useTranslation();
-  const [isLicensesModalOpen, setIsLicensesModalOpen] = useState(false);
+  const [isLicencesModalOpen, setIsLicencesModalOpen] = useState(false);
   const projectType = useSelector((state) => state.editor.project.project_type);
   const isScratchProject = projectType === "code_editor_scratch";
 
@@ -85,9 +85,9 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
           <button
             type="button"
             className="info-panel__link"
-            onClick={() => setIsLicensesModalOpen(true)}
+            onClick={() => setIsLicencesModalOpen(true)}
           >
-            {t("sidebar.licenses")}
+            {t("sidebar.licences")}
           </button>
         )}
         <p>{t("sidebar.charity")}</p>
@@ -95,19 +95,19 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
 
       {isScratchProject && (
         <GeneralModal
-          isOpen={isLicensesModalOpen}
-          heading={t("sidebar.licenses")}
-          closeModal={() => setIsLicensesModalOpen(false)}
+          isOpen={isLicencesModalOpen}
+          heading={t("sidebar.licences")}
+          closeModal={() => setIsLicencesModalOpen(false)}
           buttons={[
             <DesignSystemButton
               key="close"
               type="secondary"
               text={t("modals.close")}
-              onClick={() => setIsLicensesModalOpen(false)}
+              onClick={() => setIsLicencesModalOpen(false)}
             />,
           ]}
         >
-          <section className="info-panel__licenses-modal__section">
+          <section className="info-panel__licences-modal__section">
             <h2>Scratch Editor</h2>
             <p>Copyright (C) Scratch Foundation</p>
             <p>Modified 2026 by the Raspberry Pi Foundation</p>
@@ -158,7 +158,7 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
               .
             </p>
           </section>
-          <section className="licenses-modal__section">
+          <section className="licences-modal__section">
             <h2>Scratch Frame</h2>
             <p>Copyright (C) 2026 Raspberry Pi Foundation</p>
             <p>
