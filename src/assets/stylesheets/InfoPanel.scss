@@ -14,6 +14,7 @@
 }
 
 .info-panel__links {
+  align-items: flex-start;
   display: flex;
   flex-direction: column;
 
@@ -26,6 +27,7 @@
 
   button {
     border: 3px solid transparent;
+    text-align: start;
   }
 
   p {

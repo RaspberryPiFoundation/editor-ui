@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { Modal } from "@raspberrypifoundation/design-system-react";
 import SidebarPanel from "../SidebarPanel";
+import GeneralModal from "../../../Modals/GeneralModal";
+import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 
 import "../../../../assets/stylesheets/InfoPanel.scss";
 
@@ -93,14 +94,110 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
       </div>
 
       {isScratchProject && (
-        <Modal
+        <GeneralModal
           isOpen={isLicensesModalOpen}
-          setIsOpen={setIsLicensesModalOpen}
           heading={t("sidebar.licenses")}
-          showCloseButton
+          closeModal={() => setIsLicensesModalOpen(false)}
+          buttons={[
+            <DesignSystemButton
+              key="close"
+              type="secondary"
+              text={t("modals.close")}
+              onClick={() => setIsLicensesModalOpen(false)}
+            />,
+          ]}
         >
-          <p>Hello, this is a test modal content.</p>
-        </Modal>
+          <section className="info-panel__licenses-modal__section">
+            <h2>Scratch Editor</h2>
+            <p>Copyright (C) Scratch Foundation</p>
+            <p>Modified 2026 by the Raspberry Pi Foundation</p>
+            <p>
+              This program is free software: you can redistribute it and/or
+              modify it under the terms of the GNU Affero General Public License
+              as published by the Free Software Foundation, either version 3 of
+              the License, or (at your option) any later version.
+            </p>
+            <p>
+              This program is distributed in the hope that it will be useful,
+              but WITHOUT ANY WARRANTY; without even the implied warranty of
+              MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+              Affero General Public License for more details.
+            </p>
+            <p>
+              You should have received a copy of the GNU Affero General Public
+              License along with this program. If not, see{" "}
+              <a
+                href="https://www.gnu.org/licenses/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://www.gnu.org/licenses/
+              </a>
+              .
+            </p>
+            <p>
+              See original source code and full licence at{" "}
+              <a
+                href="https://github.com/scratchfoundation/scratch-editor"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://github.com/scratchfoundation/scratch-editor
+              </a>
+              .
+            </p>
+            <p>
+              See modified source code and full licence at{" "}
+              <a
+                href="https://github.com/RaspberryPiFoundation/scratch-editor/tree/code-classroom"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://github.com/RaspberryPiFoundation/scratch-editor/tree/code-classroom
+              </a>
+              .
+            </p>
+          </section>
+          <section className="licenses-modal__section">
+            <h2>Scratch Frame</h2>
+            <p>Copyright (C) 2026 Raspberry Pi Foundation</p>
+            <p>
+              This program is free software: you can redistribute it and/or
+              modify it under the terms of the GNU Affero General Public License
+              as published by the Free Software Foundation, either version 3 of
+              the License, or (at your option) any later version.
+            </p>
+            <p>
+              This program is distributed in the hope that it will be useful,
+              but WITHOUT ANY WARRANTY; without even the implied warranty of
+              MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+              Affero General Public License for more details.
+            </p>
+            <p>
+              You should have received a copy of the GNU Affero General Public
+              License along with this program. If not, see{" "}
+              <a
+                href="https://www.gnu.org/licenses/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://www.gnu.org/licenses/
+              </a>
+              .
+            </p>
+            <p>
+              See source code and full licence at{" "}
+              <a
+                href="https://github.com/RaspberryPiFoundation/editor-ui/tree/main/apps/scratch-frame"
+                target="_blank"
+                rel="noreferrer"
+              >
+                https://github.com/RaspberryPiFoundation/editor-ui/tree/main/apps/scratch-frame
+              </a>
+              .
+            </p>
+          </section>
+        </GeneralModal>
       )}
     </SidebarPanel>
   );
