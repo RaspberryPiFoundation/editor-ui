@@ -22,12 +22,11 @@ import {
 /**
  * Python/HTML API autosave (not Scratch — see useScratchSaveState).
  *
- * Used when isEligibleForAutoSave is true (see autoSaveLogic):
+ * Active when enabled is true (set from useProjectPersistence via isEligibleForAutoSave).
  *
  * - Logged in as author, saved project (identifier exists) — debounced save to the API.
  *
- * Skipped for all other cases (not logged in, someone else's project, or author with no
- * identifier yet); useLocalProjectBackup handles localStorage instead.
+ * When enabled is false, useLocalProjectBackup handles localStorage instead.
  * The two hooks never overlap on the same edit.
  *
  * Pipeline: project change → debounce → requestAutoSave → cooldown/queue → API save
@@ -47,6 +46,7 @@ export const useAutoSave = ({
   project,
   reactAppApiEndpoint,
   justLoaded = false,
+  enabled: enabledProp,
 }) => {
   const dispatch = useDispatch();
   const saving = useSelector((state) => state.editor.saving);
@@ -82,6 +82,9 @@ export const useAutoSave = ({
   const initialProjectInstructionsRef = useRef(initialProjectInstructions);
   const prevCodeRunInProgressRef = useRef(codeRunInProgress);
 
+  const enabled = enabledProp ?? isEligibleForAutoSave(user, project);
+  const enabledRef = useRef(enabled);
+
   // Keep latest Redux/props in refs for useEffectEvent handlers (async-safe, no stale closures).
   savingRef.current = saving;
   codeRunInProgressRef.current = codeRunInProgress;
@@ -91,11 +94,11 @@ export const useAutoSave = ({
   initialProjectNameRef.current = initialProjectName;
   initialProjectInstructionsRef.current = initialProjectInstructions;
   justLoadedRef.current = justLoaded;
+  enabledRef.current = enabled;
 
   const editDebounceMs = getAutosaveDebounceMs(project);
 
-  const isEligible = () =>
-    isEligibleForAutoSave(userRef.current, projectRef.current);
+  const isEligible = () => enabledRef.current;
 
   const isSaveBlocked = () =>
     isAutoSaveBlocked({
@@ -293,8 +296,12 @@ export const useAutoSave = ({
     }
   }, [saving]);
 
-  // Register host API and page lifecycle handlers on mount.
+  // Register host API and page lifecycle handlers when autosave is enabled.
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     registerAutoSaveHostApi({
       hasPendingAutoSave,
       flushPendingAutoSave,
@@ -326,29 +333,29 @@ export const useAutoSave = ({
     };
     // useEffectEvent callbacks are stable and always invoke the latest logic.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [enabled]);
 
   // Retry queued autosave when a Python code run finishes.
   useEffect(() => {
     const wasInProgress = prevCodeRunInProgressRef.current;
     prevCodeRunInProgressRef.current = codeRunInProgress;
 
-    if (wasInProgress && !codeRunInProgress) {
+    if (wasInProgress && !codeRunInProgress && enabled) {
       flushQueuedSave();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [codeRunInProgress]);
+  }, [codeRunInProgress, enabled]);
 
   // Debounce edits, then attempt API autosave.
   useEffect(() => {
     clearTimerRef(debounceTimerRef);
 
+    if (!enabled) {
+      return;
+    }
+
     debounceTimerRef.current = setTimeout(() => {
       debounceTimerRef.current = null;
-
-      if (!isEligibleForAutoSave(user, project)) {
-        return;
-      }
 
       if (justLoadedRef.current) {
         dispatch(expireJustLoaded());
@@ -358,7 +365,7 @@ export const useAutoSave = ({
     }, editDebounceMs);
 
     return () => clearTimerRef(debounceTimerRef);
-  }, [dispatch, editDebounceMs, project, user]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dispatch, editDebounceMs, enabled, project, user]); // eslint-disable-line react-hooks/exhaustive-deps
   // justLoaded is read via ref so expireJustLoaded is not fired too early.
 
   return {

@@ -16,14 +16,13 @@ export const persistProjectToLocalStorage = (project) => {
 /**
  * Debounced local backup to localStorage, with save/login prompts.
  *
- * Used when the user cannot autosave this project to the API (see isEligibleForAutoSave):
+ * Active when enabled is true (set from useProjectPersistence as !canAutoSave):
  *
  * - Not logged in — backs up to localStorage and shows a login prompt.
  * - Logged in, but someone else's project — backs up and shows a save prompt (remix flow).
  * - Logged in as author, project not saved yet (no identifier) — backs up until the first save.
  *
- * Skipped when isEligibleForAutoSave is true (logged in as author, saved project);
- * useAutoSave handles API persistence instead.
+ * When enabled is false, useAutoSave handles API persistence instead.
  * The two hooks never overlap on the same edit.
  */
 export const useLocalProjectBackup = ({
@@ -31,6 +30,7 @@ export const useLocalProjectBackup = ({
   project = {},
   justLoaded,
   hasShownSavePrompt,
+  enabled: enabledProp,
 }) => {
   const dispatch = useDispatch();
   const initialComponents = useSelector(
@@ -43,12 +43,13 @@ export const useLocalProjectBackup = ({
     (state) => state.editor.initialProjectInstructions,
   );
 
+  const enabled = enabledProp ?? !isEligibleForAutoSave(user, project);
   const localBackupDebounceMs = getAutosaveDebounceMs(project);
   const justLoadedRef = useRef(justLoaded);
   justLoadedRef.current = justLoaded;
 
   useEffect(() => {
-    if (isEligibleForAutoSave(user, project)) {
+    if (!enabled) {
       return;
     }
 
@@ -82,6 +83,7 @@ export const useLocalProjectBackup = ({
     return () => clearTimeout(debouncer);
   }, [
     dispatch,
+    enabled,
     project,
     user,
     hasShownSavePrompt,

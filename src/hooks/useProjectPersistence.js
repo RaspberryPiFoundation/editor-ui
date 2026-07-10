@@ -2,16 +2,17 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { isOwner } from "../utils/projectHelpers";
 import { syncProject } from "../redux/EditorSlice";
+import { isEligibleForAutoSave } from "../utils/autoSaveLogic";
 import { useAutoSave } from "./useAutoSave";
 import { useLocalProjectBackup } from "./useLocalProjectBackup";
 
 /**
  * Project persistence orchestration.
  *
- * On edit (debounced, automatic):
- * - useAutoSave — logged in as author, saved project (identifier exists).
- * - useLocalProjectBackup — not logged in, someone else's project, or author with no
- *   identifier yet. These two never overlap.
+ * On edit (debounced, automatic) — exactly one path is active:
+ * - useAutoSave when canAutoSave (logged in as author, saved project).
+ * - useLocalProjectBackup when !canAutoSave (not logged in, someone else's project,
+ *   or author with no identifier yet).
  *
  * On explicit Save (saveTriggered / awaitingSave): manual save or remix via syncProject.
  */
@@ -26,7 +27,10 @@ export const useProjectPersistence = ({
 }) => {
   const dispatch = useDispatch();
 
+  const canAutoSave = isEligibleForAutoSave(user, project);
+
   useAutoSave({
+    enabled: canAutoSave,
     user,
     project,
     reactAppApiEndpoint,
@@ -34,6 +38,7 @@ export const useProjectPersistence = ({
   });
 
   useLocalProjectBackup({
+    enabled: !canAutoSave,
     user,
     project,
     justLoaded,
