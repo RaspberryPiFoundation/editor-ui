@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react";
-import { useOwnerAutoSave } from "./useOwnerAutoSave";
+import { useAutoSave } from "./useAutoSave";
 import { syncProject } from "../redux/EditorSlice";
 
 let mockInitialComponents = [];
@@ -97,10 +97,10 @@ afterEach(() => {
   mockCodeRunInProgress = false;
 });
 
-describe("useOwnerAutoSave", () => {
+describe("useAutoSave", () => {
   test("does not save when project is unchanged", () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project,
         reactAppApiEndpoint: "http://example.com",
@@ -116,7 +116,7 @@ describe("useOwnerAutoSave", () => {
 
   test("saves when project has changed", async () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -142,7 +142,7 @@ describe("useOwnerAutoSave", () => {
 
   test("queues autosave when a save is already in flight", async () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -183,7 +183,7 @@ describe("useOwnerAutoSave", () => {
     mockSaving = "pending";
 
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -201,7 +201,7 @@ describe("useOwnerAutoSave", () => {
     mockCodeRunInProgress = true;
 
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -217,7 +217,7 @@ describe("useOwnerAutoSave", () => {
 
   test("retries a queued autosave when a python run completes", async () => {
     const { result, rerender } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -247,7 +247,7 @@ describe("useOwnerAutoSave", () => {
 
   test("queues autosave during cooldown after a successful auto-save", async () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -278,7 +278,7 @@ describe("useOwnerAutoSave", () => {
 
   test("flushPendingAutoSave bypasses cooldown", async () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -312,7 +312,7 @@ describe("useOwnerAutoSave", () => {
 
   test("flushPendingAutoSave on pagehide saves pending changes", async () => {
     renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -336,7 +336,7 @@ describe("useOwnerAutoSave", () => {
 
   test("beforeunload warns when project has unsaved owner changes", () => {
     renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -351,7 +351,7 @@ describe("useOwnerAutoSave", () => {
 
   test("flushPendingAutoSave waits for a redux save in progress before saving again", async () => {
     const { result, rerender } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -393,7 +393,7 @@ describe("useOwnerAutoSave", () => {
 
   test("flushPendingAutoSave waits for an in-flight save before saving again", async () => {
     const { result, rerender } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -428,7 +428,7 @@ describe("useOwnerAutoSave", () => {
 
   test("rejects flushPendingAutoSave when the save fails", async () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",
@@ -449,7 +449,7 @@ describe("useOwnerAutoSave", () => {
 
   test("retries a queued autosave after an in-flight save fails", async () => {
     const { result } = renderHook(() =>
-      useOwnerAutoSave({
+      useAutoSave({
         user: user1,
         project: editedProject,
         reactAppApiEndpoint: "http://example.com",

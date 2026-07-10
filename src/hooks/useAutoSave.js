@@ -19,7 +19,9 @@ import {
 } from "../utils/ownerAutoSaveLogic";
 
 /**
- * Owner autosave state machine:
+ * Python/HTML owner autosave (not Scratch — see useScratchSaveState).
+ *
+ * State machine:
  *
  * - requestAutoSave: called on edit; saves immediately or queues when blocked/in cooldown.
  * - flushQueuedSave: drains the queue when run/save/cooldown allows (e.g. after run ends).
@@ -31,7 +33,7 @@ import {
  * hasPendingAutoSave: queued | inFlight | in cooldown (for "work still outstanding").
  * shouldFlushBeforeNavigation: project dirty only (navigation must save even during cooldown).
  */
-export const useOwnerAutoSave = ({ user, project, reactAppApiEndpoint }) => {
+export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const dispatch = useDispatch();
   const saving = useSelector((state) => state.editor.saving);
   const codeRunInProgress = useSelector(

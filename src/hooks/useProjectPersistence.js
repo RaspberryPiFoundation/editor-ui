@@ -10,7 +10,7 @@ import {
   syncProject,
 } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
-import { useOwnerAutoSave } from "./useOwnerAutoSave";
+import { useAutoSave } from "./useAutoSave";
 
 const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
 
@@ -34,7 +34,7 @@ export const useProjectPersistence = ({
     (state) => state.editor.initialProjectInstructions,
   );
 
-  const { requestAutoSave } = useOwnerAutoSave({
+  const { requestAutoSave } = useAutoSave({
     user,
     project,
     reactAppApiEndpoint,
