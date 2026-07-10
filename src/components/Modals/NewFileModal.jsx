@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Button from "../Button/Button";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import {
   addProjectComponent,
   closeNewFileModal,
@@ -58,17 +58,17 @@ const NewFileModal = () => {
       ]}
       defaultCallback={createComponent}
       buttons={[
-        <Button
+        <DesignSystemButton
           key="create"
-          className="btn--primary"
-          buttonText={t("filePanel.newFileModal.addFile")}
-          onClickHandler={createComponent}
+          type="primary"
+          text={t("filePanel.newFileModal.addFile")}
+          onClick={createComponent}
         />,
-        <Button
+        <DesignSystemButton
           key="close"
-          className="btn--secondary"
-          buttonText={t("filePanel.newFileModal.cancel")}
-          onClickHandler={closeModal}
+          type="secondary"
+          text={t("filePanel.newFileModal.cancel")}
+          onClick={closeModal}
         />,
       ]}
     />
