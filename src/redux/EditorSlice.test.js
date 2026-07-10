@@ -23,6 +23,7 @@ import reducer, {
   scratchSaveFailed,
   setFriendlyErrorsEnabled,
   setFriendlyError,
+  setSaveDisabled,
 } from "./EditorSlice";
 
 const mockCreateRemix = jest.fn();
@@ -126,6 +127,12 @@ test("Action setOfflineEnabled correctly sets offlineEnabled", () => {
   expect(reducer(previousState, setOfflineEnabled(true))).toEqual(
     expectedState,
   );
+});
+
+test("Action setSaveDisabled sets saveDisabled", () => {
+  const previousState = { saveDisabled: false };
+  const expectedState = { saveDisabled: true };
+  expect(reducer(previousState, setSaveDisabled(true))).toEqual(expectedState);
 });
 
 test("Action addProjectComponent adds component to project with correct content", () => {
