@@ -2,15 +2,15 @@
 
 :root {
   --rpf-black: hsl(0deg 0% 0% / 15%);
+  --rpf-off-white-warm: hsl(36deg 38.5% 97.5% / 100%);
   --rpf-white: hsl(0deg 0% 100% / 100%);
-  --rpf-teal-100: hsl(176deg 55% 94% / 100%);
 }
 
 html,
 body,
 #app {
   block-size: 100%;
-  background-color: var(--rpf-teal-100);
+  background-color: var(--rpf-off-white-warm);
 }
 
 body {
@@ -31,11 +31,11 @@ div[class^="stage-selector_stage-selector_"] {
 }
 
 div[class^="gui_stage-and-target-wrapper_"] {
-  background-color: var(--rpf-teal-100);
+  background-color: var(--rpf-off-white-warm);
 }
 
 div[class^="gui_body-wrapper_"] {
-  background-color: var(--rpf-teal-100);
+  background-color: var(--rpf-off-white-warm);
 }
 
 div[class^="stage-header_stage-header-wrapper-overlay_"] {
