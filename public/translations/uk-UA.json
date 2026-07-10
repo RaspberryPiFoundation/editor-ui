@@ -85,6 +85,9 @@
     "renameSave": "Зберегти назву проєкту",
     "save": "Зберегти",
     "loginToSave": "Увійдіть, щоб зберегти",
+    "offline": "Offline",
+    "offlineTooltipDevice": "Code changes are being saved to your device.",
+    "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
     "settings": "Налаштування"
   },
   "imagePanel": {
