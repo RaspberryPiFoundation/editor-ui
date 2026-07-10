@@ -8,6 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const {
   processEnvBuildDefine,
+  injectProcessEnvIntoDevHtml,
   resolveViteBase,
   editorVitePlugins,
   emitClassicBundleHtml,
@@ -110,6 +111,7 @@ export default defineConfig(async ({ mode }) => {
       }),
       crossOriginResourcePolicy(),
       serveIndexAtRootForCypress(),
+      injectProcessEnvIntoDevHtml(mode, env),
       serveStandalonePyodideWorkerInDev({
         "process.env.ASSETS_URL": JSON.stringify(
           env.ASSETS_URL || env.PUBLIC_URL || "",
