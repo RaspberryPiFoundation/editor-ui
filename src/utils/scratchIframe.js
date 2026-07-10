@@ -1,7 +1,8 @@
+import { getEditorPortalTarget } from "./getEditorPortalTarget";
+
 export const getScratchIframeContentWindow = () => {
-  const webComponent = document.querySelector("editor-wc");
-  return webComponent.shadowRoot.querySelector("iframe[title='Scratch']")
-    .contentWindow;
+  const root = getEditorPortalTarget();
+  return root.querySelector("iframe[title='Scratch']").contentWindow;
 };
 
 export const getScratchAllowedOrigin = () => {

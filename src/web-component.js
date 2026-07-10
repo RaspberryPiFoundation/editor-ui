@@ -12,7 +12,7 @@ import { BrowserRouter } from "react-router-dom";
 import { resetStore } from "./redux/RootSlice";
 import { resetCodeRunEventTracking } from "./components/WebComponentProject/runEventTrackingState";
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
-import { setUser } from "./redux/WebComponentAuthSlice";
+import loadInitialUserFromAuthKey from "./utils/loadInitialUserFromAuthKey";
 import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
 
 dedupeDesignSystemWarnings();
@@ -198,11 +198,7 @@ class WebComponent extends HTMLElement {
   }
 
   loadInitialUser() {
-    if (this.getAttribute("auth_key")) {
-      const authKey = this.getAttribute("auth_key");
-      const localStorageUser = JSON.parse(localStorage.getItem(authKey));
-      store.dispatch(setUser(localStorageUser));
-    }
+    loadInitialUserFromAuthKey(this.getAttribute("auth_key"));
   }
 
   mountReactApp() {

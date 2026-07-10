@@ -4301,6 +4301,9 @@ __metadata:
     webpack-cli: "npm:5.1.4"
     webpack-dev-server: "npm:5.1.0"
     worker-plugin: "npm:5.0.1"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
   languageName: unknown
   linkType: soft
 

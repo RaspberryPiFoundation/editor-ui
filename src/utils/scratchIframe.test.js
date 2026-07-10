@@ -5,12 +5,16 @@ import {
   shouldRemixScratchProjectOnSave,
   subscribeToScratchProjectIdentifierUpdates,
 } from "./scratchIframe";
+import { getEditorPortalTarget } from "./getEditorPortalTarget";
+
+jest.mock("./getEditorPortalTarget", () => ({
+  getEditorPortalTarget: jest.fn(),
+}));
 
 describe("scratchIframe", () => {
   let mockPostMessage;
   let mockContentWindow;
   let mockShadowQuerySelector;
-  let originalQuerySelector;
 
   beforeEach(() => {
     mockPostMessage = jest.fn();
@@ -18,22 +22,15 @@ describe("scratchIframe", () => {
     mockShadowQuerySelector = jest.fn(() => ({
       contentWindow: mockContentWindow,
     }));
-    originalQuerySelector = document.querySelector;
-    document.querySelector = jest.fn(() => ({
-      shadowRoot: {
-        querySelector: mockShadowQuerySelector,
-      },
-    }));
-  });
-
-  afterEach(() => {
-    document.querySelector = originalQuerySelector;
+    getEditorPortalTarget.mockReturnValue({
+      querySelector: mockShadowQuerySelector,
+    });
   });
 
   describe("getScratchIframeContentWindow", () => {
     it("returns the Scratch iframe contentWindow", () => {
       const result = getScratchIframeContentWindow();
-      expect(document.querySelector).toHaveBeenCalledWith("editor-wc");
+      expect(getEditorPortalTarget).toHaveBeenCalled();
       expect(result).toBe(mockContentWindow);
     });
   });

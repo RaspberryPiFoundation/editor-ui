@@ -7,6 +7,10 @@ import PropTypes from "prop-types";
 import Button from "../Button/Button";
 import { closeErrorModal, setError } from "../../redux/EditorSlice";
 import "../../assets/stylesheets/Modal.scss";
+import {
+  getEditorAppElement,
+  getEditorPortalTarget,
+} from "../../utils/getEditorPortalTarget";
 
 const ErrorModal = ({ errorType, additionalOnClose }) => {
   const dispatch = useDispatch();
@@ -32,14 +36,9 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
         overlayClassName="modal-overlay"
         contentLabel={t("modal.error.error")}
         parentSelector={() =>
-          document.querySelector("#app") ||
-          document.querySelector("editor-wc").shadowRoot.querySelector("#wc")
+          getEditorPortalTarget() || document.querySelector("#app")
         }
-        appElement={
-          document.querySelector("editor-wc") ||
-          document.getElementById("app") ||
-          undefined
-        }
+        appElement={getEditorAppElement()}
       >
         <div className="modal-content__header">
           <h2 className="modal-content__heading">{t("modal.error.heading")}</h2>

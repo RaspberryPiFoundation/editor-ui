@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import HttpBackend from "i18next-http-backend";
+import { getEditorAssetsBaseUrl } from "./getEditorPortalTarget";
 
 i18n
   // pass the i18n instance to react-i18next.
@@ -105,7 +106,7 @@ i18n
       escapeValue: false, // not needed for react!!
     },
     backend: {
-      loadPath: `${process.env.PUBLIC_URL}/translations/{{lng}}.json`,
+      loadPath: `${getEditorAssetsBaseUrl()}/translations/{{lng}}.json`,
     },
   });
 

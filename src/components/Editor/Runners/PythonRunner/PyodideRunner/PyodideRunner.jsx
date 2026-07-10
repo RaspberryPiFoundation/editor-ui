@@ -28,6 +28,11 @@ import VisualOutputPane from "./VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import {
+  getEditorAssetsBaseUrl,
+  getEditorInputElement,
+  resolveEditorAssetUrl,
+} from "../../../../../utils/getEditorPortalTarget";
 
 const getWorkerURL = (url) => {
   const content = `
@@ -82,7 +87,7 @@ const PyodideRunner = ({
   useEffect(() => {
     if (active) {
       const workerUrl = getWorkerURL(
-        `${process.env.PUBLIC_URL}/PyodideWorker.js`,
+        resolveEditorAssetUrl("PyodideWorker.js"),
       );
       const worker = new Worker(workerUrl);
       setPyodideWorker(worker);
@@ -93,7 +98,7 @@ const PyodideRunner = ({
     if (friendlyErrorsEnabled) {
       try {
         loadCopydeckFor(i18n.language, {
-          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+          base: `${getEditorAssetsBaseUrl()}/python-error-copydecks/`,
         });
         registerAdapter("pyodide", cpythonAdapter);
       } catch {
@@ -369,11 +374,7 @@ const PyodideRunner = ({
     return span;
   };
 
-  const getInputElement = () => {
-    return document.querySelector("editor-wc")
-      ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
-      : document.getElementById("input");
-  };
+  const getInputElement = () => getEditorInputElement();
 
   const getInputContent = async (element) => {
     element.focus();

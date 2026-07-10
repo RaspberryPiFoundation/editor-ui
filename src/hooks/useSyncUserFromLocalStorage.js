@@ -30,6 +30,7 @@ export const useSyncUserFromLocalStorage = ({
       dispatch(setUser(localStorageUser));
     };
 
+    syncUser();
     const intervalId = window.setInterval(syncUser, interval);
 
     return () => {

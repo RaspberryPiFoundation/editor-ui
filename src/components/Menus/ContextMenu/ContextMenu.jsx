@@ -3,6 +3,7 @@ import { ControlledMenu, MenuItem } from "@szhsin/react-menu";
 import { SettingsContext } from "../../../utils/settings";
 
 import "../../../assets/stylesheets/ContextMenu.scss";
+import { getEditorPortalTarget } from "../../../utils/getEditorPortalTarget";
 
 const ContextMenu = (props) => {
   const {
@@ -29,7 +30,7 @@ const ContextMenu = (props) => {
       menuButton.current.focus();
     }
   };
-  const webComponent = document.querySelector("editor-wc");
+  const portalTarget = getEditorPortalTarget() || document.querySelector("#app");
 
   return (
     <>
@@ -56,9 +57,7 @@ const ContextMenu = (props) => {
         position="anchor"
         viewScroll="initial"
         portal={{
-          target: webComponent
-            ? webComponent.shadowRoot.querySelector("#wc")
-            : document.querySelector("#app"),
+          target: portalTarget,
         }}
         menuClassName={`context-menu context-menu--${settings.theme}`}
         menuItemFocus={{ position: "first" }}

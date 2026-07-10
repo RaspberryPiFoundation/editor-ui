@@ -30,6 +30,10 @@ import VisualOutputPane from "../VisualOutputPane";
 import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
+import {
+  getEditorAssetsBaseUrl,
+  getEditorInputElement,
+} from "../../../../../utils/getEditorPortalTarget";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import { getPythonImports } from "../../../../../utils/getPythonImports";
 import { configureTurtleGraphics } from "../../../../../utils/configureTurtleGraphics";
@@ -132,13 +136,7 @@ const SkulptRunner = ({
   );
   const [showVisualOutput, setShowVisualOutput] = useState(codeHasVisualOutput);
 
-  const getInput = () => {
-    const pageInput = document.getElementById("input");
-    const webComponentInput = document.querySelector("editor-wc")
-      ? document.querySelector("editor-wc").shadowRoot.getElementById("input")
-      : null;
-    return pageInput || webComponentInput;
-  };
+  const getInput = () => getEditorInputElement();
 
   const getTurtleOutputTarget = () => {
     return visualOutputPaneRef.current?.getTurtleTarget?.() || null;
@@ -177,7 +175,7 @@ const SkulptRunner = ({
     if (friendlyErrorsEnabled) {
       try {
         loadCopydeckFor(i18n.language, {
-          base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
+          base: `${getEditorAssetsBaseUrl()}/python-error-copydecks/`,
         });
         registerAdapter("skulpt", cpythonAdapter);
       } catch {

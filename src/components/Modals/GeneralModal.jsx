@@ -5,6 +5,10 @@ import Button from "../Button/Button";
 import "../../assets/stylesheets/Modal.scss";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "../../utils/CloseIcon";
+import {
+  getEditorAppElement,
+  getEditorPortalTarget,
+} from "../../utils/getEditorPortalTarget";
 
 const GeneralModal = ({
   buttons = [],
@@ -34,14 +38,9 @@ const GeneralModal = ({
         overlayClassName="modal-overlay"
         contentLabel={heading}
         parentSelector={() =>
-          document.querySelector("#app") ||
-          document.querySelector("editor-wc").shadowRoot.querySelector("#wc")
+          getEditorPortalTarget() || document.querySelector("#app")
         }
-        appElement={
-          document.querySelector("editor-wc") ||
-          document.getElementById("app") ||
-          undefined
-        }
+        appElement={getEditorAppElement()}
       >
         <div className="modal-content__header">
           <h2 className="modal-content__heading">{heading}</h2>
