@@ -334,7 +334,7 @@ describe("useAutoSave", () => {
     });
   });
 
-  test("beforeunload warns when project has unsaved owner changes", () => {
+  test("beforeunload warns when project has unsaved autosave-eligible changes", () => {
     renderHook(() =>
       useAutoSave({
         user: user1,
@@ -443,7 +443,7 @@ describe("useAutoSave", () => {
     await act(async () => {
       await Promise.resolve();
       rejectSave(new Error("save failed"));
-      await expect(flushPromise).rejects.toThrow("owner autosave failed");
+      await expect(flushPromise).rejects.toThrow("autosave failed");
     });
   });
 

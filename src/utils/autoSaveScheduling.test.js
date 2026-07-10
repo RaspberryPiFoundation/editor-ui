@@ -1,6 +1,9 @@
 import {
   AUTOSAVE_COOLDOWN_MS,
+  AUTOSAVE_DEBOUNCE_LARGE_PROJECT_MS,
+  AUTOSAVE_DEBOUNCE_MS,
   clearTimerRef,
+  getAutosaveDebounceMs,
   getRemainingCooldownMs,
   getRemainingDebounceMs,
   hasOutstandingAutosaveWork,
@@ -75,6 +78,22 @@ describe("autoSaveScheduling", () => {
 
     expect(getRemainingDebounceMs(now - 500, 2_000, now)).toBe(1_500);
     expect(getRemainingDebounceMs(null, 2_000, now)).toBe(0);
+  });
+
+  test("getAutosaveDebounceMs uses standard debounce for small projects", () => {
+    expect(
+      getAutosaveDebounceMs({
+        components: [{ content: "print('hi')" }],
+      }),
+    ).toBe(AUTOSAVE_DEBOUNCE_MS);
+  });
+
+  test("getAutosaveDebounceMs uses longer debounce for large projects", () => {
+    expect(
+      getAutosaveDebounceMs({
+        components: [{ content: "x".repeat(1_000_001) }],
+      }),
+    ).toBe(AUTOSAVE_DEBOUNCE_LARGE_PROJECT_MS);
   });
 
   test("clearTimerRef clears an active timeout ref", () => {

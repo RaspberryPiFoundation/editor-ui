@@ -14,7 +14,7 @@ import { resetCodeRunEventTracking } from "./components/WebComponentProject/runE
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
 import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
-import { getOwnerAutoSaveHostApi } from "./utils/ownerAutoSaveHostApi";
+import { getAutoSaveHostApi } from "./utils/autoSaveHostApi";
 
 dedupeDesignSystemWarnings();
 
@@ -150,15 +150,15 @@ class WebComponent extends HTMLElement {
   }
 
   get shouldFlushBeforeNavigation() {
-    return getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation();
+    return getAutoSaveHostApi().shouldFlushBeforeNavigation();
   }
 
   get hasPendingAutoSave() {
-    return getOwnerAutoSaveHostApi().hasPendingAutoSave();
+    return getAutoSaveHostApi().hasPendingAutoSave();
   }
 
   flushPendingAutoSave() {
-    return getOwnerAutoSaveHostApi().flushPendingAutoSave();
+    return getAutoSaveHostApi().flushPendingAutoSave();
   }
 
   get menuItems() {

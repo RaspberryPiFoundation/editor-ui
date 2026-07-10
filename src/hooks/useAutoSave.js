@@ -1,39 +1,53 @@
 import { useEffect, useEffectEvent, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { syncProject } from "../redux/EditorSlice";
+import { expireJustLoaded, syncProject } from "../redux/EditorSlice";
 import {
   AUTOSAVE_COOLDOWN_MS,
   clearTimerRef,
+  getAutosaveDebounceMs,
   getRemainingCooldownMs,
   hasOutstandingAutosaveWork,
   isInAutosaveCooldown,
 } from "../utils/autoSaveScheduling";
 import {
-  clearOwnerAutoSaveHostApi,
-  registerOwnerAutoSaveHostApi,
-} from "../utils/ownerAutoSaveHostApi";
+  clearAutoSaveHostApi,
+  registerAutoSaveHostApi,
+} from "../utils/autoSaveHostApi";
 import {
-  hasOwnerProjectChanged,
-  isEligibleForOwnerAutoSave,
-  isOwnerAutoSaveBlocked,
-} from "../utils/ownerAutoSaveLogic";
+  hasProjectChangedForAutoSave,
+  isAutoSaveBlocked,
+  isEligibleForAutoSave,
+} from "../utils/autoSaveLogic";
 
 /**
- * Python/HTML owner autosave (not Scratch — see useScratchSaveState).
+ * Python/HTML API autosave (not Scratch — see useScratchSaveState).
  *
- * State machine:
+ * Used when isEligibleForAutoSave is true (see autoSaveLogic):
  *
- * - requestAutoSave: called on edit; saves immediately or queues when blocked/in cooldown.
+ * - Logged in as author, saved project (identifier exists) — debounced save to the API.
+ *
+ * Skipped for all other cases (not logged in, someone else's project, or author with no
+ * identifier yet); useLocalProjectBackup handles localStorage instead.
+ * The two hooks never overlap on the same edit.
+ *
+ * Pipeline: project change → debounce → requestAutoSave → cooldown/queue → API save
+ *
+ * - requestAutoSave: tries to save immediately, or queues when blocked/in cooldown.
  * - flushQueuedSave: drains the queue when run/save/cooldown allows (e.g. after run ends).
  * - flushPendingAutoSave: force-save for navigation/pagehide; bypasses cooldown, waits for
  *   in-flight saves first.
  *
- * Blocked when: code is running, owner autosave in flight, or any Redux save is pending.
+ * Blocked when: code is running, autosave in flight, or any Redux save is pending.
  *
  * hasPendingAutoSave: queued | inFlight | in cooldown (for "work still outstanding").
  * shouldFlushBeforeNavigation: project dirty only (navigation must save even during cooldown).
  */
-export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
+export const useAutoSave = ({
+  user,
+  project,
+  reactAppApiEndpoint,
+  justLoaded = false,
+}) => {
   const dispatch = useDispatch();
   const saving = useSelector((state) => state.editor.saving);
   const codeRunInProgress = useSelector(
@@ -57,6 +71,8 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const inFlightSavePromiseRef = useRef(null);
   const pendingSaveWaitersRef = useRef([]);
   const cooldownTimerRef = useRef(null);
+  const debounceTimerRef = useRef(null);
+  const justLoadedRef = useRef(justLoaded);
   const savingRef = useRef(saving);
   const codeRunInProgressRef = useRef(codeRunInProgress);
   const projectRef = useRef(project);
@@ -74,12 +90,15 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   initialComponentsRef.current = initialComponents;
   initialProjectNameRef.current = initialProjectName;
   initialProjectInstructionsRef.current = initialProjectInstructions;
+  justLoadedRef.current = justLoaded;
 
-  const isEligibleForAutoSave = () =>
-    isEligibleForOwnerAutoSave(userRef.current, projectRef.current);
+  const editDebounceMs = getAutosaveDebounceMs(project);
+
+  const isEligible = () =>
+    isEligibleForAutoSave(userRef.current, projectRef.current);
 
   const isSaveBlocked = () =>
-    isOwnerAutoSaveBlocked({
+    isAutoSaveBlocked({
       codeRunInProgress: codeRunInProgressRef.current,
       inFlight: schedulerRef.current.inFlight,
       saving: savingRef.current,
@@ -94,10 +113,14 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
 
   const hasProjectChanged = () =>
-    hasOwnerProjectChanged(projectRef.current, initialComponentsRef.current, {
-      initialName: initialProjectNameRef.current,
-      initialInstructions: initialProjectInstructionsRef.current,
-    });
+    hasProjectChangedForAutoSave(
+      projectRef.current,
+      initialComponentsRef.current,
+      {
+        initialName: initialProjectNameRef.current,
+        initialInstructions: initialProjectInstructionsRef.current,
+      },
+    );
 
   const clearQueue = () => {
     schedulerRef.current.queued = false;
@@ -186,7 +209,7 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       })
       .catch(() => {
         schedulerRef.current.queued = true;
-        throw new Error("owner autosave failed");
+        throw new Error("autosave failed");
       })
       .finally(() => {
         schedulerRef.current.inFlight = false;
@@ -200,7 +223,7 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
 
   const hasPendingAutoSave = useEffectEvent(() => {
     return (
-      isEligibleForAutoSave() &&
+      isEligible() &&
       hasProjectChanged() &&
       hasOutstandingAutosaveWork({
         queued: schedulerRef.current.queued,
@@ -211,11 +234,11 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   });
 
   const shouldFlushBeforeNavigation = useEffectEvent(() => {
-    return isEligibleForAutoSave() && hasProjectChanged();
+    return isEligible() && hasProjectChanged();
   });
 
   const requestAutoSave = useEffectEvent(() => {
-    if (!isEligibleForAutoSave()) {
+    if (!isEligible()) {
       return;
     }
 
@@ -239,7 +262,7 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
   });
 
   const flushPendingAutoSave = useEffectEvent(async () => {
-    if (!isEligibleForAutoSave()) {
+    if (!isEligible()) {
       return;
     }
 
@@ -272,7 +295,7 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
 
   // Register host API and page lifecycle handlers on mount.
   useEffect(() => {
-    registerOwnerAutoSaveHostApi({
+    registerAutoSaveHostApi({
       hasPendingAutoSave,
       flushPendingAutoSave,
       shouldFlushBeforeNavigation,
@@ -299,7 +322,7 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
       clearCooldownTimer();
       flushPendingAutoSave();
-      clearOwnerAutoSaveHostApi();
+      clearAutoSaveHostApi();
     };
     // useEffectEvent callbacks are stable and always invoke the latest logic.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -315,6 +338,28 @@ export const useAutoSave = ({ user, project, reactAppApiEndpoint }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [codeRunInProgress]);
+
+  // Debounce edits, then attempt API autosave.
+  useEffect(() => {
+    clearTimerRef(debounceTimerRef);
+
+    debounceTimerRef.current = setTimeout(() => {
+      debounceTimerRef.current = null;
+
+      if (!isEligibleForAutoSave(user, project)) {
+        return;
+      }
+
+      if (justLoadedRef.current) {
+        dispatch(expireJustLoaded());
+      }
+
+      requestAutoSave();
+    }, editDebounceMs);
+
+    return () => clearTimerRef(debounceTimerRef);
+  }, [dispatch, editDebounceMs, project, user]); // eslint-disable-line react-hooks/exhaustive-deps
+  // justLoaded is read via ref so expireJustLoaded is not fired too early.
 
   return {
     requestAutoSave,

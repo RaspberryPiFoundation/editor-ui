@@ -11,8 +11,8 @@ import {
 } from "../utils/scratchIframe";
 import {
   clearScratchAutoSaveHostApi,
-  getOwnerAutoSaveHostApi,
-} from "../utils/ownerAutoSaveHostApi";
+  getAutoSaveHostApi,
+} from "../utils/autoSaveHostApi";
 
 jest.mock("../utils/scratchIframe", () => ({
   getScratchAllowedOrigin: jest.fn(),
@@ -404,7 +404,7 @@ describe("useScratchSaveState", () => {
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
 
     await act(async () => {
-      const flushPromise = getOwnerAutoSaveHostApi().flushPendingAutoSave();
+      const flushPromise = getAutoSaveHostApi().flushPendingAutoSave();
       await Promise.resolve();
       await Promise.resolve();
       dispatchScratchMessageEvent("scratch-gui-saving-started");
@@ -420,7 +420,7 @@ describe("useScratchSaveState", () => {
 
     dispatchScratchUserEdit();
 
-    expect(getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
+    expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
   });
 
   test("beforeunload warns during the debounce window before auto-save fires", () => {
@@ -433,8 +433,8 @@ describe("useScratchSaveState", () => {
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
-    expect(getOwnerAutoSaveHostApi().hasPendingAutoSave()).toBe(false);
-    expect(getOwnerAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
+    expect(getAutoSaveHostApi().hasPendingAutoSave()).toBe(false);
+    expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
 
     const beforeUnloadEvent = new Event("beforeunload", { cancelable: true });
     window.dispatchEvent(beforeUnloadEvent);

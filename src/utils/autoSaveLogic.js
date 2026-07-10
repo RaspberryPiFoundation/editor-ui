@@ -1,15 +1,13 @@
 import { isOwner, projectHasChangedSinceInitialLoad } from "./projectHelpers";
 
-export const isEligibleForOwnerAutoSave = (user, project) =>
+/** Logged-in project author with a saved project identifier. */
+export const isEligibleForAutoSave = (user, project) =>
   isOwner(user, project) && Boolean(project?.identifier);
 
-export const isOwnerAutoSaveBlocked = ({
-  codeRunInProgress,
-  inFlight,
-  saving,
-}) => codeRunInProgress || inFlight || saving === "pending";
+export const isAutoSaveBlocked = ({ codeRunInProgress, inFlight, saving }) =>
+  codeRunInProgress || inFlight || saving === "pending";
 
-export const hasOwnerProjectChanged = (
+export const hasProjectChangedForAutoSave = (
   project,
   initialComponents,
   { initialName, initialInstructions } = {},

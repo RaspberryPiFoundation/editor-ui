@@ -1,4 +1,4 @@
-const defaultOwnerAutoSaveHostApi = {
+const defaultAutoSaveHostApi = {
   hasPendingAutoSave: () => false,
   flushPendingAutoSave: () => Promise.resolve(),
   shouldFlushBeforeNavigation: () => false,
@@ -10,15 +10,15 @@ const defaultScratchAutoSaveHostApi = {
   shouldFlushBeforeNavigation: () => false,
 };
 
-let ownerAutoSaveHostApi = { ...defaultOwnerAutoSaveHostApi };
+let projectAutoSaveHostApi = { ...defaultAutoSaveHostApi };
 let scratchAutoSaveHostApi = { ...defaultScratchAutoSaveHostApi };
 
-export const registerOwnerAutoSaveHostApi = (api) => {
-  ownerAutoSaveHostApi = { ...defaultOwnerAutoSaveHostApi, ...api };
+export const registerAutoSaveHostApi = (api) => {
+  projectAutoSaveHostApi = { ...defaultAutoSaveHostApi, ...api };
 };
 
-export const clearOwnerAutoSaveHostApi = () => {
-  ownerAutoSaveHostApi = { ...defaultOwnerAutoSaveHostApi };
+export const clearAutoSaveHostApi = () => {
+  projectAutoSaveHostApi = { ...defaultAutoSaveHostApi };
 };
 
 export const registerScratchAutoSaveHostApi = (api) => {
@@ -29,15 +29,15 @@ export const clearScratchAutoSaveHostApi = () => {
   scratchAutoSaveHostApi = { ...defaultScratchAutoSaveHostApi };
 };
 
-export const getOwnerAutoSaveHostApi = () => ({
+export const getAutoSaveHostApi = () => ({
   hasPendingAutoSave: () =>
-    ownerAutoSaveHostApi.hasPendingAutoSave() ||
+    projectAutoSaveHostApi.hasPendingAutoSave() ||
     scratchAutoSaveHostApi.hasPendingAutoSave(),
   flushPendingAutoSave: async () => {
-    await ownerAutoSaveHostApi.flushPendingAutoSave();
+    await projectAutoSaveHostApi.flushPendingAutoSave();
     await scratchAutoSaveHostApi.flushPendingAutoSave();
   },
   shouldFlushBeforeNavigation: () =>
-    ownerAutoSaveHostApi.shouldFlushBeforeNavigation() ||
+    projectAutoSaveHostApi.shouldFlushBeforeNavigation() ||
     scratchAutoSaveHostApi.shouldFlushBeforeNavigation(),
 });

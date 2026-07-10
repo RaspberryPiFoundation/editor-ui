@@ -20,7 +20,7 @@ import {
 import {
   clearScratchAutoSaveHostApi,
   registerScratchAutoSaveHostApi,
-} from "../utils/ownerAutoSaveHostApi";
+} from "../utils/autoSaveHostApi";
 
 const SCRATCH_AUTOSAVE_DELAY_MS = 2000;
 

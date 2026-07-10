@@ -11,6 +11,7 @@ let mockInitialComponents = [];
 let mockInitialProjectName = undefined;
 let mockInitialProjectInstructions = undefined;
 let mockSaving = "idle";
+let mockCodeRunInProgress = false;
 let mockDispatch;
 
 jest.mock("react-redux", () => ({
@@ -23,6 +24,7 @@ jest.mock("react-redux", () => ({
         initialProjectName: mockInitialProjectName,
         initialProjectInstructions: mockInitialProjectInstructions,
         saving: mockSaving,
+        codeRunInProgress: mockCodeRunInProgress,
       },
     }),
 }));
@@ -91,6 +93,7 @@ beforeEach(() => {
   mockInitialProjectName = project.name;
   mockInitialProjectInstructions = project.instructions ?? null;
   mockSaving = "idle";
+  mockCodeRunInProgress = false;
   mockDispatch = jest.fn(() => Promise.resolve(saveAction));
 });
 
@@ -99,6 +102,7 @@ afterEach(() => {
   mockInitialProjectName = undefined;
   mockInitialProjectInstructions = undefined;
   mockSaving = "idle";
+  mockCodeRunInProgress = false;
   localStorage.clear();
 });
 
@@ -356,7 +360,7 @@ describe("When logged in", () => {
     });
   });
 
-  describe("When user owns project", () => {
+  describe("When user can autosave to the API", () => {
     beforeEach(() => {
       syncProject.mockImplementation(jest.fn((_) => saveProject));
     });
