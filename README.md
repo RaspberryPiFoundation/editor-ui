@@ -122,7 +122,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `editable_instructions`: Boolean whether to show edit panel for instructions
 - `embedded`: Enable embedded mode which hides some functionality (defaults to `false`)
 - `feedback_form_url`: URL used by the Feedback link in the info panel (defaults to the Code Editor feedback form)
-- `friendly_errors_enabled`: Show friendly Python errors (defaults to `false`)
+- `friendly_errors_enabled`: Enable friendly Python errors (defaults to `false`)
 - `host_styles`: Styles passed into the web component from the host page
 - `identifier`: Load the project with this identifier from the database
 - `instructions`: Stringified JSON containing steps to be displayed in the instructions panel in the sidebar
