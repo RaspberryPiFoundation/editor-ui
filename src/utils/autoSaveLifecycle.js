@@ -28,25 +28,6 @@ export const createAutoSaveLifecycle = ({
 }) => {
   const isEnabled = () => getContext().enabled;
 
-  const isSaveBlocked = () => {
-    const { codeRunInProgress, saving } = getContext();
-    const scheduler = getScheduler();
-
-    return isAutoSaveBlocked({
-      codeRunInProgress,
-      inFlight: scheduler.inFlight,
-      saving,
-    });
-  };
-
-  const getRemainingAutoSaveCooldownMs = () =>
-    getRemainingCooldownMs(
-      getScheduler().lastCompletedAt,
-      AUTOSAVE_COOLDOWN_MS,
-    );
-
-  const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
-
   const hasProjectChanged = () => {
     const {
       project,
@@ -58,6 +39,19 @@ export const createAutoSaveLifecycle = ({
     return hasProjectChangedForAutoSave(project, initialComponents, {
       initialName: initialProjectName,
       initialInstructions: initialProjectInstructions,
+    });
+  };
+
+  // --- Queue: edits while blocked, in-flight, or in cooldown ---
+
+  const isSaveBlocked = () => {
+    const { codeRunInProgress, saving } = getContext();
+    const scheduler = getScheduler();
+
+    return isAutoSaveBlocked({
+      codeRunInProgress,
+      inFlight: scheduler.inFlight,
+      saving,
     });
   };
 
@@ -73,6 +67,31 @@ export const createAutoSaveLifecycle = ({
 
     return false;
   };
+
+  const enqueueSave = () => {
+    getScheduler().queued = true;
+  };
+
+  // --- Cooldown: 10s after a successful API save ---
+
+  const getRemainingAutoSaveCooldownMs = () =>
+    getRemainingCooldownMs(
+      getScheduler().lastCompletedAt,
+      AUTOSAVE_COOLDOWN_MS,
+    );
+
+  const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
+
+  const startCooldown = () => {
+    getScheduler().lastCompletedAt = Date.now();
+  };
+
+  const deferUntilCooldownEnds = () => {
+    enqueueSave();
+    scheduleCooldownFlush();
+  };
+
+  // --- In-flight save: API call + Redux pending coordination ---
 
   const waitForPendingSave = () => {
     if (getContext().saving !== "pending") {
@@ -99,6 +118,40 @@ export const createAutoSaveLifecycle = ({
     pendingSaveWaitersRef.current = [];
     waiters.forEach((resolve) => resolve());
   };
+
+  const startAutoSave = () => {
+    const scheduler = getScheduler();
+    const { project, user, reactAppApiEndpoint } = getContext();
+    scheduler.inFlight = true;
+
+    const savePromise = Promise.resolve(
+      dispatch(
+        syncProject("save")({
+          reactAppApiEndpoint,
+          project,
+          accessToken: user.access_token,
+          autosave: true,
+        }),
+      ),
+    )
+      .then(() => {
+        startCooldown();
+      })
+      .catch(() => {
+        enqueueSave();
+        throw new Error("autosave failed");
+      })
+      .finally(() => {
+        getScheduler().inFlight = false;
+        inFlightSavePromiseRef.current = null;
+        flushQueuedSave();
+      });
+
+    inFlightSavePromiseRef.current = savePromise;
+    return savePromise;
+  };
+
+  // --- Entry points ---
 
   const flushQueuedSave = () => {
     const scheduler = getScheduler();
@@ -138,37 +191,30 @@ export const createAutoSaveLifecycle = ({
     }, remainingCooldown);
   };
 
-  const startAutoSave = () => {
-    const scheduler = getScheduler();
-    const { project, user, reactAppApiEndpoint } = getContext();
-    scheduler.inFlight = true;
+  const requestAutoSave = () => {
+    if (!isEnabled()) {
+      return;
+    }
 
-    const savePromise = Promise.resolve(
-      dispatch(
-        syncProject("save")({
-          reactAppApiEndpoint,
-          project,
-          accessToken: user.access_token,
-          autosave: true,
-        }),
-      ),
-    )
-      .then(() => {
-        getScheduler().lastCompletedAt = Date.now();
-      })
-      .catch(() => {
-        getScheduler().queued = true;
-        throw new Error("autosave failed");
-      })
-      .finally(() => {
-        getScheduler().inFlight = false;
-        inFlightSavePromiseRef.current = null;
-        flushQueuedSave();
-      });
+    if (!hasProjectChanged()) {
+      return;
+    }
 
-    inFlightSavePromiseRef.current = savePromise;
-    return savePromise;
+    if (isSaveBlocked()) {
+      enqueueSave();
+      return;
+    }
+
+    if (isInAutosaveCooldown(getScheduler().lastCompletedAt)) {
+      deferUntilCooldownEnds();
+      return;
+    }
+
+    clearQueue();
+    startAutoSave().catch(() => {});
   };
+
+  // --- Navigation flush: bypass cooldown ---
 
   const hasPendingAutoSave = () => {
     const scheduler = getScheduler();
@@ -185,32 +231,6 @@ export const createAutoSaveLifecycle = ({
   };
 
   const shouldFlushBeforeNavigation = () => isEnabled() && hasProjectChanged();
-
-  const requestAutoSave = () => {
-    if (!isEnabled()) {
-      return;
-    }
-
-    if (!hasProjectChanged()) {
-      return;
-    }
-
-    const scheduler = getScheduler();
-
-    if (isSaveBlocked()) {
-      scheduler.queued = true;
-      return;
-    }
-
-    if (isInAutosaveCooldown(scheduler.lastCompletedAt)) {
-      scheduler.queued = true;
-      scheduleCooldownFlush();
-      return;
-    }
-
-    clearQueue();
-    startAutoSave().catch(() => {});
-  };
 
   const flushPendingAutoSave = async () => {
     if (!isEnabled()) {

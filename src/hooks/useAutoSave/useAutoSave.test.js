@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
-import { useAutoSave } from "./useAutoSave";
-import { syncProject } from "../redux/EditorSlice";
+import { useAutoSave } from ".";
+import { syncProject } from "../../redux/EditorSlice";
 
 let mockInitialComponents = [];
 let mockInitialProjectName = undefined;
@@ -26,8 +26,8 @@ jest.mock("react-redux", () => ({
     }),
 }));
 
-jest.mock("../redux/EditorSlice", () => ({
-  ...jest.requireActual("../redux/EditorSlice"),
+jest.mock("../../redux/EditorSlice", () => ({
+  ...jest.requireActual("../../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),
 }));
 
