@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { projectHasChangedSinceInitialLoad } from "../utils/projectHelpers";
-import { isEligibleForAutoSave } from "../utils/autoSaveLogic";
+import { isEligibleForAutoSave } from "../utils/save/autoSaveLogic";
 import { expireJustLoaded, setHasShownSavePrompt } from "../redux/EditorSlice";
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
-import { getAutosaveDebounceMs } from "../utils/autoSaveScheduling";
+import { getAutosaveDebounceMs } from "../utils/save/autoSaveScheduling";
 
 export const persistProjectToLocalStorage = (project) => {
   localStorage.setItem(

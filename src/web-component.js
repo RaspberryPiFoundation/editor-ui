@@ -14,7 +14,7 @@ import { resetCodeRunEventTracking } from "./components/WebComponentProject/runE
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
 import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
-import { getAutoSaveHostApi } from "./utils/autoSaveHostApi";
+import { getAutoSaveHostApi } from "./utils/save/autoSaveHostApi";
 
 dedupeDesignSystemWarnings();
 

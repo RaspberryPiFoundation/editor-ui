@@ -3,7 +3,7 @@ import { expireJustLoaded } from "../../redux/EditorSlice";
 import {
   clearTimerRef,
   getAutosaveDebounceMs,
-} from "../../utils/autoSaveScheduling";
+} from "../../utils/save/autoSaveScheduling";
 
 /**
  * Debounce edits before calling requestAutoSave.

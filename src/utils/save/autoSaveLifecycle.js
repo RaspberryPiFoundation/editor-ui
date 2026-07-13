@@ -1,4 +1,4 @@
-import { syncProject } from "../redux/EditorSlice";
+import { syncProject } from "../../redux/EditorSlice";
 import {
   AUTOSAVE_COOLDOWN_MS,
   clearTimerRef,

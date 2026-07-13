@@ -1,4 +1,4 @@
-import { isOwner, projectHasChangedSinceInitialLoad } from "./projectHelpers";
+import { isOwner, projectHasChangedSinceInitialLoad } from "../projectHelpers";
 
 /** Logged-in project author with a saved project identifier. */
 export const isEligibleForAutoSave = (user, project) =>

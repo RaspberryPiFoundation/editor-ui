@@ -1,8 +1,19 @@
 import { useSelector } from "react-redux";
-import { isOwner } from "../utils/projectHelpers";
-import { shouldRemixScratchProjectOnSave } from "../utils/scratchIframe";
+import { isOwner } from "../../utils/projectHelpers";
+import { shouldRemixScratchProjectOnSave } from "../../utils/scratchIframe";
 import { useScratchSaveState } from "./useScratchSaveState";
 
+/**
+ * Scratch project save and autosave (iframe postMessage — not Python/HTML API).
+ *
+ * Python/HTML equivalent: hooks/useAutoSave (via useProjectPersistence).
+ * Shared save timing and navigation host API: utils/save/.
+ *
+ * enableScratchSaveState: logged-in user, editor loaded, Scratch project type.
+ * autoSaveEnabled (inside useScratchSaveState): project has identifier and is not remix-on-first-save.
+ *
+ * Pipeline: scratch-gui messages → debounce → iframe save → queue / cooldown / in-flight
+ */
 export const useScratchSave = ({ enabled = true } = {}) => {
   const loading = useSelector((state) => state.editor?.loading);
   const user = useSelector((state) => state.auth?.user);

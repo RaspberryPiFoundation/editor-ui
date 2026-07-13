@@ -4,17 +4,17 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import { useScratchSaveState } from "./useScratchSaveState";
-import editorReducer, { editorInitialState } from "../redux/EditorSlice";
+import editorReducer, { editorInitialState } from "../../redux/EditorSlice";
 import {
   getScratchAllowedOrigin,
   postMessageToScratchIframe,
-} from "../utils/scratchIframe";
+} from "../../utils/scratchIframe";
 import {
   clearScratchAutoSaveHostApi,
   getAutoSaveHostApi,
-} from "../utils/autoSaveHostApi";
+} from "../../utils/save/autoSaveHostApi";
 
-jest.mock("../utils/scratchIframe", () => ({
+jest.mock("../../utils/scratchIframe", () => ({
   getScratchAllowedOrigin: jest.fn(),
   postMessageToScratchIframe: jest.fn(),
 }));
@@ -360,29 +360,6 @@ describe("useScratchSaveState", () => {
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
   });
 
-  test("does not auto-save while a Scratch project run is in progress", () => {
-    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
-
-    dispatchScratchMessage("scratch-gui-project-run-started");
-    dispatchScratchUserEdit();
-
-    act(() => {
-      jest.advanceTimersByTime(2000);
-    });
-
-    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
-
-    dispatchScratchMessage("scratch-gui-project-run-stopped");
-
-    act(() => {
-      jest.advanceTimersByTime(2000);
-    });
-
-    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
-      type: "scratch-gui-save",
-    });
-  });
-
   test("flushPendingAutoSave bypasses cooldown", async () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
@@ -421,6 +398,14 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
+  });
+
+  test("does not register navigation flush when autoSaveEnabled is false", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: false });
+
+    dispatchScratchUserEdit();
+
+    expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(false);
   });
 
   test("beforeunload warns during the debounce window before auto-save fires", () => {

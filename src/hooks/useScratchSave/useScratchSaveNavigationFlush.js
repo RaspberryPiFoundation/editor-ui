@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import {
-  clearAutoSaveHostApi,
-  registerAutoSaveHostApi,
+  clearScratchAutoSaveHostApi,
+  registerScratchAutoSaveHostApi,
 } from "../../utils/save/autoSaveHostApi";
 
 /**
- * Python/HTML navigation flush: pagehide / beforeunload and project host API.
+ * Scratch navigation flush: pagehide / beforeunload and Scratch host API.
  *
- * flushPendingAutoSave (in lifecycle) bypasses cooldown and waits for in-flight work.
+ * Reliable on SPA navigation (host awaits flushPendingAutoSave).
+ * Tab close: beforeunload warns only; pagehide is best-effort (not awaited).
  */
-export const useAutoSaveNavigationFlush = ({
+export const useScratchSaveNavigationFlush = ({
   enabled,
-  lifecycle,
+  clearAutoSaveTimeout,
+  clearCooldownTimer,
   hasPendingAutoSave,
   flushPendingAutoSave,
   shouldFlushBeforeNavigation,
@@ -21,16 +23,16 @@ export const useAutoSaveNavigationFlush = ({
       return;
     }
 
-    registerAutoSaveHostApi({
+    registerScratchAutoSaveHostApi({
       hasPendingAutoSave,
       flushPendingAutoSave,
       shouldFlushBeforeNavigation,
     });
 
     return () => {
-      clearAutoSaveHostApi();
+      clearScratchAutoSaveHostApi();
     };
-    // Omit useEffectEvent handlers from deps — they stay stable and call lifecycle via refs.
+    // Omit useEffectEvent handlers from deps — they stay stable and read latest state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);
 
@@ -58,10 +60,13 @@ export const useAutoSaveNavigationFlush = ({
     return () => {
       window.removeEventListener("pagehide", handlePageHide);
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      lifecycle.clearCooldownTimer();
-      flushPendingAutoSave();
+      clearCooldownTimer();
+      clearAutoSaveTimeout();
+      if (shouldFlushBeforeNavigation()) {
+        flushPendingAutoSave();
+      }
     };
-    // Omit useEffectEvent handlers from deps — they stay stable and call lifecycle via refs.
+    // Omit flush/clear helpers from deps — useEffectEvent or refs; listeners only need enabled toggles.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled, lifecycle]);
+  }, [enabled]);
 };

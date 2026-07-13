@@ -1,13 +1,13 @@
 import { useEffect, useEffectEvent, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isEligibleForAutoSave } from "../../utils/autoSaveLogic";
-import { createAutoSaveLifecycle } from "../../utils/autoSaveLifecycle";
+import { isEligibleForAutoSave } from "../../utils/save/autoSaveLogic";
+import { createAutoSaveLifecycle } from "../../utils/save/autoSaveLifecycle";
 import { useAutoSaveDebounce } from "./useAutoSaveDebounce";
 import { useAutoSaveNavigationFlush } from "./useAutoSaveNavigationFlush";
 import { useAutoSaveRunDeferral } from "./useAutoSaveRunDeferral";
 
 /**
- * Python/HTML API autosave (not Scratch — see useScratchSaveState).
+ * Python/HTML API autosave (not Scratch — see hooks/useScratchSave).
  *
  * Active when enabled is true (from useProjectPersistence as canAutoSave): logged-in
  * author with a saved project. When false, useLocalProjectBackup handles edits instead.

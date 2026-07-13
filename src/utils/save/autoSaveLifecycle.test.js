@@ -1,8 +1,8 @@
-import { syncProject } from "../redux/EditorSlice";
+import { syncProject } from "../../redux/EditorSlice";
 import { createAutoSaveLifecycle } from "./autoSaveLifecycle";
 
-jest.mock("../redux/EditorSlice", () => ({
-  ...jest.requireActual("../redux/EditorSlice"),
+jest.mock("../../redux/EditorSlice", () => ({
+  ...jest.requireActual("../../redux/EditorSlice"),
   syncProject: jest.fn((_) => jest.fn()),
 }));
 

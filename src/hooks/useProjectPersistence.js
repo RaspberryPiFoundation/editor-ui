@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { isOwner } from "../utils/projectHelpers";
 import { syncProject } from "../redux/EditorSlice";
-import { isEligibleForAutoSave } from "../utils/autoSaveLogic";
+import { isEligibleForAutoSave } from "../utils/save/autoSaveLogic";
 import { useAutoSave } from "./useAutoSave";
 import { useLocalProjectBackup } from "./useLocalProjectBackup";
 
