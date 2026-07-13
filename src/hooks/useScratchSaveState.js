@@ -279,7 +279,7 @@ export const useScratchSaveState = ({
     return () => {
       clearScratchAutoSaveHostApi();
     };
-    // useEffectEvent callbacks are stable and always invoke the latest logic.
+    // Omit useEffectEvent handlers from deps — they stay stable and read latest state via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);
 
@@ -313,6 +313,7 @@ export const useScratchSaveState = ({
         flushPendingAutoSave();
       }
     };
+    // Omit flush/clear helpers from deps — useEffectEvent or refs; listeners only need enabled toggles.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled]);
 
@@ -414,7 +415,7 @@ export const useScratchSaveState = ({
     return () => {
       window.removeEventListener("message", handleScratchMessage);
     };
-    // useEffectEvent callbacks are stable and always invoke the latest logic.
+    // Omit autosave helpers from deps — useEffectEvent/refs; re-bind listener only when enabled changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, enabled]);
 
@@ -434,7 +435,7 @@ export const useScratchSaveState = ({
       projectDirtyRef.current = true;
       postSaveRequest({ autosave: false });
     },
-    // postSaveRequest is a useEffectEvent and is always current.
+    // Empty deps: saveScratchProject must stay referentially stable; helpers are useEffectEvent or refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
