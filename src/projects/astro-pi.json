@@ -1,0 +1,20 @@
+{
+  "identifier": "astro-pi",
+  "project_type": "python",
+  "locale": "en",
+  "name": "Astro Pi",
+  "user_id": null,
+  "instructions": null,
+  "sense_hat_always_enabled": true,
+  "components": [
+    {
+      "id": "42b4cdc9-d935-4a3d-b39a-32eb44c5ebfd",
+      "name": "main",
+      "extension": "py",
+      "content": "# Import the libraries\nfrom sense_hat import SenseHat\nfrom time import sleep\n\n# Set up the Sense HAT\nsense = SenseHat()\nsense.set_rotation(270, False)\n\n# Set up the colour sensor\nsense.color.gain = 60 # Set the sensitivity of the sensor\nsense.color.integration_cycles = 64 # The interval at which the reading will be taken\n\n# Add colour variables and image\n\n# Display the image\n\nsense.set_pixel(0, 0, 255, 0, 0)\nred, green, blue, x = sense.colour.colour"
+    }
+  ],
+  "image_list": [],
+  "videos": [],
+  "audio": []
+}
