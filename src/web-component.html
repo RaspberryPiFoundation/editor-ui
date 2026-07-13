@@ -62,6 +62,7 @@
       <a href="#" data-project="cool-python">cool-python</a>
       <a href="#" data-project="python-plotly">python-plotly</a>
       <a href="#" data-project="cool-scratch">cool-scratch</a>
+      <a href="#" data-project="astro-pi">astro-pi</a>
     </div>
     <div id="editor-component"></div>
     <p id="results"></p>
@@ -92,6 +93,7 @@
       const editorContainer = document.getElementById("editor-component");
 
       const createWebComponent = (initialProject = null) => {
+        const initialProjectObject = initialProject ? JSON.parse(initialProject) : null;
         const newWebComp = document.createElement("editor-wc");
         
         newWebComp.setAttribute("with_projectbar", "true");
@@ -125,6 +127,7 @@
         });
 
         if (initialProject) {
+          newWebComp.setAttribute("sense_hat_always_enabled", initialProjectObject.sense_hat_always_enabled || false);
           newWebComp.setAttribute("initial_project", initialProject);
         }
 
