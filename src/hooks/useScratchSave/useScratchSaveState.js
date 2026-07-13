@@ -35,6 +35,11 @@ import { useScratchSaveNavigationFlush } from "./useScratchSaveNavigationFlush";
  *   - Tab close / external leave: beforeunload warns only; pagehide fires flush best-effort (not awaited)
  *   - shouldFlushBeforeNavigation = dirty; hasPendingAutoSave = dirty + queued/in-flight/throttle
  *
+ * Debounce and throttle work in sequence: debounce waits for a pause in block edits before
+ * posting a save to the iframe; throttle then limits how often a successful autosave can run
+ * (at most once per 10s). Edits during throttle are queued, not dropped — when the window ends,
+ * one save runs with the latest project state.
+ *
  * Scheduling: ./scratchSaveLifecycle. Iframe messages: useEffect below.
  */
 export const useScratchSaveState = ({

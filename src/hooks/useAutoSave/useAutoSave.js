@@ -32,6 +32,11 @@ import { useAutoSaveRunDeferral } from "./useAutoSaveRunDeferral";
  *   - Persist unsaved changes before the user leaves, even during throttle
  *   - Warn the user on beforeunload when there are dirty changes that autosave would normally handle
  *
+ * Debounce and throttle work in sequence: debounce waits for a pause in editing before calling
+ * requestAutoSave; throttle then limits how often a successful API save can run (at most once
+ * per 10s). Edits during throttle are queued, not dropped — when the window ends, one save runs
+ * with the latest project state.
+ *
  * Timing constants: autoSaveScheduling. Save-cycle logic: autoSaveLifecycle.
  */
 export const useAutoSave = ({
