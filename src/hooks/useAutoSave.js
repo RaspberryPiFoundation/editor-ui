@@ -1,45 +1,44 @@
 import { useEffect, useEffectEvent, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { expireJustLoaded, syncProject } from "../redux/EditorSlice";
+import { expireJustLoaded } from "../redux/EditorSlice";
 import {
-  AUTOSAVE_COOLDOWN_MS,
   clearTimerRef,
   getAutosaveDebounceMs,
-  getRemainingCooldownMs,
-  hasOutstandingAutosaveWork,
-  isInAutosaveCooldown,
 } from "../utils/autoSaveScheduling";
 import {
   clearAutoSaveHostApi,
   registerAutoSaveHostApi,
 } from "../utils/autoSaveHostApi";
-import {
-  hasProjectChangedForAutoSave,
-  isAutoSaveBlocked,
-  isEligibleForAutoSave,
-} from "../utils/autoSaveLogic";
+import { isEligibleForAutoSave } from "../utils/autoSaveLogic";
+import { createAutoSaveLifecycle } from "../utils/autoSaveLifecycle";
 
 /**
  * Python/HTML API autosave (not Scratch — see useScratchSaveState).
  *
- * Active when enabled is true (set from useProjectPersistence via isEligibleForAutoSave).
+ * Active when enabled is true (from useProjectPersistence as canAutoSave): logged-in
+ * author with a saved project. When false, useLocalProjectBackup handles edits instead.
  *
- * - Logged in as author, saved project (identifier exists) — debounced save to the API.
+ * Pipeline: project change → debounce → requestAutoSave → queue / cooldown / in-flight → API save
  *
- * When enabled is false, useLocalProjectBackup handles localStorage instead.
- * The two hooks never overlap on the same edit.
+ * This hook owns:
+ * - Debounce (2s, or 10s for large projects) — this hook via getAutosaveDebounceMs
+ *   - Timer runs in this hook; waits after each edit before requestAutoSave
+ *   - 2s normally; 10s when combined file content exceeds 1MB (slower saves, less churn)
+ *   - getAutosaveDebounceMs(project) in autoSaveScheduling picks the delay (plain function)
+ * - Cooldown (10s after a successful API save) — autoSaveLifecycle
+ *   - Starts when a save completes successfully, not when it is requested
+ *   - Further edits queue until cooldown ends or navigation forces a flush
+ * - Queue (edits while blocked, in-flight, or in cooldown) — autoSaveLifecycle
+ *   - Blocked: Python run in progress, autosave in flight, or Redux save pending
+ *   - Queued work drains when the blocker clears or cooldown elapses
+ * - Python run deferral (flush queue when run ends) — this hook + autoSaveLifecycle
+ *   - While code runs, autosave does not snapshot mid-run file writes
+ *   - When codeRunInProgress goes false, flushQueuedSave retries any queued save
+ * - Navigation flush (pagehide / host API; bypasses cooldown) — autoSaveLifecycle
+ *   - flushPendingAutoSave waits for in-flight work, then saves even during cooldown
+ *   - beforeunload warns when there are unsaved changes eligible for autosave
  *
- * Pipeline: project change → debounce → requestAutoSave → cooldown/queue → API save
- *
- * - requestAutoSave: tries to save immediately, or queues when blocked/in cooldown.
- * - flushQueuedSave: drains the queue when run/save/cooldown allows (e.g. after run ends).
- * - flushPendingAutoSave: force-save for navigation/pagehide; bypasses cooldown, waits for
- *   in-flight saves first.
- *
- * Blocked when: code is running, autosave in flight, or any Redux save is pending.
- *
- * hasPendingAutoSave: queued | inFlight | in cooldown (for "work still outstanding").
- * shouldFlushBeforeNavigation: project dirty only (navigation must save even during cooldown).
+ * Timing constants: autoSaveScheduling. Save-cycle logic: autoSaveLifecycle.
  */
 export const useAutoSave = ({
   user,
@@ -63,238 +62,68 @@ export const useAutoSave = ({
     (state) => state.editor.initialProjectInstructions,
   );
 
-  const schedulerRef = useRef({
-    queued: false,
-    inFlight: false,
-    lastCompletedAt: null,
-  });
-  const inFlightSavePromiseRef = useRef(null);
-  const pendingSaveWaitersRef = useRef([]);
-  const cooldownTimerRef = useRef(null);
-  const debounceTimerRef = useRef(null);
-  const justLoadedRef = useRef(justLoaded);
-  const savingRef = useRef(saving);
-  const codeRunInProgressRef = useRef(codeRunInProgress);
-  const projectRef = useRef(project);
-  const userRef = useRef(user);
-  const initialComponentsRef = useRef(initialComponents);
-  const initialProjectNameRef = useRef(initialProjectName);
-  const initialProjectInstructionsRef = useRef(initialProjectInstructions);
-  const prevCodeRunInProgressRef = useRef(codeRunInProgress);
-
   const enabled = enabledProp ?? isEligibleForAutoSave(user, project);
-  const enabledRef = useRef(enabled);
 
-  // Keep latest Redux/props in refs for useEffectEvent handlers (async-safe, no stale closures).
-  savingRef.current = saving;
-  codeRunInProgressRef.current = codeRunInProgress;
-  projectRef.current = project;
-  userRef.current = user;
-  initialComponentsRef.current = initialComponents;
-  initialProjectNameRef.current = initialProjectName;
-  initialProjectInstructionsRef.current = initialProjectInstructions;
-  justLoadedRef.current = justLoaded;
-  enabledRef.current = enabled;
+  // Latest props/Redux snapshot for autoSaveLifecycle (updated every render).
+  const contextRef = useRef(null);
+  contextRef.current = {
+    enabled, // from useProjectPersistence — API autosave path active
+    saving, // Redux save state — blocks autosave while "pending"
+    codeRunInProgress, // Python run in progress — defer autosave until complete
+    project, // current project payload sent to the API
+    user, // logged-in author (access token for syncProject)
+    initialComponents, // snapshot at load — detect dirty state
+    initialProjectName,
+    initialProjectInstructions,
+    reactAppApiEndpoint,
+    justLoaded, // skip expireJustLoaded until debounce fires after load
+  };
 
+  // Mutable save-cycle state — autoSaveLifecycle reads/writes these across async work.
+  const schedulerRef = useRef({
+    queued: false, // edits arrived while blocked or in cooldown
+    inFlight: false, // autosave API call in progress
+    lastCompletedAt: null, // timestamp for cooldown window
+  });
+  const inFlightSavePromiseRef = useRef(null); // await in-flight save before flush
+  const pendingSaveWaitersRef = useRef([]); // resolvers waiting for Redux save to finish
+  const cooldownTimerRef = useRef(null); // scheduled flush after cooldown elapses
+  const debounceTimerRef = useRef(null); // edit debounce before requestAutoSave
+  const prevCodeRunInProgressRef = useRef(codeRunInProgress); // detect run end edge
+
+  const lifecycleRef = useRef(null);
+  if (!lifecycleRef.current) {
+    lifecycleRef.current = createAutoSaveLifecycle({
+      dispatch,
+      getContext: () => contextRef.current,
+      getScheduler: () => schedulerRef.current,
+      inFlightSavePromiseRef,
+      pendingSaveWaitersRef,
+      cooldownTimerRef,
+    });
+  }
+
+  const lifecycle = lifecycleRef.current;
   const editDebounceMs = getAutosaveDebounceMs(project);
 
-  const isEligible = () => enabledRef.current;
-
-  const isSaveBlocked = () =>
-    isAutoSaveBlocked({
-      codeRunInProgress: codeRunInProgressRef.current,
-      inFlight: schedulerRef.current.inFlight,
-      saving: savingRef.current,
-    });
-
-  const getRemainingAutoSaveCooldownMs = () =>
-    getRemainingCooldownMs(
-      schedulerRef.current.lastCompletedAt,
-      AUTOSAVE_COOLDOWN_MS,
-    );
-
-  const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
-
-  const hasProjectChanged = () =>
-    hasProjectChangedForAutoSave(
-      projectRef.current,
-      initialComponentsRef.current,
-      {
-        initialName: initialProjectNameRef.current,
-        initialInstructions: initialProjectInstructionsRef.current,
-      },
-    );
-
-  const clearQueue = () => {
-    schedulerRef.current.queued = false;
-  };
-
-  const clearQueueIfUnchanged = () => {
-    if (!hasProjectChanged()) {
-      clearQueue();
-      return true;
-    }
-
-    return false;
-  };
-
-  const waitForPendingSave = () => {
-    if (savingRef.current !== "pending") {
-      return Promise.resolve();
-    }
-
-    return new Promise((resolve) => {
-      pendingSaveWaitersRef.current.push(resolve);
-    });
-  };
-
-  const waitForInFlightSave = async () => {
-    if (inFlightSavePromiseRef.current) {
-      await inFlightSavePromiseRef.current;
-    }
-
-    if (savingRef.current === "pending") {
-      await waitForPendingSave();
-    }
-  };
-
-  const flushQueuedSave = useEffectEvent(() => {
-    if (!schedulerRef.current.queued || !hasProjectChanged()) {
-      clearQueue();
-      return;
-    }
-
-    if (isSaveBlocked()) {
-      return;
-    }
-
-    if (isInAutosaveCooldown(schedulerRef.current.lastCompletedAt)) {
-      scheduleCooldownFlush();
-      return;
-    }
-
-    clearQueue();
-    startAutoSave().catch(() => {});
-  });
-
-  const scheduleCooldownFlush = useEffectEvent(() => {
-    const remainingCooldown = getRemainingAutoSaveCooldownMs();
-    if (remainingCooldown <= 0) {
-      flushQueuedSave();
-      return;
-    }
-
-    if (cooldownTimerRef.current) {
-      return;
-    }
-
-    cooldownTimerRef.current = setTimeout(() => {
-      cooldownTimerRef.current = null;
-      flushQueuedSave();
-    }, remainingCooldown);
-  });
-
-  const startAutoSave = useEffectEvent(() => {
-    schedulerRef.current.inFlight = true;
-
-    const savePromise = Promise.resolve(
-      dispatch(
-        syncProject("save")({
-          reactAppApiEndpoint,
-          project: projectRef.current,
-          accessToken: userRef.current.access_token,
-          autosave: true,
-        }),
-      ),
-    )
-      .then(() => {
-        schedulerRef.current.lastCompletedAt = Date.now();
-      })
-      .catch(() => {
-        schedulerRef.current.queued = true;
-        throw new Error("autosave failed");
-      })
-      .finally(() => {
-        schedulerRef.current.inFlight = false;
-        inFlightSavePromiseRef.current = null;
-        flushQueuedSave();
-      });
-
-    inFlightSavePromiseRef.current = savePromise;
-    return savePromise;
-  });
-
-  const hasPendingAutoSave = useEffectEvent(() => {
-    return (
-      isEligible() &&
-      hasProjectChanged() &&
-      hasOutstandingAutosaveWork({
-        queued: schedulerRef.current.queued,
-        inFlight: schedulerRef.current.inFlight,
-        lastCompletedAt: schedulerRef.current.lastCompletedAt,
-      })
-    );
-  });
-
-  const shouldFlushBeforeNavigation = useEffectEvent(() => {
-    return isEligible() && hasProjectChanged();
-  });
-
-  const requestAutoSave = useEffectEvent(() => {
-    if (!isEligible()) {
-      return;
-    }
-
-    if (!hasProjectChanged()) {
-      return;
-    }
-
-    if (isSaveBlocked()) {
-      schedulerRef.current.queued = true;
-      return;
-    }
-
-    if (isInAutosaveCooldown(schedulerRef.current.lastCompletedAt)) {
-      schedulerRef.current.queued = true;
-      scheduleCooldownFlush();
-      return;
-    }
-
-    clearQueue();
-    startAutoSave().catch(() => {});
-  });
-
-  const flushPendingAutoSave = useEffectEvent(async () => {
-    if (!isEligible()) {
-      return;
-    }
-
-    await waitForInFlightSave();
-    if (clearQueueIfUnchanged()) {
-      return;
-    }
-
-    clearCooldownTimer();
-
-    if (schedulerRef.current.inFlight || savingRef.current === "pending") {
-      await waitForInFlightSave();
-    }
-    if (clearQueueIfUnchanged()) {
-      return;
-    }
-
-    clearQueue();
-    return startAutoSave();
-  });
+  const requestAutoSave = useEffectEvent(() => lifecycle.requestAutoSave());
+  const flushQueuedSave = useEffectEvent(() => lifecycle.flushQueuedSave());
+  const flushPendingAutoSave = useEffectEvent(() =>
+    lifecycle.flushPendingAutoSave(),
+  );
+  const hasPendingAutoSave = useEffectEvent(() =>
+    lifecycle.hasPendingAutoSave(),
+  );
+  const shouldFlushBeforeNavigation = useEffectEvent(() =>
+    lifecycle.shouldFlushBeforeNavigation(),
+  );
 
   // Resume flush waiters when a Redux save (manual or autosave) leaves pending.
   useEffect(() => {
     if (saving !== "pending") {
-      const waiters = pendingSaveWaitersRef.current;
-      pendingSaveWaitersRef.current = [];
-      waiters.forEach((resolve) => resolve());
+      lifecycle.resolveSaveWaiters();
     }
-  }, [saving]);
+  }, [lifecycle, saving]);
 
   // Register host API and page lifecycle handlers when autosave is enabled.
   useEffect(() => {
@@ -327,13 +156,13 @@ export const useAutoSave = ({
     return () => {
       window.removeEventListener("pagehide", handlePageHide);
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      clearCooldownTimer();
+      lifecycle.clearCooldownTimer();
       flushPendingAutoSave();
       clearAutoSaveHostApi();
     };
-    // useEffectEvent callbacks are stable and always invoke the latest logic.
+    // Omit useEffectEvent handlers from deps — they stay stable and call lifecycle via refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled]);
+  }, [enabled, lifecycle]);
 
   // Retry queued autosave when a Python code run finishes.
   useEffect(() => {
@@ -343,6 +172,7 @@ export const useAutoSave = ({
     if (wasInProgress && !codeRunInProgress && enabled) {
       flushQueuedSave();
     }
+    // Omit flushQueuedSave from deps — useEffectEvent; must not re-run on callback identity changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [codeRunInProgress, enabled]);
 
@@ -357,7 +187,7 @@ export const useAutoSave = ({
     debounceTimerRef.current = setTimeout(() => {
       debounceTimerRef.current = null;
 
-      if (justLoadedRef.current) {
+      if (contextRef.current.justLoaded) {
         dispatch(expireJustLoaded());
       }
 
@@ -365,8 +195,9 @@ export const useAutoSave = ({
     }, editDebounceMs);
 
     return () => clearTimerRef(debounceTimerRef);
-  }, [dispatch, editDebounceMs, enabled, project, user]); // eslint-disable-line react-hooks/exhaustive-deps
-  // justLoaded is read via ref so expireJustLoaded is not fired too early.
+    // Omit requestAutoSave (useEffectEvent) and justLoaded (read from contextRef when timer fires).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, editDebounceMs, enabled, project, user]);
 
   return {
     requestAutoSave,
