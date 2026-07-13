@@ -131,6 +131,16 @@ const appPlugins = (react, svgr, nodePolyfills) => [
 // module script (<script type="module" src="/src/...">) rewritten to a classic
 // <script src="./bundle.js">. External hosts embed the bundle with a classic
 // script tag, so the deployed preview page must load it the same way.
+//
+// The replacement is `defer`red: the source template's module script lives in
+// <head>, and module scripts are deferred by default, so the bundle runs only
+// after the document is parsed (i.e. <body> exists). A plain classic script in
+// <head> would instead run synchronously mid-parse, before <body> exists, and
+// the bundle's top-level evaluation appends to document.body - which is null at
+// that point, throwing "Cannot read properties of null (reading 'appendChild')".
+// `defer` restores the module-script timing (run after parse, before
+// DOMContentLoaded, preserving the ordering the page's inline DOMContentLoaded
+// handler relies on).
 const emitClassicHtml = ({ template, fileName, bundle }) => ({
   name: `emit-classic-html:${fileName}`,
   apply: "build",
@@ -139,7 +149,7 @@ const emitClassicHtml = ({ template, fileName, bundle }) => ({
       .readFileSync(template, "utf8")
       .replace(
         /<script\s+type="module"\s+src="\/src\/[^"]+"><\/script>\s*/,
-        `<script src="${bundle}"></script>`,
+        `<script defer src="${bundle}"></script>`,
       );
     this.emitFile({ type: "asset", fileName, source: html });
   },

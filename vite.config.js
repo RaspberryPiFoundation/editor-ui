@@ -26,18 +26,41 @@ const CORP_PATHS = [
   "/api/scratch/projects/cool-scratch.json",
 ];
 
+const corpMiddleware = (req, res, next) => {
+  const url = (req.url || "").split("?")[0];
+  if (CORP_PATHS.includes(url) || url.startsWith("/html-renderer.html")) {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  }
+  next();
+};
+
+// Applied to both the dev server (`yarn start`) and the preview server
+// (`yarn preview`, which serves the built bundles from build/), so the classic
+// <script src="http://localhost:3011/web-component.js"> load contract can be
+// exercised cross-origin from a host app against the real, built bundle.
 const crossOriginResourcePolicy = () => ({
   name: "cross-origin-resource-policy",
   configureServer(server) {
-    server.middlewares.use((req, res, next) => {
-      const url = (req.url || "").split("?")[0];
-      if (CORP_PATHS.includes(url) || url.startsWith("/html-renderer.html")) {
-        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-      }
-      next();
-    });
+    server.middlewares.use(corpMiddleware);
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use(corpMiddleware);
   },
 });
+
+// Cross-origin isolation + CORS headers required for Pyodide (SharedArrayBuffer)
+// and for host apps embedding the bundle cross-origin. Mirrors the old
+// webpack-dev-server `headers` block and is shared by the dev and preview
+// servers so both behave identically to what host apps already integrated with.
+const crossOriginIsolationHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "X-Requested-With, content-type, Authorization, x-run-id, x-project-id",
+  // Pyodide - required for input and code interruption
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Embedder-Policy": "require-corp",
+};
 
 // In production PyodideWorker.js is emitted by vite.worker.config.js. In dev it
 // is not part of the module graph and the worker build is not run, so serve it
@@ -144,15 +167,17 @@ export default defineConfig(async ({ mode }) => {
     server: {
       host: true,
       port: 3011,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, content-type, Authorization, x-run-id, x-project-id",
-        // Pyodide - required for input and code interruption
-        "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Embedder-Policy": "require-corp",
-      },
+      headers: crossOriginIsolationHeaders,
+    },
+    // `yarn preview` serves the built bundles from build/ on the same origin
+    // (localhost:3011) and with the same headers as the dev server, so a host
+    // app can load the real classic `web-component.js` IIFE cross-origin exactly
+    // as it does in production - no host-app changes needed. Build first
+    // (`yarn build`), then `yarn preview`.
+    preview: {
+      host: true,
+      port: 3011,
+      headers: crossOriginIsolationHeaders,
     },
     build: iifeBuildOptions({
       root: __dirname,
