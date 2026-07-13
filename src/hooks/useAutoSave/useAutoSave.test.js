@@ -245,7 +245,7 @@ describe("useAutoSave", () => {
     });
   });
 
-  test("queues autosave during cooldown after a successful auto-save", async () => {
+  test("queues autosave during throttle after a successful auto-save", async () => {
     const { result } = renderHook(() =>
       useAutoSave({
         user: user1,
@@ -276,7 +276,7 @@ describe("useAutoSave", () => {
     expect(mockDispatch).toHaveBeenCalledTimes(2);
   });
 
-  test("flushPendingAutoSave bypasses cooldown", async () => {
+  test("flushPendingAutoSave bypasses throttle", async () => {
     const { result } = renderHook(() =>
       useAutoSave({
         user: user1,

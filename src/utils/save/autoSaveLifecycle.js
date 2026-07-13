@@ -1,10 +1,10 @@
 import { syncProject } from "../../redux/EditorSlice";
 import {
-  AUTOSAVE_COOLDOWN_MS,
+  AUTOSAVE_THROTTLE_MS,
   clearTimerRef,
-  getRemainingCooldownMs,
+  getRemainingThrottleMs,
   hasOutstandingAutosaveWork,
-  isInAutosaveCooldown,
+  isInAutosaveThrottle,
 } from "./autoSaveScheduling";
 import {
   hasProjectChangedForAutoSave,
@@ -12,11 +12,11 @@ import {
 } from "./autoSaveLogic";
 
 /**
- * Python/HTML autosave lifecycle: queue → in-flight save → cooldown → flush.
+ * Python/HTML autosave lifecycle: queue → in-flight save → throttle → flush.
  *
- * requestAutoSave: tries to save immediately, or queues when blocked/in cooldown.
- * flushQueuedSave: drains the queue when run/save/cooldown allows.
- * flushPendingAutoSave: force-save for navigation/pagehide; bypasses cooldown.
+ * requestAutoSave: tries to save immediately, or queues when blocked/in throttle.
+ * flushQueuedSave: drains the queue when run/save/throttle allows.
+ * flushPendingAutoSave: force-save for navigation/pagehide; bypasses throttle.
  */
 export const createAutoSaveLifecycle = ({
   dispatch,
@@ -24,7 +24,7 @@ export const createAutoSaveLifecycle = ({
   getScheduler,
   inFlightSavePromiseRef,
   pendingSaveWaitersRef,
-  cooldownTimerRef,
+  throttleTimerRef,
 }) => {
   const isEnabled = () => getContext().enabled;
 
@@ -42,7 +42,7 @@ export const createAutoSaveLifecycle = ({
     });
   };
 
-  // --- Queue: edits while blocked, in-flight, or in cooldown ---
+  // --- Queue: edits while blocked, in-flight, or in throttle ---
 
   const isSaveBlocked = () => {
     const { codeRunInProgress, saving } = getContext();
@@ -72,23 +72,23 @@ export const createAutoSaveLifecycle = ({
     getScheduler().queued = true;
   };
 
-  // --- Cooldown: 10s after a successful API save ---
+  // --- Throttle: 10s after a successful API save ---
 
-  const getRemainingAutoSaveCooldownMs = () =>
-    getRemainingCooldownMs(
+  const getRemainingAutoSaveThrottleMs = () =>
+    getRemainingThrottleMs(
       getScheduler().lastCompletedAt,
-      AUTOSAVE_COOLDOWN_MS,
+      AUTOSAVE_THROTTLE_MS,
     );
 
-  const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
+  const clearThrottleTimer = () => clearTimerRef(throttleTimerRef);
 
-  const startCooldown = () => {
+  const startThrottle = () => {
     getScheduler().lastCompletedAt = Date.now();
   };
 
-  const deferUntilCooldownEnds = () => {
+  const deferUntilThrottleEnds = () => {
     enqueueSave();
-    scheduleCooldownFlush();
+    scheduleThrottleFlush();
   };
 
   // --- In-flight save: API call + Redux pending coordination ---
@@ -135,7 +135,7 @@ export const createAutoSaveLifecycle = ({
       ),
     )
       .then(() => {
-        startCooldown();
+        startThrottle();
       })
       .catch(() => {
         enqueueSave();
@@ -165,8 +165,8 @@ export const createAutoSaveLifecycle = ({
       return;
     }
 
-    if (isInAutosaveCooldown(scheduler.lastCompletedAt)) {
-      scheduleCooldownFlush();
+    if (isInAutosaveThrottle(scheduler.lastCompletedAt)) {
+      scheduleThrottleFlush();
       return;
     }
 
@@ -174,21 +174,21 @@ export const createAutoSaveLifecycle = ({
     startAutoSave().catch(() => {});
   };
 
-  const scheduleCooldownFlush = () => {
-    const remainingCooldown = getRemainingAutoSaveCooldownMs();
-    if (remainingCooldown <= 0) {
+  const scheduleThrottleFlush = () => {
+    const remainingThrottle = getRemainingAutoSaveThrottleMs();
+    if (remainingThrottle <= 0) {
       flushQueuedSave();
       return;
     }
 
-    if (cooldownTimerRef.current) {
+    if (throttleTimerRef.current) {
       return;
     }
 
-    cooldownTimerRef.current = setTimeout(() => {
-      cooldownTimerRef.current = null;
+    throttleTimerRef.current = setTimeout(() => {
+      throttleTimerRef.current = null;
       flushQueuedSave();
-    }, remainingCooldown);
+    }, remainingThrottle);
   };
 
   const requestAutoSave = () => {
@@ -205,8 +205,8 @@ export const createAutoSaveLifecycle = ({
       return;
     }
 
-    if (isInAutosaveCooldown(getScheduler().lastCompletedAt)) {
-      deferUntilCooldownEnds();
+    if (isInAutosaveThrottle(getScheduler().lastCompletedAt)) {
+      deferUntilThrottleEnds();
       return;
     }
 
@@ -214,7 +214,7 @@ export const createAutoSaveLifecycle = ({
     startAutoSave().catch(() => {});
   };
 
-  // --- Navigation flush: bypass cooldown ---
+  // --- Navigation flush: bypass throttle ---
 
   const hasPendingAutoSave = () => {
     const scheduler = getScheduler();
@@ -242,7 +242,7 @@ export const createAutoSaveLifecycle = ({
       return;
     }
 
-    clearCooldownTimer();
+    clearThrottleTimer();
 
     const scheduler = getScheduler();
     if (scheduler.inFlight || getContext().saving === "pending") {
@@ -262,7 +262,7 @@ export const createAutoSaveLifecycle = ({
     flushPendingAutoSave,
     hasPendingAutoSave,
     shouldFlushBeforeNavigation,
-    clearCooldownTimer,
+    clearThrottleTimer,
     resolveSaveWaiters,
   };
 };

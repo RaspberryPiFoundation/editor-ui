@@ -12,7 +12,7 @@ import { useScratchSaveState } from "./useScratchSaveState";
  * enableScratchSaveState: logged-in user, editor loaded, Scratch project type.
  * autoSaveEnabled (inside useScratchSaveState): project has identifier and is not remix-on-first-save.
  *
- * Pipeline: scratch-gui messages → debounce → iframe save → queue / cooldown / in-flight
+ * Pipeline: scratch-gui messages → debounce → iframe save → queue / throttle / in-flight
  */
 export const useScratchSave = ({ enabled = true } = {}) => {
   const loading = useSelector((state) => state.editor?.loading);

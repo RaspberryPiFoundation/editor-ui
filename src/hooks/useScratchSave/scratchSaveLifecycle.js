@@ -1,22 +1,22 @@
 import {
-  AUTOSAVE_COOLDOWN_MS,
+  AUTOSAVE_THROTTLE_MS,
   AUTOSAVE_DEBOUNCE_MS,
   clearTimerRef,
-  getRemainingCooldownMs,
+  getRemainingThrottleMs,
   getRemainingDebounceMs,
   hasOutstandingAutosaveWork,
-  isInAutosaveCooldown,
+  isInAutosaveThrottle,
 } from "../../utils/save/autoSaveScheduling";
 
 /**
- * Scratch autosave lifecycle: debounce → queue → in-flight iframe save → cooldown.
+ * Scratch autosave lifecycle: debounce → queue → in-flight iframe save → throttle.
  *
  * Transport (postMessage + message handler) stays in useScratchSaveState; this module
  * owns scheduling only. Mirrors createAutoSaveLifecycle for Python/HTML.
  *
  * requestAutoSave: debounced entry after scratch-gui-project-changed.
- * flushQueuedSave: drains the queue when in-flight/cooldown allows.
- * flushPendingAutoSave: force-save for SPA navigation; bypasses cooldown (awaitable).
+ * flushQueuedSave: drains the queue when in-flight/throttle allows.
+ * flushPendingAutoSave: force-save for SPA navigation; bypasses throttle (awaitable).
  */
 export const createScratchSaveLifecycle = ({
   getContext,
@@ -26,7 +26,7 @@ export const createScratchSaveLifecycle = ({
   inFlightSaveResolveRef,
   inFlightSaveRejectRef,
   currentSaveIsAutosaveRef,
-  cooldownTimerRef,
+  throttleTimerRef,
   autoSaveTimeoutRef,
 }) => {
   const canAutoSave = () => getContext().canAutoSave();
@@ -48,15 +48,15 @@ export const createScratchSaveLifecycle = ({
     return false;
   };
 
-  const getRemainingAutoSaveCooldownMs = () =>
-    getRemainingCooldownMs(
+  const getRemainingAutoSaveThrottleMs = () =>
+    getRemainingThrottleMs(
       getScheduler().lastCompletedAt,
-      AUTOSAVE_COOLDOWN_MS,
+      AUTOSAVE_THROTTLE_MS,
     );
 
   const clearAutoSaveTimeout = () => clearTimerRef(autoSaveTimeoutRef);
 
-  const clearCooldownTimer = () => clearTimerRef(cooldownTimerRef);
+  const clearThrottleTimer = () => clearTimerRef(throttleTimerRef);
 
   const resolveInFlightSave = () => {
     inFlightSaveResolveRef.current?.();
@@ -99,21 +99,21 @@ export const createScratchSaveLifecycle = ({
       throw error;
     });
 
-  const scheduleCooldownFlush = () => {
-    const remainingCooldown = getRemainingAutoSaveCooldownMs();
-    if (remainingCooldown <= 0) {
+  const scheduleThrottleFlush = () => {
+    const remainingThrottle = getRemainingAutoSaveThrottleMs();
+    if (remainingThrottle <= 0) {
       flushQueuedSave();
       return;
     }
 
-    if (cooldownTimerRef.current) {
+    if (throttleTimerRef.current) {
       return;
     }
 
-    cooldownTimerRef.current = setTimeout(() => {
-      cooldownTimerRef.current = null;
+    throttleTimerRef.current = setTimeout(() => {
+      throttleTimerRef.current = null;
       flushQueuedSave();
-    }, remainingCooldown);
+    }, remainingThrottle);
   };
 
   const requestAutoSave = (delay = AUTOSAVE_DEBOUNCE_MS) => {
@@ -133,9 +133,9 @@ export const createScratchSaveLifecycle = ({
         return;
       }
 
-      if (isInAutosaveCooldown(getScheduler().lastCompletedAt)) {
+      if (isInAutosaveThrottle(getScheduler().lastCompletedAt)) {
         getScheduler().queued = true;
-        scheduleCooldownFlush();
+        scheduleThrottleFlush();
         return;
       }
 
@@ -158,8 +158,8 @@ export const createScratchSaveLifecycle = ({
       return;
     }
 
-    if (isInAutosaveCooldown(getScheduler().lastCompletedAt)) {
-      scheduleCooldownFlush();
+    if (isInAutosaveThrottle(getScheduler().lastCompletedAt)) {
+      scheduleThrottleFlush();
       return;
     }
 
@@ -183,9 +183,9 @@ export const createScratchSaveLifecycle = ({
       return;
     }
 
-    if (isInAutosaveCooldown(getScheduler().lastCompletedAt)) {
+    if (isInAutosaveThrottle(getScheduler().lastCompletedAt)) {
       getScheduler().queued = true;
-      scheduleCooldownFlush();
+      scheduleThrottleFlush();
       return;
     }
 
@@ -222,7 +222,7 @@ export const createScratchSaveLifecycle = ({
       return;
     }
 
-    clearCooldownTimer();
+    clearThrottleTimer();
     clearAutoSaveTimeout();
 
     if (getScheduler().inFlight) {
@@ -259,7 +259,7 @@ export const createScratchSaveLifecycle = ({
 
   const cancelPendingWork = () => {
     clearAutoSaveTimeout();
-    clearCooldownTimer();
+    clearThrottleTimer();
     clearQueue();
     getContext().clearDirty?.();
   };
@@ -280,7 +280,7 @@ export const createScratchSaveLifecycle = ({
     hasPendingAutoSave,
     shouldFlushBeforeNavigation,
     clearAutoSaveTimeout,
-    clearCooldownTimer,
+    clearThrottleTimer,
     clearQueue,
     postSaveRequest,
     markSaveSucceeded,

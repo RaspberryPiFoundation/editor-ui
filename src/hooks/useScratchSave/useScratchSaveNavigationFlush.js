@@ -13,7 +13,7 @@ import {
 export const useScratchSaveNavigationFlush = ({
   enabled,
   clearAutoSaveTimeout,
-  clearCooldownTimer,
+  clearThrottleTimer,
   hasPendingAutoSave,
   flushPendingAutoSave,
   shouldFlushBeforeNavigation,
@@ -60,7 +60,7 @@ export const useScratchSaveNavigationFlush = ({
     return () => {
       window.removeEventListener("pagehide", handlePageHide);
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      clearCooldownTimer();
+      clearThrottleTimer();
       clearAutoSaveTimeout();
       if (shouldFlushBeforeNavigation()) {
         flushPendingAutoSave();

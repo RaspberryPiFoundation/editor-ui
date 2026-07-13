@@ -1,39 +1,39 @@
 import {
-  AUTOSAVE_COOLDOWN_MS,
+  AUTOSAVE_THROTTLE_MS,
   AUTOSAVE_DEBOUNCE_LARGE_PROJECT_MS,
   AUTOSAVE_DEBOUNCE_MS,
   clearTimerRef,
   getAutosaveDebounceMs,
-  getRemainingCooldownMs,
+  getRemainingThrottleMs,
   getRemainingDebounceMs,
   hasOutstandingAutosaveWork,
-  isInAutosaveCooldown,
+  isInAutosaveThrottle,
 } from "./autoSaveScheduling";
 
 describe("autoSaveScheduling", () => {
-  test("getRemainingCooldownMs returns 0 when no prior save", () => {
-    expect(getRemainingCooldownMs(null)).toBe(0);
+  test("getRemainingThrottleMs returns 0 when no prior save", () => {
+    expect(getRemainingThrottleMs(null)).toBe(0);
   });
 
-  test("getRemainingCooldownMs returns remaining time during cooldown", () => {
+  test("getRemainingThrottleMs returns remaining time during throttle", () => {
     const now = 1_000_000;
     const lastCompletedAt = now - 2_000;
 
     expect(
-      getRemainingCooldownMs(lastCompletedAt, AUTOSAVE_COOLDOWN_MS, now),
+      getRemainingThrottleMs(lastCompletedAt, AUTOSAVE_THROTTLE_MS, now),
     ).toBe(8_000);
   });
 
-  test("isInAutosaveCooldown is false after cooldown expires", () => {
+  test("isInAutosaveThrottle is false after throttle expires", () => {
     const now = 1_000_000;
-    const lastCompletedAt = now - AUTOSAVE_COOLDOWN_MS;
+    const lastCompletedAt = now - AUTOSAVE_THROTTLE_MS;
 
     expect(
-      isInAutosaveCooldown(lastCompletedAt, AUTOSAVE_COOLDOWN_MS, now),
+      isInAutosaveThrottle(lastCompletedAt, AUTOSAVE_THROTTLE_MS, now),
     ).toBe(false);
   });
 
-  test("hasOutstandingAutosaveWork reflects queue, in-flight, and cooldown", () => {
+  test("hasOutstandingAutosaveWork reflects queue, in-flight, and throttle", () => {
     const now = 1_000_000;
 
     expect(

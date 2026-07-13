@@ -11,7 +11,7 @@ const createLifecycle = ({
   const inFlightSaveResolveRef = { current: null };
   const inFlightSaveRejectRef = { current: null };
   const currentSaveIsAutosaveRef = { current: false };
-  const cooldownTimerRef = { current: null };
+  const throttleTimerRef = { current: null };
   const autoSaveTimeoutRef = { current: null };
 
   let dirty = context.dirty ?? true;
@@ -40,7 +40,7 @@ const createLifecycle = ({
     inFlightSaveResolveRef,
     inFlightSaveRejectRef,
     currentSaveIsAutosaveRef,
-    cooldownTimerRef,
+    throttleTimerRef,
     autoSaveTimeoutRef,
   });
 
@@ -92,7 +92,7 @@ describe("scratchSaveLifecycle", () => {
     expect(postSave).toHaveBeenCalledTimes(2);
   });
 
-  test("flushPendingAutoSave bypasses cooldown", async () => {
+  test("flushPendingAutoSave bypasses throttle", async () => {
     const { lifecycle, postSave, triggerProjectChanged, resolveInFlight } =
       createLifecycle();
 

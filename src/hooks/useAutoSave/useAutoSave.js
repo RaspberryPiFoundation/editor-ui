@@ -12,24 +12,24 @@ import { useAutoSaveRunDeferral } from "./useAutoSaveRunDeferral";
  * Active when enabled is true (from useProjectPersistence as canAutoSave): logged-in
  * author with a saved project. When false, useLocalProjectBackup handles edits instead.
  *
- * Pipeline: project change → debounce → requestAutoSave → queue / cooldown / in-flight → API save
+ * Pipeline: project change → debounce → requestAutoSave → queue / throttle / in-flight → API save
  *
  * This hook owns:
  * - Debounce (2s, or 10s for large projects) — useAutoSaveDebounce
  *   - Wait after each edit before trying to save, so rapid keystrokes produce one save
  *   - Use a longer wait for large projects (1MB+) because saves are slower and more expensive
- * - Cooldown (10s after a successful API save) — autoSaveLifecycle (below)
+ * - Throttle (10s after a successful API save) — autoSaveLifecycle (below)
  *   - After a successful autosave, hold off further API saves for 10s to reduce save churn and noisy analytics
- *   - The clock starts on success, not when the save is requested — failed saves do not trigger cooldown
- * - Queue (edits while blocked, in-flight, or in cooldown) — autoSaveLifecycle (below)
+ *   - The clock starts on success, not when the save is requested — failed saves do not trigger throttle
+ * - Queue (edits while blocked, in-flight, or in throttle) — autoSaveLifecycle (below)
  *   - Remember that a save is needed when we cannot run one yet, then retry when the blocker clears
  *   - Blocked while a Python run is active, an autosave is in flight, or Redux reports saving as pending
- *   - Also queues during cooldown; when allowed, saves once with the latest edits
+ *   - Also queues during throttle; when allowed, saves once with the latest edits
  * - Python run deferral — useAutoSaveRunDeferral + autoSaveLifecycle
  *   - Do not snapshot file content mid-run while the runner may be writing files
  *   - When the run finishes, retry any queued autosave
  * - Navigation flush (pagehide / host API) — useAutoSaveNavigationFlush / autoSaveLifecycle
- *   - Persist unsaved changes before the user leaves, even during cooldown
+ *   - Persist unsaved changes before the user leaves, even during throttle
  *   - Warn the user on beforeunload when there are dirty changes that autosave would normally handle
  *
  * Timing constants: autoSaveScheduling. Save-cycle logic: autoSaveLifecycle.
@@ -58,7 +58,7 @@ export const useAutoSave = ({
 
   const enabled = enabledProp ?? isEligibleForAutoSave(user, project);
 
-  // --- Context (read by queue, cooldown, and in-flight logic in autoSaveLifecycle) ---
+  // --- Context (read by queue, throttle, and in-flight logic in autoSaveLifecycle) ---
   const contextRef = useRef(null);
   contextRef.current = {
     enabled, // from useProjectPersistence — API autosave path active
@@ -75,17 +75,17 @@ export const useAutoSave = ({
 
   // --- Queue + in-flight refs (rules in autoSaveLifecycle) ---
   const schedulerRef = useRef({
-    queued: false, // queue: set when blocked or in cooldown
+    queued: false, // queue: set when blocked or in throttle
     inFlight: false, // in-flight: blocks new saves; pairs with queue
-    lastCompletedAt: null, // cooldown: timestamp for 10s window (see below)
+    lastCompletedAt: null, // throttle: timestamp for 10s window (see below)
   });
   const inFlightSavePromiseRef = useRef(null); // in-flight: await before flush
   const pendingSaveWaitersRef = useRef([]); // queue: wait for Redux save to finish
 
-  // --- Cooldown refs (rules in autoSaveLifecycle) ---
-  const cooldownTimerRef = useRef(null); // retry flushQueuedSave when cooldown elapses
+  // --- Throttle refs (rules in autoSaveLifecycle) ---
+  const throttleTimerRef = useRef(null); // retry flushQueuedSave when throttle elapses
 
-  // --- Lifecycle (queue + cooldown + in-flight) ---
+  // --- Lifecycle (queue + throttle + in-flight) ---
   const lifecycleRef = useRef(null);
   if (!lifecycleRef.current) {
     lifecycleRef.current = createAutoSaveLifecycle({
@@ -94,7 +94,7 @@ export const useAutoSave = ({
       getScheduler: () => schedulerRef.current,
       inFlightSavePromiseRef,
       pendingSaveWaitersRef,
-      cooldownTimerRef,
+      throttleTimerRef,
     });
   }
 
@@ -102,7 +102,7 @@ export const useAutoSave = ({
 
   // --- Lifecycle callbacks ---
   // Queue: requestAutoSave (may enqueue), flushQueuedSave (drain queue)
-  // Cooldown: requestAutoSave (enqueue + schedule), flushPendingAutoSave (bypass), hasPendingAutoSave
+  // Throttle: requestAutoSave (enqueue + schedule), flushPendingAutoSave (bypass), hasPendingAutoSave
   const requestAutoSave = useEffectEvent(() => lifecycle.requestAutoSave());
   const flushQueuedSave = useEffectEvent(() => lifecycle.flushQueuedSave());
   const flushPendingAutoSave = useEffectEvent(() =>

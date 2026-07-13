@@ -7,7 +7,7 @@ import {
 /**
  * Python/HTML navigation flush: pagehide / beforeunload and project host API.
  *
- * flushPendingAutoSave (in lifecycle) bypasses cooldown and waits for in-flight work.
+ * flushPendingAutoSave (in lifecycle) bypasses throttle and waits for in-flight work.
  */
 export const useAutoSaveNavigationFlush = ({
   enabled,
@@ -58,7 +58,7 @@ export const useAutoSaveNavigationFlush = ({
     return () => {
       window.removeEventListener("pagehide", handlePageHide);
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      lifecycle.clearCooldownTimer();
+      lifecycle.clearThrottleTimer();
       flushPendingAutoSave();
     };
     // Omit useEffectEvent handlers from deps — they stay stable and call lifecycle via refs.

@@ -39,7 +39,7 @@ const createLifecycle = ({
   const schedulerState = { ...scheduler };
   const inFlightSavePromiseRef = { current: null };
   const pendingSaveWaitersRef = { current: [] };
-  const cooldownTimerRef = { current: null };
+  const throttleTimerRef = { current: null };
 
   let resolveSave;
   let rejectSave;
@@ -69,7 +69,7 @@ const createLifecycle = ({
     getScheduler: () => schedulerState,
     inFlightSavePromiseRef,
     pendingSaveWaitersRef,
-    cooldownTimerRef,
+    throttleTimerRef,
   });
 
   return {
@@ -126,7 +126,7 @@ describe("autoSaveLifecycle", () => {
     expect(schedulerState.queued).toBe(true);
   });
 
-  test("requestAutoSave queues during cooldown after a successful save", async () => {
+  test("requestAutoSave queues during throttle after a successful save", async () => {
     const { lifecycle, dispatch, resolveSave } = createLifecycle();
 
     lifecycle.requestAutoSave();

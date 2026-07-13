@@ -333,7 +333,7 @@ describe("useScratchSaveState", () => {
     expect(store.getState().editor.saving).toBe("pending");
   });
 
-  test("queues autosave during cooldown after a successful auto-save", () => {
+  test("queues autosave during throttle after a successful auto-save", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchUserEdit();
@@ -360,7 +360,7 @@ describe("useScratchSaveState", () => {
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
   });
 
-  test("flushPendingAutoSave bypasses cooldown", async () => {
+  test("flushPendingAutoSave bypasses throttle", async () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchUserEdit();

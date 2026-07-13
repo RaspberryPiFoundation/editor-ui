@@ -19,21 +19,21 @@ import { useScratchSaveNavigationFlush } from "./useScratchSaveNavigationFlush";
  * runs only when autoSaveEnabled (saved project, not remix-on-first-save).
  * Shared timing and host API: utils/save/. Python/HTML equivalent: hooks/useAutoSave.
  *
- * Pipeline: scratch-gui-project-changed → debounce → postMessage save → queue / cooldown / in-flight
+ * Pipeline: scratch-gui-project-changed → debounce → postMessage save → queue / throttle / in-flight
  *
  * This hook owns:
  * - Debounce (2s) — scratchSaveLifecycle.requestAutoSave after project-changed
  *   - Fixed 2s (AUTOSAVE_DEBOUNCE_MS); Scratch has no large-project debounce path
  *   - Repeated edits coalesce into one timer; flushQueuedSave may re-enter with remaining debounce
- * - Cooldown (10s after a successful autosave) — scratchSaveLifecycle + autoSaveScheduling
+ * - Throttle (10s after a successful autosave) — scratchSaveLifecycle + autoSaveScheduling
  *   - Same 10s window as Python/HTML; clock starts on autosave success only
- * - Queue (edits while in-flight or in cooldown) — schedulerRef.queued
+ * - Queue (edits while in-flight or in throttle) — schedulerRef.queued
  *   - Blocked while a save is in flight
- *   - Also queues during cooldown; when allowed, saves once with the latest edits
+ *   - Also queues during throttle; when allowed, saves once with the latest edits
  * - Navigation flush — useScratchSaveNavigationFlush + autoSaveHostApi (Scratch registration)
- *   - SPA navigation (editor-standalone blocker): await iframe save, bypassing cooldown
+ *   - SPA navigation (editor-standalone blocker): await iframe save, bypassing throttle
  *   - Tab close / external leave: beforeunload warns only; pagehide fires flush best-effort (not awaited)
- *   - shouldFlushBeforeNavigation = dirty; hasPendingAutoSave = dirty + queued/in-flight/cooldown
+ *   - shouldFlushBeforeNavigation = dirty; hasPendingAutoSave = dirty + queued/in-flight/throttle
  *
  * Scheduling: ./scratchSaveLifecycle. Iframe messages: useEffect below.
  */
@@ -59,8 +59,8 @@ export const useScratchSaveState = ({
   const inFlightSaveRejectRef = useRef(null);
   const currentSaveIsAutosaveRef = useRef(false);
 
-  // --- Cooldown + debounce ---
-  const cooldownTimerRef = useRef(null);
+  // --- Throttle + debounce ---
+  const throttleTimerRef = useRef(null);
   const autoSaveTimeoutRef = useRef(null);
   const projectChangedAtRef = useRef(null);
   const projectDirtyRef = useRef(false);
@@ -74,7 +74,7 @@ export const useScratchSaveState = ({
     },
   };
 
-  // --- Lifecycle (queue + cooldown + debounce + navigation flush callbacks) ---
+  // --- Lifecycle (queue + throttle + debounce + navigation flush callbacks) ---
   const lifecycleRef = useRef(null);
   if (!lifecycleRef.current) {
     lifecycleRef.current = createScratchSaveLifecycle({
@@ -87,7 +87,7 @@ export const useScratchSaveState = ({
       inFlightSaveResolveRef,
       inFlightSaveRejectRef,
       currentSaveIsAutosaveRef,
-      cooldownTimerRef,
+      throttleTimerRef,
       autoSaveTimeoutRef,
     });
   }
@@ -125,7 +125,7 @@ export const useScratchSaveState = ({
   useScratchSaveNavigationFlush({
     enabled: navigationFlushEnabled,
     clearAutoSaveTimeout: () => lifecycle.clearAutoSaveTimeout(),
-    clearCooldownTimer: () => lifecycle.clearCooldownTimer(),
+    clearThrottleTimer: () => lifecycle.clearThrottleTimer(),
     hasPendingAutoSave,
     flushPendingAutoSave,
     shouldFlushBeforeNavigation,
@@ -136,7 +136,7 @@ export const useScratchSaveState = ({
     if (!enabled) {
       lifecycle.cancelInFlightSave();
       lifecycle.clearAutoSaveTimeout();
-      lifecycle.clearCooldownTimer();
+      lifecycle.clearThrottleTimer();
       return undefined;
     }
 
@@ -194,7 +194,7 @@ export const useScratchSaveState = ({
   const saveScratchProject = useCallback(
     ({ shouldRemixOnSave = false } = {}) => {
       lifecycle.clearAutoSaveTimeout();
-      lifecycle.clearCooldownTimer();
+      lifecycle.clearThrottleTimer();
       lifecycle.clearQueue();
       currentSaveIsAutosaveRef.current = false;
       if (shouldRemixOnSave) {
