@@ -58,6 +58,7 @@ export const useScratchSaveState = ({
     queued: false,
     inFlight: false,
     lastCompletedAt: null,
+    autosaveRetryUsed: false,
   });
   const inFlightSavePromiseRef = useRef(null);
   const inFlightSaveResolveRef = useRef(null);
@@ -178,7 +179,7 @@ export const useScratchSaveState = ({
         case "scratch-gui-saving-failed":
         case "scratch-gui-remixing-failed":
           lifecycle.clearAutoSaveTimeout();
-          lifecycle.resetSaveTracking();
+          lifecycle.markAutosaveFailed(currentSaveIsAutosaveRef.current);
           dispatch(scratchSaveFailed());
           flushQueuedSave();
           break;

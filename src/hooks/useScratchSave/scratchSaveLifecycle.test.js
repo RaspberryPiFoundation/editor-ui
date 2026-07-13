@@ -135,4 +135,43 @@ describe("scratchSaveLifecycle", () => {
     expect(lifecycle.shouldFlushBeforeNavigation()).toBe(false);
     expect(lifecycle.hasPendingAutoSave()).toBe(false);
   });
+
+  test("autosave retries at most once after failure", () => {
+    const { lifecycle, postSave, schedulerState, triggerProjectChanged } =
+      createLifecycle();
+
+    triggerProjectChanged();
+    jest.advanceTimersByTime(2000);
+    expect(postSave).toHaveBeenCalledTimes(1);
+
+    lifecycle.markAutosaveFailed(true);
+    lifecycle.flushQueuedSave();
+    jest.advanceTimersByTime(2000);
+    expect(postSave).toHaveBeenCalledTimes(2);
+    expect(schedulerState.autosaveRetryUsed).toBe(true);
+
+    lifecycle.markAutosaveFailed(true);
+    lifecycle.flushQueuedSave();
+    jest.advanceTimersByTime(2000);
+    expect(postSave).toHaveBeenCalledTimes(2);
+    expect(schedulerState.queued).toBe(false);
+  });
+
+  test("onProjectChanged after exhausted retries attempts save again", () => {
+    const { postSave, triggerProjectChanged, lifecycle } = createLifecycle();
+
+    triggerProjectChanged();
+    jest.advanceTimersByTime(2000);
+    lifecycle.markAutosaveFailed(true);
+    lifecycle.flushQueuedSave();
+    jest.advanceTimersByTime(2000);
+    lifecycle.markAutosaveFailed(true);
+    lifecycle.flushQueuedSave();
+    jest.advanceTimersByTime(2000);
+    expect(postSave).toHaveBeenCalledTimes(2);
+
+    triggerProjectChanged();
+    jest.advanceTimersByTime(2000);
+    expect(postSave).toHaveBeenCalledTimes(3);
+  });
 });

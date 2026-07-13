@@ -83,6 +83,7 @@ export const useAutoSave = ({
     queued: false, // queue: set when blocked or in throttle
     inFlight: false, // in-flight: blocks new saves; pairs with queue
     lastCompletedAt: null, // throttle: timestamp for 10s window (see below)
+    autosaveRetryUsed: false, // at most one automatic retry after autosave failure
   });
   const inFlightSavePromiseRef = useRef(null); // in-flight: await before flush
   const pendingSaveWaitersRef = useRef([]); // queue: wait for Redux save to finish

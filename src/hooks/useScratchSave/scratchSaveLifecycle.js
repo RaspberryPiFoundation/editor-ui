@@ -48,6 +48,26 @@ export const createScratchSaveLifecycle = ({
     return false;
   };
 
+  const enqueueSave = () => {
+    getScheduler().queued = true;
+  };
+
+  const resetAutosaveRetry = () => {
+    getScheduler().autosaveRetryUsed = false;
+  };
+
+  const handleAutosaveFailure = () => {
+    const scheduler = getScheduler();
+
+    if (scheduler.autosaveRetryUsed) {
+      clearQueue();
+      return;
+    }
+
+    scheduler.autosaveRetryUsed = true;
+    enqueueSave();
+  };
+
   const getRemainingAutoSaveThrottleMs = () =>
     getRemainingThrottleMs(
       getScheduler().lastCompletedAt,
@@ -95,7 +115,11 @@ export const createScratchSaveLifecycle = ({
 
   const startAutoSave = ({ autosave = true } = {}) =>
     postSaveRequest({ autosave }).catch((error) => {
-      getScheduler().queued = true;
+      if (autosave) {
+        handleAutosaveFailure();
+      } else {
+        enqueueSave();
+      }
       throw error;
     });
 
@@ -178,6 +202,8 @@ export const createScratchSaveLifecycle = ({
       return;
     }
 
+    resetAutosaveRetry();
+
     if (isSaveInFlight()) {
       getScheduler().queued = true;
       return;
@@ -217,6 +243,8 @@ export const createScratchSaveLifecycle = ({
       return;
     }
 
+    resetAutosaveRetry();
+
     await waitForInFlightSave();
     if (clearQueueIfUnchanged()) {
       return;
@@ -238,6 +266,7 @@ export const createScratchSaveLifecycle = ({
 
   const markSaveSucceeded = (autosave) => {
     getScheduler().inFlight = false;
+    resetAutosaveRetry();
     if (!getScheduler().queued) {
       getContext().clearDirty?.();
     }
@@ -254,6 +283,14 @@ export const createScratchSaveLifecycle = ({
     currentSaveIsAutosaveRef.current = false;
     if (inFlightSavePromiseRef.current) {
       rejectInFlightSave(new Error("scratch autosave failed"));
+    }
+  };
+
+  const markAutosaveFailed = (autosave) => {
+    resetSaveTracking();
+
+    if (autosave) {
+      handleAutosaveFailure();
     }
   };
 
@@ -284,6 +321,7 @@ export const createScratchSaveLifecycle = ({
     clearQueue,
     postSaveRequest,
     markSaveSucceeded,
+    markAutosaveFailed,
     resetSaveTracking,
     cancelPendingWork,
     cancelInFlightSave,

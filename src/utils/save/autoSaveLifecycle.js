@@ -17,6 +17,7 @@ import {
  * requestAutoSave: tries to save immediately, or queues when blocked/in throttle.
  * flushQueuedSave: drains the queue when run/save/throttle allows.
  * flushPendingAutoSave: force-save for navigation/pagehide; bypasses throttle.
+ * Failed autosaves retry at most once per edit cycle; further attempts wait for a new edit or navigation flush.
  */
 export const createAutoSaveLifecycle = ({
   dispatch,
@@ -72,6 +73,22 @@ export const createAutoSaveLifecycle = ({
     getScheduler().queued = true;
   };
 
+  const resetAutosaveRetry = () => {
+    getScheduler().autosaveRetryUsed = false;
+  };
+
+  const handleAutosaveFailure = () => {
+    const scheduler = getScheduler();
+
+    if (scheduler.autosaveRetryUsed) {
+      clearQueue();
+      return;
+    }
+
+    scheduler.autosaveRetryUsed = true;
+    enqueueSave();
+  };
+
   // --- Throttle: 10s after a successful API save ---
 
   const getRemainingAutoSaveThrottleMs = () =>
@@ -124,21 +141,21 @@ export const createAutoSaveLifecycle = ({
     const { project, user, reactAppApiEndpoint } = getContext();
     scheduler.inFlight = true;
 
-    const savePromise = Promise.resolve(
-      dispatch(
-        syncProject("save")({
-          reactAppApiEndpoint,
-          project,
-          accessToken: user.access_token,
-          autosave: true,
-        }),
-      ),
+    const savePromise = dispatch(
+      syncProject("save")({
+        reactAppApiEndpoint,
+        project,
+        accessToken: user.access_token,
+        autosave: true,
+      }),
     )
+      .unwrap()
       .then(() => {
+        resetAutosaveRetry();
         startThrottle();
       })
       .catch(() => {
-        enqueueSave();
+        handleAutosaveFailure();
         throw new Error("autosave failed");
       })
       .finally(() => {
@@ -196,6 +213,8 @@ export const createAutoSaveLifecycle = ({
       return;
     }
 
+    resetAutosaveRetry();
+
     if (!hasProjectChanged()) {
       return;
     }
@@ -236,6 +255,8 @@ export const createAutoSaveLifecycle = ({
     if (!isEnabled()) {
       return;
     }
+
+    resetAutosaveRetry();
 
     await waitForInFlightSave();
     if (clearQueueIfUnchanged()) {

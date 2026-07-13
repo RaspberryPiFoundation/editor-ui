@@ -32,6 +32,19 @@ const editedProject = {
 const saveAction = { type: "SAVE_PROJECT" };
 const saveProject = jest.fn(() => saveAction);
 
+/** flushPendingAutoSave is async; yield so it reaches its next await. */
+const awaitAsyncFlush = () => Promise.resolve();
+
+/** Resolve the mocked dispatch and await the full startAutoSave promise chain. */
+const completeInFlightSave = async ({
+  inFlightSavePromiseRef,
+  resolveSave,
+}) => {
+  const savePromise = inFlightSavePromiseRef.current;
+  await resolveSave();
+  await savePromise;
+};
+
 const createLifecycle = ({
   context = {},
   scheduler = { queued: false, inFlight: false, lastCompletedAt: null },
@@ -44,10 +57,22 @@ const createLifecycle = ({
   let resolveSave;
   let rejectSave;
   const dispatch = jest.fn(() => {
-    return new Promise((resolve, reject) => {
+    const thunkPromise = new Promise((resolve) => {
       resolveSave = resolve;
-      rejectSave = reject;
+      rejectSave = (error) =>
+        resolve({
+          type: "editor/saveProject/rejected",
+          error,
+        });
     });
+    thunkPromise.unwrap = () =>
+      thunkPromise.then((action) => {
+        if (action?.error) {
+          throw action.error;
+        }
+        return action;
+      });
+    return thunkPromise;
   });
 
   const baseContext = {
@@ -77,9 +102,10 @@ const createLifecycle = ({
     schedulerState,
     dispatch,
     baseContext,
+    inFlightSavePromiseRef,
+    pendingSaveWaitersRef,
     resolveSave: () => resolveSave(saveAction),
     rejectSave: () => rejectSave(new Error("save failed")),
-    pendingSaveWaitersRef,
   };
 };
 
@@ -99,7 +125,8 @@ describe("autoSaveLifecycle", () => {
   });
 
   test("requestAutoSave saves when project has changed", async () => {
-    const { lifecycle, dispatch, resolveSave } = createLifecycle();
+    const { lifecycle, dispatch, inFlightSavePromiseRef, resolveSave } =
+      createLifecycle();
 
     lifecycle.requestAutoSave();
 
@@ -110,8 +137,7 @@ describe("autoSaveLifecycle", () => {
       reactAppApiEndpoint: "http://example.com",
     });
 
-    await resolveSave();
-    await Promise.resolve();
+    await completeInFlightSave({ inFlightSavePromiseRef, resolveSave });
     expect(dispatch).toHaveBeenCalledTimes(1);
   });
 
@@ -127,37 +153,44 @@ describe("autoSaveLifecycle", () => {
   });
 
   test("requestAutoSave queues during throttle after a successful save", async () => {
-    const { lifecycle, dispatch, resolveSave } = createLifecycle();
+    const { lifecycle, dispatch, inFlightSavePromiseRef, resolveSave } =
+      createLifecycle();
 
     lifecycle.requestAutoSave();
-    await resolveSave();
-    await Promise.resolve();
+    await completeInFlightSave({ inFlightSavePromiseRef, resolveSave });
 
     lifecycle.requestAutoSave();
     expect(dispatch).toHaveBeenCalledTimes(1);
 
     jest.advanceTimersByTime(10000);
-    await Promise.resolve();
-    await resolveSave();
-    await Promise.resolve();
+    expect(inFlightSavePromiseRef.current).not.toBeNull();
+    await completeInFlightSave({ inFlightSavePromiseRef, resolveSave });
 
     expect(dispatch).toHaveBeenCalledTimes(2);
   });
 
   test("resolveSaveWaiters resumes flushPendingAutoSave waiting on redux save", async () => {
-    const { lifecycle, dispatch, baseContext, resolveSave } = createLifecycle({
+    const {
+      lifecycle,
+      dispatch,
+      baseContext,
+      inFlightSavePromiseRef,
+      pendingSaveWaitersRef,
+      resolveSave,
+    } = createLifecycle({
       context: { saving: "pending" },
     });
 
     const flushPromise = lifecycle.flushPendingAutoSave();
-    await Promise.resolve();
+    await awaitAsyncFlush(); // flushPendingAutoSave blocked in waitForPendingSave
+    expect(pendingSaveWaitersRef.current).toHaveLength(1);
     expect(dispatch).not.toHaveBeenCalled();
 
     baseContext.saving = "idle";
     lifecycle.resolveSaveWaiters();
-    await Promise.resolve();
-    await Promise.resolve();
-    await resolveSave();
+    await awaitAsyncFlush(); // flush resumes after Redux save wait ends
+    await awaitAsyncFlush(); // flush reaches startAutoSave
+    await completeInFlightSave({ inFlightSavePromiseRef, resolveSave });
     await flushPromise;
 
     expect(dispatch).toHaveBeenCalledTimes(1);
@@ -173,12 +206,64 @@ describe("autoSaveLifecycle", () => {
   });
 
   test("flushPendingAutoSave rejects when save fails", async () => {
-    const { lifecycle, rejectSave } = createLifecycle();
+    const { lifecycle, inFlightSavePromiseRef, rejectSave } = createLifecycle();
 
     const flushPromise = lifecycle.flushPendingAutoSave();
-    await Promise.resolve();
-    rejectSave();
+    await awaitAsyncFlush(); // flush passes waitForInFlightSave and calls startAutoSave
+    expect(inFlightSavePromiseRef.current).not.toBeNull();
 
+    rejectSave();
     await expect(flushPromise).rejects.toThrow("autosave failed");
+  });
+
+  test("autosave retries at most once after failure", async () => {
+    const {
+      lifecycle,
+      dispatch,
+      schedulerState,
+      inFlightSavePromiseRef,
+      rejectSave,
+    } = createLifecycle();
+
+    lifecycle.requestAutoSave();
+    expect(dispatch).toHaveBeenCalledTimes(1);
+
+    const firstSavePromise = inFlightSavePromiseRef.current;
+    rejectSave();
+    await expect(firstSavePromise).rejects.toThrow("autosave failed");
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(schedulerState.autosaveRetryUsed).toBe(true);
+    expect(schedulerState.queued).toBe(false);
+
+    const retrySavePromise = inFlightSavePromiseRef.current;
+    rejectSave();
+    await expect(retrySavePromise).rejects.toThrow("autosave failed");
+    expect(dispatch).toHaveBeenCalledTimes(2);
+  });
+
+  test("requestAutoSave after exhausted retries attempts save again", async () => {
+    const {
+      lifecycle,
+      dispatch,
+      inFlightSavePromiseRef,
+      rejectSave,
+      resolveSave,
+    } = createLifecycle();
+
+    lifecycle.requestAutoSave();
+    const firstSavePromise = inFlightSavePromiseRef.current;
+    rejectSave();
+    await expect(firstSavePromise).rejects.toThrow("autosave failed");
+
+    const retrySavePromise = inFlightSavePromiseRef.current;
+    rejectSave();
+    await expect(retrySavePromise).rejects.toThrow("autosave failed");
+    expect(dispatch).toHaveBeenCalledTimes(2);
+
+    lifecycle.requestAutoSave();
+    expect(dispatch).toHaveBeenCalledTimes(3);
+
+    await completeInFlightSave({ inFlightSavePromiseRef, resolveSave });
+    expect(dispatch).toHaveBeenCalledTimes(3);
   });
 });
