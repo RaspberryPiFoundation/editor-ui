@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";
-import Button from "../Button/Button";
+import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import {
   closeRenameFileModal,
   updateComponentName,
@@ -74,17 +74,17 @@ const RenameFileModal = () => {
       ]}
       defaultCallback={renameComponent}
       buttons={[
-        <Button
+        <DesignSystemButton
           key="rename"
-          className="btn--primary"
-          buttonText={t("filePanel.renameFileModal.save")}
-          onClickHandler={renameComponent}
+          type="primary"
+          text={t("filePanel.renameFileModal.save")}
+          onClick={renameComponent}
         />,
-        <Button
+        <DesignSystemButton
           key="close"
-          className="btn--secondary"
-          buttonText={t("filePanel.renameFileModal.cancel")}
-          onClickHandler={closeModal}
+          type="secondary"
+          text={t("filePanel.renameFileModal.cancel")}
+          onClick={closeModal}
         />,
       ]}
     />
