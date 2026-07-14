@@ -73,6 +73,26 @@ const editedProject = {
 const saveAction = { type: "SAVE_PROJECT" };
 const saveProject = jest.fn(() => saveAction);
 
+const createAsyncThunkDispatchMock = () =>
+  jest.fn(() => {
+    const thunkPromise = new Promise((resolve) => {
+      resolveSave = resolve;
+      rejectSave = (error) =>
+        resolve({
+          type: "editor/saveProject/rejected",
+          error,
+        });
+    });
+    thunkPromise.unwrap = () =>
+      thunkPromise.then((action) => {
+        if (action?.error) {
+          throw action.error;
+        }
+        return action;
+      });
+    return thunkPromise;
+  });
+
 beforeEach(() => {
   mockInitialComponents = initialComponents;
   mockInitialProjectName = project.name;
@@ -81,12 +101,7 @@ beforeEach(() => {
   mockCodeRunInProgress = false;
   syncProject.mockImplementation(jest.fn((_) => saveProject));
 
-  mockDispatch = jest.fn(() => {
-    return new Promise((resolve, reject) => {
-      resolveSave = resolve;
-      rejectSave = reject;
-    });
-  });
+  mockDispatch = createAsyncThunkDispatchMock();
 });
 
 afterEach(() => {

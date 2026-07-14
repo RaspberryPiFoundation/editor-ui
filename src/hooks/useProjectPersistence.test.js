@@ -88,13 +88,32 @@ const editedProject = {
   ],
 };
 
+const createAsyncThunkDispatchMock = (resolveImmediately = saveAction) =>
+  jest.fn(() => {
+    const thunkPromise =
+      typeof resolveImmediately === "function"
+        ? new Promise((resolve) => {
+            resolveImmediately(resolve);
+          })
+        : Promise.resolve(resolveImmediately);
+
+    thunkPromise.unwrap = () =>
+      thunkPromise.then((action) => {
+        if (action?.error) {
+          throw action.error;
+        }
+        return action;
+      });
+    return thunkPromise;
+  });
+
 beforeEach(() => {
   mockInitialComponents = initialComponents;
   mockInitialProjectName = project.name;
   mockInitialProjectInstructions = project.instructions ?? null;
   mockSaving = "idle";
   mockCodeRunInProgress = false;
-  mockDispatch = jest.fn(() => Promise.resolve(saveAction));
+  mockDispatch = createAsyncThunkDispatchMock();
 });
 
 afterEach(() => {
@@ -405,12 +424,9 @@ describe("When logged in", () => {
       };
 
       let resolveFirstSave;
-      mockDispatch.mockImplementation(
-        () =>
-          new Promise((resolve) => {
-            resolveFirstSave = resolve;
-          }),
-      );
+      mockDispatch = createAsyncThunkDispatchMock((resolve) => {
+        resolveFirstSave = resolve;
+      });
 
       const { rerender } = renderHook(
         ({ project: currentProject }) =>
