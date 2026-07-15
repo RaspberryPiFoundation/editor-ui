@@ -2,11 +2,9 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
 
-// Scrollbar-width is needed from scrollbar to show in Chrome
 .editor-wrapper {
   // Needed here for vertical scroll
   overflow: auto;
-  scrollbar-width: thin;
   block-size: 100%;
 }
 
@@ -26,9 +24,7 @@
     }
 
     .cm-scroller {
-      // Needed here for horizontal scroll
       overflow: auto;
-      scrollbar-width: thin;
       overscroll-behavior-x: none;
       font-family: var(--wc-font-family-monospace);
 
