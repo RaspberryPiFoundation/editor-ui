@@ -46,13 +46,22 @@
 
 .project-name__button {
   margin: $space-0-5;
-  inline-size: 48px;
-  block-size: 48px;
+  inline-size: 48px !important;
+  block-size: 48px !important;
+  padding: 0 !important;
 
   svg {
     block-size: $space-1-5;
     inline-size: $space-1-5;
     margin: 0;
+  }
+
+  &--editing {
+    border: none !important;
+
+    svg {
+      fill: $rpf-white !important;
+    }
   }
 }
 

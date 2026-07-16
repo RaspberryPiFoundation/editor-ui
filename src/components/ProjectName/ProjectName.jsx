@@ -121,7 +121,9 @@ const ProjectName = ({
         {editable && (
           <div ref={tickButton}>
             <DesignSystemButton
-              className="project-name__button"
+              className={classNames("project-name__button", {
+                "project-name__button--editing": isEditing,
+              })}
               aria-label={t(
                 isEditing ? "header.renameSave" : "header.renameProject",
               )}
@@ -129,6 +131,7 @@ const ProjectName = ({
                 isEditing ? "header.renameSave" : "header.renameProject",
               )}
               icon={isEditing ? <TickIcon /> : <PencilIcon />}
+              iconOnly
               onClick={isEditing ? updateName : onEditNameButtonClick}
               type={isEditing ? "primary" : "tertiary"}
             />
