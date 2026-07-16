@@ -6,7 +6,6 @@
 .sidebar {
   display: flex;
   position: relative;
-  scrollbar-width: none;
 }
 
 .sidebar--mobile {
@@ -141,7 +140,6 @@
   flex: 1;
   padding: $space-1;
   overflow-y: auto;
-  scrollbar-width: thin;
 }
 
 .sidebar__panel-buttons {
