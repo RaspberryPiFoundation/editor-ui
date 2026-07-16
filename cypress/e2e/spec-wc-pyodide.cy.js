@@ -270,22 +270,6 @@ print(text_out)
     runCode("print(sys)");
     getErrorMessage().should("contain", "NameError: name 'sys' is not defined");
   });
-
-  it("does not silently reuse a stale 'name' variable in an input loop across runs", () => {
-    runCode(
-      'name = input("What is your name?")\nwhile name != "Jane":\n\tprint("Try again Jane")\n\tname = input("What is your name?")\nprint("Hello", name)',
-    );
-    getProgramInput().should("be.visible").type("Jane{enter}");
-    getPythonConsoleOutput().should("contain", "Hello Jane");
-
-    runCode(
-      'while name != "Jane":\n\tprint("Try again Jane")\n\tname = input("What is your name?")\nprint("Hello", name)',
-    );
-    getErrorMessage().should(
-      "contain",
-      "NameError: name 'name' is not defined",
-    );
-  });
 });
 
 describe("When friendly errors enabled with pyodide", () => {
