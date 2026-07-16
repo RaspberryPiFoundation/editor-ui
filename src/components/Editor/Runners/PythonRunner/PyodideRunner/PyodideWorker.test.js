@@ -210,7 +210,7 @@ describe("PyodideWorker", () => {
     });
     await waitFor(() =>
       expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
-        expect.stringContaining("del globals()[name]"),
+        expect.stringContaining("del globals()[_var_name]"),
       ),
     );
   });

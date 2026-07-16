@@ -417,14 +417,14 @@ const PyodideWorker = () => {
     postMessage({ method: "handleLoading" });
     await pyodide.runPythonAsync(`
         import sys
-        for name in list(sys.modules):
-            module = sys.modules[name]
+        for _mod_name in list(sys.modules):
+            module = sys.modules[_mod_name]
             if hasattr(module, '__file__') and module.__file__ and module.__file__.startswith('/home/pyodide/'):
-                del sys.modules[name]
+                del sys.modules[_mod_name]
 
-        for name in dir():
-            if not name.startswith('_') and not name=='basthon':
-                del globals()[name]
+        for _var_name in dir():
+            if not _var_name.startswith('_') and _var_name != 'basthon':
+                del globals()[_var_name]
       `);
     postMessage({ method: "handleLoaded", stdinBuffer, interruptBuffer });
   };
