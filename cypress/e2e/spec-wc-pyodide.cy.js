@@ -253,6 +253,23 @@ print(text_out)
       "NameError: name 'math' is not defined",
     );
   });
+
+  it("clears a user-defined variable named 'name' between code runs", () => {
+    runCode("name = 'Jane'\nprint(name)");
+    getPythonConsoleOutput().should("contain", "Jane");
+    runCode("print(name)");
+    getErrorMessage().should(
+      "contain",
+      "NameError: name 'name' is not defined",
+    );
+  });
+
+  it("clears a user-defined variable named 'sys' between code runs", () => {
+    runCode("sys = 1\nprint(sys)");
+    getPythonConsoleOutput().should("contain", "1");
+    runCode("print(sys)");
+    getErrorMessage().should("contain", "NameError: name 'sys' is not defined");
+  });
 });
 
 describe("When friendly errors enabled with pyodide", () => {
