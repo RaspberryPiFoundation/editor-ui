@@ -212,6 +212,40 @@ describe("useAutoSave", () => {
     expect(mockDispatch).not.toHaveBeenCalled();
   });
 
+  test("drains queued autosave when redux saving leaves pending", async () => {
+    mockSaving = "pending";
+
+    const { result, rerender } = renderHook(() =>
+      useAutoSave({
+        user: user1,
+        project: editedProject,
+        reactAppApiEndpoint: "http://example.com",
+      }),
+    );
+
+    act(() => {
+      result.current.requestAutoSave();
+    });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+
+    mockSaving = "idle";
+    rerender();
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
+    expect(saveProject).toHaveBeenCalledWith({
+      project: editedProject,
+      accessToken: user1.access_token,
+      autosave: true,
+      reactAppApiEndpoint: "http://example.com",
+    });
+
+    await act(async () => {
+      resolveSave(saveAction);
+      await Promise.resolve();
+    });
+  });
+
   test("queues autosave while python code is running", () => {
     mockCodeRunInProgress = true;
 

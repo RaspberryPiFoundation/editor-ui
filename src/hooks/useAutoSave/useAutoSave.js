@@ -122,9 +122,11 @@ export const useAutoSave = ({
   );
 
   // Unblocks flushPendingAutoSave when Redux save leaves "pending"
+  // and drains any autosave that was queued while pending.
   useEffect(() => {
     if (saving !== "pending") {
       lifecycle.resolveSaveWaiters();
+      lifecycle.flushQueuedSave();
     }
   }, [lifecycle, saving]);
 
