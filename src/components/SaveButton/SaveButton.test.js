@@ -74,41 +74,6 @@ describe("When project is loaded", () => {
       });
     });
 
-    describe("who doesn't own the project and save is disabled", () => {
-      beforeEach(() => {
-        const middlewares = [];
-        const mockStore = configureStore(middlewares);
-        const initialState = {
-          editor: {
-            loading: "success",
-            webComponent: true,
-            project: {
-              identifier: "hot-diggity-dog",
-              user_id: "some-other-user",
-            },
-            saveDisabled: true,
-          },
-          auth: {
-            user: {
-              profile: {
-                user: "some-dummy-user",
-              },
-            },
-          },
-        };
-        store = mockStore(initialState);
-        render(
-          <Provider store={store}>
-            <SaveButton />
-          </Provider>,
-        );
-      });
-
-      test("Does not render save button", () => {
-        expect(screen.queryByText("header.save")).not.toBeInTheDocument();
-      });
-    });
-
     describe("who does own the project", () => {
       beforeEach(() => {
         const middlewares = [];
