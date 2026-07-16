@@ -7,8 +7,6 @@ const loadProjectPending = (state, action) => {
   state.currentLoadingRequestId = action.meta.requestId;
   state.lastSavedTime = null;
   state.scratchIframeProjectIdentifier = null;
-  state.initialProjectName = undefined;
-  state.initialProjectInstructions = undefined;
 };
 
 const loadProjectFulfilled = (state, action) => {
