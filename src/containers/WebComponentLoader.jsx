@@ -5,7 +5,6 @@ import {
   setSenseHatAlwaysEnabled,
   setOfflineEnabled,
   setFriendlyErrorsEnabled,
-  setSaveDisabled,
   setLoadRemixDisabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
@@ -73,7 +72,6 @@ const WebComponentLoader = (props) => {
     loadCache = true, // Always use cache unless explicitly disabled
     initialProject = null,
     offlineEnabled = false,
-    saveDisabled = false,
   } = props;
   const dispatch = useDispatch();
 
@@ -205,10 +203,6 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setOfflineEnabled(offlineEnabled));
   }, [offlineEnabled, dispatch]);
-
-  useEffect(() => {
-    dispatch(setSaveDisabled(saveDisabled));
-  }, [saveDisabled, dispatch]);
 
   useEffect(() => {
     // Create a script element to save the existing Prism object if there is one

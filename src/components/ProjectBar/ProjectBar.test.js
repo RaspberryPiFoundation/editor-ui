@@ -95,25 +95,6 @@ describe("When logged in and user owns project", () => {
   });
 });
 
-describe("When logged in and save is disabled", () => {
-  beforeEach(() => {
-    renderProjectBar({
-      editor: {
-        project: { ...project, user_id: "someone-else" },
-        saveDisabled: true,
-        lastSavedTime: new Date().getTime(),
-      },
-      auth: {
-        user,
-      },
-    });
-  });
-
-  test("Save button is not shown", () => {
-    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
-  });
-});
-
 describe("When logged in and no project identifier", () => {
   const projectWithoutId = { ...project, identifier: null };
 
