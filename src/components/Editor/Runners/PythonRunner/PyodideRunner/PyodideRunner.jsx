@@ -333,27 +333,47 @@ const PyodideRunner = ({
     setVisuals([]);
     stdinClosed.current = false;
 
-    await Promise.allSettled(
-      projectImages.map(({ filename, url }) =>
-        fetch(url)
-          .then((response) => response.arrayBuffer())
-          .then((buffer) => writeFile(filename, buffer)),
-      ),
-    );
+    try {
+      await Promise.allSettled(
+        projectImages.map(({ filename, url }) =>
+          fetch(url)
+            .then((response) => response.arrayBuffer())
+            .then((buffer) => writeFile(filename, buffer)),
+        ),
+      );
 
-    for (const { name, extension, content } of projectCode) {
-      writeFile([name, extension].join("."), content);
+      for (const { name, extension, content } of projectCode) {
+        writeFile([name, extension].join("."), content);
+      }
+
+      const mainComponent = projectCode.find(
+        (component) =>
+          component.name === "main" && component.extension === "py",
+      );
+
+      if (!mainComponent) {
+        throw new Error("Could not run Python: main.py is missing");
+      }
+
+      if (interruptBuffer.current) {
+        interruptBuffer.current[0] = 0; // Clear previous signals.
+      }
+      pyodideWorker.postMessage({
+        method: "runPython",
+        python: mainComponent.content,
+      });
+    } catch (error) {
+      dispatch(setError(error.message));
+      dispatch(
+        setErrorDetails({
+          type: "Run setup error",
+          message: error.message,
+          description: error.message,
+        }),
+      );
+      disableInput();
+      dispatch(codeRunHandled());
     }
-
-    // program is the content of the component with name main and extension py
-    const program = projectCode.find(
-      (component) => component.name === "main" && component.extension === "py",
-    ).content;
-
-    if (interruptBuffer.current) {
-      interruptBuffer.current[0] = 0; // Clear previous signals.
-    }
-    pyodideWorker.postMessage({ method: "runPython", python: program });
   };
 
   const handleStop = () => {
