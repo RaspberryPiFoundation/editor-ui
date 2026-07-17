@@ -49,6 +49,8 @@
   inline-size: 48px !important;
   block-size: 48px !important;
   padding: 0 !important;
+  // Keeps .rpf-button::before (z-index: -1) scoped to this button, not an ancestor
+  isolation: isolate;
 
   svg {
     block-size: $space-1-5;
