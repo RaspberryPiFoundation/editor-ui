@@ -65,9 +65,42 @@ const requestingAProject = function (project, projectFile) {
       project: project,
       currentLoadingRequestId: undefined,
       initialComponents: project.components,
+      initialProjectName: project.name,
+      initialProjectInstructions: project.instructions ?? null,
       scratchIframeProjectIdentifier: null,
     };
     expect(reducer(initialState, loadFulfilledAction)).toEqual(expectedState);
+  });
+
+  test("load pending preserves the existing initial snapshot", () => {
+    const loadPendingAction = loadThunk.pending("my_request_id", {
+      identifier: "my-project-identifier",
+      locale: "ja-JP",
+      accessToken: "my_token",
+    });
+    const initialState = {
+      loading: "idle",
+      remixLoadFailed: true,
+      modals: { accessDenied: {} },
+      currentLoadingRequestId: undefined,
+      lastSavedTime: 1234,
+      scratchIframeProjectIdentifier: "scratch-project-id",
+      initialComponents: project.components,
+      initialProjectName: project.name,
+      initialProjectInstructions: project.instructions ?? null,
+    };
+
+    const expectedState = {
+      ...initialState,
+      loading: "pending",
+      remixLoadFailed: false,
+      modals: {},
+      currentLoadingRequestId: "my_request_id",
+      lastSavedTime: null,
+      scratchIframeProjectIdentifier: null,
+    };
+
+    expect(reducer(initialState, loadPendingAction)).toEqual(expectedState);
   });
 
   test("If not latest request, loading success does not update status", () => {

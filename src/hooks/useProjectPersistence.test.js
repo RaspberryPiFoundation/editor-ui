@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { useProjectPersistence } from "./useProjectPersistence";
 import {
   expireJustLoaded,
@@ -8,12 +8,25 @@ import {
 import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
 
 let mockInitialComponents = [];
+let mockInitialProjectName = undefined;
+let mockInitialProjectInstructions = undefined;
+let mockSaving = "idle";
+let mockCodeRunInProgress = false;
+let mockDispatch;
 
 jest.mock("react-redux", () => ({
   ...jest.requireActual("react-redux"),
-  useDispatch: () => jest.fn(),
+  useDispatch: () => mockDispatch,
   useSelector: (selector) =>
-    selector({ editor: { initialComponents: mockInitialComponents } }),
+    selector({
+      editor: {
+        initialComponents: mockInitialComponents,
+        initialProjectName: mockInitialProjectName,
+        initialProjectInstructions: mockInitialProjectInstructions,
+        saving: mockSaving,
+        codeRunInProgress: mockCodeRunInProgress,
+      },
+    }),
 }));
 
 jest.mock("../redux/EditorSlice", () => ({
@@ -75,12 +88,40 @@ const editedProject = {
   ],
 };
 
+const createAsyncThunkDispatchMock = (resolveImmediately = saveAction) =>
+  jest.fn(() => {
+    const thunkPromise =
+      typeof resolveImmediately === "function"
+        ? new Promise((resolve) => {
+            resolveImmediately(resolve);
+          })
+        : Promise.resolve(resolveImmediately);
+
+    thunkPromise.unwrap = () =>
+      thunkPromise.then((action) => {
+        if (action?.error) {
+          throw action.error;
+        }
+        return action;
+      });
+    return thunkPromise;
+  });
+
 beforeEach(() => {
   mockInitialComponents = initialComponents;
+  mockInitialProjectName = project.name;
+  mockInitialProjectInstructions = project.instructions ?? null;
+  mockSaving = "idle";
+  mockCodeRunInProgress = false;
+  mockDispatch = createAsyncThunkDispatchMock();
 });
 
 afterEach(() => {
   mockInitialComponents = [];
+  mockInitialProjectName = undefined;
+  mockInitialProjectInstructions = undefined;
+  mockSaving = "idle";
+  mockCodeRunInProgress = false;
   localStorage.clear();
 });
 
@@ -338,12 +379,12 @@ describe("When logged in", () => {
     });
   });
 
-  describe("When user owns project", () => {
+  describe("When user can autosave to the API", () => {
     beforeEach(() => {
       syncProject.mockImplementation(jest.fn((_) => saveProject));
     });
 
-    test("Project autosaved to database if save not triggered", async () => {
+    test("Does not autosave unchanged project to database", () => {
       renderHook(() =>
         useProjectPersistence({
           user: user1,
@@ -352,16 +393,117 @@ describe("When logged in", () => {
         }),
       );
       jest.runAllTimers();
+      expect(saveProject).not.toHaveBeenCalled();
+    });
+
+    test("Autosaves project to database when it has changed", async () => {
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: editedProject,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
-        project,
+        project: editedProject,
         accessToken: user1.access_token,
         autosave: true,
       });
     });
 
+    test("Retries queued autosave when debounce fires during an in-flight save", async () => {
+      const furtherEditedProject = {
+        ...editedProject,
+        components: [
+          {
+            ...editedProject.components[0],
+            content: "# hello edited again",
+          },
+        ],
+      };
+
+      let resolveFirstSave;
+      mockDispatch = createAsyncThunkDispatchMock((resolve) => {
+        resolveFirstSave = resolve;
+      });
+
+      const { rerender } = renderHook(
+        ({ project: currentProject }) =>
+          useProjectPersistence({
+            user: user1,
+            project: currentProject,
+            saveTriggered: false,
+          }),
+        { initialProps: { project: editedProject } },
+      );
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      expect(saveProject).toHaveBeenCalledTimes(1);
+
+      rerender({ project: furtherEditedProject });
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      expect(saveProject).toHaveBeenCalledTimes(1);
+
+      await act(async () => {
+        resolveFirstSave(saveAction);
+        await Promise.resolve();
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(10000);
+      });
+
+      expect(saveProject).toHaveBeenCalledTimes(2);
+      expect(saveProject).toHaveBeenLastCalledWith({
+        project: furtherEditedProject,
+        accessToken: user1.access_token,
+        autosave: true,
+      });
+    });
+
+    test("Does not autosave unchanged project after load", () => {
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: project,
+          justLoaded: true,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
+      expect(saveProject).not.toHaveBeenCalled();
+      expect(expireJustLoaded).toHaveBeenCalled();
+    });
+
+    test("Autosaves changed project after load once debounce elapses", () => {
+      renderHook(() =>
+        useProjectPersistence({
+          user: user1,
+          project: editedProject,
+          justLoaded: true,
+          saveTriggered: false,
+        }),
+      );
+      jest.runAllTimers();
+      expect(saveProject).toHaveBeenCalledWith({
+        project: editedProject,
+        accessToken: user1.access_token,
+        autosave: true,
+      });
+      expect(expireJustLoaded).toHaveBeenCalled();
+    });
+
     test("Increases save interval for large projects", async () => {
       const largeProject = {
-        ...project,
+        ...editedProject,
         components: [
           {
             name: "main",

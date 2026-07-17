@@ -4,13 +4,17 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 import { useScratchSaveState } from "./useScratchSaveState";
-import editorReducer, { editorInitialState } from "../redux/EditorSlice";
+import editorReducer, { editorInitialState } from "../../redux/EditorSlice";
 import {
   getScratchAllowedOrigin,
   postMessageToScratchIframe,
-} from "../utils/scratchIframe";
+} from "../../utils/scratchIframe";
+import {
+  clearScratchAutoSaveHostApi,
+  getAutoSaveHostApi,
+} from "../../utils/save/autoSaveHostApi";
 
-jest.mock("../utils/scratchIframe", () => ({
+jest.mock("../../utils/scratchIframe", () => ({
   getScratchAllowedOrigin: jest.fn(),
   postMessageToScratchIframe: jest.fn(),
 }));
@@ -38,12 +42,17 @@ const createScratchStore = () =>
     },
   });
 
+let scratchSaveUnmount = null;
+
 const renderScratchSaveState = (options) => {
+  scratchSaveUnmount?.();
+
   const store = createScratchStore();
   const wrapper = ({ children }) => (
     <Provider store={store}>{children}</Provider>
   );
   const hook = renderHook(() => useScratchSaveState(options), { wrapper });
+  scratchSaveUnmount = hook.unmount;
 
   return { ...hook, store };
 };
@@ -59,6 +68,19 @@ const dispatchScratchMessage = (type, origin = scratchOrigin) => {
   });
 };
 
+const dispatchScratchMessageEvent = (type, origin = scratchOrigin) => {
+  window.dispatchEvent(
+    new MessageEvent("message", {
+      origin,
+      data: { type },
+    }),
+  );
+};
+
+const dispatchScratchUserEdit = () => {
+  dispatchScratchMessage("scratch-gui-project-changed");
+};
+
 describe("useScratchSaveState", () => {
   const originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
 
@@ -69,6 +91,9 @@ describe("useScratchSaveState", () => {
   });
 
   afterEach(() => {
+    scratchSaveUnmount?.();
+    scratchSaveUnmount = null;
+    clearScratchAutoSaveHostApi();
     jest.clearAllTimers();
     process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
   });
@@ -109,10 +134,25 @@ describe("useScratchSaveState", () => {
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
   });
 
+  test("auto-saves 2 seconds after scratch-gui-ready without suppressing the first edit", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchUserEdit();
+    dispatchScratchMessage("scratch-gui-ready");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledWith({
+      type: "scratch-gui-save",
+    });
+  });
+
   test("auto-saves 2 seconds after a Scratch project change", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1999);
@@ -132,7 +172,7 @@ describe("useScratchSaveState", () => {
   test("does not reset a scheduled auto-save after repeated Scratch project changes", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -160,7 +200,7 @@ describe("useScratchSaveState", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-saving-started");
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -189,7 +229,7 @@ describe("useScratchSaveState", () => {
       autoSaveEnabled: true,
     });
 
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(2000);
@@ -248,7 +288,7 @@ describe("useScratchSaveState", () => {
     renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
 
     dispatchScratchMessage("scratch-gui-saving-started");
-    dispatchScratchMessage("scratch-gui-project-changed");
+    dispatchScratchUserEdit();
 
     act(() => {
       jest.advanceTimersByTime(1000);
@@ -291,5 +331,99 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-saving-started");
 
     expect(store.getState().editor.saving).toBe("pending");
+  });
+
+  test("queues autosave during throttle after a successful auto-save", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchUserEdit();
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
+  });
+
+  test("flushPendingAutoSave bypasses throttle", async () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchUserEdit();
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-saving-succeeded");
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      const flushPromise = getAutoSaveHostApi().flushPendingAutoSave();
+      await Promise.resolve();
+      await Promise.resolve();
+      dispatchScratchMessageEvent("scratch-gui-saving-started");
+      dispatchScratchMessageEvent("scratch-gui-saving-succeeded");
+      await flushPromise;
+    });
+
+    expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
+  });
+
+  test("registers scratch flush state with the host API", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchUserEdit();
+
+    expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
+  });
+
+  test("does not register navigation flush when autoSaveEnabled is false", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: false });
+
+    dispatchScratchUserEdit();
+
+    expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(false);
+  });
+
+  test("beforeunload warns during the debounce window before auto-save fires", () => {
+    renderScratchSaveState({ enabled: true, autoSaveEnabled: true });
+
+    dispatchScratchUserEdit();
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+    expect(getAutoSaveHostApi().hasPendingAutoSave()).toBe(false);
+    expect(getAutoSaveHostApi().shouldFlushBeforeNavigation()).toBe(true);
+
+    const beforeUnloadEvent = new Event("beforeunload", { cancelable: true });
+    window.dispatchEvent(beforeUnloadEvent);
+
+    expect(beforeUnloadEvent.defaultPrevented).toBe(true);
   });
 });

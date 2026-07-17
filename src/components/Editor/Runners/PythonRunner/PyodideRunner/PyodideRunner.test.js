@@ -132,6 +132,52 @@ describe("When a code run has been triggered", () => {
       });
     });
   });
+
+  test("it dispatches beginCodeRun action", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "editor/beginCodeRun" });
+  });
+});
+
+describe("When a code run is triggered without main.py", () => {
+  const projectWithoutMain = {
+    ...project,
+    components: [{ name: "a", extension: "py", content: "print('a')" }],
+    image_list: [],
+  };
+
+  beforeEach(() => {
+    window.crossOriginIsolated = true;
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />
+      </Provider>,
+    );
+    updateRunner({ project: projectWithoutMain, codeRunTriggered: true });
+  });
+
+  test("does not send a runPython message to the worker", async () => {
+    await waitFor(() => {
+      expect(postMessage).not.toHaveBeenCalledWith({
+        method: "runPython",
+        python: expect.any(String),
+      });
+    });
+  });
+
+  test("clears the codeRunInProgress flag", async () => {
+    await waitFor(() => {
+      expect(store.getState().editor.codeRunInProgress).toBe(false);
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "editor/codeRunHandled" });
+  });
+
+  test("surfaces a setup error", async () => {
+    await waitFor(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        setError("Could not run Python: main.py is missing"),
+      );
+    });
+  });
 });
 
 describe("When the code has been stopped", () => {
@@ -253,6 +299,23 @@ describe("When output is received", () => {
 
   test("it displays the output", () => {
     expect(screen.queryByText("hello")).toBeInTheDocument();
+  });
+});
+
+describe("When a python run completes", () => {
+  beforeEach(() => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />,
+      </Provider>,
+    );
+
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleRunComplete" });
+  });
+
+  test("it dispatches codeRunHandled action", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "editor/codeRunHandled" });
   });
 });
 

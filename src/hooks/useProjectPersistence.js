@@ -1,18 +1,21 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  isOwner,
-  projectHasChangedSinceInitialLoad,
-} from "../utils/projectHelpers";
-import {
-  expireJustLoaded,
-  setHasShownSavePrompt,
-  syncProject,
-} from "../redux/EditorSlice";
-import { showLoginPrompt, showSavePrompt } from "../utils/Notifications";
+import { useDispatch } from "react-redux";
+import { isOwner } from "../utils/projectHelpers";
+import { syncProject } from "../redux/EditorSlice";
+import { isEligibleForAutoSave } from "../utils/save/autoSaveLogic";
+import { useAutoSave } from "./useAutoSave";
+import { useLocalProjectBackup } from "./useLocalProjectBackup";
 
-const COMBINED_FILE_SIZE_SOFT_LIMIT = 1000000;
-
+/**
+ * Project persistence orchestration.
+ *
+ * On edit (debounced, automatic) — exactly one path is active:
+ * - useAutoSave when canAutoSave (logged in as author, saved project).
+ * - useLocalProjectBackup when !canAutoSave (not logged in, someone else's project,
+ *   or author with no identifier yet).
+ *
+ * On explicit Save (saveTriggered / awaitingSave): manual save or remix via syncProject.
+ */
 export const useProjectPersistence = ({
   user,
   project = {},
@@ -23,23 +26,24 @@ export const useProjectPersistence = ({
   loadRemix = true,
 }) => {
   const dispatch = useDispatch();
-  const initialComponents = useSelector(
-    (state) => state.editor.initialComponents,
-  );
 
-  const combinedFileSize = project.components?.reduce(
-    (sum, component) => sum + component.content.length,
-    0,
-  );
-  const autoSaveInterval =
-    combinedFileSize > COMBINED_FILE_SIZE_SOFT_LIMIT ? 10000 : 2000;
+  const canAutoSave = isEligibleForAutoSave(user, project);
 
-  const saveToLocalStorage = (project) => {
-    localStorage.setItem(
-      project.identifier || "project",
-      JSON.stringify(project),
-    );
-  };
+  useAutoSave({
+    enabled: canAutoSave,
+    user,
+    project,
+    reactAppApiEndpoint,
+    justLoaded,
+  });
+
+  useLocalProjectBackup({
+    enabled: !canAutoSave,
+    user,
+    project,
+    justLoaded,
+    hasShownSavePrompt,
+  });
 
   useEffect(() => {
     const saveProject = async () => {
@@ -76,43 +80,4 @@ export const useProjectPersistence = ({
     };
     saveProject();
   }, [saveTriggered, project, user, dispatch, reactAppApiEndpoint, loadRemix]);
-
-  useEffect(() => {
-    let debouncer = setTimeout(() => {
-      if (project) {
-        if (isOwner(user, project) && project.identifier) {
-          if (justLoaded) {
-            dispatch(expireJustLoaded());
-          }
-          dispatch(
-            syncProject("save")({
-              reactAppApiEndpoint,
-              project,
-              accessToken: user.access_token,
-              autosave: true,
-            }),
-          );
-        } else {
-          const projectChangedSinceInitialLoad =
-            projectHasChangedSinceInitialLoad(project, initialComponents);
-
-          if (justLoaded) {
-            dispatch(expireJustLoaded());
-            if (!projectChangedSinceInitialLoad) {
-              return;
-            }
-          }
-          if (!hasShownSavePrompt) {
-            user ? showSavePrompt() : showLoginPrompt();
-            dispatch(setHasShownSavePrompt());
-          }
-          saveToLocalStorage(project);
-        }
-      }
-    }, autoSaveInterval);
-
-    return () => clearTimeout(debouncer);
-  }, [dispatch, project, user, hasShownSavePrompt]); // eslint-disable-line react-hooks/exhaustive-deps
-  // Disabling exhasutive dependencies linting rule because adding justLoaded to the dependency array
-  // triggers the save/login prompt too early
 };

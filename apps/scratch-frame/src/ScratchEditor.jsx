@@ -82,6 +82,7 @@ const ScratchEditor = ({
       projectId={projectId}
       locale={locale}
       menuBarHidden={true}
+      noBeforeUnloadHandler={true}
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
       libraryAssetUrlTemplate={SCRATCH_LIBRARY_ASSET_URL_TEMPLATE}

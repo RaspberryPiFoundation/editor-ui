@@ -14,6 +14,7 @@ import { resetCodeRunEventTracking } from "./components/WebComponentProject/runE
 import dedupeDesignSystemWarnings from "./utils/dedupeDesignSystemWarnings";
 import { setUser } from "./redux/WebComponentAuthSlice";
 import { projectHasChangedSinceInitialLoad } from "./utils/projectHelpers";
+import { getAutoSaveHostApi } from "./utils/save/autoSaveHostApi";
 
 dedupeDesignSystemWarnings();
 
@@ -136,8 +137,28 @@ class WebComponent extends HTMLElement {
   }
 
   get codeChangedSinceInitialLoad() {
-    const { project, initialComponents } = store.getState().editor;
-    return projectHasChangedSinceInitialLoad(project, initialComponents);
+    const {
+      project,
+      initialComponents,
+      initialProjectName,
+      initialProjectInstructions,
+    } = store.getState().editor;
+    return projectHasChangedSinceInitialLoad(project, initialComponents, {
+      initialName: initialProjectName,
+      initialInstructions: initialProjectInstructions,
+    });
+  }
+
+  get shouldFlushBeforeNavigation() {
+    return getAutoSaveHostApi().shouldFlushBeforeNavigation();
+  }
+
+  get hasPendingAutoSave() {
+    return getAutoSaveHostApi().hasPendingAutoSave();
+  }
+
+  flushPendingAutoSave() {
+    return getAutoSaveHostApi().flushPendingAutoSave();
   }
 
   get menuItems() {

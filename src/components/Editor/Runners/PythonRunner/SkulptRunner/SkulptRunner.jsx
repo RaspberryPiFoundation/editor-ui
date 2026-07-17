@@ -12,6 +12,7 @@ import {
   setErrorDetails,
   setFriendlyError,
   codeRunHandled,
+  beginCodeRun,
   stopDraw,
   setSenseHatEnabled,
   triggerDraw,
@@ -102,6 +103,7 @@ const SkulptRunner = ({
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const output = useRef();
   const visualOutputPaneRef = useRef(null);
+  const pendingInputRejectRef = useRef(null);
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
@@ -216,12 +218,21 @@ const SkulptRunner = ({
   }, [codeRunTriggered, codeHasVisualOutput]);
 
   useEffect(() => {
-    if (codeRunStopped && active && getInput()) {
+    if (!codeRunStopped || !active) {
+      return;
+    }
+
+    if (getInput()) {
       const input = getInput();
       input.removeAttribute("id");
       input.removeAttribute("contentEditable");
       dispatch(setError(t("output.errors.interrupted")));
-      dispatch(codeRunHandled());
+    }
+
+    const rejectPendingInput = pendingInputRejectRef.current;
+    if (rejectPendingInput) {
+      pendingInputRejectRef.current = null;
+      rejectPendingInput(new Error(t("output.errors.interrupted")));
     }
   }, [codeRunStopped]);
 
@@ -367,9 +378,12 @@ const SkulptRunner = ({
     input.focus();
 
     return new Promise(function (resolve, reject) {
+      pendingInputRejectRef.current = reject;
+
       input.addEventListener("keydown", function removeInput(e) {
         if (e.key === "Enter") {
           input.removeEventListener(e.type, removeInput);
+          pendingInputRejectRef.current = null;
           // resolve the promise with the value of the input field
           const answer = input.innerText;
           input.removeAttribute("id");
@@ -482,6 +496,8 @@ const SkulptRunner = ({
   };
 
   const runCode = () => {
+    pendingInputRejectRef.current = null;
+    dispatch(beginCodeRun());
     // clear previous output
     dispatch(setError(""));
     dispatch(setErrorDetails({}));
@@ -537,6 +553,7 @@ const SkulptRunner = ({
         handleError(err);
       })
       .finally(() => {
+        pendingInputRejectRef.current = null;
         uninstallTurtleDomTargetFallback();
         dispatch(codeRunHandled());
       });

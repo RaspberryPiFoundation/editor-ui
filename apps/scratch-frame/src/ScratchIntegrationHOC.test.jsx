@@ -42,6 +42,8 @@ describe("ScratchIntegrationHOC", () => {
     store = mockStore({
       scratchGui: {
         vm: mockVm,
+        projectState: { loadingState: "SHOWING_WITH_ID" },
+        projectChanged: false,
       },
     });
     const Dummy = () =>
@@ -60,6 +62,8 @@ describe("ScratchIntegrationHOC", () => {
   afterEach(() => {
     delete window.GUI;
   });
+
+  const createStore = (scratchGui) => configureStore([])({ scratchGui });
 
   const getVmHandler = (eventName) =>
     mockVm.on.mock.calls.find(
@@ -126,6 +130,84 @@ describe("ScratchIntegrationHOC", () => {
     });
 
     describe("Scratch VM project changes", () => {
+      it("does not post project-changed while the project is loading", () => {
+        const loadingStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "LOADING_VM_WITH_ID" },
+          projectChanged: true,
+        });
+
+        render(
+          React.createElement(
+            Provider,
+            { store: loadingStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        getVmHandler("PROJECT_CHANGED")();
+
+        expect(postScratchGuiEvent).not.toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+      });
+
+      it("posts a project-changed event after the initial load has settled", () => {
+        const loadingStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "LOADING_VM_WITH_ID" },
+          projectChanged: true,
+        });
+
+        const { rerender } = render(
+          React.createElement(
+            Provider,
+            { store: loadingStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        getVmHandler("PROJECT_CHANGED")();
+        expect(postScratchGuiEvent).not.toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+
+        const settledStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "SHOWING_WITH_ID" },
+          projectChanged: true,
+        });
+
+        rerender(
+          React.createElement(
+            Provider,
+            { store: settledStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        const loadedStore = createStore({
+          vm: mockVm,
+          projectState: { loadingState: "SHOWING_WITH_ID" },
+          projectChanged: false,
+        });
+
+        rerender(
+          React.createElement(
+            Provider,
+            { store: loadedStore },
+            React.createElement(Wrapped),
+          ),
+        );
+
+        postScratchGuiEvent.mockClear();
+        getVmHandler("PROJECT_CHANGED")();
+
+        expect(postScratchGuiEvent).toHaveBeenCalledWith(
+          "scratch-gui-project-changed",
+        );
+      });
+
       it("posts a project-changed event to the parent window", () => {
         render(
           React.createElement(
@@ -179,6 +261,29 @@ describe("ScratchIntegrationHOC", () => {
 
       expect(postScratchGuiEvent).toHaveBeenCalledWith(
         "scratch-gui-project-run-started",
+      );
+    });
+
+    it("registers a PROJECT_RUN_STOP listener on mount", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      expect(mockVm.on).toHaveBeenCalledWith(
+        "PROJECT_RUN_STOP",
+        expect.any(Function),
+      );
+    });
+
+    it("posts a project-run-stopped event when PROJECT_RUN_STOP fires", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      getVmHandler("PROJECT_RUN_STOP")();
+
+      expect(postScratchGuiEvent).toHaveBeenCalledWith(
+        "scratch-gui-project-run-stopped",
       );
     });
   });
