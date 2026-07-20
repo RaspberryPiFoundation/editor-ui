@@ -45,6 +45,7 @@ const ProjectsPanel = () => {
           onClick={navigateToProjectsPage}
           text={t("projectsPanel.yourProjectsButton")}
           textAlways
+          fill
         />,
       ]
     : [];
