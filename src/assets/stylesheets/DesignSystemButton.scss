@@ -1,44 +1,57 @@
 @use "./rpf_design_system/colours" as *;
 
-.rpf-button--primary * {
-  svg {
-    fill: var(--rpf-button-primary-text-color);
+// All of these overrides are scoped to `.buttonWrapper` (added by the
+// DesignSystemButton wrapper component) so they only affect buttons rendered
+// through the wrapper and never leak onto native Design System buttons, which
+// carry `.rpf-button*` classes but not `.buttonWrapper`.
+.buttonWrapper {
+  &.rpf-button--primary * {
+    svg {
+      fill: var(--rpf-button-primary-text-color);
+    }
+  }
+
+  &.rpf-button--tertiary * {
+    svg {
+      fill: var(--rpf-button-secondary-text-color) !important;
+    }
+  }
+
+  &.rpf-button {
+    flex-direction: row-reverse;
+  }
+
+  &.rpf-button--fit {
+    inline-size: fit-content;
+  }
+
+  &.rpf-button.rpf-button--fill {
+    justify-content: center;
+    inline-size: 100%;
+    box-sizing: border-box;
+  }
+
+  &.rpf-button--secondary {
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.rpf-button--secondary * {
+    svg {
+      fill: $rpf-text-secondary;
+    }
+  }
+
+  .rpf-button__icon {
+    display: flex;
   }
 }
 
-.rpf-button--tertiary * {
-  svg {
-    fill: var(--rpf-button-secondary-text-color) !important;
-  }
-}
-
-.rpf-button {
-  flex-direction: row-reverse;
-}
-
-.rpf-button--fit {
-  inline-size: fit-content;
-}
-
-.rpf-button.rpf-button--fill {
-  justify-content: center;
-  inline-size: 100%;
-  box-sizing: border-box;
-}
-
-.rpf-button--secondary {
-  justify-content: center;
-  align-items: center;
-}
-
-.rpf-button--secondary * {
-  svg {
-    fill: $rpf-text-secondary;
-  }
-}
-
-.--dark * {
-  .rpf-button--secondary {
+// Theme-dependent overrides: the theme class (`--dark` / `--light`) lives on an
+// ancestor wrapper, so it stays as the outer selector while the button itself
+// is narrowed to `.buttonWrapper`.
+.--dark .buttonWrapper {
+  &.rpf-button--secondary {
     span {
       color: $rpf-white;
     }
@@ -77,7 +90,7 @@
     }
   }
 
-  .rpf-button--tertiary {
+  &.rpf-button--tertiary {
     color: $rpf-white;
     border: none;
 
@@ -107,8 +120,8 @@
   }
 }
 
-.--light * {
-  .rpf-button--secondary {
+.--light .buttonWrapper {
+  &.rpf-button--secondary {
     &::before {
       background-color: rgba($rpf-white, 1);
     }
@@ -139,7 +152,7 @@
     }
   }
 
-  .rpf-button--tertiary {
+  &.rpf-button--tertiary {
     color: $rpf-text-primary;
     border: none;
 
@@ -171,8 +184,4 @@
       background-color: inherit;
     }
   }
-}
-
-.rpf-button__icon {
-  display: flex;
 }
