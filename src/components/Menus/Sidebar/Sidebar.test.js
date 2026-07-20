@@ -551,6 +551,15 @@ describe("When plugins are provided", () => {
         ),
       ).toBeInTheDocument();
     });
+
+    test("Uses host-compatible part names for slot mount points", () => {
+      expect(
+        document.querySelector('[part="sidebar-plugin-panel-container"]'),
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector('[part="sidebar-plugin-button-container"]'),
+      ).toBeInTheDocument();
+    });
   });
 });
 
