@@ -57,6 +57,7 @@ const FilePanel = ({ isMobile }) => {
           text={t("filePanel.newFileButton")}
           textAlways={true}
           icon={<PlusIcon />}
+          iconPosition="right"
           onClick={openNewFileModal}
           fullWidth={true}
         />,
