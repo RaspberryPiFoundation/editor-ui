@@ -94,17 +94,14 @@
 
         newWebComp.setAttribute("with_projectbar", "true");
         newWebComp.setAttribute("with_sidebar", "true");
-        // use_editor_styles is disabled in the preview: those legacy editor
-        // styles are no longer used, and we don't want them affecting how
-        // buttons render while we migrate button styling. Full removal
-        // of the attribute is tracked in its own issue.
-        // newWebComp.setAttribute("use_editor_styles", "true");
+        newWebComp.setAttribute("editable_instructions", "true");
         newWebComp.setAttribute("friendly_errors_enabled", "true");
         // see "Offline support" section in README for more details
         newWebComp.setAttribute("offline_enabled", "true");
         newWebComp.setAttribute(
           "sidebar_options",
           JSON.stringify([
+            "projects",
             "instructions",
             "file",
             "images",
