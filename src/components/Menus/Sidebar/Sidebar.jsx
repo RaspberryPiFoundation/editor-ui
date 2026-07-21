@@ -61,6 +61,10 @@ const buildPluginPanel = (plugin) => {
     );
   }
 
+  // Legacy path for hosts that still pass React panel()/buttons() across the
+  // web component boundary (pre-slots). Keep while older editor-standalone
+  // builds may still be in use after deploy; consider removing in a couple of
+  // weeks once classroom has moved to the slots-based plugin config.
   return () => (
     <SidebarPanel
       heading={plugin.heading}
