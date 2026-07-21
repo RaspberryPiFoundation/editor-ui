@@ -106,9 +106,9 @@ This is a single-service frontend application (no backend, database, or Docker r
 The only service is the webpack dev server on port 3011, started with `yarn start`.
 
 ### Python execution caveat
-The editor's Python runtime (Pyodide) requires external CDN access
-(`cdn.jsdelivr.net`). In network-restricted cloud environments, Python code
-execution will silently fail (no output). HTML/CSS/JS projects work fully
+The editor's Python runtime (Pyodide) is loaded from the RPF-controlled asset
+origin (`editor-assets.raspberrypi.org`). Network-restricted cloud environments
+must allow that origin for Python execution. HTML/CSS/JS projects work fully
 offline. This does not affect unit tests or linting.
 
 ### Dev server startup
