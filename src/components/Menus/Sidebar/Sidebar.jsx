@@ -36,7 +36,7 @@ const resolvePluginIcon = (icon) => {
 };
 
 const buildPluginPanel = (plugin) => {
-  if (plugin.slots) {
+  if (Array.isArray(plugin.slots)) {
     const hasButtonsSlot = plugin.slots.includes("buttons");
 
     return () => (
