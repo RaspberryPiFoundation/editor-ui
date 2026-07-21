@@ -183,8 +183,8 @@ self.addEventListener("fetch", (event) => {
 
   // Pyodide CDN assets are cache-first since their URLs are version-pinned
   if (
-    url.hostname === "cdn.jsdelivr.net" &&
-    url.pathname.includes("/pyodide/")
+    url.hostname === "editor-assets.raspberrypi.org" &&
+    url.pathname.startsWith("/pyodide/")
   ) {
     event.respondWith(cacheFirst(event.request, PYODIDE_CACHE));
     return;
