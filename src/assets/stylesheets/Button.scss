@@ -81,7 +81,7 @@
     color: var(--rpf-button-secondary-text-color);
 
     svg {
-      fill: var(--rpf-button-secondary-text-color);
+      fill: currentColor;
     }
 
     &:active,
@@ -103,10 +103,6 @@
       background-color: var(--rpf-button-secondary-background-color-disabled);
       color: var(--rpf-button-secondary-background-color-active);
 
-      svg {
-        fill: var(--rpf-button-secondary-background-color-active);
-      }
-
       &:hover,
       .btn-outer:hover & {
         background-color: var(--rpf-button-secondary-background-color-disabled);
@@ -123,10 +119,6 @@
       background-color: var(--rpf-button-secondary-background-color-hover);
       color: var(--rpf-button-secondary-text-color-hover);
       border-color: var(--rpf-button-secondary-border-color-hover) !important;
-
-      svg {
-        fill: var(--rpf-button-secondary-text-color-hover);
-      }
     }
 
     &:focus-visible {

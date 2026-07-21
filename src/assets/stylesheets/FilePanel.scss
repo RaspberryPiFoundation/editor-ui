@@ -24,6 +24,8 @@
   padding: $space-0-5 $space-2-5 $space-0-5 $space-0-5;
   margin: 0;
   gap: var(--space-1);
+  color: var(--editor-color-text);
+
   span {
     font-weight: $font-weight-bold;
     overflow-x: hidden;
