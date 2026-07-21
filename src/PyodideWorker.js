@@ -1,5 +1,8 @@
 /* global globalThis, importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
+const PYODIDE_INDEX_URL =
+  "https://editor-assets.raspberrypi.org/pyodide/0.26.2/";
+
 // Nest the PyodideWorker function inside a globalThis object so we control when its initialised.
 const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
@@ -7,7 +10,7 @@ const PyodideWorker = () => {
     `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
   );
   importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
-  importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
+  importScripts(`${PYODIDE_INDEX_URL}pyodide.js`);
 
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
@@ -443,6 +446,7 @@ const PyodideWorker = () => {
     postMessage({ method: "handleLoading" });
 
     pyodidePromise = loadPyodide({
+      indexURL: PYODIDE_INDEX_URL,
       stdout: (content) =>
         postMessage({ method: "handleOutput", stream: "stdout", content }),
       stderr: (content) =>

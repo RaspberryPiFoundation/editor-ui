@@ -53,7 +53,7 @@ describe("PyodideWorker", () => {
 
   test("it imports the pyodide script", () => {
     expect(global.importScripts).toHaveBeenCalledWith(
-      "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js",
+      "https://editor-assets.raspberrypi.org/pyodide/0.26.2/pyodide.js",
     );
   });
 
@@ -64,7 +64,11 @@ describe("PyodideWorker", () => {
   });
 
   test("it loads pyodide", () => {
-    expect(global.loadPyodide).toHaveBeenCalled();
+    expect(global.loadPyodide).toHaveBeenCalledWith(
+      expect.objectContaining({
+        indexURL: "https://editor-assets.raspberrypi.org/pyodide/0.26.2/",
+      }),
+    );
   });
 
   test("it notifies component when pyodide has loaded", () => {
