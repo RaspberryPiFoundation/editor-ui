@@ -171,6 +171,7 @@ const iifeBuildOptions = ({ root, entry, name, primary = false, target }) => ({
   emptyOutDir: primary,
   copyPublicDir: primary,
   rolldownOptions: {
+    transform: { define: { "import.meta": "{}" } },
     input: path.resolve(root, entry),
     output: {
       format: "iife",
