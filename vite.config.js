@@ -8,6 +8,7 @@ const path = require("path");
 const fs = require("fs");
 const {
   buildDefine,
+  browserTargets,
   processEnvDevServer,
   resolveBase,
   appPlugins,
@@ -113,6 +114,7 @@ const rootIndexDevServer = () => ({
 // more than one entry.
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+  const target = await browserTargets();
 
   // rollup-plugin-visualizer is ESM-only; import it dynamically so `require`-ing
   // this config never has to load it when ANALYZE is unset (the common case).
@@ -184,6 +186,7 @@ export default defineConfig(async ({ mode }) => {
       entry: "src/web-component.jsx",
       name: "web-component",
       primary: true,
+      target,
     }),
   };
 });

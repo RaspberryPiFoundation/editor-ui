@@ -6,6 +6,7 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 const path = require("path");
 const {
   buildDefine,
+  browserTargets,
   resolveBase,
   appPlugins,
   emitClassicHtml,
@@ -18,8 +19,9 @@ const {
 // cross-origin iframe page simple and robust - a single classic <script>, no
 // module chunk-URL resolution. Appends to the build/ produced by the primary
 // (web-component) build, so it must run after it.
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+  const target = await browserTargets();
 
   return {
     base: resolveBase(mode, env),
@@ -39,6 +41,7 @@ export default defineConfig(({ mode }) => {
       entry: "src/html-renderer.jsx",
       name: "html-renderer",
       primary: false,
+      target,
     }),
   };
 });

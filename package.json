@@ -111,6 +111,8 @@
     "babel-jest": "^29.1.2",
     "babel-plugin-prismjs": "^2.1.0",
     "babel-preset-react-app": "^10.0.1",
+    "browserslist": "^4.28.6",
+    "browserslist-to-esbuild": "^2.1.1",
     "camelcase": "^6.1.0",
     "cypress": "14.5.4",
     "cypress-real-events": "^1.15.0",

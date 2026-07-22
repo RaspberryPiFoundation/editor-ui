@@ -9,8 +9,11 @@ const path = require("path");
 // module graph and must be emitted as its own unhashed, non-module bundle at the
 // build root. This mirrors the dedicated `PyodideWorker` entry the old webpack
 // build produced. `yarn start` serves it via a dev middleware in vite.config.js.
-export default defineConfig(({ mode }) => {
+const { browserTargets } = require("./vite.lib.js");
+
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+  const target = await browserTargets();
 
   return {
     // Its only build-time need is substituting process.env.ASSETS_URL (used to
@@ -22,6 +25,7 @@ export default defineConfig(({ mode }) => {
       ),
     },
     build: {
+      target,
       outDir: path.resolve(__dirname, "build"),
       // Do not clobber the main build output or re-copy public/.
       emptyOutDir: false,

@@ -10,6 +10,13 @@
 const fs = require("fs");
 const path = require("path");
 
+const browserTargets = async () => {
+  const { default: browserslistToEsbuild } = await import(
+    "browserslist-to-esbuild"
+  );
+  return browserslistToEsbuild(undefined, { env: "production" });
+};
+
 // The set of build-time variables the app reads via process.env.*. We keep
 // those references in the source (instead of import.meta.env) so the Jest suite,
 // which resolves them against the real Node env, keeps working. Every key used
@@ -158,7 +165,8 @@ const emitClassicHtml = ({ template, fileName, bundle }) => ({
 // Build options for a self-contained classic IIFE bundle emitted at a stable,
 // unhashed name (parity with webpack's `[name].js` entries). Only the primary
 // build empties build/ and copies public/; later builds append to it.
-const iifeBuildOptions = ({ root, entry, name, primary = false }) => ({
+const iifeBuildOptions = ({ root, entry, name, primary = false, target }) => ({
+  target,
   outDir: path.resolve(root, "build"),
   emptyOutDir: primary,
   copyPublicDir: primary,
@@ -192,6 +200,7 @@ const copyDirTarget = ({ root, dir, dest }) => {
 
 module.exports = {
   buildDefine,
+  browserTargets,
   processEnvDevServer,
   resolveBase,
   appPlugins,
