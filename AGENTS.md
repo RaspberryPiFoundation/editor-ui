@@ -20,7 +20,6 @@ yarn start
 
 ## Development Workflow
 - Node.js: use the version pinned in `.tool-versions`.
-- CI currently runs on Node 16, so avoid using Node APIs or syntax that are not supported in Node 16 until CI is updated or aligned.
 - Yarn 4 is required (`packageManager` in `package.json`). If you don't have the right Yarn version available, run `corepack enable`. `npm install` can fail - use `yarn install` instead.
 - Dev server: `yarn start` (webpack dev server on `http://localhost:3011`).
 - Env vars live in `.env` (see `.env.example` for defaults).
