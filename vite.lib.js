@@ -170,6 +170,7 @@ const iifeBuildOptions = ({ root, entry, name, primary = false, target }) => ({
   outDir: path.resolve(root, "build"),
   emptyOutDir: primary,
   copyPublicDir: primary,
+  chunkSizeWarningLimit: 10 * 1024,
   rolldownOptions: {
     transform: { define: { "import.meta": "{}" } },
     input: path.resolve(root, entry),
