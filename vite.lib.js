@@ -110,6 +110,7 @@ const classicIifeBuildOptions = ({
   outDir: path.resolve(root, "build"),
   emptyOutDir: cleansOutput,
   copyPublicDir: cleansOutput,
+  chunkSizeWarningLimit: 10 * 1024,
   rolldownOptions: {
     transform: { define: { "import.meta": "{}" } },
     input: path.resolve(root, entry),
