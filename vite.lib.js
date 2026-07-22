@@ -1,6 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
+const browserTargets = async () => {
+  const { default: browserslistToEsbuild } =
+    await import("browserslist-to-esbuild");
+  return browserslistToEsbuild(undefined, { env: "production" });
+};
+
 const browserProcessEnvValues = (mode, env) => ({
   NODE_ENV: mode,
   PUBLIC_URL: env.PUBLIC_URL ?? "",
@@ -84,13 +90,11 @@ const emitDeferredClassicBundleHtml = ({ template, fileName, bundle }) => ({
   name: `emit-deferred-classic-bundle-html:${fileName}`,
   apply: "build",
   generateBundle() {
-    const html = fs
-      .readFileSync(template, "utf8")
-      .replace(
-        /<script\s+type="module"\s+src="\/src\/[^"]+"><\/script>\s*/,
-        // Defer keeps bundle evaluation after document.body exists.
-        `<script defer src="${bundle}"></script>`,
-      );
+    const html = fs.readFileSync(template, "utf8").replace(
+      /<script\s+type="module"\s+src="\/src\/[^"]+"><\/script>\s*/,
+      // Defer keeps bundle evaluation after document.body exists.
+      `<script defer src="${bundle}"></script>`,
+    );
     this.emitFile({ type: "asset", fileName, source: html });
   },
 });
@@ -100,18 +104,13 @@ const classicIifeBuildOptions = ({
   entry,
   name,
   cleansOutput = false,
+  target,
 }) => ({
+  target,
   outDir: path.resolve(root, "build"),
   emptyOutDir: cleansOutput,
   copyPublicDir: cleansOutput,
-  rolldownOptions: {
-    input: path.resolve(root, entry),
-    output: {
-      format: "iife",
-      entryFileNames: `${name}.js`,
-      assetFileNames: "assets/[name]-[hash][extname]",
-    },
-  },
+  rolldownOptions: { input: path.resolve(root, entry), output: { format: "iife", entryFileNames: `${name}.js`, assetFileNames: "assets/[name]-[hash][extname]" } },
 });
 
 const copyDirectoryContentsTarget = ({ root, sourceDirectory, dest }) => {
@@ -127,6 +126,7 @@ const copyDirectoryContentsTarget = ({ root, sourceDirectory, dest }) => {
 };
 
 module.exports = {
+  browserTargets,
   processEnvBuildDefine,
   injectProcessEnvIntoDevHtml,
   resolveViteBase,

@@ -5,6 +5,7 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const path = require("path");
 const {
+  browserTargets,
   processEnvBuildDefine,
   resolveViteBase,
   editorVitePlugins,
@@ -12,9 +13,9 @@ const {
   classicIifeBuildOptions,
 } = require("./vite.lib.js");
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
-
+  const target = await browserTargets();
   return {
     base: resolveViteBase(mode, env),
     envDir: __dirname,
@@ -33,6 +34,7 @@ export default defineConfig(({ mode }) => {
       entry: "src/html-renderer.jsx",
       name: "html-renderer",
       cleansOutput: false,
+      target,
     }),
   };
 });
