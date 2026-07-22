@@ -88,7 +88,8 @@ export const getSidebarResizeHandle = () =>
   getSidebarPanel().findByTestId("verticalHandle").parent("div");
 
 const dragHandle = ($handle, { deltaX = 0, deltaY = 0 }) => {
-  cy.wrap($handle)
+  return cy
+    .wrap($handle)
     .realMouseDown({
       button: "left",
       position: "center",
@@ -104,17 +105,15 @@ const dragHandle = ($handle, { deltaX = 0, deltaY = 0 }) => {
 export const dragEditorResizeHandle = (
   handleTestId,
   { deltaX = 0, deltaY = 0 } = {},
-) => {
-  getEditorResizeHandle(handleTestId).then(($handle) => {
-    dragHandle($handle, { deltaX, deltaY });
-  });
-};
+) =>
+  getEditorResizeHandle(handleTestId).then(($handle) =>
+    dragHandle($handle, { deltaX, deltaY }),
+  );
 
-export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) => {
-  getSidebarResizeHandle().then(($handle) => {
-    dragHandle($handle, { deltaX, deltaY: 0 });
-  });
-};
+export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) =>
+  getSidebarResizeHandle().then(($handle) =>
+    dragHandle($handle, { deltaX, deltaY: 0 }),
+  );
 
 export const openFilePanel = () =>
   getEditorShadow().find("[title='Project files']").click();
