@@ -1,10 +1,11 @@
 import { defineConfig, loadEnv } from "vite";
 
 const path = require("path");
+const { browserTargets } = require("./vite.lib.js");
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
-
+  const target = await browserTargets();
   return {
     define: {
       "process.env.NODE_ENV": JSON.stringify(mode),
@@ -13,6 +14,7 @@ export default defineConfig(({ mode }) => {
       ),
     },
     build: {
+      target,
       outDir: path.resolve(__dirname, "build"),
       emptyOutDir: false,
       copyPublicDir: false,

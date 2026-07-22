@@ -7,6 +7,7 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 const path = require("path");
 const fs = require("fs");
 const {
+  browserTargets,
   processEnvBuildDefine,
   injectProcessEnvIntoDevHtml,
   resolveViteBase,
@@ -98,6 +99,7 @@ const loadBundleAnalysisPlugin = async () => {
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
+  const target = await browserTargets();
   const analyzePlugin = await loadBundleAnalysisPlugin();
 
   return {
@@ -154,6 +156,7 @@ export default defineConfig(async ({ mode }) => {
       entry: "src/web-component.jsx",
       name: "web-component",
       cleansOutput: true,
+      target,
     }),
   };
 });
