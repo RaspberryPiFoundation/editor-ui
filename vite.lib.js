@@ -110,7 +110,15 @@ const classicIifeBuildOptions = ({
   outDir: path.resolve(root, "build"),
   emptyOutDir: cleansOutput,
   copyPublicDir: cleansOutput,
-  rolldownOptions: { input: path.resolve(root, entry), output: { format: "iife", entryFileNames: `${name}.js`, assetFileNames: "assets/[name]-[hash][extname]" } },
+  rolldownOptions: {
+    transform: { define: { "import.meta": "{}" } },
+    input: path.resolve(root, entry),
+    output: {
+      format: "iife",
+      entryFileNames: `${name}.js`,
+      assetFileNames: "assets/[name]-[hash][extname]",
+    },
+  },
 });
 
 const copyDirectoryContentsTarget = ({ root, sourceDirectory, dest }) => {
