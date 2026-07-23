@@ -1,18 +1,14 @@
 # Fire-and-forget trigger for learner-experience-integration-tests after staging WC deploy.
 #
 # Called from ci-cd.yml:
-#   - dispatch-e2e — after deploy-main on main (real POST)
-#   - dispatch-e2e-pr-dry-run — on pull_request (temporary; dry-run only; remove after verification)
+#   - dispatch-e2e — after deploy-main on main
+#   - dispatch-e2e-pr-test — on pull_request (temporary; remove after verification)
 
 name: Dispatch learner-experience E2E
 
 on:
   workflow_call:
     inputs:
-      dry_run:
-        description: Print payload only; do not POST
-        type: boolean
-        default: false
       deploy_url:
         description: Staging WC URL included in client_payload
         type: string
@@ -42,7 +38,6 @@ jobs:
       - name: Trigger learner-experience integration tests
         env:
           TOKEN: ${{ secrets.LEARNER_EXPERIENCE_TESTS_DISPATCH_TOKEN }}
-          DRY_RUN: ${{ inputs.dry_run }}
           SHA: ${{ github.sha }}
           REF: ${{ inputs.ref }}
           DEPLOY_URL: ${{ inputs.deploy_url }}
@@ -112,11 +107,6 @@ jobs:
           if [ -z "${TOKEN}" ]; then
             echo "LEARNER_EXPERIENCE_TESTS_DISPATCH_TOKEN is not set"
             exit 1
-          fi
-
-          if [ "${DRY_RUN}" = "true" ]; then
-            echo "dry_run=true — skipping POST"
-            exit 0
           fi
 
           curl -fsS -X POST \
