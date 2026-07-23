@@ -300,6 +300,33 @@ describe("When output is received", () => {
   test("it displays the output", () => {
     expect(screen.queryByText("hello")).toBeInTheDocument();
   });
+
+  test("it displays batched output", () => {
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({
+      method: "handleOutput",
+      chunks: [
+        { stream: "stdout", content: "first\nsecond" },
+        { stream: "stderr", content: "third" },
+      ],
+    });
+
+    const [stdoutOutput, stderrOutput] = [
+      ...document.querySelectorAll(".pythonrunner-console-output-line"),
+    ].slice(-2);
+    expect(stdoutOutput).toHaveClass("stdout");
+    expect(stdoutOutput).toHaveTextContent("first second");
+    expect(stderrOutput).toHaveClass("stderr");
+    expect(stderrOutput).toHaveTextContent("third");
+  });
+
+  test("it explains when further output is hidden", () => {
+    const worker = PyodideWorker.getLastInstance();
+    worker.postMessageFromWorker({ method: "handleOutputLimit" });
+
+    const message = screen.getByText("output.limitReached");
+    expect(message).toHaveClass("system");
+  });
 });
 
 describe("When a python run completes", () => {
