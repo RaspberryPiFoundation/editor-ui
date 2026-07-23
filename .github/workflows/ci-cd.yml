@@ -164,8 +164,6 @@ jobs:
       csp_api_multiple_origins: "https://staging-editor-api.raspberrypi.org https://test-editor-api.raspberrypi.org"
     secrets: inherit
 
-  # Fire-and-forget: does not wait for E2E results. Test via the
-  # dispatch-learner-experience-e2e.yml workflow_dispatch trigger on this branch.
   dispatch-e2e:
     if: github.ref == 'refs/heads/main'
     needs: [deploy-main]
@@ -173,7 +171,16 @@ jobs:
     with:
       dry_run: false
       ref: main
-      deploy_url: https://staging-editor-static.raspberrypi.org/branches/main
+    secrets: inherit
+
+  # Temporary PR test: dry-run only (payload + token check, no POST). Remove after verification.
+  dispatch-e2e-pr-dry-run:
+    if: github.event_name == 'pull_request'
+    uses: ./.github/workflows/dispatch-learner-experience-e2e.yml
+    with:
+      dry_run: true
+      ref: main
+      commit_message: "[TEST E2E DISPATCH] editor-ui PR dispatch dry-run — ignore"
     secrets: inherit
 
   deploy-branch:

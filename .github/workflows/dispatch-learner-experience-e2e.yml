@@ -1,9 +1,8 @@
-# Trigger for learner-experience-integration-tests after staging WC deploy.
+# Fire-and-forget trigger for learner-experience-integration-tests after staging WC deploy.
 #
-# Production path: called from ci-cd.yml after deploy-main succeeds.
-# Manual test: Actions → "Dispatch learner-experience E2E" → Run workflow
-#   (or: gh workflow run dispatch-learner-experience-e2e.yml --ref <branch> -f dry_run=false)
-# workflow_dispatch will be removed once the main hook is verified.
+# Called from ci-cd.yml:
+#   - dispatch-e2e — after deploy-main on main (real POST)
+#   - dispatch-e2e-pr-dry-run — on pull_request (temporary; dry-run only; remove after verification)
 
 name: Dispatch learner-experience E2E
 
@@ -17,7 +16,7 @@ on:
       deploy_url:
         description: Staging WC URL included in client_payload
         type: string
-        default: https://staging-editor-static.raspberrypi.org/branches/main
+        default: https://staging-editor-static.raspberrypi.org/branches/main/web-component.html
       ref:
         description: Git ref reported in client_payload
         type: string
@@ -25,25 +24,6 @@ on:
       commit_message:
         description: Optional commit message override
         type: string
-        default: ""
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: Print payload only; do not POST
-        type: boolean
-        default: true
-      deploy_url:
-        description: Staging WC URL included in client_payload
-        type: string
-        default: https://staging-editor-static.raspberrypi.org/branches/main
-      ref:
-        description: Git ref reported in client_payload
-        type: string
-        default: main
-      commit_message:
-        description: Optional commit message override (useful for workflow_dispatch)
-        type: string
-        required: false
         default: ""
 
 jobs:
@@ -64,7 +44,6 @@ jobs:
           DEPLOY_URL: ${{ inputs.deploy_url }}
           COMMIT_MESSAGE_INPUT: ${{ inputs.commit_message }}
           PR_NUMBER: ${{ github.event.pull_request.number || '' }}
-          REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
 
@@ -75,7 +54,7 @@ jobs:
           fi
 
           if [ -z "${COMMIT_MESSAGE}" ]; then
-            COMMIT_MESSAGE="workflow_dispatch on ${REF_NAME}"
+            COMMIT_MESSAGE="(no commit message)"
           fi
 
           # Truncate for Slack; head -c can cut mid-multibyte char which is fine here.
