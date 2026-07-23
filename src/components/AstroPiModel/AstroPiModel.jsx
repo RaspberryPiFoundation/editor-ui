@@ -1,5 +1,5 @@
 import React from "react";
-import "../../assets/stylesheets/AstroPiModel.scss";
+import "../../assets/stylesheets/AstroPiModel.scss?inline";
 import Simulator from "./Simulator";
 import Sk from "skulpt";
 import AstroPiControls from "./AstroPiControls/AstroPiControls";

@@ -10,7 +10,7 @@ import UploadButton from "../UploadButton/UploadButton";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import SaveStatus from "../SaveStatus/SaveStatus";
 
-import "../../assets/stylesheets/ProjectBar.scss";
+import "../../assets/stylesheets/ProjectBar.scss?inline";
 import { setScratchLastSavedTime } from "../../redux/EditorSlice";
 import { useScratchSave } from "../../hooks/useScratchSave";
 

@@ -8,7 +8,7 @@ import { Suspense } from "react";
 
 import { extractRollPitchYaw } from "../../utils/Orientation";
 import FlightCase from "./FlightCase";
-import "../../assets/stylesheets/AstroPiModel.scss";
+import "../../assets/stylesheets/AstroPiModel.scss?inline";
 
 var isDragging = false;
 var targetRotationX = 0.5;

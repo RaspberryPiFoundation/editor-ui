@@ -7,7 +7,7 @@ import TickIcon from "../../assets/icons/tick.svg";
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import { updateProjectName } from "../../redux/EditorSlice";
 
-import "../../assets/stylesheets/ProjectName.scss";
+import "../../assets/stylesheets/ProjectName.scss?inline";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 

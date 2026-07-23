@@ -34,12 +34,12 @@ describe("layout resize", () => {
       initialWidth = $el[0].getBoundingClientRect().width;
     });
 
-    dragEditorResizeHandle("verticalHandle", { deltaX: -100 });
-
-    getProjEditorContainer().should(($el) => {
-      const nextWidth = $el[0].getBoundingClientRect().width;
-      expect(nextWidth).to.be.lessThan(initialWidth);
-    });
+    return dragEditorResizeHandle("verticalHandle", { deltaX: -100 }).then(() =>
+      getProjEditorContainer().should(($el) => {
+        const nextWidth = $el[0].getBoundingClientRect().width;
+        expect(nextWidth).to.be.lessThan(initialWidth);
+      }),
+    );
   });
 
   it("resizes editor/output split on stacked layout", () => {
@@ -57,12 +57,12 @@ describe("layout resize", () => {
       initialHeight = $el[0].getBoundingClientRect().height;
     });
 
-    dragEditorResizeHandle("horizontalHandle", { deltaY: 80 });
-
-    getProjEditorContainer().should(($el) => {
-      const nextHeight = $el[0].getBoundingClientRect().height;
-      expect(nextHeight).not.to.equal(initialHeight);
-    });
+    return dragEditorResizeHandle("horizontalHandle", { deltaY: 80 }).then(() =>
+      getProjEditorContainer().should(($el) => {
+        const nextHeight = $el[0].getBoundingClientRect().height;
+        expect(nextHeight).not.to.equal(initialHeight);
+      }),
+    );
   });
 
   it("resizes sidebar file panel on desktop", () => {
@@ -76,11 +76,11 @@ describe("layout resize", () => {
       initialWidth = $el[0].getBoundingClientRect().width;
     });
 
-    dragSidebarResizeHandle({ deltaX: 80 });
-
-    getSidebarPanel().should(($el) => {
-      const nextWidth = $el[0].getBoundingClientRect().width;
-      expect(nextWidth).to.be.greaterThan(initialWidth);
-    });
+    return dragSidebarResizeHandle({ deltaX: 80 }).then(() =>
+      getSidebarPanel().should(($el) => {
+        const nextWidth = $el[0].getBoundingClientRect().width;
+        expect(nextWidth).to.be.greaterThan(initialWidth);
+      }),
+    );
   });
 });

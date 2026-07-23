@@ -7,7 +7,7 @@ import {
   closeRenameFileModal,
   updateComponentName,
 } from "../../redux/EditorSlice";
-import "../../assets/stylesheets/Modal.scss";
+import "../../assets/stylesheets/Modal.scss?inline";
 import InputModal from "./InputModal";
 
 const RenameFileModal = () => {

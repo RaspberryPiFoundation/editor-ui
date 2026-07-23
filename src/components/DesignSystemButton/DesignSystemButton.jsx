@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import classNames from "classnames";
-import "../../assets/stylesheets/DesignSystemButton.scss";
+import "../../assets/stylesheets/DesignSystemButton.scss?inline";
 
 const DesignSystemButton = ({ className, fill = false, ...props }) => (
   <Button

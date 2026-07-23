@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import "../../../assets/stylesheets/AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss?inline";
 import OrientationReading from "./OrientationReading";
 import OrientationResetButton from "./OrientationResetButton";
 

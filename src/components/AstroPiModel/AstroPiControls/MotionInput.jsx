@@ -3,7 +3,7 @@ import { useEffect, useState, startTransition } from "react";
 import { useSelector } from "react-redux";
 import { Switch } from "@raspberrypifoundation/design-system-react";
 import Sk from "skulpt";
-import "../../../assets/stylesheets/AstroPiModel.scss";
+import "../../../assets/stylesheets/AstroPiModel.scss?inline";
 import { useTranslation } from "react-i18next";
 
 const MotionInput = (props) => {

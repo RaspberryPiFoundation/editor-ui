@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Resizable } from "re-resizable";
 
-import "../assets/stylesheets/ResizableWithHandle.scss";
+import "../assets/stylesheets/ResizableWithHandle.scss?inline";
 
 const VerticalHandle = () => (
   <svg
@@ -48,9 +48,15 @@ const ResizableWithHandle = (props) => {
   useMemo(() => setWidth(defaultWidth), [defaultWidth]);
   useMemo(() => setHeight(defaultHeight), [defaultHeight]);
 
-  const onResizeStop = (...[, , , d]) => {
-    setWidth(width + d.width);
-    setHeight(height + d.height);
+  const onResizeStop = (...[, direction, element]) => {
+    const { width: nextWidth, height: nextHeight } =
+      element.getBoundingClientRect();
+
+    if (["left", "right"].includes(direction)) {
+      setWidth(nextWidth);
+    } else {
+      setHeight(nextHeight);
+    }
   };
 
   let handleComponent = ["right", "left"].includes(handleDirection)
