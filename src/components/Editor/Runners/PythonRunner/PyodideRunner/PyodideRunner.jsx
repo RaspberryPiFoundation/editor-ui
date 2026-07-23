@@ -118,7 +118,22 @@ const PyodideRunner = ({
             handleInput();
             break;
           case "handleOutput":
-            handleOutput(data.stream, data.content);
+            handleOutput(
+              data.chunks || [
+                {
+                  stream: data.stream,
+                  content: data.content || " ",
+                },
+              ],
+            );
+            break;
+          case "handleOutputLimit":
+            handleOutput([
+              {
+                stream: "system",
+                content: t("output.limitReached"),
+              },
+            ]);
             break;
           case "handleError":
             handleError(
@@ -210,13 +225,19 @@ const PyodideRunner = ({
     }
   };
 
-  const handleOutput = (stream, content) => {
+  const handleOutput = (chunks) => {
     const node = output.current;
-    const div = document.createElement("span");
-    div.classList.add("pythonrunner-console-output-line");
-    div.classList.add(stream);
-    div.innerHTML = new Option(content || " ").innerHTML + "\n";
-    node.appendChild(div);
+    const fragment = document.createDocumentFragment();
+
+    chunks.forEach(({ stream, content }) => {
+      const span = document.createElement("span");
+      span.classList.add("pythonrunner-console-output-line");
+      span.classList.add(stream);
+      span.textContent = `${content}\n`;
+      fragment.appendChild(span);
+    });
+
+    node.appendChild(fragment);
     node.scrollTop = node.scrollHeight;
   };
 

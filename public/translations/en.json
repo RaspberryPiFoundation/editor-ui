@@ -166,6 +166,7 @@
     "errors": {
       "interrupted": "Execution interrupted"
     },
+    "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Preview in new tab",
     "preview": "preview",
     "senseHat": {
