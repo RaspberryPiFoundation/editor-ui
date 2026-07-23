@@ -25,6 +25,10 @@ on:
         description: Optional commit message override
         type: string
         default: ""
+      notify_on_success:
+        description: Ask learner-experience E2E to Slack on pass (failures always notify)
+        type: boolean
+        default: false
 
 jobs:
   dispatch:
@@ -44,6 +48,7 @@ jobs:
           DEPLOY_URL: ${{ inputs.deploy_url }}
           COMMIT_MESSAGE_INPUT: ${{ inputs.commit_message }}
           PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+          NOTIFY_ON_SUCCESS: ${{ inputs.notify_on_success }}
         run: |
           set -euo pipefail
 
@@ -60,6 +65,13 @@ jobs:
           # Truncate for Slack; head -c can cut mid-multibyte char which is fine here.
           COMMIT_MESSAGE="$(printf '%s' "${COMMIT_MESSAGE}" | head -c 80)"
 
+          # workflow_call booleans arrive as the strings "true" / "false"
+          if [ "${NOTIFY_ON_SUCCESS}" = "true" ]; then
+            NOTIFY_JSON=true
+          else
+            NOTIFY_JSON=false
+          fi
+
           PAYLOAD="$(
             jq -n \
               --arg repo "editor-ui" \
@@ -69,6 +81,7 @@ jobs:
               --arg deploy_url "${DEPLOY_URL}" \
               --arg triggered_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
               --arg pr "${PR_NUMBER}" \
+              --argjson notify_on_success "${NOTIFY_JSON}" \
               '{
                 event_type: "learner-experience-test",
                 client_payload: (
@@ -78,7 +91,8 @@ jobs:
                     ref: $ref,
                     commit_message: $commit_message,
                     deploy_url: $deploy_url,
-                    triggered_at: $triggered_at
+                    triggered_at: $triggered_at,
+                    notify_on_success: $notify_on_success
                   }
                   + (if $pr == "" then {} else {pr: $pr} end)
                 )

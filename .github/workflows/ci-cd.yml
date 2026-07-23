@@ -178,9 +178,9 @@ jobs:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/dispatch-learner-experience-e2e.yml
     with:
-      dry_run: false
+      dry_run: true
       ref: main
-      commit_message: "[TEST E2E DISPATCH] editor-ui PR dispatch dry-run — ignore this message in slack"
+      commit_message: "[TEST E2E DISPATCH] editor-ui PR dispatch dry-run — ignore this message"
     secrets: inherit
 
   deploy-branch:
