@@ -172,15 +172,6 @@ jobs:
       ref: main
     secrets: inherit
 
-  # Temporary PR test (real POST). Remove after verification.
-  dispatch-e2e-pr-test:
-    if: github.event_name == 'pull_request'
-    uses: ./.github/workflows/dispatch-learner-experience-e2e.yml
-    with:
-      ref: main
-      commit_message: "[TEST] editor-ui PR dispatch — ignore"
-    secrets: inherit
-
   deploy-branch:
     if: github.ref_type == 'branch' && github.ref_name != 'main'
     uses: ./.github/workflows/deploy.yml

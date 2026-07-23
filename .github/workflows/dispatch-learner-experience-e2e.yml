@@ -1,8 +1,5 @@
-# Fire-and-forget trigger for learner-experience-integration-tests after staging WC deploy.
-#
-# Called from ci-cd.yml:
-#   - dispatch-e2e — after deploy-main on main
-#   - dispatch-e2e-pr-test — on pull_request (temporary; remove after verification)
+# Trigger for learner-experience-integration-tests after staging WC deploy.
+# Called from ci-cd.yml as dispatch-e2e after deploy-main succeeds on main.
 
 name: Dispatch learner-experience E2E
 
