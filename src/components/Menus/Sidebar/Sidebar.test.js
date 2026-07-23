@@ -437,6 +437,13 @@ describe("When plugins are provided", () => {
     panel: () => <p>My amazing content</p>,
     buttons: () => [<button>My amazing button</button>],
   };
+  const slotPlugin = {
+    name: "my-slot-plugin",
+    icon: "rate_review",
+    heading: "My slot plugin",
+    title: "my slot plugin",
+    slots: ["panel", "buttons"],
+  };
 
   describe("when plugin has autoOpen true", () => {
     beforeEach(() => {
@@ -507,6 +514,51 @@ describe("When plugins are provided", () => {
       const pluginButton = screen.getByTitle("my amazing plugin");
       fireEvent.click(pluginButton);
       expect(screen.queryByText("My amazing content")).toBeInTheDocument();
+    });
+  });
+
+  describe("when plugin uses serialisable slots", () => {
+    beforeEach(() => {
+      const plugins = [
+        {
+          ...slotPlugin,
+          autoOpen: true,
+        },
+      ];
+      render(
+        <Provider store={store}>
+          <div id="app">
+            <Sidebar options={options} plugins={plugins} />
+          </div>
+        </Provider>,
+      );
+    });
+
+    test("Shows plugin icon from material symbol key", () => {
+      expect(screen.queryByTitle("my slot plugin")).toBeInTheDocument();
+      expect(screen.getByText("rate_review")).toBeInTheDocument();
+    });
+
+    test("Renders empty slot mount points for host content", () => {
+      expect(
+        document.querySelector(
+          '[data-sidebar-plugin="my-slot-plugin"][data-sidebar-plugin-slot="panel"]',
+        ),
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector(
+          '[data-sidebar-plugin="my-slot-plugin"][data-sidebar-plugin-slot="buttons"]',
+        ),
+      ).toBeInTheDocument();
+    });
+
+    test("Uses host-compatible part names for slot mount points", () => {
+      expect(
+        document.querySelector('[part="sidebar-plugin-panel-container"]'),
+      ).toBeInTheDocument();
+      expect(
+        document.querySelector('[part="sidebar-plugin-button-container"]'),
+      ).toBeInTheDocument();
     });
   });
 });
