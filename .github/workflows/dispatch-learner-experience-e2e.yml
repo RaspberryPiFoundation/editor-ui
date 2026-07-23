@@ -1,0 +1,116 @@
+# Trigger for learner-experience-integration-tests after staging WC deploy.
+# Called from ci-cd.yml as dispatch-e2e after deploy-main succeeds on main.
+
+name: Dispatch learner-experience E2E
+
+on:
+  workflow_call:
+    inputs:
+      deploy_url:
+        description: Staging WC URL included in client_payload
+        type: string
+        default: https://staging-editor-static.raspberrypi.org/branches/main/web-component.html
+      ref:
+        description: Git ref reported in client_payload
+        type: string
+        default: main
+      commit_message:
+        description: Optional commit message override
+        type: string
+        default: ""
+      notify_on_success:
+        description: Ask learner-experience E2E to Slack on pass (failures always notify)
+        type: boolean
+        default: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Trigger learner-experience integration tests
+        env:
+          TOKEN: ${{ secrets.LEARNER_EXPERIENCE_TESTS_DISPATCH_TOKEN }}
+          SHA: ${{ github.sha }}
+          REF: ${{ inputs.ref }}
+          DEPLOY_URL: ${{ inputs.deploy_url }}
+          COMMIT_MESSAGE_INPUT: ${{ inputs.commit_message }}
+          PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+          NOTIFY_ON_SUCCESS: ${{ inputs.notify_on_success }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "${COMMIT_MESSAGE_INPUT}" ]; then
+            COMMIT_MESSAGE="${COMMIT_MESSAGE_INPUT}"
+          else
+            COMMIT_MESSAGE="$(git log -1 --pretty=%B "${SHA}" 2>/dev/null || true)"
+          fi
+
+          if [ -z "${COMMIT_MESSAGE}" ]; then
+            COMMIT_MESSAGE="(no commit message)"
+          fi
+
+          # Truncate for Slack; head -c can cut mid-multibyte char which is fine here.
+          COMMIT_MESSAGE="$(printf '%s' "${COMMIT_MESSAGE}" | head -c 80)"
+
+          # workflow_call booleans arrive as the strings "true" / "false"
+          if [ "${NOTIFY_ON_SUCCESS}" = "true" ]; then
+            NOTIFY_JSON=true
+          else
+            NOTIFY_JSON=false
+          fi
+
+          PAYLOAD="$(
+            jq -n \
+              --arg repo "editor-ui" \
+              --arg sha "${SHA}" \
+              --arg ref "${REF}" \
+              --arg commit_message "${COMMIT_MESSAGE}" \
+              --arg deploy_url "${DEPLOY_URL}" \
+              --arg triggered_at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              --arg pr "${PR_NUMBER}" \
+              --argjson notify_on_success "${NOTIFY_JSON}" \
+              '{
+                event_type: "learner-experience-test",
+                client_payload: (
+                  {
+                    repo: $repo,
+                    sha: $sha,
+                    ref: $ref,
+                    commit_message: $commit_message,
+                    deploy_url: $deploy_url,
+                    triggered_at: $triggered_at,
+                    notify_on_success: $notify_on_success
+                  }
+                  + (if $pr == "" then {} else {pr: $pr} end)
+                )
+              }'
+          )"
+
+          {
+            echo "### Dispatch payload"
+            echo '```json'
+            echo "${PAYLOAD}"
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+          echo "Payload:"
+          echo "${PAYLOAD}"
+
+          if [ -z "${TOKEN}" ]; then
+            echo "LEARNER_EXPERIENCE_TESTS_DISPATCH_TOKEN is not set"
+            exit 1
+          fi
+
+          curl -fsS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/RaspberryPiFoundation/learner-experience-integration-tests/dispatches \
+            -d "${PAYLOAD}"
+
+          echo "repository_dispatch accepted (204)"
