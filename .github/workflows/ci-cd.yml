@@ -173,14 +173,14 @@ jobs:
       ref: main
     secrets: inherit
 
-  # Temporary PR test: dry-run only (payload + token check, no POST). Remove after verification.
+  # Temporary PR test
   dispatch-e2e-pr-dry-run:
     if: github.event_name == 'pull_request'
     uses: ./.github/workflows/dispatch-learner-experience-e2e.yml
     with:
-      dry_run: true
+      dry_run: false
       ref: main
-      commit_message: "[TEST E2E DISPATCH] editor-ui PR dispatch dry-run — ignore"
+      commit_message: "[TEST E2E DISPATCH] editor-ui PR dispatch dry-run — ignore this message in slack"
     secrets: inherit
 
   deploy-branch:
