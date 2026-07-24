@@ -11,17 +11,47 @@ const {
   injectProcessEnvIntoDevHtml,
   resolveViteBase,
   editorVitePlugins,
-  emitClassicBundleHtml,
+  emitDeferredClassicBundleHtml,
   classicIifeBuildOptions,
   copyDirectoryContentsTarget,
 } = require("./vite.lib.js");
 
-const crossOriginResourcePaths = [
+const crossOriginResourcePolicyPaths = [
   "/pyodide/shims/_internal_sense_hat.js",
   "/pyodide/shims/pygal.js",
   "/PyodideWorker.js",
   "/api/scratch/projects/cool-scratch.json",
 ];
+
+const applyCrossOriginResourcePolicy = (req, res, next) => {
+  const url = (req.url || "").split("?")[0];
+  if (
+    crossOriginResourcePolicyPaths.includes(url) ||
+    url.startsWith("/html-renderer.html")
+  ) {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  }
+  next();
+};
+
+const serveCrossOriginResources = () => ({
+  name: "serve-cross-origin-resources",
+  configureServer(server) {
+    server.middlewares.use(applyCrossOriginResourcePolicy);
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use(applyCrossOriginResourcePolicy);
+  },
+});
+
+const sharedCrossOriginIsolationHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+  "Access-Control-Allow-Headers":
+    "X-Requested-With, content-type, Authorization, x-run-id, x-project-id",
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Embedder-Policy": "require-corp",
+};
 
 const serveStandalonePyodideWorkerInDev = (replacements) => ({
   name: "serve-standalone-pyodide-worker-in-dev",
@@ -40,22 +70,6 @@ const serveStandalonePyodideWorkerInDev = (replacements) => ({
       res.setHeader("Content-Type", "text/javascript");
       res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
       res.end(code);
-    });
-  },
-});
-
-const crossOriginResourcePolicy = () => ({
-  name: "cross-origin-resource-policy",
-  configureServer(server) {
-    server.middlewares.use((req, res, next) => {
-      const url = (req.url || "").split("?")[0];
-      if (
-        crossOriginResourcePaths.includes(url) ||
-        url.startsWith("/html-renderer.html")
-      ) {
-        res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-      }
-      next();
     });
   },
 });
@@ -109,7 +123,7 @@ export default defineConfig(async ({ mode }) => {
           }),
         ],
       }),
-      crossOriginResourcePolicy(),
+      serveCrossOriginResources(),
       serveIndexAtRootForCypress(),
       injectProcessEnvIntoDevHtml(mode, env),
       serveStandalonePyodideWorkerInDev({
@@ -118,7 +132,7 @@ export default defineConfig(async ({ mode }) => {
         ),
         "process.env.NODE_ENV": JSON.stringify(mode),
       }),
-      emitClassicBundleHtml({
+      emitDeferredClassicBundleHtml({
         template: path.resolve(__dirname, "web-component.html"),
         fileName: "web-component.html",
         bundle: "web-component.js",
@@ -128,14 +142,12 @@ export default defineConfig(async ({ mode }) => {
     server: {
       host: true,
       port: 3011,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, content-type, Authorization, x-run-id, x-project-id",
-        "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Embedder-Policy": "require-corp",
-      },
+      headers: sharedCrossOriginIsolationHeaders,
+    },
+    preview: {
+      host: true,
+      port: 3011,
+      headers: sharedCrossOriginIsolationHeaders,
     },
     build: classicIifeBuildOptions({
       root: __dirname,

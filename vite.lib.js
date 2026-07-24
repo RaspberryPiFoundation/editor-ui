@@ -80,15 +80,16 @@ const editorVitePlugins = (react, svgr, nodePolyfills) => [
   }),
 ];
 
-const emitClassicBundleHtml = ({ template, fileName, bundle }) => ({
-  name: `emit-classic-bundle-html:${fileName}`,
+const emitDeferredClassicBundleHtml = ({ template, fileName, bundle }) => ({
+  name: `emit-deferred-classic-bundle-html:${fileName}`,
   apply: "build",
   generateBundle() {
     const html = fs
       .readFileSync(template, "utf8")
       .replace(
         /<script\s+type="module"\s+src="\/src\/[^"]+"><\/script>\s*/,
-        `<script src="${bundle}"></script>`,
+        // Defer keeps bundle evaluation after document.body exists.
+        `<script defer src="${bundle}"></script>`,
       );
     this.emitFile({ type: "asset", fileName, source: html });
   },
@@ -130,7 +131,7 @@ module.exports = {
   injectProcessEnvIntoDevHtml,
   resolveViteBase,
   editorVitePlugins,
-  emitClassicBundleHtml,
+  emitDeferredClassicBundleHtml,
   classicIifeBuildOptions,
   copyDirectoryContentsTarget,
 };
