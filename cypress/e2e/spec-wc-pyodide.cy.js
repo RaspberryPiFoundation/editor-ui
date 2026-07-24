@@ -56,6 +56,13 @@ describe("Running the code with pyodide", () => {
     getErrorMessage().should("contain", "Execution interrupted");
   });
 
+  it("interrupts code that continuously writes output", () => {
+    runCode("i = 0\nwhile True:\n\tprint(i)\n\ti += 1");
+    getPythonConsoleOutput().should("contain", "Output limit reached");
+    stopProject();
+    getErrorMessage().should("contain", "Execution interrupted");
+  });
+
   it("runs a simple program with an input", () => {
     runCode('name = input("What is your name?")\nprint("Hello", name)');
     getEditorShadow()
