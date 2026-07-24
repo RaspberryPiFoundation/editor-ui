@@ -2,8 +2,7 @@
 
 const PYODIDE_INDEX_URL =
   "https://editor-assets.raspberrypi.org/pyodide/0.26.2/";
-// Batch output and cap each run so the main thread remains responsive.
-const MIN_OUTPUT_FLUSH_INTERVAL_MS = 50;
+// Cap each run before its output reaches the main thread.
 const MAX_OUTPUT_LINES = 10_000;
 const MAX_OUTPUT_CHARACTERS = 250_000;
 // Prompts bypass the output limit so input remains usable.
@@ -42,8 +41,6 @@ const PyodideWorker = () => {
     );
   }
   let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
-  let outputBuffer = [];
-  let lastOutputFlushAt = 0;
   let outputLineCount = 0;
   let outputCharacterCount = 0;
   let outputLimitReached = false;
@@ -81,7 +78,6 @@ const PyodideWorker = () => {
         await pyodide.runPython(python);
       });
     } catch (error) {
-      flushOutput();
       if (error instanceof pyodide.ffi.PythonError) {
         postMessage({ method: "handleError", ...parsePythonError(error) });
       } else {
@@ -96,22 +92,18 @@ const PyodideWorker = () => {
         });
       }
     } finally {
-      flushOutput();
       await clearPyodideData();
-      flushOutput();
       postMessage({ method: "handleRunComplete" });
     }
   };
 
   const resetOutputState = () => {
-    outputBuffer = [];
-    lastOutputFlushAt = 0;
     outputLineCount = 0;
     outputCharacterCount = 0;
     outputLimitReached = false;
   };
 
-  const bufferOutput = (stream, content) => {
+  const sendOutput = (stream, content) => {
     if (outputLimitReached) {
       return;
     }
@@ -125,25 +117,15 @@ const PyodideWorker = () => {
     }
 
     const visibleText = text.slice(0, remainingCharacters - 1);
-    const lastChunk = outputBuffer[outputBuffer.length - 1];
-
-    if (lastChunk?.stream === stream) {
-      lastChunk.lines.push(visibleText);
-    } else {
-      outputBuffer.push({ stream, lines: [visibleText] });
-    }
-
     outputLineCount += 1;
     outputCharacterCount += visibleText.length + 1;
+    postMessage({
+      method: "handleOutput",
+      chunks: [{ stream, content: visibleText }],
+    });
 
     if (visibleText.length < text.length) {
       markOutputLimitReached();
-      return;
-    }
-
-    const now = Date.now();
-    if (now - lastOutputFlushAt >= MIN_OUTPUT_FLUSH_INTERVAL_MS) {
-      flushOutput(now);
     }
   };
 
@@ -153,22 +135,7 @@ const PyodideWorker = () => {
     }
 
     outputLimitReached = true;
-    flushOutput();
     postMessage({ method: "handleOutputLimit" });
-  };
-
-  const flushOutput = (now = Date.now()) => {
-    if (outputBuffer.length === 0) {
-      return;
-    }
-
-    const chunks = outputBuffer.map(({ stream, lines }) => ({
-      stream,
-      content: lines.join("\n"),
-    }));
-    outputBuffer = [];
-    lastOutputFlushAt = now;
-    postMessage({ method: "handleOutput", chunks });
   };
 
   const checkIfStopped = () => {
@@ -510,7 +477,6 @@ const PyodideWorker = () => {
           0,
           MAX_INPUT_PROMPT_CHARACTERS,
         );
-        flushOutput();
         postMessage({
           method: "handleOutput",
           chunks: [{ stream: "stdout", content }],
@@ -541,8 +507,8 @@ const PyodideWorker = () => {
 
     pyodidePromise = loadPyodide({
       indexURL: PYODIDE_INDEX_URL,
-      stdout: (content) => bufferOutput("stdout", content),
-      stderr: (content) => bufferOutput("stderr", content),
+      stdout: (content) => sendOutput("stdout", content),
+      stderr: (content) => sendOutput("stderr", content),
     });
 
     pyodide = await pyodidePromise;
@@ -587,8 +553,6 @@ const PyodideWorker = () => {
 
   const readFromStdin = (bufferToWrite) => {
     const previousLength = stdinBuffer[0];
-    // Atomics.wait blocks worker timers, so make sure the prompt is visible.
-    flushOutput();
     postMessage({ method: "handleInput" });
 
     while (true) {

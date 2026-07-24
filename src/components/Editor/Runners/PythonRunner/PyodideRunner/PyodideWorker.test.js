@@ -1,4 +1,4 @@
-/* global globalThis, Atomics */
+/* global globalThis */
 
 import { waitFor } from "@testing-library/react";
 import { TextEncoder } from "util";
@@ -53,7 +53,6 @@ describe("PyodideWorker", () => {
       micropip: {
         install: jest.fn().mockReturnValue({ catch: jest.fn() }),
       },
-      checkInterrupt: jest.fn(),
       pyimport: jest.fn(),
       registerJsModule: jest.fn(),
       runPython: jest.fn(),
@@ -64,10 +63,6 @@ describe("PyodideWorker", () => {
     global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
     require("../../../../../PyodideWorker.js");
     worker = globalThis.PyodideWorker();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   test("it imports the pyodide script", () => {
@@ -224,39 +219,20 @@ describe("PyodideWorker", () => {
     });
   });
 
-  test("it sends fewer messages than lines produced in quick succession", async () => {
-    jest.spyOn(Date, "now").mockReturnValue(1000);
+  test("it sends output without waiting for the run to finish", () => {
     const { stdout } = global.loadPyodide.mock.calls[0][0];
-    pyodide.runPython.mockImplementation((python) => {
-      if (python === "print lots") {
-        stdout("0");
-        stdout("1");
-        stdout("2");
-      }
-    });
     global.postMessage.mockClear();
 
-    worker.onmessage({
-      data: {
-        method: "runPython",
-        python: "print lots",
-      },
-    });
+    for (let i = 1; i <= 10; i += 1) {
+      stdout(`Iteration ${i}`);
+    }
 
-    await waitFor(() =>
-      expect(global.postMessage).toHaveBeenCalledWith({
-        method: "handleRunComplete",
-      }),
-    );
-    const outputMessages = getPostedMessages("handleOutput");
-
-    expect(outputMessages.length).toBeGreaterThan(0);
-    expect(outputMessages.length).toBeLessThan(3);
-    expect(getPostedOutput()).toBe("0\n1\n2");
+    expect(getPostedOutput()).toContain("Iteration 10");
+    expect(getPostedMessages("handleOutput")).toHaveLength(10);
+    expect(getPostedMessages("handleRunComplete")).toHaveLength(0);
   });
 
   test("it limits the number of output lines sent to the UI", () => {
-    jest.spyOn(Date, "now").mockReturnValue(1000);
     const { stdout } = global.loadPyodide.mock.calls[0][0];
     global.postMessage.mockClear();
 
@@ -323,28 +299,6 @@ describe("PyodideWorker", () => {
       method: "handleOutput",
       chunks: [{ stream: "stdout", content: "What is your name?" }],
     });
-  });
-
-  test("it flushes buffered output before requesting input", async () => {
-    jest.spyOn(Date, "now").mockReturnValue(1);
-    jest.spyOn(Atomics, "wait").mockReturnValue("not-equal");
-    const { stdout } = global.loadPyodide.mock.calls[0][0];
-    await waitFor(() => expect(pyodide.setStdin).toHaveBeenCalled());
-    const { read } = pyodide.setStdin.mock.calls[0][0];
-    global.postMessage.mockClear();
-
-    stdout("before");
-    stdout("prompt");
-    read(new Uint8Array(1));
-
-    const messages = global.postMessage.mock.calls.map(([message]) => message);
-    expect(messages.slice(0, 2)).toEqual([
-      {
-        method: "handleOutput",
-        chunks: [{ stream: "stdout", content: "before\nprompt" }],
-      },
-      { method: "handleInput" },
-    ]);
   });
 
   test("it clears the pyodide variables after running the code", async () => {

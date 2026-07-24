@@ -301,30 +301,32 @@ describe("When output is received", () => {
     expect(screen.queryByText("hello")).toBeInTheDocument();
   });
 
-  test("it displays batched output", () => {
+  test("it displays queued output while the program is still running", async () => {
     const worker = PyodideWorker.getLastInstance();
-    worker.postMessageFromWorker({
-      method: "handleOutput",
-      chunks: [
-        { stream: "stdout", content: "first\nsecond" },
-        { stream: "stderr", content: "third" },
-      ],
-    });
+    for (let i = 1; i <= 10; i += 1) {
+      worker.postMessageFromWorker({
+        method: "handleOutput",
+        chunks: [{ stream: "stdout", content: `Iteration ${i}` }],
+      });
+    }
 
-    const [stdoutOutput, stderrOutput] = [
+    await waitFor(() =>
+      expect(screen.queryByText(/Iteration 10/)).toBeInTheDocument(),
+    );
+    const outputs = [
       ...document.querySelectorAll(".pythonrunner-console-output-line"),
-    ].slice(-2);
-    expect(stdoutOutput).toHaveClass("stdout");
-    expect(stdoutOutput).toHaveTextContent("first second");
-    expect(stderrOutput).toHaveClass("stderr");
-    expect(stderrOutput).toHaveTextContent("third");
+    ];
+    const output = outputs[outputs.length - 1];
+    expect(output).toHaveClass("stdout");
+    expect(output).toHaveTextContent("Iteration 1");
+    expect(output).toHaveTextContent("Iteration 10");
   });
 
-  test("it explains when further output is hidden", () => {
+  test("it explains when further output is hidden", async () => {
     const worker = PyodideWorker.getLastInstance();
     worker.postMessageFromWorker({ method: "handleOutputLimit" });
 
-    const message = screen.getByText("output.limitReached");
+    const message = await screen.findByText("output.limitReached");
     expect(message).toHaveClass("system");
   });
 });
