@@ -8,7 +8,7 @@ const {
   processEnvBuildDefine,
   resolveViteBase,
   editorVitePlugins,
-  emitClassicBundleHtml,
+  emitDeferredClassicBundleHtml,
   classicIifeBuildOptions,
 } = require("./vite.lib.js");
 
@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
     define: processEnvBuildDefine(mode, env),
     plugins: [
       ...editorVitePlugins(react, svgr, nodePolyfills),
-      emitClassicBundleHtml({
+      emitDeferredClassicBundleHtml({
         template: path.resolve(__dirname, "html-renderer.html"),
         fileName: "html-renderer.html",
         bundle: "html-renderer.js",

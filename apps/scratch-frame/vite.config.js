@@ -105,6 +105,19 @@ export default defineConfig(({ mode }) => {
     ],
   });
 
+  // Cross-origin isolation + CORS headers shared by the dev and preview servers
+  // so the Scratch iframe can be embedded cross-origin under the editor's
+  // COEP: require-corp page in both workflows.
+  const scratchFrameHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    "Access-Control-Allow-Headers":
+      "X-Requested-With, content-type, Authorization",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Cross-Origin-Embedder-Policy": "require-corp",
+    "Cross-Origin-Resource-Policy": "cross-origin",
+  };
+
   return {
     plugins: [react({ jsxRuntime: "classic" }), htmlTransform(), staticCopy],
     envDir: path.resolve(__dirname, "../../"),
@@ -121,16 +134,17 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       port: 3014,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods":
-          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, content-type, Authorization",
-        "Cross-Origin-Opener-Policy": "same-origin",
-        "Cross-Origin-Embedder-Policy": "require-corp",
-        "Cross-Origin-Resource-Policy": "cross-origin",
-      },
+      headers: scratchFrameHeaders,
+    },
+    // `yarn preview` serves the built scratch.html (+ scratch-gui assets) from
+    // the shared build/ dir on the same port and with the same cross-origin
+    // isolation headers as the dev server. This lets the editor's preview build
+    // (served on 3011) embed the Scratch iframe cross-origin exactly as it does
+    // in production, without running the Vite dev server.
+    preview: {
+      host: true,
+      port: 3014,
+      headers: scratchFrameHeaders,
     },
     test: {
       globals: true,
