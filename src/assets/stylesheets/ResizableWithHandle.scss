@@ -1,5 +1,6 @@
 .resizable-with-handle__handle--right div {
-  inset-inline-end: 3px !important;
+  /* stylelint-disable-next-line csstools/use-logical */
+  right: 3px !important;
 
   svg {
     block-size: 100%;
@@ -8,7 +9,8 @@
 }
 
 .resizable-with-handle__handle--bottom div {
-  inset-block-end: 3px !important;
+  /* stylelint-disable-next-line csstools/use-logical */
+  bottom: 3px !important;
 
   svg {
     inline-size: 100%;
