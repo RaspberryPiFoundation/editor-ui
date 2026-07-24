@@ -76,7 +76,8 @@ curl -fsS -X POST \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer ${TOKEN}" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
+  -H "Content-Type: application/json" \
   https://api.github.com/repos/RaspberryPiFoundation/learner-experience-integration-tests/dispatches \
-  -d "${PAYLOAD}"
+  --data-raw "${PAYLOAD}"
 
 echo "repository_dispatch accepted (204)"
