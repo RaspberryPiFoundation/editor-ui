@@ -112,19 +112,6 @@ $rpf-alerts-error-tint: #86151e;
   --rpf-white: #{$rpf-white};
 }
 
-// Webpack exports
-/* stylelint-disable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
-:export {
-  grey: {
-    rpi-grey-15: $rpf-grey-150;
-    rpi-grey-40: $rpf-grey-400;
-    rpi-grey-5: $rpf-grey-50;
-    rpi-grey-70: $rpf-grey-600;
-    rpf-white: $rpf-white;
-  }
-}
-/* stylelint-enable selector-pseudo-class-no-unknown, order/properties-alphabetical-order */
-
 // New Colours
 $rpf-grey-150: #d5d7dc;
 $rpf-grey-600: #4a4d59;

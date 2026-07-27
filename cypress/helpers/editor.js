@@ -87,34 +87,38 @@ export const getEditorResizeHandle = (handleTestId) =>
 export const getSidebarResizeHandle = () =>
   getSidebarPanel().findByTestId("verticalHandle").parent("div");
 
-const dragHandle = ($handle, { deltaX = 0, deltaY = 0 }) => {
-  cy.wrap($handle)
-    .realMouseDown({
-      button: "left",
-      position: "center",
-      scrollBehavior: false,
-    })
-    .realMouseMove(deltaX, deltaY, {
-      position: "center",
-      scrollBehavior: false,
-    })
-    .realMouseUp({ position: "center", scrollBehavior: false });
+const dragHandle = (getHandle, { deltaX = 0, deltaY = 0 }) => {
+  return getHandle().then(($handle) => {
+    const { left, top, width, height } = $handle[0].getBoundingClientRect();
+    const clientX = left + width / 2;
+    const clientY = top + height / 2;
+
+    cy.wrap($handle).trigger("mousedown", { button: 0, clientX, clientY });
+
+    getHandle()
+      .parent("div")
+      .parent("div")
+      .should("have.css", "user-select", "none");
+
+    cy.window().trigger("mousemove", {
+      clientX: clientX + deltaX,
+      clientY: clientY + deltaY,
+    });
+
+    return cy.window().trigger("mouseup", {
+      clientX: clientX + deltaX,
+      clientY: clientY + deltaY,
+    });
+  });
 };
 
 export const dragEditorResizeHandle = (
   handleTestId,
   { deltaX = 0, deltaY = 0 } = {},
-) => {
-  getEditorResizeHandle(handleTestId).then(($handle) => {
-    dragHandle($handle, { deltaX, deltaY });
-  });
-};
+) => dragHandle(() => getEditorResizeHandle(handleTestId), { deltaX, deltaY });
 
-export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) => {
-  getSidebarResizeHandle().then(($handle) => {
-    dragHandle($handle, { deltaX, deltaY: 0 });
-  });
-};
+export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) =>
+  dragHandle(() => getSidebarResizeHandle(), { deltaX, deltaY: 0 });
 
 export const openFilePanel = () =>
   getEditorShadow().find("[title='Project files']").click();

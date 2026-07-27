@@ -93,6 +93,12 @@ jobs:
     env:
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
+      PUBLIC_URL: "http://localhost:3011"
+      ASSETS_URL: "http://localhost:3011"
+      REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
+      CSP_API_MULTIPLE_ORIGINS: "http://localhost:3011,http://localhost:3009"
+      REACT_APP_SCRATCH_FRAME_URL: "http://localhost:3014"
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -109,23 +115,19 @@ jobs:
       - name: Install code
         run: yarn install --immutable
 
+      - name: Build code
+        run: yarn build:all
+
       - name: Cypress run
         uses: cypress-io/github-action@v7
         with:
           install: false
           start: |
-            yarn start:all
+            yarn preview:all
           wait-on: "http://localhost:3011, http://localhost:3014/scratch.html"
           quiet: true
           config-file: cypress.config.mjs
           browser: chrome
-        env:
-          REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
-          PUBLIC_URL: "http://localhost:3011"
-          ASSETS_URL: "http://localhost:3011"
-          REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
-          CSP_API_MULTIPLE_ORIGINS: "http://localhost:3011,http://localhost:3009"
-          REACT_APP_SCRATCH_FRAME_URL: "http://localhost:3014"
 
       - name: Archive cypress artifacts
         uses: actions/upload-artifact@v4.6.0

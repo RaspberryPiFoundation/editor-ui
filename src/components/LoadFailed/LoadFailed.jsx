@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import "../../assets/stylesheets/LoadFailed.scss";
+import "../../assets/stylesheets/LoadFailed.scss?inline";
 
 const LoadFailed = ({ onRetry }) => {
   const { t } = useTranslation();

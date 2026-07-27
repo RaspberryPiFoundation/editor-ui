@@ -1,52 +1,53 @@
 <!doctype html>
 <html>
-  <style>
-    #root {
-      min-block-size: 100dvh;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      block-size: 100dvh;
-      margin: 0;
-    }
-    #editor-component {
-      flex: 1 1 auto;
-      display: flex;
-      min-block-size: 0;
-    }
-    .sample-projects-bar {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-      background: #fff;
-      color: #111;
-      font-size: 14px;
-      font-family: sans-serif;
-      line-height: 1.4;
-    }
-    .sample-projects-bar a {
-      color: #005fb8;
-      text-decoration: underline;
-    }
-    .editor-wc {
-      flex: 1 1 auto;
-      display: flex;
-    }
-    ::part(editor-root) {
-      display: block;
-      flex: 1 1 auto;
-      max-block-size: 100dvh;
-    }
-  </style>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" href="data:," />
     <title>Editor Web component</title>
+    <script type="module" src="/src/web-component.jsx"></script>
+    <style>
+      #root {
+        min-block-size: 100dvh;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        block-size: 100dvh;
+        margin: 0;
+      }
+      #editor-component {
+        flex: 1 1 auto;
+        display: flex;
+        min-block-size: 0;
+      }
+      .sample-projects-bar {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        background: #fff;
+        color: #111;
+        font-size: 14px;
+        font-family: sans-serif;
+        line-height: 1.4;
+      }
+      .sample-projects-bar a {
+        color: #005fb8;
+        text-decoration: underline;
+      }
+      .editor-wc {
+        flex: 1 1 auto;
+        display: flex;
+      }
+      ::part(editor-root) {
+        display: block;
+        flex: 1 1 auto;
+        max-block-size: 100dvh;
+      }
+    </style>
   </head>
   <body>
     <div class="sample-projects-bar" id="sample-projects-bar">
@@ -63,9 +64,8 @@
     <p id="results"></p>
     <p id="project-identifier"></p>
     <button id="run-button">Run code</button>
-  </body>
 
-  <script>
+    <script>
     document.addEventListener("DOMContentLoaded", (e) => {
       const queryParams = new URLSearchParams(window.location.search);
       let webComp;
@@ -161,4 +161,5 @@
       };
     });
   </script>
+  </body>
 </html>

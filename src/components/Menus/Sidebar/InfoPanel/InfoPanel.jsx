@@ -5,7 +5,7 @@ import SidebarPanel from "../SidebarPanel";
 import GeneralModal from "../../../Modals/GeneralModal";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 
-import "../../../../assets/stylesheets/InfoPanel.scss";
+import "../../../../assets/stylesheets/InfoPanel.scss?inline";
 
 const CODE_EDITOR_FEEDBACK_URL =
   "https://form.raspberrypi.org/f/code-editor-feedback";

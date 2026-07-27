@@ -1,4 +1,4 @@
-import "../../../assets/stylesheets/MobileProjectBar.scss";
+import "../../../assets/stylesheets/MobileProjectBar.scss?inline";
 import SaveStatus from "../../SaveStatus/SaveStatus";
 import OfflineBadge from "../../OfflineBadge/OfflineBadge";
 import { useSelector } from "react-redux";

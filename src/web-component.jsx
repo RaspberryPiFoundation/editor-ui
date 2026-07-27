@@ -1,7 +1,6 @@
 import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import * as Sentry from "@sentry/react";
-import { BrowserTracing } from "@sentry/tracing";
 import WebComponentLoader from "./containers/WebComponentLoader";
 import store from "./redux/stores/WebComponentStore";
 import { Provider } from "react-redux";
@@ -20,7 +19,7 @@ dedupeDesignSystemWarnings();
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
-  integrations: [new BrowserTracing()],
+  integrations: [Sentry.browserTracingIntegration()],
   environment: process.env.REACT_APP_SENTRY_ENV,
   tracesSampleRate: 0.1,
 });
