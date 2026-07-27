@@ -162,13 +162,13 @@
 
     &:hover {
       &::before {
-        background-color: rgba(231, 248, 247, 1);
+        background-color: $rpf-navy-100;
       }
     }
 
     &:active {
       &::before {
-        background-color: rgba(220, 245, 243, 1);
+        background-color: $rpf-navy-100;
       }
     }
 
