@@ -164,6 +164,14 @@ jobs:
       csp_api_multiple_origins: "https://staging-editor-api.raspberrypi.org https://test-editor-api.raspberrypi.org"
     secrets: inherit
 
+  dispatch-e2e:
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-main]
+    uses: ./.github/workflows/dispatch-learner-experience-e2e.yml
+    with:
+      ref: main
+    secrets: inherit
+
   deploy-branch:
     if: github.ref_type == 'branch' && github.ref_name != 'main'
     uses: ./.github/workflows/deploy.yml

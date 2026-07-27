@@ -15,6 +15,20 @@ global.TextEncoder = TextEncoder;
 global.pygal = {};
 global._internal_sense_hat = {};
 
+const OUTPUT_LINE_LIMIT = 10_000;
+const OUTPUT_CHARACTER_LIMIT = 250_000;
+
+const getPostedMessages = (method) =>
+  global.postMessage.mock.calls
+    .map(([message]) => message)
+    .filter((message) => message.method === method);
+
+const getPostedOutput = () =>
+  getPostedMessages("handleOutput")
+    .flatMap(({ chunks }) => chunks)
+    .map(({ content }) => content)
+    .join("\n");
+
 describe("PyodideWorker", () => {
   let worker;
   let pyodide;
@@ -53,7 +67,7 @@ describe("PyodideWorker", () => {
 
   test("it imports the pyodide script", () => {
     expect(global.importScripts).toHaveBeenCalledWith(
-      "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js",
+      "https://editor-assets.raspberrypi.org/pyodide/0.26.2/pyodide.js",
     );
   });
 
@@ -64,7 +78,11 @@ describe("PyodideWorker", () => {
   });
 
   test("it loads pyodide", () => {
-    expect(global.loadPyodide).toHaveBeenCalled();
+    expect(global.loadPyodide).toHaveBeenCalledWith(
+      expect.objectContaining({
+        indexURL: "https://editor-assets.raspberrypi.org/pyodide/0.26.2/",
+      }),
+    );
   });
 
   test("it notifies component when pyodide has loaded", () => {
@@ -92,7 +110,7 @@ describe("PyodideWorker", () => {
 
   test("it patches the input function", async () => {
     expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
-      expect.stringMatching(/__builtins__.input = __patched_input__/),
+      expect.stringMatching(/__basthon\.kernel\.input_prompt\(str\(prompt\)\)/),
     );
   });
 
@@ -198,6 +216,88 @@ describe("PyodideWorker", () => {
     });
     await waitFor(() => {
       expect(pyodide.runPython).toHaveBeenCalledWith("print('hello')");
+    });
+  });
+
+  test("it sends output without waiting for the run to finish", () => {
+    const { stdout } = global.loadPyodide.mock.calls[0][0];
+    global.postMessage.mockClear();
+
+    for (let i = 1; i <= 10; i += 1) {
+      stdout(`Iteration ${i}`);
+    }
+
+    expect(getPostedOutput()).toContain("Iteration 10");
+    expect(getPostedMessages("handleOutput")).toHaveLength(10);
+    expect(getPostedMessages("handleRunComplete")).toHaveLength(0);
+  });
+
+  test("it limits the number of output lines sent to the UI", () => {
+    const { stdout } = global.loadPyodide.mock.calls[0][0];
+    global.postMessage.mockClear();
+
+    for (let i = 0; i <= OUTPUT_LINE_LIMIT; i += 1) {
+      stdout(String(i));
+    }
+
+    expect(getPostedOutput().split("\n")).toHaveLength(OUTPUT_LINE_LIMIT);
+    expect(getPostedMessages("handleOutputLimit")).toHaveLength(1);
+  });
+
+  test("it truncates a single output line at the character limit", () => {
+    const { stdout } = global.loadPyodide.mock.calls[0][0];
+    global.postMessage.mockClear();
+
+    stdout("x".repeat(OUTPUT_CHARACTER_LIMIT + 1));
+    stdout("not forwarded");
+
+    const output = getPostedOutput();
+    expect(`${output}\n`).toHaveLength(OUTPUT_CHARACTER_LIMIT);
+    expect(output).not.toContain("not forwarded");
+    expect(getPostedMessages("handleOutputLimit")).toHaveLength(1);
+  });
+
+  test("it resets an exhausted output limit when a run starts", async () => {
+    const { stdout } = global.loadPyodide.mock.calls[0][0];
+    stdout("x".repeat(OUTPUT_CHARACTER_LIMIT + 1));
+    pyodide.runPython.mockImplementation((python) => {
+      if (python === "next run") {
+        stdout("visible again");
+      }
+    });
+    global.postMessage.mockClear();
+
+    worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "next run",
+      },
+    });
+
+    await waitFor(() =>
+      expect(global.postMessage).toHaveBeenCalledWith({
+        method: "handleRunComplete",
+      }),
+    );
+    expect(global.postMessage).toHaveBeenCalledWith({
+      method: "handleOutput",
+      chunks: [{ stream: "stdout", content: "visible again" }],
+    });
+  });
+
+  test("it shows input prompts after the output limit is reached", () => {
+    const { stdout } = global.loadPyodide.mock.calls[0][0];
+    const basthon = pyodide.registerJsModule.mock.calls.find(
+      ([name]) => name === "basthon",
+    )[1];
+    stdout("x".repeat(OUTPUT_CHARACTER_LIMIT + 1));
+    global.postMessage.mockClear();
+
+    basthon.kernel.input_prompt("What is your name?");
+
+    expect(global.postMessage).toHaveBeenCalledWith({
+      method: "handleOutput",
+      chunks: [{ stream: "stdout", content: "What is your name?" }],
     });
   });
 

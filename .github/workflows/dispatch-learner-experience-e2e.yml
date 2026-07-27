@@ -1,0 +1,44 @@
+# Trigger for learner-experience-integration-tests after staging WC deploy.
+# Called from ci-cd.yml as dispatch-e2e after deploy-main succeeds on main.
+
+name: Dispatch learner-experience E2E
+
+on:
+  workflow_call:
+    inputs:
+      deploy_url:
+        description: Staging WC URL included in client_payload
+        type: string
+        default: https://staging-editor-static.raspberrypi.org/branches/main/web-component.html
+      ref:
+        description: Git ref reported in client_payload
+        type: string
+        default: main
+      commit_message:
+        description: Optional commit message override
+        type: string
+        default: ""
+      notify_on_success:
+        description: Ask learner-experience E2E to Slack on pass (failures always notify)
+        type: boolean
+        default: false
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Trigger learner-experience integration tests
+        env:
+          TOKEN: ${{ secrets.LEARNER_EXPERIENCE_TESTS_DISPATCH_TOKEN }}
+          SHA: ${{ github.sha }}
+          REF: ${{ inputs.ref }}
+          DEPLOY_URL: ${{ inputs.deploy_url }}
+          COMMIT_MESSAGE_INPUT: ${{ inputs.commit_message }}
+          PR_NUMBER: ${{ github.event.pull_request.number || '' }}
+          NOTIFY_ON_SUCCESS: ${{ inputs.notify_on_success }}
+        run: ./.github/scripts/dispatch-learner-experience-e2e.sh

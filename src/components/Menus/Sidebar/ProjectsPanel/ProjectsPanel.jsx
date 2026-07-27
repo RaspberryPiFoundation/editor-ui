@@ -45,6 +45,7 @@ const ProjectsPanel = () => {
           onClick={navigateToProjectsPage}
           text={t("projectsPanel.yourProjectsButton")}
           textAlways
+          fill
         />,
       ]
     : [];
@@ -64,7 +65,7 @@ const ProjectsPanel = () => {
       <div className="projects-panel__button">
         <DownloadButton
           buttonText={t("header.download")}
-          className="projects-panel__download-button"
+          className="btn btn--secondary projects-panel__download-button"
           Icon={DownloadIcon}
         />
       </div>

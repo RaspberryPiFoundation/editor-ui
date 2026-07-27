@@ -78,6 +78,7 @@ const DownloadButton = (props) => {
       onClick={onClickDownload}
       text={buttonText}
       icon={Icon ? <Icon /> : null}
+      iconPosition="right"
       type={type}
       {...otherProps}
     />

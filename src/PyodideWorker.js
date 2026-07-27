@@ -1,5 +1,13 @@
 /* global globalThis, importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
+const PYODIDE_INDEX_URL =
+  "https://editor-assets.raspberrypi.org/pyodide/0.26.2/";
+// Cap each run before its output reaches the main thread.
+const MAX_OUTPUT_LINES = 10_000;
+const MAX_OUTPUT_CHARACTERS = 250_000;
+// Prompts bypass the output limit so input remains usable.
+const MAX_INPUT_PROMPT_CHARACTERS = 10_000;
+
 // Nest the PyodideWorker function inside a globalThis object so we control when its initialised.
 const PyodideWorker = () => {
   // Import scripts dynamically based on the environment
@@ -7,7 +15,7 @@ const PyodideWorker = () => {
     `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
   );
   importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
-  importScripts("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
+  importScripts(`${PYODIDE_INDEX_URL}pyodide.js`);
 
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
@@ -33,6 +41,9 @@ const PyodideWorker = () => {
     );
   }
   let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
+  let outputLineCount = 0;
+  let outputCharacterCount = 0;
+  let outputLimitReached = false;
 
   const onmessage = async ({ data }) => {
     pyodide = await pyodidePromise;
@@ -60,6 +71,7 @@ const PyodideWorker = () => {
 
   const runPython = async (python) => {
     stopped = false;
+    resetOutputState();
 
     try {
       await withSupportForPackages(python, async () => {
@@ -83,6 +95,47 @@ const PyodideWorker = () => {
       await clearPyodideData();
       postMessage({ method: "handleRunComplete" });
     }
+  };
+
+  const resetOutputState = () => {
+    outputLineCount = 0;
+    outputCharacterCount = 0;
+    outputLimitReached = false;
+  };
+
+  const sendOutput = (stream, content) => {
+    if (outputLimitReached) {
+      return;
+    }
+
+    const text = String(content || " ");
+    const remainingCharacters = MAX_OUTPUT_CHARACTERS - outputCharacterCount;
+
+    if (outputLineCount >= MAX_OUTPUT_LINES || remainingCharacters <= 1) {
+      markOutputLimitReached();
+      return;
+    }
+
+    const visibleText = text.slice(0, remainingCharacters - 1);
+    outputLineCount += 1;
+    outputCharacterCount += visibleText.length + 1;
+    postMessage({
+      method: "handleOutput",
+      chunks: [{ stream, content: visibleText }],
+    });
+
+    if (visibleText.length < text.length) {
+      markOutputLimitReached();
+    }
+  };
+
+  const markOutputLimitReached = () => {
+    if (outputLimitReached) {
+      return;
+    }
+
+    outputLimitReached = true;
+    postMessage({ method: "handleOutputLimit" });
   };
 
   const checkIfStopped = () => {
@@ -419,6 +472,16 @@ const PyodideWorker = () => {
         const mode = event.toJs().get("mode");
         postMessage({ method: "handleFileWrite", filename, content, mode });
       },
+      input_prompt: (prompt) => {
+        const content = String(prompt || " ").slice(
+          0,
+          MAX_INPUT_PROMPT_CHARACTERS,
+        );
+        postMessage({
+          method: "handleOutput",
+          chunks: [{ stream: "stdout", content }],
+        });
+      },
       locals: () => pyodide.runPython("globals()"),
     },
   };
@@ -443,10 +506,9 @@ const PyodideWorker = () => {
     postMessage({ method: "handleLoading" });
 
     pyodidePromise = loadPyodide({
-      stdout: (content) =>
-        postMessage({ method: "handleOutput", stream: "stdout", content }),
-      stderr: (content) =>
-        postMessage({ method: "handleOutput", stream: "stderr", content }),
+      indexURL: PYODIDE_INDEX_URL,
+      stdout: (content) => sendOutput("stdout", content),
+      stderr: (content) => sendOutput("stderr", content),
     });
 
     pyodide = await pyodidePromise;
@@ -454,10 +516,11 @@ const PyodideWorker = () => {
     pyodide.registerJsModule("basthon", fakeBasthonPackage);
 
     await pyodide.runPythonAsync(`
+    import basthon as __basthon
     __old_input__ = input
     def __patched_input__(prompt=False):
         if (prompt):
-            print(prompt)
+            __basthon.kernel.input_prompt(str(prompt))
         return __old_input__()
     __builtins__.input = __patched_input__
     `);

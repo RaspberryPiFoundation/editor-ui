@@ -30,6 +30,8 @@ import OutputViewToggle from "../OutputViewToggle";
 import { SettingsContext } from "../../../../../utils/settings";
 import RunnerControls from "../../../../RunButton/RunnerControls";
 
+const OUTPUT_BATCH_WINDOW_MS = 50;
+
 const getWorkerURL = (url) => {
   const content = `
     /* global PyodideWorker */
@@ -67,6 +69,8 @@ const PyodideRunner = ({
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
   const codeRunStopped = useSelector((s) => s.editor.codeRunStopped);
   const output = useRef();
+  const queuedOutput = useRef([]);
+  const outputBatchTimeout = useRef(null);
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
   const settings = useContext(SettingsContext);
@@ -115,12 +119,31 @@ const PyodideRunner = ({
             handleLoaded(data.stdinBuffer, data.interruptBuffer);
             break;
           case "handleInput":
+            flushQueuedOutput();
             handleInput();
             break;
           case "handleOutput":
-            handleOutput(data.stream, data.content);
+            if (data.chunks) {
+              queueOutput(data.chunks);
+            } else {
+              appendOutput([
+                {
+                  stream: data.stream,
+                  content: data.content || " ",
+                },
+              ]);
+            }
+            break;
+          case "handleOutputLimit":
+            queueOutput([
+              {
+                stream: "system",
+                content: t("output.limitReached"),
+              },
+            ]);
             break;
           case "handleError":
+            flushQueuedOutput();
             handleError(
               data.file,
               data.line,
@@ -147,6 +170,7 @@ const PyodideRunner = ({
             handleSenseHatEvent(data.type);
             break;
           case "handleRunComplete":
+            flushQueuedOutput();
             handleRunComplete();
             break;
           default:
@@ -155,6 +179,8 @@ const PyodideRunner = ({
       };
     }
   }, [pyodideWorker, projectCode, openFiles, focussedFileIndex]);
+
+  useEffect(() => discardQueuedOutput, []);
 
   useEffect(() => {
     if (codeRunTriggered && active && output.current) {
@@ -210,14 +236,69 @@ const PyodideRunner = ({
     }
   };
 
-  const handleOutput = (stream, content) => {
+  const appendOutput = (chunks) => {
     const node = output.current;
-    const div = document.createElement("span");
-    div.classList.add("pythonrunner-console-output-line");
-    div.classList.add(stream);
-    div.innerHTML = new Option(content || " ").innerHTML + "\n";
-    node.appendChild(div);
+    const fragment = document.createDocumentFragment();
+
+    chunks.forEach(({ stream, content }) => {
+      const span = document.createElement("span");
+      span.classList.add("pythonrunner-console-output-line");
+      span.classList.add(stream);
+      span.textContent = `${content}\n`;
+      fragment.appendChild(span);
+    });
+
+    node.appendChild(fragment);
     node.scrollTop = node.scrollHeight;
+  };
+
+  const queueOutput = (chunks) => {
+    chunks.forEach(({ stream, content }) => {
+      const lastChunk = queuedOutput.current[queuedOutput.current.length - 1];
+
+      if (lastChunk?.stream === stream) {
+        lastChunk.lines.push(content);
+      } else {
+        queuedOutput.current.push({ stream, lines: [content] });
+      }
+    });
+
+    if (outputBatchTimeout.current === null) {
+      outputBatchTimeout.current = window.setTimeout(
+        renderQueuedOutput,
+        OUTPUT_BATCH_WINDOW_MS,
+      );
+    }
+  };
+
+  const renderQueuedOutput = () => {
+    outputBatchTimeout.current = null;
+
+    if (queuedOutput.current.length === 0) {
+      return;
+    }
+
+    const chunks = queuedOutput.current.map(({ stream, lines }) => ({
+      stream,
+      content: lines.join("\n"),
+    }));
+    queuedOutput.current = [];
+    appendOutput(chunks);
+  };
+
+  const flushQueuedOutput = () => {
+    if (outputBatchTimeout.current !== null) {
+      window.clearTimeout(outputBatchTimeout.current);
+    }
+    renderQueuedOutput();
+  };
+
+  const discardQueuedOutput = () => {
+    if (outputBatchTimeout.current !== null) {
+      window.clearTimeout(outputBatchTimeout.current);
+    }
+    outputBatchTimeout.current = null;
+    queuedOutput.current = [];
   };
 
   const handleError = (file, line, mistake, type, info, rawTraceback) => {
@@ -326,6 +407,7 @@ const PyodideRunner = ({
 
   const handleRun = async () => {
     dispatch(beginCodeRun());
+    discardQueuedOutput();
     output.current.innerHTML = "";
     dispatch(setError(""));
     dispatch(setErrorDetails({}));
