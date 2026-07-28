@@ -40,7 +40,7 @@ const Simulator = (props) => {
     mouseY = e.clientY - windowHalfY;
     targetRotationY = (mouseY - mouseYOnMouseDown) * rotationScaleFactor;
 
-    if (isDragging) {
+    if (isDragging && window.mod) {
       window.mod.rotateOnWorldAxis(
         new THREE.Vector3(0, 0, -1),
         targetRotationX,
