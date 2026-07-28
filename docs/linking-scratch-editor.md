@@ -12,7 +12,7 @@ git checkout code-classroom
 
 Feature work should branch from `code-classroom`, not from upstream `main` or `code-classroom-base`.
 
-editor-ui does not bundle Scratch GUI into the main webpack app. It copies a prebuilt `dist/scratch-gui.js` (and static assets) from `node_modules` into the dev server output. Pointing the dependency at your local clone is enough to test GUI changes in the Scratch iframe.
+editor-ui does not bundle Scratch GUI into the main Vite build. `apps/scratch-frame`'s own Vite config copies a prebuilt `dist/scratch-gui.js` (and static assets) from `node_modules` into its dev server / build output via `vite-plugin-static-copy`. Pointing the dependency at your local clone is enough to test GUI changes in the Scratch iframe.
 
 **Do not commit these linking changes.** They are temporary for local development only. These changes to `package.json`, `yarn.lock`, and `docker-compose.yml` are for local development only.
 
@@ -59,7 +59,7 @@ NODE_ENV=development npm ci
 npm run build
 ```
 
-After every scratch-gui code change, run the build again, then restart the editor-ui container so webpack copies the new `dist/scratch-gui.js`.
+After every scratch-gui code change, run the build again, then restart the editor-ui container so Vite copies the new `dist/scratch-gui.js`.
 
 ## Run with Docker
 

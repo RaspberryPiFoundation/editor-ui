@@ -4,15 +4,15 @@ To have the web component be able to use the same React components as the site a
 
 There are custom Vite config files for the component: `vite.config.js` builds `web-component.js` and runs the `start` script's dev server; `vite.html-renderer.config.js` and `vite.worker.config.js` build the `html-renderer.js` and `PyodideWorker.js` bundles respectively (all three are combined into one `build` script in `package.json`).
 
-In `public/web-component/index.html` the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3011` will load the page with the web component mounted.
+In `web-component.html` (project root) the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3011/web-component.html` will load the page with the web component mounted.
 
 ## WebComponent Class
 
-`src/web-component.js` defines the Web Component and mounts the React components and store.
+`src/web-component.jsx` defines the Web Component and mounts the React components and store.
 
 Methods can be defined in the web component to allow getting or setting data in the component.
 
-For example the `get editorCode()` method allows the host site to access the code written in the editor, an example of how to use it is in the `public/web-component/index.html` page.
+For example the `get editorCode()` method allows the host site to access the code written in the editor, an example of how to use it is in the `web-component.html` page.
 The `set menuItems(newValue)` method shows how data could be set dynamically from outside the web component. This is probably not needed in the component and is only there as an example.
 
 The `mountReactApp()` method creates a dom element attaches a shadow dom to it and then mounts the React application in it.
@@ -28,7 +28,7 @@ The WebComponent class is then defined as a custom HTML element which can be use
 ## WebComponent events
 
 In `src/components/WebComponent/Project/Project.js` there is an example of how the React application can fire custom events on the web component.
-These events can be listened for in the host application as shown in the `public/web-component/index.html`.
+These events can be listened for in the host application as shown in the `web-component.html`.
 
 The idea here would be to have the React app fire an event when the code has changed (using a debounce) which the host application can then use as a trigger to retrieve the code if it needs to.
 For example the Astro Pi Mission Zero could check that the code uses the required methods.
