@@ -31,3 +31,17 @@ test("Dragging model changes orientation", async () => {
   fireEvent.pointerMove(canvas);
   expect(updateOrientation).toHaveBeenCalled();
 });
+
+test("Dragging before model has loaded does not throw", () => {
+  const updateOrientation = jest.fn();
+  const loadedMod = window.mod;
+  window.mod = undefined;
+
+  const simulator = render(<Simulator updateOrientation={updateOrientation} />);
+  const canvas = simulator.container.querySelector("canvas");
+  fireEvent.pointerDown(canvas);
+  expect(() => fireEvent.pointerMove(canvas)).not.toThrow();
+  expect(updateOrientation).not.toHaveBeenCalled();
+
+  window.mod = loadedMod;
+});
