@@ -412,19 +412,29 @@ const SkulptRunner = ({
         message: errorMessage,
       };
     } else {
-      const errorDescription = (err.tp$str && err.tp$str().v)
+      // err is normally a Skulpt exception (tp$str/traceback), but native
+      // code called from Python (e.g. the p5/py5 shims) can throw plain JS
+      // errors instead, which don't have that shape - fall back gracefully
+      // rather than letting this handler itself throw.
+      const rawDescription =
+        typeof err.tp$str === "function" ? err.tp$str().v : undefined;
+      const errorDescription = (
+        rawDescription ||
+        err.message ||
+        t("editor.errors.generalError")
+      )
         .replace(/\[(.*?)\]/, "")
         .replace(/\.$/, "");
-      const errorType = err.tp$name || err.constructor.name;
-      let lineNumber = err.traceback[0].lineno;
-      let fileName = err.traceback[0].filename;
+      const errorType = err.tp$name || err.constructor?.name;
+      let lineNumber = err.traceback?.[0]?.lineno;
+      let fileName = err.traceback?.[0]?.filename;
 
       // If this is an error in the sense_hat.py shim, use the next entry in
       // the traceback as this will be the line in the shim which we don't want
       // to show to users, so that the error message will instead point to the
       // line in the user's code which caused the error.
       if (
-        err.traceback.length > 1 &&
+        err.traceback?.length > 1 &&
         fileName === "./sense_hat.py" &&
         ["RuntimeError", "ValueError"].includes(errorType)
       ) {
@@ -432,7 +442,7 @@ const SkulptRunner = ({
         fileName = err.traceback[1].filename;
       }
 
-      fileName = fileName.replace(/^\.\//, "");
+      fileName = fileName ? fileName.replace(/^\.\//, "") : fileName;
 
       if (errorType === "ImportError" && window.crossOriginIsolated) {
         const articleLink = `https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor`;
