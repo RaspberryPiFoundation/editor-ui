@@ -6,6 +6,7 @@ import dedupeScratchWarnings from "./utils/dedupeScratchWarnings.js";
 import ScratchStyles from "./stylesheets/Scratch.scss?inline";
 import ScratchEditor from "./ScratchEditor.jsx";
 import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
+import { toScratchLocale } from "./utils/scratchLocale.js";
 dedupeScratchWarnings();
 
 const appTarget = document.getElementById("app");
@@ -20,8 +21,10 @@ const searchParams = new URLSearchParams(window.location.search);
 const projectId = searchParams.get("project_id");
 const apiUrl = searchParams.get("api_url");
 
-const defaultLocale = "en";
-const locale = appTarget.dataset.locale || defaultLocale;
+const raspberryPiLocale = searchParams.get("locale");
+const locale = raspberryPiLocale
+  ? toScratchLocale(raspberryPiLocale)
+  : appTarget.dataset.locale || "en";
 
 const generateNonce = () =>
   `${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;

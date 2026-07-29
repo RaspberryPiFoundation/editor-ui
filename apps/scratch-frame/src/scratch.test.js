@@ -133,6 +133,43 @@ describe("scratch handshake retries", () => {
     expect(scratchEditorComponent.props.accessToken).toBe("token-123");
   });
 
+  test.each([
+    ["ga-IE", "ga"],
+    ["es-LA", "es-419"],
+    ["fr-FR", "fr"],
+  ])(
+    "passes the selected %s locale to Scratch as %s",
+    async (locale, expected) => {
+      window.history.pushState(
+        {},
+        "",
+        `/scratch.html?project_id=project-123&api_url=https://api.example.com&locale=${locale}`,
+      );
+
+      await loadScratchModule();
+
+      const nonce = getHandshakeNonce();
+      dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
+
+      const renderedTree = mockRenderRoot.mock.calls[0][0];
+      const scratchEditorComponent = renderedTree.props.children[1];
+      expect(scratchEditorComponent.props.locale).toBe(expected);
+    },
+  );
+
+  test("preserves a native Scratch locale from the legacy data attribute", async () => {
+    document.getElementById("app").dataset.locale = "gd";
+
+    await loadScratchModule();
+
+    const nonce = getHandshakeNonce();
+    dispatchSetTokenMessage({ nonce, accessToken: "token-123" });
+
+    const renderedTree = mockRenderRoot.mock.calls[0][0];
+    const scratchEditorComponent = renderedTree.props.children[1];
+    expect(scratchEditorComponent.props.locale).toBe("gd");
+  });
+
   test("keeps retrying when auth is required but token is missing", async () => {
     await loadScratchModule();
 

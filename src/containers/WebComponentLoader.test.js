@@ -811,7 +811,7 @@ describe("when a Scratch remix updates the project identifier", () => {
     render(
       <Provider store={store}>
         <CookiesProvider cookies={new Cookies()}>
-          <WebComponentLoader identifier="teacher-project" />
+          <WebComponentLoader identifier="teacher-project" locale="ga-IE" />
         </CookiesProvider>
       </Provider>,
     );
@@ -824,6 +824,10 @@ describe("when a Scratch remix updates the project identifier", () => {
       );
     });
 
+    const scratchIframe = await screen.findByTitle("Scratch");
+    const scratchUrl = new URL(scratchIframe.getAttribute("src"));
+    expect(scratchUrl.searchParams.get("locale")).toBe("ga-IE");
+
     await waitFor(() => {
       expect(useProject).toHaveBeenLastCalledWith({
         assetsIdentifier: undefined,
@@ -832,7 +836,7 @@ describe("when a Scratch remix updates the project identifier", () => {
         initialProject: null,
         accessToken: "my_token",
         loadRemix: true,
-        locale: "en",
+        locale: "ga-IE",
         loadCache: true,
         remixLoadFailed: false,
         reactAppApiEndpoint: "http://localhost:3009",
