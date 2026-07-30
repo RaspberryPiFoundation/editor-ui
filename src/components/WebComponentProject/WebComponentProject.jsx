@@ -44,6 +44,11 @@ export { resetCodeRunEventTracking } from "./runEventTrackingState";
 // server's kramdown rendering. Registered once at module load.
 marked.use({ extensions: [inlineCodeAttributes] });
 
+// Editable instructions are authored as a single markdown document; a step
+// boundary is signified by a `<br class="page-break" />` marker (the final
+// step needs no trailing marker). Splitting on it yields one step per section.
+const PAGE_BREAK_REGEX = /<br\s+class=["']page-break["']\s*\/?>/i;
+
 const WebComponentProject = ({
   withProjectbar = false,
   nameEditable = false,
@@ -144,20 +149,26 @@ const WebComponentProject = ({
   useEffect(() => {
     if (!permitInstructionsOverride) return;
 
+    let steps = [];
+    if (typeof projectInstructions === "string") {
+      const sections = projectInstructions
+        .split(PAGE_BREAK_REGEX)
+        .map((section) => section.trim());
+      // Drop blank sections (e.g. a stray trailing page break), but always keep
+      // at least one step so the editing experience is preserved for empty
+      // input.
+      const nonEmpty = sections.filter((section) => section.length > 0);
+      const stepMarkdown = nonEmpty.length > 0 ? nonEmpty : [""];
+      steps = stepMarkdown.map((content) => ({
+        quiz: false,
+        title: "",
+        content: marked.parse(content),
+      }));
+    }
+
     dispatch(
       setInstructions({
-        project: {
-          steps:
-            typeof projectInstructions === "string"
-              ? [
-                  {
-                    quiz: false,
-                    title: "",
-                    content: marked.parse(projectInstructions),
-                  },
-                ]
-              : [],
-        },
+        project: { steps },
         permitOverride: true,
       }),
     );

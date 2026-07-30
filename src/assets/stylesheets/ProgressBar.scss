@@ -27,11 +27,11 @@
   }
 
   .btn {
-    border-radius: var(--step-buttons-radius, inherit);
+    border-radius: var(--step-buttons-radius, var(--space-1));
     &:hover,
     &:focus,
     &:active {
-      border-radius: var(--step-buttons-radius, inherit);
+      border-radius: var(--step-buttons-radius, var(--space-1));
     }
   }
 }

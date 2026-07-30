@@ -186,6 +186,45 @@ describe("When there are instructions", () => {
   });
 });
 
+describe("When instructions contain page breaks", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions:
+        'Step one\n\n<br class="page-break" />\n\nStep two\n\n<br class="page-break" />\n\nStep three',
+      codeRunTriggered: true,
+    });
+  });
+
+  test("Splits the instructions into a step per page break", () => {
+    const action = store
+      .getActions()
+      .find((e) => e.type === "instructions/setInstructions");
+    const steps = action.payload.project.steps;
+
+    expect(steps).toHaveLength(3);
+    expect(steps[0].content).toEqual("<p>Step one</p>\n");
+    expect(steps[1].content).toEqual("<p>Step two</p>\n");
+    expect(steps[2].content).toEqual("<p>Step three</p>\n");
+  });
+});
+
+describe("When instructions end with a trailing page break", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: 'Only step\n\n<br class="page-break" />\n',
+      codeRunTriggered: true,
+    });
+  });
+
+  test("Ignores the blank trailing step", () => {
+    const action = store
+      .getActions()
+      .find((e) => e.type === "instructions/setInstructions");
+
+    expect(action.payload.project.steps).toHaveLength(1);
+  });
+});
+
 describe("When instructions are an empty string", () => {
   beforeEach(() => {
     renderWebComponentProject({

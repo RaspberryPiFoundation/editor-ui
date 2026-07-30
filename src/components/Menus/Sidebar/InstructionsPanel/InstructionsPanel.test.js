@@ -225,6 +225,39 @@ describe("When instructionsEditable is true", () => {
       );
     });
   });
+
+  describe("When the editable instructions have multiple steps", () => {
+    beforeEach(() => {
+      const mockStore = configureStore([]);
+      const store = mockStore({
+        editor: {
+          project: { instructions: "Step one\n\nStep two" },
+          instructionsEditable: true,
+        },
+        instructions: {
+          project: {
+            steps: [{ content: "Step one" }, { content: "Step two" }],
+          },
+          quiz: {},
+          currentStepPosition: 0,
+        },
+      });
+      render(
+        <Provider store={store}>
+          <InstructionsPanel />
+        </Provider>,
+      );
+    });
+
+    test("Hides the pagination while editing on the edit tab", () => {
+      expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    });
+
+    test("Shows the pagination on the view tab", () => {
+      fireEvent.click(screen.getAllByRole("tab")[1]);
+      expect(screen.queryByRole("progressbar")).toBeInTheDocument();
+    });
+  });
 });
 
 describe("When instructions are not editable", () => {

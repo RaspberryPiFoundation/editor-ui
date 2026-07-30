@@ -68,6 +68,11 @@ const InstructionsPanel = () => {
   const hasMultipleSteps = numberOfSteps > 1;
   const isScratchProject = project?.project_type === "code_editor_scratch";
 
+  // In the editable panel the first tab is the markdown editor; hide the step
+  // pagination while it is active so authors edit the whole document at once.
+  const isEditingTab = instructionsEditable && instructionsTab === 0;
+  const showProgressBar = hasMultipleSteps && !isEditingTab;
+
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
       ".language-python, .language-html, .language-css, .language-javascript",
@@ -124,6 +129,14 @@ const InstructionsPanel = () => {
     instructionsEditable,
     i18n.language,
   ]);
+
+  // Editing can reduce the number of steps (e.g. removing a page break), so
+  // keep the current step within range to avoid landing on a blank step.
+  useEffect(() => {
+    if (numberOfSteps > 0 && currentStepPosition > numberOfSteps - 1) {
+      dispatch(setCurrentStepPosition(numberOfSteps - 1));
+    }
+  }, [numberOfSteps, currentStepPosition, dispatch]);
 
   useEffect(() => {
     if (quizCompleted && isQuiz) {
@@ -186,7 +199,7 @@ const InstructionsPanel = () => {
           : []
       }
       Footer={
-        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
+        showProgressBar ? () => <ProgressBar panelRef={panelRef} /> : undefined
       }
     >
       <div className="project-instructions">

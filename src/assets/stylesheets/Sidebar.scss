@@ -119,7 +119,7 @@
 }
 
 .sidebar__panel--with-footer {
-  padding-block-end: var(--sidebar-footer-padding, $space-2);
+  padding-block-end: var(--sidebar-footer-padding, 0);
 }
 
 .sidebar__panel-heading {
