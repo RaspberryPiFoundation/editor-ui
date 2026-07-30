@@ -99,6 +99,15 @@ describe("Scratch locale", () => {
         .should("be.visible");
     });
   });
+
+  it("falls back to English when Scratch does not support the locale", () => {
+    cy.visit(`${origin}?locale=vls-BE`);
+    cy.findByText("cool-scratch").click();
+
+    getScratchIframeBody()
+      .findByRole("tab", { name: "Code" })
+      .should("be.visible");
+  });
 });
 
 describe("Scratch save integration", () => {

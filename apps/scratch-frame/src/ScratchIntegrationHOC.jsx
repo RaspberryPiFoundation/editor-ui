@@ -172,10 +172,17 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
   }
 
-  const mapStateToProps = (state) => {
+  const mapStateToProps = (state, { locale }) => {
     const loadingState = state.scratchGui.projectState?.loadingState;
+    const supportedLocale = Object.prototype.hasOwnProperty.call(
+      state.locales.messagesByLocale,
+      locale,
+    )
+      ? locale
+      : "en";
 
     return {
+      locale: supportedLocale,
       saveProjectSb3: state.scratchGui.vm.saveProjectSb3.bind(
         state.scratchGui.vm,
       ),

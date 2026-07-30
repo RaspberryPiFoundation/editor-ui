@@ -786,8 +786,8 @@ describe("When user is in state", () => {
   });
 });
 
-describe("when rendering a Scratch project", () => {
-  test("passes the locale and preserves load state after a remix", async () => {
+describe("when a Scratch remix updates the project identifier", () => {
+  test("keeps the existing project load state and locale instead of reloading the iframe project", async () => {
     const scratchStore = configureRealStore({
       reducer: {
         editor: EditorReducer,
