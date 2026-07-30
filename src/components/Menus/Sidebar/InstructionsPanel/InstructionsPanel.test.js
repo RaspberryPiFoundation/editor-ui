@@ -31,6 +31,39 @@ const fakeScratchblocksInit = (_locale, container) => {
   });
 };
 
+describe("When instructionsEditable changes from false to true", () => {
+  const buildStore = (instructionsEditable) =>
+    configureStore([])({
+      editor: {
+        project: { instructions: "# Title" },
+        instructionsEditable,
+      },
+      instructions: {
+        project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
+        quiz: {},
+        currentStepPosition: 0,
+      },
+    });
+
+  test("does not leave the rendered preview above the edit/view tabs", () => {
+    const { container, rerender } = render(
+      <Provider store={buildStore(false)}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+
+    rerender(
+      <Provider store={buildStore(true)}>
+        <InstructionsPanel />
+      </Provider>,
+    );
+
+    const tabsWrapper = container.querySelector(".c-instruction-tabs");
+    expect(tabsWrapper).toBeInTheDocument();
+    expect(tabsWrapper.firstElementChild).toHaveClass("react-tabs");
+  });
+});
+
 describe("When instructionsEditable is true", () => {
   describe("When there are instructions", () => {
     let store;
