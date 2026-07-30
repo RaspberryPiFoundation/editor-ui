@@ -18,14 +18,12 @@ describe("toScratchLocale", () => {
     expect(toScratchLocale(locale)).toBe(expected);
   });
 
-  test("uses the supported base language for other regional locales", () => {
+  test("drops the region when no override is required", () => {
     expect(toScratchLocale("de-DE")).toBe("de");
   });
 
-  test.each([undefined, ""])(
-    "falls back to English when no locale is supplied (%s)",
-    (locale) => {
-      expect(toScratchLocale(locale)).toBe("en");
-    },
-  );
+  test("falls back to English when no locale is supplied", () => {
+    expect(toScratchLocale()).toBe("en");
+    expect(toScratchLocale("")).toBe("en");
+  });
 });

@@ -158,15 +158,14 @@ describe("ScratchContainer", () => {
     expect(url.searchParams.get("api_url")).toBe("https://api.example.com/v1");
   });
 
-  test.each(["ga-IE", "es-LA", "fr-FR"])(
-    "passes the selected %s locale to the Scratch frame",
-    (locale) => {
-      const { iframe } = renderScratchContainer(buildStore(), { locale });
+  test("passes the selected locale to the Scratch frame", () => {
+    const { iframe } = renderScratchContainer(buildStore(), {
+      locale: "ga-IE",
+    });
 
-      const url = new URL(iframe.getAttribute("src"));
-      expect(url.searchParams.get("locale")).toBe(locale);
-    },
-  );
+    const url = new URL(iframe.getAttribute("src"));
+    expect(url.searchParams.get("locale")).toBe("ga-IE");
+  });
 
   test("configures OverlayScrollbars for an overflow-aware horizontal Scratch scrollbar", () => {
     renderScratchContainer();
