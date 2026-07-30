@@ -139,9 +139,14 @@ const renderScratchblock = (block, currentLocale, style) => {
     svg.style.transformOrigin = "0 0";
   }
 
-  block.parentNode.setAttribute("dir", "ltr");
-  block.parentNode.insertBefore(svg, block);
-  block.parentNode.removeChild(block);
+  // Tag the rendered block and its wrapping <pre> so they get their own
+  // styling rather than inheriting the dark code-block appearance.
+  const container = block.parentNode;
+  svg.classList.add("scratchblocks");
+  container.classList.add("scratchblocks");
+  container.setAttribute("dir", "ltr");
+  container.insertBefore(svg, block);
+  container.removeChild(block);
 };
 
 export const scratchblocksLocale = (currentLocale) => {

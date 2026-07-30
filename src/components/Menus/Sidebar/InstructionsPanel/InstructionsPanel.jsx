@@ -99,7 +99,9 @@ const InstructionsPanel = () => {
         stepContent.current?.parentElement.scrollTo({ top: 0 });
         stepContent.current.innerHTML = content;
         applySyntaxHighlighting(stepContent.current);
-        if (isScratchProject) {
+        // Editable instructions are rendered from author-supplied markdown, so
+        // they may contain scratch code fences regardless of project type.
+        if (isScratchProject || instructionsEditable) {
           scratchblocksInit(i18n.language, stepContent.current);
         }
       }
@@ -119,6 +121,7 @@ const InstructionsPanel = () => {
     isQuiz,
     instructionsTab,
     isScratchProject,
+    instructionsEditable,
     i18n.language,
   ]);
 

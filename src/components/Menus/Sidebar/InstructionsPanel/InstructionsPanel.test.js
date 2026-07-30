@@ -169,6 +169,62 @@ describe("When instructionsEditable is true", () => {
       ).toBeInTheDocument();
     });
   });
+
+  describe("When the editable instructions contain scratch code blocks", () => {
+    // Deliberately not a scratch project, to prove that editable instructions
+    // render scratch blocks purely because they are editable.
+    const renderEditablePanel = () => {
+      const mockStore = configureStore([]);
+      const store = mockStore({
+        editor: {
+          project: { project_type: "python" },
+          instructionsEditable: true,
+        },
+        instructions: {
+          project: {
+            steps: [
+              {
+                content:
+                  "<pre><code class='language-blocks'>say [hello]</code></pre>",
+              },
+            ],
+          },
+          quiz: {},
+          currentStepPosition: 0,
+        },
+      });
+      return render(
+        <Provider store={store}>
+          <InstructionsPanel />
+        </Provider>,
+      );
+    };
+
+    beforeEach(() => {
+      scratchblocksInit.mockImplementation(fakeScratchblocksInit);
+    });
+
+    const openViewTab = () => {
+      // The rendered content lives in the second ("View") tab, which is only
+      // mounted once selected.
+      fireEvent.click(screen.getAllByRole("tab")[1]);
+    };
+
+    test("Renders the scratch block as an svg on the view tab", () => {
+      renderEditablePanel();
+      openViewTab();
+      expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
+    });
+
+    test("Initialises scratchblocks with the step content container", () => {
+      renderEditablePanel();
+      openViewTab();
+      expect(scratchblocksInit).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(HTMLElement),
+      );
+    });
+  });
 });
 
 describe("When instructions are not editable", () => {

@@ -7,6 +7,14 @@
 .project-instructions {
   block-size: 100%;
 
+  // Rendered scratch blocks are self-contained, coloured SVGs, so the wrapping
+  // <pre> must not keep the dark code-block background/border/padding.
+  pre.scratchblocks {
+    background-color: var(--rpf-grey-50);
+    border: none;
+    // padding: 0;
+  }
+
   code.block3control {
     background-color: #ffab19;
   }
@@ -401,6 +409,9 @@
 .--dark .project-instructions {
   pre {
     background-color: $rpf-grey-850;
+  }
+  pre.scratchblocks {
+    background-color: transparent;
   }
   code {
     background-color: $rpf-grey-850;
