@@ -14,6 +14,12 @@ describe("inlineCodeAttributes marked extension", () => {
     );
   });
 
+  test("applies a block-type attribute from the inline attribute list", () => {
+    expect(render('`Looks`{:block-type="looks"}')).toBe(
+      '<code block-type="looks">Looks</code>',
+    );
+  });
+
   test("supports the .class shorthand", () => {
     expect(render("`Move`{:.block3motion}")).toBe(
       '<code class="block3motion">Move</code>',
