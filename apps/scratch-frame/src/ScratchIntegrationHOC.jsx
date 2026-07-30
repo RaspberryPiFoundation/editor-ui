@@ -40,10 +40,14 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.vm.on("PROJECT_CHANGED", this.handleProjectChanged);
       this.props.vm.on("PROJECT_RUN_START", this.handleProjectRunStart);
       this.props.vm.on("PROJECT_RUN_STOP", this.handleProjectRunStop);
+      this.props.setLocale(this.props.locale);
       this.props.setStageSize();
       this.syncLoadSettled(null);
     }
     componentDidUpdate(prevProps) {
+      if (prevProps.locale !== this.props.locale) {
+        this.props.setLocale(this.props.locale);
+      }
       this.syncLoadSettled(prevProps);
     }
     // Scratch fires PROJECT_CHANGED during load, before setProjectUnchanged runs.
@@ -159,6 +163,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         onClickRemix,
         onClickSave,
         saveProjectSb3,
+        setLocale,
         setStageSize,
         ...componentProps
       } = this.props;
@@ -185,6 +190,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
   const mapDispatchToProps = (dispatch) => ({
     onClickRemix: () => dispatch(ScratchGui.remixProject()),
     onClickSave: () => dispatch(ScratchGui.manualUpdateProject()),
+    setLocale: (locale) => dispatch(ScratchGui.selectLocale(locale)),
     setStageSize: () => dispatch(ScratchGui.setStageSize("small")),
   });
 
@@ -193,6 +199,8 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     loadProject: PropTypes.func,
     onClickRemix: PropTypes.func,
     onClickSave: PropTypes.func,
+    locale: PropTypes.string,
+    setLocale: PropTypes.func,
     setStageSize: PropTypes.func,
     vm: PropTypes.object,
     isLoading: PropTypes.bool,

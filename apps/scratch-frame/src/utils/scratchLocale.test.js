@@ -22,8 +22,18 @@ describe("toScratchLocale", () => {
     expect(toScratchLocale("de-DE")).toBe("de");
   });
 
+  test.each([
+    [" es-la ", "es-419"],
+    ["es-419", "es-419"],
+    ["pt-br", "pt-br"],
+    ["zh-cn", "zh-cn"],
+  ])("normalizes %s to %s", (locale, expected) => {
+    expect(toScratchLocale(locale)).toBe(expected);
+  });
+
   test("falls back to English when no locale is supplied", () => {
     expect(toScratchLocale()).toBe("en");
     expect(toScratchLocale("")).toBe("en");
+    expect(toScratchLocale("   ")).toBe("en");
   });
 });

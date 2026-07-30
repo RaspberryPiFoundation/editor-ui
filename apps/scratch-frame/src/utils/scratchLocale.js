@@ -1,13 +1,15 @@
-const scratchLocaleOverrides = {
-  "es-LA": "es-419",
-  "no-NO": "nb",
-  "pt-BR": "pt-br",
-  "zh-CN": "zh-cn",
-  "zh-TW": "zh-tw",
+const scratchLocaleMap = {
+  "es-la": "es-419",
+  "es-419": "es-419",
+  "no-no": "nb",
+  "pt-br": "pt-br",
+  "zh-cn": "zh-cn",
+  "zh-tw": "zh-tw",
 };
 
 export const toScratchLocale = (locale) => {
-  if (!locale) return "en";
+  const normalizedLocale = locale?.trim().toLowerCase();
+  if (!normalizedLocale) return "en";
 
-  return scratchLocaleOverrides[locale] || locale.split("-")[0].toLowerCase();
+  return scratchLocaleMap[normalizedLocale] || normalizedLocale.split("-")[0];
 };

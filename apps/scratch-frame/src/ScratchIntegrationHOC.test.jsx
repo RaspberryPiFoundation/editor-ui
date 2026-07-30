@@ -51,6 +51,7 @@ describe("ScratchIntegrationHOC", () => {
     window.GUI = {
       remixProject: () => ({ type: "remix" }),
       manualUpdateProject: () => ({ type: "manualUpdate" }),
+      selectLocale: (locale) => ({ type: "selectLocale", locale }),
       setStageSize: () => ({ type: "setStageSize" }),
     };
 
@@ -69,6 +70,21 @@ describe("ScratchIntegrationHOC", () => {
     mockVm.on.mock.calls.find(
       ([registeredEventName]) => registeredEventName === eventName,
     )?.[1];
+
+  it("sets the Scratch locale", () => {
+    render(
+      React.createElement(
+        Provider,
+        { store },
+        React.createElement(Wrapped, { locale: "es-419" }),
+      ),
+    );
+
+    expect(store.getActions()).toContainEqual({
+      type: "selectLocale",
+      locale: "es-419",
+    });
+  });
 
   describe("scratch-gui-download message", () => {
     it("calls saveProjectSb3 and saveAs with blob and filename", async () => {
