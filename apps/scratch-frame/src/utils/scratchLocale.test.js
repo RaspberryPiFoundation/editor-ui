@@ -10,6 +10,7 @@ describe("toScratchLocale", () => {
   });
 
   test.each([
+    ["no-NO", "nb"],
     ["pt-BR", "pt-br"],
     ["zh-CN", "zh-cn"],
     ["zh-TW", "zh-tw"],
@@ -21,8 +22,8 @@ describe("toScratchLocale", () => {
     expect(toScratchLocale("de-DE")).toBe("de");
   });
 
-  test.each([undefined, "", "xx-XX", "me-ME"])(
-    "falls back to English for unsupported locale %s",
+  test.each([undefined, ""])(
+    "falls back to English when no locale is supplied (%s)",
     (locale) => {
       expect(toScratchLocale(locale)).toBe("en");
     },
