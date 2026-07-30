@@ -97,6 +97,9 @@ describe("Scratch locale", () => {
       getScratchIframeBody()
         .findByRole("tab", { name: translatedTab })
         .should("be.visible");
+      getScratchIframeBody()
+        .findByRole("button", { name: /teapot/ })
+        .should("be.visible");
     });
   });
 
@@ -106,6 +109,9 @@ describe("Scratch locale", () => {
 
     getScratchIframeBody()
       .findByRole("tab", { name: "Code" })
+      .should("be.visible");
+    getScratchIframeBody()
+      .findByRole("button", { name: /teapot/ })
       .should("be.visible");
   });
 });
