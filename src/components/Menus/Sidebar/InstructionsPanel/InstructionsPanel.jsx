@@ -189,7 +189,7 @@ const InstructionsPanel = () => {
       <div className="project-instructions">
         {instructionsEditable ? (
           hasInstructions ? (
-            <div className="c-instruction-tabs">
+            <div className="c-instruction-tabs" key="instruction-tabs">
               <Tabs
                 onSelect={(index) => {
                   setInstructionsTab(index);
@@ -237,7 +237,11 @@ const InstructionsPanel = () => {
             </div>
           )
         ) : (
-          <div className="project-instructions__content" ref={stepContent} />
+          <div
+            className="project-instructions__content"
+            key="instruction-content"
+            ref={stepContent}
+          />
         )}
       </div>
       {showModal && (
