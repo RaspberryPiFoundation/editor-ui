@@ -66,10 +66,10 @@ describe("ScratchContainer", () => {
       },
     });
 
-  const renderScratchContainer = (store = buildStore()) => {
+  const renderScratchContainer = (store = buildStore(), props = {}) => {
     render(
       <Provider store={store}>
-        <ScratchContainer />
+        <ScratchContainer {...props} />
       </Provider>,
     );
 
@@ -156,6 +156,15 @@ describe("ScratchContainer", () => {
     expect(url.pathname).toBe("/scratch.html");
     expect(url.searchParams.get("project_id")).toBe("project-123");
     expect(url.searchParams.get("api_url")).toBe("https://api.example.com/v1");
+  });
+
+  test("passes the selected locale to the Scratch frame", () => {
+    const { iframe } = renderScratchContainer(buildStore(), {
+      locale: "ga-IE",
+    });
+
+    const url = new URL(iframe.getAttribute("src"));
+    expect(url.searchParams.get("locale")).toBe("ga-IE");
   });
 
   test("configures OverlayScrollbars for an overflow-aware horizontal Scratch scrollbar", () => {

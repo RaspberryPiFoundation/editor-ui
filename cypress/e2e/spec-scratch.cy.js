@@ -84,6 +84,38 @@ describe("Scratch", () => {
   });
 });
 
+describe("Scratch locale", () => {
+  [
+    ["ga-IE", "Cód"],
+    ["es-LA", "Código"],
+    ["fr-FR", "Sons"],
+  ].forEach(([locale, translatedTab]) => {
+    it(`uses ${locale} selected by the host application`, () => {
+      cy.visit(`${origin}?locale=${locale}`);
+      cy.findByText("cool-scratch").click();
+
+      getScratchIframeBody()
+        .findByRole("tab", { name: translatedTab })
+        .should("be.visible");
+      getScratchIframeBody()
+        .findByRole("button", { name: /teapot/ })
+        .should("be.visible");
+    });
+  });
+
+  it("falls back to English when Scratch does not support the locale", () => {
+    cy.visit(`${origin}?locale=vls-BE`);
+    cy.findByText("cool-scratch").click();
+
+    getScratchIframeBody()
+      .findByRole("tab", { name: "Code" })
+      .should("be.visible");
+    getScratchIframeBody()
+      .findByRole("button", { name: /teapot/ })
+      .should("be.visible");
+  });
+});
+
 describe("Scratch save integration", () => {
   beforeEach(() => {
     cy.on("window:before:load", (win) => {
