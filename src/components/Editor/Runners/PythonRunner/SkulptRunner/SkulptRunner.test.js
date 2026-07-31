@@ -445,7 +445,7 @@ describe("When native code called from Python throws a plain JS error (e.g. the 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         setError(
-          "TypeError: Cannot read properties of undefined (reading 'foo') on line undefined of undefined",
+          "TypeError: Cannot read properties of undefined (reading 'foo')",
         ),
       ]),
     );
@@ -460,7 +460,7 @@ describe("When native code called from Python throws a plain JS error (e.g. the 
           file: undefined,
           description: "Cannot read properties of undefined (reading 'foo')",
           message:
-            "TypeError: Cannot read properties of undefined (reading 'foo') on line undefined of undefined",
+            "TypeError: Cannot read properties of undefined (reading 'foo')",
         }),
       ]),
     );

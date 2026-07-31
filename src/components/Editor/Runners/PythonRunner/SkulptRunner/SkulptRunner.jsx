@@ -418,11 +418,7 @@ const SkulptRunner = ({
       // rather than letting this handler itself throw.
       const rawDescription =
         typeof err.tp$str === "function" ? err.tp$str().v : undefined;
-      const errorDescription = (
-        rawDescription ||
-        err.message ||
-        t("editor.errors.generalError")
-      )
+      const errorDescription = (rawDescription || err.message || "")
         .replace(/\[(.*?)\]/, "")
         .replace(/\.$/, "");
       const errorType = err.tp$name || err.constructor?.name;
@@ -457,7 +453,9 @@ const SkulptRunner = ({
 
       const { createError } = ApiCallHandler({ reactAppApiEndpoint });
 
-      errorMessage = `${errorType}: ${errorDescription} on line ${lineNumber} of ${fileName}${
+      const location =
+        lineNumber && fileName ? ` on line ${lineNumber} of ${fileName}` : "";
+      errorMessage = `${errorType}: ${errorDescription}${location}${
         explanation ? `. ${explanation}` : ""
       }`;
       createError(projectIdentifier, userId, {
