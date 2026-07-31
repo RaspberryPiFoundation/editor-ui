@@ -29,7 +29,7 @@ const SCRATCH_SCROLLBAR_OPTIONS = {
 
 OverlayScrollbars.plugin(ClickScrollPlugin);
 
-export default function ScratchContainer() {
+export default function ScratchContainer({ locale = "en" }) {
   const dispatch = useDispatch();
   const projectIdentifier = useSelector(
     (state) => state.editor.project.identifier,
@@ -141,6 +141,7 @@ export default function ScratchContainer() {
   queryParams.set("api_url", scratchApiEndpoint);
   queryParams.set("scratchMetadata", "1");
   queryParams.set("parent_origin", window.location.origin);
+  queryParams.set("locale", locale);
 
   const iframeSrcUrl = `${process.env.REACT_APP_SCRATCH_FRAME_URL}/scratch.html?${queryParams.toString()}`;
 

@@ -249,6 +249,7 @@ const WebComponentLoader = (props) => {
               closeButton={ToastCloseButton}
             />
             <WebComponentProject
+              locale={locale}
               withProjectbar={withProjectbar}
               nameEditable={projectNameEditable}
               withSidebar={withSidebar}
