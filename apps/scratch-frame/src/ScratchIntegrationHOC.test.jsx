@@ -51,6 +51,7 @@ describe("ScratchIntegrationHOC", () => {
     window.GUI = {
       remixProject: () => ({ type: "remix" }),
       manualUpdateProject: () => ({ type: "manualUpdate" }),
+      selectLocale: (locale) => ({ type: "selectLocale", locale }),
       setStageSize: () => ({ type: "setStageSize" }),
     };
 

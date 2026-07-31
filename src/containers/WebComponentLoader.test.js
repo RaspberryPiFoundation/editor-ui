@@ -787,8 +787,8 @@ describe("When user is in state", () => {
 });
 
 describe("when a Scratch remix updates the project identifier", () => {
-  test("keeps the existing project load state instead of reloading the iframe project", async () => {
-    const store = configureRealStore({
+  test("keeps the existing project load state and locale instead of reloading the iframe project", async () => {
+    const scratchStore = configureRealStore({
       reducer: {
         editor: EditorReducer,
         instructions: (state = {}) => state,
@@ -809,15 +809,20 @@ describe("when a Scratch remix updates the project identifier", () => {
     });
 
     render(
-      <Provider store={store}>
+      <Provider store={scratchStore}>
         <CookiesProvider cookies={new Cookies()}>
-          <WebComponentLoader identifier="teacher-project" />
+          <WebComponentLoader identifier="teacher-project" locale="ga-IE" />
         </CookiesProvider>
       </Provider>,
     );
 
+    const scratchIframe = await screen.findByTitle("Scratch");
+    const scratchUrl = new URL(scratchIframe.getAttribute("src"));
+
+    expect(scratchUrl.searchParams.get("locale")).toBe("ga-IE");
+
     act(() => {
-      store.dispatch(
+      scratchStore.dispatch(
         applyScratchProjectIdentifierUpdate({
           projectIdentifier: "student-remix",
         }),
@@ -832,7 +837,7 @@ describe("when a Scratch remix updates the project identifier", () => {
         initialProject: null,
         accessToken: "my_token",
         loadRemix: true,
-        locale: "en",
+        locale: "ga-IE",
         loadCache: true,
         remixLoadFailed: false,
         reactAppApiEndpoint: "http://localhost:3009",

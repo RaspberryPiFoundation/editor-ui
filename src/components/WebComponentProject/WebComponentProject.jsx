@@ -39,6 +39,7 @@ import {
 export { resetCodeRunEventTracking } from "./runEventTrackingState";
 
 const WebComponentProject = ({
+  locale = "en",
   withProjectbar = false,
   nameEditable = false,
   editableInstructions = false,
@@ -234,6 +235,7 @@ const WebComponentProject = ({
           />
         ) : (
           <Project
+            locale={locale}
             nameEditable={nameEditable}
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}

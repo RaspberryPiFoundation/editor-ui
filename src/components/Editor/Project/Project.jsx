@@ -18,6 +18,7 @@ import ScratchContainer from "./ScratchContainer";
 const Project = (props) => {
   const webComponent = useSelector((state) => state.editor.webComponent);
   const {
+    locale = "en",
     nameEditable = true,
     withProjectbar = true,
     withSidebar = true,
@@ -90,7 +91,9 @@ const Project = (props) => {
               <Output />
             </div>
           )}
-          {!loading && isCodeEditorScratchProject && <ScratchContainer />}
+          {!loading && isCodeEditorScratchProject && (
+            <ScratchContainer locale={locale} />
+          )}
         </div>
       </div>
     </div>
