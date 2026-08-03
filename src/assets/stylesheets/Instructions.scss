@@ -3,6 +3,7 @@
 @use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/scratch_colours" as *;
 
 .project-instructions {
   block-size: 100%;
@@ -20,44 +21,64 @@
   // (`Looks`{:block-type="looks"}); both resolve to the same colour.
   code.block3control,
   code[block-type="control"] {
-    background-color: #ffab19;
+    background-color: var(--scratch-control-primary);
   }
   code.block3events,
   code[block-type="events"] {
-    background-color: #ffbf00;
+    background-color: var(--scratch-events-primary);
   }
   code.block3extensions,
   code[block-type="extensions"] {
-    background-color: #0fbd8c;
+    background-color: var(--scratch-pen-primary);
   }
   code.block3looks,
   code[block-type="looks"] {
-    background-color: #9966ff;
+    background-color: var(--scratch-looks-primary);
   }
   code.block3motion,
   code[block-type="motion"] {
-    background-color: #4c97ff;
+    background-color: var(--scratch-motion-primary);
   }
   code.block3myblocks,
   code[block-type="myblocks"] {
-    background-color: #ff6680;
+    background-color: var(--scratch-more-primary);
   }
   code.block3operators,
   code[block-type="operators"] {
-    background-color: #59c059;
+    background-color: var(--scratch-operators-primary);
   }
   code.block3sensing,
   code[block-type="sensing"] {
-    background-color: #5cb1d6;
+    background-color: var(--scratch-sensing-primary);
   }
   code.block3sound,
   code[block-type="sound"] {
-    background-color: #cf63cf;
+    background-color: var(--scratch-sounds-primary);
   }
   code.block3variables,
   code[block-type="variables"] {
-    background-color: #ff8c1a;
+    background-color: var(--scratch-data-primary);
   }
+
+  @media (prefers-contrast: more) {
+    code.block3control,
+    code.block3events,
+    code.block3extensions,
+    code.block3looks,
+    code.block3motion,
+    code.block3myblocks,
+    code.block3operators,
+    code.block3sensing,
+    code.block3sound,
+    code.block3variables {
+      color: var(--rpf-black);
+    }
+
+    code[block-type] {
+      color: var(--rpf-black);
+    }
+  }
+
   &__content {
     padding-block-end: var(--project-instructions-padding, $space-1);
   }
