@@ -16,7 +16,7 @@ test("Three canvas renders", () => {
 });
 
 test("Moving pointer over model does not change orientation", () => {
-  const updateOrientation = jest.fn();
+  const updateOrientation = vi.fn();
   const simulator = render(<Simulator updateOrientation={updateOrientation} />);
   const canvas = simulator.container.querySelector("canvas");
   fireEvent.pointerMove(canvas);
@@ -24,7 +24,7 @@ test("Moving pointer over model does not change orientation", () => {
 });
 
 test("Dragging model changes orientation", async () => {
-  const updateOrientation = jest.fn();
+  const updateOrientation = vi.fn();
   const simulator = render(<Simulator updateOrientation={updateOrientation} />);
   const canvas = simulator.container.querySelector("canvas");
   fireEvent.pointerDown(canvas);
@@ -33,7 +33,7 @@ test("Dragging model changes orientation", async () => {
 });
 
 test("Dragging before model has loaded does not throw", () => {
-  const updateOrientation = jest.fn();
+  const updateOrientation = vi.fn();
   const loadedMod = window.mod;
   window.mod = undefined;
 

@@ -13,7 +13,7 @@ import FlightCase from "./FlightCase";
 // By mocking @react-three/drei to return a scene synchronously, we ensure that
 // the event handlers are properly registered and the tests can run as
 // expected.
-jest.mock("@react-three/drei", () => ({
+vi.mock("@react-three/drei", () => ({
   useGLTF: () => ({
     scene: {
       getObjectByName: () => ({ material: null }),
