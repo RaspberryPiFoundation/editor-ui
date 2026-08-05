@@ -1,3 +1,3 @@
-// Vitest equivalent of setupTests.js, used only by files listed in
-// MIGRATED_VITEST_TEST_FILES (vite.config.js).
+// Vitest equivalent of setupTests.js, used by every file not listed in
+// JEST_ONLY_TEST_FILES (test-runner-migration.js).
 import "@testing-library/jest-dom";
