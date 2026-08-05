@@ -17,6 +17,10 @@ const {
   copyDirectoryContentsTarget,
 } = require("./vite.lib.js");
 
+// Keep in sync with testPathIgnorePatterns in package.json's "jest" config,
+// so each test file runs under exactly one runner.
+const MIGRATED_VITEST_TEST_FILES = ["src/utils/projectHelpers.test.js"];
+
 const crossOriginResourcePolicyPaths = [
   "/pyodide/shims/_internal_sense_hat.js",
   "/pyodide/shims/pygal.js",
@@ -158,5 +162,11 @@ export default defineConfig(async ({ mode }) => {
       cleansOutput: true,
       target,
     }),
+    test: {
+      environment: "jsdom",
+      globals: true,
+      setupFiles: [path.resolve(__dirname, "src/utils/setupTests.vitest.js")],
+      include: MIGRATED_VITEST_TEST_FILES,
+    },
   };
 });
