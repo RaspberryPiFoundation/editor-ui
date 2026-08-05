@@ -6,13 +6,8 @@
 // Vitest - anything not listed here runs under Vitest by default, including
 // any new test file.
 const JEST_ONLY_TEST_FILES = [
-  "src/components/Editor/EditorInput/EditorInput.test.jsx",
-  "src/components/Editor/EditorPanel/EditorPanel.test.jsx",
-  "src/components/Editor/ErrorMessage/ErrorMessage.test.jsx",
-  "src/components/Editor/Output/Output.test.jsx",
   "src/components/Editor/Project/Project.test.jsx",
   "src/components/Editor/Project/ScratchContainer.test.jsx",
-  "src/components/Editor/Runners/HtmlRunner/HtmlRenderer.test.jsx",
   "src/components/Editor/Runners/HtmlRunner/HtmlRunner.test.jsx",
   "src/components/Editor/Runners/PythonRunner/PyodideRunner/PyodideRunner.test.jsx",
   "src/components/Editor/Runners/PythonRunner/PyodideRunner/PyodideWorker.test.js",
