@@ -1,0 +1,31 @@
+// Scratch block category colours, sourced from
+// @RaspberryPiFoundation/scratch-gui's src/lib/settings/color-mode/*/index.js
+.project-instructions {
+  --scratch-motion-primary: #4c97ff;
+  --scratch-looks-primary: #9966ff;
+  --scratch-sounds-primary: #cf63cf;
+  --scratch-control-primary: #ffab19;
+  --scratch-events-primary: #ffbf00;
+  --scratch-sensing-primary: #5cb1d6;
+  --scratch-pen-primary: #0fbd8c;
+  --scratch-operators-primary: #59c059;
+  --scratch-data-primary: #ff8c1a;
+  --scratch-data-lists-primary: #ff661a;
+  --scratch-more-primary: #ff6680;
+}
+
+@media (prefers-contrast: more) {
+  .project-instructions {
+    --scratch-motion-primary: #80b5ff;
+    --scratch-looks-primary: #ccb3ff;
+    --scratch-sounds-primary: #e19de1;
+    --scratch-control-primary: #ffbe4c;
+    --scratch-events-primary: #ffd966;
+    --scratch-sensing-primary: #85c4e0;
+    --scratch-pen-primary: #13ecaf;
+    --scratch-operators-primary: #7ece7e;
+    --scratch-data-primary: #ffa54c;
+    --scratch-data-lists-primary: #ff9966;
+    --scratch-more-primary: #ff99aa;
+  }
+}
