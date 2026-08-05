@@ -83,7 +83,7 @@
     "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
     "test": "node scripts/test.js",
     "test:vitest": "vitest run",
-    "test:all": "yarn test && yarn test:vitest",
+    "test:all": "yarn test --watchAll=false && yarn test:vitest",
     "test:scratch-frame": "yarn workspace @raspberrypifoundation/scratch-frame test",
     "watch-css": "sass --load-path=./ -q --watch src:src"
   },
