@@ -22,6 +22,10 @@ Sentry.init({
   integrations: [Sentry.browserTracingIntegration()],
   environment: process.env.REACT_APP_SENTRY_ENV,
   tracesSampleRate: 0.1,
+  ignoreErrors: [
+    "ResizeObserver loop completed with undelivered notifications",
+    "ResizeObserver loop limit exceeded",
+  ],
 });
 
 class WebComponent extends HTMLElement {
