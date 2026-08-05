@@ -82,6 +82,8 @@
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' 'cypress/**/*.js' 'apps/**/*.{js,jsx}'",
     "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
     "test": "node scripts/test.js",
+    "test:vitest": "vitest run",
+    "test:all": "yarn test --watchAll=false && yarn test:vitest",
     "test:scratch-frame": "yarn workspace @raspberrypifoundation/scratch-frame test",
     "watch-css": "sass --load-path=./ -q --watch src:src"
   },
@@ -137,6 +139,7 @@
     "jest-transform-stub": "^2.0.0",
     "jest-transformer-svg": "^2.0.0",
     "jest-watch-typeahead": "^2.2.0",
+    "jsdom": "^29.1.1",
     "mock-match-media": "^0.4.3",
     "path-browserify": "^1.0.1",
     "postcss": "^8.5.10",
@@ -152,67 +155,8 @@
     "vite": "~8.1",
     "vite-plugin-node-polyfills": "^0.28.0",
     "vite-plugin-static-copy": "^4",
-    "vite-plugin-svgr": "^5.2.0"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/*.d.ts"
-    ],
-    "setupFiles": [
-      "react-app-polyfill/jsdom"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/utils/setupTests.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
-    ],
-    "testEnvironment": "jsdom",
-    "testEnvironmentOptions": {
-      "resources": "usable"
-    },
-    "testRunner": "jest-circus/runner",
-    "transform": {
-      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      ".+\\.css$": "<rootDir>/node_modules/jest-css-modules-transform",
-      "^.+\\.scss$": "<rootDir>/node_modules/jest-scss-transform",
-      "^.+\\.svg$": "jest-transformer-svg",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|scss|svg|json)$)": "<rootDir>/node_modules/jest-transform-stub"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\](?!three).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-      "^.+\\.module\\.(css|sass|scss)$"
-    ],
-    "modulePaths": [],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web",
-      "^(.+\\.scss)\\?inline$": "$1",
-      "^(.+\\.css)\\?inline$": "$1",
-      "^(.+\\.md)\\?raw$": "$1",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "js",
-      "web.ts",
-      "ts",
-      "web.tsx",
-      "tsx",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ],
-    "watchPlugins": [
-      "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname"
-    ],
-    "resetMocks": true
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.9"
   },
   "workspaces": [
     "apps/*"

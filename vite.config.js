@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
+import { configDefaults } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -16,6 +17,7 @@ const {
   classicIifeBuildOptions,
   copyDirectoryContentsTarget,
 } = require("./vite.lib.js");
+const { JEST_ONLY_TEST_FILES } = require("./test-runner-migration.js");
 
 const crossOriginResourcePolicyPaths = [
   "/pyodide/shims/_internal_sense_hat.js",
@@ -158,5 +160,15 @@ export default defineConfig(async ({ mode }) => {
       cleansOutput: true,
       target,
     }),
+    test: {
+      environment: "jsdom",
+      globals: true,
+      setupFiles: [path.resolve(__dirname, "src/utils/setupTests.vitest.js")],
+      include: [
+        "src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+        "src/**/*.{spec,test}.{js,jsx,ts,tsx}",
+      ],
+      exclude: [...configDefaults.exclude, ...JEST_ONLY_TEST_FILES],
+    },
   };
 });

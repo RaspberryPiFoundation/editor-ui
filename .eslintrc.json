@@ -59,6 +59,12 @@
         "test": "readonly",
         "describe": "readonly"
       }
+    },
+    {
+      "files": ["src/**/__tests__/**/*.{js,jsx,ts,tsx}", "src/**/*.{spec,test}.{js,jsx,ts,tsx}"],
+      "globals": {
+        "vi": "readonly"
+      }
     }
   ]
 }
