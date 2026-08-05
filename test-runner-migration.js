@@ -6,7 +6,6 @@
 // Vitest - anything not listed here runs under Vitest by default, including
 // any new test file.
 const JEST_ONLY_TEST_FILES = [
-  "src/components/DownloadButton/DownloadButton.test.jsx",
   "src/components/Editor/EditorInput/EditorInput.test.jsx",
   "src/components/Editor/EditorPanel/EditorPanel.test.jsx",
   "src/components/Editor/ErrorMessage/ErrorMessage.test.jsx",
