@@ -82,6 +82,8 @@
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx}' 'cypress/**/*.js' 'apps/**/*.{js,jsx}'",
     "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
     "test": "node scripts/test.js",
+    "test:vitest": "vitest run",
+    "test:all": "yarn test && yarn test:vitest",
     "test:scratch-frame": "yarn workspace @raspberrypifoundation/scratch-frame test",
     "watch-css": "sass --load-path=./ -q --watch src:src"
   },
@@ -137,6 +139,7 @@
     "jest-transform-stub": "^2.0.0",
     "jest-transformer-svg": "^2.0.0",
     "jest-watch-typeahead": "^2.2.0",
+    "jsdom": "^29.1.1",
     "mock-match-media": "^0.4.3",
     "path-browserify": "^1.0.1",
     "postcss": "^8.5.10",
@@ -152,7 +155,8 @@
     "vite": "~8.1",
     "vite-plugin-node-polyfills": "^0.28.0",
     "vite-plugin-static-copy": "^4",
-    "vite-plugin-svgr": "^5.2.0"
+    "vite-plugin-svgr": "^5.2.0",
+    "vitest": "^4.1.9"
   },
   "jest": {
     "roots": [
@@ -171,6 +175,10 @@
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/utils/projectHelpers.test.js"
     ],
     "testEnvironment": "jsdom",
     "testEnvironmentOptions": {
