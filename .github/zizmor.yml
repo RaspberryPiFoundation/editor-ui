@@ -9,6 +9,10 @@
 #
 # `artipacked` has been fixed (persist-credentials: false added everywhere)
 # and removed from this list.
+#
+# `unpinned-uses` has been fixed (all `uses:` refs pinned to a commit SHA,
+# with the original tag kept as a trailing comment) and removed from this
+# list.
 rules:
   cache-poisoning:
     ignore:
@@ -33,20 +37,3 @@ rules:
       - deploy.yml:123
       - deploy.yml:163
       - deploy.yml:179
-  unpinned-uses:
-    ignore:
-      - bump-version.yml:25
-      - bump-version.yml:30
-      - ci-cd.yml:25
-      - ci-cd.yml:30
-      - ci-cd.yml:41
-      - ci-cd.yml:66
-      - ci-cd.yml:71
-      - ci-cd.yml:108
-      - ci-cd.yml:113
-      - ci-cd.yml:128
-      - ci-cd.yml:139
-      - close_stale_issues_and_prs.yml:16
-      - deploy.yml:126
-      - deploy.yml:131
-      - dispatch-learner-experience-e2e.yml:31
