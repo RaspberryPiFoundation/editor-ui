@@ -11,7 +11,7 @@ let _internal_sense_hat = {};
 _internal_sense_hat.config = {
   pyodide: null,
   emit: () => {},
-  colour: "#FF00A4",
+  colour: "#FF0000",
   gamma: new Array(32).fill(0),
   pixels: new Array(64).fill([0, 0, 0]),
   low_light: false,
