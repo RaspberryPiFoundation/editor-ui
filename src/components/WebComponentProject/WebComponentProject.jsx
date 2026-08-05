@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
 
+import inlineCodeAttributes from "../../utils/inlineCodeAttributes";
 import "../../assets/stylesheets/Project.scss?inline";
 import "../../assets/stylesheets/EmbeddedViewer.scss?inline";
 import Project from "../Editor/Project/Project";
@@ -37,6 +38,11 @@ import {
 } from "./runEventTrackingState";
 
 export { resetCodeRunEventTracking } from "./runEventTrackingState";
+
+// Teach marked to understand kramdown inline attribute lists on code spans
+// (e.g. `Looks`{:class="block3looks"}) so editable instructions match the
+// server's kramdown rendering. Registered once at module load.
+marked.use({ extensions: [inlineCodeAttributes] });
 
 const WebComponentProject = ({
   locale = "en",
