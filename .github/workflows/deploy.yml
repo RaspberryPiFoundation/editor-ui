@@ -128,7 +128,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version-file: .tool-versions
           cache: "yarn"
           registry-url: "https://npm.pkg.github.com"
           # Defaults to the user or organization that owns the workflow file
