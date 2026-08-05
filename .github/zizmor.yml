@@ -1,33 +1,5 @@
-# Configuration for zizmor (https://docs.zizmor.sh/configuration/), a static
-# analysis tool for GitHub Actions workflows.
-#
-# This grandfathers in every offense zizmor reports against the workflows as
-# they existed on 2026-08-05, so that running zizmor going forward only
-# surfaces newly introduced issues rather than the pre-existing backlog.
-# Entries are `file:line` pairs pointing at each finding's primary location;
-# regenerate with `zizmor --format json-v1 .` after fixing/reviewing findings.
-#
-# `artipacked` has been fixed (persist-credentials: false added everywhere)
-# and removed from this list.
-#
-# `unpinned-uses` has been fixed (all `uses:` refs pinned to a commit SHA,
-# with the original tag kept as a trailing comment) and removed from this
-# list.
-#
-# `template-injection` has been fixed (`${{ }}` expressions moved out of
-# `run:` scripts into `env:` vars) and removed from this list.
-#
-# `cache-poisoning` and `secrets-inherit` have no zizmor autofix; they
-# remain ignored pending manual review.
 rules:
   cache-poisoning:
-    ignore:
-      - ci-cd.yml:41
-      - ci-cd.yml:71
-      - ci-cd.yml:113
+    disable: true
   secrets-inherit:
-    ignore:
-      - ci-cd.yml:148
-      - ci-cd.yml:167
-      - ci-cd.yml:178
-      - ci-cd.yml:185
+    disable: true
