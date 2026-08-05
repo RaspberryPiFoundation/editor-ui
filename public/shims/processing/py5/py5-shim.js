@@ -1473,9 +1473,20 @@ const $builtinmodule = function (name) {
 
       mod.pInst = sketch;
 
+      // p5 runs settings/setup/draw asynchronously, so an uncaught exception
+      // there escapes to window.onerror. Catching it isn't enough on its own:
+      // p5 would treat the callback as successful and carry on into the draw
+      // loop, and VisualOutputPane only stops the sketch once a canvas exists -
+      // so a failure before then would keep looping. Surface the error and stop
+      // the loop here, and skip the remaining callbacks.
+      let sketchStopped = false;
+      const stopOnError = (e) => {
+        sketchStopped = true;
+        mod.pInst?.noLoop();
+        Sk.uncaughtException(e);
+      };
+
       sketch.setup = function () {
-        // p5 calls settings/setup/draw asynchronously, so route exceptions
-        // through Sk.uncaughtException rather than let them hit window.onerror.
         try {
           if (Sk.globals["settings"]) {
             Sk.misceval.callsimArray(Sk.globals["settings"]);
@@ -1494,11 +1505,14 @@ const $builtinmodule = function (name) {
             }
           }
         } catch (e) {
-          Sk.uncaughtException(e);
+          stopOnError(e);
         }
       };
 
       sketch.draw = function () {
+        if (sketchStopped) {
+          return;
+        }
         // Wrap the whole body (not just the user draw() call) - draw runs every
         // frame and any exception would otherwise escape to window.onerror.
         try {
@@ -1507,7 +1521,7 @@ const $builtinmodule = function (name) {
             Sk.misceval.callsimArray(Sk.globals["draw"]);
           }
         } catch (e) {
-          Sk.uncaughtException(e);
+          stopOnError(e);
         }
       };
 

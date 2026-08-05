@@ -60,17 +60,17 @@ describe("Running the code with skulpt", () => {
     getP5Canvas().should("exist");
   });
 
-  it("shows an error message when a p5 sketch raises in setup after an async preload", () => {
-    // preload() defers setup() to an async callback; without the shim wrapping
-    // its error escapes to window.onerror. No cy.on("uncaught:exception")
-    // allowance, so Cypress would fail the test if anything escaped.
-    const onePixelGif =
-      "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  it("shows an error and stops the sketch when a p5 preload raises", () => {
+    // preload/setup run before any canvas exists, so VisualOutputPane can't
+    // stop the sketch. The shim must stop it, otherwise p5 treats the callback
+    // as successful and carries on into setup/draw - here draw() would print,
+    // which is asserted never to happen.
     runCode(
-      `from p5 import *\n\ndef preload():\n\tload_image("${onePixelGif}")\ndef setup():\n\tsize(400, 400)\n\traise ValueError('boom in setup')\ndef draw():\n\tpass\nrun(frame_rate=2)`,
+      "from p5 import *\n\ndef preload():\n\traise ValueError('boom in preload')\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tprint('draw ran')\nrun(frame_rate=2)",
     );
 
-    getErrorMessage().should("contain.text", "ValueError: boom in setup");
+    getErrorMessage().should("contain.text", "ValueError: boom in preload");
+    getSkulptRunner().should("not.contain", "draw ran");
   });
 
   it("shows an error message when a p5 sketch raises in draw", () => {
