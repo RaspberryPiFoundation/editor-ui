@@ -92,19 +92,25 @@ jobs:
       - id: setup-environment
         run: |
           safe_ref_name="${GITHUB_REF_NAME//[![:alnum:].]/_}"
-          deploy_dir=${{inputs.prefix}}/$safe_ref_name
-          public_url=${{inputs.base_url}}/$deploy_dir
-          assets_url=${{inputs.assets_url}}/$deploy_dir
-          html_renderer_url=${{inputs.html_renderer_url}}/$deploy_dir
+          deploy_dir=${INPUTS_PREFIX}/$safe_ref_name
+          public_url=${INPUTS_BASE_URL}/$deploy_dir
+          assets_url=${INPUTS_ASSETS_URL}/$deploy_dir
+          html_renderer_url=${INPUTS_HTML_RENDERER_URL}/$deploy_dir
           echo "deploy_dir=$deploy_dir" >> $GITHUB_OUTPUT
           echo "public_url=$public_url" >> $GITHUB_OUTPUT
           echo "assets_url=$assets_url" >> $GITHUB_OUTPUT
           echo "html_renderer_url=$html_renderer_url" >> $GITHUB_OUTPUT
-          if [ "${{inputs.react_app_base_url}}" = "unspecified" ] ; then
+          if [ "${INPUTS_REACT_APP_BASE_URL}" = "unspecified" ] ; then
             echo "react_app_base_url=$deploy_dir" >> $GITHUB_OUTPUT
           else
-            echo "react_app_base_url=${{inputs.react_app_base_url}}" >> $GITHUB_OUTPUT
+            echo "react_app_base_url=${INPUTS_REACT_APP_BASE_URL}" >> $GITHUB_OUTPUT
           fi
+        env:
+          INPUTS_PREFIX: ${{inputs.prefix}}
+          INPUTS_BASE_URL: ${{inputs.base_url}}
+          INPUTS_ASSETS_URL: ${{inputs.assets_url}}
+          INPUTS_HTML_RENDERER_URL: ${{inputs.html_renderer_url}}
+          INPUTS_REACT_APP_BASE_URL: ${{inputs.react_app_base_url}}
 
   build-deploy:
     runs-on: ubuntu-latest
@@ -119,14 +125,18 @@ jobs:
     steps:
       - name: Check deployment path
         run: |
-          echo "Deploying to '${{ needs.setup-environment.outputs.deploy_dir }}' -- job will fail if this is empty!"
-          [ -n "${{ needs.setup-environment.outputs.deploy_dir }}" ]
+          echo "Deploying to '${NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR}' -- job will fail if this is empty!"
+          [ -n "${NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR}" ]
+        env:
+          NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR: ${{ needs.setup-environment.outputs.deploy_dir }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Cache dependencies
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
           cache: "yarn"
@@ -158,12 +168,13 @@ jobs:
       - name: Deploy site to S3 bucket
         if: env.AWS_SECRET_ACCESS_KEY != ''
         run: |
-          aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${{ needs.setup-environment.outputs.deploy_dir }} --endpoint ${{ secrets.AWS_ENDPOINT }} --progress-frequency 5
+          aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET }}/${NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR} --endpoint ${{ secrets.AWS_ENDPOINT }} --progress-frequency 5
           aws s3 sync ./build/chunks/ s3://${{ secrets.AWS_S3_BUCKET }}/chunks/ --endpoint ${{ secrets.AWS_ENDPOINT }} --exclude "*" --include "fetch-worker*" --include "mediapipe/**" --progress-frequency 5
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
+          NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR: ${{ needs.setup-environment.outputs.deploy_dir }}
 
       - name: Update latest version file
         if: env.AWS_SECRET_ACCESS_KEY != '' && github.ref_type == 'tag'
@@ -174,11 +185,12 @@ jobs:
           fi
 
           # Use no-cache so latest_version is revalidated after tag deploys.
-          echo -n "${{ needs.setup-environment.outputs.deploy_dir }}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain" --cache-control "no-cache"
+          echo -n "${NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR}" | aws s3 cp - s3://${{ secrets.AWS_S3_BUCKET }}/latest_version --endpoint ${{ secrets.AWS_ENDPOINT }} --content-type "text/plain" --cache-control "no-cache"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
+          NEEDS_SETUP_ENVIRONMENT_OUTPUTS_DEPLOY_DIR: ${{ needs.setup-environment.outputs.deploy_dir }}
 
       - name: Purge Cloudflare cache
         if: env.HAS_CLOUDFLARE_SECRETS == 'true'

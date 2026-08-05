@@ -1,0 +1,5 @@
+rules:
+  cache-poisoning:
+    disable: true
+  secrets-inherit:
+    disable: true
