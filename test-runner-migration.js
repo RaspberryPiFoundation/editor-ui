@@ -6,11 +6,6 @@
 // Vitest - anything not listed here runs under Vitest by default, including
 // any new test file.
 const JEST_ONLY_TEST_FILES = [
-  "src/components/AstroPiModel/AstroPiControls/MotionInput.test.jsx",
-  "src/components/AstroPiModel/FlightCase.test.jsx",
-  "src/components/AstroPiModel/OrientationPanel/OrientationPanel.test.jsx",
-  "src/components/AstroPiModel/OrientationPanel/OrientationResetButton.test.jsx",
-  "src/components/AstroPiModel/Simulator.test.jsx",
   "src/components/DownloadButton/DownloadButton.test.jsx",
   "src/components/Editor/EditorInput/EditorInput.test.jsx",
   "src/components/Editor/EditorPanel/EditorPanel.test.jsx",

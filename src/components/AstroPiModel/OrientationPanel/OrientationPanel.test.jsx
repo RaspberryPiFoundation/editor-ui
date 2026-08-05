@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import OrientationPanel from "./OrientationPanel";
 
 let panel;
-const resetFunction = jest.fn();
+const resetFunction = vi.fn();
 
 beforeAll(() => {
   panel = render(
