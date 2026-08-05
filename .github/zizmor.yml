@@ -13,6 +13,12 @@
 # `unpinned-uses` has been fixed (all `uses:` refs pinned to a commit SHA,
 # with the original tag kept as a trailing comment) and removed from this
 # list.
+#
+# `template-injection` has been fixed (`${{ }}` expressions moved out of
+# `run:` scripts into `env:` vars) and removed from this list.
+#
+# `cache-poisoning` and `secrets-inherit` have no zizmor autofix; they
+# remain ignored pending manual review.
 rules:
   cache-poisoning:
     ignore:
@@ -25,15 +31,3 @@ rules:
       - ci-cd.yml:167
       - ci-cd.yml:178
       - ci-cd.yml:185
-  template-injection:
-    ignore:
-      - deploy.yml:95
-      - deploy.yml:96
-      - deploy.yml:97
-      - deploy.yml:98
-      - deploy.yml:103
-      - deploy.yml:106
-      - deploy.yml:122
-      - deploy.yml:123
-      - deploy.yml:163
-      - deploy.yml:179
