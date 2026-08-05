@@ -30,14 +30,14 @@ describe("When there is sense_hat output", () => {
     const visuals = [
       {
         origin: "sense_hat",
-        content: { colour: "#FF00A4" },
+        content: { colour: "#FF0000" },
       },
     ];
     renderPaneWithVisuals(visuals);
   });
 
   test("it displays the current state of the sense hat", () => {
-    expect(screen.queryByText(/#FF00A4/)).toBeInTheDocument();
+    expect(screen.queryByText(/#FF0000/)).toBeInTheDocument();
   });
 });
 
