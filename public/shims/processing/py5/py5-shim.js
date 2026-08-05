@@ -1474,32 +1474,40 @@ const $builtinmodule = function (name) {
       mod.pInst = sketch;
 
       sketch.setup = function () {
-        if (Sk.globals["settings"]) {
-          Sk.misceval.callsimArray(Sk.globals["settings"]);
-        }
-        if (Sk.globals["setup"]) {
-          Sk.misceval.callsimArray(Sk.globals["setup"]);
+        // p5 calls settings/setup/draw asynchronously, so route exceptions
+        // through Sk.uncaughtException rather than let them hit window.onerror.
+        try {
+          if (Sk.globals["settings"]) {
+            Sk.misceval.callsimArray(Sk.globals["settings"]);
+          }
+          if (Sk.globals["setup"]) {
+            Sk.misceval.callsimArray(Sk.globals["setup"]);
 
-          for (const cb of Object.keys(callBacks)) {
-            if (Sk.globals[cb]) {
-              sketch[callBacks[cb]] = new Function(
-                "try {Sk.misceval.callsimArray(Sk.globals['" +
-                  cb +
-                  "']);} catch(e) {Sk.uncaughtException(e);}",
-              );
+            for (const cb of Object.keys(callBacks)) {
+              if (Sk.globals[cb]) {
+                sketch[callBacks[cb]] = new Function(
+                  "try {Sk.misceval.callsimArray(Sk.globals['" +
+                    cb +
+                    "']);} catch(e) {Sk.uncaughtException(e);}",
+                );
+              }
             }
           }
+        } catch (e) {
+          Sk.uncaughtException(e);
         }
       };
 
       sketch.draw = function () {
-        mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
-        if (Sk.globals["draw"]) {
-          try {
+        // Wrap the whole body (not just the user draw() call) - draw runs every
+        // frame and any exception would otherwise escape to window.onerror.
+        try {
+          mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
+          if (Sk.globals["draw"]) {
             Sk.misceval.callsimArray(Sk.globals["draw"]);
-          } catch (e) {
-            Sk.uncaughtException(e);
           }
+        } catch (e) {
+          Sk.uncaughtException(e);
         }
       };
 

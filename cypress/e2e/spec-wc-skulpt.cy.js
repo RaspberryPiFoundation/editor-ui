@@ -60,6 +60,29 @@ describe("Running the code with skulpt", () => {
     getP5Canvas().should("exist");
   });
 
+  it("shows an error message when a p5 sketch raises in setup after an async preload", () => {
+    // preload() defers setup() to an async callback; without the shim wrapping
+    // its error escapes to window.onerror. No cy.on("uncaught:exception")
+    // allowance, so Cypress would fail the test if anything escaped.
+    const onePixelGif =
+      "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+    runCode(
+      `from p5 import *\n\ndef preload():\n\tload_image("${onePixelGif}")\ndef setup():\n\tsize(400, 400)\n\traise ValueError('boom in setup')\ndef draw():\n\tpass\nrun(frame_rate=2)`,
+    );
+
+    getErrorMessage().should("contain.text", "ValueError: boom in setup");
+  });
+
+  it("shows an error message when a p5 sketch raises in draw", () => {
+    // draw() runs every frame via requestAnimationFrame; the shim routes its
+    // errors to the editor rather than window.onerror.
+    runCode(
+      "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\traise ValueError('boom in draw')\nrun(frame_rate=2)",
+    );
+
+    getErrorMessage().should("contain.text", "ValueError: boom in draw");
+  });
+
   it("runs a simple py5 program", () => {
     runCode(
       "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
