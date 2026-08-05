@@ -1,0 +1,57 @@
+# Configuration for zizmor (https://docs.zizmor.sh/configuration/), a static
+# analysis tool for GitHub Actions workflows.
+#
+# This grandfathers in every offense zizmor reports against the workflows as
+# they existed on 2026-08-05, so that running zizmor going forward only
+# surfaces newly introduced issues rather than the pre-existing backlog.
+# Entries are `file:line` pairs pointing at each finding's primary location;
+# regenerate with `zizmor --format json-v1 .` after fixing/reviewing findings.
+rules:
+  artipacked:
+    ignore:
+      - bump-version.yml:24
+      - ci-cd.yml:24
+      - ci-cd.yml:63
+      - ci-cd.yml:103
+      - deploy.yml:125
+      - dispatch-learner-experience-e2e.yml:30
+  cache-poisoning:
+    ignore:
+      - ci-cd.yml:39
+      - ci-cd.yml:67
+      - ci-cd.yml:107
+  secrets-inherit:
+    ignore:
+      - ci-cd.yml:142
+      - ci-cd.yml:161
+      - ci-cd.yml:172
+      - ci-cd.yml:179
+  template-injection:
+    ignore:
+      - deploy.yml:95
+      - deploy.yml:96
+      - deploy.yml:97
+      - deploy.yml:98
+      - deploy.yml:103
+      - deploy.yml:106
+      - deploy.yml:122
+      - deploy.yml:123
+      - deploy.yml:161
+      - deploy.yml:177
+  unpinned-uses:
+    ignore:
+      - bump-version.yml:25
+      - bump-version.yml:28
+      - ci-cd.yml:25
+      - ci-cd.yml:28
+      - ci-cd.yml:39
+      - ci-cd.yml:64
+      - ci-cd.yml:67
+      - ci-cd.yml:104
+      - ci-cd.yml:107
+      - ci-cd.yml:122
+      - ci-cd.yml:133
+      - close_stale_issues_and_prs.yml:16
+      - deploy.yml:126
+      - deploy.yml:129
+      - dispatch-learner-experience-e2e.yml:31
