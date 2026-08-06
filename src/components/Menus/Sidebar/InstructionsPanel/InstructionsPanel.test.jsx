@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import InstructionsPanel from "./InstructionsPanel";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
@@ -7,6 +7,7 @@ import { act } from "react";
 import Modal from "react-modal";
 import Prism from "prismjs";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
+import { renderWithProviders } from "../../../../utils/renderWithProviders";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
 jest.mock("prismjs", () => ({
@@ -46,11 +47,9 @@ describe("When instructionsEditable changes from false to true", () => {
     });
 
   test("does not leave the rendered preview above the edit/view tabs", () => {
-    const { container, rerender } = render(
-      <Provider store={buildStore(false)}>
-        <InstructionsPanel />
-      </Provider>,
-    );
+    const { container, rerender } = renderWithProviders(<InstructionsPanel />, {
+      store: buildStore(false),
+    });
 
     rerender(
       <Provider store={buildStore(true)}>
@@ -91,11 +90,7 @@ describe("When instructionsEditable is true", () => {
         },
       };
       store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Renders two tab titles", () => {
@@ -164,11 +159,7 @@ describe("When instructionsEditable is true", () => {
         },
       };
       store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Renders the add instrucitons button", () => {
@@ -222,11 +213,7 @@ describe("When instructions are not editable", () => {
         },
       };
       const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Does not render the add instructions button", () => {
@@ -285,11 +272,7 @@ describe("When instructions are not editable", () => {
         },
       };
       const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Renders no tab titles", () => {
@@ -361,11 +344,7 @@ describe("When instructions are not editable", () => {
         },
       };
       const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Applies syntax highlighting using window.syntaxHighlight", () => {
@@ -396,11 +375,7 @@ describe("When instructions are not editable", () => {
         },
       };
       const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Does not render the progress bar", () => {
@@ -432,11 +407,7 @@ describe("When instructions are not editable", () => {
           currentStepPosition,
         },
       });
-      return render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      return renderWithProviders(<InstructionsPanel />, { store });
     };
 
     beforeEach(() => {
@@ -505,11 +476,7 @@ describe("When instructions are not editable", () => {
           currentStepPosition: 0,
         },
       });
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Does not initialise scratchblocks", () => {
@@ -544,11 +511,7 @@ describe("When instructions are not editable", () => {
         },
       };
       const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      renderWithProviders(<InstructionsPanel />, { store });
     });
 
     test("Renders the quiz content", () => {
