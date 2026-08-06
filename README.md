@@ -12,10 +12,23 @@ Or skip installing scratch-frame dependencies run: `yarn workspaces focus @raspb
 
 ### Set a personal access token
 
-If you don't already have this set up you will need it to access deps in the RPF private registry
+If you don't already have this set up you will need it to access deps in the RPF private registry.
 
 1. On GitHub, create a **classic** personal access token: [Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens). Enable **`read:packages`** and **`repo`**. For packages tied to private repositories, `read:packages` alone can cause `yarn install` to fail with `401`/`403`.
 2. If your organisation uses SAML SSO, open the token on GitHub and **Authorize** it for **RaspberryPiFoundation** (Configure SSO).
+
+What you do next depends on whether you use 1Password for local secrets (if you're an RPF employee, you do). 
+
+<details>
+
+<summary>RPF employees - using 1Password</summary>
+todo
+</details>
+
+<details>
+
+<summary>Others - using your shell profile</summary>
+
 3. Add the token to your shell profile (for example `~/.zshrc` on macOS):
 
    ```bash
@@ -23,7 +36,7 @@ If you don't already have this set up you will need it to access deps in the RPF
    export NPM_AUTH_TOKEN=$GITHUB_TOKEN
    ```
 
-   Replace `ghp_your_token_here` with your token.
+Replace `ghp_your_token_here` with your token.
 
 4. Load the profile in any terminal you are currently using for this project:
 
@@ -46,6 +59,8 @@ Then install dependencies:
 ```
 yarn install
 ```
+
+</details>
 
 ## Environment variables
 
