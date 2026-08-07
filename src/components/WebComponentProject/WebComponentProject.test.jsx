@@ -141,7 +141,7 @@ describe("When state set", () => {
               steps: [
                 {
                   title: "",
-                  content: "<p>My amazing instructions</p>\n",
+                  content: "My amazing instructions",
                   quiz: false,
                 },
               ],
@@ -173,16 +173,14 @@ describe("When there are instructions", () => {
     });
   });
 
-  test("Renders a tag with target _blank", () => {
+  test("Stores the unconverted markdown as instructions content", () => {
     const instructions = store
       .getActions()
       .find((e) => e.type === "instructions/setInstructions");
 
     const content = instructions.payload.project.steps[0].content;
 
-    expect(content).toEqual(
-      '<p><a href="https://example.com" target="_blank" rel="noreferrer"\n    }">Link</a></p>\n',
-    );
+    expect(content).toEqual("[Link](https://example.com)");
   });
 });
 

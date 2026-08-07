@@ -308,6 +308,39 @@ describe("When instructions are not editable", () => {
     });
   });
 
+  describe("When step content is unconverted markdown", () => {
+    beforeEach(() => {
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: false,
+          },
+          instructions: {
+            project: {
+              steps: [{ content: "# Title\n\n[Link](https://example.com)" }],
+            },
+            quiz: {},
+            currentStepPosition: 0,
+          },
+        },
+      });
+    });
+
+    test("Converts markdown headings to HTML", () => {
+      expect(
+        screen.getByRole("heading", { level: 1, name: "Title" }),
+      ).toBeInTheDocument();
+    });
+
+    test("Renders links to open in a new tab", () => {
+      const link = screen.getByRole("link", { name: "Link" });
+      expect(link).toHaveAttribute("href", "https://example.com");
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noreferrer");
+    });
+  });
+
   describe("When window.syntaxHighlight is defined", () => {
     beforeEach(() => {
       window.syntaxHighlight = {
