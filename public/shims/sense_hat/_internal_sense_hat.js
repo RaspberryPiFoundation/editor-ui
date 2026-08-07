@@ -34,7 +34,9 @@
 
   // _fb_device specific methods
   mod.setpixel = new Sk.builtin.func(function (index, value) {
-      Sk.sense_hat.mz_criteria.usedLEDs = true
+      if (value.v.some(channel => channel.v !== 0)) {
+        Sk.sense_hat.mz_criteria.usedLEDs = true
+      }
       var _index;
       var _value;
 
@@ -81,11 +83,14 @@
   });
 
   mod.setpixels = new Sk.builtin.func(function (indexes, values) {
-      if (Sk.ffi.remapToJs(indexes)) {
-        Sk.sense_hat.mz_criteria.usedLEDs = true
-      }
       _indexes = Sk.ffi.remapToJs(indexes);
       _values = Sk.ffi.remapToJs(values);
+
+      // Set usedLeds = true only when there's at least one led on
+      if (_values.some(row => row.some(value => value !== 0))) {
+        Sk.sense_hat.mz_criteria.usedLEDs = true;
+      }
+
       try {
           Sk.sense_hat.pixels = _values;
       } catch (e) {
