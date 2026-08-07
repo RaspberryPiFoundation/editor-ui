@@ -139,6 +139,55 @@ describe("Downloading project with no name set", () => {
   });
 });
 
+describe("Downloading project with multi-step instructions", () => {
+  let downloadButton;
+
+  beforeEach(() => {
+    JSZip.mockClear();
+    const middlewares = [];
+    const mockStore = configureStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          name: "My epic project",
+          identifier: "hello-world-project",
+          instructions: [
+            { quiz: false, title: "", markdown_content: "step one" },
+            { quiz: false, title: "", markdown_content: "step two" },
+          ],
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "print('hello world')",
+            },
+          ],
+          image_list: [],
+        },
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <DownloadButton buttonText="Download" Icon={() => {}} />
+      </Provider>,
+    );
+    downloadButton = screen.queryByText("Download").parentElement;
+  });
+
+  test("Clicking download zips each step's markdown into one INSTRUCTIONS.md", async () => {
+    fireEvent.click(downloadButton);
+    const JSZipInstance = JSZip.mock.instances[0];
+    const mockFile = JSZipInstance.file;
+    await waitFor(() =>
+      expect(mockFile).toHaveBeenCalledWith(
+        "INSTRUCTIONS.md",
+        "step one\n\nstep two",
+      ),
+    );
+  });
+});
+
 describe("Downloading project with no instructions set", () => {
   let downloadButton;
 
