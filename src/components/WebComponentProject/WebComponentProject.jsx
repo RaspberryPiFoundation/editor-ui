@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
+import { processEditorProject } from "@raspberrypifoundation/rpf-markdown-core";
 
 import "../../assets/stylesheets/Project.scss?inline";
 import "../../assets/stylesheets/EmbeddedViewer.scss?inline";
@@ -148,7 +149,7 @@ const WebComponentProject = ({
                   {
                     quiz: false,
                     title: "",
-                    content: marked.parse(projectInstructions),
+                    content: processEditorProject(projectInstructions),
                   },
                 ]
               : [],
