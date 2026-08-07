@@ -22,7 +22,32 @@ What you do next depends on whether you use 1Password for local secrets (if you'
 <details>
 
 <summary>RPF employees - using 1Password</summary>
-todo
+
+3. Add the token to your employee 1Password as e.g. "Github token"
+
+4. Add the secret reference to the token in 1Password to your shell profile (e.g. `~/.zshrc`):
+
+   ```bash
+    export GITHUB_TOKEN="op://Employee/GitHub token/credential"  # You can get this from 1Password using the dropdown in the credential field -> "Copy secret reference"
+    export NPM_AUTH_TOKEN=$GITHUB_TOKEN
+   ```
+
+5. Confirm GitHub Packages is reachable from this directory:
+
+   ```bash
+   # "op run --" is needed to fetch the secret from 1Password. If this doesn't work, make sure you have 1Password CLI set up and linked to your desktop client.
+   op run -- yarn npm info @RaspberryPiFoundation/scratch-gui version
+   ```
+
+   You should see the version pinned in `package.json` (for example `13.7.3-code-classroom.20260522151700`), not an authentication error. If you see `unauthenticated` or `401`, run `source ~/.zshrc` again, check the token scopes and SSO authorisation.
+
+6. Then install dependencies:
+
+```bash
+# You will need to use "op run --" every time, but you can set up an alias to make it easier.
+op run -- yarn install
+```
+
 </details>
 
 <details>
