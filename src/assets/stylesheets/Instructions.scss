@@ -454,34 +454,11 @@
 
 #app,
 #wc {
-  .c-instruction-tabs {
+  .c-instruction-editor {
     display: flex;
     flex-direction: column;
     block-size: 100%;
-
-    .react-tabs {
-      border: 1px solid var(--editor-color-outline);
-
-      .react-tabs__tab-list {
-        border-block-end: 1px solid var(--editor-color-outline);
-      }
-    }
-
-    .react-tabs__tab {
-      background: var(--editor-color-tab-background);
-      padding-inline: var(--space-1-5);
-
-      &--selected {
-        background: var(--editor-color-layer-3);
-      }
-    }
-
-    .react-tabs__tab-panel {
-      margin-block-end: var(--space-1);
-      .project-instructions {
-        padding-inline: var(--space-1);
-      }
-    }
+    border: 1px solid var(--editor-color-outline);
 
     textarea {
       @include typography.style-1();

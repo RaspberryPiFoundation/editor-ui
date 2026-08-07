@@ -34,6 +34,10 @@
       border-radius: var(--step-buttons-radius, var(--space-1));
     }
   }
+
+  .btn--add-step {
+    white-space: nowrap;
+  }
 }
 
 .step-counter {
@@ -41,4 +45,10 @@
   align-items: center;
   justify-content: center;
   margin: 0;
+
+  // Authors always see which step they are on, whatever the embedding page has
+  // chosen to show students.
+  &--always {
+    display: flex;
+  }
 }

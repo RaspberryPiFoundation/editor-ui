@@ -149,13 +149,15 @@
 }
 
 .sidebar__panel-footer {
-  border-block-start: 1px solid $rpf-grey-150;
+  border-block-start: 1px solid var(--sidebar-border, #{$rpf-grey-150});
   inset-block-end: 0px;
   inline-size: 100%;
   inline-size: -moz-available;
   inline-size: -webkit-stretch;
   inline-size: stretch;
   padding-inline: $space-1;
-  background-color: white;
+  // Matches the panel it sits under, so the step controls stay legible in dark
+  // themes (the panel background is white in the light theme).
+  background-color: var(--sidebar-panel-background, white);
   border-end-end-radius: 8px;
 }

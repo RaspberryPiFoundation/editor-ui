@@ -211,17 +211,21 @@ describe("When instructions contain page breaks", () => {
 describe("When instructions end with a trailing page break", () => {
   beforeEach(() => {
     renderWebComponentProject({
-      instructions: 'Only step\n\n<br class="page-break" />\n',
+      instructions: 'First step\n\n<br class="page-break" />\n',
       codeRunTriggered: true,
     });
   });
 
-  test("Ignores the blank trailing step", () => {
+  // A step the author has just added is empty until they type into it, so the
+  // trailing section has to survive the split.
+  test("Keeps the blank trailing step", () => {
     const action = store
       .getActions()
       .find((e) => e.type === "instructions/setInstructions");
+    const steps = action.payload.project.steps;
 
-    expect(action.payload.project.steps).toHaveLength(1);
+    expect(steps).toHaveLength(2);
+    expect(steps[1].content).toEqual("");
   });
 });
 

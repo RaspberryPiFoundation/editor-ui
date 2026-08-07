@@ -4,6 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { marked } from "marked";
 
 import inlineCodeAttributes from "../../utils/inlineCodeAttributes";
+import { splitInstructionsIntoSteps } from "../../utils/instructionSteps";
 import "../../assets/stylesheets/Project.scss?inline";
 import "../../assets/stylesheets/EmbeddedViewer.scss?inline";
 import Project from "../Editor/Project/Project";
@@ -43,11 +44,6 @@ export { resetCodeRunEventTracking } from "./runEventTrackingState";
 // (e.g. `Looks`{:class="block3looks"}) so editable instructions match the
 // server's kramdown rendering. Registered once at module load.
 marked.use({ extensions: [inlineCodeAttributes] });
-
-// Editable instructions are authored as a single markdown document; a step
-// boundary is signified by a `<br class="page-break" />` marker (the final
-// step needs no trailing marker). Splitting on it yields one step per section.
-const PAGE_BREAK_REGEX = /<br\s+class=["']page-break["']\s*\/?>/i;
 
 const WebComponentProject = ({
   withProjectbar = false,
@@ -149,22 +145,15 @@ const WebComponentProject = ({
   useEffect(() => {
     if (!permitInstructionsOverride) return;
 
-    let steps = [];
-    if (typeof projectInstructions === "string") {
-      const sections = projectInstructions
-        .split(PAGE_BREAK_REGEX)
-        .map((section) => section.trim());
-      // Drop blank sections (e.g. a stray trailing page break), but always keep
-      // at least one step so the editing experience is preserved for empty
-      // input.
-      const nonEmpty = sections.filter((section) => section.length > 0);
-      const stepMarkdown = nonEmpty.length > 0 ? nonEmpty : [""];
-      steps = stepMarkdown.map((content) => ({
+    // Blank sections are kept: a step the author has just added is empty until
+    // they type into it, and dropping it would remove it from the pagination.
+    const steps = splitInstructionsIntoSteps(projectInstructions).map(
+      (section) => ({
         quiz: false,
         title: "",
-        content: marked.parse(content),
-      }));
-    }
+        content: marked.parse(section.trim()),
+      }),
+    );
 
     dispatch(
       setInstructions({

@@ -4,16 +4,22 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SidebarPanel from "../SidebarPanel";
 
 import Prism from "prismjs";
+import PencilIcon from "../../../../assets/icons/pencil.svg";
 import PlusIcon from "../../../../assets/icons/plus.svg";
+import PreviewIcon from "../../../../assets/icons/preview.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
+import {
+  appendStepToInstructions,
+  replaceStepMarkdown,
+  splitInstructionsIntoSteps,
+} from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
@@ -52,9 +58,12 @@ const InstructionsPanel = () => {
   );
   const { t, i18n } = useTranslation();
   const stepContent = useRef();
+  const goToNewStepRef = useRef(false);
 
   const [isQuiz, setIsQuiz] = useState(false);
-  const [instructionsTab, setInstructionsTab] = useState(0);
+  // Authors toggle between editing the current step's markdown and previewing
+  // it as students will see it; editing is the starting point.
+  const [isPreviewing, setIsPreviewing] = useState(false);
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
@@ -68,10 +77,18 @@ const InstructionsPanel = () => {
   const hasMultipleSteps = numberOfSteps > 1;
   const isScratchProject = project?.project_type === "code_editor_scratch";
 
-  // In the editable panel the first tab is the markdown editor; hide the step
-  // pagination while it is active so authors edit the whole document at once.
-  const isEditingTab = instructionsEditable && instructionsTab === 0;
-  const showProgressBar = hasMultipleSteps && !isEditingTab;
+  // Authors always get the pagination (it is how steps are added and moved
+  // between, even while editing); students only get it once there is more than
+  // one step to move between.
+  const isAuthoring = instructionsEditable && hasInstructions;
+  const showProgressBar = isAuthoring || hasMultipleSteps;
+
+  // The markdown for each step, as split out of the single stored document.
+  const stepMarkdown = useMemo(
+    () => splitInstructionsIntoSteps(project?.instructions),
+    [project?.instructions],
+  );
+  const currentStepMarkdown = stepMarkdown[currentStepPosition] ?? "";
 
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
@@ -124,7 +141,7 @@ const InstructionsPanel = () => {
     quiz,
     quizCompleted,
     isQuiz,
-    instructionsTab,
+    isPreviewing,
     isScratchProject,
     instructionsEditable,
     i18n.language,
@@ -161,9 +178,36 @@ const InstructionsPanel = () => {
     setShowModal(false);
   };
 
+  // Authors only ever see the markdown for the step they are on, so edits are
+  // written back into that step's section of the stored document.
   const onChange = (e) => {
-    dispatch(setProjectInstructions(e.target.value));
+    dispatch(
+      setProjectInstructions(
+        replaceStepMarkdown(
+          project?.instructions,
+          currentStepPosition,
+          e.target.value,
+        ),
+      ),
+    );
   };
+
+  const addStep = () => {
+    goToNewStepRef.current = true;
+    setIsPreviewing(false);
+    dispatch(
+      setProjectInstructions(appendStepToInstructions(project?.instructions)),
+    );
+  };
+
+  // The new step only exists once the stored document has been re-split into
+  // steps, so wait for the step count to catch up before navigating to it.
+  useEffect(() => {
+    if (goToNewStepRef.current && numberOfSteps > 0) {
+      goToNewStepRef.current = false;
+      dispatch(setCurrentStepPosition(numberOfSteps - 1));
+    }
+  }, [numberOfSteps, dispatch]);
 
   const panelRef = useRef(null);
 
@@ -177,6 +221,21 @@ const InstructionsPanel = () => {
           ? hasInstructions
             ? [
                 <DesignSystemButton
+                  key="preview"
+                  className="btn--primary"
+                  icon={isPreviewing ? <PencilIcon /> : <PreviewIcon />}
+                  text={
+                    isPreviewing
+                      ? t("instructionsPanel.edit")
+                      : t("instructionsPanel.preview")
+                  }
+                  onClick={() => setIsPreviewing(!isPreviewing)}
+                  fill={true}
+                  textAlways={true}
+                  small={true}
+                />,
+                <DesignSystemButton
+                  key="remove"
                   className="btn--secondary"
                   text={t("instructionsPanel.removeInstructions")}
                   onClick={() => setShowModal(true)}
@@ -187,6 +246,7 @@ const InstructionsPanel = () => {
               ]
             : [
                 <DesignSystemButton
+                  key="add"
                   className="btn--primary"
                   icon={<PlusIcon />}
                   text={t("instructionsPanel.emptyState.addInstructions")}
@@ -199,34 +259,37 @@ const InstructionsPanel = () => {
           : []
       }
       Footer={
-        showProgressBar ? () => <ProgressBar panelRef={panelRef} /> : undefined
+        showProgressBar
+          ? () => (
+              <ProgressBar
+                panelRef={panelRef}
+                onAddStep={isAuthoring ? addStep : undefined}
+              />
+            )
+          : undefined
       }
     >
       <div className="project-instructions">
         {instructionsEditable ? (
           hasInstructions ? (
-            <div className="c-instruction-tabs">
-              <Tabs
-                onSelect={(index) => {
-                  setInstructionsTab(index);
-                }}
-              >
-                <TabList>
-                  <Tab>{t("instructionsPanel.edit")}</Tab>
-                  <Tab>{t("instructionsPanel.view")}</Tab>
-                </TabList>
-                <TabPanel>
-                  <textarea
-                    data-testid="instructionTextarea"
-                    value={project.instructions}
-                    onChange={onChange}
-                  />
-                </TabPanel>
-                <TabPanel>
-                  <div className="project-instructions" ref={stepContent} />
-                </TabPanel>
-              </Tabs>
-            </div>
+            isPreviewing ? (
+              // Keyed so React mounts a fresh node when toggling: reusing the
+              // editor's element would leave the ref pointing at it and the
+              // rendered markdown would replace the textarea.
+              <div
+                key="preview"
+                className="project-instructions__content"
+                ref={stepContent}
+              />
+            ) : (
+              <div key="editor" className="c-instruction-editor">
+                <textarea
+                  data-testid="instructionTextarea"
+                  value={currentStepMarkdown}
+                  onChange={onChange}
+                />
+              </div>
+            )
           ) : (
             <div className="project-instructions__empty">
               <p className="project-instructions__empty-text">

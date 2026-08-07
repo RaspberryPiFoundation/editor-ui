@@ -46,15 +46,15 @@ describe("When instructionsEditable is true", () => {
       const mockStore = configureStore([]);
       const initialState = {
         editor: {
-          project: {},
+          project: { instructions: "instructions" },
           instructionsEditable: true,
         },
         instructions: {
           project: {
-            steps: [{ content: "instructions" }],
+            steps: [{ content: "<p>rendered instructions</p>" }],
           },
           quiz: {},
-          currentStepPosition: 1,
+          currentStepPosition: 0,
         },
       };
       store = mockStore(initialState);
@@ -65,16 +65,14 @@ describe("When instructionsEditable is true", () => {
       );
     });
 
-    test("Renders two tab titles", () => {
-      expect(screen.getAllByRole("tab")).toHaveLength(2);
+    test("Renders no tab titles", () => {
+      expect(screen.queryAllByRole("tab")).toHaveLength(0);
     });
 
-    test("Renders two tab panels", () => {
-      expect(screen.getAllByRole("tabpanel")).toHaveLength(2);
-    });
-
-    test("Renders the edit panel", () => {
-      expect(screen.getByTestId("instructionTextarea")).toBeInTheDocument();
+    test("Renders the markdown editor", () => {
+      expect(screen.getByTestId("instructionTextarea")).toHaveValue(
+        "instructions",
+      );
     });
 
     test("saves content", async () => {
@@ -86,6 +84,71 @@ describe("When instructionsEditable is true", () => {
       await waitFor(() => {
         expect(store.getActions()).toEqual(
           expect.arrayContaining([setProjectInstructions(testString)]),
+        );
+      });
+    });
+
+    test("Discards page break markers typed by the author", async () => {
+      const textarea = screen.getByTestId("instructionTextarea");
+
+      fireEvent.change(textarea, {
+        target: { value: 'One<br class="page-break" />two' },
+      });
+
+      await waitFor(() => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([setProjectInstructions("Onetwo")]),
+        );
+      });
+    });
+
+    test("Renders the preview button", () => {
+      expect(
+        screen.queryByText("instructionsPanel.preview"),
+      ).toBeInTheDocument();
+    });
+
+    test("Clicking preview renders the markdown and offers to edit again", () => {
+      fireEvent.click(screen.getByText("instructionsPanel.preview"));
+
+      expect(
+        screen.queryByTestId("instructionTextarea"),
+      ).not.toBeInTheDocument();
+      expect(screen.queryByText("rendered instructions")).toBeInTheDocument();
+      expect(screen.queryByText("instructionsPanel.edit")).toBeInTheDocument();
+    });
+
+    test("Clicking edit returns to the markdown editor", () => {
+      fireEvent.click(screen.getByText("instructionsPanel.preview"));
+      fireEvent.click(screen.getByText("instructionsPanel.edit"));
+
+      expect(screen.getByTestId("instructionTextarea")).toBeInTheDocument();
+      // The preview is written into the DOM by hand, so it has to go with the
+      // element it was written into rather than linger behind the editor.
+      expect(
+        screen.queryByText("rendered instructions"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Shows the pagination while editing a single step", () => {
+      expect(
+        screen.queryByText("instructionsPanel.noSteps"),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText("instructionsPanel.addStep"),
+      ).toBeInTheDocument();
+    });
+
+    test("Clicking add step appends a page break to the instructions", async () => {
+      fireEvent.click(screen.getByText("instructionsPanel.addStep"));
+
+      await waitFor(() => {
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            setProjectInstructions(
+              'instructions\n\n<br class="page-break" />\n\n',
+            ),
+          ]),
         );
       });
     });
@@ -204,21 +267,20 @@ describe("When instructionsEditable is true", () => {
       scratchblocksInit.mockImplementation(fakeScratchblocksInit);
     });
 
-    const openViewTab = () => {
-      // The rendered content lives in the second ("View") tab, which is only
-      // mounted once selected.
-      fireEvent.click(screen.getAllByRole("tab")[1]);
+    const openPreview = () => {
+      // The rendered content is only mounted once the author previews it.
+      fireEvent.click(screen.getByText("instructionsPanel.preview"));
     };
 
-    test("Renders the scratch block as an svg on the view tab", () => {
+    test("Renders the scratch block as an svg in the preview", () => {
       renderEditablePanel();
-      openViewTab();
+      openPreview();
       expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
     });
 
     test("Initialises scratchblocks with the step content container", () => {
       renderEditablePanel();
-      openViewTab();
+      openPreview();
       expect(scratchblocksInit).toHaveBeenCalledWith(
         expect.any(String),
         expect.any(HTMLElement),
@@ -227,11 +289,14 @@ describe("When instructionsEditable is true", () => {
   });
 
   describe("When the editable instructions have multiple steps", () => {
-    beforeEach(() => {
+    const instructions = 'Step one\n\n<br class="page-break" />\n\nStep two';
+    let store;
+
+    const renderAtStep = (currentStepPosition) => {
       const mockStore = configureStore([]);
-      const store = mockStore({
+      store = mockStore({
         editor: {
-          project: { instructions: "Step one\n\nStep two" },
+          project: { instructions },
           instructionsEditable: true,
         },
         instructions: {
@@ -239,7 +304,7 @@ describe("When instructionsEditable is true", () => {
             steps: [{ content: "Step one" }, { content: "Step two" }],
           },
           quiz: {},
-          currentStepPosition: 0,
+          currentStepPosition,
         },
       });
       render(
@@ -247,15 +312,32 @@ describe("When instructionsEditable is true", () => {
           <InstructionsPanel />
         </Provider>,
       );
-    });
+    };
 
-    test("Hides the pagination while editing on the edit tab", () => {
-      expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
-    });
-
-    test("Shows the pagination on the view tab", () => {
-      fireEvent.click(screen.getAllByRole("tab")[1]);
+    test("Shows the pagination while editing", () => {
+      renderAtStep(0);
       expect(screen.queryByRole("progressbar")).toBeInTheDocument();
+    });
+
+    test("Edits only the markdown of the current step", () => {
+      renderAtStep(1);
+      expect(screen.getByTestId("instructionTextarea")).toHaveValue("Step two");
+    });
+
+    test("Writes edits back into the current step", () => {
+      renderAtStep(1);
+
+      fireEvent.change(screen.getByTestId("instructionTextarea"), {
+        target: { value: "Rewritten" },
+      });
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          setProjectInstructions(
+            'Step one\n\n<br class="page-break" />\n\nRewritten',
+          ),
+        ]),
+      );
     });
   });
 });

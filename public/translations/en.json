@@ -119,7 +119,9 @@
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
     "projectSteps": "Project instructions",
     "edit": "Edit",
-    "view": "View",
+    "preview": "Preview",
+    "addStep": "Add step",
+    "noSteps": "No steps",
     "removeInstructionsModal": {
       "removeInstructions": "Remove instructions",
       "close": "Close",
