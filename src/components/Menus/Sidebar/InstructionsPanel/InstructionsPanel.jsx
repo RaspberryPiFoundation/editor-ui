@@ -14,7 +14,10 @@ import demoInstructions from "../../../../assets/markdown/demoInstructions.md?ra
 import "../../../../assets/stylesheets/Instructions.scss?inline";
 import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
+import {
+  selectInstructionSteps,
+  setCurrentStepPosition,
+} from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
@@ -52,7 +55,7 @@ const InstructionsPanel = () => {
     (state) => state.editor?.instructionsEditable,
   );
   const project = useSelector((state) => state.editor?.project);
-  const steps = useSelector((state) => state.instructions.project?.steps);
+  const steps = useSelector(selectInstructionSteps);
   const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
   const currentStepPosition = useSelector(
@@ -68,9 +71,7 @@ const InstructionsPanel = () => {
     return quiz?.currentQuestion === quiz?.questionCount;
   }, [quiz]);
 
-  const numberOfSteps = useSelector(
-    (state) => state.instructions.project?.steps?.length || 0,
-  );
+  const numberOfSteps = steps?.length || 0;
 
   const hasInstructions = steps && steps.length > 0;
   const hasMultipleSteps = numberOfSteps > 1;

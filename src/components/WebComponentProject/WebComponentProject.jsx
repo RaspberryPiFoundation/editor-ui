@@ -15,7 +15,6 @@ import {
   setIsOutputOnly,
   setInstructionsEditable,
 } from "../../redux/EditorSlice";
-import { setInstructions } from "../../redux/InstructionsSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -69,14 +68,8 @@ const WebComponentProject = ({
     (state) => state.editor.project.components,
   );
   const readOnly = useSelector((state) => state.editor.readOnly);
-  const projectInstructions = useSelector(
-    (state) => state.editor.project.instructions,
-  );
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
-  );
-  const permitInstructionsOverride = useSelector(
-    (state) => state.instructions.permitOverride,
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const dispatch = useDispatch();
@@ -124,28 +117,6 @@ const WebComponentProject = ({
       document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
     }
   }, [projectIdentifier]);
-
-  useEffect(() => {
-    if (!permitInstructionsOverride) return;
-
-    dispatch(
-      setInstructions({
-        project: {
-          steps:
-            typeof projectInstructions === "string"
-              ? [
-                  {
-                    quiz: false,
-                    title: "",
-                    markdown_content: projectInstructions,
-                  },
-                ]
-              : projectInstructions || [],
-        },
-        permitOverride: true,
-      }),
-    );
-  }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
     syncRunEventTrackingProject(projectIdentifier, codeRunTriggered);
