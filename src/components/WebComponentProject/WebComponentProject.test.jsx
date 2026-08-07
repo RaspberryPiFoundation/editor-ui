@@ -141,7 +141,7 @@ describe("When state set", () => {
               steps: [
                 {
                   title: "",
-                  content: "My amazing instructions",
+                  markdown_content: "My amazing instructions",
                   quiz: false,
                 },
               ],
@@ -178,9 +178,10 @@ describe("When there are instructions", () => {
       .getActions()
       .find((e) => e.type === "instructions/setInstructions");
 
-    const content = instructions.payload.project.steps[0].content;
+    const markdownContent =
+      instructions.payload.project.steps[0].markdown_content;
 
-    expect(content).toEqual("[Link](https://example.com)");
+    expect(markdownContent).toEqual("[Link](https://example.com)");
   });
 });
 
@@ -203,7 +204,7 @@ describe("When instructions are an empty string", () => {
               steps: [
                 {
                   title: "",
-                  content: "",
+                  markdown_content: "",
                   quiz: false,
                 },
               ],

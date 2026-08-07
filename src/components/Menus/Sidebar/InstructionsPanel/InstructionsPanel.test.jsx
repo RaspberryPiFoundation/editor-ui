@@ -308,7 +308,7 @@ describe("When instructions are not editable", () => {
     });
   });
 
-  describe("When step content is unconverted markdown", () => {
+  describe("When a step has markdown_content", () => {
     beforeEach(() => {
       renderWithProviders(<InstructionsPanel />, {
         preloadedState: {
@@ -318,7 +318,11 @@ describe("When instructions are not editable", () => {
           },
           instructions: {
             project: {
-              steps: [{ content: "# Title\n\n[Link](https://example.com)" }],
+              steps: [
+                {
+                  markdown_content: "# Title\n\n[Link](https://example.com)",
+                },
+              ],
             },
             quiz: {},
             currentStepPosition: 0,
@@ -338,6 +342,33 @@ describe("When instructions are not editable", () => {
       expect(link).toHaveAttribute("href", "https://example.com");
       expect(link).toHaveAttribute("target", "_blank");
       expect(link).toHaveAttribute("rel", "noreferrer");
+    });
+  });
+
+  describe("When a step has content", () => {
+    beforeEach(() => {
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: false,
+          },
+          instructions: {
+            project: {
+              steps: [{ content: "# Title\n\n[Link](https://example.com)" }],
+            },
+            quiz: {},
+            currentStepPosition: 0,
+          },
+        },
+      });
+    });
+
+    test("Displays content as is, without markdown conversion", () => {
+      expect(
+        screen.queryByRole("heading", { level: 1, name: "Title" }),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText("# Title", { exact: false })).toBeInTheDocument();
     });
   });
 
