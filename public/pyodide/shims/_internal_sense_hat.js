@@ -82,7 +82,9 @@ const init = () => {
 
 // _fb_device specific methods
 const setpixel = (index, value) => {
-  _internal_sense_hat.config.mz_criteria.usedLEDs = true;
+  if (value.v.some(channel => channel.v !== 0)) {
+    _internal_sense_hat.config.mz_criteria.usedLEDs = true;
+  }
 
   const _index = _internal_sense_hat.toJs(index);
   const _value = _internal_sense_hat.toJs(value);
@@ -120,7 +122,8 @@ const setpixels = (indexes, values) => {
   const _indexes = _internal_sense_hat.toJs(indexes);
   const _values = _internal_sense_hat.toJs(values);
 
-  if (_indexes) {
+  // Set usedLeds = true only when there's at least one led on
+  if (_values.some(row => row.some(value => value !== 0))) {
     _internal_sense_hat.config.mz_criteria.usedLEDs = true;
   }
 
