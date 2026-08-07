@@ -152,8 +152,8 @@ describe("Downloading project with multi-step instructions", () => {
           name: "My epic project",
           identifier: "hello-world-project",
           instructions: [
-            { quiz: false, title: "", markdown_content: "step one" },
-            { quiz: false, title: "", markdown_content: "step two" },
+            { markdown_content: "step one" },
+            { markdown_content: "step two" },
           ],
           components: [
             {

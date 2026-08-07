@@ -1,6 +1,4 @@
 export const emptyInstructionStep = () => ({
-  quiz: false,
-  title: "",
   markdown_content: "",
 });
 
