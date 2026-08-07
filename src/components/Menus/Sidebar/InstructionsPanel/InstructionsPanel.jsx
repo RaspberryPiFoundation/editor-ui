@@ -82,6 +82,14 @@ const InstructionsPanel = () => {
     });
   };
 
+  const applyExternalLinkAttributes = (container) => {
+    container.querySelectorAll("a[href]").forEach((link) => {
+      if (link.getAttribute("href").startsWith("#")) return;
+      link.setAttribute("target", "_blank");
+      link.setAttribute("rel", "noreferrer");
+    });
+  };
+
   useEffect(() => {
     const stepIsQuizAndHasQuestions = () => {
       return (
@@ -98,6 +106,7 @@ const InstructionsPanel = () => {
       if (stepContent.current) {
         stepContent.current?.parentElement.scrollTo({ top: 0 });
         stepContent.current.innerHTML = content;
+        applyExternalLinkAttributes(stepContent.current);
         applySyntaxHighlighting(stepContent.current);
         if (isScratchProject) {
           scratchblocksInit(i18n.language, stepContent.current);
