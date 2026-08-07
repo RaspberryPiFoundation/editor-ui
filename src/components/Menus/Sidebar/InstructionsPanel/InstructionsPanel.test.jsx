@@ -1,12 +1,12 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import InstructionsPanel from "./InstructionsPanel";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { setProjectInstructions } from "../../../../redux/EditorSlice";
+import { setInstructionsEditable } from "../../../../redux/EditorSlice";
+import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import { act } from "react";
 import Modal from "react-modal";
 import Prism from "prismjs";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
+import { renderWithProviders } from "../../../../utils/renderWithProviders";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
 jest.mock("prismjs", () => ({
@@ -32,31 +32,24 @@ const fakeScratchblocksInit = (_locale, container) => {
 };
 
 describe("When instructionsEditable changes from false to true", () => {
-  const buildStore = (instructionsEditable) =>
-    configureStore([])({
-      editor: {
-        project: { instructions: "# Title" },
-        instructionsEditable,
-      },
-      instructions: {
-        project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
-        quiz: {},
-        currentStepPosition: 0,
+  test("does not leave the rendered preview above the edit/view tabs", () => {
+    const { container, store } = renderWithProviders(<InstructionsPanel />, {
+      preloadedState: {
+        editor: {
+          project: { instructions: "# Title" },
+          instructionsEditable: false,
+        },
+        instructions: {
+          project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
+          quiz: {},
+          currentStepPosition: 0,
+        },
       },
     });
 
-  test("does not leave the rendered preview above the edit/view tabs", () => {
-    const { container, rerender } = render(
-      <Provider store={buildStore(false)}>
-        <InstructionsPanel />
-      </Provider>,
-    );
-
-    rerender(
-      <Provider store={buildStore(true)}>
-        <InstructionsPanel />
-      </Provider>,
-    );
+    act(() => {
+      store.dispatch(setInstructionsEditable(true));
+    });
 
     const tabsWrapper = container.querySelector(".c-instruction-tabs");
     expect(tabsWrapper).toBeInTheDocument();
@@ -76,26 +69,21 @@ describe("When instructionsEditable is true", () => {
     });
 
     beforeEach(() => {
-      const mockStore = configureStore([]);
-      const initialState = {
-        editor: {
-          project: {},
-          instructionsEditable: true,
-        },
-        instructions: {
-          project: {
-            steps: [{ content: "instructions" }],
+      ({ store } = renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: true,
           },
-          quiz: {},
-          currentStepPosition: 1,
+          instructions: {
+            project: {
+              steps: [{ content: "instructions" }],
+            },
+            quiz: {},
+            currentStepPosition: 1,
+          },
         },
-      };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      }));
     });
 
     test("Renders two tab titles", () => {
@@ -117,9 +105,7 @@ describe("When instructionsEditable is true", () => {
       fireEvent.change(textarea, { target: { value: testString } });
 
       await waitFor(() => {
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([setProjectInstructions(testString)]),
-        );
+        expect(store.getState().editor.project.instructions).toBe(testString);
       });
     });
 
@@ -149,26 +135,21 @@ describe("When instructionsEditable is true", () => {
     let store;
 
     beforeEach(() => {
-      const mockStore = configureStore([]);
-      const initialState = {
-        editor: {
-          project: {},
-          instructionsEditable: true,
-        },
-        instructions: {
-          project: {
-            steps: [],
+      ({ store } = renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: true,
           },
-          quiz: {},
-          currentStepPosition: 1,
+          instructions: {
+            project: {
+              steps: [],
+            },
+            quiz: {},
+            currentStepPosition: 1,
+          },
         },
-      };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      }));
     });
 
     test("Renders the add instrucitons button", () => {
@@ -191,8 +172,8 @@ describe("When instructionsEditable is true", () => {
         fireEvent.click(addInstructionsButton);
       });
 
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([setProjectInstructions("demoInstructions.md")]),
+      expect(store.getState().editor.project.instructions).toBe(
+        "demoInstructions.md",
       );
     });
 
@@ -207,26 +188,21 @@ describe("When instructionsEditable is true", () => {
 describe("When instructions are not editable", () => {
   describe("When there are no instructions", () => {
     beforeEach(() => {
-      const mockStore = configureStore([]);
-      const initialState = {
-        editor: {
-          project: {},
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: {
-            steps: [],
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: false,
           },
-          quiz: {},
-          currentStepPosition: 1,
+          instructions: {
+            project: {
+              steps: [],
+            },
+            quiz: {},
+            currentStepPosition: 1,
+          },
         },
-      };
-      const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      });
     });
 
     test("Does not render the add instructions button", () => {
@@ -260,36 +236,31 @@ describe("When instructions are not editable", () => {
 
   describe("When there are instructions", () => {
     beforeEach(() => {
-      const mockStore = configureStore([]);
-      const initialState = {
-        editor: {
-          project: {},
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: {
-            steps: [
-              { content: "<p>step 0</p>" },
-              {
-                content: `<p>step 1</p>
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: false,
+          },
+          instructions: {
+            project: {
+              steps: [
+                { content: "<p>step 0</p>" },
+                {
+                  content: `<p>step 1</p>
                   <code class='language-python'>print('hello')</code>
                   <code class='language-html'><p>Hello world</p></code>
                   <code class='language-css'>.hello { color: purple }</code>
                   <code class='language-javascript'>const element = document.getElementById("my-element")</code>
                   `,
-              },
-            ],
+                },
+              ],
+            },
+            quiz: {},
+            currentStepPosition: 1,
           },
-          quiz: {},
-          currentStepPosition: 1,
         },
-      };
-      const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      });
     });
 
     test("Renders no tab titles", () => {
@@ -342,30 +313,26 @@ describe("When instructions are not editable", () => {
       window.syntaxHighlight = {
         highlightElement: jest.fn(),
       };
-      const mockStore = configureStore([]);
-      const initialState = {
-        editor: {
-          project: {},
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: {
-            steps: [
-              {
-                content: "<code class='language-python'>print('hello')</code>",
-              },
-            ],
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {},
+            instructionsEditable: false,
           },
-          quiz: {},
-          currentStepPosition: 0,
+          instructions: {
+            project: {
+              steps: [
+                {
+                  content:
+                    "<code class='language-python'>print('hello')</code>",
+                },
+              ],
+            },
+            quiz: {},
+            currentStepPosition: 0,
+          },
         },
-      };
-      const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      });
     });
 
     test("Applies syntax highlighting using window.syntaxHighlight", () => {
@@ -382,25 +349,20 @@ describe("When instructions are not editable", () => {
 
   describe("When there is only one step", () => {
     beforeEach(() => {
-      const mockStore = configureStore([]);
-      const initialState = {
-        editor: {
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: {
-            steps: [{ content: "<p>step 0</p>" }],
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            instructionsEditable: false,
           },
-          quiz: {},
-          currentStepPosition: 0,
+          instructions: {
+            project: {
+              steps: [{ content: "<p>step 0</p>" }],
+            },
+            quiz: {},
+            currentStepPosition: 0,
+          },
         },
-      };
-      const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      });
     });
 
     test("Does not render the progress bar", () => {
@@ -419,25 +381,20 @@ describe("When instructions are not editable", () => {
       },
     ];
 
-    const renderAtStep = (currentStepPosition) => {
-      const mockStore = configureStore([]);
-      const store = mockStore({
-        editor: {
-          project: { project_type: "code_editor_scratch" },
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: { steps: scratchSteps },
-          quiz: {},
-          currentStepPosition,
+    const renderAtStep = (currentStepPosition) =>
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: { project_type: "code_editor_scratch" },
+            instructionsEditable: false,
+          },
+          instructions: {
+            project: { steps: scratchSteps },
+            quiz: {},
+            currentStepPosition,
+          },
         },
       });
-      return render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
-    };
 
     beforeEach(() => {
       scratchblocksInit.mockImplementation(fakeScratchblocksInit);
@@ -457,26 +414,12 @@ describe("When instructions are not editable", () => {
     });
 
     test("Re-renders scratch blocks when navigating to another step", () => {
-      const { rerender } = renderAtStep(0);
+      const { store } = renderAtStep(0);
       scratchblocksInit.mockClear();
 
-      const mockStore = configureStore([]);
-      const store = mockStore({
-        editor: {
-          project: { project_type: "code_editor_scratch" },
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: { steps: scratchSteps },
-          quiz: {},
-          currentStepPosition: 1,
-        },
+      act(() => {
+        store.dispatch(setCurrentStepPosition(1));
       });
-      rerender(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
 
       expect(scratchblocksInit).toHaveBeenCalled();
       expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
@@ -486,30 +429,26 @@ describe("When instructions are not editable", () => {
   describe("When the project is not a scratch project", () => {
     beforeEach(() => {
       scratchblocksInit.mockClear();
-      const mockStore = configureStore([]);
-      const store = mockStore({
-        editor: {
-          project: { project_type: "python" },
-          instructionsEditable: false,
-        },
-        instructions: {
-          project: {
-            steps: [
-              {
-                content:
-                  "<pre><code class='language-blocks'>say [hello]</code></pre>",
-              },
-            ],
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: { project_type: "python" },
+            instructionsEditable: false,
           },
-          quiz: {},
-          currentStepPosition: 0,
+          instructions: {
+            project: {
+              steps: [
+                {
+                  content:
+                    "<pre><code class='language-blocks'>say [hello]</code></pre>",
+                },
+              ],
+            },
+            quiz: {},
+            currentStepPosition: 0,
+          },
         },
       });
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
     });
 
     test("Does not initialise scratchblocks", () => {
@@ -524,31 +463,26 @@ describe("When instructions are not editable", () => {
       document.addEventListener("editor-quizReady", quizHandler);
     });
     beforeEach(() => {
-      const mockStore = configureStore([]);
-      const initialState = {
-        instructions: {
-          project: {
-            steps: [
-              { content: "<p>step 0</p>" },
-              { content: "<p>step 1</p>", knowledgeQuiz: "quizPath" },
-            ],
+      renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          instructions: {
+            project: {
+              steps: [
+                { content: "<p>step 0</p>" },
+                { content: "<p>step 1</p>", knowledgeQuiz: "quizPath" },
+              ],
+            },
+            quiz: {
+              questions: [
+                "<h2>Test quiz</h2><p>step 1</p><code class='language-python'>print('hello')</code>",
+              ],
+              questionCount: 1,
+              currentQuestion: 0,
+            },
+            currentStepPosition: 1,
           },
-          quiz: {
-            questions: [
-              "<h2>Test quiz</h2><p>step 1</p><code class='language-python'>print('hello')</code>",
-            ],
-            questionCount: 1,
-            currentQuestion: 0,
-          },
-          currentStepPosition: 1,
         },
-      };
-      const store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <InstructionsPanel />
-        </Provider>,
-      );
+      });
     });
 
     test("Renders the quiz content", () => {
