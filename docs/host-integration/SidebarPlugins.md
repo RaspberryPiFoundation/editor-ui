@@ -287,3 +287,7 @@ is unsafe across separate React bundles and should not be used for new work.
 
 **Built-in panels** - Plugins sit alongside `sidebar_options`. You still need
 the `with_sidebar="true"` attribute on `<editor-wc>` for the sidebar to show at all.
+
+## Further reading
+
+- Why this shape: [Feedback panel investigation](design-notes/feedback-panel-investigation.md)

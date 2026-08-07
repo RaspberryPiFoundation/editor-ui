@@ -15,3 +15,12 @@ For mounting, attributes, events, and styling, start with the
 | --- | --- |
 | [Sidebar plugins](SidebarPlugins.md) | Add a host-owned panel (and optional header buttons) to the editor sidebar |
 | [Autosave flush](AutosaveFlush.md) | Force-save dirty work before SPA or page navigation leaves the editor |
+
+## Design notes
+
+Background from the feedback-panel / host-integration investigation. Useful
+context for the team; not required reading to call the APIs above.
+
+| Note | What it covers |
+| --- | --- |
+| [Feedback panel investigation](design-notes/feedback-panel-investigation.md) | Why React-across-the-WC-boundary is unsafe, the options we considered, and what shipped (1a) vs what was only explored (Alt 4) |

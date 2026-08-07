@@ -13,7 +13,7 @@ For apps embedding `<editor-wc>`, see [docs/host-integration](host-integration/R
 - [Sidebar plugins](host-integration/SidebarPlugins.md) - register a host-owned sidebar panel via `setSidebarPlugins`
 - [Autosave flush before navigation](host-integration/AutosaveFlush.md) - `shouldFlushBeforeNavigation` and `flushPendingAutoSave`
 
-Mounting, attributes, events, and styling are covered in the [README](../README.md#usage).
+Mounting, attributes, events, and styling are covered in the [README](../README.md#usage). Design notes from the feedback-panel investigation live under [host-integration/design-notes/feedback-panel-investigation.md](host-integration/design-notes/feedback-panel-investigation.md).
 
 ## WebComponent Class
 
