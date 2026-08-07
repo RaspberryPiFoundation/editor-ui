@@ -105,6 +105,15 @@ it("confirms LEDs used when display set", () => {
   getResults().should("contain", '"usedLEDs":true');
 });
 
+it("doesn't show LEDs used when display is all set to 0", () => {
+  runCode(
+    "from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[0,0,0]] * 64)",
+  );
+
+  cy.scrollTo("bottom");
+  getResults().should("contain", '"usedLEDs":false');
+});
+
 it("picks up calls to input()", () => {
   runCode("name = input('What is your name?')\nprint('Hello', name)");
 
