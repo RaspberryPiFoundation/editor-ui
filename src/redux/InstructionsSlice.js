@@ -19,9 +19,9 @@ export default InstructionsSlice.reducer;
 
 export const selectInstructionSteps = createSelector(
   [
-    (state) => state.editor.project?.instructions,
-    (state) => state.instructions.permitOverride,
-    (state) => state.instructions.project?.steps,
+    (state) => state.editor?.project?.instructions,
+    (state) => state.instructions?.permitOverride,
+    (state) => state.instructions?.project?.steps,
   ],
   (projectInstructions, permitOverride, loadedSteps) => {
     if (!permitOverride) {

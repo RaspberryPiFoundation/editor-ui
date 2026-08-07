@@ -27,6 +27,7 @@ import SidebarPanel from "./SidebarPanel";
 import PluginSlot from "./PluginSlot";
 import MaterialSymbol from "./MaterialSymbol";
 import { setSidebarOption } from "../../../redux/EditorSlice";
+import { selectInstructionSteps } from "../../../redux/InstructionsSlice";
 
 const resolvePluginIcon = (icon) => {
   if (typeof icon === "string") {
@@ -85,9 +86,7 @@ const Sidebar = ({
   const dispatch = useDispatch();
   const projectType = useSelector((state) => state.editor.project.project_type);
   const projectImages = useSelector((state) => state.editor.project.image_list);
-  const instructionsSteps = useSelector(
-    (state) => state.instructions?.project?.steps,
-  );
+  const instructionsSteps = useSelector(selectInstructionSteps);
   const instructionsEditable = useSelector(
     (state) => state.editor.instructionsEditable,
   );
