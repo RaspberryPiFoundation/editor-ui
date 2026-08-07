@@ -137,7 +137,7 @@ const WebComponentProject = ({
                   {
                     quiz: false,
                     title: "",
-                    content: projectInstructions,
+                    markdown_content: projectInstructions,
                   },
                 ]
               : projectInstructions || [],

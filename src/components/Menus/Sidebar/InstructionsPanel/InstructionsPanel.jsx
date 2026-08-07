@@ -76,6 +76,13 @@ const InstructionsPanel = () => {
   const hasMultipleSteps = numberOfSteps > 1;
   const isScratchProject = project?.project_type === "code_editor_scratch";
 
+  const getStepHtml = (step) => {
+    if (step.content !== undefined) {
+      return step.content;
+    }
+    return marked.parse(step.markdown_content ?? "");
+  };
+
   const applySyntaxHighlighting = (container) => {
     const codeElements = container.querySelectorAll(
       ".language-python, .language-html, .language-css, .language-javascript",
@@ -102,10 +109,10 @@ const InstructionsPanel = () => {
   }, [quiz, steps, currentStepPosition, quizCompleted]);
 
   useEffect(() => {
-    const setStepContent = (content) => {
+    const setStepContent = (html) => {
       if (stepContent.current) {
         stepContent.current?.parentElement.scrollTo({ top: 0 });
-        stepContent.current.innerHTML = marked.parse(content);
+        stepContent.current.innerHTML = html;
         applySyntaxHighlighting(stepContent.current);
         if (isScratchProject) {
           scratchblocksInit(i18n.language, stepContent.current);
@@ -116,7 +123,7 @@ const InstructionsPanel = () => {
       setStepContent(quiz.questions[quiz.currentQuestion]);
       document.dispatchEvent(quizReadyEvent);
     } else if (hasInstructions && steps[currentStepPosition]) {
-      setStepContent(steps[currentStepPosition].content);
+      setStepContent(getStepHtml(steps[currentStepPosition]));
     }
   }, [
     hasInstructions,
