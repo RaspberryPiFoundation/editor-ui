@@ -14,8 +14,8 @@ const projectIdentifier = "editable-instructions-project";
 const projectApiMatcher = `**/api/projects/${projectIdentifier}*`;
 
 const originalSteps = [
-  { quiz: false, title: "", markdown_content: "Step one content" },
-  { quiz: false, title: "", markdown_content: "Step two content" },
+  { markdown_content: "Step one content" },
+  { markdown_content: "Step two content" },
 ];
 
 const fixtureProject = {
@@ -73,9 +73,9 @@ describe("editing multi-step instructions", () => {
     cy.wait("@saveProject", { timeout: 15000 })
       .its("request.body.project.instructions")
       .should("deep.equal", [
-        { quiz: false, title: "", markdown_content: "Step one content" },
-        { quiz: false, title: "", markdown_content: "New step content" },
-        { quiz: false, title: "", markdown_content: "Step two content" },
+        { markdown_content: "Step one content" },
+        { markdown_content: "New step content" },
+        { markdown_content: "Step two content" },
       ]);
   });
 });

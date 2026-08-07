@@ -68,9 +68,7 @@ describe("When instructionsEditable is true", () => {
         preloadedState: {
           editor: {
             project: {
-              instructions: [
-                { quiz: false, title: "", markdown_content: "instructions" },
-              ],
+              instructions: [{ markdown_content: "instructions" }],
             },
             instructionsEditable: true,
           },
@@ -102,7 +100,7 @@ describe("When instructionsEditable is true", () => {
 
       await waitFor(() => {
         expect(store.getState().editor.project.instructions).toEqual([
-          { quiz: false, title: "", markdown_content: testString },
+          { markdown_content: testString },
         ]);
       });
     });
@@ -138,8 +136,8 @@ describe("When instructionsEditable is true", () => {
           editor: {
             project: {
               instructions: [
-                { quiz: false, title: "", markdown_content: "first" },
-                { quiz: false, title: "", markdown_content: "second" },
+                { markdown_content: "first" },
+                { markdown_content: "second" },
               ],
             },
             instructionsEditable: true,
@@ -168,9 +166,9 @@ describe("When instructionsEditable is true", () => {
       });
 
       expect(store.getState().editor.project.instructions).toEqual([
-        { quiz: false, title: "", markdown_content: "first" },
-        { quiz: false, title: "", markdown_content: "" },
-        { quiz: false, title: "", markdown_content: "second" },
+        { markdown_content: "first" },
+        { markdown_content: "" },
+        { markdown_content: "second" },
       ]);
       expect(store.getState().instructions.currentStepPosition).toBe(1);
     });
@@ -186,7 +184,7 @@ describe("When instructionsEditable is true", () => {
       });
 
       expect(store.getState().editor.project.instructions).toEqual([
-        { quiz: false, title: "", markdown_content: "first" },
+        { markdown_content: "first" },
       ]);
       expect(store.getState().instructions.currentStepPosition).toBe(0);
     });
@@ -200,9 +198,7 @@ describe("When instructionsEditable is true", () => {
         preloadedState: {
           editor: {
             project: {
-              instructions: [
-                { quiz: false, title: "", markdown_content: "only step" },
-              ],
+              instructions: [{ markdown_content: "only step" }],
             },
             instructionsEditable: true,
           },

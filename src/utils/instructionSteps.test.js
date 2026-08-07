@@ -12,7 +12,7 @@ describe("insertStepAfter", () => {
 
     expect(result).toEqual([
       { markdown_content: "one" },
-      { quiz: false, title: "", markdown_content: "" },
+      { markdown_content: "" },
       { markdown_content: "two" },
     ]);
   });
@@ -24,7 +24,7 @@ describe("insertStepAfter", () => {
 
     expect(result).toEqual([
       { markdown_content: "one" },
-      { quiz: false, title: "", markdown_content: "" },
+      { markdown_content: "" },
     ]);
   });
 });
@@ -56,16 +56,21 @@ describe("removeStepAt", () => {
 
 describe("updateStepMarkdown", () => {
   it("replaces markdown_content only for the step at the given index", () => {
-    const steps = [
-      { quiz: false, title: "First", markdown_content: "one" },
-      { quiz: false, title: "Second", markdown_content: "two" },
-    ];
+    const steps = [{ markdown_content: "one" }, { markdown_content: "two" }];
 
     const result = updateStepMarkdown(steps, 1, "updated");
 
     expect(result).toEqual([
-      { quiz: false, title: "First", markdown_content: "one" },
-      { quiz: false, title: "Second", markdown_content: "updated" },
+      { markdown_content: "one" },
+      { markdown_content: "updated" },
     ]);
+  });
+
+  it("preserves other fields on the updated step", () => {
+    const steps = [{ title: "First", markdown_content: "one" }];
+
+    const result = updateStepMarkdown(steps, 0, "updated");
+
+    expect(result).toEqual([{ title: "First", markdown_content: "updated" }]);
   });
 });
