@@ -151,7 +151,7 @@ const WebComponentProject = ({
                     content: marked.parse(projectInstructions),
                   },
                 ]
-              : [],
+              : projectInstructions || [],
         },
         permitOverride: true,
       }),
