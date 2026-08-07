@@ -15,6 +15,7 @@
     "@juggle/resize-observer": "^3.3.1",
     "@raspberrypifoundation/design-system-react": "^2.9.2",
     "@raspberrypifoundation/python-friendly-error-messages": "0.8.0",
+    "@raspberrypifoundation/rpf-markdown-core": "^0.1.2",
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.6.1",
     "@reduxjs/toolkit": "^1.6.2",

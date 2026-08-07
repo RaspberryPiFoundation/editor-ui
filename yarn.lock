@@ -4379,6 +4379,7 @@ __metadata:
     "@juggle/resize-observer": "npm:^3.3.1"
     "@raspberrypifoundation/design-system-react": "npm:^2.9.2"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
+    "@raspberrypifoundation/rpf-markdown-core": "npm:^0.1.2"
     "@react-three/drei": "npm:^10.0.0"
     "@react-three/fiber": "npm:^9.6.1"
     "@react-three/test-renderer": "npm:^9.0.0"
@@ -4496,6 +4497,19 @@ __metadata:
   version: 0.8.0
   resolution: "@raspberrypifoundation/python-friendly-error-messages@npm:0.8.0"
   checksum: 10/87b5a2d576cb2127a9d1882a0b5ff91c0d3cb528fee29859c034b859d3de64179e9163769a78a29e6f29da43c7fd2f2f4de1b4ec9dd6fa83372ae10e4b7de319
+  languageName: node
+  linkType: hard
+
+"@raspberrypifoundation/rpf-markdown-core@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@raspberrypifoundation/rpf-markdown-core@npm:0.1.2"
+  dependencies:
+    happy-dom: "npm:^20.9.0"
+    marked: "npm:^17.0.5"
+    marked-gfm-heading-id: "npm:^4.1.4"
+    prismjs: "npm:^1.30.0"
+    scratchblocks: "npm:^3.6.4"
+  checksum: 10/ab0688d2c6a04d74c7f707d245ef87c94e514edefdad819aebdf10ab5c5c6d55fa9ef09ae4e58e50a28536d96c5e2774289e14ca189d0bae235f92eba758fe44
   languageName: node
   linkType: hard
 
@@ -5772,6 +5786,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:>=20.0.0":
+  version: 26.1.2
+  resolution: "@types/node@npm:26.1.2"
+  dependencies:
+    undici-types: "npm:~8.3.0"
+  checksum: 10/2dd6d75b80c006deab4e381acc8cb2e3d634f10141f05fd6cadaabddd80a95f04aef7b00a574bd8fd5e08e940b899c23b91dd09a70b11a34a2762203b5eea25e
+  languageName: node
+  linkType: hard
+
 "@types/offscreencanvas@npm:^2019.6.4, @types/offscreencanvas@npm:~2019.7.0":
   version: 2019.7.3
   resolution: "@types/offscreencanvas@npm:2019.7.3"
@@ -5960,6 +5983,22 @@ __metadata:
   version: 0.5.24
   resolution: "@types/webxr@npm:0.5.24"
   checksum: 10/780afba558f73588922c2e71a6dcffd29d132179c5ddf290e9e5fe43a8a5eedd34dc7395209c19c06aa7a916cd2230a9d6f3f3afb2c7a9f6c820dc1f775f266a
+  languageName: node
+  linkType: hard
+
+"@types/whatwg-mimetype@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/whatwg-mimetype@npm:3.0.2"
+  checksum: 10/609607beeaa8b50b9e00541d8f571880d651b26b6b006103370099aba00784037de54433627c9fe775a5558e3d1fc09c2a48f54c8af91988e9bebeaf6a698eeb
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:^8.18.1":
+  version: 8.18.1
+  resolution: "@types/ws@npm:8.18.1"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/1ce05e3174dcacf28dae0e9b854ef1c9a12da44c7ed73617ab6897c5cbe4fccbb155a20be5508ae9a7dde2f83bd80f5cf3baa386b934fc4b40889ec963e94f3a
   languageName: node
   linkType: hard
 
@@ -7478,6 +7517,15 @@ __metadata:
   version: 1.1.2
   resolution: "buffer-from@npm:1.1.2"
   checksum: 10/0448524a562b37d4d7ed9efd91685a5b77a50672c556ea254ac9a6d30e3403a517d8981f10e565db24e8339413b43c97ca2951f10e399c6125a0d8911f5679bb
+  languageName: node
+  linkType: hard
+
+"buffer-image-size@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "buffer-image-size@npm:0.6.4"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/82d4ca9bc8e71c9c0cbc74191d3613100d0a20dd21da018c6f373d7dc88ec4a9225eebe06c44a982de074f695402e81ab8a8daa40afce36b915042fa9fb32c52
   languageName: node
   linkType: hard
 
@@ -9794,6 +9842,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"entities@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "entities@npm:7.0.1"
+  checksum: 10/3c0c58d869c45148463e96d21dee2d1b801bd3fe4cf47aa470cd26dfe81d59e9e0a9be92ae083fa02fa441283c883a471486e94538dcfb8544428aa80a55271b
+  languageName: node
+  linkType: hard
+
 "entities@npm:^8.0.0":
   version: 8.0.0
   resolution: "entities@npm:8.0.0"
@@ -11495,6 +11550,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"github-slugger@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "github-slugger@npm:2.0.0"
+  checksum: 10/2fb15d78262eeba1e68671f048c62d05ed21e51281cccc7b1c9e8e089e8510b3037fb648b8ba27290e60534df2cb251312a1e7e813204495df621220192fd600
+  languageName: node
+  linkType: hard
+
 "gl-mat4@npm:^1.2.0":
   version: 1.2.0
   resolution: "gl-mat4@npm:1.2.0"
@@ -11923,6 +11985,21 @@ __metadata:
   version: 1.10.3
   resolution: "growl@npm:1.10.3"
   checksum: 10/89dfce783f6fb5cabbc053f8071560ff998a004214b497935ec051cf4ab96014cf74dd4f38ea56e7236dc34454b1382a225f90283b2eb09ffa4aa134365c5626
+  languageName: node
+  linkType: hard
+
+"happy-dom@npm:^20.9.0":
+  version: 20.11.1
+  resolution: "happy-dom@npm:20.11.1"
+  dependencies:
+    "@types/node": "npm:>=20.0.0"
+    "@types/whatwg-mimetype": "npm:^3.0.2"
+    "@types/ws": "npm:^8.18.1"
+    buffer-image-size: "npm:^0.6.4"
+    entities: "npm:^7.0.1"
+    whatwg-mimetype: "npm:^3.0.0"
+    ws: "npm:^8.21.0"
+  checksum: 10/a07d892f1fefe843cf3fcb0ed4ecb782fd1014c1ac27048f27f874f5d6b91ec0c25a777532145d0c041f524fd851d8ce5bf9779fc6f1ba0fed8b67d7ab96095f
   languageName: node
   linkType: hard
 
@@ -14872,12 +14949,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked-gfm-heading-id@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "marked-gfm-heading-id@npm:4.1.4"
+  dependencies:
+    github-slugger: "npm:^2.0.0"
+  peerDependencies:
+    marked: ">=13 <19"
+  checksum: 10/c653d2398f9602119ac8baf4bc7a251b11be916a6e0b5c1ecc0001f97ad80bcb01a3d07101ebd49d1ac9ffc891a72c7315388e44a1bef13d28da8f62c9665be2
+  languageName: node
+  linkType: hard
+
 "marked@npm:^15.0.6":
   version: 15.0.6
   resolution: "marked@npm:15.0.6"
   bin:
     marked: bin/marked.js
   checksum: 10/81c6949655fa6bf0478ab73896cc4be8b7f8b5b755aa1fbfc7cbe3f936cda201dd94dddd09e842e57fffc099c72bef5fe49ec0fa5d7560ee81cc5240860094ce
+  languageName: node
+  linkType: hard
+
+"marked@npm:^17.0.5":
+  version: 17.0.6
+  resolution: "marked@npm:17.0.6"
+  bin:
+    marked: bin/marked.js
+  checksum: 10/46dac9481c028b6ab36f093084842f5c020329eb5529fa96ed22112f1f3a79b51b2f2c169a8b104b28c3ed09842ef372260dee08946fb1f7b1c70a7fb6f5cdc0
   languageName: node
   linkType: hard
 
@@ -16671,6 +16768,13 @@ __metadata:
   version: 1.29.0
   resolution: "prismjs@npm:1.29.0"
   checksum: 10/2080db382c2dde0cfc7693769e89b501ef1bfc8ff4f8d25c07fd4c37ca31bc443f6133d5b7c145a73309dc396e829ddb7cc18560026d862a887ae08864ef6b07
+  languageName: node
+  linkType: hard
+
+"prismjs@npm:^1.30.0":
+  version: 1.30.0
+  resolution: "prismjs@npm:1.30.0"
+  checksum: 10/6b48a2439a82e5c6882f48ebc1564c3890e16463ba17ac10c3ad4f62d98dea5b5c915b172b63b83023a70ad4f5d7be3e8a60304420db34a161fae69dd4e3e2da
   languageName: node
   linkType: hard
 
@@ -18497,6 +18601,13 @@ __metadata:
   version: 1.0.7
   resolution: "scratch-translate-extension-languages@npm:1.0.7"
   checksum: 10/0caf8422bfc33eeddcd9498695af28b1e83b899777271fb60eb1b8be139608f7c098dc969240907f29daf4dcd71ecdffec5848e9bc30d17ea49f86da7e550ca3
+  languageName: node
+  linkType: hard
+
+"scratchblocks@npm:^3.6.4":
+  version: 3.7.1
+  resolution: "scratchblocks@npm:3.7.1"
+  checksum: 10/f86cf05ccf61036d49cc90e127be2cca373648fdee970e0d95da5ab82433b145261103d8ab95f8d7ab2b9a434c52ee87f61e7f6195b920617ecbe5f37bd0c220
   languageName: node
   linkType: hard
 
@@ -20435,6 +20546,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici-types@npm:~8.3.0":
+  version: 8.3.0
+  resolution: "undici-types@npm:8.3.0"
+  checksum: 10/6681d2837ac75a75ac1cc46090aa2b8ddc7c6b8ecc295a6cdb06838752a730da3d8afeecf05e5ab7903160eafad3a8b6ffa1927e5ded260590f4d4fef18646d5
+  languageName: node
+  linkType: hard
+
 "undici@npm:^5.25.4":
   version: 5.29.0
   resolution: "undici@npm:5.29.0"
@@ -21462,6 +21580,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/8c4d2b06dc65381b6bfab1f2e584275dabd30a99a5ce058b4dc76f3d03fad1921cef3a21d8f53127d30a808cfd1864aa2fe6890a5d43359f682457315baec873
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.21.0":
+  version: 8.21.1
+  resolution: "ws@npm:8.21.1"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/8493bc543072763d7bacffb2282c9d7954dc5c599c9df4c2d15f91c217f63e293a33ffc70756e3f2bf8c5d85bc6069ad7d9983c382d4713c807b083ffb1b1719
   languageName: node
   linkType: hard
 
