@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SidebarPanel from "../SidebarPanel";
 
+import { marked } from "marked";
 import Prism from "prismjs";
 import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
@@ -19,6 +20,13 @@ import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import ProgressBar from "./ProgressBar/ProgressBar";
+
+const markdownRenderer = new marked.Renderer();
+markdownRenderer.link = function (data) {
+  return `<a href="${data.href}" target="_blank" rel="noreferrer"
+    }">${data.text}</a>`;
+};
+marked.setOptions({ renderer: markdownRenderer });
 
 const InstructionsPanel = () => {
   useEffect(() => {
@@ -97,7 +105,7 @@ const InstructionsPanel = () => {
     const setStepContent = (content) => {
       if (stepContent.current) {
         stepContent.current?.parentElement.scrollTo({ top: 0 });
-        stepContent.current.innerHTML = content;
+        stepContent.current.innerHTML = marked.parse(content);
         applySyntaxHighlighting(stepContent.current);
         if (isScratchProject) {
           scratchblocksInit(i18n.language, stepContent.current);

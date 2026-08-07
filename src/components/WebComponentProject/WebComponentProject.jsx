@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { marked } from "marked";
 
 import "../../assets/stylesheets/Project.scss?inline";
 import "../../assets/stylesheets/EmbeddedViewer.scss?inline";
@@ -81,7 +80,6 @@ const WebComponentProject = ({
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const dispatch = useDispatch();
-  const renderer = new marked.Renderer();
 
   const buildRunCompletedPayloadRef = useRef(() => ({}));
   buildRunCompletedPayloadRef.current = () => {
@@ -127,15 +125,6 @@ const WebComponentProject = ({
     }
   }, [projectIdentifier]);
 
-  renderer.link = function (data) {
-    return `<a href="${data.href}" target="_blank" rel="noreferrer"
-    }">${data.text}</a>`;
-  };
-
-  marked.setOptions({
-    renderer: renderer,
-  });
-
   useEffect(() => {
     if (!permitInstructionsOverride) return;
 
@@ -148,7 +137,7 @@ const WebComponentProject = ({
                   {
                     quiz: false,
                     title: "",
-                    content: marked.parse(projectInstructions),
+                    content: projectInstructions,
                   },
                 ]
               : projectInstructions || [],
