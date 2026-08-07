@@ -5,7 +5,8 @@
 @use "./rpf_design_system/spacing" as *;
 @use "./scratch_colours" as *;
 
-.project-instructions {
+.--dark .project-instructions,
+.--light .project-instructions {
   block-size: 100%;
 
   code.block3control {
