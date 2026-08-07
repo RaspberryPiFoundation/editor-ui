@@ -4,10 +4,7 @@
   "locale": "en",
   "name": "Cool Python: ASCII Orb",
   "user_id": null,
-  "instructions": {
-    "content": "## Cool Python: ASCII Orb\n\nA minimal project that prints a single shaded **ASCII orb** (a circle with simple lighting).\n\n### Try this\n- Change `WIDTH` / `HEIGHT` in `main.py`\n- Change the `light_dx` / `light_dy` values to move the highlight\n- Swap the `SHADES` string in `ascii_orb.py` to change the look\n\nFiles:\n- `main.py` (entry point)\n- `ascii_orb.py` (helper that renders the orb)\n",
-    "permitOverride": false
-  },
+  "instructions": "## Cool Python: ASCII Orb\n\nA minimal project that prints a single shaded **ASCII orb** (a circle with simple lighting).\n\n### Try this\n- Change `WIDTH` / `HEIGHT` in `main.py`\n- Change the `light_dx` / `light_dy` values to move the highlight\n- Swap the `SHADES` string in `ascii_orb.py` to change the look\n\nFiles:\n- `main.py` (entry point)\n- `ascii_orb.py` (helper that renders the orb)\n",
   "components": [
     {
       "id": "9b5a24a8-7d15-4a34-8a59-7b0a1f1b19b2",
