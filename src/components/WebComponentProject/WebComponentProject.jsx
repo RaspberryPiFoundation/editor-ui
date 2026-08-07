@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { marked } from "marked";
 import { processEditorProject } from "@raspberrypifoundation/rpf-markdown-core";
 
 import "../../assets/stylesheets/Project.scss?inline";
@@ -82,7 +81,6 @@ const WebComponentProject = ({
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const dispatch = useDispatch();
-  const renderer = new marked.Renderer();
 
   const buildRunCompletedPayloadRef = useRef(() => ({}));
   buildRunCompletedPayloadRef.current = () => {
@@ -127,15 +125,6 @@ const WebComponentProject = ({
       document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
     }
   }, [projectIdentifier]);
-
-  renderer.link = function (data) {
-    return `<a href="${data.href}" target="_blank" rel="noreferrer"
-    }">${data.text}</a>`;
-  };
-
-  marked.setOptions({
-    renderer: renderer,
-  });
 
   useEffect(() => {
     if (!permitInstructionsOverride) return;

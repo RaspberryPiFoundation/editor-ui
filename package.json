@@ -39,7 +39,6 @@
     "js-convert-case": "^4.2.0",
     "jszip": "^3.10.1",
     "jszip-utils": "^0.1.0",
-    "marked": "^15.0.6",
     "mime-types": "^2.1.35",
     "node-html-parser": "^6.1.5",
     "oidc-client": "^1.11.5",
