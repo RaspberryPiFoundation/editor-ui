@@ -11,8 +11,17 @@ import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import { selectInstructionSteps } from "../../../../redux/InstructionsSlice";
+import {
+  selectInstructionSteps,
+  setCurrentStepPosition,
+} from "../../../../redux/InstructionsSlice";
+import {
+  insertStepAfter,
+  removeStepAt,
+  updateStepMarkdown,
+} from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
+import Button from "../../../Button/Button";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
@@ -52,8 +61,24 @@ const InstructionsPanel = () => {
     setShowModal(false);
   };
 
-  const onChange = (e) => {
-    dispatch(setProjectInstructions(e.target.value));
+  const onStepMarkdownChange = (e) => {
+    dispatch(
+      setProjectInstructions(
+        updateStepMarkdown(steps, currentStepPosition, e.target.value),
+      ),
+    );
+  };
+
+  const addStep = () => {
+    dispatch(
+      setProjectInstructions(insertStepAfter(steps, currentStepPosition)),
+    );
+    dispatch(setCurrentStepPosition(currentStepPosition + 1));
+  };
+
+  const removeStep = () => {
+    dispatch(setProjectInstructions(removeStepAt(steps, currentStepPosition)));
+    dispatch(setCurrentStepPosition(Math.max(currentStepPosition - 1, 0)));
   };
 
   const panelRef = useRef(null);
@@ -90,7 +115,27 @@ const InstructionsPanel = () => {
           : []
       }
       Footer={
-        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
+        hasMultipleSteps || (instructionsEditable && hasInstructions)
+          ? () => (
+              <>
+                <ProgressBar panelRef={panelRef} />
+                {instructionsEditable && (
+                  <div className="instructions-panel__step-actions">
+                    <Button
+                      buttonText={t("instructionsPanel.addStep")}
+                      title={t("instructionsPanel.addStep")}
+                      onClickHandler={addStep}
+                    />
+                    <Button
+                      buttonText={t("instructionsPanel.removeStep")}
+                      title={t("instructionsPanel.removeStep")}
+                      onClickHandler={removeStep}
+                    />
+                  </div>
+                )}
+              </>
+            )
+          : undefined
       }
     >
       <div className="project-instructions">
@@ -105,8 +150,8 @@ const InstructionsPanel = () => {
                 <TabPanel>
                   <textarea
                     data-testid="instructionTextarea"
-                    value={project.instructions}
-                    onChange={onChange}
+                    value={steps[currentStepPosition]?.markdown_content ?? ""}
+                    onChange={onStepMarkdownChange}
                   />
                 </TabPanel>
                 <TabPanel>

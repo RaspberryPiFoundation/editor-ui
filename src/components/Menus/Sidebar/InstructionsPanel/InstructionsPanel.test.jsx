@@ -67,14 +67,16 @@ describe("When instructionsEditable is true", () => {
       ({ store } = renderWithProviders(<InstructionsPanel />, {
         preloadedState: {
           editor: {
-            project: {},
+            project: {
+              instructions: [
+                { quiz: false, title: "", markdown_content: "instructions" },
+              ],
+            },
             instructionsEditable: true,
           },
           instructions: {
-            project: {
-              steps: [{ content: "instructions" }],
-            },
-            currentStepPosition: 1,
+            permitOverride: true,
+            currentStepPosition: 0,
           },
         },
       }));
@@ -99,7 +101,9 @@ describe("When instructionsEditable is true", () => {
       fireEvent.change(textarea, { target: { value: testString } });
 
       await waitFor(() => {
-        expect(store.getState().editor.project.instructions).toBe(testString);
+        expect(store.getState().editor.project.instructions).toEqual([
+          { quiz: false, title: "", markdown_content: testString },
+        ]);
       });
     });
 
@@ -121,6 +125,114 @@ describe("When instructionsEditable is true", () => {
 
       expect(
         screen.queryByText("instructionsPanel.removeInstructionsModal.heading"),
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe("Adding and removing steps", () => {
+    let store;
+
+    beforeEach(() => {
+      ({ store } = renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {
+              instructions: [
+                { quiz: false, title: "", markdown_content: "first" },
+                { quiz: false, title: "", markdown_content: "second" },
+              ],
+            },
+            instructionsEditable: true,
+          },
+          instructions: {
+            permitOverride: true,
+            quiz: {},
+            currentStepPosition: 0,
+          },
+        },
+      }));
+    });
+
+    test("Renders the add step and remove step buttons", () => {
+      expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
+      expect(
+        screen.getByText("instructionsPanel.removeStep"),
+      ).toBeInTheDocument();
+    });
+
+    test("Clicking add step inserts a new empty step after the current step and navigates to it", () => {
+      const addStepButton = screen.getByText("instructionsPanel.addStep");
+
+      act(() => {
+        fireEvent.click(addStepButton);
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([
+        { quiz: false, title: "", markdown_content: "first" },
+        { quiz: false, title: "", markdown_content: "" },
+        { quiz: false, title: "", markdown_content: "second" },
+      ]);
+      expect(store.getState().instructions.currentStepPosition).toBe(1);
+    });
+
+    test("Clicking remove step removes the current step and navigates to the previous step", () => {
+      act(() => {
+        store.dispatch(setCurrentStepPosition(1));
+      });
+
+      const removeStepButton = screen.getByText("instructionsPanel.removeStep");
+      act(() => {
+        fireEvent.click(removeStepButton);
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([
+        { quiz: false, title: "", markdown_content: "first" },
+      ]);
+      expect(store.getState().instructions.currentStepPosition).toBe(0);
+    });
+  });
+
+  describe("When there is only one step", () => {
+    let store;
+
+    beforeEach(() => {
+      ({ store } = renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {
+              instructions: [
+                { quiz: false, title: "", markdown_content: "only step" },
+              ],
+            },
+            instructionsEditable: true,
+          },
+          instructions: {
+            permitOverride: true,
+            quiz: {},
+            currentStepPosition: 0,
+          },
+        },
+      }));
+    });
+
+    test("Renders the progress bar and step actions even with a single step", () => {
+      expect(screen.getByRole("progressbar")).toBeInTheDocument();
+      expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
+      expect(
+        screen.getByText("instructionsPanel.removeStep"),
+      ).toBeInTheDocument();
+    });
+
+    test("Removing the only step falls back to the empty state", () => {
+      const removeStepButton = screen.getByText("instructionsPanel.removeStep");
+
+      act(() => {
+        fireEvent.click(removeStepButton);
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([]);
+      expect(
+        screen.getByText("instructionsPanel.emptyState.addInstructions"),
       ).toBeInTheDocument();
     });
   });
