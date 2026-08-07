@@ -38,6 +38,27 @@ import {
 
 export { resetCodeRunEventTracking } from "./runEventTrackingState";
 
+const toStep = (content) => ({
+  quiz: false,
+  title: "",
+  content: marked.parse(content),
+});
+
+const buildInstructionSteps = (instructions) => {
+  if (typeof instructions === "string") {
+    return [toStep(instructions)];
+  }
+
+  if (Array.isArray(instructions)) {
+    return instructions
+      .map((step) => step?.markdown_content)
+      .filter((content) => typeof content === "string")
+      .map(toStep);
+  }
+
+  return [];
+};
+
 const WebComponentProject = ({
   locale = "en",
   withProjectbar = false,
@@ -142,16 +163,7 @@ const WebComponentProject = ({
     dispatch(
       setInstructions({
         project: {
-          steps:
-            typeof projectInstructions === "string"
-              ? [
-                  {
-                    quiz: false,
-                    title: "",
-                    content: marked.parse(projectInstructions),
-                  },
-                ]
-              : [],
+          steps: buildInstructionSteps(projectInstructions),
         },
         permitOverride: true,
       }),

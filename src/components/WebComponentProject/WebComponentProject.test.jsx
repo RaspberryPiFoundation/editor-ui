@@ -186,6 +186,99 @@ describe("When there are instructions", () => {
   });
 });
 
+describe("When instructions are an array of steps", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: [
+        { markdown_content: "Do the first thing" },
+        { markdown_content: "Do the second thing" },
+      ],
+    });
+  });
+
+  test("Dispatches action to set one step per entry", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "<p>Do the first thing</p>\n",
+                  quiz: false,
+                },
+                {
+                  title: "",
+                  content: "<p>Do the second thing</p>\n",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
+describe("When a step in the instructions array has no markdown content", () => {
+  beforeEach(() => {
+    renderWebComponentProject({
+      instructions: [
+        { title: "Do the first thing" },
+        { markdown_content: "Do the second thing" },
+      ],
+    });
+  });
+
+  test("Dispatches action to set a step for the valid steps only", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [
+                {
+                  title: "",
+                  content: "<p>Do the second thing</p>\n",
+                  quiz: false,
+                },
+              ],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
+describe("When instructions are an empty array", () => {
+  beforeEach(() => {
+    renderWebComponentProject({ instructions: [] });
+  });
+
+  test("Dispatches action to set no steps", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        {
+          type: "instructions/setInstructions",
+          payload: {
+            permitOverride: true,
+            project: {
+              steps: [],
+            },
+          },
+        },
+      ]),
+    );
+  });
+});
+
 describe("When instructions are an empty string", () => {
   beforeEach(() => {
     renderWebComponentProject({
