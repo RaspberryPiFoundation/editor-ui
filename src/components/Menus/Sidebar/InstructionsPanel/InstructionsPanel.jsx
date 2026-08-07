@@ -7,49 +7,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SidebarPanel from "../SidebarPanel";
 
-import { marked } from "marked";
-import Prism from "prismjs";
 import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
-import { quizReadyEvent } from "../../../../events/WebComponentCustomEvents";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
 import {
   selectInstructionSteps,
   setCurrentStepPosition,
 } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
-import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
+import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
 
-const markdownRenderer = new marked.Renderer();
-markdownRenderer.link = function (data) {
-  return `<a href="${data.href}" target="_blank" rel="noreferrer"
-    }">${data.text}</a>`;
-};
-marked.setOptions({ renderer: markdownRenderer });
-
 const InstructionsPanel = () => {
-  useEffect(() => {
-    // prism and prism plugin config
-    Prism.manual = true;
-    if (Prism.plugins.NormalizeWhitespace) {
-      Prism.plugins.NormalizeWhitespace.setDefaults({
-        "remove-indent": false,
-        "remove-initial-line-feed": true,
-        "left-trim": false,
-      });
-      Prism.hooks.add("before-sanity-check", function (env) {
-        if (!env.code) return;
-
-        // Remove multiple leading blank lines (empty or whitespace-only)
-        env.code = env.code.replace(/^(?:\s*\n)+/, "");
-      });
-    }
-  }, []);
-
   const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
@@ -62,10 +34,8 @@ const InstructionsPanel = () => {
     (state) => state.instructions.currentStepPosition,
   );
   const { t, i18n } = useTranslation();
-  const stepContent = useRef();
 
   const [isQuiz, setIsQuiz] = useState(false);
-  const [instructionsTab, setInstructionsTab] = useState(0);
 
   const quizCompleted = useMemo(() => {
     return quiz?.currentQuestion === quiz?.questionCount;
@@ -77,26 +47,10 @@ const InstructionsPanel = () => {
   const hasMultipleSteps = numberOfSteps > 1;
   const isScratchProject = project?.project_type === "code_editor_scratch";
 
-  const getStepHtml = (step) => {
-    if (step.content !== undefined) {
-      return step.content;
-    }
-    return marked.parse(step.markdown_content ?? "");
-  };
-
-  const applySyntaxHighlighting = (container) => {
-    const codeElements = container.querySelectorAll(
-      ".language-python, .language-html, .language-css, .language-javascript",
-    );
-
-    codeElements.forEach((element) => {
-      if (window.syntaxHighlight) {
-        window.syntaxHighlight.highlightElement(element);
-      } else {
-        Prism.highlightElement(element);
-      }
-    });
-  };
+  const isQuizStep = isQuiz && !quizCompleted;
+  const currentStep = isQuizStep
+    ? { content: quiz.questions[quiz.currentQuestion] }
+    : steps[currentStepPosition];
 
   useEffect(() => {
     const stepIsQuizAndHasQuestions = () => {
@@ -108,35 +62,6 @@ const InstructionsPanel = () => {
     };
     stepIsQuizAndHasQuestions() ? setIsQuiz(true) : setIsQuiz(false);
   }, [quiz, steps, currentStepPosition, quizCompleted]);
-
-  useEffect(() => {
-    const setStepContent = (html) => {
-      if (stepContent.current) {
-        stepContent.current?.parentElement.scrollTo({ top: 0 });
-        stepContent.current.innerHTML = html;
-        applySyntaxHighlighting(stepContent.current);
-        if (isScratchProject) {
-          scratchblocksInit(i18n.language, stepContent.current);
-        }
-      }
-    };
-    if (isQuiz && !quizCompleted) {
-      setStepContent(quiz.questions[quiz.currentQuestion]);
-      document.dispatchEvent(quizReadyEvent);
-    } else if (hasInstructions && steps[currentStepPosition]) {
-      setStepContent(getStepHtml(steps[currentStepPosition]));
-    }
-  }, [
-    hasInstructions,
-    steps,
-    currentStepPosition,
-    quiz,
-    quizCompleted,
-    isQuiz,
-    instructionsTab,
-    isScratchProject,
-    i18n.language,
-  ]);
 
   useEffect(() => {
     if (quizCompleted && isQuiz) {
@@ -206,11 +131,7 @@ const InstructionsPanel = () => {
         {instructionsEditable ? (
           hasInstructions ? (
             <div className="c-instruction-tabs" key="instruction-tabs">
-              <Tabs
-                onSelect={(index) => {
-                  setInstructionsTab(index);
-                }}
-              >
+              <Tabs>
                 <TabList>
                   <Tab>{t("instructionsPanel.edit")}</Tab>
                   <Tab>{t("instructionsPanel.view")}</Tab>
@@ -223,7 +144,13 @@ const InstructionsPanel = () => {
                   />
                 </TabPanel>
                 <TabPanel>
-                  <div className="project-instructions" ref={stepContent} />
+                  <InstructionsStep
+                    className="project-instructions"
+                    step={currentStep}
+                    isQuiz={isQuizStep}
+                    isScratchProject={isScratchProject}
+                    language={i18n.language}
+                  />
                 </TabPanel>
               </Tabs>
             </div>
@@ -253,10 +180,13 @@ const InstructionsPanel = () => {
             </div>
           )
         ) : (
-          <div
+          <InstructionsStep
             className="project-instructions__content"
             key="instruction-content"
-            ref={stepContent}
+            step={currentStep}
+            isQuiz={isQuizStep}
+            isScratchProject={isScratchProject}
+            language={i18n.language}
           />
         )}
       </div>
