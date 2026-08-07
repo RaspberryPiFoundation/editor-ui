@@ -270,6 +270,37 @@ describe("When the project has instructions", () => {
   });
 });
 
+describe("When the project instructions are a markdown string", () => {
+  beforeEach(() => {
+    const mockStore = configureStore([]);
+    const initialState = {
+      editor: {
+        project: {
+          components: [],
+          image_list: [],
+          instructions: "# Some instructions",
+        },
+      },
+      instructions: {
+        permitOverride: true,
+        project: {},
+      },
+    };
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <div id="app">
+          <Sidebar options={options} />
+        </div>
+      </Provider>,
+    );
+  });
+
+  test("Shows instructions icon", () => {
+    expect(screen.queryByTitle("sidebar.instructions")).toBeInTheDocument();
+  });
+});
+
 describe("When the project has no instructions", () => {
   describe("When instructions are not editable", () => {
     beforeEach(() => {

@@ -51,4 +51,10 @@ describe("selectInstructionSteps", () => {
 
     expect(selectInstructionSteps(state)).toEqual([]);
   });
+
+  test("Returns an empty array when the instructions slice is not present", () => {
+    const state = { editor: { project: {} } };
+
+    expect(selectInstructionSteps(state)).toEqual([]);
+  });
 });
