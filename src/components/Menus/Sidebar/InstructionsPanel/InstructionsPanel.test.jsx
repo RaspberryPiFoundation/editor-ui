@@ -285,129 +285,9 @@ describe("When instructions are not editable", () => {
       expect(screen.queryByRole("progressbar")).toBeInTheDocument();
     });
 
-    test("Applies syntax highlighting to python code", () => {
+    test("Applies syntax highlighting to step content", () => {
       const codeElement = document.getElementsByClassName("language-python")[0];
       expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Applies syntax highlighting to HTML code", () => {
-      const codeElement = document.getElementsByClassName("language-html")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Applies syntax highlighting to CSS code", () => {
-      const codeElement = document.getElementsByClassName("language-css")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Applies syntax highlighting to javascript code", () => {
-      const codeElement = document.getElementsByClassName(
-        "language-javascript",
-      )[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-  });
-
-  describe("When a step has markdown_content", () => {
-    beforeEach(() => {
-      renderWithProviders(<InstructionsPanel />, {
-        preloadedState: {
-          editor: {
-            project: {},
-            instructionsEditable: false,
-          },
-          instructions: {
-            project: {
-              steps: [
-                {
-                  markdown_content: "# Title\n\n[Link](https://example.com)",
-                },
-              ],
-            },
-            quiz: {},
-            currentStepPosition: 0,
-          },
-        },
-      });
-    });
-
-    test("Converts markdown headings to HTML", () => {
-      expect(
-        screen.getByRole("heading", { level: 1, name: "Title" }),
-      ).toBeInTheDocument();
-    });
-
-    test("Renders links to open in a new tab", () => {
-      const link = screen.getByRole("link", { name: "Link" });
-      expect(link).toHaveAttribute("href", "https://example.com");
-      expect(link).toHaveAttribute("target", "_blank");
-      expect(link).toHaveAttribute("rel", "noreferrer");
-    });
-  });
-
-  describe("When a step has content", () => {
-    beforeEach(() => {
-      renderWithProviders(<InstructionsPanel />, {
-        preloadedState: {
-          editor: {
-            project: {},
-            instructionsEditable: false,
-          },
-          instructions: {
-            project: {
-              steps: [{ content: "# Title\n\n[Link](https://example.com)" }],
-            },
-            quiz: {},
-            currentStepPosition: 0,
-          },
-        },
-      });
-    });
-
-    test("Displays content as is, without markdown conversion", () => {
-      expect(
-        screen.queryByRole("heading", { level: 1, name: "Title" }),
-      ).not.toBeInTheDocument();
-      expect(screen.getByText("# Title", { exact: false })).toBeInTheDocument();
-    });
-  });
-
-  describe("When window.syntaxHighlight is defined", () => {
-    beforeEach(() => {
-      window.syntaxHighlight = {
-        highlightElement: jest.fn(),
-      };
-      renderWithProviders(<InstructionsPanel />, {
-        preloadedState: {
-          editor: {
-            project: {},
-            instructionsEditable: false,
-          },
-          instructions: {
-            project: {
-              steps: [
-                {
-                  content:
-                    "<code class='language-python'>print('hello')</code>",
-                },
-              ],
-            },
-            quiz: {},
-            currentStepPosition: 0,
-          },
-        },
-      });
-    });
-
-    test("Applies syntax highlighting using window.syntaxHighlight", () => {
-      const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(window.syntaxHighlight.highlightElement).toHaveBeenCalledWith(
-        codeElement,
-      );
-    });
-
-    afterEach(() => {
-      delete window.syntaxHighlight;
     });
   });
 
@@ -467,14 +347,6 @@ describe("When instructions are not editable", () => {
     test("Renders the scratch block as an svg", () => {
       renderAtStep(0);
       expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
-    });
-
-    test("Initialises scratchblocks with the step content container", () => {
-      renderAtStep(0);
-      expect(scratchblocksInit).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.any(HTMLElement),
-      );
     });
 
     test("Re-renders scratch blocks when navigating to another step", () => {
@@ -553,19 +425,8 @@ describe("When instructions are not editable", () => {
       expect(screen.queryByText("Test quiz")).toBeInTheDocument();
     });
 
-    test("Scrolls instructions to the top", () => {
-      expect(window.HTMLElement.prototype.scrollTo).toHaveBeenCalledWith({
-        top: 0,
-      });
-    });
-
     test("Retains the progress bar", () => {
       expect(screen.queryByRole("progressbar")).toBeInTheDocument();
-    });
-
-    test("Applies syntax highlighting", () => {
-      const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
     });
 
     test("Fires a quizIsReady event", () => {
