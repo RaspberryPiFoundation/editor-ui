@@ -56,7 +56,7 @@
       fill: var(--editor-color-theme);
     }
     path {
-      fill: var(--rpf-select-buttons-tick-color);
+      fill: var(--rpf-select-buttons-tick-color, var(--rpf-white));
     }
   }
 }

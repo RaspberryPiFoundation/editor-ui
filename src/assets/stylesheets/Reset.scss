@@ -1,0 +1,80 @@
+// Default styles
+
+:host {
+  font-size: 1.6rem;
+}
+
+#wc {
+  $font-family-sans-serif:
+    Roboto,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+
+  $font-family-monospace:
+    RobotoMono, source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+
+  // Allow fonts to be overridden by the host application via
+  // --editor-font-family-*, falling back to the default sets in
+  // settings/fonts.scss
+  --wc-font-family-sans-serif: var(
+    --editor-font-family-sans-serif,
+    $font-family-sans-serif
+  );
+  --wc-font-family-monospace: var(
+    --editor-font-family-monospace,
+    $font-family-monospace
+  );
+
+  background: var(--editor-secondary-theme, transparent);
+  font-family: var(--wc-font-family-sans-serif);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-flow: column;
+  block-size: 100%;
+  hyphens: auto;
+  hyphenate-limit-chars: 10 4 4; // Minimum of 10 characters before hyphenating, minimum of 4 character before and after the hyphen.
+
+  .proj {
+    min-block-size: 100%;
+  }
+
+  code,
+  var,
+  kbd,
+  samp,
+  tt,
+  dir,
+  listing,
+  plaintext,
+  xmp,
+  abbr,
+  acronym,
+  blockquote,
+  q {
+    hyphens: none;
+  }
+}
+
+code {
+  font-family: var(--wc-font-family-monospace);
+}
+
+button {
+  all: initial;
+  font-size: inherit;
+}
+
+svg {
+  min-inline-size: fit-content;
+}
