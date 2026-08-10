@@ -1,21 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import { marked } from "marked";
+import { processEditorProject } from "@raspberrypifoundation/rpf-markdown-core";
 import Prism from "prismjs";
 import { quizReadyEvent } from "../../../../../events/WebComponentCustomEvents";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
-
-const markdownRenderer = new marked.Renderer();
-markdownRenderer.link = function (data) {
-  return `<a href="${data.href}" target="_blank" rel="noreferrer"
-    }">${data.text}</a>`;
-};
-marked.setOptions({ renderer: markdownRenderer });
 
 const getStepHtml = (step) => {
   if (step.content !== undefined) {
     return step.content;
   }
-  return marked.parse(step.markdown_content ?? "");
+  return processEditorProject(step.markdown_content ?? "");
 };
 
 const applySyntaxHighlighting = (container) => {
@@ -29,6 +22,14 @@ const applySyntaxHighlighting = (container) => {
     } else {
       Prism.highlightElement(element);
     }
+  });
+};
+
+const applyExternalLinkAttributes = (container) => {
+  container.querySelectorAll("a[href]").forEach((link) => {
+    if (link.getAttribute("href").startsWith("#")) return;
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noreferrer");
   });
 };
 
@@ -64,6 +65,7 @@ const InstructionsStep = ({
     stepContent.current.parentElement?.scrollTo({ top: 0 });
     stepContent.current.innerHTML = getStepHtml(step);
     applySyntaxHighlighting(stepContent.current);
+    applyExternalLinkAttributes(stepContent.current);
 
     if (isScratchProject) {
       scratchblocksInit(language, stepContent.current);
