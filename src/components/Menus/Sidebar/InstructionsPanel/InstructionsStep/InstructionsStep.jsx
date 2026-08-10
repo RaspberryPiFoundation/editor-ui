@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { processEditorProject } from "@raspberrypifoundation/rpf-markdown-core";
 import Prism from "../../../../../utils/prism";
-import { quizReadyEvent } from "../../../../../events/WebComponentCustomEvents";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
 
 const getStepHtml = (step) => {
