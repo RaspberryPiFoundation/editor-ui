@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { processEditorProject } from "@raspberrypifoundation/rpf-markdown-core";
-import Prism from "prismjs";
+import Prism from "../../../../../utils/prism";
 import { quizReadyEvent } from "../../../../../events/WebComponentCustomEvents";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
 
@@ -17,11 +17,7 @@ const applySyntaxHighlighting = (container) => {
   );
 
   codeElements.forEach((element) => {
-    if (window.syntaxHighlight) {
-      window.syntaxHighlight.highlightElement(element);
-    } else {
-      Prism.highlightElement(element);
-    }
+    Prism.highlightElement(element);
   });
 };
 
@@ -41,23 +37,6 @@ const InstructionsStep = ({
   language,
 }) => {
   const stepContent = useRef();
-
-  useEffect(() => {
-    Prism.manual = true;
-    if (Prism.plugins.NormalizeWhitespace) {
-      Prism.plugins.NormalizeWhitespace.setDefaults({
-        "remove-indent": false,
-        "remove-initial-line-feed": true,
-        "left-trim": false,
-      });
-      Prism.hooks.add("before-sanity-check", function (env) {
-        if (!env.code) return;
-
-        // Remove multiple leading blank lines (empty or whitespace-only)
-        env.code = env.code.replace(/^(?:\s*\n)+/, "");
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (!stepContent.current || !step) return;

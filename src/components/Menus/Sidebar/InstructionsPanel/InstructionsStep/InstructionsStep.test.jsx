@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Prism from "prismjs";
+import Prism from "../../../../../utils/prism";
 import InstructionsStep from "./InstructionsStep";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
 
@@ -65,23 +65,6 @@ describe("Syntax highlighting", () => {
 
     const codeElement = document.getElementsByClassName("language-python")[0];
     expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-  });
-
-  test("Uses window.syntaxHighlight when defined", () => {
-    window.syntaxHighlight = { highlightElement: vi.fn() };
-
-    render(
-      <InstructionsStep
-        step={{ content: "<code class='language-python'>print(1)</code>" }}
-      />,
-    );
-
-    const codeElement = document.getElementsByClassName("language-python")[0];
-    expect(window.syntaxHighlight.highlightElement).toHaveBeenCalledWith(
-      codeElement,
-    );
-
-    delete window.syntaxHighlight;
   });
 });
 

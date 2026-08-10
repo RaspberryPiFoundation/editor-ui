@@ -57,7 +57,6 @@ const user = { access_token: "my_token" };
 describe("When initially rendered", () => {
   beforeEach(() => {
     document.dispatchEvent = jest.fn();
-    window.Prism = jest.fn();
     const mockStore = configureStore([]);
     const initialState = {
       editor: {
@@ -101,10 +100,6 @@ describe("When initially rendered", () => {
         detail: { user_name: "Joe Bloggs" },
       }),
     );
-  });
-
-  test("It saves window.Prism to window.syntaxHighlight", () => {
-    expect(window.syntaxHighlight).toEqual(window.Prism);
   });
 
   test("it sets the language in i18n", () => {
