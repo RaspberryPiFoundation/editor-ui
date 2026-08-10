@@ -23,12 +23,10 @@ import {
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import Button from "../../../Button/Button";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
-import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
 
 const InstructionsPanel = () => {
-  const [showModal, setShowModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
@@ -54,11 +52,6 @@ const InstructionsPanel = () => {
       t,
     );
     dispatch(setProjectInstructions(translatedInstructions));
-  };
-
-  const removeInstructions = () => {
-    dispatch(setProjectInstructions(null));
-    setShowModal(false);
   };
 
   const onStepMarkdownChange = (e) => {
@@ -95,29 +88,18 @@ const InstructionsPanel = () => {
       panelRef={panelRef}
       heading={t("instructionsPanel.projectSteps")}
       buttons={
-        instructionsEditable
-          ? hasInstructions
-            ? [
-                <DesignSystemButton
-                  className="btn--secondary"
-                  text={t("instructionsPanel.removeInstructions")}
-                  onClick={() => setShowModal(true)}
-                  fill={true}
-                  textAlways={true}
-                  small={true}
-                />,
-              ]
-            : [
-                <DesignSystemButton
-                  className="btn--primary"
-                  icon={<PlusIcon />}
-                  text={t("instructionsPanel.emptyState.addInstructions")}
-                  onClick={addInstructions}
-                  fill={true}
-                  textAlways={true}
-                  small={true}
-                />,
-              ]
+        instructionsEditable && !hasInstructions
+          ? [
+              <DesignSystemButton
+                className="btn--primary"
+                icon={<PlusIcon />}
+                text={t("instructionsPanel.emptyState.addInstructions")}
+                onClick={addInstructions}
+                fill={true}
+                textAlways={true}
+                small={true}
+              />,
+            ]
           : []
       }
       Footer={
@@ -205,29 +187,6 @@ const InstructionsPanel = () => {
           />
         )}
       </div>
-      {showModal && (
-        <RemoveInstructionsModal
-          buttons={[
-            <DesignSystemButton
-              type="primary"
-              key="remove"
-              variant="danger"
-              text={t(
-                "instructionsPanel.removeInstructionsModal.removeInstructions",
-              )}
-              onClick={removeInstructions}
-            />,
-            <DesignSystemButton
-              type="secondary"
-              key="close"
-              text={t("instructionsPanel.removeInstructionsModal.close")}
-              onClick={() => setShowModal(false)}
-            />,
-          ]}
-          isOpen={showModal}
-          setShowModal={setShowModal}
-        />
-      )}
     </SidebarPanel>
   );
 };

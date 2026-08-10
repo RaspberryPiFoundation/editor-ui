@@ -113,7 +113,6 @@
       "markdown": "Instructions are written in <0>markdown</0>.",
       "purpose": "Instructions can be added to your project to guide students."
     },
-    "removeInstructions": "Remove instructions",
     "addStep": "Add step",
     "removeStep": "Remove step",
     "newStepDefaultContent": "## Step title",
@@ -122,17 +121,7 @@
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
     "projectSteps": "Project instructions",
     "edit": "Edit",
-    "view": "View",
-    "removeInstructionsModal": {
-      "removeInstructions": "Remove instructions",
-      "close": "Close",
-      "heading": "Remove project instructions?",
-      "removeInstuctionsWarning": "You are about to remove the instructions from the project.",
-      "resultRemovingInstructions": "As a result of removing these instructions:",
-      "instructionsWillBeDeleted": "Instructions content will be deleted.",
-      "studentsWorkingProjectNotRecievedInstructions": "Students who start working on this project will not receive instructions.",
-      "studentsStartedWillSeeInstructions": "Students who have already started working on this project will still be able to see the instructions as they were when they started."
-    }
+    "view": "View"
   },
   "projectsPanel": {
     "projects": "Projects",
