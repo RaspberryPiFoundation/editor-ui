@@ -116,6 +116,7 @@
     "removeInstructions": "Remove instructions",
     "addStep": "Add step",
     "removeStep": "Remove step",
+    "newStepDefaultContent": "## Step title",
     "nextStep": "Next step",
     "previousStep": "Previous step",
     "stepCounter": "{{currentStep}} of {{totalSteps}}",

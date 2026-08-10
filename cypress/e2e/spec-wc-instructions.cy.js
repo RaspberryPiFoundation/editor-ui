@@ -67,7 +67,8 @@ describe("editing multi-step instructions", () => {
     getAddStepButton().click();
 
     getInstructionsEditTextarea()
-      .should("have.value", "")
+      .should("have.value", "## Step title")
+      .clear()
       .type("New step content");
 
     cy.wait("@saveProject", { timeout: 15000 })

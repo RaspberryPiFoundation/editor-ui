@@ -1,10 +1,6 @@
-export const emptyInstructionStep = () => ({
-  markdown_content: "",
-});
-
-export const insertStepAfter = (steps, index) => [
+export const insertStepAfter = (steps, index, markdownContent = "") => [
   ...steps.slice(0, index + 1),
-  emptyInstructionStep(),
+  { markdown_content: markdownContent },
   ...steps.slice(index + 1),
 ];
 

@@ -71,7 +71,13 @@ const InstructionsPanel = () => {
 
   const addStep = () => {
     dispatch(
-      setProjectInstructions(insertStepAfter(steps, currentStepPosition)),
+      setProjectInstructions(
+        insertStepAfter(
+          steps,
+          currentStepPosition,
+          t("instructionsPanel.newStepDefaultContent"),
+        ),
+      ),
     );
     dispatch(setCurrentStepPosition(currentStepPosition + 1));
   };
