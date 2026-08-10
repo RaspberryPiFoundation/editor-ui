@@ -45,7 +45,7 @@ let store;
 let cookies;
 const code = "print('This project is amazing')";
 const identifier = "My amazing project";
-const steps = [{ quiz: false, title: "Step 1", content: "Do something" }];
+const steps = [{ title: "Step 1", content: "Do something" }];
 const instructions = {
   currentStepPosition: 3,
   project: { steps: steps },

@@ -8,12 +8,12 @@ describe("selectInstructionSteps", () => {
     };
 
     expect(selectInstructionSteps(state)).toEqual([
-      { quiz: false, title: "", markdown_content: "# Title" },
+      { title: "", markdown_content: "# Title" },
     ]);
   });
 
   test("Uses an authored steps array from project instructions as-is", () => {
-    const steps = [{ quiz: false, title: "Step 1", content: "<p>Go</p>" }];
+    const steps = [{ title: "Step 1", content: "<p>Go</p>" }];
     const state = {
       editor: { project: { instructions: steps } },
       instructions: { permitOverride: true, project: { steps: [] } },
