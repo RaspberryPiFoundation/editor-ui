@@ -47,6 +47,39 @@ describe("When the step has markdown_content", () => {
   });
 });
 
+describe("When markdown attaches a class to inline code", () => {
+  const renderMarkdown = (markdown_content) =>
+    render(<InstructionsStep step={{ markdown_content }} />).container;
+
+  const scratchBlockClasses = [
+    "block3control",
+    "block3events",
+    "block3extensions",
+    "block3looks",
+    "block3motion",
+    "block3myblocks",
+    "block3operators",
+    "block3sensing",
+    "block3sound",
+    "block3variables",
+  ];
+
+  test.each(scratchBlockClasses)("Applies %s to the code element", (name) => {
+    const container = renderMarkdown(`\`Move\`{:class="${name}"}`);
+
+    const code = container.querySelector("code");
+    expect(code).toHaveClass(name);
+    expect(code).toHaveTextContent("Move");
+  });
+
+  test("Consumes the attribute syntax instead of rendering it", () => {
+    const container = renderMarkdown('`Motion`{:class="block3motion"}');
+
+    expect(container.textContent).toContain("Motion");
+    expect(container.textContent).not.toContain("{:class");
+  });
+});
+
 describe("When there is no step", () => {
   test("Renders without crashing", () => {
     const { container } = render(<InstructionsStep step={undefined} />);

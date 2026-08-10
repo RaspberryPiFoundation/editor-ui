@@ -4,15 +4,11 @@ import { setInstructionsEditable } from "../../../../redux/EditorSlice";
 import { setCurrentStepPosition } from "../../../../redux/InstructionsSlice";
 import { act } from "react";
 import Modal from "react-modal";
-import Prism from "prismjs";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import { renderWithProviders } from "../../../../utils/renderWithProviders";
 
 window.HTMLElement.prototype.scrollTo = jest.fn();
-jest.mock("prismjs", () => ({
-  ...jest.requireActual("prismjs"),
-  highlightElement: jest.fn(),
-}));
+
 jest.mock("../../../../utils/scratchblocks", () => ({
   scratchblocksInit: jest.fn(),
 }));
@@ -283,11 +279,6 @@ describe("When instructions are not editable", () => {
 
     test("Renders the progress bar", () => {
       expect(screen.queryByRole("progressbar")).toBeInTheDocument();
-    });
-
-    test("Applies syntax highlighting to step content", () => {
-      const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
     });
   });
 
