@@ -32,7 +32,6 @@ const applyExternalLinkAttributes = (container) => {
 const InstructionsStep = ({
   className,
   step,
-  isQuiz = false,
   isScratchProject = false,
   language,
 }) => {
@@ -49,10 +48,7 @@ const InstructionsStep = ({
     if (isScratchProject) {
       scratchblocksInit(language, stepContent.current);
     }
-    if (isQuiz) {
-      document.dispatchEvent(quizReadyEvent);
-    }
-  }, [step, isQuiz, isScratchProject, language]);
+  }, [step, isScratchProject, language]);
 
   return <div className={className} ref={stepContent} />;
 };

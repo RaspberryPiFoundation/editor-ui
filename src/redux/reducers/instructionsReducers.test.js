@@ -15,7 +15,7 @@ test("Sets step number correctly", () => {
 test("Sets instructions including step position correctly", () => {
   let state = { currentStepPosition: 0 };
 
-  const step = { quiz: false, title: "Step 1", content: "Do something!" };
+  const step = { title: "Step 1", content: "Do something!" };
   const instructions = {
     currentStepPosition: 7,
     project: {
@@ -30,7 +30,7 @@ test("Sets instructions including step position correctly", () => {
 test("Keeps original step position if no progress", () => {
   let state = { currentStepPosition: 0 };
 
-  const step = { quiz: false, title: "Step 1", content: "Do something!" };
+  const step = { title: "Step 1", content: "Do something!" };
   const instructions = {
     project: {
       steps: [step],

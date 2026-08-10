@@ -37,7 +37,6 @@ describe("When instructionsEditable changes from false to true", () => {
         },
         instructions: {
           project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
-          quiz: {},
           currentStepPosition: 0,
         },
       },
@@ -75,7 +74,6 @@ describe("When instructionsEditable is true", () => {
             project: {
               steps: [{ content: "instructions" }],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -141,7 +139,6 @@ describe("When instructionsEditable is true", () => {
             project: {
               steps: [],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -194,7 +191,6 @@ describe("When instructions are not editable", () => {
             project: {
               steps: [],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -252,7 +248,6 @@ describe("When instructions are not editable", () => {
                 },
               ],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -293,7 +288,6 @@ describe("When instructions are not editable", () => {
             project: {
               steps: [{ content: "<p>step 0</p>" }],
             },
-            quiz: {},
             currentStepPosition: 0,
           },
         },
@@ -325,7 +319,6 @@ describe("When instructions are not editable", () => {
           },
           instructions: {
             project: { steps: scratchSteps },
-            quiz: {},
             currentStepPosition,
           },
         },
@@ -371,7 +364,6 @@ describe("When instructions are not editable", () => {
                 },
               ],
             },
-            quiz: {},
             currentStepPosition: 0,
           },
         },
@@ -380,48 +372,6 @@ describe("When instructions are not editable", () => {
 
     test("Does not initialise scratchblocks", () => {
       expect(scratchblocksInit).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("When there is a quiz", () => {
-    const quizHandler = jest.fn();
-
-    beforeAll(() => {
-      document.addEventListener("editor-quizReady", quizHandler);
-    });
-    beforeEach(() => {
-      renderWithProviders(<InstructionsPanel />, {
-        preloadedState: {
-          instructions: {
-            project: {
-              steps: [
-                { content: "<p>step 0</p>" },
-                { content: "<p>step 1</p>", knowledgeQuiz: "quizPath" },
-              ],
-            },
-            quiz: {
-              questions: [
-                "<h2>Test quiz</h2><p>step 1</p><code class='language-python'>print('hello')</code>",
-              ],
-              questionCount: 1,
-              currentQuestion: 0,
-            },
-            currentStepPosition: 1,
-          },
-        },
-      });
-    });
-
-    test("Renders the quiz content", () => {
-      expect(screen.queryByText("Test quiz")).toBeInTheDocument();
-    });
-
-    test("Retains the progress bar", () => {
-      expect(screen.queryByRole("progressbar")).toBeInTheDocument();
-    });
-
-    test("Fires a quizIsReady event", () => {
-      expect(quizHandler).toHaveBeenCalled();
     });
   });
 });
