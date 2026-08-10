@@ -158,14 +158,51 @@ describe("When instructionsEditable is true", () => {
       expect(store.getState().instructions.currentStepPosition).toBe(1);
     });
 
-    test("Clicking remove step removes the current step and navigates to the previous step", () => {
+    test("Clicking remove step opens a confirmation modal without removing the step", () => {
+      const removeStepButton = screen.getByText("instructionsPanel.removeStep");
+
+      act(() => {
+        fireEvent.click(removeStepButton);
+      });
+
+      expect(
+        screen.getByText("instructionsPanel.removeStepModal.heading"),
+      ).toBeInTheDocument();
+      expect(store.getState().editor.project.instructions).toEqual([
+        { markdown_content: "first" },
+        { markdown_content: "second" },
+      ]);
+    });
+
+    test("Cancelling the confirmation modal does not remove the step", () => {
+      fireEvent.click(screen.getByText("instructionsPanel.removeStep"));
+
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.cancel"),
+        );
+      });
+
+      expect(
+        screen.queryByText("instructionsPanel.removeStepModal.heading"),
+      ).not.toBeInTheDocument();
+      expect(store.getState().editor.project.instructions).toEqual([
+        { markdown_content: "first" },
+        { markdown_content: "second" },
+      ]);
+    });
+
+    test("Confirming removal removes the current step and navigates to the previous step", () => {
       act(() => {
         store.dispatch(setCurrentStepPosition(1));
       });
 
-      const removeStepButton = screen.getByText("instructionsPanel.removeStep");
+      fireEvent.click(screen.getByText("instructionsPanel.removeStep"));
+
       act(() => {
-        fireEvent.click(removeStepButton);
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.removeStep"),
+        );
       });
 
       expect(store.getState().editor.project.instructions).toEqual([
@@ -204,11 +241,13 @@ describe("When instructionsEditable is true", () => {
       ).toBeInTheDocument();
     });
 
-    test("Removing the only step falls back to the empty state", () => {
-      const removeStepButton = screen.getByText("instructionsPanel.removeStep");
+    test("Confirming removal of the only step falls back to the empty state", () => {
+      fireEvent.click(screen.getByText("instructionsPanel.removeStep"));
 
       act(() => {
-        fireEvent.click(removeStepButton);
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.removeStep"),
+        );
       });
 
       expect(store.getState().editor.project.instructions).toEqual([]);

@@ -23,10 +23,12 @@ import {
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import Button from "../../../Button/Button";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import RemoveInstructionStepModal from "../../../Modals/RemoveInstructionStepModal";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
 
 const InstructionsPanel = () => {
+  const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
@@ -75,9 +77,10 @@ const InstructionsPanel = () => {
     dispatch(setCurrentStepPosition(currentStepPosition + 1));
   };
 
-  const removeStep = () => {
+  const confirmRemoveStep = () => {
     dispatch(setProjectInstructions(removeStepAt(steps, currentStepPosition)));
     dispatch(setCurrentStepPosition(Math.max(currentStepPosition - 1, 0)));
+    setShowRemoveStepModal(false);
   };
 
   const panelRef = useRef(null);
@@ -117,7 +120,7 @@ const InstructionsPanel = () => {
                     <Button
                       buttonText={t("instructionsPanel.removeStep")}
                       title={t("instructionsPanel.removeStep")}
-                      onClickHandler={removeStep}
+                      onClickHandler={() => setShowRemoveStepModal(true)}
                     />
                   </div>
                 )}
@@ -187,6 +190,27 @@ const InstructionsPanel = () => {
           />
         )}
       </div>
+      {showRemoveStepModal && (
+        <RemoveInstructionStepModal
+          buttons={[
+            <DesignSystemButton
+              type="primary"
+              key="remove"
+              variant="danger"
+              text={t("instructionsPanel.removeStepModal.removeStep")}
+              onClick={confirmRemoveStep}
+            />,
+            <DesignSystemButton
+              type="secondary"
+              key="cancel"
+              text={t("instructionsPanel.removeStepModal.cancel")}
+              onClick={() => setShowRemoveStepModal(false)}
+            />,
+          ]}
+          isOpen={showRemoveStepModal}
+          setShowModal={setShowRemoveStepModal}
+        />
+      )}
     </SidebarPanel>
   );
 };
