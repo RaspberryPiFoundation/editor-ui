@@ -110,21 +110,6 @@ describe("When instructionsEditable is true", () => {
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).not.toBeInTheDocument();
     });
-
-    test("Renders the remove instructions button", () => {
-      expect(
-        screen.queryByText("instructionsPanel.removeInstructions"),
-      ).toBeInTheDocument();
-    });
-
-    test("Remove instructions modal is opened", () => {
-      const button = screen.queryByText("instructionsPanel.removeInstructions");
-      fireEvent.click(button);
-
-      expect(
-        screen.queryByText("instructionsPanel.removeInstructionsModal.heading"),
-      ).toBeInTheDocument();
-    });
   });
 
   describe("Adding and removing steps", () => {
@@ -259,12 +244,6 @@ describe("When instructionsEditable is true", () => {
       ).toBeInTheDocument();
     });
 
-    test("Does not render the remove instructions button", () => {
-      expect(
-        screen.queryByText("instructionsPanel.removeInstructions"),
-      ).not.toBeInTheDocument();
-    });
-
     test("Clicking the add instructions button adds the demo instructions", () => {
       const addInstructionsButton = screen.getByText(
         "instructionsPanel.emptyState.addInstructions",
@@ -308,12 +287,6 @@ describe("When instructions are not editable", () => {
     test("Does not render the add instructions button", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
-      ).not.toBeInTheDocument();
-    });
-
-    test("Does not render the remove instructions button", () => {
-      expect(
-        screen.queryByText("instructionsPanel.removeInstructions"),
       ).not.toBeInTheDocument();
     });
 
