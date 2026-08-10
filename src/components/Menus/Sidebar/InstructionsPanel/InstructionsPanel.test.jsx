@@ -158,7 +158,7 @@ describe("When instructionsEditable is true", () => {
       ).toBeInTheDocument();
     });
 
-    test("Clicking add step inserts a new empty step after the current step and navigates to it", () => {
+    test("Clicking add step inserts a new step after the current step, with default content, and navigates to it", () => {
       const addStepButton = screen.getByText("instructionsPanel.addStep");
 
       act(() => {
@@ -167,7 +167,7 @@ describe("When instructionsEditable is true", () => {
 
       expect(store.getState().editor.project.instructions).toEqual([
         { markdown_content: "first" },
-        { markdown_content: "" },
+        { markdown_content: "instructionsPanel.newStepDefaultContent" },
         { markdown_content: "second" },
       ]);
       expect(store.getState().instructions.currentStepPosition).toBe(1);

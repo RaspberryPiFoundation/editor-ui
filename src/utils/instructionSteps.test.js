@@ -27,6 +27,17 @@ describe("insertStepAfter", () => {
       { markdown_content: "" },
     ]);
   });
+
+  it("uses the given markdown content for the new step", () => {
+    const steps = [{ markdown_content: "one" }];
+
+    const result = insertStepAfter(steps, 0, "## Step title");
+
+    expect(result).toEqual([
+      { markdown_content: "one" },
+      { markdown_content: "## Step title" },
+    ]);
+  });
 });
 
 describe("removeStepAt", () => {
