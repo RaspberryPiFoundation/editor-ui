@@ -94,7 +94,6 @@ describe("SidebarBar", () => {
               {
                 title: "My testing title",
                 content: "My testing content",
-                quiz: false,
               },
             ]}
           />

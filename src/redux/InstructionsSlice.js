@@ -28,9 +28,7 @@ export const selectInstructionSteps = createSelector(
       return loadedSteps || [];
     }
     if (typeof projectInstructions === "string") {
-      return [
-        { quiz: false, title: "", markdown_content: projectInstructions },
-      ];
+      return [{ title: "", markdown_content: projectInstructions }];
     }
     return projectInstructions || [];
   },

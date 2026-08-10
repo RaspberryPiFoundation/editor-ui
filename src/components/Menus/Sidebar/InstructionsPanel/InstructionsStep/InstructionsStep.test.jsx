@@ -109,31 +109,3 @@ describe("When isScratchProject is false", () => {
     expect(scratchblocksInit).not.toHaveBeenCalled();
   });
 });
-
-describe("When isQuiz is true", () => {
-  test("Dispatches a quizReady event", () => {
-    const quizReadyHandler = vi.fn();
-    document.addEventListener("editor-quizReady", quizReadyHandler);
-
-    render(
-      <InstructionsStep step={{ content: "<p>quiz</p>" }} isQuiz={true} />,
-    );
-
-    expect(quizReadyHandler).toHaveBeenCalled();
-
-    document.removeEventListener("editor-quizReady", quizReadyHandler);
-  });
-});
-
-describe("When isQuiz is false", () => {
-  test("Does not dispatch a quizReady event", () => {
-    const quizReadyHandler = vi.fn();
-    document.addEventListener("editor-quizReady", quizReadyHandler);
-
-    render(<InstructionsStep step={{ content: "<p>step</p>" }} />);
-
-    expect(quizReadyHandler).not.toHaveBeenCalled();
-
-    document.removeEventListener("editor-quizReady", quizReadyHandler);
-  });
-});
