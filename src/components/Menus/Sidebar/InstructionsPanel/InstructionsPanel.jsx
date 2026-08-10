@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 // This is disabled because the empty anchor tag is used for translation and will have content when rendered.
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
@@ -11,10 +11,7 @@ import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import {
-  selectInstructionSteps,
-  setCurrentStepPosition,
-} from "../../../../redux/InstructionsSlice";
+import { selectInstructionSteps } from "../../../../redux/InstructionsSlice";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
@@ -28,18 +25,11 @@ const InstructionsPanel = () => {
   );
   const project = useSelector((state) => state.editor?.project);
   const steps = useSelector(selectInstructionSteps);
-  const quiz = useSelector((state) => state.instructions?.quiz);
   const dispatch = useDispatch();
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
   const { t, i18n } = useTranslation();
-
-  const [isQuiz, setIsQuiz] = useState(false);
-
-  const quizCompleted = useMemo(() => {
-    return quiz?.currentQuestion === quiz?.questionCount;
-  }, [quiz]);
 
   const numberOfSteps = steps?.length || 0;
 
@@ -47,31 +37,7 @@ const InstructionsPanel = () => {
   const hasMultipleSteps = numberOfSteps > 1;
   const isScratchProject = project?.project_type === "code_editor_scratch";
 
-  const isQuizStep = isQuiz && !quizCompleted;
-  const currentStep = isQuizStep
-    ? { content: quiz.questions[quiz.currentQuestion] }
-    : steps[currentStepPosition];
-
-  useEffect(() => {
-    const stepIsQuizAndHasQuestions = () => {
-      return (
-        !quizCompleted &&
-        !!quiz?.questionCount &&
-        typeof steps[currentStepPosition]?.knowledgeQuiz === "string"
-      );
-    };
-    stepIsQuizAndHasQuestions() ? setIsQuiz(true) : setIsQuiz(false);
-  }, [quiz, steps, currentStepPosition, quizCompleted]);
-
-  useEffect(() => {
-    if (quizCompleted && isQuiz) {
-      dispatch(
-        setCurrentStepPosition(
-          Math.min(currentStepPosition + 1, numberOfSteps - 1),
-        ),
-      );
-    }
-  }, [quizCompleted, currentStepPosition, numberOfSteps, dispatch, isQuiz]);
+  const currentStep = steps[currentStepPosition];
 
   const addInstructions = () => {
     const translatedInstructions = populateMarkdownTemplate(
@@ -147,7 +113,6 @@ const InstructionsPanel = () => {
                   <InstructionsStep
                     className="project-instructions"
                     step={currentStep}
-                    isQuiz={isQuizStep}
                     isScratchProject={isScratchProject}
                     language={i18n.language}
                   />
@@ -184,7 +149,6 @@ const InstructionsPanel = () => {
             className="project-instructions__content"
             key="instruction-content"
             step={currentStep}
-            isQuiz={isQuizStep}
             isScratchProject={isScratchProject}
             language={i18n.language}
           />

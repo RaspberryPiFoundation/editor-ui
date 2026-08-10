@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { marked } from "marked";
 import Prism from "prismjs";
-import { quizReadyEvent } from "../../../../../events/WebComponentCustomEvents";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
 
 const markdownRenderer = new marked.Renderer();
@@ -35,7 +34,6 @@ const applySyntaxHighlighting = (container) => {
 const InstructionsStep = ({
   className,
   step,
-  isQuiz = false,
   isScratchProject = false,
   language,
 }) => {
@@ -68,10 +66,7 @@ const InstructionsStep = ({
     if (isScratchProject) {
       scratchblocksInit(language, stepContent.current);
     }
-    if (isQuiz) {
-      document.dispatchEvent(quizReadyEvent);
-    }
-  }, [step, isQuiz, isScratchProject, language]);
+  }, [step, isScratchProject, language]);
 
   return <div className={className} ref={stepContent} />;
 };

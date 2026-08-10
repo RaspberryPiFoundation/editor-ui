@@ -159,7 +159,6 @@ The web component communicates with the host page via the following custom event
 - `editor-stepChanged`: When the instructions step changes - event detail contains the new step position
 - `editor-logIn`: When the user requests to log in
 - `editor-signUp`: When the user requests to sign up
-- `editor-quizReady`: When the quiz is ready
 - `editor-themeUpdated`: When the theme changes to light/dark mode - event detail contains the new theme
 
 These events allow the host page to respond to requests or changes made in the editor, for example, handling login or displaying data about the owner of a project or the latest code run.
