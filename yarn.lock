@@ -4398,7 +4398,6 @@ __metadata:
     axios: "npm:^1.15.2"
     babel-eslint: "npm:^10.1.0"
     babel-jest: "npm:^29.1.2"
-    babel-plugin-prismjs: "npm:^2.1.0"
     babel-preset-react-app: "npm:^10.0.1"
     browserslist: "npm:^4.28.6"
     browserslist-to-esbuild: "npm:^2.1.1"
@@ -7044,15 +7043,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
   checksum: 10/150233571072b6b3dfe946242da39cba8587b7f908d1c006f7545fc88b0e3c3018d445739beb61e7a75835f0c2751dbe884a94ff9b245ec42369d9267e0e1b3f
-  languageName: node
-  linkType: hard
-
-"babel-plugin-prismjs@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "babel-plugin-prismjs@npm:2.1.0"
-  peerDependencies:
-    prismjs: ^1.18.0
-  checksum: 10/3536d5480d7d9898f2094ae40994c879dfdf602b7a3065d2848f4b1a48315a8e01fd32847050f6138a8a91fbaeb5017ebe89c5aef375d3c46d72a8cb02247d25
   languageName: node
   linkType: hard
 

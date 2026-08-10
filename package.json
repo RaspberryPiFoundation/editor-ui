@@ -110,7 +110,6 @@
     "@vitejs/plugin-react": "^6",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^29.1.2",
-    "babel-plugin-prismjs": "^2.1.0",
     "babel-preset-react-app": "^10.0.1",
     "browserslist": "^4.28.6",
     "browserslist-to-esbuild": "^2.1.1",
