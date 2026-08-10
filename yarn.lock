@@ -4443,7 +4443,6 @@ __metadata:
     jsdom: "npm:^29.1.1"
     jszip: "npm:^3.10.1"
     jszip-utils: "npm:^0.1.0"
-    marked: "npm:^15.0.6"
     mime-types: "npm:^2.1.35"
     mock-match-media: "npm:^0.4.3"
     node-html-parser: "npm:^6.1.5"
@@ -14957,15 +14956,6 @@ __metadata:
   peerDependencies:
     marked: ">=13 <19"
   checksum: 10/c653d2398f9602119ac8baf4bc7a251b11be916a6e0b5c1ecc0001f97ad80bcb01a3d07101ebd49d1ac9ffc891a72c7315388e44a1bef13d28da8f62c9665be2
-  languageName: node
-  linkType: hard
-
-"marked@npm:^15.0.6":
-  version: 15.0.6
-  resolution: "marked@npm:15.0.6"
-  bin:
-    marked: bin/marked.js
-  checksum: 10/81c6949655fa6bf0478ab73896cc4be8b7f8b5b755aa1fbfc7cbe3f936cda201dd94dddd09e842e57fffc099c72bef5fe49ec0fa5d7560ee81cc5240860094ce
   languageName: node
   linkType: hard
 
