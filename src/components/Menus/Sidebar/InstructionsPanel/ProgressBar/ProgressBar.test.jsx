@@ -43,6 +43,11 @@ describe("When on first step", () => {
   });
 });
 
+it("does not render progress bar when there is only 1 step", () => {
+  renderProgressBarOnStep(0, 1);
+  expect(screen.queryByRole("progressbar")).toBeNull();
+});
+
 describe("When on a middle step", () => {
   test("Progress bar renders with correct max and value", () => {
     renderProgressBarOnStep(1);
