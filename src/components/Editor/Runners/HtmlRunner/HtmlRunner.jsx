@@ -233,7 +233,7 @@ function HtmlRunner() {
               </Tab>
               {!!!isEmbedded && (
                 <a
-                  className="btn btn--tertiary htmlrunner-link"
+                  className="htmlrunner-link"
                   data-testid="html-runner-open-in-new-tab"
                   target="_blank"
                   href={`/${locale}/embed/viewer/${

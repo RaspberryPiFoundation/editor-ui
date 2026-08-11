@@ -1,5 +1,7 @@
-@use './rpf_design_system/colours' as *;
-@use './rpf_design_system/mixins' as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/font-weight" as *;
 
 .htmlrunner-container {
   container-type: inline-size;
@@ -8,9 +10,71 @@
   inline-size: 100%;
 }
 
+// Styled to look like a tertiary editor button. Inlined rather than shared with
+// Button.scss so this link can move to the design system Button independently.
+// The hover colours are literal here because the equivalent Button.scss values
+// come from `--rpf-button-*` custom properties scoped to `.btn`, which this
+// element does not have.
 a.htmlrunner-link {
+  align-items: center;
+  background-color: inherit;
+  border-radius: $space-0-5;
+  border: 3px solid transparent;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
   display: var(--editor-htmlrunner-link-display, inline-flex);
+  font-family: var(--wc-font-family-sans-serif);
+  font-size: inherit;
+  font-weight: $font-weight-bold;
+  gap: $space-0-5;
+  justify-content: center;
   margin-inline-start: auto;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+
+  svg {
+    fill: currentColor;
+  }
+
+  &:focus-visible {
+    background-color: inherit;
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+
+  &:active {
+    background-color: inherit;
+    color: $rpf-teal-900;
+
+    svg {
+      fill: $rpf-teal-900;
+    }
+  }
+
+  &:hover {
+    background-color: var(--tertiary-btn-hover-color, inherit);
+  }
+}
+
+.--light a.htmlrunner-link:hover {
+  color: $rpf-grey-600;
+
+  svg {
+    fill: $rpf-grey-600;
+  }
+}
+
+.--dark a.htmlrunner-link:hover {
+  color: $rpf-grey-200;
+
+  svg {
+    fill: $rpf-grey-200;
+  }
 }
 
 .htmlrunner-link__text {
