@@ -21,13 +21,14 @@ import {
   updateStepMarkdown,
 } from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
-import Button from "../../../Button/Button";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import RemoveInstructionStepModal from "../../../Modals/RemoveInstructionStepModal";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
+import BinIcon from "../../../../assets/icons/bin.svg";
 
 const InstructionsPanel = () => {
+  const [tabIndex, setTabIndex] = useState(0);
   const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
@@ -106,34 +107,17 @@ const InstructionsPanel = () => {
           : []
       }
       Footer={
-        hasMultipleSteps || (instructionsEditable && hasInstructions)
-          ? () => (
-              <>
-                <ProgressBar panelRef={panelRef} />
-                {instructionsEditable && (
-                  <div className="instructions-panel__step-actions">
-                    <Button
-                      buttonText={t("instructionsPanel.addStep")}
-                      title={t("instructionsPanel.addStep")}
-                      onClickHandler={addStep}
-                    />
-                    <Button
-                      buttonText={t("instructionsPanel.removeStep")}
-                      title={t("instructionsPanel.removeStep")}
-                      onClickHandler={() => setShowRemoveStepModal(true)}
-                    />
-                  </div>
-                )}
-              </>
-            )
-          : undefined
+        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
       }
     >
       <div className="project-instructions">
         {instructionsEditable ? (
           hasInstructions ? (
             <div className="c-instruction-tabs" key="instruction-tabs">
-              <Tabs>
+              <Tabs
+                selectedIndex={tabIndex}
+                onSelect={(index) => setTabIndex(index)}
+              >
                 <TabList>
                   <Tab>{t("instructionsPanel.edit")}</Tab>
                   <Tab>{t("instructionsPanel.view")}</Tab>
@@ -154,6 +138,25 @@ const InstructionsPanel = () => {
                   />
                 </TabPanel>
               </Tabs>
+              {tabIndex === 0 && (
+                <div className="instructions-panel__step-actions">
+                  <DesignSystemButton
+                    type="secondary"
+                    className="btn btn--secondary instructions-panel__add-step-button"
+                    text={t("instructionsPanel.addStep")}
+                    icon={<PlusIcon />}
+                    iconPosition="right"
+                    onClick={addStep}
+                  />
+                  <DesignSystemButton
+                    type="secondary"
+                    className="btn btn--secondary btn--danger instructions-panel__remove-step-button"
+                    title={t("instructionsPanel.removeStep")}
+                    icon={<BinIcon />}
+                    onClick={() => setShowRemoveStepModal(true)}
+                  />
+                </div>
+              )}
             </div>
           ) : (
             <div className="project-instructions__empty">

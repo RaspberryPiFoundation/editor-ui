@@ -113,7 +113,7 @@
       "markdown": "Instructions are written in <0>markdown</0>.",
       "purpose": "Instructions can be added to your project to guide students."
     },
-    "addStep": "Add step",
+    "addStep": "Add a step",
     "removeStep": "Remove step",
     "newStepDefaultContent": "## Step title",
     "nextStep": "Next step",
