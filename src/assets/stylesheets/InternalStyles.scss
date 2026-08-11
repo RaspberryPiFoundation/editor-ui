@@ -60,8 +60,8 @@
   --editor-color-text-secondary: var(--rpf-text-secondary);
   --editor-color-tab-background: var(--rpf-off-white);
 
-  --rpf-files-list-item-active: var(--rpf-navy-secondary-tertiary-active);
-  --rpf-files-list-item-hover: var(--rpf-navy-secondary-tertiary-hover);
+  --rpf-files-list-item-active: var(--editor-color-theme-tertiary);
+  --rpf-files-list-item-hover: var(--editor-color-theme-tertiary);
   --rpf-tab-button-hover: var(--rpf-grey-100);
   --rpf-tab-button-background: inherit;
   --rpf-tab-border-bottom-selected: var(--editor-color-theme-secondary);
@@ -90,8 +90,8 @@
   --editor-color-text: var(--rpf-white);
   --editor-color-text-secondary: var(--rpf-text-secondary-darkmode);
 
-  --rpf-files-list-item-active: var(--rpf-grey-secondary-tertiary-active);
-  --rpf-files-list-item-hover: var(--rpf-grey-secondary-tertiary-hover);
+  --rpf-files-list-item-active: var(--editor-color-layer-2);
+  --rpf-files-list-item-hover: var(--editor-color-layer-2);
   --rpf-tab-button-hover: var(--rpf-grey-900);
   --rpf-tab-button-background: var(--editor-color-layer-2);
   --rpf-tab-border-bottom-selected: var(--editor-color-theme);
