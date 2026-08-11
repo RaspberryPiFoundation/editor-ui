@@ -37,7 +37,7 @@
 }
 
 .step-counter {
-  display: var(--display-step-counter, none);
+  display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
