@@ -235,8 +235,10 @@ describe("When instructionsEditable is true", () => {
       }));
     });
 
-    test("Renders the progress bar and step actions even with a single step", () => {
-      expect(screen.getByRole("progressbar")).toBeInTheDocument();
+    test("Renders the step counter and step actions even with a single step", () => {
+      expect(
+        screen.getByText("instructionsPanel.stepCounter"),
+      ).toBeInTheDocument();
       expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
       expect(
         screen.getByTitle("instructionsPanel.removeStep"),
