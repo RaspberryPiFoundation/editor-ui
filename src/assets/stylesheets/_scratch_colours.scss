@@ -1,5 +1,21 @@
 // Scratch block category colours, sourced from
 // @RaspberryPiFoundation/scratch-gui's src/lib/settings/color-mode/*/index.js
+
+// scratchblocks names its categories differently to scratch-gui, so map the
+// `code.block3<key>` class it emits onto the `--scratch-<value>-primary` var.
+$scratch-block-categories: (
+  "control": "control",
+  "events": "events",
+  "extensions": "pen",
+  "looks": "looks",
+  "motion": "motion",
+  "myblocks": "more",
+  "operators": "operators",
+  "sensing": "sensing",
+  "sound": "sounds",
+  "variables": "data",
+);
+
 .project-instructions {
   --scratch-motion-primary: #4c97ff;
   --scratch-looks-primary: #9966ff;

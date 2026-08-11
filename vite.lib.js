@@ -56,26 +56,7 @@ const resolveViteBase = (mode, env) => {
 };
 
 const editorVitePlugins = (react, svgr, nodePolyfills) => [
-  react({
-    babel: {
-      plugins: [
-        [
-          "prismjs",
-          {
-            languages: ["javascript", "css", "python", "html"],
-            plugins: [
-              "line-numbers",
-              "line-highlight",
-              "highlight-keywords",
-              "normalize-whitespace",
-            ],
-            theme: "twilight",
-            css: true,
-          },
-        ],
-      ],
-    },
-  }),
+  react(),
   svgr({
     include: "**/src/assets/icons/**/*.svg",
     svgrOptions: { exportType: "default" },
