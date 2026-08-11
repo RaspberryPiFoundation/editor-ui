@@ -42,24 +42,17 @@
 
 .project-name__button {
   margin: $space-0-5;
-  inline-size: 48px !important;
-  block-size: 48px !important;
-  padding: 0 !important;
   // Keeps .rpf-button::before (z-index: -1) scoped to this button, not an ancestor
   isolation: isolate;
+
+  // The design system only wraps *string* icons in .rpf-button__icon, so our
+  // element icon gets none of its sizing or centring - do both here.
+  justify-content: center;
 
   svg {
     block-size: $space-1-5;
     inline-size: $space-1-5;
     margin: 0;
-  }
-
-  &--editing {
-    border: none !important;
-
-    svg {
-      fill: $rpf-white !important;
-    }
   }
 }
 
