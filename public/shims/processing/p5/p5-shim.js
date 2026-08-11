@@ -1510,47 +1510,76 @@ const $builtinmodule = function (name) {
         Sk.builtin.str("py5_imported"),
       ].includes(mod.__name__);
 
+      // p5 runs preload/setup/draw asynchronously, so an uncaught exception
+      // there escapes to window.onerror. Catching it isn't enough on its own:
+      // p5 would treat the callback as successful and carry on into the draw
+      // loop, and VisualOutputPane only stops the sketch once a canvas exists -
+      // so a failure before then would keep looping. Surface the error and stop
+      // the loop here, and skip the remaining callbacks.
+      let sketchStopped = false;
+      const stopOnError = (e) => {
+        sketchStopped = true;
+        mod.pInst?.noLoop();
+        Sk.uncaughtException(e);
+      };
+
       sketch.preload = function () {
         if (Sk.globals["preload"] && !isPy5Version) {
-          Sk.misceval.callsimArray(Sk.globals["preload"]);
+          try {
+            Sk.misceval.callsimArray(Sk.globals["preload"]);
+          } catch (e) {
+            stopOnError(e);
+          }
         }
       };
 
       sketch.setup = function () {
-        if (Sk.globals["settings"] && isPy5Version) {
-          Sk.misceval.callsimArray(Sk.globals["settings"]);
+        if (sketchStopped) {
+          return;
         }
-        if (Sk.globals["setup"]) {
-          Sk.misceval.callsimArray(Sk.globals["setup"]);
+        try {
+          if (Sk.globals["settings"] && isPy5Version) {
+            Sk.misceval.callsimArray(Sk.globals["settings"]);
+          }
+          if (Sk.globals["setup"]) {
+            Sk.misceval.callsimArray(Sk.globals["setup"]);
 
-          for (const cb of Object.keys(callBacks)) {
-            if (Sk.globals[cb]) {
-              sketch[callBacks[cb]] = new Function(
-                "try {Sk.misceval.callsimArray(Sk.globals['" +
-                  cb +
-                  "']);} catch(e) {Sk.uncaughtException(e);}",
-              );
+            for (const cb of Object.keys(callBacks)) {
+              if (Sk.globals[cb]) {
+                sketch[callBacks[cb]] = new Function(
+                  "try {Sk.misceval.callsimArray(Sk.globals['" +
+                    cb +
+                    "']);} catch(e) {Sk.uncaughtException(e);}",
+                );
+              }
             }
           }
+        } catch (e) {
+          stopOnError(e);
         }
       };
 
       mod.pInst.frameRate(frame_rate.v);
 
       sketch.draw = function () {
-        mod.pInst.scale(scaleFactor, scaleFactor);
-        if (mod.__name__ === Sk.builtin.str("py5")) {
-          mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
-        } else {
-          Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
+        if (sketchStopped) {
+          return;
         }
-
-        if (Sk.globals["draw"]) {
-          try {
-            Sk.misceval.callsimArray(Sk.globals["draw"]);
-          } catch (e) {
-            Sk.uncaughtException(e);
+        // Wrap the whole body (not just the user draw() call) - draw runs every
+        // frame and any exception would otherwise escape to window.onerror.
+        try {
+          mod.pInst.scale(scaleFactor, scaleFactor);
+          if (mod.__name__ === Sk.builtin.str("py5")) {
+            mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
+          } else {
+            Sk.builtins.frame_count = new Sk.builtin.int_(sketch.frameCount);
           }
+
+          if (Sk.globals["draw"]) {
+            Sk.misceval.callsimArray(Sk.globals["draw"]);
+          }
+        } catch (e) {
+          stopOnError(e);
         }
       };
 

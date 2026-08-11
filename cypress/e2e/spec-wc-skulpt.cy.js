@@ -60,6 +60,29 @@ describe("Running the code with skulpt", () => {
     getP5Canvas().should("exist");
   });
 
+  it("shows an error and stops the sketch when a p5 preload raises", () => {
+    // preload/setup run before any canvas exists, so VisualOutputPane can't
+    // stop the sketch. The shim must stop it, otherwise p5 treats the callback
+    // as successful and carries on into setup/draw - here draw() would print,
+    // which is asserted never to happen.
+    runCode(
+      "from p5 import *\n\ndef preload():\n\traise ValueError('boom in preload')\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tprint('draw ran')\nrun(frame_rate=2)",
+    );
+
+    getErrorMessage().should("contain.text", "ValueError: boom in preload");
+    getSkulptRunner().should("not.contain", "draw ran");
+  });
+
+  it("shows an error message when a p5 sketch raises in draw", () => {
+    // draw() runs every frame via requestAnimationFrame; the shim routes its
+    // errors to the editor rather than window.onerror.
+    runCode(
+      "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\traise ValueError('boom in draw')\nrun(frame_rate=2)",
+    );
+
+    getErrorMessage().should("contain.text", "ValueError: boom in draw");
+  });
+
   it("runs a simple py5 program", () => {
     runCode(
       "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",

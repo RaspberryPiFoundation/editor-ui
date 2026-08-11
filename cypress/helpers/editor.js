@@ -93,7 +93,11 @@ const dragHandle = (getHandle, { deltaX = 0, deltaY = 0 }) => {
     const clientX = left + width / 2;
     const clientY = top + height / 2;
 
-    cy.wrap($handle).trigger("mousedown", { button: 0, clientX, clientY });
+    // Re-query the handle instead of reusing $handle. If the app re-renders
+    // while trigger() is waiting for the element to become actionable, a
+    // wrapped element is detached for good and trigger() burns its full
+    // timeout; a query chain retries against the current element.
+    getHandle().trigger("mousedown", { button: 0, clientX, clientY });
 
     getHandle()
       .parent("div")
@@ -125,6 +129,14 @@ export const openFilePanel = () =>
 
 export const loadPythonStarterProject = () => {
   cy.findByText("blank-python-starter").click();
+
+  // web-component.html fetches the project JSON, then throws away the current
+  // <editor-wc> and prepends a brand new one. The component being replaced
+  // already has a visible Run button, so waiting on that alone can resolve
+  // against the doomed component and leave the test holding elements that
+  // detach part-way through. Only the replacement publishes an identifier.
+  cy.get("#project-identifier").should("have.text", "blank-python-starter");
+
   getEditorShadow().findByRole("button", { name: /run/i }).should("be.visible");
 };
 

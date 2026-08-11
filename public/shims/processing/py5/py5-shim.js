@@ -1473,33 +1473,55 @@ const $builtinmodule = function (name) {
 
       mod.pInst = sketch;
 
-      sketch.setup = function () {
-        if (Sk.globals["settings"]) {
-          Sk.misceval.callsimArray(Sk.globals["settings"]);
-        }
-        if (Sk.globals["setup"]) {
-          Sk.misceval.callsimArray(Sk.globals["setup"]);
+      // p5 runs settings/setup/draw asynchronously, so an uncaught exception
+      // there escapes to window.onerror. Catching it isn't enough on its own:
+      // p5 would treat the callback as successful and carry on into the draw
+      // loop, and VisualOutputPane only stops the sketch once a canvas exists -
+      // so a failure before then would keep looping. Surface the error and stop
+      // the loop here, and skip the remaining callbacks.
+      let sketchStopped = false;
+      const stopOnError = (e) => {
+        sketchStopped = true;
+        mod.pInst?.noLoop();
+        Sk.uncaughtException(e);
+      };
 
-          for (const cb of Object.keys(callBacks)) {
-            if (Sk.globals[cb]) {
-              sketch[callBacks[cb]] = new Function(
-                "try {Sk.misceval.callsimArray(Sk.globals['" +
-                  cb +
-                  "']);} catch(e) {Sk.uncaughtException(e);}",
-              );
+      sketch.setup = function () {
+        try {
+          if (Sk.globals["settings"]) {
+            Sk.misceval.callsimArray(Sk.globals["settings"]);
+          }
+          if (Sk.globals["setup"]) {
+            Sk.misceval.callsimArray(Sk.globals["setup"]);
+
+            for (const cb of Object.keys(callBacks)) {
+              if (Sk.globals[cb]) {
+                sketch[callBacks[cb]] = new Function(
+                  "try {Sk.misceval.callsimArray(Sk.globals['" +
+                    cb +
+                    "']);} catch(e) {Sk.uncaughtException(e);}",
+                );
+              }
             }
           }
+        } catch (e) {
+          stopOnError(e);
         }
       };
 
       sketch.draw = function () {
-        mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
-        if (Sk.globals["draw"]) {
-          try {
+        if (sketchStopped) {
+          return;
+        }
+        // Wrap the whole body (not just the user draw() call) - draw runs every
+        // frame and any exception would otherwise escape to window.onerror.
+        try {
+          mod.frame_count = new Sk.builtin.int_(sketch.frameCount);
+          if (Sk.globals["draw"]) {
             Sk.misceval.callsimArray(Sk.globals["draw"]);
-          } catch (e) {
-            Sk.uncaughtException(e);
           }
+        } catch (e) {
+          stopOnError(e);
         }
       };
 

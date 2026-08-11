@@ -396,6 +396,77 @@ describe("When an error originates in the sense_hat shim", () => {
   });
 });
 
+describe("When native code called from Python throws a plain JS error (e.g. the p5/py5 shims), rather than a Skulpt exception", () => {
+  let store;
+  let asyncToPromiseSpy;
+
+  beforeEach(() => {
+    asyncToPromiseSpy = jest
+      .spyOn(Sk.misceval, "asyncToPromise")
+      .mockReturnValue(
+        Promise.reject(
+          new TypeError("Cannot read properties of undefined (reading 'foo')"),
+        ),
+      );
+
+    const middlewares = [];
+    const mockStore = configureMockStore(middlewares);
+    const initialState = {
+      editor: {
+        project: {
+          components: [
+            {
+              name: "main",
+              extension: "py",
+              content: "import py5",
+            },
+          ],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: {
+        user,
+      },
+    };
+    store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+  });
+
+  afterEach(() => {
+    asyncToPromiseSpy.mockRestore();
+  });
+
+  test("falls back to the native error message instead of throwing", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setError(
+          "TypeError: Cannot read properties of undefined (reading 'foo')",
+        ),
+      ]),
+    );
+  });
+
+  test("sets errorDetails using the native error type and message", () => {
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        setErrorDetails({
+          type: "TypeError",
+          line: undefined,
+          file: undefined,
+          description: "Cannot read properties of undefined (reading 'foo')",
+          message:
+            "TypeError: Cannot read properties of undefined (reading 'foo')",
+        }),
+      ]),
+    );
+  });
+});
+
 describe("When an error has occurred", () => {
   let mockStore;
   let store;
