@@ -11,8 +11,8 @@ import "../../assets/stylesheets/DesignSystemButton.scss?inline";
 const DesignSystemButton = ({ className, fill = false, ...props }) => (
   <Button
     className={classNames("buttonWrapper", className, {
-      "rpf-button--fill": fill,
-      "rpf-button--fit": !fill,
+      "rpf-button--fill": fill && !props.iconOnly,
+      "rpf-button--fit": !fill && !props.iconOnly,
     })}
     {...props}
   />

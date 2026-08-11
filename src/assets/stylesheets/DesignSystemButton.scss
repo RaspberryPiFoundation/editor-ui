@@ -24,6 +24,12 @@
     align-items: center;
   }
 
+  // The design system only wraps *string* icons in .rpf-button__icon, so an
+  // element icon is a bare flex child and misses its `margin: 0 auto` centring.
+  &.rpf-button--icon-only {
+    justify-content: center;
+  }
+
   .rpf-button__icon {
     display: flex;
   }
