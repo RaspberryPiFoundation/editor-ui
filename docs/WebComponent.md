@@ -6,6 +6,15 @@ There are custom Vite config files for the component: `vite.config.js` builds `w
 
 In `web-component.html` (project root) the JavaScript output is added and the web-component mounted. Then viewing `http://localhost:3011/web-component.html` will load the page with the web component mounted.
 
+## Host integration
+
+For apps embedding `<editor-wc>`, see [docs/host-integration](host-integration/README.md):
+
+- [Sidebar plugins](host-integration/SidebarPlugins.md) - register a host-owned sidebar panel via `setSidebarPlugins`
+- [Autosave flush before navigation](host-integration/AutosaveFlush.md) - `shouldFlushBeforeNavigation` and `flushPendingAutoSave`
+
+Mounting, attributes, events, and styling are covered in the [README](../README.md#usage). Design notes from the feedback-panel investigation live under [host-integration/design-notes/feedback-panel-investigation.md](host-integration/design-notes/feedback-panel-investigation.md).
+
 ## WebComponent Class
 
 `src/web-component.jsx` defines the Web Component and mounts the React components and store.

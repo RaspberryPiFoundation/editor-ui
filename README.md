@@ -172,8 +172,12 @@ The host page is able to communicate with the web component via custom methods p
 - `rerunCode`: stops the current code run and starts another code run in the editor
 - `stopCode`: stops the current code run
 - `codeChangedSinceInitialLoad`: getter that returns whether the current project files differ from the initial load by file count, name, extension, or content.
+- `setSidebarPlugins(plugins)` / `sidebarPlugins`: register host-owned sidebar panels (see [Sidebar plugins](./docs/host-integration/SidebarPlugins.md))
+- `shouldFlushBeforeNavigation` / `flushPendingAutoSave()` / `hasPendingAutoSave`: ask whether a save is needed before leave, and force-flush pending autosave (see [Autosave flush](./docs/host-integration/AutosaveFlush.md))
 
 This allows the host page to query the current code in the editor and to control code runs from outside the web component, for example.
+
+Deeper host guides live under [docs/host-integration](./docs/host-integration/README.md).
 
 ### Offline support
 
