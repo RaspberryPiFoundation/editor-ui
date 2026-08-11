@@ -33,7 +33,6 @@ import internalStyles from "../assets/stylesheets/InternalStyles.scss?inline";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss?inline";
 import editorStyles from "../assets/stylesheets/index.scss?inline";
 import "../assets/stylesheets/Notifications.scss?inline";
-import Style from "style-it";
 import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
