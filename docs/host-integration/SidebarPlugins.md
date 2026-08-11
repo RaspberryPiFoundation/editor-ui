@@ -245,6 +245,10 @@ function FeedbackSidebar({ children }) {
       if (editor.shadowRoot) start();
       else {
         const id = setInterval(() => {
+          if (cancelled) {
+            clearInterval(id);
+            return;
+          }
           if (editor.shadowRoot) {
             clearInterval(id);
             start();
