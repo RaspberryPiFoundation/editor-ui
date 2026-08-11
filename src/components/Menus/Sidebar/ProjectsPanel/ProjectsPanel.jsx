@@ -41,9 +41,10 @@ const ProjectsPanel = () => {
     ? [
         <DesignSystemButton
           key="your-projects"
-          className="btn--primary projects-panel__your-projects-button"
+          className="projects-panel__your-projects-button"
           onClick={navigateToProjectsPage}
           text={t("projectsPanel.yourProjectsButton")}
+          type="primary"
           textAlways
           fill
         />,
@@ -65,7 +66,7 @@ const ProjectsPanel = () => {
       <div className="projects-panel__button">
         <DownloadButton
           buttonText={t("header.download")}
-          className="btn btn--secondary projects-panel__download-button"
+          className="projects-panel__download-button"
           Icon={DownloadIcon}
         />
       </div>

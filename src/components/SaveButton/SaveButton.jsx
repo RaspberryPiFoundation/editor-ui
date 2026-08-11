@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import classNames from "classnames";
 
 import { logInEvent } from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
@@ -48,11 +47,7 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   return (
     <DesignSystemButton
-      className={classNames(className, {
-        "btn--primary": buttonType === "primary",
-        "btn--secondary": buttonType === "secondary",
-        "btn--tertiary": buttonType === "tertiary",
-      })}
+      className={className}
       onClick={onClickSave}
       text={t(user ? "header.save" : "header.loginToSave")}
       textAlways

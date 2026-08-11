@@ -5,7 +5,7 @@ import CloseIcon from "./CloseIcon";
 const ToastCloseButton = ({ closeToast }) => {
   return (
     <Button
-      className="btn btn--tertiary"
+      className="btn--tertiary"
       onClickHandler={closeToast}
       ButtonIcon={() => <CloseIcon scaleFactor={0.75} />}
     />

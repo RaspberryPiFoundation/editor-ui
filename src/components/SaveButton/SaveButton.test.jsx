@@ -180,7 +180,7 @@ describe("When project is loaded", () => {
 
     test("Renders a secondary button", () => {
       const saveButton = screen.queryByText("header.loginToSave").parentElement;
-      expect(saveButton).toHaveClass("btn--secondary");
+      expect(saveButton).toHaveClass("rpf-button--secondary");
     });
   });
 
@@ -207,7 +207,7 @@ describe("When project is loaded", () => {
 
     test("Renders a primary button", () => {
       const saveButton = screen.queryByText("header.loginToSave").parentElement;
-      expect(saveButton).toHaveClass("btn--primary");
+      expect(saveButton).toHaveClass("rpf-button--primary");
     });
   });
 

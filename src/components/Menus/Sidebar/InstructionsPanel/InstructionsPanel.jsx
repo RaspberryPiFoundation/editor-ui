@@ -68,8 +68,8 @@ const InstructionsPanel = () => {
           ? hasInstructions
             ? [
                 <DesignSystemButton
-                  className="btn--secondary"
                   text={t("instructionsPanel.removeInstructions")}
+                  type="secondary"
                   onClick={() => setShowModal(true)}
                   fill={true}
                   textAlways={true}
@@ -78,7 +78,7 @@ const InstructionsPanel = () => {
               ]
             : [
                 <DesignSystemButton
-                  className="btn--primary"
+                  type="primary"
                   icon={<PlusIcon />}
                   text={t("instructionsPanel.emptyState.addInstructions")}
                   onClick={addInstructions}

@@ -68,7 +68,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
           <div className="project-bar__btn-wrapper">
             <UploadButton
               buttonText={t("header.upload")}
-              className="btn btn--tertiary project-bar__btn"
+              className="project-bar__btn"
               Icon={UploadIcon}
               type="tertiary"
             />
@@ -77,7 +77,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
         <div className="project-bar__btn-wrapper">
           <DownloadButton
             buttonText={t("header.download")}
-            className="btn btn--tertiary project-bar__btn"
+            className="project-bar__btn"
             Icon={DownloadIcon}
             type="tertiary"
           />
@@ -85,7 +85,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
         {showSaveButton && (
           <div className="project-bar__btn-wrapper">
             <DesignSystemButton
-              className="project-bar__btn btn--save btn--primary"
+              className="project-bar__btn btn--save"
               onClick={() => saveScratchProject({ shouldRemixOnSave })}
               text={t("header.save")}
               textAlways

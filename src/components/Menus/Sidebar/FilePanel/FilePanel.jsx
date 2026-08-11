@@ -53,8 +53,8 @@ const FilePanel = ({ isMobile }) => {
     : [
         <Button
           key="new-file"
-          className="btn btn--primary"
           text={t("filePanel.newFileButton")}
+          type="primary"
           textAlways={true}
           icon={<PlusIcon />}
           iconPosition="right"
