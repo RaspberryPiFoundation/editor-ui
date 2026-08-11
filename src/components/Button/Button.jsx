@@ -4,6 +4,7 @@ import "react-confirm-alert/src/react-confirm-alert.css?inline";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
+import "../../assets/stylesheets/Button.scss?inline";
 import { useTranslation } from "react-i18next";
 
 const Button = (props) => {

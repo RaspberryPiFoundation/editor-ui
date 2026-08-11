@@ -1,0 +1,361 @@
+@use "./rpf_design_system/spacing" as *;
+@use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/font-weight" as *;
+
+// Everything here is scoped to `.btn`, which only Button.jsx applies. The
+// variant selectors are written as `&.btn--primary` (compiling to
+// `.btn.btn--primary`) rather than `&--primary` (`.btn--primary`) on purpose:
+// several call sites still hand `btn--*` class names to design system buttons,
+// and a standalone `.btn--*` selector would override the design system's own
+// styling for them.
+
+.btn {
+  align-items: center;
+  border-radius: $space-0-5;
+  border: 3px solid transparent;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--wc-font-family-sans-serif);
+  font-size: inherit;
+  font-weight: $font-weight-bold;
+  gap: $space-0-5;
+  justify-content: center;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+
+  &:disabled {
+    background-color: $rpf-grey-600;
+    color: $rpf-white;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    border: 3px solid $rpf-brand-raspberry;
+    outline: none;
+  }
+
+  &.btn--primary {
+    background-color: var(--rpf-button-primary-background-color);
+    border-radius: var(--rpf-primary-button-radius, $space-0-5);
+
+    color: var(--rpf-button-primary-text-color);
+
+    svg {
+      fill: var(--rpf-button-primary-text-color);
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: var(--rpf-button-primary-background-color-active);
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: var(--rpf-button-primary-background-color-focus);
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: var(--rpf-button-primary-background-color-hover);
+      border-radius: var(--rpf-primary-button-radius, $space-0-5);
+    }
+
+    &:disabled {
+      background-color: var(--rpf-button-primary-background-color-disabled);
+      color: var(--rpf-button-primary-color-disabled);
+
+      svg {
+        fill: var(--rpf-button-primary-color-disabled);
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: var(--rpf-button-primary-background-color-disabled);
+      }
+    }
+  }
+
+  &.btn--secondary {
+    background-color: inherit;
+    border-radius: var(--rpf-secondary-button-radius, $space-0-5);
+
+    color: var(--rpf-button-secondary-text-color);
+
+    svg {
+      fill: currentColor;
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: inherit;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: inherit;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: inherit;
+    }
+
+    &:disabled {
+      background-color: var(--rpf-button-secondary-background-color-disabled);
+      color: var(--rpf-button-secondary-background-color-active);
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: var(--rpf-button-secondary-background-color-disabled);
+      }
+    }
+
+    border: 2px solid var(--rpf-button-primary-background-color);
+
+    &:active {
+      border: 2px solid var(--rpf-button-secondary-background-color-active);
+    }
+
+    &:hover {
+      background-color: var(--rpf-button-secondary-background-color-hover);
+      color: var(--rpf-button-secondary-text-color-hover);
+      border-color: var(--rpf-button-secondary-border-color-hover) !important;
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--rpf-button-secondary-background-color-focus);
+    }
+  }
+
+  &.btn--tertiary {
+    background-color: inherit;
+
+    color: inherit;
+
+    &:active,
+    .btn-outer:active & {
+      background-color: inherit;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: inherit;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: var(--tertiary-btn-hover-color, inherit);
+    }
+
+    &:disabled {
+      background-color: inherit;
+      color: $rpf-grey-600;
+
+      svg {
+        fill: $rpf-grey-600;
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: inherit;
+      }
+    }
+
+    &:active {
+      color: $rpf-teal-900;
+
+      svg {
+        fill: $rpf-teal-900;
+      }
+    }
+
+    &:hover {
+      color: var(--rpf-button-tertiary-text-color-hover);
+
+      svg {
+        fill: var(--rpf-button-tertiary-text-color-hover);
+      }
+    }
+  }
+
+  &.btn--danger {
+    background-color: $rpf-alert-error;
+
+    color: $rpf-white;
+
+    svg {
+      fill: $rpf-white;
+    }
+
+    &:active,
+    .btn-outer:active & {
+      background-color: $rpf-alert-error;
+    }
+
+    &:focus-visible,
+    .btn-outer:focus-visible & {
+      background-color: $rpf-alert-error;
+    }
+
+    &:hover,
+    .btn-outer:hover & {
+      background-color: $rpf-alerts-error-tint;
+    }
+
+    &:disabled {
+      background-color: $rpf-alert-error;
+      color: $rpf-white;
+
+      svg {
+        fill: $rpf-white;
+      }
+
+      &:hover,
+      .btn-outer:hover & {
+        background-color: $rpf-alert-error;
+      }
+    }
+
+    &:focus-visible {
+      background-clip: padding-box;
+      border: 2px solid transparent;
+      outline: 3px solid $rpf-brand-raspberry;
+    }
+
+    &.btn--tertiary {
+      background-color: inherit;
+      color: var(--rpf-button-tertiary-danger-text-color);
+
+      svg {
+        fill: var(--rpf-button-tertiary-danger-text-color);
+      }
+
+      &:hover {
+        background-color: var(
+          --rpf-button-tertiary-danger-background-color-hover
+        );
+      }
+
+      &:active {
+        background-color: var(
+          --rpf-button-tertiary-danger-background-color-active
+        );
+      }
+    }
+  }
+
+  &.btn--small {
+    min-block-size: unset;
+    min-inline-size: unset;
+    padding: $space-0-25;
+  }
+
+  &.btn--svg-only {
+    svg {
+      margin: 0;
+    }
+  }
+}
+
+.btn-outer {
+  background: transparent;
+  border-radius: $space-0-5;
+  cursor: pointer;
+  padding: $space-0-5 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus-visible {
+    outline: none;
+
+    .btn {
+      border: 3px solid $rpf-brand-raspberry;
+    }
+  }
+
+  &:has(.btn:disabled) {
+    cursor: default;
+  }
+}
+
+// Editor Button palette.
+// Despite the `rpf-` prefix these properties are ours, not the design system's
+// — it reads `--rpf-button-background-color` and friends, with no
+// primary/secondary infix, a completely disjoint set. Nothing outside this
+// stylesheet consumes them.
+// They live here rather than in InternalStyles.scss so the whole layer, both
+// selectors and tokens, is deleted in one go when the Editor Button is retired.
+// This mirrors DesignSystemButton.scss, which keeps its own `.--light` /
+// `.--dark` blocks alongside its rules.
+
+.--light .btn {
+  // Primary
+  --rpf-button-primary-background-color: var(--editor-color-theme);
+  --rpf-button-primary-background-color-focus: var(--editor-color-theme);
+  --rpf-button-primary-background-color-hover: var(
+    --editor-color-theme-secondary
+  );
+  --rpf-button-primary-background-color-active: var(--rpf-navy-600);
+  --rpf-button-primary-background-color-disabled: var(--rpf-navy-200);
+  --rpf-button-primary-color-disabled: var(--rpf-grey-600);
+  --rpf-button-primary-text-color: var(--rpf-white);
+
+  // Secondary
+  --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+  --rpf-button-secondary-background-color-hover: var(
+    --editor-color-theme-tertiary
+  );
+  --rpf-button-secondary-background-color-active: var(
+    --editor-color-theme-secondary
+  );
+  --rpf-button-secondary-background-color-disabled: var(--rpf-grey-50);
+  --rpf-button-secondary-border-color-hover: var(
+    --editor-color-theme-secondary
+  );
+  --rpf-button-secondary-text-color: var(--editor-color-theme);
+  --rpf-button-secondary-text-color-hover: var(--editor-color-theme);
+
+  // Tertiary
+  --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+  --rpf-button-tertiary-danger-text-color: var(--rpf-alert-error);
+  --rpf-button-tertiary-danger-background-color-hover: rgba(0, 0, 0, 0.03);
+  --rpf-button-tertiary-danger-background-color-active: rgba(0, 0, 0, 0.05);
+}
+
+.--dark .btn {
+  // Primary
+  --rpf-button-primary-background-color: var(--editor-color-theme);
+  --rpf-button-primary-background-color-focus: var(--editor-color-theme);
+  --rpf-button-primary-background-color-hover: var(--rpf-navy-600);
+  --rpf-button-primary-background-color-active: var(--rpf-navy-200);
+  --rpf-button-primary-background-color-disabled: var(--rpf-grey-200);
+  --rpf-button-primary-color-disabled: var(--editor-color-layer-3);
+  --rpf-button-primary-text-color: var(--rpf-black);
+
+  // Secondary
+  --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+  --rpf-button-secondary-background-color-hover: var(--editor-color-outline);
+  --rpf-button-secondary-background-color-active: var(--rpf-navy-200);
+  --rpf-button-secondary-background-color-disabled: var(--editor-color-layer-3);
+  --rpf-button-secondary-border-color-hover: var(--editor-color-theme);
+  --rpf-button-secondary-text-color: var(--rpf-white);
+  --rpf-button-secondary-text-color-hover: var(--rpf-white);
+
+  // Tertiary
+  --rpf-button-tertiary-text-color-hover: var(--rpf-grey-200);
+  --rpf-button-tertiary-danger-text-color: var(--rpf-red-600);
+  --rpf-button-tertiary-danger-background-color-hover: rgba(255, 255, 255, 0.1);
+  --rpf-button-tertiary-danger-background-color-active: rgba(
+    255,
+    255,
+    255,
+    0.15
+  );
+}
