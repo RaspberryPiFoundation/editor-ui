@@ -1,6 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentStepPosition } from "../../../../../redux/InstructionsSlice";
+import {
+  selectInstructionSteps,
+  setCurrentStepPosition,
+} from "../../../../../redux/InstructionsSlice";
 import ChevronLeft from "../../../../../assets/icons/chevron_left.svg";
 import ChevronRight from "../../../../../assets/icons/chevron_right.svg";
 import Button from "../../../../Button/Button";
@@ -10,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 const ProgressBar = ({ panelRef }) => {
   const numberOfSteps = useSelector(
-    (state) => state.instructions.project.steps.length,
+    (state) => selectInstructionSteps(state).length,
   );
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,

@@ -17,6 +17,7 @@ const renderProgressBarOnStep = (
   }));
 
   const initialState = {
+    editor: { project: {} },
     instructions: {
       project: {
         steps,

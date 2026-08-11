@@ -35,9 +35,7 @@ let store;
 
 const renderWebComponentProject = ({
   projectType,
-  instructions,
   imageList = [],
-  permitOverride = true,
   loading,
   codeRunTriggered = false,
   codeHasBeenRun = false,
@@ -57,7 +55,6 @@ const renderWebComponentProject = ({
           { name: "main", extension: "py", content: "print('hello')" },
         ],
         image_list: imageList,
-        instructions,
       },
       loading,
       openFiles: [],
@@ -70,7 +67,7 @@ const renderWebComponentProject = ({
     },
     instructions: {
       currentStepPosition: 3,
-      permitOverride,
+      permitOverride: true,
     },
     auth: {},
   };
@@ -88,7 +85,6 @@ describe("When state set", () => {
     runStartedHandler.mockClear();
     renderWebComponentProject({
       projectType: "python",
-      instructions: "My amazing instructions",
       codeRunTriggered: true,
     });
     flushRunEventDebounce();
@@ -129,28 +125,6 @@ describe("When state set", () => {
   test("Defaults to not showing the projectbar", () => {
     expect(screen.queryByText("header.newProject")).not.toBeInTheDocument();
   });
-
-  test("Dispatches action to set instructions", () => {
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([
-        {
-          type: "instructions/setInstructions",
-          payload: {
-            permitOverride: true,
-            project: {
-              steps: [
-                {
-                  title: "",
-                  content: "<p>My amazing instructions</p>\n",
-                  quiz: false,
-                },
-              ],
-            },
-          },
-        },
-      ]),
-    );
-  });
 });
 
 describe("When project type is scratch", () => {
@@ -162,100 +136,6 @@ describe("When project type is scratch", () => {
 
   test("Renders a blank screen", () => {
     expect(screen.queryByText("output.textOutput")).not.toBeInTheDocument();
-  });
-});
-
-describe("When there are instructions", () => {
-  beforeEach(() => {
-    renderWebComponentProject({
-      instructions: "[Link](https://example.com)",
-      codeRunTriggered: true,
-    });
-  });
-
-  test("Renders a tag with target _blank", () => {
-    const instructions = store
-      .getActions()
-      .find((e) => e.type === "instructions/setInstructions");
-
-    const content = instructions.payload.project.steps[0].content;
-
-    expect(content).toEqual(
-      '<p><a href="https://example.com" target="_blank" rel="noreferrer"\n    }">Link</a></p>\n',
-    );
-  });
-});
-
-describe("When instructions are an empty string", () => {
-  beforeEach(() => {
-    renderWebComponentProject({
-      instructions: "",
-      codeRunTriggered: true,
-    });
-  });
-
-  test("Dispatches action to set instructions", () => {
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([
-        {
-          type: "instructions/setInstructions",
-          payload: {
-            permitOverride: true,
-            project: {
-              steps: [
-                {
-                  title: "",
-                  content: "",
-                  quiz: false,
-                },
-              ],
-            },
-          },
-        },
-      ]),
-    );
-  });
-});
-
-describe("When there are no instructions", () => {
-  beforeEach(() => {
-    renderWebComponentProject({});
-  });
-
-  test("Does not dispatch action to set instructions", () => {
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([
-        {
-          type: "instructions/setInstructions",
-          payload: {
-            permitOverride: true,
-            project: {
-              steps: [],
-            },
-          },
-        },
-      ]),
-    );
-  });
-});
-
-describe("When overriding instructions is not permitted", () => {
-  beforeEach(() => {
-    renderWebComponentProject({
-      instructions: "My amazing instructions",
-      permitOverride: false,
-    });
-  });
-
-  test("Does not dispatch action to set instructions", () => {
-    expect(store.getActions()).not.toEqual(
-      expect.arrayContaining([
-        {
-          type: "instructions/setInstructions",
-          payload: expect.any(Object),
-        },
-      ]),
-    );
   });
 });
 

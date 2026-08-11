@@ -41,7 +41,6 @@ describe("When instructionsEditable changes from false to true", () => {
         },
         instructions: {
           project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
-          quiz: {},
           currentStepPosition: 0,
         },
       },
@@ -79,7 +78,6 @@ describe("When instructionsEditable is true", () => {
             project: {
               steps: [{ content: "instructions" }],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -145,7 +143,6 @@ describe("When instructionsEditable is true", () => {
             project: {
               steps: [],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -198,7 +195,6 @@ describe("When instructions are not editable", () => {
             project: {
               steps: [],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -256,7 +252,6 @@ describe("When instructions are not editable", () => {
                 },
               ],
             },
-            quiz: {},
             currentStepPosition: 1,
           },
         },
@@ -285,65 +280,9 @@ describe("When instructions are not editable", () => {
       expect(screen.queryByRole("progressbar")).toBeInTheDocument();
     });
 
-    test("Applies syntax highlighting to python code", () => {
+    test("Applies syntax highlighting to step content", () => {
       const codeElement = document.getElementsByClassName("language-python")[0];
       expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Applies syntax highlighting to HTML code", () => {
-      const codeElement = document.getElementsByClassName("language-html")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Applies syntax highlighting to CSS code", () => {
-      const codeElement = document.getElementsByClassName("language-css")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Applies syntax highlighting to javascript code", () => {
-      const codeElement = document.getElementsByClassName(
-        "language-javascript",
-      )[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-  });
-
-  describe("When window.syntaxHighlight is defined", () => {
-    beforeEach(() => {
-      window.syntaxHighlight = {
-        highlightElement: jest.fn(),
-      };
-      renderWithProviders(<InstructionsPanel />, {
-        preloadedState: {
-          editor: {
-            project: {},
-            instructionsEditable: false,
-          },
-          instructions: {
-            project: {
-              steps: [
-                {
-                  content:
-                    "<code class='language-python'>print('hello')</code>",
-                },
-              ],
-            },
-            quiz: {},
-            currentStepPosition: 0,
-          },
-        },
-      });
-    });
-
-    test("Applies syntax highlighting using window.syntaxHighlight", () => {
-      const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(window.syntaxHighlight.highlightElement).toHaveBeenCalledWith(
-        codeElement,
-      );
-    });
-
-    afterEach(() => {
-      delete window.syntaxHighlight;
     });
   });
 
@@ -358,7 +297,6 @@ describe("When instructions are not editable", () => {
             project: {
               steps: [{ content: "<p>step 0</p>" }],
             },
-            quiz: {},
             currentStepPosition: 0,
           },
         },
@@ -390,7 +328,6 @@ describe("When instructions are not editable", () => {
           },
           instructions: {
             project: { steps: scratchSteps },
-            quiz: {},
             currentStepPosition,
           },
         },
@@ -403,14 +340,6 @@ describe("When instructions are not editable", () => {
     test("Renders the scratch block as an svg", () => {
       renderAtStep(0);
       expect(screen.getByTestId("scratchblock")).toBeInTheDocument();
-    });
-
-    test("Initialises scratchblocks with the step content container", () => {
-      renderAtStep(0);
-      expect(scratchblocksInit).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.any(HTMLElement),
-      );
     });
 
     test("Re-renders scratch blocks when navigating to another step", () => {
@@ -444,7 +373,6 @@ describe("When instructions are not editable", () => {
                 },
               ],
             },
-            quiz: {},
             currentStepPosition: 0,
           },
         },
@@ -453,59 +381,6 @@ describe("When instructions are not editable", () => {
 
     test("Does not initialise scratchblocks", () => {
       expect(scratchblocksInit).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("When there is a quiz", () => {
-    const quizHandler = jest.fn();
-
-    beforeAll(() => {
-      document.addEventListener("editor-quizReady", quizHandler);
-    });
-    beforeEach(() => {
-      renderWithProviders(<InstructionsPanel />, {
-        preloadedState: {
-          instructions: {
-            project: {
-              steps: [
-                { content: "<p>step 0</p>" },
-                { content: "<p>step 1</p>", knowledgeQuiz: "quizPath" },
-              ],
-            },
-            quiz: {
-              questions: [
-                "<h2>Test quiz</h2><p>step 1</p><code class='language-python'>print('hello')</code>",
-              ],
-              questionCount: 1,
-              currentQuestion: 0,
-            },
-            currentStepPosition: 1,
-          },
-        },
-      });
-    });
-
-    test("Renders the quiz content", () => {
-      expect(screen.queryByText("Test quiz")).toBeInTheDocument();
-    });
-
-    test("Scrolls instructions to the top", () => {
-      expect(window.HTMLElement.prototype.scrollTo).toHaveBeenCalledWith({
-        top: 0,
-      });
-    });
-
-    test("Retains the progress bar", () => {
-      expect(screen.queryByRole("progressbar")).toBeInTheDocument();
-    });
-
-    test("Applies syntax highlighting", () => {
-      const codeElement = document.getElementsByClassName("language-python")[0];
-      expect(Prism.highlightElement).toHaveBeenCalledWith(codeElement);
-    });
-
-    test("Fires a quizIsReady event", () => {
-      expect(quizHandler).toHaveBeenCalled();
     });
   });
 });

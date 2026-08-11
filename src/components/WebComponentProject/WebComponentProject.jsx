@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { marked } from "marked";
 
 import "../../assets/stylesheets/Project.scss?inline";
 import "../../assets/stylesheets/EmbeddedViewer.scss?inline";
@@ -16,7 +15,6 @@ import {
   setIsOutputOnly,
   setInstructionsEditable,
 } from "../../redux/EditorSlice";
-import { setInstructions } from "../../redux/InstructionsSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
 import {
   codeChangedEvent,
@@ -70,18 +68,11 @@ const WebComponentProject = ({
     (state) => state.editor.project.components,
   );
   const readOnly = useSelector((state) => state.editor.readOnly);
-  const projectInstructions = useSelector(
-    (state) => state.editor.project.instructions,
-  );
   const currentStepPosition = useSelector(
     (state) => state.instructions.currentStepPosition,
   );
-  const permitInstructionsOverride = useSelector(
-    (state) => state.instructions.permitOverride,
-  );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const dispatch = useDispatch();
-  const renderer = new marked.Renderer();
 
   const buildRunCompletedPayloadRef = useRef(() => ({}));
   buildRunCompletedPayloadRef.current = () => {
@@ -126,37 +117,6 @@ const WebComponentProject = ({
       document.dispatchEvent(projectIdentifierChangedEvent(projectIdentifier));
     }
   }, [projectIdentifier]);
-
-  renderer.link = function (data) {
-    return `<a href="${data.href}" target="_blank" rel="noreferrer"
-    }">${data.text}</a>`;
-  };
-
-  marked.setOptions({
-    renderer: renderer,
-  });
-
-  useEffect(() => {
-    if (!permitInstructionsOverride) return;
-
-    dispatch(
-      setInstructions({
-        project: {
-          steps:
-            typeof projectInstructions === "string"
-              ? [
-                  {
-                    quiz: false,
-                    title: "",
-                    content: marked.parse(projectInstructions),
-                  },
-                ]
-              : [],
-        },
-        permitOverride: true,
-      }),
-    );
-  }, [dispatch, projectInstructions, permitInstructionsOverride]);
 
   useEffect(() => {
     syncRunEventTrackingProject(projectIdentifier, codeRunTriggered);

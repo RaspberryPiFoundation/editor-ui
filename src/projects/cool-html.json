@@ -4,10 +4,13 @@
   "locale": "en",
   "name": "Cool HTML: Spotlight Gradient",
   "user_id": null,
-  "instructions": {
-    "content": "## Cool HTML: Spotlight Gradient\n\nA tiny project with **one** cool trick: an animated gradient background with a mouse/touch **spotlight** that follows you.\n\n### Controls\n- Move cursor / drag: move the spotlight\n- Click: cycle color palettes\n\nFiles: `index.html`, `styles.css`, `script.js`\n",
-    "permitOverride": false
-  },
+  "instructions": [{
+    "content": "<h1>This is an example of instructions with html</h1> step 1"
+  }, {
+    "content": "step 2"
+  }, {
+    "content": "step 3"
+  }],
   "components": [
     {
       "id": "1c7ab1a8-5f09-4b3e-9d0d-6c8c2f2d2a8a",
