@@ -4,10 +4,11 @@ import {
   getEditorResizeHandle,
   getProjEditorContainer,
   getSidebarPanel,
-  loadPythonStarterProject,
+  checkEditorInitialized,
 } from "../helpers/editor.js";
 
-const origin = "http://localhost:3011/web-component.html";
+const origin =
+  "http://localhost:3011/web-component.html?project=blank-python-starter";
 
 beforeEach(() => {
   cy.intercept("*", (req) => {
@@ -18,7 +19,7 @@ beforeEach(() => {
 
 const visitAndLoadPythonProject = () => {
   cy.visit(origin);
-  loadPythonStarterProject();
+  checkEditorInitialized();
   getProjEditorContainer().should("exist");
 };
 

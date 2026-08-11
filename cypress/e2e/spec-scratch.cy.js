@@ -17,6 +17,12 @@ const user = {
   },
 };
 
+const scratchProjectURL = (params) => {
+  const urlParams = new URLSearchParams(params);
+  urlParams.set("project", "cool-scratch");
+  return `${origin}?${urlParams.toString()}`;
+};
+
 beforeEach(() => {
   cy.intercept("*", (req) => {
     req.headers["Origin"] = origin;
@@ -27,8 +33,7 @@ beforeEach(() => {
 
 describe("Scratch", () => {
   beforeEach(() => {
-    cy.visit(origin);
-    cy.findByText("cool-scratch").click();
+    cy.visit(scratchProjectURL());
   });
 
   it("hides text size in settings for Scratch", () => {
@@ -91,8 +96,7 @@ describe("Scratch locale", () => {
     ["fr-FR", "Sons"],
   ].forEach(([locale, translatedTab]) => {
     it(`uses ${locale} selected by the host application`, () => {
-      cy.visit(`${origin}?locale=${locale}`);
-      cy.findByText("cool-scratch").click();
+      cy.visit(scratchProjectURL({ locale }));
 
       getScratchIframeBody()
         .findByRole("tab", { name: translatedTab })
@@ -104,8 +108,7 @@ describe("Scratch locale", () => {
   });
 
   it("falls back to English when Scratch does not support the locale", () => {
-    cy.visit(`${origin}?locale=vls-BE`);
-    cy.findByText("cool-scratch").click();
+    cy.visit(scratchProjectURL({ locale: "vls-BE" }));
 
     getScratchIframeBody()
       .findByRole("tab", { name: "Code" })
@@ -122,12 +125,9 @@ describe("Scratch save integration", () => {
       win.localStorage.setItem(authKey, JSON.stringify(user));
     });
 
-    const params = new URLSearchParams();
-    params.set("auth_key", authKey);
-    params.set("load_remix_disabled", "true");
-
-    cy.visit(`${origin}?${params.toString()}`);
-    cy.findByText("cool-scratch").click();
+    cy.visit(
+      scratchProjectURL({ auth_key: authKey, load_remix_disabled: "true" }),
+    );
   });
 
   it("remixes on the first save, keeps the iframe project loaded, and auto-saves after the identifier update", () => {
@@ -228,14 +228,11 @@ describe("Scratch Authorization header", () => {
       win.localStorage.setItem(authKey, JSON.stringify(user));
     });
 
-    const params = new URLSearchParams();
-    params.set("auth_key", authKey);
-    params.set("load_remix_disabled", "true");
-
     cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
 
-    cy.visit(`${origin}?${params.toString()}`);
-    cy.findByText("cool-scratch").click();
+    cy.visit(
+      scratchProjectURL({ auth_key: authKey, load_remix_disabled: "true" }),
+    );
 
     cy.wait("@scratchProjectRequest")
       .its("request.headers")
@@ -255,8 +252,7 @@ describe("Scratch Authorization header", () => {
 
     cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
 
-    cy.visit(`${origin}?${params.toString()}`);
-    cy.findByText("cool-scratch").click();
+    cy.visit(scratchProjectURL({ load_remix_disabled: "true" }));
 
     cy.wait("@scratchProjectRequest")
       .its("request.headers")
@@ -269,10 +265,6 @@ describe("Scratch Authorization header", () => {
     cy.on("window:before:load", (win) => {
       win.localStorage.setItem(authKey, JSON.stringify(user));
     });
-
-    const params = new URLSearchParams();
-    params.set("auth_key", authKey);
-    params.set("identifier", "cool-scratch.json");
 
     cy.intercept("GET", remixApiMatcher, (req) => {
       req.reply({
@@ -287,7 +279,9 @@ describe("Scratch Authorization header", () => {
       });
     }).as("loadRemixRequest");
 
-    cy.visit(`${origin}?${params.toString()}`);
+    cy.visit(
+      scratchProjectURL({ auth_key: authKey, identifier: "cool-scratch.json" }),
+    );
 
     cy.wait("@loadRemixRequest")
       .its("request.headers")
