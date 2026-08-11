@@ -204,24 +204,6 @@ const WebComponentLoader = (props) => {
     dispatch(setOfflineEnabled(offlineEnabled));
   }, [offlineEnabled, dispatch]);
 
-  useEffect(() => {
-    // Create a script element to save the existing Prism object if there is one
-    const script = document.createElement("script");
-    script.textContent = `
-      if (window.Prism) {
-        window.syntaxHighlight = window.Prism;
-      }
-    `;
-
-    // Append the script to the document body
-    document.body.appendChild(script);
-
-    // Clean up the script when the component unmounts
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   const renderSuccessState = () => (
     <>
       <SettingsContext.Provider

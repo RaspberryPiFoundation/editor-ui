@@ -8,48 +8,14 @@
 .project-instructions {
   block-size: 100%;
 
-  code.block3control {
-    background-color: var(--scratch-control-primary);
-  }
-  code.block3events {
-    background-color: var(--scratch-events-primary);
-  }
-  code.block3extensions {
-    background-color: var(--scratch-pen-primary);
-  }
-  code.block3looks {
-    background-color: var(--scratch-looks-primary);
-  }
-  code.block3motion {
-    background-color: var(--scratch-motion-primary);
-  }
-  code.block3myblocks {
-    background-color: var(--scratch-more-primary);
-  }
-  code.block3operators {
-    background-color: var(--scratch-operators-primary);
-  }
-  code.block3sensing {
-    background-color: var(--scratch-sensing-primary);
-  }
-  code.block3sound {
-    background-color: var(--scratch-sounds-primary);
-  }
-  code.block3variables {
-    background-color: var(--scratch-data-primary);
+  @each $block, $category in $scratch-block-categories {
+    code.block3#{$block} {
+      background-color: var(--scratch-#{$category}-primary);
+    }
   }
 
   @media (prefers-contrast: more) {
-    code.block3control,
-    code.block3events,
-    code.block3extensions,
-    code.block3looks,
-    code.block3motion,
-    code.block3myblocks,
-    code.block3operators,
-    code.block3sensing,
-    code.block3sound,
-    code.block3variables {
+    code[class*="block3"] {
       color: var(--rpf-black);
     }
   }
@@ -416,10 +382,10 @@
 }
 
 .--dark .project-instructions {
-  pre {
-    background-color: $rpf-grey-850;
-  }
-  code {
+  // Exclude scratchblocks references, otherwise this would tie on specificity
+  // with their category colours above and win by coming later in the file.
+  pre,
+  code:not([class*="block3"]) {
     background-color: $rpf-grey-850;
   }
 }

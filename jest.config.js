@@ -20,7 +20,13 @@ module.exports = {
       "<rootDir>/node_modules/jest-transform-stub",
   },
   transformIgnorePatterns: [
-    "[/\\\\]node_modules[/\\\\](?!three).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+    // Ignore everything under node_modules except the packages listed below,
+    // which Jest has to transform because they are "type": "module" with no
+    // CommonJS entry point: rpf-markdown-core's CJS build requires marked and
+    // scratchblocks/index.js, so their raw `export` syntax would otherwise
+    // reach the CJS loader. A nested copy (rpf-markdown-core/node_modules/
+    // scratchblocks) is also exempted.
+    "^(?!.*[/\\\\]node_modules[/\\\\](?:three|marked|scratchblocks)[/\\\\]).*[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
     "^.+\\.module\\.(css|sass|scss)$",
   ],
   modulePaths: [],

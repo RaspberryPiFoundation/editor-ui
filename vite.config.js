@@ -143,6 +143,13 @@ export default defineConfig(async ({ mode }) => {
       }),
       analyzePlugin,
     ],
+    optimizeDeps: {
+      exclude: [
+        "prismjs/plugins/line-numbers/prism-line-numbers",
+        "prismjs/plugins/line-highlight/prism-line-highlight",
+        "prismjs/plugins/highlight-keywords/prism-highlight-keywords",
+      ],
+    },
     server: {
       host: true,
       port: 3011,
