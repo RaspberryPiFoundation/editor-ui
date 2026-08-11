@@ -32,6 +32,10 @@ describe("Highlighting code blocks from rpf-markdown-core", () => {
     return container;
   };
 
+  afterEach(() => {
+    document.body.innerHTML = "";
+  });
+
   const code = "print(1)\nprint(2)\nprint(3)";
 
   test("Adds line numbers and a line highlight when the fence asks for them", () => {
