@@ -118,10 +118,6 @@
   background: var(--sidebar-panel-background);
 }
 
-.sidebar__panel--with-footer {
-  padding-block-end: var(--sidebar-footer-padding, $space-2);
-}
-
 .sidebar__panel-heading {
   margin: 0;
   @include font-size-1-5(regular);
