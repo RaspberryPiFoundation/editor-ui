@@ -100,6 +100,9 @@ yarn exec cypress open
 ## Further Reading (relative links)
 - `README.md`
 - `docs/WebComponent.md`
+- `docs/host-integration/README.md`
+- `docs/host-integration/SidebarPlugins.md`
+- `docs/host-integration/AutosaveFlush.md`
 - `docs/HTML.md`
 - `docs/PythonDependencies.md`
 - `docs/Deployment.md`

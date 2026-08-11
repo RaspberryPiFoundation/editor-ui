@@ -11,7 +11,7 @@ import {
   saveProject,
 } from "../helpers/editor.js";
 
-const origin = "http://localhost:3011/web-component.html";
+const origin = "http://localhost:3011";
 
 beforeEach(() => {
   cy.intercept("*", (req) => {
@@ -21,8 +21,13 @@ beforeEach(() => {
 });
 
 describe("default behaviour", () => {
+  const urlFor = (params) => {
+    const urlParams = new URLSearchParams(params);
+    return `${origin}/web-component.html?${urlParams.toString()}`;
+  };
+
   beforeEach(() => {
-    cy.visit(origin);
+    cy.visit(urlFor());
   });
 
   it("renders the web component", () => {
@@ -42,8 +47,6 @@ describe("default behaviour", () => {
   });
 
   it("shows text size in settings for standard editor projects", () => {
-    cy.findByText("blank-python-starter").click();
-
     getSidebar().should("exist");
     openSettingsPanel();
     getSettingsPanel().should("exist");
@@ -62,7 +65,7 @@ describe("when load_remix_disabled is true, e.g. in editor-standalone", () => {
     params.set("auth_key", authKey);
     params.set("identifier", identifier);
     params.set("load_remix_disabled", "true");
-    return `${origin}?${params.toString()}`;
+    return `${origin}/web-component.html?${params.toString()}`;
   };
 
   beforeEach(() => {
@@ -113,7 +116,7 @@ describe("when embedded, output_only & output_split_view are true", () => {
     params.set("embedded", "true");
     params.set("output_only", "true");
     params.set("output_split_view", "true");
-    return `${origin}?${params.toString()}`;
+    return `${origin}/web-component.html?${params.toString()}`;
   };
 
   it("displays the embedded view for a Python project", () => {
