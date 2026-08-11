@@ -29,6 +29,7 @@ import BinIcon from "../../../../assets/icons/bin.svg";
 
 const InstructionsPanel = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const onEditTab = tabIndex === 0;
   const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
@@ -107,7 +108,9 @@ const InstructionsPanel = () => {
           : []
       }
       Footer={
-        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
+        hasInstructions && (hasMultipleSteps || onEditTab)
+          ? () => <ProgressBar panelRef={panelRef} />
+          : undefined
       }
     >
       <div className="project-instructions">
@@ -138,7 +141,7 @@ const InstructionsPanel = () => {
                   />
                 </TabPanel>
               </Tabs>
-              {tabIndex === 0 && (
+              {onEditTab && (
                 <div className="instructions-panel__step-actions">
                   <DesignSystemButton
                     type="secondary"
