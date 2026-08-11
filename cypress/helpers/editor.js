@@ -127,16 +127,7 @@ export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) =>
 export const openFilePanel = () =>
   getEditorShadow().find("[title='Project files']").click();
 
-export const loadPythonStarterProject = () => {
-  cy.findByText("blank-python-starter").click();
-
-  // web-component.html fetches the project JSON, then throws away the current
-  // <editor-wc> and prepends a brand new one. The component being replaced
-  // already has a visible Run button, so waiting on that alone can resolve
-  // against the doomed component and leave the test holding elements that
-  // detach part-way through. Only the replacement publishes an identifier.
-  cy.get("#project-identifier").should("have.text", "blank-python-starter");
-
+export const checkEditorInitialized = () => {
   getEditorShadow().findByRole("button", { name: /run/i }).should("be.visible");
 };
 

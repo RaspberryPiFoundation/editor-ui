@@ -52,13 +52,13 @@
   <body>
     <div class="sample-projects-bar" id="sample-projects-bar">
       <span>Load Sample Projects:</span>
-      <a href="#" data-project="blank-html-starter">blank-html-starter</a>
-      <a href="#" data-project="cool-html">cool-html</a>
-      <a href="#" data-project="blank-python-starter">blank-python-starter</a>
-      <a href="#" data-project="cool-python">cool-python</a>
-      <a href="#" data-project="python-plotly">python-plotly</a>
-      <a href="#" data-project="cool-scratch">cool-scratch</a>
-      <a href="#" data-project="astro-pi">astro-pi</a>
+      <a href="?project=blank-html-starter" >blank-html-starter</a>
+      <a href="?project=cool-html">cool-html</a>
+      <a href="?project=blank-python-starter">blank-python-starter</a>
+      <a href="?project=cool-python" >cool-python</a>
+      <a href="?project=python-plotly">python-plotly</a>
+      <a href="?project=cool-scratch">cool-scratch</a>
+      <a href="?project=astro-pi">astro-pi</a>
     </div>
     <div id="editor-component"></div>
     <p id="results"></p>
@@ -66,8 +66,21 @@
     <button id="run-button">Run code</button>
 
     <script>
-    document.addEventListener("DOMContentLoaded", (e) => {
+      const loadSampleProjectByName = async (projectName) => {
+        const url = new URL(
+          `projects/${projectName}.json`,
+          window.location.href,
+        );
+        const res = await fetch(url, { cache: "no-store" });
+        return await res.text();
+      };
+
+
+    document.addEventListener("DOMContentLoaded", async (e) => {
       const queryParams = new URLSearchParams(window.location.search);
+      const projectName = queryParams.get("project")
+      const initialProject = projectName && await loadSampleProjectByName(projectName);
+
       let webComp;
 
       // subscribe to the 'codeChanged' custom event which is pushed by the project react component
@@ -133,29 +146,9 @@
         return newWebComp;
       };
 
-      webComp = createWebComponent();
+      webComp = createWebComponent(initialProject);
       editorContainer.prepend(webComp);
-
-      const loadSampleProjectByName = async (projectName) => {
-        const url = new URL(
-          `projects/${projectName}.json`,
-          window.location.href,
-        );
-        const res = await fetch(url, { cache: "no-store" });
-        const project = await res.text();
-
-        webComp.parentNode.removeChild(webComp);
-        webComp = createWebComponent(project);
-        editorContainer.prepend(webComp);
-      };
-
-      sampleBar.addEventListener("click", (event) => {
-        const link = event.target.closest("a[data-project]");
-        if (!link || !sampleBar.contains(link)) return;
-        event.preventDefault();
-        loadSampleProjectByName(link.dataset.project);
-      });
-
+      
       document.getElementById("run-button").onclick = (event) => {
         webComp.rerunCode();
       };
