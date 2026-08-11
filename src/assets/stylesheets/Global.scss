@@ -3,23 +3,21 @@
 
 @use "./Tabs" as *;
 
-%focusable-element {
-  border: 3px solid transparent;
+// :not(:where(.rpf-button))
+// avoids targetting the design system buttons without increasing specificity
 
+a:not(:where(.rpf-button)) {
   &:focus-visible {
-    border: 3px solid $rpf-brand-raspberry;
-    outline: none;
+    outline: 3px solid var(--rpf-raspberry-800);
   }
 }
 
-a {
-  @extend %focusable-element;
-}
-
-button {
+button:not(:where(.rpf-button)) {
   all: initial;
   cursor: pointer;
-  @extend %focusable-element;
+  &:focus-visible {
+    outline: 3px solid var(--rpf-raspberry-800);
+  }
 }
 
 input {
