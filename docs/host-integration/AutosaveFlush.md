@@ -45,14 +45,14 @@ there is nothing to save.
 
 | Property | Meaning |
 | --- | --- |
-| `hasPendingAutoSave` | `true` when the project is dirty and there is outstanding autosave work (queued, in flight, or still inside the throttle window). A subset of `shouldFlushBeforeNavigation`: dirty alone is not enough. |
+| `hasPendingAutoSave` | `true` when the project is dirty and autosave work is already pending (queued, in-flight, or still inside the post-save throttle window). It can be `false` even when `shouldFlushBeforeNavigation` is `true` (for example right after an edit, before a save has been queued). Hosts should primarily default to `shouldFlushBeforeNavigation` when deciding whether to flush. |
 | `codeChangedSinceInitialLoad` | Whether project files/name/instructions differ from what was loaded initially. Useful for “has the user edited?” UI; not the same as the navigation flush check. |
 
 `shouldFlushBeforeNavigation` answers “should we save before leaving?” - autosave is enabled and the project has unsaved changes.
 
-`hasPendingAutoSave` answers “is autosave already mid-pipeline?” It requires dirty *and* outstanding work (a queued save, an in-flight request, or the post-save throttle window). Dirty alone is not enough: after an edit, there can be a quiet gap (for example a debounce pause) where the project has changed but nothing is queued or in flight yet. In that window `hasPendingAutoSave` is `false` even though the user’s work is still unsaved.
+`hasPendingAutoSave` answers “is the editor already saving (or about to save) the current changes?” It becomes `true` when a save has been queued, is currently in progress, or the editor is still in the short window right after a save. Right after an edit, there can be a brief pause before the editor starts that save, so the project is still dirty even when `hasPendingAutoSave` is `false`.
 
-That is why leave handling should use `shouldFlushBeforeNavigation` + `flushPendingAutoSave`, not `hasPendingAutoSave`. Checking only `hasPendingAutoSave` would skip the flush in those quiet gaps and risk losing edits. Use `hasPendingAutoSave` only if you need to know whether autosave work is already under way (for example UI that shows a saving indicator).
+That is why hosts should use `shouldFlushBeforeNavigation` + `flushPendingAutoSave` when leaving, not `hasPendingAutoSave`. Use `hasPendingAutoSave` only if you need to show save progress (for example UI that displays a “saving…” state).
 
 ## Vanilla JS / HTML example
 

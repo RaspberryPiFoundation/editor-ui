@@ -28,8 +28,9 @@ on) and `with_sidebar="true"`.
 
 When the host app is a React app, only serialisable config should cross the
 web component boundary. Do not pass React components, JSX, or functions for
-the editor to render - the host and the editor should be considered separate
-React trees (when both use React), and sharing them that way breaks.
+the editor to render. Treat the host and editor as separate React trees
+(when both use React) - and avoid sharing React elements across the web
+component boundary.
 
 ```text
 Host page                          <editor-wc> (shadow DOM)
