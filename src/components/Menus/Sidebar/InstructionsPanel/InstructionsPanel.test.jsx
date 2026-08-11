@@ -139,7 +139,7 @@ describe("When instructionsEditable is true", () => {
     test("Renders the add step and remove step buttons", () => {
       expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
       expect(
-        screen.getByText("instructionsPanel.removeStep"),
+        screen.getByTitle("instructionsPanel.removeStep"),
       ).toBeInTheDocument();
     });
 
@@ -159,7 +159,9 @@ describe("When instructionsEditable is true", () => {
     });
 
     test("Clicking remove step opens a confirmation modal without removing the step", () => {
-      const removeStepButton = screen.getByText("instructionsPanel.removeStep");
+      const removeStepButton = screen.getByTitle(
+        "instructionsPanel.removeStep",
+      );
 
       act(() => {
         fireEvent.click(removeStepButton);
@@ -175,7 +177,7 @@ describe("When instructionsEditable is true", () => {
     });
 
     test("Cancelling the confirmation modal does not remove the step", () => {
-      fireEvent.click(screen.getByText("instructionsPanel.removeStep"));
+      fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
 
       act(() => {
         fireEvent.click(
@@ -197,7 +199,7 @@ describe("When instructionsEditable is true", () => {
         store.dispatch(setCurrentStepPosition(1));
       });
 
-      fireEvent.click(screen.getByText("instructionsPanel.removeStep"));
+      fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
 
       act(() => {
         fireEvent.click(
@@ -237,12 +239,12 @@ describe("When instructionsEditable is true", () => {
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
       expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
       expect(
-        screen.getByText("instructionsPanel.removeStep"),
+        screen.getByTitle("instructionsPanel.removeStep"),
       ).toBeInTheDocument();
     });
 
     test("Confirming removal of the only step falls back to the empty state", () => {
-      fireEvent.click(screen.getByText("instructionsPanel.removeStep"));
+      fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
 
       act(() => {
         fireEvent.click(

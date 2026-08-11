@@ -37,7 +37,8 @@ const getSettingsButton = () =>
 const getFilePanelButton = () =>
   getEditorShadow().find("[title='Project files']").first();
 
-export const getAddStepButton = () => getEditorShadow().findByText("Add step");
+export const getAddStepButton = () =>
+  getEditorShadow().findByText("Add a step");
 
 export const getRemoveStepButton = () =>
   getEditorShadow().findByText("Remove step");
