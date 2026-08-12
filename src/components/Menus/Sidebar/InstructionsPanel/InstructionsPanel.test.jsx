@@ -346,6 +346,22 @@ describe("When instructions are not editable", () => {
     });
   });
 
+  it("renders instructions string as a single step", () => {
+    renderWithProviders(<InstructionsPanel />, {
+      preloadedState: {
+        editor: {
+          project: { instructions: "# rendered heading" },
+          instructionsEditable: false,
+        },
+      },
+    });
+
+    expect(
+      screen.getByRole("heading", { name: "rendered heading" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+  });
+
   describe("When there are instructions", () => {
     beforeEach(() => {
       renderWithProviders(<InstructionsPanel />, {
