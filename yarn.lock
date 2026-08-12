@@ -4476,7 +4476,6 @@ __metadata:
     scratchblocks: "npm:^3.7.0"
     skulpt: "npm:^1.2.0"
     stream-browserify: "npm:^3.0.0"
-    style-it: "npm:^2.1.4"
     stylelint: "npm:^17.4.0"
     stylelint-config-recommended-scss: "npm:17.0.0"
     stylelint-scss: "npm:7.0.0"
@@ -17227,13 +17226,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lib-adler32@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "react-lib-adler32@npm:1.0.3"
-  checksum: 10/a696e5efc75df377913f4715f1393ef3af89de2f1fba9358f9fc5be2a23712c5f91574c0e34a3bea9c23ac7e82903e37b8db5626e23ed1851012d83543ab450c
-  languageName: node
-  linkType: hard
-
 "react-lifecycles-compat@npm:^3.0.0, react-lifecycles-compat@npm:^3.0.4":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
@@ -19490,15 +19482,6 @@ __metadata:
   version: 1.0.1
   resolution: "strongly-connected-components@npm:1.0.1"
   checksum: 10/f731c4a1e9b02b9d19a419e6bf1f901b1a7369cb4e0edca3b7ecb6c5076d2afe151ba12103669156594b2c2186ec9cffbd84f9d45c7e7928373d705e7ff7c3b2
-  languageName: node
-  linkType: hard
-
-"style-it@npm:^2.1.4":
-  version: 2.1.4
-  resolution: "style-it@npm:2.1.4"
-  dependencies:
-    react-lib-adler32: "npm:^1.0.3"
-  checksum: 10/26a4d870b5741b6d5252c0b0980187535db0be0655c38e2dab6412978a192fe04c575b9400ffe846ffa4e6df88354212cf31c732b7765f81da6ff4a9a56a2243
   languageName: node
   linkType: hard
 

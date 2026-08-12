@@ -19,9 +19,9 @@
 }
 
 .editor-logo {
-  block-size: $space-2-5;
-  inline-size: $space-2-5;
-  padding: $space-0-75;
+  block-size: var(--space-5);
+  inline-size: var(--space-5);
+  margin: var(--space-1-5);
   display: var(--editor-logo-display, inherit);
 }
 
@@ -45,16 +45,15 @@
   flex-direction: column;
   align-items: var(--sidebar-options-alignment, center);
   justify-content: center;
-  gap: $space-0-5;
 }
 
 .sidebar__bar-option-wrapper {
-  padding: calc(0.75 * $space-0-5);
+  padding: var(--space-1);
   border: 1px solid transparent;
 
   &--selected {
     background-color: var(--sidebar-panel-background);
-    border-radius: $space-0-5 0 0 $space-0-5;
+    border-radius: var(--space-1) 0 0 var(--space-1);
     border-block: 1px solid var(--sidebar-border);
     border-inline-start: 1px solid var(--sidebar-border);
     position: relative;
@@ -83,6 +82,9 @@
   box-sizing: border-box;
   margin: 0;
   border: 2px solid transparent;
+  padding: var(--space-1);
+  border-radius: var(--space-1);
+  color: var(--editor-color-text);
 
   svg {
     margin: 0;
@@ -112,7 +114,7 @@
 .sidebar__panel {
   display: flex;
   flex-direction: column;
-  padding-block-start: $space-1;
+  padding-block-start: var(--space-2);
   border-radius: 0 8px 8px 0;
   inline-size: inherit;
   background: var(--sidebar-panel-background);
@@ -126,22 +128,22 @@
 .sidebar__panel-header {
   display: flex;
   flex-direction: column;
-  gap: $space-1;
-  padding-block-end: $space-1;
-  margin-inline: $space-1;
+  gap: var(--space-2);
+  padding-block-end: var(--space-2);
+  margin-inline: var(--space-2);
   border-block-end: 1px solid var(--sidebar-border);
 }
 
 .sidebar__panel-content {
   flex: 1;
-  padding: $space-1;
+  padding: var(--space-2);
   overflow-y: auto;
 }
 
 .sidebar__panel-buttons {
   display: flex;
   flex-direction: column;
-  gap: $space-1;
+  gap: var(--space-2);
 }
 
 .sidebar__panel-footer {
@@ -151,6 +153,6 @@
   inline-size: -moz-available;
   inline-size: -webkit-stretch;
   inline-size: stretch;
-  padding-inline: $space-1;
+  padding-inline: var(--space-2);
   border-end-end-radius: 8px;
 }

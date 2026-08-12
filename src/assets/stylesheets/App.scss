@@ -1,66 +1,10 @@
-@use './rpf_design_system/font-size' as *;
-@use './rpf_design_system/colours' as *;
-
-@use './Tabs' as *;
-
-%focusable-element {
-  border: 3px solid transparent;
-
-  &:focus-visible {
-    border: 3px solid $rpf-brand-raspberry;
-    outline: none;
-  }
-}
-
-a {
-  @extend %focusable-element;
-}
-
-button {
-  all: initial;
-  cursor: pointer;
-  @extend %focusable-element;
-}
-
-input {
-  font-family: var(--wc-font-family-sans-serif);
-}
-
-.--light {
-  background-color: $rpf-teal-100;
-  color: $rpf-text-primary;
-  caret-color: $rpf-black;
-  color-scheme: light;
-
-
-  .pythonrunner-input {
-    color: rgb(36, 103, 236);
-  }
-
-  svg {
-    fill: var(--editor-color-text);
-  }
-}
-
-.--dark {
-  background-color: $rpf-grey-900;
-  color: $rpf-white;
-  caret-color: $rpf-white;
-  color-scheme: dark;
-
-  .pythonrunner-input {
-    color: rgb(36, 186, 236);
-  }
-
-  svg {
-    fill: var(--editor-color-text);
-  }
-}
+@use "./rpf_design_system/font-size" as *;
+@use "./rpf_design_system/colours" as *;
 
 #app {
   display: flex;
   flex-flow: column;
-  font-family: var(--wc-font-family-sans-serif);
+  font-family: var(--editor-font-family-sans-serif);
   @include font-size-1(regular);
 }
 

@@ -43,14 +43,14 @@ const DownloadPanel = () => {
           <p className="download-panel__hint">{t("downloadPanel.logInHint")}</p>
           <div className="download-panel__button-container">
             <DesignSystemButton
-              className="btn btn--primary download-panel__button"
+              className="download-panel__button"
               text={t("downloadPanel.logInButton")}
               type="primary"
               onClick={handleLogIn}
               fill
             />
             <DesignSystemButton
-              className="btn btn--secondary download-panel__button"
+              className="download-panel__button"
               text={t("downloadPanel.signUpButton")}
               type="secondary"
               onClick={handleSignUp}
@@ -66,7 +66,7 @@ const DownloadPanel = () => {
         <div className="download-panel__button-container">
           <DownloadButton
             buttonText={t("downloadPanel.downloadButton")}
-            className="btn btn--secondary download-panel__button"
+            className="download-panel__button"
             Icon={DownloadIcon}
             fill
           />
@@ -74,7 +74,7 @@ const DownloadPanel = () => {
           {project.project_type === "code_editor_scratch" && (
             <UploadButton
               buttonText={t("downloadPanel.uploadButton")}
-              className="btn btn--secondary download-panel__button"
+              className="download-panel__button"
               Icon={UploadIcon}
               fill
             />

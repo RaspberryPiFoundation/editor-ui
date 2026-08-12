@@ -36,7 +36,7 @@ const ContextMenu = (props) => {
       <button
         aria-haspopup="menu"
         aria-label={menuButtonLabel}
-        className={`btn context-menu__drop${
+        className={`context-menu__drop${
           menuButtonClassName ? ` ${menuButtonClassName}` : ""
         }`}
         title={menuButtonLabel}
@@ -70,7 +70,7 @@ const ContextMenu = (props) => {
         {menuOptions.map((option, i) => (
           <MenuItem
             key={i}
-            className="btn context-menu__item"
+            className="context-menu__item"
             onClick={option.action}
           >
             <option.icon />

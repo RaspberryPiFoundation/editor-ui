@@ -4,7 +4,7 @@ import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import TickIcon from "../../assets/icons/tick.svg";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { updateProjectName } from "../../redux/EditorSlice";
 
 import "../../assets/stylesheets/ProjectName.scss?inline";
@@ -120,10 +120,8 @@ const ProjectName = ({
         )}
         {editable && (
           <div ref={tickButton}>
-            <DesignSystemButton
-              className={classNames("project-name__button", {
-                "project-name__button--editing": isEditing,
-              })}
+            <Button
+              className="project-name__button"
               aria-label={t(
                 isEditing ? "header.renameSave" : "header.renameProject",
               )}

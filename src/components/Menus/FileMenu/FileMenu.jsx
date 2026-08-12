@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import { showRenameFileModal } from "../../../redux/EditorSlice";
-import EllipsisVerticalIcon from "../../../assets/icons/ellipsis_vertical.svg";
+import EllipsisVerticalIcon from "../../../assets/icons/more-vertical.svg";
 import PencilIcon from "../../../assets/icons/pencil.svg";
 import ContextMenu from "../ContextMenu/ContextMenu";
 

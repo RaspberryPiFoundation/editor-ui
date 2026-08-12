@@ -27,11 +27,12 @@ import ToastCloseButton from "../utils/ToastCloseButton";
 import Loader from "../components/Loader/Loader";
 import LoadFailed from "../components/LoadFailed/LoadFailed";
 
+import resetStyles from "../assets/stylesheets/Reset.scss?inline";
+import globalStyles from "../assets/stylesheets/Global.scss?inline";
 import internalStyles from "../assets/stylesheets/InternalStyles.scss?inline";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss?inline";
 import editorStyles from "../assets/stylesheets/index.scss?inline";
 import "../assets/stylesheets/Notifications.scss?inline";
-import Style from "style-it";
 import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
@@ -204,6 +205,15 @@ const WebComponentLoader = (props) => {
     dispatch(setOfflineEnabled(offlineEnabled));
   }, [offlineEnabled, dispatch]);
 
+  const webComponentStyles = (
+    <>
+      <style>{resetStyles.toString()}</style>
+      <style>{globalStyles.toString()}</style>
+      <style>{externalStyles.toString()}</style>
+      <style>{internalStyles.toString()}</style>
+    </>
+  );
+
   const renderSuccessState = () => (
     <>
       <SettingsContext.Provider
@@ -212,49 +222,47 @@ const WebComponentLoader = (props) => {
           fontSize: cookies.fontSize || "small",
         }}
       >
-        <style>{externalStyles.toString()}</style>
+        {webComponentStyles}
         {useEditorStyles && <style>{editorStyles.toString()}</style>}
         {hostStyles && <style>{hostStyles}</style>}
-        <Style>
-          {internalStyles.toString()}
-          <div
-            id="wc"
-            className={`--${cookies.theme || themeDefault}${
-              useEditorStyles ? " --use-editor-styles" : ""
-            }`}
-          >
-            <ToastContainer
-              enableMultiContainer
-              containerId="top-center"
-              position="top-center"
-              className="toast--top-center"
-              closeButton={ToastCloseButton}
-            />
-            <WebComponentProject
-              locale={locale}
-              withProjectbar={withProjectbar}
-              nameEditable={projectNameEditable}
-              withSidebar={withSidebar}
-              sidebarOptions={sidebarOptions}
-              outputOnly={outputOnly}
-              outputPanels={outputPanels}
-              outputSplitView={outputSplitView}
-              editableInstructions={editableInstructions}
-              feedbackFormUrl={feedbackFormUrl}
-              sidebarPlugins={sidebarPlugins}
-            />
-            {errorModalShowing && <ErrorModal />}
-            {newFileModalShowing && <NewFileModal />}
-            {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
-          </div>
-        </Style>
+
+        <div
+          id="wc"
+          className={`--${cookies.theme || themeDefault}${
+            useEditorStyles ? " --use-editor-styles" : ""
+          }`}
+        >
+          <ToastContainer
+            enableMultiContainer
+            containerId="top-center"
+            position="top-center"
+            className="toast--top-center"
+            closeButton={ToastCloseButton}
+          />
+          <WebComponentProject
+            locale={locale}
+            withProjectbar={withProjectbar}
+            nameEditable={projectNameEditable}
+            withSidebar={withSidebar}
+            sidebarOptions={sidebarOptions}
+            outputOnly={outputOnly}
+            outputPanels={outputPanels}
+            outputSplitView={outputSplitView}
+            editableInstructions={editableInstructions}
+            feedbackFormUrl={feedbackFormUrl}
+            sidebarPlugins={sidebarPlugins}
+          />
+          {errorModalShowing && <ErrorModal />}
+          {newFileModalShowing && <NewFileModal />}
+          {renameFileModalShowing && modals.renameFile && <RenameFileModal />}
+        </div>
       </SettingsContext.Provider>
     </>
   );
 
   const renderFailedState = () => (
     <>
-      <style>{internalStyles.toString()}</style>
+      {webComponentStyles}
       <div className={`--${cookies.theme || themeDefault}`}>
         <LoadFailed onRetry={() => window.location.reload()} />
       </div>
@@ -263,7 +271,7 @@ const WebComponentLoader = (props) => {
 
   const renderLoadingState = () => (
     <>
-      <style>{internalStyles.toString()}</style>
+      {webComponentStyles}
       <div className={`--${cookies.theme || themeDefault}`}>
         <Loader delay={0} />
       </div>
