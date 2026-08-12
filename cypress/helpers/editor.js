@@ -127,12 +127,10 @@ export const dragEditorResizeHandle = (
 export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) =>
   dragHandle(() => getSidebarResizeHandle(), { deltaX, deltaY: 0 });
 
-// The sidebar option toggles, so only click it when the panel is closed. Which
-// panel opens by default depends on the host's attributes, so tests that need
-// the file list should call this rather than assume it is already showing.
-export const openFilePanel = () =>
+export const ensureFilePanelOpen = () =>
   getFilePanelButton().then(($button) => {
-    if (!$button.hasClass("sidebar__bar-option--selected")) {
+    const alreadyOpen = $button.hasClass("sidebar__bar-option--selected");
+    if (!alreadyOpen) {
       cy.wrap($button).click();
     }
   });

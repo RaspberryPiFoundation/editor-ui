@@ -8,7 +8,7 @@ import {
   getPythonConsoleOutput,
   getTextOutputTab,
   makeNewFile,
-  openFilePanel,
+  ensureFilePanelOpen,
   runCode,
   runProject,
   setCodeEditorContent,
@@ -76,14 +76,14 @@ describe("Running the code with pyodide", () => {
 
   it("runs a simple program to write to a file", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
-    openFilePanel();
+    ensureFilePanelOpen();
     getFileButtonByName("output.txt").click();
     getEditorShadow().find(".cm-editor").should("contain", "Hello world");
   });
 
   it("errors when trying to write to an existing file in 'x' mode", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
-    openFilePanel();
+    ensureFilePanelOpen();
     getFileButtonByName("output.txt").should("be.visible");
     runCode('with open("output.txt", "x") as f:\n\tf.write("Something else")');
     getErrorMessage().should(
@@ -97,7 +97,7 @@ describe("Running the code with pyodide", () => {
     setCodeEditorContent(
       'with open("output.txt", "a") as f:\n\tf.write("Hello again world")',
     );
-    openFilePanel();
+    ensureFilePanelOpen();
     getFileButtonByName("output.txt").click();
     getEditorShadow()
       .findByRole("button", { name: /run/i })
@@ -114,7 +114,7 @@ describe("Running the code with pyodide", () => {
   it("runs a program with multiple files", () => {
     setCodeEditorContent(`from my_number import NUMBER\nprint(NUMBER)\n`);
 
-    openFilePanel();
+    ensureFilePanelOpen();
     makeNewFile("my_number.py");
 
     setCodeEditorContent(`NUMBER = 42\n`);
@@ -127,7 +127,7 @@ describe("Running the code with pyodide", () => {
   it("reloads imported local files between code runs", () => {
     setCodeEditorContent(`from helper import b\nb()`);
 
-    openFilePanel();
+    ensureFilePanelOpen();
     makeNewFile("helper.py");
 
     setCodeEditorContent(`def b():\n  print('one')`);
