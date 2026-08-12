@@ -29,11 +29,12 @@ import BinIcon from "../../../../assets/icons/bin.svg";
 
 const InstructionsPanel = () => {
   const [tabIndex, setTabIndex] = useState(0);
-  const onEditTab = tabIndex === 0;
   const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
+
+  const onEditTab = instructionsEditable && tabIndex === 0;
   const project = useSelector((state) => state.editor?.project);
   const steps = useSelector(selectInstructionSteps);
   const dispatch = useDispatch();
