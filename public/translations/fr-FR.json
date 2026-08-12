@@ -113,22 +113,20 @@
       "markdown": "Les instructions sont écrites en <0>markdown</0>.",
       "purpose": "Des instructions peuvent être ajoutées à votre projet pour guider les élèves."
     },
-    "removeInstructions": "Supprimer les instructions",
+    "addStep": "Add a step",
+    "removeStep": "Remove step",
+    "newStepDefaultContent": "## Step title",
     "nextStep": "Prochaine étape",
     "previousStep": "Étape précédente",
     "stepCounter": "{{currentStep}} sur {{totalSteps}}",
     "projectSteps": "Instructions du projet",
     "edit": "Modifier",
     "view": "Voir",
-    "removeInstructionsModal": {
-      "removeInstructions": "Supprimer les instructions",
-      "close": "Fermer ",
-      "heading": "Supprimer les instructions du projet?",
-      "removeInstuctionsWarning": "Vous êtes sur le point de supprimer les instructions du projet.",
-      "resultRemovingInstructions": "En supprimant les instructions, cela signifie que :",
-      "instructionsWillBeDeleted": "Le contenu des instructions sera supprimé.",
-      "studentsWorkingProjectNotRecievedInstructions": "Les élèves qui commencent à travailler sur ce projet ne recevront pas d’instructions.",
-      "studentsStartedWillSeeInstructions": "Les élèves qui ont déjà commencé à travailler sur ce projet pourront toujours voir les instructions telles qu'elles étaient lorsqu'ils ont commencé."
+    "removeStepModal": {
+      "heading": "Remove instruction step?",
+      "warning": "Are you sure you want to delete this instructions step? You will not be able to get this back.",
+      "cancel": "Cancel",
+      "removeStep": "Remove step"
     }
   },
   "projectsPanel": {
@@ -166,6 +164,7 @@
     "errors": {
       "interrupted": "Exécution interrompue"
     },
+    "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
     "preview": "aperçu",
     "senseHat": {
