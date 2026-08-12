@@ -112,22 +112,20 @@
       "markdown": "Instructions are written in <0>markdown</0>.",
       "purpose": "Instructions can be added to your project to guide students."
     },
-    "removeInstructions": "Remove instructions",
+    "addStep": "Add a step",
+    "removeStep": "Remove step",
+    "newStepDefaultContent": "## Step title",
     "nextStep": "Next step",
     "previousStep": "Previous step",
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
     "projectSteps": "Project instructions",
     "edit": "Edit",
     "view": "View",
-    "removeInstructionsModal": {
-      "removeInstructions": "Remove instructions",
-      "close": "Close",
-      "heading": "Remove project instructions?",
-      "removeInstuctionsWarning": "You are about to remove the instructions from the project.",
-      "resultRemovingInstructions": "As a result of removing these instructions:",
-      "instructionsWillBeDeleted": "Instructions content will be deleted.",
-      "studentsWorkingProjectNotRecievedInstructions": "Students who start working on this project will not receive instructions.",
-      "studentsStartedWillSeeInstructions": "Students who have already started working on this project will still be able to see the instructions as they were when they started."
+    "removeStepModal": {
+      "heading": "Remove instruction step?",
+      "warning": "Are you sure you want to delete this instructions step? You will not be able to get this back.",
+      "cancel": "Cancel",
+      "removeStep": "Remove step"
     }
   },
   "projectsPanel": {
@@ -165,6 +163,7 @@
     "errors": {
       "interrupted": "Execution interrupted"
     },
+    "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Preview in new tab",
     "preview": "preview",
     "senseHat": {
