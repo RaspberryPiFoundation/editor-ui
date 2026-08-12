@@ -35,10 +35,6 @@ describe("When instructionsEditable changes from false to true", () => {
           project: { instructions: "# Title" },
           instructionsEditable: false,
         },
-        instructions: {
-          project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
-          currentStepPosition: 0,
-        },
       },
     });
 
@@ -67,14 +63,14 @@ describe("When instructionsEditable is true", () => {
       ({ store } = renderWithProviders(<InstructionsPanel />, {
         preloadedState: {
           editor: {
-            project: {},
+            project: {
+              instructions: [{ markdown_content: "instructions" }],
+            },
             instructionsEditable: true,
           },
           instructions: {
-            project: {
-              steps: [{ content: "instructions" }],
-            },
-            currentStepPosition: 1,
+            permitOverride: true,
+            currentStepPosition: 0,
           },
         },
       }));
@@ -99,7 +95,9 @@ describe("When instructionsEditable is true", () => {
       fireEvent.change(textarea, { target: { value: testString } });
 
       await waitFor(() => {
-        expect(store.getState().editor.project.instructions).toBe(testString);
+        expect(store.getState().editor.project.instructions).toEqual([
+          { markdown_content: testString },
+        ]);
       });
     });
 
@@ -108,19 +106,153 @@ describe("When instructionsEditable is true", () => {
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).not.toBeInTheDocument();
     });
+  });
 
-    test("Renders the remove instructions button", () => {
+  describe("Adding and removing steps", () => {
+    let store;
+
+    beforeEach(() => {
+      ({ store } = renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {
+              instructions: [
+                { markdown_content: "first" },
+                { markdown_content: "second" },
+              ],
+            },
+            instructionsEditable: true,
+          },
+          instructions: {
+            permitOverride: true,
+            quiz: {},
+            currentStepPosition: 0,
+          },
+        },
+      }));
+    });
+
+    test("Renders the add step and remove step buttons", () => {
+      expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
       expect(
-        screen.queryByText("instructionsPanel.removeInstructions"),
+        screen.getByTitle("instructionsPanel.removeStep"),
       ).toBeInTheDocument();
     });
 
-    test("Remove instructions modal is opened", () => {
-      const button = screen.queryByText("instructionsPanel.removeInstructions");
-      fireEvent.click(button);
+    test("Clicking add step inserts a new step after the current step, with default content, and navigates to it", () => {
+      const addStepButton = screen.getByText("instructionsPanel.addStep");
+
+      act(() => {
+        fireEvent.click(addStepButton);
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([
+        { markdown_content: "first" },
+        { markdown_content: "instructionsPanel.newStepDefaultContent" },
+        { markdown_content: "second" },
+      ]);
+      expect(store.getState().instructions.currentStepPosition).toBe(1);
+    });
+
+    test("Clicking remove step opens a confirmation modal without removing the step", () => {
+      const removeStepButton = screen.getByTitle(
+        "instructionsPanel.removeStep",
+      );
+
+      act(() => {
+        fireEvent.click(removeStepButton);
+      });
 
       expect(
-        screen.queryByText("instructionsPanel.removeInstructionsModal.heading"),
+        screen.getByText("instructionsPanel.removeStepModal.heading"),
+      ).toBeInTheDocument();
+      expect(store.getState().editor.project.instructions).toEqual([
+        { markdown_content: "first" },
+        { markdown_content: "second" },
+      ]);
+    });
+
+    test("Cancelling the confirmation modal does not remove the step", () => {
+      fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
+
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.cancel"),
+        );
+      });
+
+      expect(
+        screen.queryByText("instructionsPanel.removeStepModal.heading"),
+      ).not.toBeInTheDocument();
+      expect(store.getState().editor.project.instructions).toEqual([
+        { markdown_content: "first" },
+        { markdown_content: "second" },
+      ]);
+    });
+
+    test("Confirming removal removes the current step and navigates to the previous step", () => {
+      act(() => {
+        store.dispatch(setCurrentStepPosition(1));
+      });
+
+      fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
+
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.removeStep"),
+        );
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([
+        { markdown_content: "first" },
+      ]);
+      expect(store.getState().instructions.currentStepPosition).toBe(0);
+    });
+  });
+
+  describe("When there is only one step", () => {
+    let store;
+
+    beforeEach(() => {
+      ({ store } = renderWithProviders(<InstructionsPanel />, {
+        preloadedState: {
+          editor: {
+            project: {
+              instructions: [{ markdown_content: "only step" }],
+            },
+            instructionsEditable: true,
+          },
+          instructions: {
+            permitOverride: true,
+            quiz: {},
+            currentStepPosition: 0,
+          },
+        },
+      }));
+    });
+
+    test("Renders the step counter and step actions even with a single step", () => {
+      expect(
+        screen.getByText("instructionsPanel.stepCounter"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("instructionsPanel.addStep")).toBeInTheDocument();
+      expect(
+        screen.getByTitle("instructionsPanel.removeStep"),
+      ).toBeInTheDocument();
+    });
+
+    test("Confirming removal of the only step falls back to the empty state", () => {
+      fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
+
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.removeStep"),
+        );
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([]);
+      expect(
+        screen.getByText("instructionsPanel.emptyState.addInstructions"),
       ).toBeInTheDocument();
     });
   });
@@ -149,12 +281,6 @@ describe("When instructionsEditable is true", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).toBeInTheDocument();
-    });
-
-    test("Does not render the remove instructions button", () => {
-      expect(
-        screen.queryByText("instructionsPanel.removeInstructions"),
-      ).not.toBeInTheDocument();
     });
 
     test("Clicking the add instructions button adds the demo instructions", () => {
@@ -203,12 +329,6 @@ describe("When instructions are not editable", () => {
       ).not.toBeInTheDocument();
     });
 
-    test("Does not render the remove instructions button", () => {
-      expect(
-        screen.queryByText("instructionsPanel.removeInstructions"),
-      ).not.toBeInTheDocument();
-    });
-
     test("Does not render the instructions explanation", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.purpose"),
@@ -224,6 +344,22 @@ describe("When instructions are not editable", () => {
     test("Does not render the progress bar", () => {
       expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
     });
+  });
+
+  it("renders instructions string as a single step", () => {
+    renderWithProviders(<InstructionsPanel />, {
+      preloadedState: {
+        editor: {
+          project: { instructions: "# rendered heading" },
+          instructionsEditable: false,
+        },
+      },
+    });
+
+    expect(
+      screen.getByRole("heading", { name: "rendered heading" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
   });
 
   describe("When there are instructions", () => {

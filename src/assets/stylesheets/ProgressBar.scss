@@ -27,17 +27,17 @@
   }
 
   .btn {
-    border-radius: var(--step-buttons-radius, inherit);
+    border-radius: var(--step-buttons-radius, var(--space-1));
     &:hover,
     &:focus,
     &:active {
-      border-radius: var(--step-buttons-radius, inherit);
+      border-radius: var(--step-buttons-radius, var(--space-1));
     }
   }
 }
 
 .step-counter {
-  display: var(--display-step-counter, none);
+  display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;

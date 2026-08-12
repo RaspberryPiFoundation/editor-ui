@@ -49,7 +49,12 @@ const DownloadButton = (props) => {
     const zip = new JSZip();
 
     if (project.instructions) {
-      zip.file("INSTRUCTIONS.md", project.instructions);
+      const instructionsMarkdown = Array.isArray(project.instructions)
+        ? project.instructions
+            .map((step) => step.markdown_content ?? "")
+            .join("\n\n")
+        : project.instructions;
+      zip.file("INSTRUCTIONS.md", instructionsMarkdown);
     }
 
     project.components.forEach((file) => {

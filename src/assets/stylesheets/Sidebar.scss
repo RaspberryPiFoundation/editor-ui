@@ -120,10 +120,6 @@
   background: var(--sidebar-panel-background);
 }
 
-.sidebar__panel--with-footer {
-  padding-block-end: var(--sidebar-footer-padding, var(--space-4));
-}
-
 .sidebar__panel-heading {
   margin: 0;
   @include font-size-1-5(regular);
@@ -151,13 +147,12 @@
 }
 
 .sidebar__panel-footer {
-  border-block-start: 1px solid var(--editor-color-outline);
+  border-block-start: 1px solid var(--sidebar-border);
   inset-block-end: 0px;
   inline-size: 100%;
   inline-size: -moz-available;
   inline-size: -webkit-stretch;
   inline-size: stretch;
   padding-inline: var(--space-2);
-  background-color: white;
   border-end-end-radius: 8px;
 }

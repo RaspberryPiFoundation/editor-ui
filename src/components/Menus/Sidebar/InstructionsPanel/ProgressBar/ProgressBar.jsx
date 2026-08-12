@@ -59,7 +59,9 @@ const ProgressBar = ({ panelRef }) => {
               totalSteps: numberOfSteps,
             })}
           </p>
-          <progress max={numberOfSteps - 1} value={currentStepPosition} />
+          {numberOfSteps > 1 && (
+            <progress max={numberOfSteps - 1} value={currentStepPosition} />
+          )}
         </div>
 
         <Button

@@ -11,18 +11,30 @@ import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
 import { setProjectInstructions } from "../../../../redux/EditorSlice";
-import { selectInstructionSteps } from "../../../../redux/InstructionsSlice";
+import {
+  selectInstructionSteps,
+  setCurrentStepPosition,
+} from "../../../../redux/InstructionsSlice";
+import {
+  insertStepAfter,
+  removeStepAt,
+  updateStepMarkdown,
+} from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
-import RemoveInstructionsModal from "../../../Modals/RemoveInstructionsModal";
+import RemoveInstructionStepModal from "../../../Modals/RemoveInstructionStepModal";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
+import BinIcon from "../../../../assets/icons/bin.svg";
 
 const InstructionsPanel = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
+
+  const onEditTab = instructionsEditable && tabIndex === 0;
   const project = useSelector((state) => state.editor?.project);
   const steps = useSelector(selectInstructionSteps);
   const dispatch = useDispatch();
@@ -47,13 +59,31 @@ const InstructionsPanel = () => {
     dispatch(setProjectInstructions(translatedInstructions));
   };
 
-  const removeInstructions = () => {
-    dispatch(setProjectInstructions(null));
-    setShowModal(false);
+  const onStepMarkdownChange = (e) => {
+    dispatch(
+      setProjectInstructions(
+        updateStepMarkdown(steps, currentStepPosition, e.target.value),
+      ),
+    );
   };
 
-  const onChange = (e) => {
-    dispatch(setProjectInstructions(e.target.value));
+  const addStep = () => {
+    dispatch(
+      setProjectInstructions(
+        insertStepAfter(
+          steps,
+          currentStepPosition,
+          t("instructionsPanel.newStepDefaultContent"),
+        ),
+      ),
+    );
+    dispatch(setCurrentStepPosition(currentStepPosition + 1));
+  };
+
+  const confirmRemoveStep = () => {
+    dispatch(setProjectInstructions(removeStepAt(steps, currentStepPosition)));
+    dispatch(setCurrentStepPosition(Math.max(currentStepPosition - 1, 0)));
+    setShowRemoveStepModal(false);
   };
 
   const panelRef = useRef(null);
@@ -64,40 +94,34 @@ const InstructionsPanel = () => {
       panelRef={panelRef}
       heading={t("instructionsPanel.projectSteps")}
       buttons={
-        instructionsEditable
-          ? hasInstructions
-            ? [
-                <DesignSystemButton
-                  text={t("instructionsPanel.removeInstructions")}
-                  type="secondary"
-                  onClick={() => setShowModal(true)}
-                  fill={true}
-                  textAlways={true}
-                  small={true}
-                />,
-              ]
-            : [
-                <DesignSystemButton
-                  type="primary"
-                  icon={<PlusIcon />}
-                  text={t("instructionsPanel.emptyState.addInstructions")}
-                  onClick={addInstructions}
-                  fill={true}
-                  textAlways={true}
-                  small={true}
-                />,
-              ]
+        instructionsEditable && !hasInstructions
+          ? [
+              <DesignSystemButton
+                type="primary"
+                icon={<PlusIcon />}
+                text={t("instructionsPanel.emptyState.addInstructions")}
+                onClick={addInstructions}
+                fill={true}
+                textAlways={true}
+                small={true}
+              />,
+            ]
           : []
       }
       Footer={
-        hasMultipleSteps ? () => <ProgressBar panelRef={panelRef} /> : undefined
+        hasInstructions && (hasMultipleSteps || onEditTab)
+          ? () => <ProgressBar panelRef={panelRef} />
+          : undefined
       }
     >
       <div className="project-instructions">
         {instructionsEditable ? (
           hasInstructions ? (
             <div className="c-instruction-tabs" key="instruction-tabs">
-              <Tabs>
+              <Tabs
+                selectedIndex={tabIndex}
+                onSelect={(index) => setTabIndex(index)}
+              >
                 <TabList>
                   <Tab>{t("instructionsPanel.edit")}</Tab>
                   <Tab>{t("instructionsPanel.view")}</Tab>
@@ -105,8 +129,8 @@ const InstructionsPanel = () => {
                 <TabPanel>
                   <textarea
                     data-testid="instructionTextarea"
-                    value={project.instructions}
-                    onChange={onChange}
+                    value={steps[currentStepPosition]?.markdown_content ?? ""}
+                    onChange={onStepMarkdownChange}
                   />
                 </TabPanel>
                 <TabPanel>
@@ -118,6 +142,25 @@ const InstructionsPanel = () => {
                   />
                 </TabPanel>
               </Tabs>
+              {onEditTab && (
+                <div className="instructions-panel__step-actions">
+                  <DesignSystemButton
+                    type="secondary"
+                    className="btn btn--secondary instructions-panel__add-step-button"
+                    text={t("instructionsPanel.addStep")}
+                    icon={<PlusIcon />}
+                    iconPosition="right"
+                    onClick={addStep}
+                  />
+                  <DesignSystemButton
+                    type="secondary"
+                    className="btn btn--secondary btn--danger instructions-panel__remove-step-button"
+                    title={t("instructionsPanel.removeStep")}
+                    icon={<BinIcon />}
+                    onClick={() => setShowRemoveStepModal(true)}
+                  />
+                </div>
+              )}
             </div>
           ) : (
             <div className="project-instructions__empty">
@@ -154,27 +197,25 @@ const InstructionsPanel = () => {
           />
         )}
       </div>
-      {showModal && (
-        <RemoveInstructionsModal
+      {showRemoveStepModal && (
+        <RemoveInstructionStepModal
           buttons={[
             <DesignSystemButton
               type="primary"
               key="remove"
               variant="danger"
-              text={t(
-                "instructionsPanel.removeInstructionsModal.removeInstructions",
-              )}
-              onClick={removeInstructions}
+              text={t("instructionsPanel.removeStepModal.removeStep")}
+              onClick={confirmRemoveStep}
             />,
             <DesignSystemButton
               type="secondary"
-              key="close"
-              text={t("instructionsPanel.removeInstructionsModal.close")}
-              onClick={() => setShowModal(false)}
+              key="cancel"
+              text={t("instructionsPanel.removeStepModal.cancel")}
+              onClick={() => setShowRemoveStepModal(false)}
             />,
           ]}
-          isOpen={showModal}
-          setShowModal={setShowModal}
+          isOpen={showRemoveStepModal}
+          setShowModal={setShowRemoveStepModal}
         />
       )}
     </SidebarPanel>

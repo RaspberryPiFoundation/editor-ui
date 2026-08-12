@@ -37,6 +37,12 @@ const getSettingsButton = () =>
 const getFilePanelButton = () =>
   getEditorShadow().find("[title='Project files']").first();
 
+export const getAddStepButton = () =>
+  getEditorShadow().findByText("Add a step");
+
+export const getRemoveStepButton = () =>
+  getEditorShadow().findByText("Remove step");
+
 export const getProgramInput = () =>
   getEditorShadow().findByRole("textbox", { name: "Text input" });
 
@@ -134,6 +140,9 @@ export const ensureFilePanelOpen = () =>
       cy.wrap($button).click();
     }
   });
+
+export const getInstructionsEditTextarea = () =>
+  getEditorShadow().findByTestId("instructionTextarea");
 
 export const checkEditorInitialized = () => {
   getEditorShadow().findByRole("button", { name: /run/i }).should("be.visible");

@@ -119,7 +119,6 @@
 
     &:hover {
       background-color: var(--rpf-button-secondary-background-color-hover);
-      color: var(--rpf-button-secondary-text-color-hover);
       border-color: var(--rpf-button-secondary-border-color-hover) !important;
     }
 
@@ -223,6 +222,12 @@
       outline: 3px solid $rpf-brand-raspberry;
     }
 
+    &.btn--secondary, &.btn--secondary:hover {
+      border-color: var(--rpf-alert-error);
+      --rpf-button-secondary-border-color-hover: var(--rpf-alert-error);
+    }
+
+    &.btn--secondary,
     &.btn--tertiary {
       background-color: inherit;
       color: var(--rpf-button-tertiary-danger-text-color);
