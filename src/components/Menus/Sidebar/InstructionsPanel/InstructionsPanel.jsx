@@ -146,7 +146,7 @@ const InstructionsPanel = () => {
                 <div className="instructions-panel__step-actions">
                   <DesignSystemButton
                     type="secondary"
-                    className="btn btn--secondary instructions-panel__add-step-button"
+                    className="instructions-panel__add-step-button"
                     text={t("instructionsPanel.addStep")}
                     icon={<PlusIcon />}
                     iconPosition="right"
@@ -154,7 +154,8 @@ const InstructionsPanel = () => {
                   />
                   <DesignSystemButton
                     type="secondary"
-                    className="btn btn--secondary btn--danger instructions-panel__remove-step-button"
+                    className="instructions-panel__remove-step-button"
+                    variant="danger"
                     title={t("instructionsPanel.removeStep")}
                     icon={<BinIcon />}
                     onClick={() => setShowRemoveStepModal(true)}
