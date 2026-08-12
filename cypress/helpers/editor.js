@@ -34,6 +34,9 @@ export const getFileButtonByName = (filename) =>
 const getSettingsButton = () =>
   getEditorShadow().find("[title='Settings']").first();
 
+const getFilePanelButton = () =>
+  getEditorShadow().find("[title='Project files']").first();
+
 export const getProgramInput = () =>
   getEditorShadow().findByRole("textbox", { name: "Text input" });
 
@@ -124,8 +127,13 @@ export const dragEditorResizeHandle = (
 export const dragSidebarResizeHandle = ({ deltaX = 80 } = {}) =>
   dragHandle(() => getSidebarResizeHandle(), { deltaX, deltaY: 0 });
 
-export const openFilePanel = () =>
-  getEditorShadow().find("[title='Project files']").click();
+export const ensureFilePanelOpen = () =>
+  getFilePanelButton().then(($button) => {
+    const alreadyOpen = $button.hasClass("sidebar__bar-option--selected");
+    if (!alreadyOpen) {
+      cy.wrap($button).click();
+    }
+  });
 
 export const checkEditorInitialized = () => {
   getEditorShadow().findByRole("button", { name: /run/i }).should("be.visible");
