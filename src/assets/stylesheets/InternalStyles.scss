@@ -46,8 +46,6 @@
 @use "./LoadFailed.scss" as *;
 @use "./FriendlyErrorMessage" as *;
 
-// @use "./settings/fonts" as fonts;
-
 .--light {
   // Theme colours
   --editor-color-layer-1: var(--rpf-teal-100);
