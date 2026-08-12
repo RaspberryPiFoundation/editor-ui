@@ -35,10 +35,6 @@ describe("When instructionsEditable changes from false to true", () => {
           project: { instructions: "# Title" },
           instructionsEditable: false,
         },
-        instructions: {
-          project: { steps: [{ content: "<h1>Rendered preview</h1>" }] },
-          currentStepPosition: 0,
-        },
       },
     });
 
