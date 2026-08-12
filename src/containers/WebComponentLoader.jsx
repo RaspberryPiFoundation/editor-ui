@@ -205,6 +205,15 @@ const WebComponentLoader = (props) => {
     dispatch(setOfflineEnabled(offlineEnabled));
   }, [offlineEnabled, dispatch]);
 
+  const webComponentStyles = (
+    <>
+      <style>{resetStyles.toString()}</style>
+      <style>{globalStyles.toString()}</style>
+      <style>{externalStyles.toString()}</style>
+      <style>{internalStyles.toString()}</style>
+    </>
+  );
+
   const renderSuccessState = () => (
     <>
       <SettingsContext.Provider
@@ -213,10 +222,7 @@ const WebComponentLoader = (props) => {
           fontSize: cookies.fontSize || "small",
         }}
       >
-        <style>{resetStyles.toString()}</style>
-        <style>{globalStyles.toString()}</style>
-        <style>{externalStyles.toString()}</style>
-        <style>{internalStyles.toString()}</style>
+        {webComponentStyles}
         {useEditorStyles && <style>{editorStyles.toString()}</style>}
         {hostStyles && <style>{hostStyles}</style>}
 
@@ -256,7 +262,7 @@ const WebComponentLoader = (props) => {
 
   const renderFailedState = () => (
     <>
-      <style>{internalStyles.toString()}</style>
+      {webComponentStyles}
       <div className={`--${cookies.theme || themeDefault}`}>
         <LoadFailed onRetry={() => window.location.reload()} />
       </div>
@@ -265,7 +271,7 @@ const WebComponentLoader = (props) => {
 
   const renderLoadingState = () => (
     <>
-      <style>{internalStyles.toString()}</style>
+      {webComponentStyles}
       <div className={`--${cookies.theme || themeDefault}`}>
         <Loader delay={0} />
       </div>
