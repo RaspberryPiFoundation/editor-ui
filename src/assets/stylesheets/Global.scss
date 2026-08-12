@@ -10,7 +10,7 @@
 }
 
 // :not(:where(.rpf-button))
-// avoids targetting the design system buttons without increasing specificity
+// avoids targeting the design system buttons without increasing specificity
 
 a:not(:where(.rpf-button)) {
   &:focus-visible {
