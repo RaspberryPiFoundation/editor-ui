@@ -2,12 +2,7 @@
 @use "./rpf_design_system/colours" as *;
 @use "./rpf_design_system/font-weight" as *;
 
-// Everything here is scoped to `.btn`, which only Button.jsx applies. The
-// variant selectors are written as `&.btn--primary` (compiling to
-// `.btn.btn--primary`) rather than `&--primary` (`.btn--primary`) on purpose:
-// several call sites still hand `btn--*` class names to design system buttons,
-// and a standalone `.btn--*` selector would override the design system's own
-// styling for them.
+// Everything here is scoped to `.btn`, which only Button.jsx applies.
 
 .btn {
   align-items: center;

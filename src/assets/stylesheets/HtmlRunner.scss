@@ -12,9 +12,6 @@
 
 // Styled to look like a tertiary editor button. Inlined rather than shared with
 // Button.scss so this link can move to the design system Button independently.
-// The hover colours are literal here because the equivalent Button.scss values
-// come from `--rpf-button-*` custom properties scoped to `.btn`, which this
-// element does not have.
 a.htmlrunner-link {
   align-items: center;
   background-color: inherit;

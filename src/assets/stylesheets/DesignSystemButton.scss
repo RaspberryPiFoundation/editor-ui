@@ -2,8 +2,7 @@
 
 // All of these overrides are scoped to `.buttonWrapper` (added by the
 // DesignSystemButton wrapper component) so they only affect buttons rendered
-// through the wrapper and never leak onto native Design System buttons, which
-// carry `.rpf-button*` classes but not `.buttonWrapper`.
+// through the wrapper and never leak onto native Design System buttons.
 .buttonWrapper {
   &.rpf-button {
     flex-direction: row-reverse;
