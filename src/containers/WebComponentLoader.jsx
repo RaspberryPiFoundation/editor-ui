@@ -217,7 +217,7 @@ const WebComponentLoader = (props) => {
         <style>{globalStyles.toString()}</style>
         <style>{externalStyles.toString()}</style>
         <style>{internalStyles.toString()}</style>
-        {/* {useEditorStyles && <style>{editorStyles.toString()}</style>} */}
+        {useEditorStyles && <style>{editorStyles.toString()}</style>}
         {hostStyles && <style>{hostStyles}</style>}
 
         <div
