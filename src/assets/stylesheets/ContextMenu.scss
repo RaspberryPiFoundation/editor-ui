@@ -18,8 +18,8 @@
   gap: $space-0-5;
   justify-content: center;
   margin: 0;
-  min-block-size: 44px;
-  min-inline-size: 44px;
+  min-block-size: var(--min-target-size);
+  min-inline-size: var(--min-target-size);
   padding: var(--space-1-5);
   position: relative;
   text-align: center;
