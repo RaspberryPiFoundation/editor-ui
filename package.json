@@ -13,7 +13,7 @@
     "@codemirror/view": "^6.3.0",
     "@hello-pangea/dnd": "^16.2.0",
     "@juggle/resize-observer": "^3.3.1",
-    "@raspberrypifoundation/design-system-react": "^2.9.2",
+    "@raspberrypifoundation/design-system-react": "^2.10.2",
     "@raspberrypifoundation/python-friendly-error-messages": "0.8.0",
     "@raspberrypifoundation/rpf-markdown-core": "^0.1.4",
     "@react-three/drei": "^10.0.0",
