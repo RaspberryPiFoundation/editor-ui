@@ -111,17 +111,18 @@
   // Primary button
 
   .rpf-button {
-    --editor-color-theme-light: color-mix(var(--editor-color-theme), white 15%);
-
-    --editor-color-theme-lighter: color-mix(
+    --rpf-button-text-color: var(--rpf-black);
+    --rpf-button-background-color: var(--editor-color-theme);
+    --rpf-button-background-color-hover: color-mix(
+      in srgb,
+      var(--editor-color-theme),
+      white 15%
+    );
+    --rpf-button-background-color-active: color-mix(
+      in srgb,
       var(--editor-color-theme),
       white 30%
     );
-
-    --rpf-button-text-color: var(--rpf-black);
-    --rpf-button-background-color: var(--editor-color-theme);
-    --rpf-button-background-color-hover: var(--editor-color-theme-light);
-    --rpf-button-background-color-active: var(--editor-color-theme-lighter);
 
     --rpf-button-background-color-focus: var(--editor-color-theme);
     --rpf-button-background-color-disabled: var(--rpf-grey-200);
@@ -130,7 +131,7 @@
   }
 
   .rpf-button--secondary {
-    // Actually background color
+    // This is actually the background color, quirk of the Design System
     --rpf-button-text-color: transparent;
   }
 }
