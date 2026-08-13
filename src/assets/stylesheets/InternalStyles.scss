@@ -138,14 +138,19 @@
     );
 
     --rpf-button-background-color-focus: var(--editor-color-theme);
-    --rpf-button-background-color-disabled: var(--rpf-grey-200);
-    --rpf-button-color-disabled: var(--editor-color-layer-3);
-    --rpf-button-color-disabled-focus: var(--editor-color-theme);
+    --rpf-button-background-color-disabled: var(--rpf-grey-500);
+
+    &:disabled {
+      --rpf-button-text-color: var(--rpf-grey-900);
+    }
   }
 
   .rpf-button--secondary {
-    // This is actually the background color, quirk of the Design System
+    // There are actually the background colors, quirk of the Design System
     --rpf-button-text-color: transparent;
     --rpf-button-danger-text-color: transparent;
+    &:disabled {
+      --rpf-button-text-color: transparent;
+    }
   }
 }
