@@ -21,7 +21,7 @@ import {
   updateStepMarkdown,
 } from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import RemoveInstructionStepModal from "../../../Modals/RemoveInstructionStepModal";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
@@ -96,14 +96,12 @@ const InstructionsPanel = () => {
       buttons={
         instructionsEditable && !hasInstructions
           ? [
-              <DesignSystemButton
+              <Button
                 type="primary"
                 icon={<PlusIcon />}
                 text={t("instructionsPanel.emptyState.addInstructions")}
                 onClick={addInstructions}
-                fill={true}
-                textAlways={true}
-                small={true}
+                fullWidth
               />,
             ]
           : []
@@ -144,17 +142,16 @@ const InstructionsPanel = () => {
               </Tabs>
               {onEditTab && (
                 <div className="instructions-panel__step-actions">
-                  <DesignSystemButton
+                  <Button
                     type="secondary"
-                    className="instructions-panel__add-step-button"
                     text={t("instructionsPanel.addStep")}
                     icon={<PlusIcon />}
                     iconPosition="right"
                     onClick={addStep}
+                    fullWidth
                   />
-                  <DesignSystemButton
+                  <Button
                     type="secondary"
-                    className="instructions-panel__remove-step-button"
                     variant="danger"
                     title={t("instructionsPanel.removeStep")}
                     icon={<BinIcon />}
@@ -201,14 +198,14 @@ const InstructionsPanel = () => {
       {showRemoveStepModal && (
         <RemoveInstructionStepModal
           buttons={[
-            <DesignSystemButton
+            <Button
               type="primary"
               key="remove"
               variant="danger"
               text={t("instructionsPanel.removeStepModal.removeStep")}
               onClick={confirmRemoveStep}
             />,
-            <DesignSystemButton
+            <Button
               type="secondary"
               key="cancel"
               text={t("instructionsPanel.removeStepModal.cancel")}
