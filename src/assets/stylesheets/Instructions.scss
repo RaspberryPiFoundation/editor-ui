@@ -21,12 +21,12 @@
   }
 
   &__content {
-    padding-block-end: var(--project-instructions-padding, $space-1);
+    padding-block-end: var(--project-instructions-padding, var(--space-2));
   }
 
   h2 {
     @include typography.style-1-5(bold);
-    margin-block-start: $space-0-5;
+    margin-block-start: var(--space-1);
   }
 
   p {
@@ -47,7 +47,7 @@
 
   table {
     border-collapse: collapse;
-    margin-block-end: $space-1-5;
+    margin-block-end: var(--space-3);
     inline-size: 100%;
 
     tr {
@@ -55,7 +55,7 @@
     }
 
     td {
-      padding: $space-0-5 $space-1-5;
+      padding: var(--space-1) var(--space-3);
     }
   }
 
@@ -72,9 +72,9 @@
     background-color: var(--code-background-color, #{$rpf-grey-700});
     border: 1px solid var(--code-block-border-color, #{$rpf-grey-600});
     border-radius: 8px;
-    padding: $space-0-5 $space-1;
+    padding: var(--space-1) var(--space-2);
     overflow: auto;
-    margin: $space-1 0;
+    margin: var(--space-2) 0;
     scrollbar-color: var(--code-block-scrollbar-color, auto);
 
     code {
@@ -87,7 +87,7 @@
   .c-project-code {
     background-color: $rpf-grey-700;
     border-radius: 8px;
-    margin: $space-1 0 $space-1-5 0;
+    margin: var(--space-2) 0 var(--space-3) 0;
 
     pre {
       margin: 0;
@@ -120,7 +120,7 @@
   .c-code-filename {
     font-family: var(--editor-font-family-monospace);
     margin: 0;
-    padding: $space-0-5 $space-1;
+    padding: var(--space-1) var(--space-2);
     color: $rpf-white;
     background-color: $rpf-grey-800;
     border-start-start-radius: 8px;
@@ -129,15 +129,15 @@
   }
 
   .line-numbers {
-    padding-inline-start: $space-3;
-    padding-inline-end: $space-1;
+    padding-inline-start: var(--space-6);
+    padding-inline-end: var(--space-2);
   }
 
   .line-numbers-rows {
     border-color: $rpf-text-secondary-dark;
 
     span::before {
-      padding-inline-end: $space-0-5;
+      padding-inline-end: var(--space-1);
       color: $rpf-text-secondary-dark;
     }
   }
@@ -241,7 +241,7 @@
   }
 
   .c-project-task {
-    margin-block-end: $space-2-5;
+    margin-block-end: var(--space-5);
 
     p {
       margin: 0;
@@ -258,19 +258,19 @@
   .c-project-callout {
     background-color: $rpf-blue-100;
     border-inline-start: 4px solid $rpf-blue-800;
-    padding: $space-0-5 $space-1;
+    padding: var(--space-1) var(--space-2);
     display: flex;
     flex-direction: column;
-    gap: $space-0-5;
-    margin: $space-1-5 0;
+    gap: var(--space-1);
+    margin: var(--space-3) 0;
 
     h3 {
       @include typography.style-1(bold);
 
       margin: 0;
-      padding-inline-start: $space-2;
+      padding-inline-start: var(--space-4);
       background-repeat: no-repeat;
-      background-position: inline-start $space-0-5 center;
+      background-position: inline-start var(--space-1) center;
     }
 
     p {
@@ -300,10 +300,10 @@
     display: flex;
     align-items: flex-start;
     align-self: stretch;
-    padding: $space-1;
+    padding: var(--space-2);
     border-radius: 8px;
     border: 1px solid var(--rpf-grey-150);
-    margin-block-end: $space-1-5;
+    margin-block-end: var(--space-3);
 
     pre {
       background-color: $rpf-white;
@@ -323,11 +323,11 @@
 
   .project-instructions__empty {
     background-color: var(--editor-color-layer-1);
-    border-radius: $space-0-5;
+    border-radius: var(--space-1);
     display: flex;
     flex-direction: column;
-    gap: $space-1-5;
-    padding: $space-1;
+    gap: var(--space-3);
+    padding: var(--space-2);
   }
 
   .project-instructions__empty-text {
