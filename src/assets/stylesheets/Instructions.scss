@@ -387,15 +387,7 @@
     .instructions-panel__step-actions {
       display: flex;
       margin-block-start: var(--space-2);
-      gap: $space-1;
-
-      .instructions-panel__add-step-button {
-        flex-grow: 1;
-      }
-
-      .instructions-panel__remove-step-button {
-        flex: 0 0 auto;
-      }
+      gap: var(--space-2);
     }
 
     textarea {

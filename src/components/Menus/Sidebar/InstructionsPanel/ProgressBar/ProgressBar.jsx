@@ -6,8 +6,8 @@ import {
 } from "../../../../../redux/InstructionsSlice";
 import ChevronLeft from "../../../../../assets/icons/chevron_left.svg";
 import ChevronRight from "../../../../../assets/icons/chevron_right.svg";
-import Button from "../../../../Button/Button";
 
+import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../../../../assets/stylesheets/ProgressBar.scss?inline";
 import { useTranslation } from "react-i18next";
 
@@ -46,9 +46,9 @@ const ProgressBar = ({ panelRef }) => {
     <>
       <div className="progress-bar">
         <Button
-          className={"btn--secondary btn--small"}
-          onClickHandler={goToPreviousStep}
-          ButtonIcon={ChevronLeft}
+          onClick={goToPreviousStep}
+          icon=<ChevronLeft />
+          iconOnly
           disabled={currentStepPosition === 0}
           title={t("instructionsPanel.previousStep")}
         />
@@ -65,9 +65,9 @@ const ProgressBar = ({ panelRef }) => {
         </div>
 
         <Button
-          className={"btn--secondary btn--small"}
-          onClickHandler={goToNextStep}
-          ButtonIcon={ChevronRight}
+          onClick={goToNextStep}
+          icon=<ChevronRight />
+          iconOnly
           disabled={currentStepPosition === numberOfSteps - 1}
           title={t("instructionsPanel.nextStep")}
         />
