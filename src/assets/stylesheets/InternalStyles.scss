@@ -124,6 +124,19 @@
       white 30%
     );
 
+    --rpf-button-danger-text-color: var(--rpf-black);
+    --rpf-button-danger-background-color: var(--rpf-red-400);
+    --rpf-button-danger-background-color-hover: color-mix(
+      in srgb,
+      var(--rpf-button-danger-background-color),
+      white 15%
+    );
+    --rpf-button-danger-background-color-active: color-mix(
+      in srgb,
+      var(--rpf-button-danger-background-color),
+      white 30%
+    );
+
     --rpf-button-background-color-focus: var(--editor-color-theme);
     --rpf-button-background-color-disabled: var(--rpf-grey-200);
     --rpf-button-color-disabled: var(--editor-color-layer-3);
@@ -133,5 +146,6 @@
   .rpf-button--secondary {
     // This is actually the background color, quirk of the Design System
     --rpf-button-text-color: transparent;
+    --rpf-button-danger-text-color: transparent;
   }
 }
