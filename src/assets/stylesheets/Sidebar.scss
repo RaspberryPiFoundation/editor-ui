@@ -147,13 +147,8 @@
   gap: var(--space-2);
 }
 
+// Just the seam between the footer and the content above it - everything
+// inside the footer is styled by whatever component the panel renders there.
 .sidebar__panel-footer {
   border-block-start: 1px solid var(--sidebar-border);
-  inset-block-end: 0px;
-  inline-size: 100%;
-  inline-size: -moz-available;
-  inline-size: -webkit-stretch;
-  inline-size: stretch;
-  padding-inline: var(--space-1-5);
-  border-end-end-radius: 8px;
 }
