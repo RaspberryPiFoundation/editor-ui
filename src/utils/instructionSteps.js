@@ -1,3 +1,6 @@
+export const REMOVE_CURRENT_STEP = "currentStep";
+export const REMOVE_ALL_STEPS = "allSteps";
+
 export const insertStepAfter = (steps, index, markdownContent = "") => [
   ...steps.slice(0, index + 1),
   { markdown_content: markdownContent },

@@ -19,6 +19,8 @@ import {
   insertStepAfter,
   removeStepAt,
   updateStepMarkdown,
+  REMOVE_ALL_STEPS,
+  REMOVE_CURRENT_STEP,
 } from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 import { Button } from "@raspberrypifoundation/design-system-react";
@@ -33,6 +35,7 @@ const INSTRUCTIONS_GUIDE_URL =
 const InstructionsPanel = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
+  const [removeScope, setRemoveScope] = useState(REMOVE_CURRENT_STEP);
   const instructionsEditable = useSelector(
     (state) => state.editor?.instructionsEditable,
   );
@@ -83,9 +86,25 @@ const InstructionsPanel = () => {
     dispatch(setCurrentStepPosition(currentStepPosition + 1));
   };
 
-  const confirmRemoveStep = () => {
-    dispatch(setProjectInstructions(removeStepAt(steps, currentStepPosition)));
-    dispatch(setCurrentStepPosition(Math.max(currentStepPosition - 1, 0)));
+  const confirmRemoveText = hasMultipleSteps
+    ? t(`instructionsPanel.removeStepModal.confirm.${removeScope}`)
+    : t("instructionsPanel.removeStepModal.removeInstructions");
+
+  const openRemoveStepModal = () => {
+    setRemoveScope(REMOVE_CURRENT_STEP);
+    setShowRemoveStepModal(true);
+  };
+
+  const confirmRemove = () => {
+    if (removeScope === REMOVE_ALL_STEPS) {
+      dispatch(setProjectInstructions([]));
+      dispatch(setCurrentStepPosition(0));
+    } else {
+      dispatch(
+        setProjectInstructions(removeStepAt(steps, currentStepPosition)),
+      );
+      dispatch(setCurrentStepPosition(Math.max(currentStepPosition - 1, 0)));
+    }
     setShowRemoveStepModal(false);
   };
 
@@ -100,6 +119,7 @@ const InstructionsPanel = () => {
         instructionsEditable && !hasInstructions
           ? [
               <Button
+                key="add-instructions"
                 type="primary"
                 icon={<PlusIcon />}
                 text={t("instructionsPanel.emptyState.addInstructions")}
@@ -170,7 +190,7 @@ const InstructionsPanel = () => {
                     variant="danger"
                     title={t("instructionsPanel.removeStep")}
                     icon={<BinIcon />}
-                    onClick={() => setShowRemoveStepModal(true)}
+                    onClick={openRemoveStepModal}
                   />
                 </div>
               )}
@@ -217,8 +237,8 @@ const InstructionsPanel = () => {
               type="primary"
               key="remove"
               variant="danger"
-              text={t("instructionsPanel.removeStepModal.removeStep")}
-              onClick={confirmRemoveStep}
+              text={confirmRemoveText}
+              onClick={confirmRemove}
             />,
             <Button
               type="secondary"
@@ -229,6 +249,9 @@ const InstructionsPanel = () => {
           ]}
           isOpen={showRemoveStepModal}
           setShowModal={setShowRemoveStepModal}
+          showScopeOptions={hasMultipleSteps}
+          removeScope={removeScope}
+          setRemoveScope={setRemoveScope}
         />
       )}
     </SidebarPanel>
