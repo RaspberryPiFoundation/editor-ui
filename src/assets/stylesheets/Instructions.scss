@@ -378,7 +378,6 @@
     }
 
     .react-tabs__tab-panel {
-      margin-block-end: var(--space-1);
       .project-instructions {
         padding-inline: var(--space-1);
       }
@@ -397,7 +396,6 @@
       color: var(--editor-color-text);
       border: none;
       block-size: 100%;
-      overflow-block: scroll;
       padding: var(--space-1);
       resize: none;
     }
