@@ -95,6 +95,10 @@
 .modal-content__input-section {
   display: flex;
   flex-direction: column;
+
+  label {
+    font-weight: $font-weight-bold;
+  }
 }
 
 .modal-content__buttons {
