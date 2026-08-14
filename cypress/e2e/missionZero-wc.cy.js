@@ -101,7 +101,6 @@ it("confirms LEDs used when display set", () => {
     "from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[100,0,0]] * 64)",
   );
 
-  cy.scrollTo("bottom");
   getResults().should("contain", '"usedLEDs":true');
 });
 
@@ -110,7 +109,6 @@ it("doesn't show LEDs used when display is all set to 0", () => {
     "from sense_hat import SenseHat\nsense = SenseHat()\nsense.set_pixels([[0,0,0]] * 64)",
   );
 
-  cy.scrollTo("bottom");
   getResults().should("contain", '"usedLEDs":false');
 });
 
