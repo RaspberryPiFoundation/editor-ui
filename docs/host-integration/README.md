@@ -9,18 +9,38 @@ For mounting, attributes, events, and styling, start with the
 [README](../../README.md#usage) and
 [Web Component notes](../WebComponent.md).
 
+## Sizing the component
+
+`<editor-wc>` fills the height its host gives it, so give it a definite one -
+and add `min-block-size: 0` to any flex or grid wrapper in between, or that
+wrapper will grow to fit its content instead of staying in its track.
+
+```css
+.editor-wrapper {
+  min-block-size: 0;
+}
+
+editor-wc {
+  block-size: 100%;
+}
+```
+
+Skip this and the editor still renders, but long instructions make the whole
+component grow instead of scrolling inside it. `web-component.html` is a
+working example.
+
 ## Host APIs
 
-| Guide | What it covers |
-| --- | --- |
+| Guide                                | What it covers                                                             |
+| ------------------------------------ | -------------------------------------------------------------------------- |
 | [Sidebar plugins](SidebarPlugins.md) | Add a host-owned panel (and optional header buttons) to the editor sidebar |
-| [Autosave flush](AutosaveFlush.md) | Force-save dirty work before SPA or page navigation leaves the editor |
+| [Autosave flush](AutosaveFlush.md)   | Force-save dirty work before SPA or page navigation leaves the editor      |
 
 ## Design notes
 
 Background from the feedback-panel / host-integration investigation. Useful
 context for the team; not required reading to call the APIs above.
 
-| Note | What it covers |
-| --- | --- |
+| Note                                                                         | What it covers                                                                                                                 |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [Feedback panel investigation](design-notes/feedback-panel-investigation.md) | Why React-across-the-WC-boundary is unsafe, the options we considered, and what shipped (1a) vs what was only explored (Alt 4) |
