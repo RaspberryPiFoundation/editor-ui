@@ -29,6 +29,19 @@ const fakeScratchblocksInit = (_locale, container) => {
   });
 };
 
+const openRemoveModal = () =>
+  act(() => {
+    fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
+  });
+
+const removeModalScopeRadio = (scope) =>
+  screen.getByLabelText(`instructionsPanel.removeStepModal.scope.${scope}`);
+
+const selectRemoveModalScope = (scope) =>
+  act(() => {
+    fireEvent.click(removeModalScopeRadio(scope));
+  });
+
 describe("When instructionsEditable changes from false to true", () => {
   test("does not leave the rendered preview above the edit/view tabs", () => {
     const { container, store } = renderWithProviders(<InstructionsPanel />, {
@@ -213,7 +226,9 @@ describe("When instructionsEditable is true", () => {
 
       act(() => {
         fireEvent.click(
-          screen.getByText("instructionsPanel.removeStepModal.removeStep"),
+          screen.getByText(
+            "instructionsPanel.removeStepModal.confirm.currentStep",
+          ),
         );
       });
 
@@ -221,6 +236,69 @@ describe("When instructionsEditable is true", () => {
         { markdown_content: "first" },
       ]);
       expect(store.getState().instructions.currentStepPosition).toBe(0);
+    });
+
+    test("The confirmation modal offers a scope choice, defaulting to the current step", () => {
+      openRemoveModal();
+
+      expect(removeModalScopeRadio("currentStep")).toBeChecked();
+      expect(removeModalScopeRadio("allSteps")).not.toBeChecked();
+      expect(
+        screen.getByText("instructionsPanel.removeStepModal.studentsWarning"),
+      ).toBeInTheDocument();
+    });
+
+    test("Selecting the remove all steps option relabels the confirm button", () => {
+      openRemoveModal();
+      selectRemoveModalScope("allSteps");
+
+      expect(removeModalScopeRadio("allSteps")).toBeChecked();
+      expect(
+        screen.getByText("instructionsPanel.removeStepModal.confirm.allSteps"),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText(
+          "instructionsPanel.removeStepModal.confirm.currentStep",
+        ),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Confirming with the remove all steps option clears the instructions and resets the step position", () => {
+      act(() => {
+        store.dispatch(setCurrentStepPosition(1));
+      });
+
+      openRemoveModal();
+      selectRemoveModalScope("allSteps");
+
+      act(() => {
+        fireEvent.click(
+          screen.getByText(
+            "instructionsPanel.removeStepModal.confirm.allSteps",
+          ),
+        );
+      });
+
+      expect(store.getState().editor.project.instructions).toEqual([]);
+      expect(store.getState().instructions.currentStepPosition).toBe(0);
+      expect(
+        screen.getByText("instructionsPanel.emptyState.addInstructions"),
+      ).toBeInTheDocument();
+    });
+
+    test("Removing the current step is always the default, even after previously choosing to remove all steps", () => {
+      openRemoveModal();
+      selectRemoveModalScope("allSteps");
+
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.removeStepModal.cancel"),
+        );
+      });
+
+      openRemoveModal();
+
+      expect(removeModalScopeRadio("currentStep")).toBeChecked();
     });
   });
 
@@ -255,12 +333,29 @@ describe("When instructionsEditable is true", () => {
       ).toBeInTheDocument();
     });
 
+    test("Does not offer the scope choice", () => {
+      openRemoveModal();
+
+      expect(
+        screen.queryByLabelText(
+          "instructionsPanel.removeStepModal.scope.currentStep",
+        ),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.getByText(
+          "instructionsPanel.removeStepModal.removeInstructions",
+        ),
+      ).toBeInTheDocument();
+    });
+
     test("Confirming removal of the only step falls back to the empty state", () => {
       fireEvent.click(screen.getByTitle("instructionsPanel.removeStep"));
 
       act(() => {
         fireEvent.click(
-          screen.getByText("instructionsPanel.removeStepModal.removeStep"),
+          screen.getByText(
+            "instructionsPanel.removeStepModal.removeInstructions",
+          ),
         );
       });
 
