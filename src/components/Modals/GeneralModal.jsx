@@ -9,6 +9,7 @@ import CloseIcon from "../../utils/CloseIcon";
 const GeneralModal = ({
   buttons = [],
   children,
+  className = "",
   defaultCallback,
   heading,
   isOpen,
@@ -30,7 +31,7 @@ const GeneralModal = ({
       <Modal
         isOpen={isOpen}
         onRequestClose={closeModal}
-        className="modal-content"
+        className={`modal-content ${className}`.trim()}
         overlayClassName="modal-overlay"
         contentLabel={heading}
         parentSelector={() =>
