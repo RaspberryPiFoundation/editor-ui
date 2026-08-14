@@ -135,7 +135,8 @@
 }
 
 .sidebar__panel-content {
-  flex: 1;
+  flex: 1 1 0px;
+  min-block-size: 0;
   padding: var(--space-2);
   overflow-y: auto;
 }
