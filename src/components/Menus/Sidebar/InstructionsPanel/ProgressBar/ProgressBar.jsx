@@ -51,6 +51,7 @@ const ProgressBar = ({ panelRef }) => {
           iconOnly
           disabled={currentStepPosition === 0}
           title={t("instructionsPanel.previousStep")}
+          size="small"
         />
         <div className="progress-container">
           <p className="step-counter">
@@ -70,6 +71,7 @@ const ProgressBar = ({ panelRef }) => {
           iconOnly
           disabled={currentStepPosition === numberOfSteps - 1}
           title={t("instructionsPanel.nextStep")}
+          size="small"
         />
       </div>
     </>
