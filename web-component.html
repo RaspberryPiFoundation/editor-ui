@@ -84,6 +84,7 @@
         <a href="?project=python-plotly">python-plotly</a>
         <a href="?project=cool-scratch">cool-scratch</a>
         <a href="?project=astro-pi">astro-pi</a>
+        <a href="?project=projects-ui">projects-ui</a>
       </div>
       <div id="editor-component"></div>
       <div class="debug">
@@ -103,11 +104,21 @@
         return await res.text();
       };
 
+      const loadThemeByName = async (projectName) => {
+        const url = new URL(
+          `projects/themes/${projectName}.css`,
+          window.location.href,
+        );
+        const res = await fetch(url, { cache: "no-store" });
+        return await res.text();
+      };
+
       document.addEventListener("DOMContentLoaded", async (e) => {
         const queryParams = new URLSearchParams(window.location.search);
         const projectName = queryParams.get("project");
         const initialProject =
           projectName && (await loadSampleProjectByName(projectName));
+        const themeText = projectName && (await loadThemeByName(projectName));
 
         let webComp;
 
@@ -172,6 +183,22 @@
               initialProjectObject.sense_hat_always_enabled || false,
             );
             newWebComp.setAttribute("initial_project", initialProject);
+          }
+
+          if (projectName == "projects-ui") {
+            newWebComp.setAttribute("editable_instructions", "false");
+            newWebComp.setAttribute(
+              "sidebar_options",
+              JSON.stringify([
+                "instructions",
+                "file",
+                "images",
+                "download",
+                "settings",
+                "info",
+              ]),
+            );
+            newWebComp.setAttribute("host_styles", JSON.stringify([themeText]));
           }
 
           return newWebComp;
