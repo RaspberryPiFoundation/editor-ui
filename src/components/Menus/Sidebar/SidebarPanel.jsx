@@ -12,6 +12,7 @@ const SidebarPanel = (props) => {
     Footer,
     className,
     buttons,
+    headerContent,
     panelRef,
     defaultWidth = "320px",
   } = props;
@@ -27,6 +28,7 @@ const SidebarPanel = (props) => {
         {buttons && !buttonsIsEmptyArray && (
           <div className="sidebar__panel-buttons">{buttons}</div>
         )}
+        {headerContent}
       </div>
       <div ref={panelRef} className="sidebar__panel-content">
         {children}
@@ -62,6 +64,7 @@ SidebarPanel.propTypes = {
   heading: PropTypes.string.isRequired,
   className: PropTypes.string,
   buttons: PropTypes.arrayOf(PropTypes.node),
+  headerContent: PropTypes.node,
 };
 
 export default SidebarPanel;
