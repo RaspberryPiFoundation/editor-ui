@@ -106,6 +106,18 @@ describe("When instructionsEditable is true", () => {
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).not.toBeInTheDocument();
     });
+
+    test("Renders a link to the how to write instructions guide", () => {
+      const link = screen.getByRole("link", {
+        name: "instructionsPanel.guideLink",
+      });
+
+      expect(link).toHaveAttribute(
+        "href",
+        "https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions",
+      );
+      expect(link).toHaveAttribute("target", "_blank");
+    });
   });
 
   describe("Adding and removing steps", () => {
@@ -301,6 +313,12 @@ describe("When instructionsEditable is true", () => {
         screen.queryByText("instructionsPanel.emptyState.purpose"),
       ).toBeInTheDocument();
     });
+
+    test("Renders a link to the how to write instructions guide", () => {
+      expect(
+        screen.getByRole("link", { name: "instructionsPanel.guideLink" }),
+      ).toBeInTheDocument();
+    });
   });
 });
 
@@ -332,6 +350,12 @@ describe("When instructions are not editable", () => {
     test("Does not render the instructions explanation", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.purpose"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Does not render the how to write instructions guide link", () => {
+      expect(
+        screen.queryByRole("link", { name: "instructionsPanel.guideLink" }),
       ).not.toBeInTheDocument();
     });
 
@@ -388,6 +412,12 @@ describe("When instructions are not editable", () => {
           },
         },
       });
+    });
+
+    test("Does not render the how to write instructions guide link", () => {
+      expect(
+        screen.queryByRole("link", { name: "instructionsPanel.guideLink" }),
+      ).not.toBeInTheDocument();
     });
 
     test("Renders no tab titles", () => {

@@ -27,6 +27,9 @@ import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import BinIcon from "../../../../assets/icons/bin.svg";
 
+const INSTRUCTIONS_GUIDE_URL =
+  "https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions";
+
 const InstructionsPanel = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
@@ -105,6 +108,18 @@ const InstructionsPanel = () => {
               />,
             ]
           : []
+      }
+      headerContent={
+        instructionsEditable ? (
+          <a
+            className="rpf-link"
+            href={INSTRUCTIONS_GUIDE_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t("instructionsPanel.guideLink")}
+          </a>
+        ) : undefined
       }
       Footer={
         hasInstructions && (hasMultipleSteps || onEditTab)

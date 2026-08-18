@@ -120,6 +120,7 @@
     "previousStep": "Previous step",
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
     "projectSteps": "Project instructions",
+    "guideLink": "View instructions guide",
     "edit": "Edit",
     "view": "View",
     "removeStepModal": {
