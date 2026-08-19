@@ -109,44 +109,43 @@
   --editor-color-tab-background: var(--editor-color-layer-3);
 
   // Primary button
+  --rpf-button-text-color: var(--rpf-black);
+  --rpf-button-background-color: var(--editor-color-theme);
+  --rpf-button-background-color-hover: color-mix(
+    in srgb,
+    var(--editor-color-theme),
+    white 15%
+  );
+  --rpf-button-background-color-active: color-mix(
+    in srgb,
+    var(--editor-color-theme),
+    white 30%
+  );
 
-  .rpf-button {
-    --rpf-button-text-color: var(--rpf-black);
-    --rpf-button-background-color: var(--editor-color-theme);
-    --rpf-button-background-color-hover: color-mix(
-      in srgb,
-      var(--editor-color-theme),
-      white 15%
-    );
-    --rpf-button-background-color-active: color-mix(
-      in srgb,
-      var(--editor-color-theme),
-      white 30%
-    );
+  --rpf-button-danger-text-color: var(--rpf-black);
+  --rpf-button-danger-background-color: var(--rpf-red-400);
+  --rpf-button-danger-background-color-hover: color-mix(
+    in srgb,
+    var(--rpf-button-danger-background-color),
+    white 15%
+  );
+  --rpf-button-danger-background-color-active: color-mix(
+    in srgb,
+    var(--rpf-button-danger-background-color),
+    white 30%
+  );
 
-    --rpf-button-danger-text-color: var(--rpf-black);
-    --rpf-button-danger-background-color: var(--rpf-red-400);
-    --rpf-button-danger-background-color-hover: color-mix(
-      in srgb,
-      var(--rpf-button-danger-background-color),
-      white 15%
-    );
-    --rpf-button-danger-background-color-active: color-mix(
-      in srgb,
-      var(--rpf-button-danger-background-color),
-      white 30%
-    );
+  --rpf-button-background-color-focus: var(--editor-color-theme);
+  --rpf-button-background-color-disabled: var(--rpf-grey-500);
 
-    --rpf-button-background-color-focus: var(--editor-color-theme);
-    --rpf-button-background-color-disabled: var(--rpf-grey-500);
-
-    &:disabled {
-      --rpf-button-text-color: var(--rpf-grey-900);
-    }
+  // Some parts of the button are not currently themeable via dedicated custom properties yet
+  // Therefore these overrides still need to sit on the classes
+  .rpf-button:disabled {
+    --rpf-button-text-color: var(--rpf-grey-900);
   }
 
   .rpf-button--secondary {
-    // There are actually the background colors, quirk of the Design System
+    // These are actually the background colors, quirk of the Design System
     --rpf-button-text-color: transparent;
     --rpf-button-danger-text-color: transparent;
     &:disabled {
