@@ -110,7 +110,7 @@ const InstructionsPanel = () => {
           : []
       }
       headerContent={
-        instructionsEditable ? (
+        instructionsEditable && hasInstructions ? (
           <a
             className="rpf-link"
             href={INSTRUCTIONS_GUIDE_URL}
@@ -188,7 +188,7 @@ const InstructionsPanel = () => {
                   i18nKey="instructionsPanel.emptyState.markdown"
                   components={[
                     <a
-                      href="https://www.markdownguide.org/cheat-sheet/"
+                      href="https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions"
                       target="_blank"
                       rel="noreferrer"
                     />,
