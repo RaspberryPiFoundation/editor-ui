@@ -1,0 +1,186 @@
+{
+  "identifier": "projects-ui",
+  "project_type": "python",
+  "locale": "en",
+  "name": "Projects UI",
+  "user_id": null,
+  "instructions": [
+    {
+      "quiz": false,
+      "title": "Print Hello",
+      "content": "<h2 id=\"step-1\">Step 1</h2>\n\n<p>➡️ Display the word ‘Hello’ on the screen.</p>\n\n<p>In Python, <code>print()</code> outputs strings (words or numbers) to the screen.</p>\n\n<p>Type the code to <code>print()</code> Hello to the screen:</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"11\"><code class=\"language-python\" dir=\"ltr\">\n\n# Put code to run under here.\nprint(f&#39;Hello&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see when you run your code.</p>\n\n<pre><code>Hello\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>When you type an opening bracket <code>(</code> the code editor will automatically add a closing bracket <code>)</code>.<br />\nThis also happens when you type an opening apostrophe <code>'</code>.</p>\n\n</div>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>If you get an error then check your code really carefully. Check there are single quotes around <code>Hello</code> so Python knows it is meant to be text.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that <code>Hello</code> appears in the output.</p>\n",
+      "position": 0,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Variables",
+      "content": "<h2 id=\"variables\">Variables</h2>\n\n<p>We have included some variables that store emoji characters.</p>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>A <strong>variable</strong> is used to store values such as text or numbers. Choosing a sensible name for a variable makes it easier for you to remember what it is for.</p>\n\n</div>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"3\" data-line-offset=\"3\" data-line=\"4-6\"><code class=\"language-python\" dir=\"ltr\">\n\n# variables\nworld = &#39;🌍🌎🌏&#39;\npython = &#39;Python 🐍&#39;\nfire = &#39;🔥&#39;\n\n# Function definitions\n  \n# Put code to run under here\nprint(f&#39;Hello&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Click the <strong>Run</strong> button and check that the output still says <code>Hello</code>.</p>\n",
+      "position": 1,
+      "challenge": false,
+      "completion": [
+        "engaged"
+      ],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Print variables",
+      "content": "<h2 id=\"print-variables\">Print variables</h2>\n\n<p>➡️ Print the contents of a variable.</p>\n\n<p>Change your code to also <code>print()</code> the contents of the <code>world</code> variable. You can do this by adding the variable name in curly brackets <code>{}</code>.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"3\" data-line-offset=\"3\" data-line=\"11\"><code class=\"language-python\" dir=\"ltr\">\n\n# variables\nworld = &#39;🌍🌎🌏&#39;\npython = &#39;Python 🐍&#39;\nfire = &#39;🔥&#39;\n\n# Function definitions        \n  \n# Put code to run under here\nprint(f&#39;Hello {world}&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see when you run your code.</p>\n\n<pre><code>Hello 🌍🌎🌏\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>The <code>f</code> character inside the print lets you easily print variables along with strings of text.</p>\n\n</div>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>If you get an error then check you have opened and closed all your brackets <code>()</code> and curly brackets <code>{}</code>.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that <code>Hello</code> is followed by the globe emojis.</p>\n",
+      "position": 2,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Print another variable",
+      "content": "<h2 id=\"print-another-variable\">Print another variable</h2>\n\n<p><strong>Add</strong> another line to your code to <code>print()</code> more text and emojis:</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"12\"><code class=\"language-python\" dir=\"ltr\">\n\n# Put code to run under here\nprint(f&#39;Hello {world}&#39;)\nprint(f&#39;Welcome to {python}&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see when you run your code.</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\n</code></pre>\n\n<p>Click the <strong>Run</strong> button and check that the output has two lines: <code>Hello</code> with the globe emojis and <code>Welcome to Python 🐍</code>.</p>\n",
+      "position": 3,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Operators",
+      "content": "<h2 id=\"operators\">Operators</h2>\n\n<p>In Python you can work with numbers and dates.</p>\n\n<p>You can use <strong>arithmetic operators</strong> such as <code>+</code> and <code>-</code> to do calculations:</p>\n\n<table>\n  <tbody>\n    <tr>\n      <td>+</td>\n      <td>add</td>\n    </tr>\n    <tr>\n      <td>-</td>\n      <td>subtract</td>\n    </tr>\n    <tr>\n      <td>*</td>\n      <td>multiply</td>\n    </tr>\n    <tr>\n      <td>/</td>\n      <td>divide</td>\n    </tr>\n    <tr>\n      <td>**</td>\n      <td>exponent</td>\n    </tr>\n  </tbody>\n</table>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Click the <strong>Run</strong> button and check that the output is still the same as in the previous step, because you have not added any new code yet.</p>\n",
+      "position": 4,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Create a calculation",
+      "content": "<h2 id=\"create-a-calculation\">Create a calculation</h2>\n\n<p>➡️ Print the value of a calculation.</p>\n\n<p>Add two more <code>print()</code> lines to your code including a multiplication for Python to calculate:</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"13-14\"><code class=\"language-python\" dir=\"ltr\">\n\n# Put code to run under here\nprint(f&#39;Hello {world}&#39;)\nprint(f&#39;Welcome to {python}&#39;)\nprint(f&#39;{python} is good at maths!&#39;)\nprint(f&#39;{111111111 * 111111111}&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see when you run your code.</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>Python uses the same rules for calculations as you might have learned at school. <strong>B</strong>rackets first, then <strong>O</strong>rders, <strong>D</strong>ivision, <strong>M</strong>ultiplication, <strong>A</strong>ddition, and lastly <strong>S</strong>ubtraction.</p>\n\n</div>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>Don’t forget that the UPPERCASE and lowercase letters are important in Python. Always check you are using the correct case.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that your program now prints a maths message and a large number on the next line.</p>\n",
+      "position": 5,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Using modules",
+      "content": "<h2 id=\"using-modules\">Using modules</h2>\n\n<p>➡️ Import the <code>datetime</code> module.</p>\n\n<p>Python has many <strong>modules</strong> that you can use in your code to help perform certain tasks. To use a module, you first need to <strong>import</strong> it.</p>\n\n<p>The <code>datetime</code> module helps with writing code that uses dates and times.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"1\" data-line-offset=\"1\" data-line=\"2\"><code class=\"language-python\" dir=\"ltr\">\n\n# imports\nfrom datetime import datetime\n\n# variables\n\n</code></pre>\n\n<p>When you run this code, nothing should change, and you should have the same output as the previous step.</p>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>Any text you write in Python with a <code>#</code> in front of it becomes a comment. These lines won’t run, so they can be useful to help people read and understand your code.</p>\n\n</div>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>Check that you have spelled <code>datetime</code> correctly, and it is all lowercase.</p>\n\n</div>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Run your code and check that the output stays the same as in the previous step after importing <code>datetime</code>.</p>\n",
+      "position": 6,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Print the date",
+      "content": "<h2 id=\"print-the-date\">Print the date</h2>\n\n<p>➡️ Display the current date and time.</p>\n\n<p>Add another line to your code to <code>print</code> the current date and time.</p>\n\n<p>Get the current date and time by using the <code>now()</code> function from the <code>datetime</code> module:</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"14\" data-line-offset=\"14\" data-line=\"16\"><code class=\"language-python\" dir=\"ltr\">\n\nprint(f&#39;{python} is good at maths!&#39;)\nprint(f&#39;{111111111 * 111111111}&#39;)\nprint(f&#39;The date and time is {datetime.now()}&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see when you run your code, but the date and time will be different.</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\nThe date and time is 2023-11-21 15:34:10.148000\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>Check all your brackets <code>()</code> and curly brackets <code>{}</code> to make sure they are all opened and closed in the correct place.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that the output now includes a line that starts with <code>The date and time is</code>, followed by the current date and time.</p>\n",
+      "position": 7,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Functions",
+      "content": "<h2 id=\"functions\">Functions</h2>\n\n<p>Functions are blocks of code that perform specific tasks.</p>\n\n<p>They can be used over and over again.</p>\n\n<p>Here is an example of a function:</p>\n\n<pre><code class=\"language-python\">\n# Function definitions\ndef add_one_and_one():\n    x = 1 + 1\n    print(x)\n\n</code></pre>\n\n<p>The name of this function is <code>add_one_and_one</code>.</p>\n\n<p>The code for the task you want the function to do needs to be <strong>indented</strong>, which means that you need to add <strong>four spaces</strong> before each line of code.</p>\n\n<p><strong>Calling</strong> a function runs the code inside it. You <strong>call</strong> a function by using its name. In this case <code>add_one_and_one()</code>.</p>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Run your code and check that nothing new is printed yet, because the function has been defined but not called.</p>\n",
+      "position": 8,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Roll dice",
+      "content": "<h2 id=\"roll-dice\">Roll dice</h2>\n\n<p>➡️ Create a function to simulate rolling a dice.</p>\n\n<p>Create a function called <code>roll_dice()</code> that prints out the number 4.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"9\" data-line-offset=\"9\" data-line=\"10, 11\"><code class=\"language-python\" dir=\"ltr\">\n\n# Function definitions        \ndef roll_dice():\n    print(f&#39;You rolled a {4}&#39;)\n    \n# Put code to run under here\n\n</code></pre>\n\n<p>Then, call the function at the bottom of your code.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"18\" data-line-offset=\"18\" data-line=\"19\"><code class=\"language-python\" dir=\"ltr\">\nprint(f&#39;The date and time is {datetime.now()}&#39;)\nroll_dice()\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see when you run your code.</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\nThe date and time is 2023-11-21 15:55:33.038000\nYou rolled a 4\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>You can use the <strong>Tab</strong> key on your keyboard to insert 4 spaces. Pressing <strong>Shift</strong> and <strong>Tab</strong> will remove the 4 spaces.</p>\n\n</div>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>Check that you have brackets <code>()</code> and a colon <code>:</code> at the end of your function definition. Also check you are using brackets <code>()</code> when you call your function.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that the last line says <code>You rolled a 4</code>.</p>\n",
+      "position": 9,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Import randint",
+      "content": "<h2 id=\"import-randint\">Import randint</h2>\n\n<p>➡️ Import the <code>randint</code> function from the <code>random</code> module.</p>\n\n<p>Another module called <code>random</code> can be used to create random numbers.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"1\" data-line-offset=\"1\" data-line=\"3\"><code class=\"language-python\" dir=\"ltr\">\n\n# imports\nfrom datetime import datetime\nfrom random import randint\n\n</code></pre>\n\n<p>Your code output will not change when you run it.</p>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Run your code and check that the output stays the same as in the previous step after importing <code>randint</code>.</p>\n",
+      "position": 10,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Random numbers",
+      "content": "<h2 id=\"random-numbers\">Random numbers</h2>\n\n<p>➡️ Choose a random number for the dice roll.</p>\n\n<p>Use the <code>randint</code> function you imported to choose a random number between 1 and 6 for the dice roll.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"12\"><code class=\"language-python\" dir=\"ltr\">\n\n# Function definitions \ndef roll_dice():\n    print(f&#39;You rolled a {randint(1, 6)}&#39;)\n    \n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Now when you run your code, a new random number between 1 and 6 will be chosen each time.</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\nThe date and time is 2023-11-21 16:02:12.535000\nYou rolled a 6\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p><code>randint</code> is short for random integer. Integers are whole numbers.</p>\n\n</div>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>Check your brackets and curly brackets if you get an error. Take note that the same number might be chosen over and over again. It’s random!</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that the last line says <code>You rolled a</code> followed by a number from 1 to 6.</p>\n",
+      "position": 11,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Multiply strings",
+      "content": "<h2 id=\"multiply-strings\">Multiply strings</h2>\n\n<p>➡️ Multiply the number by the 🔥 emoji to print the emoji a number of times equal to the dice roll.</p>\n\n<p>In Python you can multiply strings such as emojis or whole words by a number, so they print out several times.</p>\n\n<p>Store the random number in a variable called <code>roll</code>.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"12\"><code class=\"language-python\" dir=\"ltr\">\n\n# Function definitions        \ndef roll_dice():\n    roll = randint(1,6)\n\n</code></pre>\n\n<p>Multiply the random number stored in <code>roll</code> by the 🔥 emoji, and print the result.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"13\"><code class=\"language-python\" dir=\"ltr\">\n\n# Function definitions        \ndef roll_dice():\n    roll = randint(1,6)\n    print(f&#39;You rolled a {roll} {fire * roll}&#39;)\n    \n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Your output code should look something like this:</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\nThe date and time is 2023-11-21 16:14:45.140000\nYou rolled a 4 🔥🔥🔥🔥\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--debug\">\n\n<h3 id=\"debugging\">Debugging</h3>\n<p>Check all your brackets are the same as the code example above.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button and check that the last line shows the dice number and the same number of fire emojis.</p>\n",
+      "position": 12,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Get input",
+      "content": "<h2 id=\"get-input\">Get input</h2>\n\n<p>➡️ Allow the person using your program to type in some input.</p>\n\n<p>You can use <code>input()</code> to ask the person using your program to enter text, and save it as a variable.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"12-13\"><code class=\"language-python\" dir=\"ltr\">\n\n# Function definitions\ndef roll_dice():\n    max = input(&#39;How many sides on your dice?:&#39;)\n    print(f&#39;That is a D {max}&#39;)\n    roll = randint(1,6)\n    print(f&#39;You rolled a {roll} {fire * roll}&#39;)\n\n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Ensure you press the <kbd> Enter </kbd> key after inputting how many sides.<br />\nThis is what you should see when you run your code.</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\nThe date and time is 2023-11-21 16:20:41.323000\nHow many sides on your dice?:\n20 \nThat is a D 20\nYou rolled a 1 🔥\n</code></pre>\n\n<p>Click the <strong>Run</strong> button, type a number such as <code>20</code>, and check that the program says <code>That is a D 20</code> before showing a dice roll.</p>\n",
+      "position": 13,
+      "challenge": false,
+      "completion": [],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Change the dice",
+      "content": "<h2 id=\"change-the-dice\">Change the dice</h2>\n\n<p>➡️ Generate a random number between 1 and the number of sides the user typed in.</p>\n\n<p>Inputs are always stored as text, but we need to use the input stored in <code>max</code> to specify the largest number that could be rolled.</p>\n\n<p><code>max</code> is a string, so it needs changing to an integer <code>int()</code>.</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"10\" data-line-offset=\"10\" data-line=\"14\"><code class=\"language-python\" dir=\"ltr\">\n\n# Function definitions        \ndef roll_dice():\n    max = input(&#39;How many sides on your dice?:&#39;)\n    print(f&#39;That is a D {max}&#39;)\n    roll = randint(1, int(max))\n    print(f&#39;You rolled a {roll} {fire * roll}&#39;)\n    \n</code></pre>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>This is what you should see:</p>\n\n<pre><code>Hello 🌍🌎🌏\nWelcome to Python 🐍\nPython 🐍 is good at maths!\n12345678987654321\nThe date and time is 2023-11-21 16:27:24.101000\nHow many sides on your dice?:12\nThat is a D 12\nYou rolled a 5 🔥🔥🔥🔥🔥\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>Changing one type of data to another type of data is called <strong>type casting</strong>.</p>\n\n</div>\n\n<p>Click the <strong>Run</strong> button, type a number of sides, and check that the dice roll can be any number from 1 up to the number you entered.</p>\n",
+      "position": 14,
+      "challenge": false,
+      "completion": [
+        "internal"
+      ],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    },
+    {
+      "quiz": false,
+      "title": "Over to you",
+      "content": "<h2 id=\"over-to-you\">Over to you</h2>\n\n<p>➡️ Practice adding more <code>print</code> lines to your code.</p>\n\n<p>Here are some sentence starters that you can use:</p>\n\n\n<pre dir=\"ltr\" class=\"line-numbers\" data-start=\"23\" data-line-offset=\"23\" data-line=\"24-26\"><code class=\"language-python\" dir=\"ltr\">\n\nroll_dice()\nprint(f&#39;I ❤️ ...&#39;)   \nprint(f&#39;... makes me 😃&#39;)   \nprint(f&#39;I would like to make ... with {python}&#39;)\n\n</code></pre>\n\n<div class=\"c-project-callout c-project-callout--tip\">\n\n<h3 id=\"tip\">Tip</h3>\n<p>Here is a list of some emojis you might like to use:</p>\n\n<p>🎊 🙌 🙌🏼 🙌🏽 🙌🏾 🙌🏿 😃 🕒 🎨 🎮 🔬 🎉 🕶️ 🎲 😊<br />\n🦄 🚀 💯 ⭐ 💛 ❤️ 📚 ⚽ 🏏 🏀 🥋 🏆 ✨ 🥺 🌈 🔥 ♻️ 🌳<br />\n👩‍🦽👩🏼‍🦽👩🏽‍🦽👩🏾‍🦽👩🏿‍🦽🧘 🧘🏼 🧘🏽 🧘🏾 🧘🏿 🙋 🙋🏼 🙋🏽 🙋🏾 🙋🏿</p>\n\n<p>You can copy and paste them into your code.</p>\n\n</div>\n\n<h2 id=\"now-run-your-code\">Now run your code</h2>\n\n<p>Click the <strong>Run</strong> button and check that your extra print lines show your own words and emojis after the dice roll.</p>\n",
+      "position": 15,
+      "challenge": false,
+      "completion": [
+        "external"
+      ],
+      "ingredients": [],
+      "knowledgeQuiz": {}
+    }
+  ],
+  "components": [
+    {
+      "id": "42b4cdc9-d935-4a3d-b39a-32eb44c5ebfd",
+      "name": "main",
+      "extension": "py",
+      "content": "print(\"Hello World\")"
+    }
+  ],
+  "image_list": [],
+  "videos": [],
+  "audio": []
+}

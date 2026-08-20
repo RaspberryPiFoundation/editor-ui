@@ -7,7 +7,8 @@
     <title>Editor Web component</title>
     <script type="module" src="/src/web-component.jsx"></script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+      /* Lexend is used by the projects-ui sample theme */
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Lexend:wght@100..900&display=swap");
 
       * {
         box-sizing: border-box;
@@ -84,6 +85,7 @@
         <a href="?project=python-plotly">python-plotly</a>
         <a href="?project=cool-scratch">cool-scratch</a>
         <a href="?project=astro-pi">astro-pi</a>
+        <a href="?project=projects-ui">projects-ui</a>
       </div>
       <div id="editor-component"></div>
       <div class="debug">
@@ -103,11 +105,38 @@
         return await res.text();
       };
 
+      const loadThemeByName = async (projectName) => {
+        const url = new URL(
+          `projects/themes/${projectName}.css`,
+          window.location.href,
+        );
+        const res = await fetch(url, { cache: "no-store" });
+        if (res.status === 404) {
+          return null;
+        }
+        if (!res.ok) {
+          throw new Error(
+            `Failed to load theme "${projectName}": ${res.status} ${res.statusText}`,
+          );
+        }
+        // Guard against hosts that answer a missing file with a 200 HTML page —
+        // that markup would otherwise be injected into the shadow DOM verbatim.
+        const contentType = res.headers.get("content-type") || "";
+        if (!contentType.includes("text/css")) {
+          throw new Error(
+            `Theme "${projectName}" was served as "${contentType}", expected text/css`,
+          );
+        }
+        return await res.text();
+      };
+
       document.addEventListener("DOMContentLoaded", async (e) => {
         const queryParams = new URLSearchParams(window.location.search);
         const projectName = queryParams.get("project");
-        const initialProject =
-          projectName && (await loadSampleProjectByName(projectName));
+        const [initialProject, themeText] = await Promise.all([
+          projectName ? loadSampleProjectByName(projectName) : null,
+          projectName ? loadThemeByName(projectName) : null,
+        ]);
 
         let webComp;
 
@@ -162,6 +191,27 @@
           ).href.replace(/\/$/, "");
           newWebComp.setAttribute("scratch_api_endpoint", scratchApiEndpoint);
 
+          if (themeText) {
+            newWebComp.setAttribute("host_styles", JSON.stringify([themeText]));
+          }
+
+          if (projectName === "projects-ui") {
+            newWebComp.setAttribute("editable_instructions", "false");
+            newWebComp.setAttribute(
+              "sidebar_options",
+              JSON.stringify([
+                "instructions",
+                "file",
+                "images",
+                "download",
+                "settings",
+                "info",
+              ]),
+            );
+          }
+
+          // Applied last so an explicit query param always wins over the
+          // defaults above.
           queryParams.forEach((value, key) => {
             newWebComp.setAttribute(key, value);
           });
