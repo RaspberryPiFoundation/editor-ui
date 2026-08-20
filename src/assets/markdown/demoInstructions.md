@@ -42,7 +42,7 @@
 {{instructionsPanel.demoInstructions.codeBlocks}}
 
 ```python
-name = input("{{instructionsPanel.demoInstructions.pythonPrompt}} ")
+{{instructionsPanel.demoInstructions.pythonNameVar}} = input("{{instructionsPanel.demoInstructions.pythonPrompt}} ")
 print(f"{{instructionsPanel.demoInstructions.pythonGreeting}}")
 ```
 

@@ -121,6 +121,7 @@
       "inlineCode": "Use single backticks for code in a sentence: the `print()` function shows a message.",
       "codeBlocks": "For longer code, use three backticks and name the language — `python`, `html`, `css` or `javascript`:",
       "pythonPrompt": "What is your name?",
+      "pythonNameVar": "name",
       "pythonGreeting": "Hello, {name}",
       "colouringHeading": "Colouring words like blocks",
       "colouring": "Colour a word to match a block category: get a block from the `Looks`{:block-type=\"looks\"} section. The [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) lists all ten categories you can use.",
