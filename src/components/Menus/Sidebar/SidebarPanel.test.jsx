@@ -33,6 +33,29 @@ test("Renders a single button", () => {
   expect(screen.queryByText("button")).toBeInTheDocument();
 });
 
+test("Renders arbitrary header content", () => {
+  render(
+    <SidebarPanel heading="heading" headerContent={<a href="/x">a link</a>}>
+      some content
+    </SidebarPanel>,
+  );
+  expect(screen.queryByRole("link", { name: "a link" })).toBeInTheDocument();
+});
+
+test("Renders header content alongside buttons", () => {
+  render(
+    <SidebarPanel
+      heading="heading"
+      buttons={[<button key="1">button</button>]}
+      headerContent={<p>header note</p>}
+    >
+      some content
+    </SidebarPanel>,
+  );
+  expect(screen.queryByText("button")).toBeInTheDocument();
+  expect(screen.queryByText("header note")).toBeInTheDocument();
+});
+
 test("Renders multiple buttons", () => {
   render(
     <SidebarPanel
