@@ -37,22 +37,28 @@
 
 ## {{instructionsPanel.demoInstructions.codeHeading}}
 
+{{instructionsPanel.demoInstructions.codeIntro}}
+
 {{instructionsPanel.demoInstructions.inlineCode}}
+
+{{instructionsPanel.demoInstructions.inlineCodeExample}}
 
 {{instructionsPanel.demoInstructions.codeBlocks}}
 
 ```python
 {{instructionsPanel.demoInstructions.pythonNameVar}} = input("{{instructionsPanel.demoInstructions.pythonPrompt}} ")
-print(f"{{instructionsPanel.demoInstructions.pythonGreeting}}")
+print("{{instructionsPanel.demoInstructions.pythonGreeting}}" + {{instructionsPanel.demoInstructions.pythonNameVar}})
 ```
 
-## {{instructionsPanel.demoInstructions.colouringHeading}}
+## {{instructionsPanel.demoInstructions.blocksHeading}}
 
-{{instructionsPanel.demoInstructions.colouring}}
+{{instructionsPanel.demoInstructions.blocksIntro}}
 
-## {{instructionsPanel.demoInstructions.realBlocksHeading}}
+{{instructionsPanel.demoInstructions.blocksColourExample}}
 
-{{instructionsPanel.demoInstructions.realBlocks}}
+{{instructionsPanel.demoInstructions.blocksTypes}}
+
+{{instructionsPanel.demoInstructions.blocksExample}}
 
 ```blocks
 when green flag clicked
