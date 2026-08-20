@@ -280,6 +280,7 @@ describe("When instructionsEditable is true", () => {
             instructionsEditable: true,
           },
           instructions: {
+            permitOverride: true,
             project: {
               steps: [],
             },
@@ -314,7 +315,19 @@ describe("When instructionsEditable is true", () => {
       ).toBeInTheDocument();
     });
 
-    test("Renders a link to the how to write instructions guide", () => {
+    test("Does not render the guide link in the panel header", () => {
+      expect(
+        screen.queryByRole("link", { name: "instructionsPanel.guideLink" }),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Adding instructions reveals the guide link", () => {
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.emptyState.addInstructions"),
+        );
+      });
+
       expect(
         screen.getByRole("link", { name: "instructionsPanel.guideLink" }),
       ).toBeInTheDocument();
