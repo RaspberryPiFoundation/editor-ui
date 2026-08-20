@@ -1,4 +1,4 @@
-## {{instructionsPanel.demoInstructions.title}}
+# {{instructionsPanel.demoInstructions.title}}
 
 {{instructionsPanel.demoInstructions.replaceThisText}}
 

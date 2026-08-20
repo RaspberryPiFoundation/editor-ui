@@ -96,7 +96,7 @@
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "Project instructions",
+      "title": "How to use instructions",
       "replaceThisText": "Replace this text with your own instructions. Anything you write here appears in the sidebar for your students.",
       "writtenInMarkdown": "Instructions are written in Markdown. Switch between the **Edit** and **View** tabs to see how each example below was written, or read our [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions).",
       "studentCopyWarning": "Students get their own copy of a project when they start it, so changes you make later will not reach anyone who has already started.",
