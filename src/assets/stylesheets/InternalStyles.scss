@@ -108,6 +108,14 @@
 
   --editor-color-tab-background: var(--editor-color-layer-3);
 
+  // Design System
+
+  // Link (.rpf-link)
+
+  --link-color: var(--editor-color-theme);
+  --link-color-hover: color-mix(in srgb, var(--editor-color-theme), white 15%);
+  --link-color-active: color-mix(in srgb, var(--editor-color-theme), white 30%);
+
   // Primary button
   --rpf-button-text-color: var(--rpf-black);
   --rpf-button-background-color: var(--editor-color-theme);
