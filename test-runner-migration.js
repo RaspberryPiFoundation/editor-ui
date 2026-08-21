@@ -14,8 +14,6 @@ const JEST_ONLY_TEST_FILES = [
   "src/components/Editor/Runners/PythonRunner/PyodideRunner/VisualOutputPane.test.jsx",
   "src/components/Editor/Runners/PythonRunner/PythonRunner.test.jsx",
   "src/components/Editor/Runners/PythonRunner/SkulptRunner/SkulptRunner.test.jsx",
-  "src/redux/EditorSlice.test.js",
-  "src/redux/reducers/loadProjectReducers.test.js",
   "src/utils/Notifications.test.js",
   "src/utils/ResizableWithHandle.test.jsx",
   "src/utils/SelectButtons.test.jsx",
