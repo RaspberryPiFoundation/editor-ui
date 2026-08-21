@@ -8,7 +8,12 @@ import {
 
 import PyodideRunner from "./PyodideRunner";
 import { Provider } from "react-redux";
-import PyodideWorker, { postMessage } from "./PyodideWorker.mock.js";
+import PyodideWorker, { postMessage } from "./PyodideWorker.mock.vitest.js";
+import {
+  loadCopydeckFor,
+  registerAdapter,
+  friendlyExplain,
+} from "@raspberrypifoundation/python-friendly-error-messages";
 
 import {
   resetState,
@@ -24,8 +29,9 @@ import {
 } from "../../../../../redux/EditorSlice.js";
 import store from "../../../../../app/store";
 
-jest.mock("fs");
-global.fetch = jest.fn();
+vi.mock("fs");
+global.fetch = vi.fn();
+window.Worker = PyodideWorker;
 
 const project = {
   components: [
@@ -57,7 +63,7 @@ let dispatchSpy;
 beforeEach(() => {
   store.dispatch(resetState());
   window.crossOriginIsolated = true;
-  dispatchSpy = jest.spyOn(store, "dispatch");
+  dispatchSpy = vi.spyOn(store, "dispatch");
   fetch.mockClear();
 });
 
@@ -289,7 +295,7 @@ describe("When output is received", () => {
     );
 
     const worker = PyodideWorker.getLastInstance();
-    worker.postMessage = jest.fn();
+    worker.postMessage = vi.fn();
     worker.postMessageFromWorker({
       method: "handleOutput",
       stream: "stdout",
@@ -532,10 +538,6 @@ describe("When an error is received", () => {
   });
 
   describe("When friendly errors are enabled", () => {
-    let loadCopydeckFor;
-    let registerAdapter;
-    let friendlyExplain;
-
     const friendlyErrorHtml =
       '<div class="pfem__title">Friendly error title</div>' +
       '<div class="pfem__summary">A friendly summary of the error</div>';
@@ -548,15 +550,6 @@ describe("When an error is received", () => {
       info: "something's wrong",
       mistake: "if score = 10:\n   ^^^^^^^^^^",
     };
-
-    beforeEach(() => {
-      ({
-        // Using the global mock in setupTests.js to track calls to these functions
-        loadCopydeckFor,
-        registerAdapter,
-        friendlyExplain,
-      } = require("@raspberrypifoundation/python-friendly-error-messages"));
-    });
 
     describe("on mount", () => {
       beforeEach(() => {
