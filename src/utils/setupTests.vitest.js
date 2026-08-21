@@ -21,10 +21,6 @@ vi.mock("@raspberrypifoundation/python-friendly-error-messages", () => ({
   friendlyExplain: vi.fn(),
 }));
 
-// react-i18next's real useTranslation returns an uninitialised i18n
-// instance under Vitest (no app entrypoint runs first to call i18n.init()),
-// so anything reading i18n.options - e.g. SaveStatus - crashes. Mocked
-// globally to match setupTests.js's Jest equivalent.
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (str) => (str.includes("null") ? null : str),
