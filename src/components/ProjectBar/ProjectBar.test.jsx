@@ -6,12 +6,12 @@ import { MemoryRouter } from "react-router-dom";
 import ProjectBar from "./ProjectBar";
 import useIsOnline from "../../hooks/useIsOnline";
 
-jest.mock("axios");
-jest.mock("../../hooks/useIsOnline");
+vi.mock("axios");
+vi.mock("../../hooks/useIsOnline");
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => jest.fn(),
+vi.mock("react-router-dom", async () => ({
+  ...(await vi.importActual("react-router-dom")),
+  useNavigate: () => vi.fn(),
 }));
 
 const project = {
