@@ -14,12 +14,12 @@ import {
   getAutoSaveHostApi,
 } from "../../utils/save/autoSaveHostApi";
 
-jest.mock("../../utils/scratchIframe", () => ({
-  getScratchAllowedOrigin: jest.fn(),
-  postMessageToScratchIframe: jest.fn(),
+vi.mock("../../utils/scratchIframe", () => ({
+  getScratchAllowedOrigin: vi.fn(),
+  postMessageToScratchIframe: vi.fn(),
 }));
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const scratchOrigin = "https://scratch-frame.example.com";
 const scratchProject = {
@@ -85,7 +85,7 @@ describe("useScratchSaveState", () => {
   const originalScratchFrameUrl = process.env.REACT_APP_SCRATCH_FRAME_URL;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     process.env.REACT_APP_SCRATCH_FRAME_URL = scratchOrigin;
     getScratchAllowedOrigin.mockReturnValue(scratchOrigin);
   });
@@ -94,7 +94,7 @@ describe("useScratchSaveState", () => {
     scratchSaveUnmount?.();
     scratchSaveUnmount = null;
     clearScratchAutoSaveHostApi();
-    jest.clearAllTimers();
+    vi.clearAllTimers();
     process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
   });
 
@@ -128,7 +128,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
@@ -141,7 +141,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-ready");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
@@ -155,13 +155,13 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(1999);
+      vi.advanceTimersByTime(1999);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
@@ -175,19 +175,19 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(999);
+      vi.advanceTimersByTime(999);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
@@ -203,19 +203,19 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     dispatchScratchMessage("scratch-gui-saving-succeeded");
 
     act(() => {
-      jest.advanceTimersByTime(999);
+      vi.advanceTimersByTime(999);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
@@ -232,7 +232,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     dispatchScratchMessage("scratch-gui-saving-started");
@@ -291,19 +291,19 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     dispatchScratchMessage("scratch-gui-saving-failed");
 
     act(() => {
-      jest.advanceTimersByTime(999);
+      vi.advanceTimersByTime(999);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();
 
     act(() => {
-      jest.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
@@ -339,7 +339,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     dispatchScratchMessage("scratch-gui-saving-started");
@@ -348,13 +348,13 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
 
     act(() => {
-      jest.advanceTimersByTime(10000);
+      vi.advanceTimersByTime(10000);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(2);
@@ -366,7 +366,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     dispatchScratchMessage("scratch-gui-saving-started");
@@ -375,7 +375,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledTimes(1);
@@ -414,7 +414,7 @@ describe("useScratchSaveState", () => {
     dispatchScratchUserEdit();
 
     act(() => {
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();

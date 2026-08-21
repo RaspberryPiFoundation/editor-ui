@@ -17,7 +17,7 @@ describe("useIsOnline", () => {
       get: () => true,
     });
 
-    mockPostMessage = jest.fn();
+    mockPostMessage = vi.fn();
     swEventTarget = new EventTarget();
     swEventTarget.controller = { postMessage: mockPostMessage };
 
@@ -82,17 +82,17 @@ describe("useIsOnline", () => {
 
   describe("CHECK_ONLINE polling", () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     test("does not poll while online", async () => {
       renderHook(() => useIsOnline());
       await act(async () => {
-        jest.advanceTimersByTime(6000);
+        vi.advanceTimersByTime(6000);
       });
       expect(mockPostMessage).not.toHaveBeenCalled();
     });
@@ -103,13 +103,13 @@ describe("useIsOnline", () => {
       expect(result.current).toBe(false);
 
       await act(async () => {
-        jest.advanceTimersByTime(3000);
+        vi.advanceTimersByTime(3000);
       });
       expect(mockPostMessage).toHaveBeenCalledTimes(1);
       expect(mockPostMessage).toHaveBeenCalledWith({ type: "CHECK_ONLINE" });
 
       await act(async () => {
-        jest.advanceTimersByTime(3000);
+        vi.advanceTimersByTime(3000);
       });
       expect(mockPostMessage).toHaveBeenCalledTimes(2);
     });
@@ -121,7 +121,7 @@ describe("useIsOnline", () => {
       expect(result.current).toBe(true);
 
       await act(async () => {
-        jest.advanceTimersByTime(6000);
+        vi.advanceTimersByTime(6000);
       });
       expect(mockPostMessage).not.toHaveBeenCalled();
     });
@@ -134,7 +134,7 @@ describe("useIsOnline", () => {
       unmount();
 
       await act(async () => {
-        jest.advanceTimersByTime(6000);
+        vi.advanceTimersByTime(6000);
       });
       expect(mockPostMessage).not.toHaveBeenCalled();
     });

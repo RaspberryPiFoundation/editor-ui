@@ -6,21 +6,23 @@ import { useProject } from "./useProject";
 import { syncProject, setProject } from "../redux/EditorSlice";
 import { defaultPythonProject } from "../utils/defaultProjects";
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useDispatch: () => jest.fn(),
+vi.mock("react-redux", async () => ({
+  ...(await vi.importActual("react-redux")),
+  useDispatch: () => vi.fn(),
 }));
 
-const loadProject = jest.fn();
+const loadProject = vi.fn();
 const reactAppApiEndpoint = "localhost";
 
-jest.mock("../redux/EditorSlice");
+vi.mock("../redux/EditorSlice");
 
-jest.mock("../utils/apiCallHandler", () => () => ({
-  readProject: async (identifier, projectType) =>
-    Promise.resolve({
-      data: { identifier: identifier, project_type: projectType },
-    }),
+vi.mock("../utils/apiCallHandler", () => ({
+  default: () => ({
+    readProject: async (identifier, projectType) =>
+      Promise.resolve({
+        data: { identifier: identifier, project_type: projectType },
+      }),
+  }),
 }));
 
 const cachedProject = {
@@ -136,7 +138,7 @@ describe("When not embedded", () => {
   });
 
   test("If embedded prop is true before embedded state is set, loads from server instead of cache", () => {
-    syncProject.mockImplementation(jest.fn((_) => jest.fn()));
+    syncProject.mockImplementation(vi.fn((_) => vi.fn()));
     localStorage.setItem(
       cachedProject.identifier,
       JSON.stringify(cachedProject),
@@ -157,7 +159,7 @@ describe("When not embedded", () => {
   });
 
   test("If cached project does not match identifier, does not use cached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
+    syncProject.mockImplementationOnce(vi.fn((_) => vi.fn()));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
       () => useProject({ projectIdentifier: "my-favourite-project" }),
@@ -172,7 +174,7 @@ describe("When not embedded", () => {
   });
 
   test("If cached project does not match locale, does not use cached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
+    syncProject.mockImplementationOnce(vi.fn((_) => vi.fn()));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
       () =>
@@ -190,7 +192,7 @@ describe("When not embedded", () => {
 
   test("If current project has changed and locale changes, keeps current project", async () => {
     setCurrentProjectWithEdits();
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
 
     renderHook(
       () =>
@@ -233,7 +235,7 @@ describe("When not embedded", () => {
   });
 
   test("If cached project does not match locale and browserPreview query is used outside embedded viewer, does not use cached project", () => {
-    syncProject.mockImplementation(jest.fn((_) => jest.fn()));
+    syncProject.mockImplementation(vi.fn((_) => vi.fn()));
     window.history.pushState(
       {},
       "",
@@ -258,7 +260,7 @@ describe("When not embedded", () => {
   });
 
   test("If cached project does not match identifier and locale, loads correct uncached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
       () =>
@@ -282,7 +284,7 @@ describe("When not embedded", () => {
   });
 
   test("If loadCache is set to false, loads correct uncached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     localStorage.setItem("project", JSON.stringify(cachedProject));
     renderHook(
       () =>
@@ -306,7 +308,7 @@ describe("When not embedded", () => {
   });
 
   test("If no cached project, loads uncached project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     renderHook(
       () =>
         useProject({
@@ -328,7 +330,7 @@ describe("When not embedded", () => {
   });
 
   test("If requested locale does not match the set language, does not set project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => jest.fn()));
+    syncProject.mockImplementationOnce(vi.fn((_) => vi.fn()));
     renderHook(
       () => useProject({ projectIdentifier: "my-favourite-project" }),
       {
@@ -374,7 +376,7 @@ describe("When not embedded", () => {
   });
 
   test("If loadRemix of a project is requested and remixLoadFailed is false", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     renderHook(
       () =>
         useProject({
@@ -396,7 +398,7 @@ describe("When not embedded", () => {
   });
 
   test("If loadRemix of a project is requested and remixLoadFailed is true", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     renderHook(
       () =>
         useProject({
@@ -420,7 +422,7 @@ describe("When not embedded", () => {
   });
 
   test("it calls loadProject when access token becomes available", async () => {
-    syncProject.mockImplementation(jest.fn((_) => loadProject));
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
     const { rerender } = renderHook((props) => useProject(props), {
       initialProps: {
         projectIdentifier: project1.identifier,
@@ -444,7 +446,7 @@ describe("When not embedded", () => {
   });
 
   test("it does not call loadProject when access token changes", async () => {
-    syncProject.mockImplementation(jest.fn((_) => loadProject));
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
     const { rerender } = renderHook((props) => useProject(props), {
       initialProps: {
         projectIdentifier: project1.identifier,
@@ -468,7 +470,7 @@ describe("When not embedded", () => {
   });
 
   test("If assetsIdentifer is set then set assetsOnly to true when loading project", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     renderHook(
       () =>
         useProject({
@@ -723,7 +725,7 @@ describe("When embedded", () => {
   });
 
   test("If embedded and cached project, loads from server", async () => {
-    syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
     localStorage.setItem("hello-world-project", JSON.stringify(cachedProject));
     renderHook(
       () =>
