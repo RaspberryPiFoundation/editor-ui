@@ -3,7 +3,7 @@ import { render, fireEvent } from "@testing-library/react";
 import OrientationResetButton from "./OrientationResetButton";
 
 let resetButton;
-const resetFunction = jest.fn();
+const resetFunction = vi.fn();
 
 beforeEach(() => {
   resetButton = render(

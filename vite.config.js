@@ -170,6 +170,7 @@ export default defineConfig(async ({ mode }) => {
     test: {
       environment: "jsdom",
       globals: true,
+      mockReset: true,
       setupFiles: [path.resolve(__dirname, "src/utils/setupTests.vitest.js")],
       include: [
         "src/**/__tests__/**/*.{js,jsx,ts,tsx}",

@@ -1,12 +1,12 @@
 import { syncProject } from "../../redux/EditorSlice";
 import { createAutoSaveLifecycle } from "./autoSaveLifecycle";
 
-jest.mock("../../redux/EditorSlice", () => ({
-  ...jest.requireActual("../../redux/EditorSlice"),
-  syncProject: jest.fn((_) => jest.fn()),
+vi.mock("../../redux/EditorSlice", async () => ({
+  ...(await vi.importActual("../../redux/EditorSlice")),
+  syncProject: vi.fn((_) => vi.fn()),
 }));
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const user1 = {
   access_token: "myAccessToken1",
@@ -30,7 +30,7 @@ const editedProject = {
 };
 
 const saveAction = { type: "SAVE_PROJECT" };
-const saveProject = jest.fn(() => saveAction);
+const saveProject = vi.fn(() => saveAction);
 
 /** flushPendingAutoSave is async; yield so it reaches its next await. */
 const awaitAsyncFlush = () => Promise.resolve();
@@ -56,7 +56,7 @@ const createLifecycle = ({
 
   let resolveSave;
   let rejectSave;
-  const dispatch = jest.fn(() => {
+  const dispatch = vi.fn(() => {
     const thunkPromise = new Promise((resolve) => {
       resolveSave = resolve;
       rejectSave = (error) =>
@@ -110,7 +110,7 @@ const createLifecycle = ({
 };
 
 beforeEach(() => {
-  syncProject.mockImplementation(jest.fn((_) => saveProject));
+  syncProject.mockImplementation(vi.fn((_) => saveProject));
 });
 
 describe("autoSaveLifecycle", () => {
@@ -162,7 +162,7 @@ describe("autoSaveLifecycle", () => {
     lifecycle.requestAutoSave();
     expect(dispatch).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(10000);
+    vi.advanceTimersByTime(10000);
     expect(inFlightSavePromiseRef.current).not.toBeNull();
     await completeInFlightSave({ inFlightSavePromiseRef, resolveSave });
 

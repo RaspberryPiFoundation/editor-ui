@@ -11,8 +11,8 @@ let mockDispatch;
 let resolveSave;
 let rejectSave;
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+vi.mock("react-redux", async () => ({
+  ...(await vi.importActual("react-redux")),
   useDispatch: () => mockDispatch,
   useSelector: (selector) =>
     selector({
@@ -26,12 +26,12 @@ jest.mock("react-redux", () => ({
     }),
 }));
 
-jest.mock("../../redux/EditorSlice", () => ({
-  ...jest.requireActual("../../redux/EditorSlice"),
-  syncProject: jest.fn((_) => jest.fn()),
+vi.mock("../../redux/EditorSlice", async () => ({
+  ...(await vi.importActual("../../redux/EditorSlice")),
+  syncProject: vi.fn((_) => vi.fn()),
 }));
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const user1 = {
   access_token: "myAccessToken1",
@@ -71,10 +71,10 @@ const editedProject = {
 };
 
 const saveAction = { type: "SAVE_PROJECT" };
-const saveProject = jest.fn(() => saveAction);
+const saveProject = vi.fn(() => saveAction);
 
 const createAsyncThunkDispatchMock = () =>
-  jest.fn(() => {
+  vi.fn(() => {
     const thunkPromise = new Promise((resolve) => {
       resolveSave = resolve;
       rejectSave = (error) =>
@@ -99,7 +99,7 @@ beforeEach(() => {
   mockInitialProjectInstructions = project.instructions ?? null;
   mockSaving = "idle";
   mockCodeRunInProgress = false;
-  syncProject.mockImplementation(jest.fn((_) => saveProject));
+  syncProject.mockImplementation(vi.fn((_) => saveProject));
 
   mockDispatch = createAsyncThunkDispatchMock();
 });
@@ -182,7 +182,7 @@ describe("useAutoSave", () => {
     });
 
     act(() => {
-      jest.advanceTimersByTime(10000);
+      vi.advanceTimersByTime(10000);
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(2);
@@ -319,7 +319,7 @@ describe("useAutoSave", () => {
     expect(mockDispatch).toHaveBeenCalledTimes(1);
 
     act(() => {
-      jest.advanceTimersByTime(10000);
+      vi.advanceTimersByTime(10000);
     });
 
     expect(mockDispatch).toHaveBeenCalledTimes(2);

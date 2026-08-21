@@ -7,8 +7,8 @@ import Sk from "skulpt";
 
 let container;
 let store;
-const start_motion_function = jest.fn();
-const stop_motion_function = jest.fn();
+const start_motion_function = vi.fn();
+const stop_motion_function = vi.fn();
 
 describe("No motion and code running", () => {
   beforeEach(() => {

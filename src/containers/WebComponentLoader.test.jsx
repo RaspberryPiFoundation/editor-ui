@@ -20,17 +20,17 @@ import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { Cookies, CookiesProvider } from "react-cookie";
 
-jest.mock("../hooks/useProject", () => ({
-  useProject: jest.fn(),
+vi.mock("../hooks/useProject", () => ({
+  useProject: vi.fn(),
 }));
 
-jest.mock("../hooks/useProjectPersistence", () => ({
-  useProjectPersistence: jest.fn(),
+vi.mock("../hooks/useProjectPersistence", () => ({
+  useProjectPersistence: vi.fn(),
 }));
 
-const mockedChangeLanguage = jest.fn(() => Promise.resolve());
+const mockedChangeLanguage = vi.fn(() => Promise.resolve());
 
-jest.mock("react-i18next", () => ({
+vi.mock("react-i18next", () => ({
   useTranslation: () => {
     return {
       i18n: {
@@ -56,7 +56,7 @@ const user = { access_token: "my_token" };
 
 describe("When initially rendered", () => {
   beforeEach(() => {
-    document.dispatchEvent = jest.fn();
+    document.dispatchEvent = vi.fn();
     const mockStore = configureStore([]);
     const initialState = {
       editor: {
@@ -362,7 +362,7 @@ describe("When no user is in state", () => {
         </Provider>,
       );
 
-      expect(container.querySelector("#wc")).toHaveClass(
+      expect(container.querySelector("[id='wc']")).toHaveClass(
         "--light",
         "--use-editor-styles",
       );
@@ -385,8 +385,8 @@ describe("When no user is in state", () => {
         </Provider>,
       );
 
-      expect(container.querySelector("#wc")).toHaveClass("--dark");
-      expect(container.querySelector("#wc")).not.toHaveClass(
+      expect(container.querySelector("[id='wc']")).toHaveClass("--dark");
+      expect(container.querySelector("[id='wc']")).not.toHaveClass(
         "--use-editor-styles",
       );
     });
@@ -483,7 +483,7 @@ describe("When user is in state", () => {
 
     describe("when user data is set", () => {
       beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
         render(
           <Provider store={store}>
             <CookiesProvider cookies={cookies}>
@@ -494,12 +494,12 @@ describe("When user is in state", () => {
       });
 
       afterEach(() => {
-        jest.useRealTimers();
+        vi.useRealTimers();
       });
 
       test("removes if user data is removed from local storage", () => {
         localStorage.removeItem(authKey);
-        jest.advanceTimersByTime(50000);
+        vi.advanceTimersByTime(50000);
         expect(store.getActions()).toEqual(
           expect.arrayContaining([setUser(null)]),
         );
@@ -513,7 +513,7 @@ describe("When user is in state", () => {
             other_user_data: "data",
           }),
         );
-        jest.advanceTimersByTime(50000);
+        vi.advanceTimersByTime(50000);
         expect(store.getActions()).toEqual(
           expect.arrayContaining([
             setUser({ access_token: "new_token", other_user_data: "data" }),

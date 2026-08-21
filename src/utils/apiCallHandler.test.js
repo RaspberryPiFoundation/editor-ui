@@ -2,7 +2,7 @@ import axios from "axios";
 
 import ApiCallHandler from "./apiCallHandler";
 
-jest.mock("axios");
+vi.mock("axios");
 const host = "http://localhost:3009";
 const defaultHeaders = { headers: { Accept: "application/json" } };
 const accessToken = "39a09671-be55-4847-baf5-8919a0c24a25";

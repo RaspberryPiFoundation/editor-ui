@@ -6,11 +6,11 @@ import store from "../../app/store";
 import { codeRunHandled, triggerCodeRun } from "../../redux/EditorSlice";
 
 beforeEach(() => {
-  jest.useFakeTimers();
+  vi.useFakeTimers();
 });
 
 afterEach(() => {
-  jest.useRealTimers();
+  vi.useRealTimers();
 });
 
 test("Clicking stop button sets codeRunStopped to true", () => {
@@ -45,7 +45,7 @@ test("Clicking stop button changes it to 'Stopping...' after a time out", () => 
   expect(stopButton.textContent).toEqual("Stop Code");
 
   act(() => {
-    jest.runAllTimers();
+    vi.runAllTimers();
   });
   expect(stopButton.textContent).toEqual("runButton.stopping");
 });

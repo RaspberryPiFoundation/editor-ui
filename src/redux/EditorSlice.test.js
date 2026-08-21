@@ -25,19 +25,27 @@ import reducer, {
   setFriendlyError,
 } from "./EditorSlice";
 
-const mockCreateRemix = jest.fn();
-const mockDeleteProject = jest.fn();
-const mockLoadAssets = jest.fn();
-const mockReadProject = jest.fn();
-const mockCreateOrUpdateProject = jest.fn();
+const mockCreateRemix = vi.fn();
+const mockDeleteProject = vi.fn();
+const mockLoadAssets = vi.fn();
+const mockReadProject = vi.fn();
+const mockCreateOrUpdateProject = vi.fn();
 
-jest.mock("../utils/apiCallHandler", () => () => ({
-  createRemix: jest.fn(mockCreateRemix),
-  deleteProject: jest.fn(mockDeleteProject),
-  loadAssets: jest.fn(mockLoadAssets),
-  readProject: jest.fn(mockReadProject),
-  createOrUpdateProject: jest.fn(mockCreateOrUpdateProject),
+vi.mock("../utils/apiCallHandler", () => ({
+  default: () => ({
+    createRemix: vi.fn(mockCreateRemix),
+    deleteProject: vi.fn(mockDeleteProject),
+    loadAssets: vi.fn(mockLoadAssets),
+    readProject: vi.fn(mockReadProject),
+    createOrUpdateProject: vi.fn(mockCreateOrUpdateProject),
+  }),
 }));
+
+const originalDateNow = Date.now;
+
+afterEach(() => {
+  Date.now = originalDateNow;
+});
 
 const friendlyErrorHtml =
   '<div class="pfem__title">Friendly error title</div>' +
@@ -301,7 +309,7 @@ test("Action setFriendlyError sets friendlyError", () => {
 });
 
 describe("When project has no identifier", () => {
-  const dispatch = jest.fn();
+  const dispatch = vi.fn();
   const project = {
     name: "hello world",
     project_type: "python",
@@ -329,7 +337,7 @@ describe("When project has no identifier", () => {
   let saveAction;
 
   beforeEach(() => {
-    Date.now = jest.fn(() => 1669808953);
+    Date.now = vi.fn(() => 1669808953);
     saveThunk = syncProject("save");
     saveAction = saveThunk({
       project,
@@ -387,7 +395,7 @@ describe("When project has no identifier", () => {
 });
 
 describe("When project has an identifier", () => {
-  const dispatch = jest.fn();
+  const dispatch = vi.fn();
   const project = {
     name: "hello world",
     project_type: "python",
@@ -420,6 +428,7 @@ describe("When project has an identifier", () => {
 
   beforeEach(() => {
     localStorage.clear();
+    Date.now = vi.fn(() => 1669808953);
 
     saveThunk = syncProject("save");
     saveAction = saveThunk({
@@ -463,6 +472,7 @@ describe("When project has an identifier", () => {
     const expectedState = {
       project: project,
       saving: "success",
+      lastSavedTime: 1669808953,
       initialComponents: [
         {
           name: "main",
@@ -540,7 +550,7 @@ describe("When project has an identifier", () => {
 });
 
 describe("When deleting a project", () => {
-  const dispatch = jest.fn();
+  const dispatch = vi.fn();
   let project = { identifier: "my-amazing-project", name: "hello world" };
   const access_token = "myToken";
   const initialState = {
@@ -730,7 +740,7 @@ describe("Updating file name", () => {
 });
 
 describe("Loading a project", () => {
-  const dispatch = jest.fn();
+  const dispatch = vi.fn();
   const identifier = "my-project-identifier";
   const accessToken = "myToken";
   const locale = "es-LA";
@@ -989,7 +999,7 @@ describe("initialComponents snapshot", () => {
   });
 
   test("Scratch save lifecycle actions update editor save state", () => {
-    Date.now = jest.fn(() => 1669808953);
+    Date.now = vi.fn(() => 1669808953);
     const initialState = reducer(
       undefined,
       setProject({

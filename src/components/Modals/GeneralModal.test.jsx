@@ -2,8 +2,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import GeneralModal from "./GeneralModal";
 
-const defaultCallback = jest.fn();
-const closeModal = jest.fn();
+const defaultCallback = vi.fn();
+const closeModal = vi.fn();
 
 describe("With close button", () => {
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe("With close button", () => {
           defaultCallback={defaultCallback}
           heading="My modal heading"
           text={[{ content: "Paragraph1", type: "paragraph" }]}
-          buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
+          buttons={[<button onClick={vi.fn()}>My amazing button</button>]}
         />
       </div>,
     );
@@ -52,7 +52,7 @@ describe("Without close button", () => {
           defaultCallback={defaultCallback}
           heading="My modal heading"
           text={[{ content: "Paragraph1", type: "paragraph" }]}
-          buttons={[<button onClick={jest.fn()}>My amazing button</button>]}
+          buttons={[<button onClick={vi.fn()}>My amazing button</button>]}
         />
       </div>,
     );

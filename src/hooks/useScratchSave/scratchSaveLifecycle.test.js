@@ -1,6 +1,6 @@
 import { createScratchSaveLifecycle } from "./scratchSaveLifecycle";
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const createLifecycle = ({
   context = {},
@@ -16,7 +16,7 @@ const createLifecycle = ({
 
   let dirty = context.dirty ?? true;
   let projectChangedAt = context.projectChangedAt ?? Date.now();
-  const postSave = jest.fn();
+  const postSave = vi.fn();
 
   const baseContext = {
     canAutoSave: () => context.canAutoSave ?? true,
@@ -68,7 +68,7 @@ describe("scratchSaveLifecycle", () => {
 
     expect(postSave).not.toHaveBeenCalled();
 
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
 
     expect(postSave).toHaveBeenCalledWith({ autosave: true });
   });
@@ -78,16 +78,16 @@ describe("scratchSaveLifecycle", () => {
       createLifecycle();
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(1);
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(1);
 
     resolveInFlight();
     lifecycle.markSaveSucceeded(false);
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
 
     expect(postSave).toHaveBeenCalledTimes(2);
   });
@@ -97,12 +97,12 @@ describe("scratchSaveLifecycle", () => {
       createLifecycle();
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     resolveInFlight();
     lifecycle.markSaveSucceeded(true);
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(1);
 
     const flushPromise = lifecycle.flushPendingAutoSave();
@@ -141,18 +141,18 @@ describe("scratchSaveLifecycle", () => {
       createLifecycle();
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(1);
 
     lifecycle.markAutosaveFailed(true);
     lifecycle.flushQueuedSave();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(2);
     expect(schedulerState.autosaveRetryUsed).toBe(true);
 
     lifecycle.markAutosaveFailed(true);
     lifecycle.flushQueuedSave();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(2);
     expect(schedulerState.queued).toBe(false);
   });
@@ -161,17 +161,17 @@ describe("scratchSaveLifecycle", () => {
     const { postSave, triggerProjectChanged, lifecycle } = createLifecycle();
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     lifecycle.markAutosaveFailed(true);
     lifecycle.flushQueuedSave();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     lifecycle.markAutosaveFailed(true);
     lifecycle.flushQueuedSave();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(2);
 
     triggerProjectChanged();
-    jest.advanceTimersByTime(2000);
+    vi.advanceTimersByTime(2000);
     expect(postSave).toHaveBeenCalledTimes(3);
   });
 });

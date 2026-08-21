@@ -6,11 +6,13 @@ import { act } from "react";
 import Modal from "react-modal";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import { renderWithProviders } from "../../../../utils/renderWithProviders";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
+import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
-window.HTMLElement.prototype.scrollTo = jest.fn();
+window.HTMLElement.prototype.scrollTo = vi.fn();
 
-jest.mock("../../../../utils/scratchblocks", () => ({
-  scratchblocksInit: jest.fn(),
+vi.mock("../../../../utils/scratchblocks", () => ({
+  scratchblocksInit: vi.fn(),
 }));
 
 // Stand-in for the real (jsdom-unfriendly) scratchblocks SVG rendering: swap
@@ -305,7 +307,7 @@ describe("When instructionsEditable is true", () => {
       });
 
       expect(store.getState().editor.project.instructions).toBe(
-        "demoInstructions.md",
+        populateMarkdownTemplate(demoInstructions, (str) => str),
       );
     });
 

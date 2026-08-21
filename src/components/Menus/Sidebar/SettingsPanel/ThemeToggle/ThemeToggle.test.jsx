@@ -3,7 +3,7 @@ import { act, render, fireEvent, screen } from "@testing-library/react";
 import ThemeToggle from "./ThemeToggle";
 import { Cookies, CookiesProvider } from "react-cookie";
 
-const themeUpdatedHandler = jest.fn();
+const themeUpdatedHandler = vi.fn();
 
 beforeAll(() => {
   document.addEventListener("editor-themeUpdated", (e) =>
@@ -20,11 +20,11 @@ describe("When default theme is light mode and cookie unset", () => {
       matches: false,
       media: query,
       onchange: null,
-      addListener: jest.fn(), // Deprecated
-      removeListener: jest.fn(), // Deprecated
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
+      addListener: vi.fn(), // Deprecated
+      removeListener: vi.fn(), // Deprecated
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
     });
     cookies = new Cookies();
     toggleContainer = render(
@@ -68,11 +68,11 @@ describe("When default theme is dark mode and cookie unset", () => {
       matches: true,
       media: query,
       onchange: null,
-      addListener: jest.fn(), // Deprecated
-      removeListener: jest.fn(), // Deprecated
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
+      addListener: vi.fn(), // Deprecated
+      removeListener: vi.fn(), // Deprecated
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
     });
     cookies = new Cookies();
     toggleContainer = render(

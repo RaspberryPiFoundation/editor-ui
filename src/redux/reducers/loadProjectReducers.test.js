@@ -3,13 +3,15 @@ import produce from "immer";
 import reducer, { syncProject } from "../../redux/EditorSlice";
 import { loadProjectRejected } from "./loadProjectReducers";
 
-const mockReadProject = jest.fn();
-jest.mock("../../utils/apiCallHandler", () => () => ({
-  readProject: jest.fn(mockReadProject),
+const mockReadProject = vi.fn();
+vi.mock("../../utils/apiCallHandler", () => ({
+  default: () => ({
+    readProject: vi.fn(mockReadProject),
+  }),
 }));
 
 const requestingAProject = function (project, projectFile) {
-  const dispatch = jest.fn();
+  const dispatch = vi.fn();
   const initialState = {
     editor: {
       project: {},

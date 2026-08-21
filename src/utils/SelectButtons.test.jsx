@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import SelectButtons from "./SelectButtons";
 
-const setValue = jest.fn();
+const setValue = vi.fn();
 
 beforeEach(() => {
   render(
