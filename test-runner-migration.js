@@ -14,14 +14,6 @@ const JEST_ONLY_TEST_FILES = [
   "src/components/Editor/Runners/PythonRunner/PyodideRunner/VisualOutputPane.test.jsx",
   "src/components/Editor/Runners/PythonRunner/PythonRunner.test.jsx",
   "src/components/Editor/Runners/PythonRunner/SkulptRunner/SkulptRunner.test.jsx",
-  "src/utils/Notifications.test.js",
-  "src/utils/ResizableWithHandle.test.jsx",
-  "src/utils/SelectButtons.test.jsx",
-  "src/utils/ToastCloseButton.test.jsx",
-  "src/utils/apiCallHandler.test.js",
-  "src/utils/save/autoSaveHostApi.test.js",
-  "src/utils/save/autoSaveLifecycle.test.js",
-  "src/utils/scratchIframe.test.js",
 ];
 
 module.exports = { JEST_ONLY_TEST_FILES };
