@@ -25,16 +25,18 @@ let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
 };
 
-jest.mock("react-responsive", () => ({
-  ...jest.requireActual("react-responsive"),
+vi.mock("react-responsive", async () => ({
+  ...(await vi.importActual("react-responsive")),
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
 
-jest.mock("node-html-parser", () => {
-  const actual = jest.requireActual("node-html-parser");
+const { parse: actualParseHtml } = await vi.importActual("node-html-parser");
+
+vi.mock("node-html-parser", async () => {
+  const actual = await vi.importActual("node-html-parser");
   return {
     ...actual,
-    parse: jest.fn((...args) => actual.parse(...args)),
+    parse: vi.fn((...args) => actual.parse(...args)),
   };
 });
 
@@ -272,9 +274,7 @@ describe("When run is triggered", () => {
     };
     store = mockStore(initialState);
 
-    parseHtml.mockImplementation((...args) =>
-      jest.requireActual("node-html-parser").parse(...args),
-    );
+    parseHtml.mockImplementation((...args) => actualParseHtml(...args));
 
     render(
       <Provider store={store}>
@@ -287,7 +287,7 @@ describe("When run is triggered", () => {
     );
 
     const iframe = screen.getByTitle("runners.HtmlOutput");
-    mockPostMessageFn = jest
+    mockPostMessageFn = vi
       .spyOn(iframe.contentWindow, "postMessage")
       .mockImplementation(() => {});
 
