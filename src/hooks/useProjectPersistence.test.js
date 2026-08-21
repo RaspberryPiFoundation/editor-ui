@@ -14,8 +14,8 @@ let mockSaving = "idle";
 let mockCodeRunInProgress = false;
 let mockDispatch;
 
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
+vi.mock("react-redux", async () => ({
+  ...(await vi.importActual("react-redux")),
   useDispatch: () => mockDispatch,
   useSelector: (selector) =>
     selector({
@@ -29,22 +29,22 @@ jest.mock("react-redux", () => ({
     }),
 }));
 
-jest.mock("../redux/EditorSlice", () => ({
-  ...jest.requireActual("../redux/EditorSlice"),
-  syncProject: jest.fn((_) => jest.fn()),
-  expireJustLoaded: jest.fn(),
-  setHasShownSavePrompt: jest.fn(),
+vi.mock("../redux/EditorSlice", async () => ({
+  ...(await vi.importActual("../redux/EditorSlice")),
+  syncProject: vi.fn((_) => vi.fn()),
+  expireJustLoaded: vi.fn(),
+  setHasShownSavePrompt: vi.fn(),
 }));
 
-jest.mock("../utils/Notifications");
+vi.mock("../utils/Notifications");
 
 const remixAction = { type: "REMIX_PROJECT" };
-const remixProject = jest.fn(() => remixAction);
+const remixProject = vi.fn(() => remixAction);
 const saveAction = { type: "SAVE_PROJECT" };
-const saveProject = jest.fn(() => saveAction);
-const loadProject = jest.fn();
+const saveProject = vi.fn(() => saveAction);
+const loadProject = vi.fn();
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const user1 = {
   access_token: "myAccessToken1",
@@ -89,7 +89,7 @@ const editedProject = {
 };
 
 const createAsyncThunkDispatchMock = (resolveImmediately = saveAction) =>
-  jest.fn(() => {
+  vi.fn(() => {
     const thunkPromise =
       typeof resolveImmediately === "function"
         ? new Promise((resolve) => {
@@ -135,7 +135,7 @@ describe("When not logged in", () => {
           justLoaded: true,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
 
     test("Expires justLoaded", () => {
@@ -156,7 +156,7 @@ describe("When not logged in", () => {
           justLoaded: false,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
 
     test("Login prompt shown", () => {
@@ -184,7 +184,7 @@ describe("When not logged in", () => {
           hasShownSavePrompt: true,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
 
     test("Login prompt shown", () => {
@@ -210,7 +210,7 @@ describe("When logged in", () => {
             justLoaded: true,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Expires justLoaded", () => {
@@ -231,7 +231,7 @@ describe("When logged in", () => {
             justLoaded: true,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Expires justLoaded", () => {
@@ -254,7 +254,7 @@ describe("When logged in", () => {
             justLoaded: false,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Save prompt shown", () => {
@@ -282,7 +282,7 @@ describe("When logged in", () => {
             hasShownSavePrompt: true,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Save prompt not shown again", () => {
@@ -298,8 +298,8 @@ describe("When logged in", () => {
 
     describe("When project has identifier and save triggered", () => {
       beforeEach(() => {
-        syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
-        syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+        syncProject.mockImplementationOnce(vi.fn((_) => remixProject));
+        syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
 
         renderHook(() =>
           useProjectPersistence({
@@ -308,7 +308,7 @@ describe("When logged in", () => {
             saveTriggered: true,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Clicking save dispatches remixProject with correct parameters", async () => {
@@ -329,8 +329,8 @@ describe("When logged in", () => {
 
     describe("When project has identifier and save triggered without loadRemix", () => {
       beforeEach(() => {
-        syncProject.mockImplementationOnce(jest.fn((_) => remixProject));
-        syncProject.mockImplementationOnce(jest.fn((_) => loadProject));
+        syncProject.mockImplementationOnce(vi.fn((_) => remixProject));
+        syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
 
         renderHook(() =>
           useProjectPersistence({
@@ -340,7 +340,7 @@ describe("When logged in", () => {
             loadRemix: false,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Clicking save dispatches remixProject with correct parameters", async () => {
@@ -358,7 +358,7 @@ describe("When logged in", () => {
 
     describe("When project has no identifier and save triggered", () => {
       beforeEach(() => {
-        syncProject.mockImplementationOnce(jest.fn((_) => saveProject));
+        syncProject.mockImplementationOnce(vi.fn((_) => saveProject));
         renderHook(() =>
           useProjectPersistence({
             user: user2,
@@ -366,7 +366,7 @@ describe("When logged in", () => {
             saveTriggered: true,
           }),
         );
-        jest.runAllTimers();
+        vi.runAllTimers();
       });
 
       test("Save project is called with the correct parameters", async () => {
@@ -381,7 +381,7 @@ describe("When logged in", () => {
 
   describe("When user can autosave to the API", () => {
     beforeEach(() => {
-      syncProject.mockImplementation(jest.fn((_) => saveProject));
+      syncProject.mockImplementation(vi.fn((_) => saveProject));
     });
 
     test("Does not autosave unchanged project to database", () => {
@@ -392,7 +392,7 @@ describe("When logged in", () => {
           saveTriggered: false,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).not.toHaveBeenCalled();
     });
 
@@ -404,7 +404,7 @@ describe("When logged in", () => {
           saveTriggered: false,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
         project: editedProject,
         accessToken: user1.access_token,
@@ -439,7 +439,7 @@ describe("When logged in", () => {
       );
 
       act(() => {
-        jest.advanceTimersByTime(2000);
+        vi.advanceTimersByTime(2000);
       });
 
       expect(saveProject).toHaveBeenCalledTimes(1);
@@ -447,7 +447,7 @@ describe("When logged in", () => {
       rerender({ project: furtherEditedProject });
 
       act(() => {
-        jest.advanceTimersByTime(2000);
+        vi.advanceTimersByTime(2000);
       });
 
       expect(saveProject).toHaveBeenCalledTimes(1);
@@ -458,7 +458,7 @@ describe("When logged in", () => {
       });
 
       act(() => {
-        jest.advanceTimersByTime(10000);
+        vi.advanceTimersByTime(10000);
       });
 
       expect(saveProject).toHaveBeenCalledTimes(2);
@@ -478,7 +478,7 @@ describe("When logged in", () => {
           saveTriggered: false,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).not.toHaveBeenCalled();
       expect(expireJustLoaded).toHaveBeenCalled();
     });
@@ -492,7 +492,7 @@ describe("When logged in", () => {
           saveTriggered: false,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
         project: editedProject,
         accessToken: user1.access_token,
@@ -519,9 +519,9 @@ describe("When logged in", () => {
           saveTriggered: false,
         }),
       );
-      jest.advanceTimersByTime(2500);
+      vi.advanceTimersByTime(2500);
       expect(saveProject).not.toHaveBeenCalled();
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
         project: largeProject,
         accessToken: user1.access_token,
@@ -537,7 +537,7 @@ describe("When logged in", () => {
           saveTriggered: true,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
         project,
         accessToken: user1.access_token,
@@ -555,7 +555,7 @@ describe("When logged in", () => {
           saveTriggered: false,
         }),
       );
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(saveProject).toHaveBeenCalledWith({
         project,
         accessToken: user1.access_token,

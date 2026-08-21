@@ -3,6 +3,39 @@
 import "@testing-library/jest-dom";
 import { vi } from "vitest";
 
+class MemoryStorage {
+  #store = new Map();
+
+  getItem(key) {
+    return this.#store.has(key) ? this.#store.get(key) : null;
+  }
+
+  setItem(key, value) {
+    this.#store.set(key, String(value));
+  }
+
+  removeItem(key) {
+    this.#store.delete(key);
+  }
+
+  clear() {
+    this.#store.clear();
+  }
+
+  get length() {
+    return this.#store.size;
+  }
+
+  key(index) {
+    return Array.from(this.#store.keys())[index] ?? null;
+  }
+}
+
+Object.defineProperty(window, "localStorage", {
+  value: new MemoryStorage(),
+  configurable: true,
+});
+
 window.matchMedia = (query) => ({
   matches: false,
   media: query,
@@ -37,5 +70,5 @@ vi.mock("react-i18next", () => ({
 }));
 
 vi.mock("./i18n", () => ({
-  t: (string) => string,
+  default: { t: (string) => string },
 }));
