@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import React, { act } from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
+import ScratchContainer from "./ScratchContainer";
 import EditorReducer from "../../../redux/EditorSlice";
 import * as scratchIframeUtils from "../../../utils/scratchIframe";
 import webComponentStore from "../../../redux/stores/WebComponentStore";
@@ -9,38 +10,44 @@ import { setUser } from "../../../redux/WebComponentAuthSlice";
 import { resetStore } from "../../../redux/RootSlice";
 import { resetRunEventCodeSnapshot } from "../../WebComponentProject/runEventCodeSnapshot";
 
-jest.mock("../../../utils/scratchIframe", () => ({
-  ...jest.requireActual("../../../utils/scratchIframe"),
-  postMessageToScratchIframe: jest.fn(),
+vi.mock("../../../utils/scratchIframe", async () => ({
+  ...(await vi.importActual("../../../utils/scratchIframe")),
+  postMessageToScratchIframe: vi.fn(),
 }));
 
-const renderMockOverlayScrollbarsComponent = ({
-  children,
-  className,
-  "data-testid": dataTestId,
-}) => (
-  <div className={className} data-testid={dataTestId}>
-    {children}
-  </div>
-);
-
-const mockOverlayScrollbarsComponent = jest.fn(
+const {
   renderMockOverlayScrollbarsComponent,
-);
-const mockPlugin = jest.fn();
+  mockOverlayScrollbarsComponent,
+  mockPlugin,
+} = vi.hoisted(() => {
+  const renderMockOverlayScrollbarsComponent = ({
+    children,
+    className,
+    "data-testid": dataTestId,
+  }) =>
+    React.createElement(
+      "div",
+      { className, "data-testid": dataTestId },
+      children,
+    );
 
-jest.mock("overlayscrollbars-react", () => ({
+  return {
+    renderMockOverlayScrollbarsComponent,
+    mockOverlayScrollbarsComponent: vi.fn(renderMockOverlayScrollbarsComponent),
+    mockPlugin: vi.fn(),
+  };
+});
+
+vi.mock("overlayscrollbars-react", () => ({
   OverlayScrollbarsComponent: (props) => mockOverlayScrollbarsComponent(props),
 }));
 
-jest.mock("overlayscrollbars", () => ({
+vi.mock("overlayscrollbars", () => ({
   ClickScrollPlugin: { name: "ClickScrollPlugin" },
   OverlayScrollbars: {
     plugin: (...args) => mockPlugin(...args),
   },
 }));
-
-const ScratchContainer = require("./ScratchContainer").default;
 
 describe("ScratchContainer", () => {
   const defaultEditorState = {
@@ -134,7 +141,7 @@ describe("ScratchContainer", () => {
 
   afterEach(() => {
     process.env.REACT_APP_SCRATCH_FRAME_URL = originalScratchFrameUrl;
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test("renders iframe with src built from project_id and api_url", () => {
@@ -191,20 +198,20 @@ describe("ScratchContainer", () => {
     let runStartedHandler;
 
     beforeEach(() => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
       resetRunEventCodeSnapshot();
-      runStartedHandler = jest.fn();
+      runStartedHandler = vi.fn();
       document.addEventListener("editor-runStarted", runStartedHandler);
     });
 
     afterEach(() => {
-      jest.useRealTimers();
+      vi.useRealTimers();
       document.removeEventListener("editor-runStarted", runStartedHandler);
     });
 
     const flushScratchRunDebounce = () => {
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
     };
 
@@ -325,7 +332,7 @@ describe("ScratchContainer", () => {
       flushScratchRunDebounce();
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       act(() => {
@@ -377,7 +384,7 @@ describe("ScratchContainer", () => {
       flushScratchRunDebounce();
 
       act(() => {
-        jest.advanceTimersByTime(250);
+        vi.advanceTimersByTime(250);
       });
 
       act(() => {
