@@ -7,7 +7,6 @@
 // any new test file.
 const JEST_ONLY_TEST_FILES = [
   "src/components/Editor/Project/Project.test.jsx",
-  "src/components/Editor/Runners/PythonRunner/PyodideRunner/PyodideRunner.test.jsx",
   "src/components/Editor/Runners/PythonRunner/PyodideRunner/PyodideWorker.test.js",
   "src/components/Editor/Runners/PythonRunner/PyodideRunner/VisualOutputPane.test.jsx",
   "src/components/Editor/Runners/PythonRunner/SkulptRunner/SkulptRunner.test.jsx",

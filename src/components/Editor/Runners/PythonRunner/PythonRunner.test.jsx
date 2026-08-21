@@ -2,12 +2,15 @@ import { render, within } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { act } from "react-dom/test-utils";
 import PythonRunner from "./PythonRunner";
+import PyodideWorker from "./PyodideRunner/PyodideWorker.mock.vitest.js";
 import {
   triggerCodeRun,
   setProject,
   setSenseHatAlwaysEnabled,
 } from "../../../../redux/EditorSlice";
 import store from "../../../../app/store";
+
+window.Worker = PyodideWorker;
 
 const initialState = {
   editor: {
