@@ -33,4 +33,9 @@ vi.mock("react-i18next", () => ({
     },
   }),
   Trans: ({ children, i18nKey }) => children || i18nKey,
+  initReactI18next: {},
+}));
+
+vi.mock("./i18n", () => ({
+  t: (string) => string,
 }));

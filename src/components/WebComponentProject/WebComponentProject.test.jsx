@@ -7,10 +7,10 @@ import WebComponentProject, {
 } from "./WebComponentProject";
 import { RUN_EVENT_DEBOUNCE_MS } from "./runEventCodeSnapshot";
 
-const codeChangedHandler = jest.fn();
-const runStartedHandler = jest.fn();
-const runCompletedHandler = jest.fn();
-const stepChangedHandler = jest.fn();
+const codeChangedHandler = vi.fn();
+const runStartedHandler = vi.fn();
+const runCompletedHandler = vi.fn();
+const stepChangedHandler = vi.fn();
 
 beforeAll(() => {
   document.addEventListener("editor-codeChanged", codeChangedHandler);
@@ -19,11 +19,11 @@ beforeAll(() => {
   document.addEventListener("editor-stepChanged", stepChangedHandler);
 });
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const flushRunEventDebounce = () => {
   act(() => {
-    jest.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
+    vi.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
   });
 };
 
@@ -96,7 +96,7 @@ describe("When state set", () => {
 
   test("Triggers codeChanged event", () => {
     act(() => {
-      jest.runAllTimers();
+      vi.runAllTimers();
     });
     expect(codeChangedHandler).toHaveBeenCalled();
     expect(codeChangedHandler.mock.lastCall[0].detail).toHaveProperty("step");

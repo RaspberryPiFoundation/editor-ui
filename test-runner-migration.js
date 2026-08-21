@@ -16,8 +16,6 @@ const JEST_ONLY_TEST_FILES = [
   "src/components/Editor/Runners/PythonRunner/SkulptRunner/SkulptRunner.test.jsx",
   "src/components/RunButton/StopButton.test.jsx",
   "src/components/WebComponentProject/WebComponentProject.integration.test.jsx",
-  "src/components/WebComponentProject/WebComponentProject.test.jsx",
-  "src/components/WebComponentProject/runEventCodeSnapshot.test.js",
   "src/containers/WebComponentLoader.test.jsx",
   "src/hooks/useAutoSave/useAutoSave.test.js",
   "src/hooks/useContainerMinWidth.test.js",
