@@ -120,7 +120,7 @@ test("Additional closeModal function fired", () => {
     },
   };
   const store = mockStore(initialState);
-  const testOnClose = jest.fn();
+  const testOnClose = vi.fn();
 
   render(
     <Provider store={store}>
