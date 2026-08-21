@@ -1,7 +1,6 @@
 /* global globalThis */
 
 import { waitFor } from "@testing-library/react";
-import { TextEncoder } from "util";
 class MockPythonArray extends Array {
   toJs() {
     return this;
@@ -9,9 +8,8 @@ class MockPythonArray extends Array {
 }
 
 // Mock global functions
-global.postMessage = jest.fn();
-global.importScripts = jest.fn();
-global.TextEncoder = TextEncoder;
+global.postMessage = vi.fn();
+global.importScripts = vi.fn();
 global.pygal = {};
 global._internal_sense_hat = {};
 
@@ -33,8 +31,8 @@ describe("PyodideWorker", () => {
   let worker;
   let pyodide;
 
-  beforeEach(() => {
-    jest.resetModules();
+  beforeEach(async () => {
+    vi.resetModules();
     pyodide = {
       _api: {
         pyodide_code: {
@@ -45,23 +43,23 @@ describe("PyodideWorker", () => {
         PythonError: Error,
       },
       FS: {
-        readdir: jest.fn().mockReturnValue([]),
-        writeFile: jest.fn(),
+        readdir: vi.fn().mockReturnValue([]),
+        writeFile: vi.fn(),
       },
-      loadPackage: jest.fn().mockReturnValue({ catch: jest.fn() }),
-      loadPackagesFromImports: jest.fn(),
+      loadPackage: vi.fn().mockReturnValue({ catch: vi.fn() }),
+      loadPackagesFromImports: vi.fn(),
       micropip: {
-        install: jest.fn().mockReturnValue({ catch: jest.fn() }),
+        install: vi.fn().mockReturnValue({ catch: vi.fn() }),
       },
-      pyimport: jest.fn(),
-      registerJsModule: jest.fn(),
-      runPython: jest.fn(),
-      runPythonAsync: jest.fn(),
-      setInterruptBuffer: jest.fn(),
-      setStdin: jest.fn(),
+      pyimport: vi.fn(),
+      registerJsModule: vi.fn(),
+      runPython: vi.fn(),
+      runPythonAsync: vi.fn(),
+      setInterruptBuffer: vi.fn(),
+      setStdin: vi.fn(),
     };
-    global.loadPyodide = jest.fn().mockResolvedValue(pyodide);
-    require("../../../../../PyodideWorker.js");
+    global.loadPyodide = vi.fn().mockResolvedValue(pyodide);
+    await import("../../../../../PyodideWorker.js");
     worker = globalThis.PyodideWorker();
   });
 
