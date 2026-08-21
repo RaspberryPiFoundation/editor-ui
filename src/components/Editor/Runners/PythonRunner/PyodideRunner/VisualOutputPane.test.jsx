@@ -6,7 +6,15 @@ import VisualOutputPane from "./VisualOutputPane.jsx";
 import Highcharts from "highcharts";
 import Plotly from "plotly.js";
 
-jest.mock("highcharts");
+vi.mock("highcharts");
+vi.mock("plotly.js", () => {
+  const plotly = {
+    newPlot: vi.fn(),
+    react: vi.fn(),
+    purge: vi.fn(),
+  };
+  return { ...plotly, default: plotly };
+});
 
 const renderPaneWithVisuals = (visuals) => {
   const middlewares = [];
@@ -72,7 +80,7 @@ describe("When there is turtle output", () => {
           Object.entries({
             tag: "p",
             children: [new Map(Object.entries({ text: "hello world" }))],
-            props: new Map(Object.entries({ style: 'color: "red"' })),
+            props: new Map(Object.entries({ style: "color: red" })),
           }),
         ),
       },
@@ -85,7 +93,9 @@ describe("When there is turtle output", () => {
   });
 
   test("it applies the attributes within turtle", () => {
-    expect(screen.queryByText("hello world")).toHaveStyle('color: "red"');
+    expect(screen.queryByText("hello world")).toHaveStyle(
+      "color: rgb(255, 0, 0)",
+    );
   });
 });
 
