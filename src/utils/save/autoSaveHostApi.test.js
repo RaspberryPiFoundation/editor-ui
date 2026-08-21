@@ -24,8 +24,8 @@ describe("autoSaveHostApi", () => {
   });
 
   test("flushes project and scratch saves in sequence", async () => {
-    const projectFlush = jest.fn(() => Promise.resolve());
-    const scratchFlush = jest.fn(() => Promise.resolve());
+    const projectFlush = vi.fn(() => Promise.resolve());
+    const scratchFlush = vi.fn(() => Promise.resolve());
 
     registerAutoSaveHostApi({
       flushPendingAutoSave: projectFlush,

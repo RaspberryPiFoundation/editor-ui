@@ -4,7 +4,7 @@ import ResizableWithHandle from "./ResizableWithHandle";
 
 let mockResizeStop;
 
-jest.mock("re-resizable", () => ({
+vi.mock("re-resizable", () => ({
   Resizable: ({
     children,
     handleComponent,

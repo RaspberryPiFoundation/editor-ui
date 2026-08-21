@@ -13,13 +13,13 @@ describe("scratchIframe", () => {
   let originalQuerySelector;
 
   beforeEach(() => {
-    mockPostMessage = jest.fn();
+    mockPostMessage = vi.fn();
     mockContentWindow = { postMessage: mockPostMessage };
-    mockShadowQuerySelector = jest.fn(() => ({
+    mockShadowQuerySelector = vi.fn(() => ({
       contentWindow: mockContentWindow,
     }));
     originalQuerySelector = document.querySelector;
-    document.querySelector = jest.fn(() => ({
+    document.querySelector = vi.fn(() => ({
       shadowRoot: {
         querySelector: mockShadowQuerySelector,
       },
@@ -91,7 +91,7 @@ describe("scratchIframe", () => {
     });
 
     it("calls the handler with the updated project id", () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
 
       window.dispatchEvent(
@@ -111,7 +111,7 @@ describe("scratchIframe", () => {
     it("accepts updates when REACT_APP_SCRATCH_FRAME_URL contains a path", () => {
       process.env.REACT_APP_SCRATCH_FRAME_URL =
         "https://scratch-frame.example.com/branches/main";
-      const handler = jest.fn();
+      const handler = vi.fn();
       const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
 
       window.dispatchEvent(
@@ -129,7 +129,7 @@ describe("scratchIframe", () => {
     });
 
     it("ignores unrelated messages", () => {
-      const handler = jest.fn();
+      const handler = vi.fn();
       const unsubscribe = subscribeToScratchProjectIdentifierUpdates(handler);
 
       window.dispatchEvent(
