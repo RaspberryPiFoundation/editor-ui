@@ -12,7 +12,7 @@ import {
 } from "../../redux/EditorSlice";
 import { projectIdentifierChangedEvent } from "../../events/WebComponentCustomEvents";
 
-const projectIdentifierChangedHandler = jest.fn();
+const projectIdentifierChangedHandler = vi.fn();
 
 beforeAll(() => {
   document.addEventListener(
