@@ -36,6 +36,11 @@ Object.defineProperty(window, "localStorage", {
   configurable: true,
 });
 
+window.Worker = class {
+  postMessage = vi.fn();
+  onmessage = null;
+};
+
 window.matchMedia = (query) => ({
   matches: false,
   media: query,
