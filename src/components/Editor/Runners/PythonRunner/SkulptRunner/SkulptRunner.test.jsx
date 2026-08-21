@@ -19,13 +19,18 @@ import editorReducer from "../../../../../redux/EditorSlice";
 import { SettingsContext } from "../../../../../utils/settings";
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../../../utils/mediaQueryBreakpoints";
+import {
+  loadCopydeckFor,
+  registerAdapter,
+  friendlyExplain,
+} from "@raspberrypifoundation/python-friendly-error-messages";
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
 };
 
-jest.mock("react-responsive", () => ({
-  ...jest.requireActual("react-responsive"),
+vi.mock("react-responsive", async () => ({
+  ...(await vi.importActual("react-responsive")),
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
 
@@ -279,18 +284,7 @@ describe("When an error occurs", () => {
   });
 
   describe("When friendly errors are enabled", () => {
-    let loadCopydeckFor;
-    let registerAdapter;
-    let friendlyExplain;
-
     beforeEach(() => {
-      ({
-        // Using the global mock in setupTests.js to track calls to these functions
-        loadCopydeckFor,
-        registerAdapter,
-        friendlyExplain,
-      } = require("@raspberrypifoundation/python-friendly-error-messages"));
-
       friendlyExplain.mockReturnValue({
         html: friendlyErrorHtml,
       });
@@ -401,7 +395,7 @@ describe("When native code called from Python throws a plain JS error (e.g. the 
   let asyncToPromiseSpy;
 
   beforeEach(() => {
-    asyncToPromiseSpy = jest
+    asyncToPromiseSpy = vi
       .spyOn(Sk.misceval, "asyncToPromise")
       .mockReturnValue(
         Promise.reject(
@@ -1465,7 +1459,7 @@ describe("When not active", () => {
 
 describe("When not active and a code run has been triggered", () => {
   beforeEach(() => {
-    Sk.misceval.asyncToPromise = jest.fn();
+    Sk.misceval.asyncToPromise = vi.fn();
     const middlewares = [];
     const mockStore = configureMockStore(middlewares);
     const initialState = {
@@ -1510,7 +1504,7 @@ describe("When turtle run setup is applied", () => {
     originalConfigure = Sk.configure;
     originalGetElementById = document.getElementById;
 
-    Sk.configure = jest.fn();
+    Sk.configure = vi.fn();
   });
 
   afterEach(() => {
@@ -1521,8 +1515,8 @@ describe("When turtle run setup is applied", () => {
   });
 
   test("binds turtle target from VisualOutputPane ref before execution", () => {
-    Sk.importMainWithBody = jest.fn();
-    Sk.misceval.asyncToPromise = jest.fn(() => Promise.resolve());
+    Sk.importMainWithBody = vi.fn();
+    Sk.misceval.asyncToPromise = vi.fn(() => Promise.resolve());
 
     const middlewares = [];
     const mockStore = configureMockStore(middlewares);
@@ -1560,11 +1554,11 @@ describe("When turtle run setup is applied", () => {
       resolveRun = resolve;
     });
 
-    Sk.importMainWithBody = jest.fn(() => {
+    Sk.importMainWithBody = vi.fn(() => {
       turtleLookupTarget = document.getElementById("turtle");
       return {};
     });
-    Sk.misceval.asyncToPromise = jest.fn((runner) => {
+    Sk.misceval.asyncToPromise = vi.fn((runner) => {
       runner();
       return runPromise;
     });
