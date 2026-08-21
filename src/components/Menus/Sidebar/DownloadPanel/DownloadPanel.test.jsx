@@ -5,16 +5,16 @@ import { MemoryRouter } from "react-router";
 import configureStore from "redux-mock-store";
 import FileSaver from "file-saver";
 
-jest.mock("file-saver");
-jest.mock("jszip");
-jest.mock("jszip-utils", () => ({
-  getBinaryContent: jest.fn(),
+vi.mock("file-saver");
+vi.mock("jszip");
+vi.mock("jszip-utils", () => ({
+  default: { getBinaryContent: vi.fn() },
 }));
 
 let container;
 
-const logInHandler = jest.fn();
-const signUpHandler = jest.fn();
+const logInHandler = vi.fn();
+const signUpHandler = vi.fn();
 
 beforeAll(() => {
   document.addEventListener("editor-logIn", logInHandler);
