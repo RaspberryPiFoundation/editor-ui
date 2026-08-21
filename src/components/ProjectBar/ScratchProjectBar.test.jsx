@@ -7,18 +7,18 @@ import ScratchProjectBar from "./ScratchProjectBar";
 import editorReducer, { editorInitialState } from "../../redux/EditorSlice";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
-jest.mock("axios");
-jest.mock("../../utils/scratchIframe", () => ({
-  ...jest.requireActual("../../utils/scratchIframe"),
-  postMessageToScratchIframe: jest.fn(),
+vi.mock("axios");
+vi.mock("../../utils/scratchIframe", async () => ({
+  ...(await vi.importActual("../../utils/scratchIframe")),
+  postMessageToScratchIframe: vi.fn(),
 }));
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => jest.fn(),
+vi.mock("react-router-dom", async () => ({
+  ...(await vi.importActual("react-router-dom")),
+  useNavigate: () => vi.fn(),
 }));
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const scratchProject = {
   name: "Hello world",
@@ -99,11 +99,11 @@ const dispatchScratchMessage = (type, origin = getScratchOrigin()) => {
 };
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
 
 afterEach(() => {
-  jest.clearAllTimers();
+  vi.clearAllTimers();
 });
 
 describe("When project is Scratch", () => {
@@ -175,7 +175,7 @@ describe("When project is Scratch", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
@@ -202,7 +202,7 @@ describe("When project is Scratch", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
@@ -279,7 +279,7 @@ describe("Additional Scratch manual save states", () => {
     dispatchScratchMessage("scratch-gui-project-changed");
 
     act(() => {
-      jest.advanceTimersByTime(2000);
+      vi.advanceTimersByTime(2000);
     });
 
     expect(postMessageToScratchIframe).not.toHaveBeenCalled();

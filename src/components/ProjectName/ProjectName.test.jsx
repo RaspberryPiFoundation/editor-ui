@@ -17,10 +17,10 @@ let store;
 let editButton;
 let inputField;
 
-jest.mock("../../redux/EditorSlice");
-jest.mock("react-redux", () => ({
-  ...jest.requireActual("react-redux"),
-  useDispatch: () => jest.fn(),
+vi.mock("../../redux/EditorSlice");
+vi.mock("react-redux", async () => ({
+  ...(await vi.importActual("react-redux")),
+  useDispatch: () => vi.fn(),
 }));
 
 describe("With a label", () => {
@@ -178,7 +178,7 @@ describe("With no label", () => {
     });
 
     test("Updates project name", () => {
-      expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+      expect(updateProjectName).toHaveBeenCalledWith(project.name);
     });
 
     test("Disables input field", async () => {
@@ -198,7 +198,7 @@ describe("With no label", () => {
     });
 
     test("Updates project name", () => {
-      expect(store.getActions()).toEqual([updateProjectName(project.name)]);
+      expect(updateProjectName).toHaveBeenCalledWith(project.name);
     });
 
     test("Disables input field", async () => {
