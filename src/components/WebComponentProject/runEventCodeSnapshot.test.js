@@ -13,21 +13,21 @@ const components = [
 ];
 
 const flushDebounce = () => {
-  jest.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
+  vi.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
 };
 
 describe("runEventCodeSnapshot", () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     resetRunEventCodeSnapshot();
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   test("allows the first run for a project after debounce", () => {
-    const onRunStarted = jest.fn();
+    const onRunStarted = vi.fn();
 
     scheduleRunEventCycle("project-a", components, {}, { onRunStarted });
     flushDebounce();
@@ -37,7 +37,7 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("suppresses repeated runs with unchanged code", () => {
-    const onRunStarted = jest.fn();
+    const onRunStarted = vi.fn();
 
     scheduleRunEventCycle("project-a", components, {}, { onRunStarted });
     flushDebounce();
@@ -51,7 +51,7 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("allows a run after code changes", () => {
-    const onRunStarted = jest.fn();
+    const onRunStarted = vi.fn();
 
     scheduleRunEventCycle("project-a", components, {}, { onRunStarted });
     flushDebounce();
@@ -69,8 +69,8 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("collapses a rapid burst into one run event", () => {
-    const onRunStarted = jest.fn();
-    const onRunCompletedIfRunAlreadyEnded = jest.fn();
+    const onRunStarted = vi.fn();
+    const onRunCompletedIfRunAlreadyEnded = vi.fn();
 
     scheduleRunEventCycle(
       "project-a",
@@ -95,8 +95,8 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("emits run completed on run end after debounced start", () => {
-    const onRunStarted = jest.fn();
-    const onRunCompleted = jest.fn();
+    const onRunStarted = vi.fn();
+    const onRunCompleted = vi.fn();
 
     scheduleRunEventCycle("project-a", components, {}, { onRunStarted });
     flushDebounce();
@@ -108,7 +108,7 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("resets snapshot when the project identifier changes", () => {
-    const onRunStarted = jest.fn();
+    const onRunStarted = vi.fn();
 
     scheduleRunEventCycle("project-a", components, {}, { onRunStarted });
     flushDebounce();
@@ -122,7 +122,7 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("allows separate bursts after debounce quiet period", () => {
-    const onRunStarted = jest.fn();
+    const onRunStarted = vi.fn();
 
     scheduleRunEventCycle(
       "project-a",
@@ -133,7 +133,7 @@ describe("runEventCodeSnapshot", () => {
     flushDebounce();
     endRunEventCycle();
 
-    jest.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
+    vi.advanceTimersByTime(RUN_EVENT_DEBOUNCE_MS);
 
     scheduleRunEventCycle(
       "project-a",
@@ -148,7 +148,7 @@ describe("runEventCodeSnapshot", () => {
   });
 
   test("does not fire pending callbacks after debounce is cancelled", () => {
-    const onRunStarted = jest.fn();
+    const onRunStarted = vi.fn();
 
     scheduleRunEventCycle(
       "project-a",
