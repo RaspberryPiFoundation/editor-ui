@@ -70,6 +70,32 @@ const mediaProject = {
   ],
 };
 
+const scriptMediaProject = {
+  components: [
+    {
+      name: "index",
+      extension: "html",
+      content: '<head></head><body><script src="sketch.js"></script></body>',
+    },
+    {
+      name: "sketch",
+      extension: "js",
+      content:
+        "let img;\nfunction preload() {\n  img = loadImage(\"image.jpeg\");\n  bg = loadImage('cat (1)+x.jpeg');\n}\n",
+    },
+  ],
+  image_list: [
+    {
+      filename: "image.jpeg",
+      url: "https://example.com/image.jpeg",
+    },
+    {
+      filename: "cat (1)+x.jpeg",
+      url: "https://example.com/cat.jpeg",
+    },
+  ],
+};
+
 const allowedExternalLink = {
   name: "allowed_external_link",
   extension: "html",
@@ -282,6 +308,71 @@ describe("When run is triggered", () => {
         expect(iframe.getAttribute("srcdoc")).toContain(
           '<audio src="https://example.com/audio.mp3"',
         );
+      });
+    });
+  });
+
+  describe("When a JavaScript file references project media", () => {
+    // Stub Blob/createObjectURL here rather than relying on the runner's
+    // setup file, so the blobbed contents can be inspected under both
+    // Jest and Vitest.
+    let blobbedContents;
+    let originalBlob;
+    let originalCreateObjectURL;
+
+    beforeEach(() => {
+      blobbedContents = [];
+      originalBlob = global.Blob;
+      originalCreateObjectURL = window.URL.createObjectURL;
+
+      global.Blob = class {
+        constructor(parts) {
+          this.parts = parts;
+          blobbedContents.push(String(parts?.[0] ?? ""));
+        }
+      };
+      window.URL.createObjectURL = () => "blob:stubbed";
+
+      window.postMessage(
+        {
+          type: MSG_HTML_PROJECT_UPDATE,
+          code: scriptMediaProject.components,
+          media: scriptMediaProject.image_list,
+          current: scriptMediaProject.components[0].content,
+        },
+        "*",
+      );
+    });
+
+    afterEach(() => {
+      global.Blob = originalBlob;
+      window.URL.createObjectURL = originalCreateObjectURL;
+    });
+
+    test("Substitutes the media URL into the script contents", async () => {
+      await waitFor(() => {
+        expect(blobbedContents).toContainEqual(
+          expect.stringContaining(
+            'loadImage("https://example.com/image.jpeg")',
+          ),
+        );
+      });
+    });
+
+    test("Substitutes single-quoted filenames containing special characters", async () => {
+      await waitFor(() => {
+        expect(blobbedContents).toContainEqual(
+          expect.stringContaining('loadImage("https://example.com/cat.jpeg")'),
+        );
+      });
+    });
+
+    test("Does not leave the bare filename in the script contents", async () => {
+      await waitFor(() => {
+        expect(blobbedContents.length).toBeGreaterThan(0);
+        blobbedContents.forEach((contents) => {
+          expect(contents).not.toContain('"image.jpeg"');
+        });
       });
     });
   });
