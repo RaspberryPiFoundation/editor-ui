@@ -2,14 +2,13 @@
   "root": true,
   "extends": [
     "react-app",
-    "react-app/jest",
     "plugin:prettier/recommended"
   ],
   "plugins": [
     "prettier",
     "react",
     "jsx-a11y",
-    "jest"
+    "testing-library"
   ],
   "settings": {
     "react": {
@@ -54,16 +53,32 @@
     },
     {
       "files": ["apps/scratch-frame/**/*.test.js", "apps/scratch-frame/**/*.test.jsx"],
+      "extends": ["plugin:testing-library/react"],
       "globals": {
         "vi": "readonly",
         "test": "readonly",
-        "describe": "readonly"
+        "describe": "readonly",
+        "it": "readonly",
+        "expect": "readonly",
+        "beforeEach": "readonly",
+        "afterEach": "readonly",
+        "beforeAll": "readonly",
+        "afterAll": "readonly"
       }
     },
     {
       "files": ["src/**/__tests__/**/*.{js,jsx,ts,tsx}", "src/**/*.{spec,test}.{js,jsx,ts,tsx}"],
+      "extends": ["plugin:testing-library/react"],
       "globals": {
-        "vi": "readonly"
+        "vi": "readonly",
+        "describe": "readonly",
+        "test": "readonly",
+        "it": "readonly",
+        "expect": "readonly",
+        "beforeEach": "readonly",
+        "afterEach": "readonly",
+        "beforeAll": "readonly",
+        "afterAll": "readonly"
       }
     }
   ]
