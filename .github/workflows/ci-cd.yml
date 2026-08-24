@@ -76,20 +76,10 @@ jobs:
         run: yarn install --immutable
 
       - name: Run tests
-        run: yarn run test --coverage --maxWorkers=4 --workerThreads=true --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
-        env:
-          JEST_JUNIT_OUTPUT_DIR: ./coverage/
-          REACT_APP_API_ENDPOINT: http://localhost:3009
-          REACT_APP_SCRATCH_FRAME_URL: "http://scratch-frame.example.com"
-      - name: Run Vitest tests
-        run: yarn test:vitest
+        run: yarn test --run
         env:
           REACT_APP_API_ENDPOINT: http://localhost:3009
           REACT_APP_SCRATCH_FRAME_URL: "http://scratch-frame.example.com"
-      - name: Record coverage
-        run: ./.github/workflows/record_coverage
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
       - name: Run Scratch Frame tests
         run: yarn run test:scratch-frame
 

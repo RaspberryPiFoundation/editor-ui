@@ -2,13 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Test Current File (Jest)",
+      "label": "Test Current File (Vitest)",
       "type": "shell",
       "command": "yarn",
       "args": [
         "test",
-        "--runTestsByPath",
-        "--watchAll=false",
+        "--run",
         "${file}"
       ],
       "options": {
