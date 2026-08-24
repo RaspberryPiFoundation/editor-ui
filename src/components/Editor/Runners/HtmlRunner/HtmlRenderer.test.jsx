@@ -81,13 +81,17 @@ const scriptMediaProject = {
       name: "sketch",
       extension: "js",
       content:
-        'let img;\nfunction preload() {\n  img = loadImage("image.jpeg");\n}\n',
+        "let img;\nfunction preload() {\n  img = loadImage(\"image.jpeg\");\n  bg = loadImage('cat (1)+x.jpeg');\n}\n",
     },
   ],
   image_list: [
     {
       filename: "image.jpeg",
       url: "https://example.com/image.jpeg",
+    },
+    {
+      filename: "cat (1)+x.jpeg",
+      url: "https://example.com/cat.jpeg",
     },
   ],
 };
@@ -351,6 +355,14 @@ describe("When run is triggered", () => {
           expect.stringContaining(
             'loadImage("https://example.com/image.jpeg")',
           ),
+        );
+      });
+    });
+
+    test("Substitutes single-quoted filenames containing special characters", async () => {
+      await waitFor(() => {
+        expect(blobbedContents).toContainEqual(
+          expect.stringContaining('loadImage("https://example.com/cat.jpeg")'),
         );
       });
     });

@@ -22,21 +22,17 @@ const parentTag = (node, tag) =>
 // swapped for the asset's real URL before the file is handed to the iframe.
 const mediaSubstitutedExtensions = ["css", "js"];
 
-const escapeForRegExp = (string) =>
-  string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
 const substituteProjectMedia = (projectFile, projectMedia) => {
   let updatedProjectFile = { ...projectFile };
   if (mediaSubstitutedExtensions.includes(projectFile.extension)) {
     projectMedia.forEach((mediaFile) => {
-      const find = new RegExp(
-        `['"]${escapeForRegExp(mediaFile.filename)}['"]`,
-        "g",
-      ); // prevent substring matches
-      updatedProjectFile.content = updatedProjectFile.content.replaceAll(
-        find,
-        () => `"${mediaFile.url}"`, // callback, so $-sequences in the URL are not expanded
-      );
+      // A callback, so $-sequences in the URL are not expanded as
+      // replacement patterns.
+      const mediaUrl = () => `"${mediaFile.url}"`;
+      // Matched with the quotes included, to prevent substring matches.
+      updatedProjectFile.content = updatedProjectFile.content
+        .replaceAll(`"${mediaFile.filename}"`, mediaUrl)
+        .replaceAll(`'${mediaFile.filename}'`, mediaUrl);
     });
   }
   return updatedProjectFile;
