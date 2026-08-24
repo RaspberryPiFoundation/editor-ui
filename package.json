@@ -3,7 +3,6 @@
   "version": "0.36.4",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.17.10",
     "@codemirror/commands": "^6.1.1",
     "@codemirror/lang-css": "^6.0.0",
     "@codemirror/lang-html": "^6.1.2",
@@ -106,7 +105,6 @@
     "@typescript-eslint/parser": "^4.5.0",
     "@vitejs/plugin-react": "^6",
     "babel-eslint": "^10.1.0",
-    "babel-preset-react-app": "^10.0.1",
     "browserslist": "^4.28.6",
     "browserslist-to-esbuild": "^2.1.1",
     "camelcase": "^6.1.0",
