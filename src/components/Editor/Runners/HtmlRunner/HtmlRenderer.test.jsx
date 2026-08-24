@@ -309,8 +309,26 @@ describe("When run is triggered", () => {
   });
 
   describe("When a JavaScript file references project media", () => {
+    // Stub Blob/createObjectURL here rather than relying on the runner's
+    // setup file, so the blobbed contents can be inspected under both
+    // Jest and Vitest.
+    let blobbedContents;
+    let originalBlob;
+    let originalCreateObjectURL;
+
     beforeEach(() => {
-      global.Blob.mockClear();
+      blobbedContents = [];
+      originalBlob = global.Blob;
+      originalCreateObjectURL = window.URL.createObjectURL;
+
+      global.Blob = class {
+        constructor(parts) {
+          this.parts = parts;
+          blobbedContents.push(String(parts?.[0] ?? ""));
+        }
+      };
+      window.URL.createObjectURL = () => "blob:stubbed";
+
       window.postMessage(
         {
           type: MSG_HTML_PROJECT_UPDATE,
@@ -322,11 +340,13 @@ describe("When run is triggered", () => {
       );
     });
 
+    afterEach(() => {
+      global.Blob = originalBlob;
+      window.URL.createObjectURL = originalCreateObjectURL;
+    });
+
     test("Substitutes the media URL into the script contents", async () => {
       await waitFor(() => {
-        const blobbedContents = global.Blob.mock.calls.map(
-          (call) => call[0][0],
-        );
         expect(blobbedContents).toContainEqual(
           expect.stringContaining(
             'loadImage("https://example.com/image.jpeg")',
@@ -337,9 +357,6 @@ describe("When run is triggered", () => {
 
     test("Does not leave the bare filename in the script contents", async () => {
       await waitFor(() => {
-        const blobbedContents = global.Blob.mock.calls.map(
-          (call) => call[0][0],
-        );
         expect(blobbedContents.length).toBeGreaterThan(0);
         blobbedContents.forEach((contents) => {
           expect(contents).not.toContain('"image.jpeg"');
