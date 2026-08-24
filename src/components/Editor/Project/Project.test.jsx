@@ -8,22 +8,20 @@ import { showSavedMessage } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
 import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
 
-window.HTMLElement.prototype.scrollIntoView = jest.fn();
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
-jest.mock("react-router-dom", () => ({
-  ...jest.requireActual("react-router-dom"),
-  useNavigate: () => jest.fn(),
+vi.mock("react-router-dom", async () => ({
+  ...(await vi.importActual("react-router-dom")),
+  useNavigate: () => vi.fn(),
 }));
 
-jest.mock("../../../utils/Notifications");
-jest.mock("../../../hooks/useContainerMinWidth", () => ({
-  useContainerMinWidth: jest.fn(),
+vi.mock("../../../utils/Notifications");
+vi.mock("../../../hooks/useContainerMinWidth", () => ({
+  useContainerMinWidth: vi.fn(),
 }));
-
-jest.useFakeTimers();
 
 beforeEach(() => {
-  useContainerMinWidth.mockReturnValue([false, jest.fn()]);
+  useContainerMinWidth.mockReturnValue([false, vi.fn()]);
 });
 
 const user1 = {
@@ -214,7 +212,7 @@ describe("When not logged in and falling on default container width", () => {
   });
 
   test("Shows right drag bar with expected params on desktop containers", () => {
-    useContainerMinWidth.mockReturnValue([true, jest.fn()]);
+    useContainerMinWidth.mockReturnValue([true, vi.fn()]);
 
     const middlewares = [];
     const mockStore = configureStore(middlewares);
