@@ -53,7 +53,7 @@
         "github.remotehub",
         "circleci.circleci",
         "stylelint.vscode-stylelint",
-        "Orta.vscode-jest",
+        "vitest.explorer",
         "christian-kohler.path-intellisense",
         "esbenp.prettier-vscode",
         "avraammavridis.vsc-react-documentation",
@@ -65,7 +65,6 @@
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
-        "jest.jestCommandLine": "yarn test",
         "eslint.enable": true,
         "eslint.validate": ["javascript", "javascriptreact"],
         "stylelint.enable": true,
