@@ -1,6 +1,6 @@
 # Getting Started
 
-This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. It was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and later ejected; the build now runs on [Vite](https://vite.dev) (see `vite.config.js`, `vite.html-renderer.config.js` and `vite.worker.config.js`), while tests still run on the Jest setup CRA generated.
+This project provides a web component containing the Raspberry Pi Code Editor for use on other sites. It was originally bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and later ejected; the build now runs on [Vite](https://vite.dev) (see `vite.config.js`, `vite.html-renderer.config.js` and `vite.worker.config.js`), and tests run on [Vitest](https://vitest.dev).
 
 ## Install dependencies
 
@@ -101,7 +101,7 @@ Note: Both eslint and stylelint are run as part of the CI pipeline.
 
 ## Testing
 
-Automated unit tests can be run via the `yarn test` command. These unit tests are written using the JavaScript testing framework `Jest` and make use of the tools provided by the [React Testing Library](https://testing-library.com/docs/). Automated accessibility testing for components is available via the `jest-axe` library. This can be achieved using the `haveNoViolations` matcher provided by `jest-axe`, although this does not guarantee that the tested components have no accessibility issues.
+Automated unit tests can be run via the `yarn test` command. These unit tests are written using the JavaScript testing framework [Vitest](https://vitest.dev) and make use of the tools provided by the [React Testing Library](https://testing-library.com/docs/). Automated accessibility testing for components is available via the `jest-axe` library. This can be achieved using the `haveNoViolations` matcher provided by `jest-axe`, although this does not guarantee that the tested components have no accessibility issues.
 
 Integration testing is carried out via `cypress` and can be run using:
 

@@ -1,7 +1,6 @@
 # Project Overview
 - Web component version of Raspberry Pi Code Editor, built with React and
-  Vite (migrated from an ejected-CRA webpack setup; the Jest test setup from
-  that era is unchanged, see Testing & CI below).
+  Vite (migrated from an ejected-CRA webpack setup).
 - Primary entry is the web component bundle served by the dev server at
   `http://localhost:3011`.
 - Three Vite configs at the repo root, each producing one unhashed, classic
@@ -14,8 +13,7 @@
 - `src/`: application code, redux, web component entrypoints.
 - `public/`: static assets, Python/Skulpt libraries and shims.
 - `cypress/`: end-to-end tests and fixtures.
-- `config/`: Jest config and build helpers (CRA/webpack-era leftovers; not used
-  by the Vite build).
+- `config/`: deploy helpers (e.g. `nginx.conf.erb`); not used by the Vite build.
 - `.github/workflows/`: CI/CD and deploy pipelines.
 
 ## Quickstart Commands
@@ -38,8 +36,7 @@ yarn start
 ```
 yarn install --immutable
 yarn lint
-yarn run test --coverage --maxWorkers=4 --workerThreads=true \
-  --reporters=default --reporters=jest-junit --reporters=jest-github-actions-reporter
+yarn test --run
 ```
 - Cypress in CI starts the app with `yarn start` and runs against
   `http://localhost:3011` with `REACT_APP_API_ENDPOINT`, `PUBLIC_URL`,
@@ -93,7 +90,7 @@ yarn exec cypress open
   Deploys are driven by `.github/workflows/deploy.yml`.
 
 ### Running tests
-- Unit tests: `CI=true yarn test` (without `CI=true`, Jest enters interactive watch mode which hangs).
+- Unit tests: `CI=true yarn test` (without `CI=true`, Vitest enters interactive watch mode which hangs).
 - Lint: `yarn lint` (runs ESLint on `src/` and `cypress/`).
 - Cypress e2e requires the dev server to be running first (`yarn start`).
 
