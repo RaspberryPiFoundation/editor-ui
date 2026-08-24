@@ -1,7 +1,7 @@
 // Trimmed copy of scratchblocks/locales/all.js containing only the locales the
 // editor actually supports (i.e. the values referenced in the localeMap in
 // scratchblocks.js). We list them explicitly rather than importing the upstream
-// all.js to avoid jest module import errors, and to keep the ~1MB of unused
+// all.js to avoid Vitest module import errors, and to keep the ~1MB of unused
 // locale JSON out of the bundle. `en` is built into scratchblocks so is omitted.
 import am from "scratchblocks/locales/am.json";
 import ar from "scratchblocks/locales/ar.json";

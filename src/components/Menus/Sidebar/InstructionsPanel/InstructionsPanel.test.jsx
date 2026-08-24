@@ -17,7 +17,7 @@ vi.mock("../../../../utils/scratchblocks", () => ({
 
 // Stand-in for the real (jsdom-unfriendly) scratchblocks SVG rendering: swap
 // each .language-blocks element for an svg so we can assert it was processed.
-// Set as the implementation per-test because jest `resetMocks: true` clears it.
+// Set as the implementation per-test because Vitest's `mockReset: true` clears it.
 const fakeScratchblocksInit = (_locale, container) => {
   container.querySelectorAll(".language-blocks").forEach((block) => {
     const svg = global.document.createElementNS(
