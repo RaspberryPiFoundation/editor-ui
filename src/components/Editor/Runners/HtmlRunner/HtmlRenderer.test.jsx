@@ -70,6 +70,28 @@ const mediaProject = {
   ],
 };
 
+const scriptMediaProject = {
+  components: [
+    {
+      name: "index",
+      extension: "html",
+      content: '<head></head><body><script src="sketch.js"></script></body>',
+    },
+    {
+      name: "sketch",
+      extension: "js",
+      content:
+        'let img;\nfunction preload() {\n  img = loadImage("image.jpeg");\n}\n',
+    },
+  ],
+  image_list: [
+    {
+      filename: "image.jpeg",
+      url: "https://example.com/image.jpeg",
+    },
+  ],
+};
+
 const allowedExternalLink = {
   name: "allowed_external_link",
   extension: "html",
@@ -282,6 +304,46 @@ describe("When run is triggered", () => {
         expect(iframe.getAttribute("srcdoc")).toContain(
           '<audio src="https://example.com/audio.mp3"',
         );
+      });
+    });
+  });
+
+  describe("When a JavaScript file references project media", () => {
+    beforeEach(() => {
+      global.Blob.mockClear();
+      window.postMessage(
+        {
+          type: MSG_HTML_PROJECT_UPDATE,
+          code: scriptMediaProject.components,
+          media: scriptMediaProject.image_list,
+          current: scriptMediaProject.components[0].content,
+        },
+        "*",
+      );
+    });
+
+    test("Substitutes the media URL into the script contents", async () => {
+      await waitFor(() => {
+        const blobbedContents = global.Blob.mock.calls.map(
+          (call) => call[0][0],
+        );
+        expect(blobbedContents).toContainEqual(
+          expect.stringContaining(
+            'loadImage("https://example.com/image.jpeg")',
+          ),
+        );
+      });
+    });
+
+    test("Does not leave the bare filename in the script contents", async () => {
+      await waitFor(() => {
+        const blobbedContents = global.Blob.mock.calls.map(
+          (call) => call[0][0],
+        );
+        expect(blobbedContents.length).toBeGreaterThan(0);
+        blobbedContents.forEach((contents) => {
+          expect(contents).not.toContain('"image.jpeg"');
+        });
       });
     });
   });

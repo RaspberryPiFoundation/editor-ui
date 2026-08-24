@@ -17,15 +17,25 @@ import {
 const parentTag = (node, tag) =>
   node.parentNode?.tagName && node.parentNode.tagName.toLowerCase() === tag;
 
-const cssProjectImgs = (projectFile, projectMedia) => {
+// Media filenames are only meaningful inside the editor: the preview has no
+// file system to resolve them against, so any reference to one has to be
+// swapped for the asset's real URL before the file is handed to the iframe.
+const mediaSubstitutedExtensions = ["css", "js"];
+
+const escapeForRegExp = (string) =>
+  string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const substituteProjectMedia = (projectFile, projectMedia) => {
   let updatedProjectFile = { ...projectFile };
-  if (projectFile.extension === "css") {
+  if (mediaSubstitutedExtensions.includes(projectFile.extension)) {
     projectMedia.forEach((media_file) => {
-      const find = new RegExp(`['"]${media_file.filename}['"]`, "g"); // prevent substring matches
-      const replace = `"${media_file.url}"`;
+      const find = new RegExp(
+        `['"]${escapeForRegExp(media_file.filename)}['"]`,
+        "g",
+      ); // prevent substring matches
       updatedProjectFile.content = updatedProjectFile.content.replaceAll(
         find,
-        replace,
+        () => `"${media_file.url}"`, // callback, so $-sequences in the URL are not expanded
       );
     });
   }
@@ -54,7 +64,7 @@ const replaceHrefNodes = (indexPage, projectMedia, projectCode) => {
     if (!!projectFile) {
       if (parentTag(hrefNode, "head")) {
         const projectFileBlob = getBlobURL(
-          cssProjectImgs(projectFile, projectMedia).content,
+          substituteProjectMedia(projectFile, projectMedia).content,
           mimeTypes.lookup(`${projectFile.name}.${projectFile.extension}`),
         );
         hrefNode.setAttribute("href", projectFileBlob);
@@ -113,7 +123,7 @@ const replaceSrcNodes = (
       src = projectMediaFile.url;
     } else if (!!projectTextFile) {
       src = getBlobURL(
-        projectTextFile.content,
+        substituteProjectMedia(projectTextFile, projectMedia).content,
         mimeTypes.lookup(
           `${projectTextFile.name}.${projectTextFile.extension}`,
         ),
