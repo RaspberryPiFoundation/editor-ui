@@ -5,7 +5,9 @@ module.exports = {
   collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
   setupFiles: ["react-app-polyfill/jsdom"],
   setupFilesAfterEnv: ["<rootDir>/src/utils/setupTests.js"],
-  testMatch: JEST_ONLY_TEST_FILES.map((file) => `<rootDir>/${file}`),
+  testMatch: JEST_ONLY_TEST_FILES.length
+    ? JEST_ONLY_TEST_FILES.map((file) => `<rootDir>/${file}`)
+    : ["<rootDir>/no-jest-only-test-files-remain"],
   testEnvironment: "jsdom",
   testEnvironmentOptions: {
     resources: "usable",

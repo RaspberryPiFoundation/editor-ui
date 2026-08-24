@@ -5,8 +5,6 @@
 // Vitest equivalents (vi.fn/vi.mock/etc.) and its assertions verified under
 // Vitest - anything not listed here runs under Vitest by default, including
 // any new test file.
-const JEST_ONLY_TEST_FILES = [
-  "src/components/Editor/Project/Project.test.jsx",
-];
+const JEST_ONLY_TEST_FILES = [];
 
 module.exports = { JEST_ONLY_TEST_FILES };
