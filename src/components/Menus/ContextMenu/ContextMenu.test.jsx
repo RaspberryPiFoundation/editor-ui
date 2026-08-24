@@ -4,7 +4,7 @@ import { axe, toHaveNoViolations } from "jest-axe";
 import ContextMenu from "./ContextMenu";
 
 expect.extend(toHaveNoViolations);
-const action1 = jest.fn();
+const action1 = vi.fn();
 
 describe("With file items", () => {
   beforeEach(() => {

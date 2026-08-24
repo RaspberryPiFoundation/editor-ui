@@ -8,14 +8,14 @@ let observers;
 class MockResizeObserver {
   constructor(callback) {
     this.callback = callback;
-    this.observe = jest.fn();
-    this.disconnect = jest.fn();
+    this.observe = vi.fn();
+    this.disconnect = vi.fn();
     observers.push(this);
   }
 }
 
 const makeElement = (width) => ({
-  getBoundingClientRect: jest.fn(() => ({ width })),
+  getBoundingClientRect: vi.fn(() => ({ width })),
 });
 
 const renderObservedHook = (width) => {

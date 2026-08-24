@@ -5,10 +5,10 @@ import {
   showSavePrompt,
 } from "./Notifications";
 
-jest.mock("./i18n", () => ({
-  t: (string) => string,
+vi.mock("./i18n", () => ({
+  default: { t: (string) => string },
 }));
-jest.mock("react-toastify");
+vi.mock("react-toastify");
 
 test("Calling showSavedMessage calls toast with correct string", () => {
   showSavedMessage();

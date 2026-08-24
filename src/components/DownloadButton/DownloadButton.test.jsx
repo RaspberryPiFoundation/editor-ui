@@ -8,12 +8,12 @@ import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
-jest.mock("file-saver");
-jest.mock("jszip");
-jest.mock("jszip-utils", () => ({
-  getBinaryContent: jest.fn(),
+vi.mock("file-saver");
+vi.mock("jszip");
+vi.mock("jszip-utils", () => ({
+  default: { getBinaryContent: vi.fn() },
 }));
-jest.mock("../../utils/scratchIframe");
+vi.mock("../../utils/scratchIframe");
 
 describe("Downloading project with name set", () => {
   let downloadButton;

@@ -11,14 +11,14 @@ import {
 import { matchMedia, setMedia } from "mock-match-media";
 import { MOBILE_BREAKPOINT } from "../../../utils/mediaQueryBreakpoints";
 
-window.HTMLElement.prototype.scrollIntoView = jest.fn();
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 let mockMediaQuery = (query) => {
   return matchMedia(query).matches;
 };
 
-jest.mock("react-responsive", () => ({
-  ...jest.requireActual("react-responsive"),
+vi.mock("react-responsive", async () => ({
+  ...(await vi.importActual("react-responsive")),
   useMediaQuery: ({ query }) => mockMediaQuery(query),
 }));
 

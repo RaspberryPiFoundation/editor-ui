@@ -6,7 +6,7 @@ import { MemoryRouter } from "react-router-dom";
 
 import ProjectsPanel from "./ProjectsPanel";
 
-document.dispatchEvent = jest.fn();
+document.dispatchEvent = vi.fn();
 
 const initialState = {
   editor: {

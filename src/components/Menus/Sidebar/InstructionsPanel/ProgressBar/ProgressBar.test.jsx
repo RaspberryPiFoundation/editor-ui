@@ -76,7 +76,7 @@ describe("When on a middle step", () => {
   });
 
   test("Clicking previous step button calls scrollTo when panelRef is provided", () => {
-    const mockScrollTo = jest.fn();
+    const mockScrollTo = vi.fn();
     const panelRef = { current: { scrollTo: mockScrollTo } };
 
     renderProgressBarOnStep(1, 3, panelRef);
@@ -93,7 +93,7 @@ describe("When on a middle step", () => {
   });
 
   test("Clicking next step button calls scrollTo when panelRef is provided", () => {
-    const mockScrollTo = jest.fn();
+    const mockScrollTo = vi.fn();
     const panelRef = { current: { scrollTo: mockScrollTo } };
 
     renderProgressBarOnStep(1, 3, panelRef);
@@ -110,7 +110,7 @@ describe("When on a middle step", () => {
   });
 
   test("Does not call scrollTo when panelRef is null", () => {
-    const mockScrollTo = jest.fn();
+    const mockScrollTo = vi.fn();
 
     renderProgressBarOnStep(1, 3, null);
 
@@ -123,7 +123,7 @@ describe("When on a middle step", () => {
   });
 
   test("Does not call scrollTo when panelRef.current is null", () => {
-    const mockScrollTo = jest.fn();
+    const mockScrollTo = vi.fn();
     const panelRef = { current: null };
 
     renderProgressBarOnStep(1, 3, panelRef);

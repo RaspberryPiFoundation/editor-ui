@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import ToastCloseButton from "./ToastCloseButton";
 
-const closeToast = jest.fn();
+const closeToast = vi.fn();
 
 beforeEach(() => {
   render(<ToastCloseButton closeToast={closeToast} />);

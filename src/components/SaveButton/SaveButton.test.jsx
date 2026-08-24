@@ -6,9 +6,9 @@ import { triggerSave } from "../../redux/EditorSlice";
 import SaveButton from "./SaveButton";
 import useIsOnline from "../../hooks/useIsOnline";
 
-jest.mock("../../hooks/useIsOnline");
+vi.mock("../../hooks/useIsOnline");
 
-const logInHandler = jest.fn();
+const logInHandler = vi.fn();
 
 describe("When project is loaded", () => {
   beforeAll(() => {

@@ -6,11 +6,13 @@ import { act } from "react";
 import Modal from "react-modal";
 import { scratchblocksInit } from "../../../../utils/scratchblocks";
 import { renderWithProviders } from "../../../../utils/renderWithProviders";
+import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
+import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
 
-window.HTMLElement.prototype.scrollTo = jest.fn();
+window.HTMLElement.prototype.scrollTo = vi.fn();
 
-jest.mock("../../../../utils/scratchblocks", () => ({
-  scratchblocksInit: jest.fn(),
+vi.mock("../../../../utils/scratchblocks", () => ({
+  scratchblocksInit: vi.fn(),
 }));
 
 // Stand-in for the real (jsdom-unfriendly) scratchblocks SVG rendering: swap
@@ -105,6 +107,18 @@ describe("When instructionsEditable is true", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.addInstructions"),
       ).not.toBeInTheDocument();
+    });
+
+    test("Renders a link to the how to write instructions guide", () => {
+      const link = screen.getByRole("link", {
+        name: "instructionsPanel.guideLink",
+      });
+
+      expect(link).toHaveAttribute(
+        "href",
+        "https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions",
+      );
+      expect(link).toHaveAttribute("target", "_blank");
     });
   });
 
@@ -268,6 +282,7 @@ describe("When instructionsEditable is true", () => {
             instructionsEditable: true,
           },
           instructions: {
+            permitOverride: true,
             project: {
               steps: [],
             },
@@ -292,13 +307,31 @@ describe("When instructionsEditable is true", () => {
       });
 
       expect(store.getState().editor.project.instructions).toBe(
-        "demoInstructions.md",
+        populateMarkdownTemplate(demoInstructions, (str) => str),
       );
     });
 
     test("Renders the instructions explanation", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.purpose"),
+      ).toBeInTheDocument();
+    });
+
+    test("Does not render the guide link in the panel header", () => {
+      expect(
+        screen.queryByRole("link", { name: "instructionsPanel.guideLink" }),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Adding instructions reveals the guide link", () => {
+      act(() => {
+        fireEvent.click(
+          screen.getByText("instructionsPanel.emptyState.addInstructions"),
+        );
+      });
+
+      expect(
+        screen.getByRole("link", { name: "instructionsPanel.guideLink" }),
       ).toBeInTheDocument();
     });
   });
@@ -332,6 +365,12 @@ describe("When instructions are not editable", () => {
     test("Does not render the instructions explanation", () => {
       expect(
         screen.queryByText("instructionsPanel.emptyState.purpose"),
+      ).not.toBeInTheDocument();
+    });
+
+    test("Does not render the how to write instructions guide link", () => {
+      expect(
+        screen.queryByRole("link", { name: "instructionsPanel.guideLink" }),
       ).not.toBeInTheDocument();
     });
 
@@ -388,6 +427,12 @@ describe("When instructions are not editable", () => {
           },
         },
       });
+    });
+
+    test("Does not render the how to write instructions guide link", () => {
+      expect(
+        screen.queryByRole("link", { name: "instructionsPanel.guideLink" }),
+      ).not.toBeInTheDocument();
     });
 
     test("Renders no tab titles", () => {

@@ -4,7 +4,7 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import SidebarBar from "./SidebarBar";
 
-const toggleOption = jest.fn();
+const toggleOption = vi.fn();
 
 const mockStore = configureStore([]);
 const initialState = {

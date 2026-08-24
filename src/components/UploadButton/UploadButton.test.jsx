@@ -5,7 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import UploadButton from "./UploadButton";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
-jest.mock("../../utils/scratchIframe");
+vi.mock("../../utils/scratchIframe");
 
 const createStore = (project) =>
   configureStore({
@@ -38,7 +38,7 @@ describe("UploadButton", () => {
 
     test("clicking the button triggers the file input", () => {
       const button = screen.getByRole("button", { name: "Upload" });
-      const clickSpy = jest.spyOn(fileInput, "click");
+      const clickSpy = vi.spyOn(fileInput, "click");
       fireEvent.click(button);
       expect(clickSpy).toHaveBeenCalledTimes(1);
     });
