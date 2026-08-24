@@ -1,0 +1,36 @@
+{
+  "identifier": "draw-a-cat",
+  "project_type": "html",
+  "locale": "en",
+  "name": "Draw a Cat",
+  "user_id": null,
+  "instructions": "",
+  "components": [
+    {
+      "id": "2d45c779-ae6a-4da2-a843-fac28e98e29b",
+      "name": "index",
+      "extension": "html",
+      "content": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n    <title>p5 Image Repro</title>\n    <link rel=\"stylesheet\" href=\"styles.css\" />\n    <script src=\"https://rpf.io/p5\"></script>\n  </head>\n  <body>\n    <main>\n      <h1>p5 image loading repro</h1>\n      <p id=\"status\">Waiting to load cat.png\u2026</p>\n      <div id=\"canvas-wrap\"></div>\n    </main>\n    <script src=\"sketch.js\"></script>\n  </body>\n</html>\n"
+    },
+    {
+      "id": "e18c5de0-cea7-4ff8-85b2-2093f52d3e02",
+      "name": "sketch",
+      "extension": "js",
+      "content": "let img;\n\nfunction preload() {\n  img = loadImage(\n    \"cat.png\",\n    () => {\n      const status = document.getElementById(\"status\");\n      if (status) status.textContent = \"Loaded cat.png successfully.\";\n      console.log(\"Image loaded\");\n    },\n    (err) => {\n      const status = document.getElementById(\"status\");\n      if (status) status.textContent = \"Failed to load cat.png. Check console/network tab.\";\n      console.error(\"Image failed to load\", err);\n    }\n  );\n}\n\nfunction setup() {\n  const canvas = createCanvas(256, 256);\n  canvas.parent(\"canvas-wrap\");\n  background(245);\n  image(img, 0, 0, width, height);\n}\n\nfunction draw() {\n  // No-op: static repro.\n}"
+    },
+    {
+      "id": "39661499-1802-4481-9d18-e4711ebd3197",
+      "name": "styles",
+      "extension": "css",
+      "content": "html, body {\n  margin: 0;\n  padding: 0;\n  font-family: Arial, sans-serif;\n  background: #f7f7f7;\n  color: #222;\n}\n\nmain {\n  max-width: 720px;\n  margin: 40px auto;\n  padding: 24px;\n}\n\nh1 {\n  margin-top: 0;\n  font-size: 24px;\n}\n\n#status {\n  margin: 0 0 16px;\n}\n\ncanvas {\n  display: block;\n  border: 1px solid #ccc;\n  background: white;\n}\n"
+    }
+  ],
+  "image_list": [
+    {
+      "filename": "cat.png",
+      "url": "https://editor-api.raspberrypi.org/rails/active_storage/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6ImUwZmQ2ZmVlLTk0ZDQtNDM5OC04NDllLTc5MWM2MmU4NGNlMyIsInB1ciI6ImJsb2JfaWQifX0=--98515ee7d550c47a1b458a151287740fdb865b8f/cat.png"
+    }
+  ],
+  "videos": [],
+  "audio": []
+}
