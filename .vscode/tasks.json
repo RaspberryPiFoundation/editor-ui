@@ -22,6 +22,26 @@
       "problemMatcher": []
     },
     {
+      "label": "Test Current Line (Vitest)",
+      "type": "shell",
+      "command": "yarn",
+      "args": [
+        "test",
+        "--run",
+        "${file}:${lineNumber}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Test Current File (Cypress Headless)",
       "type": "shell",
       "command": "yarn",
