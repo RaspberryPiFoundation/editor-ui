@@ -28,14 +28,14 @@ const escapeForRegExp = (string) =>
 const substituteProjectMedia = (projectFile, projectMedia) => {
   let updatedProjectFile = { ...projectFile };
   if (mediaSubstitutedExtensions.includes(projectFile.extension)) {
-    projectMedia.forEach((media_file) => {
+    projectMedia.forEach((mediaFile) => {
       const find = new RegExp(
-        `['"]${escapeForRegExp(media_file.filename)}['"]`,
+        `['"]${escapeForRegExp(mediaFile.filename)}['"]`,
         "g",
       ); // prevent substring matches
       updatedProjectFile.content = updatedProjectFile.content.replaceAll(
         find,
-        () => `"${media_file.url}"`, // callback, so $-sequences in the URL are not expanded
+        () => `"${mediaFile.url}"`, // callback, so $-sequences in the URL are not expanded
       );
     });
   }
