@@ -17,7 +17,6 @@ const {
   classicIifeBuildOptions,
   copyDirectoryContentsTarget,
 } = require("./vite.lib.js");
-const { JEST_ONLY_TEST_FILES } = require("./test-runner-migration.js");
 
 const crossOriginResourcePolicyPaths = [
   "/pyodide/shims/_internal_sense_hat.js",
@@ -176,7 +175,7 @@ export default defineConfig(async ({ mode }) => {
         "src/**/__tests__/**/*.{js,jsx,ts,tsx}",
         "src/**/*.{spec,test}.{js,jsx,ts,tsx}",
       ],
-      exclude: [...configDefaults.exclude, ...JEST_ONLY_TEST_FILES],
+      exclude: configDefaults.exclude,
     },
   };
 });
