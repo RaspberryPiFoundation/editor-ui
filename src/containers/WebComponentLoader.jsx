@@ -9,6 +9,7 @@ import {
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
   setReadOnly,
+  setPreview,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
@@ -62,6 +63,7 @@ const WebComponentLoader = (props) => {
     projectNameEditable = false,
     reactAppApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
     scratchApiEndpoint = process.env.REACT_APP_API_ENDPOINT,
+    preview = false,
     readOnly = false,
     senseHatAlwaysEnabled = false,
     friendlyErrorsEnabled = false,
@@ -200,6 +202,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setReadOnly(readOnly));
   }, [readOnly, dispatch]);
+
+  useEffect(() => {
+    dispatch(setPreview(preview));
+  }, [preview, dispatch]);
 
   useEffect(() => {
     dispatch(setOfflineEnabled(offlineEnabled));
