@@ -298,13 +298,16 @@ describe("Additional Scratch manual save states", () => {
 });
 
 describe("When preview mode", () => {
-  test("shows upload and download but not save", () => {
+  test("shows upload and download but not save, and project name is not editable", () => {
     renderSignedInScratchProjectBar({
       editor: {
         preview: true,
       },
     });
 
+    expect(
+      screen.queryByRole("button", { name: "header.renameProject" }),
+    ).not.toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "header.upload" }),
     ).toBeInTheDocument();
