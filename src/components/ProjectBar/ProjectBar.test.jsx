@@ -259,3 +259,35 @@ describe("When read only", () => {
     expect(screen.queryByText(/saveStatus.saved/)).not.toBeInTheDocument();
   });
 });
+
+describe("When preview mode", () => {
+  beforeEach(() => {
+    renderProjectBar({
+      editor: {
+        project,
+        preview: true,
+        readOnly: false,
+        lastSavedTime: new Date().getTime(),
+      },
+      auth: {
+        user,
+      },
+    });
+  });
+
+  test("Project name is not editable", () => {
+    expect(screen.queryByTitle("header.renameProject")).not.toBeInTheDocument();
+  });
+
+  test("Save button is not shown", () => {
+    expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+  });
+
+  test("Save status is not shown", () => {
+    expect(screen.queryByText(/saveStatus.saved/)).not.toBeInTheDocument();
+  });
+
+  test("Download button remains available", () => {
+    expect(screen.queryByText("header.download")).toBeInTheDocument();
+  });
+});
