@@ -135,6 +135,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `output_panels`: Array of output panel names to display (defaults to `["text", "visual"]`)
 - `output_split_view`: Start with split view in output panel (defaults to `false`, i.e. tabbed view)
 - `project_name_editable`: Allow the user to edit the project name in the project bar (defaults to `false`)
+- `preview`: Enable preview mode for Scratch projects — upload and download stay available, but saving is disabled (defaults to `false`). If `read_only` is also set, read-only behaviour takes precedence and upload is hidden.
 - `react_app_api_endpoint`: API endpoint to send project-related requests to
 - `offline_enabled`: Show an offline indicator when the user's device loses connectivity (defaults to `false`). Requires the host page's service worker to broadcast `{ type: "OFFLINE" }` / `{ type: "ONLINE" }` messages - see [Offline support](#offline-support).
 - `read_only`: Display the editor in read only mode (defaults to `false`)
