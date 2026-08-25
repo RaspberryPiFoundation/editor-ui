@@ -8,6 +8,7 @@ import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
 import useIsOnline from "../../hooks/useIsOnline";
+import { usePreviewMode } from "../../hooks/usePreviewMode";
 
 import "../../assets/stylesheets/ProjectBar.scss?inline";
 import { isOwner } from "../../utils/projectHelpers";
@@ -21,6 +22,8 @@ const ProjectBar = ({ nameEditable = true }) => {
   const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
   const projectOwner = isOwner(user, project);
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const previewMode = usePreviewMode();
+  const canSave = !readOnly && !previewMode;
   const isOnline = useIsOnline();
 
   if (loading !== "success") {
@@ -29,7 +32,7 @@ const ProjectBar = ({ nameEditable = true }) => {
 
   return (
     <div className="project-bar" data-testid="default-project-bar">
-      <ProjectName editable={!readOnly && nameEditable} isHeading={true} />
+      <ProjectName editable={canSave && nameEditable} isHeading={true} />
       <div className="project-bar__right">
         <div className="project-bar__btn-wrapper">
           <DownloadButton
@@ -39,13 +42,13 @@ const ProjectBar = ({ nameEditable = true }) => {
             type="tertiary"
           />
         </div>
-        {!projectOwner && !readOnly && (
+        {!projectOwner && canSave && (
           <div className="project-bar__btn-wrapper">
             <SaveButton className="project-bar__btn btn--save" />
           </div>
         )}
         {user &&
-          !readOnly &&
+          canSave &&
           (offlineEnabled && !isOnline
             ? projectOwner && (
                 <div className="project-bar__btn-wrapper">
