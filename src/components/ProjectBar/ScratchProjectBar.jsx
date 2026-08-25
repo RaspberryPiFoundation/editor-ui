@@ -13,6 +13,7 @@ import SaveStatus from "../SaveStatus/SaveStatus";
 import "../../assets/stylesheets/ProjectBar.scss?inline";
 import { setScratchLastSavedTime } from "../../redux/EditorSlice";
 import { useScratchSave } from "../../hooks/useScratchSave";
+import { usePreviewMode } from "../../hooks/usePreviewMode";
 
 const getProjectLastSavedTime = (updatedAt) => {
   const timestamp = Date.parse(updatedAt || "");
@@ -27,9 +28,11 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   const loading = useSelector((state) => state.editor.loading);
   const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const previewMode = usePreviewMode();
   const saving = useSelector((state) => state.editor.saving);
   const lastSavedTime = useSelector((state) => state.editor.lastSavedTime);
-  const canSave = Boolean(user && !readOnly);
+  const canSave = Boolean(user && !readOnly && !previewMode);
+  const canEditProjectName = !readOnly && !previewMode && nameEditable;
   const { saveScratchProject, shouldRemixOnSave } = useScratchSave({
     enabled: canSave,
   });
@@ -62,7 +65,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
 
   return (
     <div className="project-bar" data-testid="scratch-project-bar">
-      <ProjectName editable={!readOnly && nameEditable} isHeading={true} />
+      <ProjectName editable={canEditProjectName} isHeading={true} />
       <div className="project-bar__right">
         {!readOnly && (
           <div className="project-bar__btn-wrapper">
