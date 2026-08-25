@@ -82,6 +82,7 @@ export const editorInitialState = {
   project: {},
   cascadeUpdate: false,
   readOnly: false,
+  preview: false,
   saveTriggered: false,
   saving: "idle",
   loading: "idle",
@@ -278,6 +279,9 @@ const EditorSlice = createSlice({
     },
     setReadOnly: (state, action) => {
       state.readOnly = action.payload;
+    },
+    setPreview: (state, action) => {
+      state.preview = action.payload;
     },
     setInstructionsEditable: (state, action) => {
       state.instructionsEditable = action.payload;
@@ -520,6 +524,7 @@ export const {
   scratchSaveFailed,
   setProjectInstructions,
   setReadOnly,
+  setPreview,
   setInstructionsEditable,
   setSenseHatAlwaysEnabled,
   setOfflineEnabled,
