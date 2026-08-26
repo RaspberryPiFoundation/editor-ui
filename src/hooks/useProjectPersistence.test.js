@@ -12,6 +12,8 @@ let mockInitialProjectName = undefined;
 let mockInitialProjectInstructions = undefined;
 let mockSaving = "idle";
 let mockCodeRunInProgress = false;
+let mockPreview = false;
+let mockReadOnly = false;
 let mockDispatch;
 
 vi.mock("react-redux", async () => ({
@@ -25,6 +27,8 @@ vi.mock("react-redux", async () => ({
         initialProjectInstructions: mockInitialProjectInstructions,
         saving: mockSaving,
         codeRunInProgress: mockCodeRunInProgress,
+        preview: mockPreview,
+        readOnly: mockReadOnly,
       },
     }),
 }));
@@ -113,6 +117,8 @@ beforeEach(() => {
   mockInitialProjectInstructions = project.instructions ?? null;
   mockSaving = "idle";
   mockCodeRunInProgress = false;
+  mockPreview = false;
+  mockReadOnly = false;
   mockDispatch = createAsyncThunkDispatchMock();
 });
 
@@ -122,6 +128,8 @@ afterEach(() => {
   mockInitialProjectInstructions = undefined;
   mockSaving = "idle";
   mockCodeRunInProgress = false;
+  mockPreview = false;
+  mockReadOnly = false;
   localStorage.clear();
 });
 
@@ -564,5 +572,94 @@ describe("When logged in", () => {
 
       localStorage.removeItem("awaitingSave");
     });
+  });
+});
+
+describe("When preview mode", () => {
+  beforeEach(() => {
+    mockPreview = true;
+    mockReadOnly = false;
+    syncProject.mockImplementation(vi.fn((_) => saveProject));
+  });
+
+  test("Does not autosave an owned changed project", () => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: user1,
+        project: editedProject,
+        saveTriggered: false,
+      }),
+    );
+    vi.runAllTimers();
+    expect(saveProject).not.toHaveBeenCalled();
+  });
+
+  test("Does not write a local backup or prompt when viewing someone else's project", () => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: user2,
+        project: editedProject,
+        justLoaded: false,
+      }),
+    );
+    vi.runAllTimers();
+    expect(localStorage.getItem("hello-world-project")).toBeNull();
+    expect(showSavePrompt).not.toHaveBeenCalled();
+  });
+
+  test("Does not write a local backup or prompt when logged out", () => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: null,
+        project: editedProject,
+        justLoaded: false,
+      }),
+    );
+    vi.runAllTimers();
+    expect(localStorage.getItem("hello-world-project")).toBeNull();
+    expect(showLoginPrompt).not.toHaveBeenCalled();
+  });
+
+  test("Does not remix when save is triggered on someone else's project", async () => {
+    syncProject.mockImplementationOnce(vi.fn((_) => remixProject));
+    syncProject.mockImplementationOnce(vi.fn((_) => loadProject));
+
+    renderHook(() =>
+      useProjectPersistence({
+        user: user2,
+        project: project,
+        saveTriggered: true,
+      }),
+    );
+    vi.runAllTimers();
+    expect(remixProject).not.toHaveBeenCalled();
+    expect(loadProject).not.toHaveBeenCalled();
+  });
+
+  test("Does not save when save is triggered on an owned project", async () => {
+    renderHook(() =>
+      useProjectPersistence({
+        user: user1,
+        project: project,
+        saveTriggered: true,
+      }),
+    );
+    vi.runAllTimers();
+    expect(saveProject).not.toHaveBeenCalled();
+  });
+
+  test("Does not save when awaitingSave is set", async () => {
+    localStorage.setItem("awaitingSave", "true");
+
+    renderHook(() =>
+      useProjectPersistence({
+        user: user1,
+        project: project,
+        saveTriggered: false,
+      }),
+    );
+    vi.runAllTimers();
+    expect(saveProject).not.toHaveBeenCalled();
+    expect(localStorage.getItem("awaitingSave")).toBe("true");
   });
 });
