@@ -113,6 +113,77 @@ describe("When project is loaded", () => {
         ).not.toBeInTheDocument();
       });
     });
+
+    describe("in preview mode", () => {
+      beforeEach(() => {
+        const middlewares = [];
+        const mockStore = configureStore(middlewares);
+        const initialState = {
+          editor: {
+            loading: "success",
+            webComponent: true,
+            preview: true,
+            readOnly: false,
+            project: {
+              identifier: "hot-diggity-dog",
+              user_id: "some-other-user",
+            },
+          },
+          auth: {
+            user: {
+              profile: {
+                user: "some-dummy-user",
+              },
+            },
+          },
+        };
+        store = mockStore(initialState);
+        render(
+          <Provider store={store}>
+            <SaveButton />
+          </Provider>,
+        );
+      });
+
+      test("Does not render save button", () => {
+        expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+      });
+    });
+
+    describe("in read only mode", () => {
+      beforeEach(() => {
+        const middlewares = [];
+        const mockStore = configureStore(middlewares);
+        const initialState = {
+          editor: {
+            loading: "success",
+            webComponent: true,
+            readOnly: true,
+            project: {
+              identifier: "hot-diggity-dog",
+              user_id: "some-other-user",
+            },
+          },
+          auth: {
+            user: {
+              profile: {
+                user: "some-dummy-user",
+              },
+            },
+          },
+        };
+        store = mockStore(initialState);
+        render(
+          <Provider store={store}>
+            <SaveButton />
+          </Provider>,
+        );
+      });
+
+      test("Does not render save button", () => {
+        expect(screen.queryByText("header.save")).not.toBeInTheDocument();
+      });
+    });
   });
 
   describe("Without a logged in user", () => {

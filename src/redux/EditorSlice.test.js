@@ -11,6 +11,7 @@ import reducer, {
   setIsOutputOnly,
   setErrorDetails,
   setReadOnly,
+  setPreview,
   setOfflineEnabled,
   addProjectComponent,
   updateProjectComponent,
@@ -126,6 +127,12 @@ test("Action setReadOnly correctly sets readOnly", () => {
   const previousState = { readOnly: false };
   const expectedState = { readOnly: true };
   expect(reducer(previousState, setReadOnly(true))).toEqual(expectedState);
+});
+
+test("Action setPreview correctly sets preview", () => {
+  const previousState = { preview: false };
+  const expectedState = { preview: true };
+  expect(reducer(previousState, setPreview(true))).toEqual(expectedState);
 });
 
 test("Action setOfflineEnabled correctly sets offlineEnabled", () => {

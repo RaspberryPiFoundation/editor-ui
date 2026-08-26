@@ -9,6 +9,7 @@ import {
   disableTheming,
   editorInitialState,
   setReadOnly,
+  setPreview,
   setSenseHatAlwaysEnabled,
   setReactAppApiEndpoint,
   setScratchApiEndpoint,
@@ -309,6 +310,27 @@ describe("When no user is in state", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([setReadOnly(true)]),
       );
+    });
+
+    test("Sets the preview state correctly", () => {
+      const { unmount } = render(
+        <Provider store={store}>
+          <CookiesProvider cookies={cookies}>
+            <WebComponentLoader
+              code={code}
+              identifier={identifier}
+              preview={true}
+              authKey={authKey}
+              theme="light"
+            />
+          </CookiesProvider>
+        </Provider>,
+      );
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setPreview(true)]),
+      );
+      unmount();
     });
 
     test("Disables theming", () => {

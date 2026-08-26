@@ -10,6 +10,7 @@ import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
 import useIsOnline from "../../hooks/useIsOnline";
+import { usePreviewMode } from "../../hooks/usePreviewMode";
 
 const SaveButton = ({ className, type, fill = false }) => {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const SaveButton = ({ className, type, fill = false }) => {
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
   const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
+  const readOnly = useSelector((state) => state.editor.readOnly);
+  const previewMode = usePreviewMode();
   const isOnline = useIsOnline();
 
   useEffect(() => {
@@ -39,7 +42,14 @@ const SaveButton = ({ className, type, fill = false }) => {
 
   const projectOwner = isOwner(user, project);
 
-  if (loading !== "success" || projectOwner || !buttonType) return null;
+  if (
+    loading !== "success" ||
+    projectOwner ||
+    !buttonType ||
+    readOnly ||
+    previewMode
+  )
+    return null;
 
   if (offlineEnabled && !isOnline) {
     return <OfflineBadge className={className} />;

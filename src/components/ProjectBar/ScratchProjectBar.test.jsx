@@ -296,3 +296,61 @@ describe("Additional Scratch manual save states", () => {
     expect(screen.queryByText("header.loginToSave")).not.toBeInTheDocument();
   });
 });
+
+describe("When preview mode", () => {
+  test("shows upload and download but not save, and project name is not editable", () => {
+    renderSignedInScratchProjectBar({
+      editor: {
+        preview: true,
+      },
+    });
+
+    expect(
+      screen.queryByRole("button", { name: "header.renameProject" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "header.upload" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "header.download" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "header.save" }),
+    ).not.toBeInTheDocument();
+  });
+
+  test("does not auto-save after a Scratch project change", () => {
+    renderSignedInScratchProjectBar({
+      editor: {
+        preview: true,
+      },
+    });
+
+    dispatchScratchMessage("scratch-gui-project-changed");
+
+    act(() => {
+      vi.advanceTimersByTime(2000);
+    });
+
+    expect(postMessageToScratchIframe).not.toHaveBeenCalled();
+  });
+
+  test("read only overrides preview and hides upload", () => {
+    renderSignedInScratchProjectBar({
+      editor: {
+        preview: true,
+        readOnly: true,
+      },
+    });
+
+    expect(
+      screen.queryByRole("button", { name: "header.upload" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "header.download" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "header.save" }),
+    ).not.toBeInTheDocument();
+  });
+});
