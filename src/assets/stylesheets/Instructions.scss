@@ -24,8 +24,18 @@
     padding-block-end: var(--project-instructions-padding, var(--space-2));
   }
 
+  h1 {
+    @include typography.style-2(bold);
+    margin-block-start: var(--space-1);
+  }
+
   h2 {
     @include typography.style-1-5(bold);
+    margin-block-start: var(--space-1);
+  }
+
+  h3 {
+    @include typography.style-1(bold);
     margin-block-start: var(--space-1);
   }
 
