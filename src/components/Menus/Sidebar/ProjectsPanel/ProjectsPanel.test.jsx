@@ -115,4 +115,22 @@ describe("Projects Panel", () => {
       ).not.toBeInTheDocument();
     });
   });
+
+  describe("When preview mode", () => {
+    beforeEach(() => {
+      renderProjectsPanel({
+        editor: {
+          ...initialState.editor,
+          preview: true,
+          readOnly: false,
+        },
+      });
+    });
+
+    test("Project name is not editable", () => {
+      expect(
+        screen.queryByTitle("header.renameProject"),
+      ).not.toBeInTheDocument();
+    });
+  });
 });

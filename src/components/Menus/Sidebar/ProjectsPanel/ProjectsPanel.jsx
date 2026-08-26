@@ -14,6 +14,7 @@ import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
 import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
+import { usePreviewMode } from "../../../../hooks/usePreviewMode";
 
 const ProjectsPanel = () => {
   const { t } = useTranslation();
@@ -21,6 +22,8 @@ const ProjectsPanel = () => {
   const isLoggedIn = useSelector((state) => state?.auth?.user);
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const previewMode = usePreviewMode();
+  const canEditProjectName = !readOnly && !previewMode;
 
   const saveOptions = (
     <>
@@ -60,7 +63,7 @@ const ProjectsPanel = () => {
       <ProjectName
         showLabel={true}
         className="projects-panel__item"
-        editable={!readOnly}
+        editable={canEditProjectName}
       />
       <ProjectInfo className="projects-panel__item" />
       <div className="projects-panel__button">
