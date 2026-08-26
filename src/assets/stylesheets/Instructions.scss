@@ -6,7 +6,10 @@
 @use "./scratch_colours" as *;
 
 .project-instructions {
-  block-size: 100%;
+  // Student preview sizes to its content so short steps are not scrollable.
+  &:has(.c-instruction-tabs) {
+    block-size: 100%;
+  }
 
   @each $block, $category in $scratch-block-categories {
     code.block3#{$block} {
