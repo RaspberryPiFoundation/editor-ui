@@ -110,6 +110,14 @@
 
   // Design System
 
+  // Form controls
+  --rpf-input-background-color: var(--editor-color-layer-3);
+  --rpf-input-border-colour: var(--editor-color-text);
+  --rpf-input-color: var(--editor-color-text);
+  --rpf-input-outline-color: var(--editor-color-theme);
+  --rpf-label-hint-color: var(--editor-color-text-secondary);
+  --rpf-label-text-color: var(--editor-color-text);
+
   // Link (.rpf-link)
 
   --link-color: var(--editor-color-theme);
