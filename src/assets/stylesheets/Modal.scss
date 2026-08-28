@@ -154,6 +154,11 @@
     }
   }
   .modal-content {
+    --rpf-input-background-color: var(--editor-color-layer-3);
+    --rpf-input-border-colour: var(--editor-color-text);
+    --rpf-input-color: var(--editor-color-text);
+    --rpf-input-outline-color: var(--editor-color-theme);
+
     background-color: $rpf-grey-700;
   }
 
