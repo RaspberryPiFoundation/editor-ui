@@ -1,0 +1,189 @@
+#root {
+  --cc-blue: hsl(238deg 39% 45% / 100%);
+  --cc-burgundy: hsl(332deg 48% 26% / 100%);
+  --cc-cyan: hsl(199deg 74% 54% / 100%);
+  --cc-dark-green: hsl(166deg 68% 7% / 100%);
+  --cc-green: hsl(129deg 47% 48% / 100%);
+  --cc-grey: hsl(237deg 17% 26% / 100%);
+  --cc-light-yellow: hsl(56deg 88% 78% / 100%);
+  --cc-off-white: hsl(36deg 38% 95% / 100%);
+  --cc-orange: hsl(13deg 87% 61% / 100%);
+  --cc-pink: #f767ab;
+  --cc-raspberry: var(--rpf-brand-raspberry);
+  --cc-yellow: hsl(53deg 100% 50% / 100%);
+  --cc-light-cyan: hsl(199deg 100% 87% / 100%);
+  --cc-light-green: var(--cc-green-200);
+  --cc-light-lilac: hsl(239deg 87% 88% / 100%);
+  --cc-light-orange: hsl(13deg 89% 89% / 100%);
+  --cc-light-pink: hsl(333deg 100% 91% / 100%);
+  --cc-pale-cyan: hsl(198deg 91% 96% / 100%);
+  --cc-pale-green: hsl(127deg 100% 96% / 100%);
+  --cc-pale-lilac: hsl(240deg 100% 96% / 100%);
+  --cc-pale-orange: hsl(13deg 100% 97% / 100%);
+  --cc-pale-pink: hsl(332deg 100% 97% / 100%);
+  --cc-green-50: hsl(130deg 43% 97% / 100%);
+  --cc-green-100: hsl(130deg 46% 95% / 100%);
+  --cc-green-200: hsl(129deg 58% 83% / 100%);
+  --cc-green-300: hsl(129deg 44% 69% / 100%);
+  --cc-green-400: hsl(129deg 45% 59% / 100%);
+  --cc-green-500: var(--cc-green);
+  --cc-green-600: hsl(129deg 47% 39% / 100%);
+  --cc-green-700: hsl(129deg 47% 29% / 100%);
+
+  --editor-primary-theme: var(--cc-green);
+  --editor-secondary-theme: var(--rpf-off-white);
+
+  --code-syntax-1: #005818;
+  --code-syntax-2: #9d0808;
+  --code-syntax-3: rgb(153 68 0);
+  --code-syntax-4: rgb(119 0 136);
+  --code-syntax-5: rgb(0 0 255);
+  --code-print-color: var(--rpf-black);
+  --code-background-color: var(--rpf-white);
+  --code-block-border-color: var(--rpf-grey-300);
+  --code-block-line-highlight-color: #ecf8ff;
+  --code-block-line-highlight-border: 4px solid;
+  --code-block-line-highlight-border-color: var(--rpf-navy-800);
+  --code-block-blend-mode: multiply;
+  --code-text-color: var(--rpf-grey-600);
+  --code-block-scrollbar-color: var(--rpf-grey-400) var(--rpf-white);
+  --display-step-counter: flex;
+  --editor-color-layer-1: var(--rpf-navy-100);
+  --editor-color-layer-2: var(--rpf-white);
+  --editor-color-layer-3: var(--rpf-white);
+  --editor-color-outline: var(--rpf-grey-150);
+  --editor-color-theme: var(--rpf-black);
+  --editor-color-theme-secondary: var(--rpf-navy-800);
+  --editor-color-theme-tertiary: var(--rpf-navy-100);
+  --editor-color-text: var(--rpf-text-primary);
+  --editor-color-text-secondary: var(--rpf-text-secondary);
+  --editor-font-family-sans-serif: lexend, sans-serif;
+  --editor-htmlrunner-link-display: none;
+  --editor-logo-display: none;
+  --project-wrapper-grid-gap: var(--space-2);
+  --project-editor-wrapper-grid-gap: var(--space-2);
+  --project-instructions-padding: var(--space-0-5);
+  --rpf-button-primary-background-color: var(--rpf-black);
+  --rpf-button-primary-background-color-focus: var(--rpf-black);
+  --rpf-button-primary-background-color-hover: var(--rpf-grey-800);
+  --rpf-button-primary-background-color-active: var(--rpf-black);
+  --rpf-button-primary-background-color-disabled: var(--rpf-navy-200);
+  --rpf-button-primary-text-color: var(--rpf-white);
+  --rpf-button-secondary-background-color: var(--rpf-white);
+  --rpf-button-secondary-background-color-focus: var(--rpf-white);
+  --rpf-button-secondary-text-color-hover: var(--rpf-grey-600);
+  --rpf-button-secondary-background-color-active: var(--rpf-grey-600);
+  --rpf-button-secondary-background-color-disabled: var(--rpf-white);
+  --rpf-button-secondary-background-color-hover: var(--rpf-grey-50);
+  --rpf-button-secondary-text-color: var(--rpf-black);
+  --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+  --rpf-files-list-item-active: var(--cc-green-200);
+  --rpf-files-list-item-hover: var(--cc-green-100);
+  --rpf-input-active-border: var(--editor-color-theme);
+  --rpf-primary-button-radius: var(--space-10);
+  --rpf-secondary-button-radius: var(--space-10);
+  --step-buttons-radius: var(--space-2);
+  --progress-bar-color: var(--rpf-black);
+  --project-bar-button-radius: var(--space-10);
+  --rpf-select-buttons-tick-color: var(--rpf-white);
+  --rpf-tab-button-background: var(--rpf-off-white);
+  --rpf-tab-button-hover: var(--rpf-grey-100);
+  --rpf-tab-border-bottom-selected: var(--rpf-black);
+  --sidebar-background-selected: var(--rpf-off-white);
+  --sidebar-border: var(--rpf-grey-150);
+  --sidebar-border-obscurer-width: 2px;
+  --sidebar-panel-background: var(--rpf-white);
+  --sidebar-options-alignment: normal;
+  --sidebar-footer-padding: 0;
+  --sidebar-option-hover: var(--rpf-grey-100);
+  --sidebar-option-selected-border: var(--cc-green-600);
+  --sidebar-option-selected-background: var(--cc-green-50);
+  --sidebar-option-selected-background-hover: var(--cc-green-100);
+  --sidebar-option-selected-icon: var(--cc-green-700);
+  --tertiary-btn-hover-color: var(--cc-green-100);
+
+  block-size: 100%;
+  flex: 1 1 auto;
+}
+
+/*
+ * Theme overrides for editor-wc shadow DOM.
+ *
+ * Required since editor-ui 8d1f514: InternalStyles.scss now sets theme tokens
+ * on #wc.--light, which overrides values inherited from ::part(editor-root).
+ *
+ * Injected via host_styles (must use #root #wc for sufficient specificity).
+ * Keep in sync with ::part(editor-root) in Editor.scss.
+ */
+
+/* stylelint-disable selector-class-pattern */
+#root #wc.--light {
+  /* Theme colours */
+  --editor-color-layer-1: var(--rpf-navy-100);
+  --editor-color-layer-2: var(--rpf-white);
+  --editor-color-layer-3: var(--rpf-white);
+  --editor-color-outline: var(--rpf-grey-150);
+  --editor-color-theme: var(--rpf-black);
+  --editor-color-theme-secondary: var(--rpf-navy-800);
+  --editor-color-theme-tertiary: var(--rpf-navy-100);
+  --editor-color-text: var(--rpf-text-primary);
+  --editor-color-text-secondary: var(--rpf-text-secondary);
+
+  /* File list & tabs */
+  --rpf-files-list-item-active: var(--cc-green-200);
+  --rpf-files-list-item-hover: var(--cc-green-100);
+  --rpf-tab-button-background: var(--rpf-off-white);
+  --rpf-tab-button-hover: var(--rpf-grey-100);
+  --rpf-tab-border-bottom-selected: var(--rpf-black);
+
+  /* Sidebar */
+  --sidebar-background-selected: var(--rpf-off-white);
+  --sidebar-border: var(--rpf-grey-150);
+  --sidebar-panel-background: var(--rpf-white);
+  --sidebar-option-hover: var(--rpf-grey-100);
+  --sidebar-option-selected-border: var(--cc-green-600);
+  --sidebar-option-selected-background: var(--cc-green-50);
+  --sidebar-option-selected-background-hover: var(--cc-green-100);
+  --sidebar-option-selected-icon: var(--cc-green-700);
+}
+
+/* Button tokens are scoped to .btn / .rpf-button in InternalStyles */
+#root #wc.--light .btn,
+#root #wc.--light .rpf-button {
+  --rpf-button-background-color: var(--rpf-black);
+  --rpf-button-border-radius: var(--space-10);
+  --rpf-button-primary-background-color: var(--rpf-black);
+  --rpf-button-primary-background-color-focus: var(--rpf-black);
+  --rpf-button-primary-background-color-hover: var(--rpf-grey-800);
+  --rpf-button-primary-background-color-active: var(--rpf-black);
+  --rpf-button-primary-background-color-disabled: var(--rpf-navy-200);
+  --rpf-button-primary-text-color: var(--rpf-white);
+  --rpf-button-secondary-background-color: var(--rpf-white);
+  --rpf-button-secondary-background-color-focus: var(--rpf-white);
+  --rpf-button-secondary-background-color-hover: var(--rpf-grey-50);
+  --rpf-button-secondary-background-color-active: var(--rpf-grey-600);
+  --rpf-button-secondary-background-color-disabled: var(--rpf-white);
+  --rpf-button-secondary-border-color-hover: none;
+  --rpf-button-secondary-text-color: var(--rpf-black);
+  --rpf-button-tertiary-text-color-hover: var(--rpf-grey-600);
+}
+
+#root #wc.--light .rpf-button {
+  &:hover {
+    --rpf-button-background-color-hover: var(--rpf-grey-800);
+  }
+}
+
+/*
+ * Optional — only needed if projects-ui ever supports dark mode on editor-wc.
+ * Adjust values to match your dark theme before enabling.
+ *
+#root #wc.--dark {
+  --editor-color-theme: var(--cc-green-600);
+  --sidebar-option-selected-background: var(--cc-green-950);
+  --sidebar-option-selected-background-hover: var(--cc-green-900);
+  --sidebar-option-selected-border: var(--cc-green-400);
+  --sidebar-option-selected-icon: var(--cc-green-300);
+}
+ */
+/* stylelint-enable selector-class-pattern */
