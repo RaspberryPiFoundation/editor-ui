@@ -9,7 +9,7 @@ const EMBED_ORIGINS = [
 
 const isProjectViewer = (src) => {
   try {
-    return EMBED_ORIGINS.includes(new URL(src, window.location.href).origin);
+    return EMBED_ORIGINS.includes(new URL(src).origin);
   } catch {
     return false;
   }
