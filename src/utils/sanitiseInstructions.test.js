@@ -116,6 +116,21 @@ describe("Embedded project viewers", () => {
   ])("Removes the embed at %s", (src) => {
     expect(parse(embed(src)).querySelector("iframe")).toBeNull();
   });
+
+  test("Removes relative embeds when the page is on an allowed origin", () => {
+    window.jsdom.reconfigure({
+      url: "https://editor.raspberrypi.org/en/projects/foo",
+    });
+
+    expect(
+      parse(embed("/en/embed/viewer/x")).querySelector("iframe"),
+    ).toBeNull();
+    expect(
+      parse(embed("//editor.raspberrypi.org/en/embed/viewer/x")).querySelector(
+        "iframe",
+      ),
+    ).toBeNull();
+  });
 });
 
 describe("Project site content", () => {
