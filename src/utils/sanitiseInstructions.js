@@ -31,6 +31,8 @@ const purifier = DOMPurify(window);
 
 const remove = (node) => node.parentNode?.removeChild(node);
 
+const isLocalRef = (value) => value == null || value.startsWith("#");
+
 purifier.addHook("uponSanitizeElement", (node, { tagName }) => {
   if (tagName === "iframe" && !isProjectViewer(node.getAttribute("src"))) {
     return remove(node);
@@ -49,8 +51,13 @@ purifier.addHook("uponSanitizeElement", (node, { tagName }) => {
     }
   }
 
-  // A `use` may only reference this page, not outside markup
-  if (tagName === "use" && !node.getAttribute("href")?.startsWith("#")) {
+  if (
+    tagName === "use" &&
+    !(
+      isLocalRef(node.getAttribute("href")) &&
+      isLocalRef(node.getAttribute("xlink:href"))
+    )
+  ) {
     return remove(node);
   }
 });

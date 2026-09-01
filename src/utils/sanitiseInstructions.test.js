@@ -54,6 +54,8 @@ describe("Scriptable payloads", () => {
       "<svg><style>.sb-label { background: url(https://evil.example/beacon.png) }</style></svg>",
     "external svg use":
       '<svg><use href="https://evil.example/x.svg#y" /></svg>',
+    "svg use with an external xlink:href":
+      '<svg><use href="#ok" xlink:href="https://evil.example/icon.svg" /></svg>',
     template: "<template><script>window.hacked = true</script></template>",
     noscript:
       '<noscript><p title="</noscript><img src=x onerror=window.hacked=true>">',
