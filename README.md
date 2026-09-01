@@ -251,12 +251,14 @@ Styles from the parent application can be passed to the web component in a few d
 Instruction steps are rendered into the page with `innerHTML`, so every step is
 sanitised with DOMPurify first (see `src/utils/sanitiseInstructions.js`). This
 applies to steps passed in the `instructions` attribute and to steps loaded with
-a project. Scripts, event handler attributes, `javascript:` and `data:` URLs and
-stylesheets outside a scratchblocks SVG are removed.
+a project.
 
-`<iframe>` is kept only when its `src` is `https://editor.raspberrypi.org` or
-`https://staging-editor.raspberrypi.org`, so that the embedded project viewers
-used by project site content keep working. Any other frame is removed.
+Scripts, event handler attributes and `javascript:` URLs are removed, as are
+stylesheets outside an SVG and any stylesheet that loads CSS from elsewhere.
+`data:` URLs are still allowed on images. `<iframe>` is kept only when it points
+at the `editor.raspberrypi.org` or `staging-editor.raspberrypi.org` domains, so
+that the embedded project viewers in project site content keep working; any
+other frame is removed.
 
 #### Instructions Styling
 
