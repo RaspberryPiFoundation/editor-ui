@@ -47,6 +47,36 @@ describe("When the step has markdown_content", () => {
   });
 });
 
+describe("Sanitising step HTML", () => {
+  test("Strips scripts from content supplied as HTML", () => {
+    const { container } = render(
+      <InstructionsStep
+        step={{
+          content: "<p>Step</p><script>window.hacked = true</script>",
+        }}
+      />,
+    );
+
+    expect(screen.getByText("Step")).toBeInTheDocument();
+    expect(container.querySelector("script")).toBeNull();
+  });
+
+  test("Strips scripts from content supplied as markdown", () => {
+    const { container } = render(
+      <InstructionsStep
+        step={{
+          markdown_content: "# Title\n\n<script>window.hacked = true</script>",
+        }}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Title" }),
+    ).toBeInTheDocument();
+    expect(container.querySelector("script")).toBeNull();
+  });
+});
+
 describe("When markdown attaches a class to inline code", () => {
   const renderMarkdown = (markdown_content) =>
     render(<InstructionsStep step={{ markdown_content }} />).container;

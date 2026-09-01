@@ -1,13 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import { processEditorProject } from "@raspberrypifoundation/rpf-markdown-core";
 import Prism from "../../../../../utils/prism";
+import sanitiseInstructions from "../../../../../utils/sanitiseInstructions";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
 
 const getStepHtml = (step) => {
-  if (step.content !== undefined) {
-    return step.content;
-  }
-  return processEditorProject(step.markdown_content ?? "");
+  const html =
+    step.content !== undefined
+      ? step.content
+      : processEditorProject(step.markdown_content ?? "");
+
+  return sanitiseInstructions(html);
 };
 
 const applySyntaxHighlighting = (container) => {
