@@ -48,6 +48,10 @@ describe("Scriptable payloads", () => {
       '<link rel="stylesheet" href="https://evil.example/x.css">',
     "style element": "<style>.project-instructions { display: none }</style>",
     "style import": "<style>@import url(https://evil.example/x.css)</style>",
+    "svg style with an import":
+      "<svg><style>@import url(https://evil.example/x.css)</style></svg>",
+    "svg style loading an external image":
+      "<svg><style>.sb-label { background: url(https://evil.example/beacon.png) }</style></svg>",
     "external svg use":
       '<svg><use href="https://evil.example/x.svg#y" /></svg>',
     template: "<template><script>window.hacked = true</script></template>",
@@ -190,6 +194,18 @@ describe("Scratch blocks", () => {
     expect(svg.querySelector("style")).not.toBeNull();
     expect(svg.querySelectorAll("use").length).toBeGreaterThan(0);
     expect(svg.querySelector("use").getAttribute("href")).toMatch(/^#/);
+  });
+
+  test("Keeps a stylesheet inside an SVG, unless it loads CSS from outside", () => {
+    const kept = parse(
+      "<svg><style>.sb-bevel { filter: url(#bevelFilter) }</style></svg>",
+    );
+    const removed = parse(
+      "<svg><style>@import url(https://evil.example/x.css)</style></svg>",
+    );
+
+    expect(kept.querySelector("svg style")).not.toBeNull();
+    expect(removed.querySelector("style")).toBeNull();
   });
 
   test("Keeps the block markup the editor renders client side", () => {

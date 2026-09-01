@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify";
 
-// Some project steps embed the editor's own project viewer to show a worked
-// example. Frames from anywhere else are removed
+// Some project steps embed the editor's own project viewer. Nothing else may be
+// framed
 const EMBED_ORIGINS = [
   "https://editor.raspberrypi.org",
   "https://staging-editor.raspberrypi.org",
@@ -16,7 +16,7 @@ const isProjectViewer = (src) => {
 };
 
 const sanitiseConfig = {
-  // `use` draws the icons inside a scratchblocks SVG, such as the green flag
+  // `use` draws the icons in a scratchblocks SVG, such as the green flag
   ADD_TAGS: ["iframe", "use"],
   ADD_ATTR: [
     "allowfullscreen",
@@ -36,12 +36,20 @@ purifier.addHook("uponSanitizeElement", (node, { tagName }) => {
     return remove(node);
   }
 
-  // A stylesheet anywhere else would restyle the rest of the editor
-  if (tagName === "style" && !node.closest("svg")) {
-    return remove(node);
+  // Only scratchblocks needs a stylesheet, and it puts one inside each SVG it
+  // renders. `url(#...)` is its own SVG filters; anything loaded from outside
+  // would report who is reading the instructions
+  if (tagName === "style") {
+    const css = node.textContent ?? "";
+    const loadsOutsideCss =
+      /@import/i.test(css) || /url\(\s*['"]?(?!#)/i.test(css);
+
+    if (!node.closest("svg") || loadsOutsideCss) {
+      return remove(node);
+    }
   }
 
-  // Same document references only, so a `use` cannot pull in outside markup
+  // A `use` may only reference this page, not outside markup
   if (tagName === "use" && !node.getAttribute("href")?.startsWith("#")) {
     return remove(node);
   }
