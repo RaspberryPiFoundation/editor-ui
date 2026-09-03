@@ -45,6 +45,38 @@ describe("When the step has markdown_content", () => {
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noreferrer");
   });
+
+  test("Uses the asset bucket for any Google Drive thumbnail ID", () => {
+    const id = "any-drive-file-id";
+
+    render(
+      <InstructionsStep
+        step={{
+          markdown_content: `![Diagram](https://drive.google.com/thumbnail?id=${id}&sz=w1000)`,
+        }}
+      />,
+    );
+
+    expect(screen.getByRole("img", { name: "Diagram" })).toHaveAttribute(
+      "src",
+      `https://editor-assets.raspberrypi.org/instructions-assets/${id}`,
+    );
+  });
+
+  test("Leaves images from other sources unchanged", () => {
+    const sourceUrl = "https://images.example/instruction.png";
+
+    render(
+      <InstructionsStep
+        step={{ markdown_content: `![Diagram](${sourceUrl})` }}
+      />,
+    );
+
+    expect(screen.getByRole("img", { name: "Diagram" })).toHaveAttribute(
+      "src",
+      sourceUrl,
+    );
+  });
 });
 
 describe("Sanitising step HTML", () => {

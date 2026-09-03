@@ -1,5 +1,6 @@
 import {
   getAddStepButton,
+  getEditorShadow,
   getInstructionsEditTextarea,
 } from "../helpers/editor.js";
 
@@ -78,5 +79,47 @@ describe("editing multi-step instructions", () => {
         { markdown_content: "New step content" },
         { markdown_content: "Step two content" },
       ]);
+  });
+});
+
+describe("rendering mirrored instruction images", () => {
+  const sourceUrl =
+    "https://drive.google.com/thumbnail?id=1zWq7qCaoszwG_KnRl0UdFhYhV-B2FYQg";
+  const mirroredUrl =
+    "https://editor-assets.raspberrypi.org/instructions-assets/1zWq7qCaoszwG_KnRl0UdFhYhV-B2FYQg";
+
+  it("loads a Google Drive thumbnail from the CORP-enabled asset bucket", () => {
+    cy.intercept("GET", mirroredUrl, {
+      statusCode: 200,
+      headers: {
+        "content-type": "image/svg+xml",
+        "cross-origin-resource-policy": "cross-origin",
+      },
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><rect width="32" height="32" fill="purple"/></svg>',
+    }).as("loadInstructionImage");
+
+    cy.intercept("GET", projectApiMatcher, {
+      statusCode: 200,
+      body: {
+        ...fixtureProject,
+        instructions: [
+          { markdown_content: `![Instruction diagram](${sourceUrl})` },
+        ],
+      },
+    }).as("loadProjectWithImage");
+
+    cy.visit(urlFor(projectIdentifier));
+    cy.wait("@loadProjectWithImage");
+
+    getEditorShadow().findByRole("tab", { name: "View" }).click();
+    cy.wait("@loadInstructionImage")
+      .its("response.headers")
+      .should("include", { "cross-origin-resource-policy": "cross-origin" });
+    getEditorShadow()
+      .findByRole("img", { name: "Instruction diagram" })
+      .should("have.attr", "src", mirroredUrl)
+      .should(($image) => {
+        expect($image[0].naturalWidth).to.be.greaterThan(0);
+      });
   });
 });
