@@ -124,6 +124,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Cache dependencies
         uses: actions/setup-node@v7
@@ -168,8 +170,9 @@ jobs:
       - name: Update latest version file
         if: env.AWS_SECRET_ACCESS_KEY != '' && github.ref_type == 'tag'
         run: |
-          if [ "v$(jq -r .version package.json)" != "${GITHUB_REF_NAME}" ]; then
-            echo "v$(jq -r .version package.json) != ${GITHUB_REF_NAME}, skipping latest_version update."
+          git fetch --quiet origin main
+          if ! git merge-base --is-ancestor "${GITHUB_SHA}" FETCH_HEAD; then
+            echo "${GITHUB_REF_NAME} is not on main, skipping latest_version update."
             exit 0
           fi
 

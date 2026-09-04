@@ -343,8 +343,11 @@ The build for each PR is deployed to the same S3 bucket as staging, and can be p
 A new release of `editor-ui` is created via following process:
 
 1. Review the changes since the last release and decide the new version number
-2. Update the version number in `package.json`. You can create a PR for this by clicking the running the [Bump Version workflow](https://github.com/RaspberryPiFoundation/editor-ui/actions/workflows/bump-version.yml) which will create a PR that you can approve and merge in. You may need to click 'Approve workflows to run' on the PR before merging.
-3. Go to the [Draft new release](https://github.com/RaspberryPiFoundation/editor-ui/releases/new) page
-4. Create new tag for the release number
-5. Click the 'Generate release notes' button.
-6. Set the release to be the latest release and publish 🚀
+2. Go to the [Draft new release](https://github.com/RaspberryPiFoundation/editor-ui/releases/new) page
+3. Create new tag for the release number, in the form `v1.2.3`
+4. Click the 'Generate release notes' button.
+5. Set the release to be the latest release and publish 🚀
+
+Publishing creates the tag, which triggers the deploy. Releases are
+tracked by git tags alone; the `version` field in `package.json` is fixed
+at `0.0.0` and is not updated for a release.
