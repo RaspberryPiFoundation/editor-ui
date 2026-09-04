@@ -170,6 +170,11 @@ jobs:
       - name: Update latest version file
         if: env.AWS_SECRET_ACCESS_KEY != '' && github.ref_type == 'tag'
         run: |
+          if [[ ! "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "${GITHUB_REF_NAME} is not a release tag, skipping latest_version update."
+            exit 0
+          fi
+
           git fetch --quiet origin main
           if ! git merge-base --is-ancestor "${GITHUB_SHA}" FETCH_HEAD; then
             echo "${GITHUB_REF_NAME} is not on main, skipping latest_version update."
