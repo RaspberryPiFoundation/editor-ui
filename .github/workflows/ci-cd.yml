@@ -134,6 +134,7 @@ jobs:
 
   deploy-tag:
     if: github.ref_type == 'tag'
+    needs: [lint, test, test-cypress]
     uses: ./.github/workflows/deploy.yml
     with:
       base_url: https://editor-static.raspberrypi.org
