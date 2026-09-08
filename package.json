@@ -108,7 +108,7 @@
     "browserslist": "^4.28.6",
     "browserslist-to-esbuild": "^2.1.1",
     "camelcase": "^6.1.0",
-    "cypress": "14.5.4",
+    "cypress": "15.21.1",
     "cypress-real-events": "^1.15.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
