@@ -46,7 +46,7 @@ const SidebarExpandButton = ({ allowMobileView = true }) => {
     <div className="project-bar-row__expand">
       <Button
         className="sidebar__panel-collapse"
-        icon={"keyboard_double_arrow_right"}
+        icon={<DoubleArrowRight />}
         iconOnly
         text={t("sidebar.expandInstructions")}
         onClick={expandPanel}

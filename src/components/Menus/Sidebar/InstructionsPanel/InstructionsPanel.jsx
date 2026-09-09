@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 // This is disabled because the empty anchor tag is used for translation and will have content when rendered.
 
-import React, { useRef, useState } from "react";
+import { Button } from "@raspberrypifoundation/design-system-react";
+import { useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import SidebarPanel from "../SidebarPanel";
-
-
+import BinIcon from "../../../../assets/icons/bin.svg";
+import DoubleArrowLeft from "../../../../assets/icons/double_arrow_left.svg";
 import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
@@ -18,19 +18,16 @@ import {
 } from "../../../../redux/InstructionsSlice";
 import {
   insertStepAfter,
-  removeStepAt,
-  updateStepMarkdown,
   REMOVE_ALL_STEPS,
   REMOVE_CURRENT_STEP,
+  removeStepAt,
+  updateStepMarkdown,
 } from "../../../../utils/instructionSteps";
 import populateMarkdownTemplate from "../../../../utils/populateMarkdownTemplate";
-import { Button } from "@raspberrypifoundation/design-system-react";
 import RemoveInstructionStepModal from "../../../Modals/RemoveInstructionStepModal";
+import SidebarPanel from "../SidebarPanel";
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
-import BinIcon from "../../../../assets/icons/bin.svg";
-import DoubleArrowLeft from "../../../../assets/icons/double_arrow_left.svg";
-import EditorButton from "../../../Button/Button";
 
 const INSTRUCTIONS_GUIDE_URL =
   "https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions";
@@ -127,21 +124,15 @@ const InstructionsPanel = ({ toggleOption, isMobile }) => {
       heading={t("instructionsPanel.projectSteps")}
       headingPrefix={
         !isMobile && toggleOption ? (
-           <Button
-                  className="sidebar__panel-collapse"
-                  icon={"keyboard_double_arrow_left"}
-                  iconOnly
-                  text={t("sidebar.collapseInstructions")}
-                  onClick={collapsePanel}
-                  size="small"
-                  type="tertiary"
-                />
-          // <EditorButton
-          //   className="sidebar__panel-collapse"
-          //   ButtonIcon={DoubleArrowLeft}
-          //   title={t("sidebar.collapseInstructions")}
-          //   onClickHandler={collapsePanel}
-          // />
+          <Button
+            className="sidebar__panel-collapse"
+            icon={<DoubleArrowLeft />}
+            iconOnly
+            text={t("sidebar.collapseInstructions")}
+            onClick={collapsePanel}
+            size="small"
+            type="tertiary"
+          />
         ) : undefined
       }
       buttons={
