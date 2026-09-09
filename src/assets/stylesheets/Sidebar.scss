@@ -122,7 +122,39 @@
 
 .sidebar__panel-heading {
   margin: 0;
+  min-inline-size: 0;
   @include font-size-1-5(regular);
+}
+
+.sidebar__panel-heading-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-0-5);
+
+  .rpf-button {
+    border: none;
+  }
+}
+
+.sidebar__panel-collapse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  margin: 0;
+  border: 1px solid var(--sidebar-border);
+  border-radius: var(--space-1);
+  padding: var(--space-1);
+  color: var(--editor-color-text);
+
+  svg {
+    margin: 0;
+  }
+
+  &:hover {
+    background-color: var(--sidebar-option-hover);
+  }
 }
 
 .sidebar__panel-header {

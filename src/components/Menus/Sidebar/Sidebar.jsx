@@ -212,6 +212,8 @@ const Sidebar = ({
     } else if (!optionIsAvailable) {
       setOption(nextDefaultOption);
       dispatch(setSidebarOption(nextDefaultOption));
+    } else {
+      setOption(selectedSidebarOption);
     }
   }, [dispatch, nextDefaultOption, optionIsAvailable, selectedSidebarOption]);
 
@@ -245,7 +247,7 @@ const Sidebar = ({
     >
       <SidebarBar
         menuOptions={menuOptions}
-        option={activeOption}
+        activeOption={activeOption}
         toggleOption={toggleOption}
         instructions={instructionsSteps}
         allowMobileView={allowMobileView}
@@ -253,6 +255,7 @@ const Sidebar = ({
       {activeOption && (
         <CustomSidebarPanel
           isMobile={isMobile}
+          toggleOption={toggleOption}
           {...(optionDict.panelProps || {})}
         />
       )}

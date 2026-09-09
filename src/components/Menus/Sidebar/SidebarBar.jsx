@@ -16,7 +16,7 @@ import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 const SidebarBar = (props) => {
   const {
     menuOptions,
-    option,
+    activeOption,
     toggleOption,
     instructions = false,
     allowMobileView = true,
@@ -59,7 +59,7 @@ const SidebarBar = (props) => {
   };
 
   const collapsePopOut = () => {
-    toggleOption(option);
+    toggleOption(activeOption);
     if (window.plausible) {
       window.plausible("Collapse file pane");
     }
@@ -81,7 +81,7 @@ const SidebarBar = (props) => {
   return (
     <div
       className={classNames("sidebar__bar", {
-        "sidebar__bar--selected": option,
+        "sidebar__bar--selected": activeOption,
       })}
     >
       <div className={`sidebar__bar-options--top`}>
@@ -95,7 +95,7 @@ const SidebarBar = (props) => {
             key={i}
             Icon={menuOption.icon}
             title={menuOption.title}
-            isActive={option === menuOption.name}
+            isActive={activeOption === menuOption.name}
             toggleOption={toggleOption}
             name={menuOption.name}
           />
@@ -107,13 +107,13 @@ const SidebarBar = (props) => {
             key={i}
             Icon={menuOption.icon}
             title={menuOption.title}
-            isActive={option === menuOption.name}
+            isActive={activeOption === menuOption.name}
             toggleOption={toggleOption}
             name={menuOption.name}
           />
         ))}
         {!isMobile &&
-          (option ? (
+          (activeOption ? (
             <div className="sidebar__bar-option-wrapper">
               <Button
                 className="sidebar__bar-option"

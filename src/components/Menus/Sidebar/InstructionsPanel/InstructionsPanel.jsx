@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import SidebarPanel from "../SidebarPanel";
 
+
 import PlusIcon from "../../../../assets/icons/plus.svg";
 import demoInstructions from "../../../../assets/markdown/demoInstructions.md?raw";
 import "../../../../assets/stylesheets/Instructions.scss?inline";
@@ -28,11 +29,13 @@ import RemoveInstructionStepModal from "../../../Modals/RemoveInstructionStepMod
 import InstructionsStep from "./InstructionsStep/InstructionsStep";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import BinIcon from "../../../../assets/icons/bin.svg";
+import DoubleArrowLeft from "../../../../assets/icons/double_arrow_left.svg";
+import EditorButton from "../../../Button/Button";
 
 const INSTRUCTIONS_GUIDE_URL =
   "https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions";
 
-const InstructionsPanel = () => {
+const InstructionsPanel = ({ toggleOption, isMobile }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [showRemoveStepModal, setShowRemoveStepModal] = useState(false);
   const [removeScope, setRemoveScope] = useState(REMOVE_CURRENT_STEP);
@@ -110,11 +113,37 @@ const InstructionsPanel = () => {
 
   const panelRef = useRef(null);
 
+  const collapsePanel = () => {
+    toggleOption("instructions");
+    if (window.plausible) {
+      window.plausible("Collapse file pane");
+    }
+  };
+
   return (
     <SidebarPanel
       defaultWidth="30vw"
       panelRef={panelRef}
       heading={t("instructionsPanel.projectSteps")}
+      headingPrefix={
+        !isMobile && toggleOption ? (
+           <Button
+                  className="sidebar__panel-collapse"
+                  icon={"keyboard_double_arrow_left"}
+                  iconOnly
+                  text={t("sidebar.collapseInstructions")}
+                  onClick={collapsePanel}
+                  size="small"
+                  type="tertiary"
+                />
+          // <EditorButton
+          //   className="sidebar__panel-collapse"
+          //   ButtonIcon={DoubleArrowLeft}
+          //   title={t("sidebar.collapseInstructions")}
+          //   onClickHandler={collapsePanel}
+          // />
+        ) : undefined
+      }
       buttons={
         instructionsEditable && !hasInstructions
           ? [
