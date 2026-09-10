@@ -159,8 +159,8 @@ The web component communicates with the host page via the following custom event
 - `editor-runCompleted`: When a code run is completed in the editor - event detail contains data about the code run, such as whether there were any errors, and whether certain functions were used
 - `editor-runStarted`: When a code run is started in the editor
 - `editor-runStopped`: When the user stops a code run - event detail contains whether the editor is `embedded`
-- `editor-saveTriggered`: When the user clicks save - event detail contains whether the user is `loggedIn`. Fires on the request, not on a successful save
-- `editor-sidebarToggled`: When the selected sidebar panel changes - event detail contains the `panel` name and whether it is now `expanded`. Fires only when the selection actually changes, so on mobile - where tapping the active option does not collapse the panel - no event is emitted. Showing or hiding the sidebar as a whole without changing the selected panel, which is how mobile opens and closes it, is not currently reported. `panel` is the panel being opened, or on a collapse the panel that was open
+- `editor-saveTriggered`: When the user clicks save - event detail contains whether the user is `loggedIn`. Fires on the click, not on a successful save
+- `editor-sidebarToggled`: When the selected sidebar panel changes - event detail contains the `panel` name and whether it is now `expanded`. Mobile showing or hiding the whole sidebar is not reported
 - `editor-stepChanged`: When the instructions step changes - event detail contains the new step position
 - `editor-logIn`: When the user requests to log in
 - `editor-signUp`: When the user requests to sign up
