@@ -20,6 +20,21 @@ vi.mock("react-router-dom", async () => ({
 
 vi.useFakeTimers();
 
+const saveTriggeredHandler = vi.fn();
+const onSaveTriggered = (e) => saveTriggeredHandler(e.detail);
+
+beforeAll(() => {
+  document.addEventListener("editor-saveTriggered", onSaveTriggered);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-saveTriggered", onSaveTriggered);
+});
+
+beforeEach(() => {
+  saveTriggeredHandler.mockClear();
+});
+
 const scratchProject = {
   name: "Hello world",
   identifier: "hello-world-project",
@@ -133,6 +148,19 @@ describe("When project is Scratch", () => {
     expect(postMessageToScratchIframe).toHaveBeenCalledWith({
       type: "scratch-gui-save",
     });
+  });
+
+  test("clicking Save dispatches editor-saveTriggered", () => {
+    renderSignedInScratchProjectBar({
+      project: {
+        ...scratchProject,
+        identifier: null,
+      },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "header.save" }));
+
+    expect(saveTriggeredHandler).toHaveBeenCalledWith({ loggedIn: true });
   });
 
   test("clicking Save remixes a non-owner Scratch project on the first save", () => {

@@ -14,6 +14,7 @@ import "../../assets/stylesheets/ProjectBar.scss?inline";
 import { setScratchLastSavedTime } from "../../redux/EditorSlice";
 import { useScratchSave } from "../../hooks/useScratchSave";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
+import { saveTriggeredEvent } from "../../events/WebComponentCustomEvents";
 
 const getProjectLastSavedTime = (updatedAt) => {
   const timestamp = Date.parse(updatedAt || "");
@@ -36,6 +37,13 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   const { saveScratchProject, shouldRemixOnSave } = useScratchSave({
     enabled: canSave,
   });
+
+  // Scratch saves here rather than through SaveButton, so the event has to be
+  // emitted from both or Scratch projects report no saves at all
+  const onClickSave = () => {
+    document.dispatchEvent(saveTriggeredEvent({ loggedIn: !!user }));
+    saveScratchProject({ shouldRemixOnSave });
+  };
 
   const projectIdentifier = project?.identifier;
   const isScratchSaving = saving === "pending";
@@ -89,7 +97,7 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
           <div className="project-bar__btn-wrapper">
             <DesignSystemButton
               className="project-bar__btn btn--save"
-              onClick={() => saveScratchProject({ shouldRemixOnSave })}
+              onClick={onClickSave}
               text={t("header.save")}
               textAlways
               icon={<SaveIcon />}
