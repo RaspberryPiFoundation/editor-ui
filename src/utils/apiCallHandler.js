@@ -1,11 +1,9 @@
 import axios from "axios";
 import omit from "lodash/omit";
 
-// Set by useSyncCurrentUserId whenever this tab's own auth user changes. Module-level
-// (not localStorage, which is shared across tabs) so a second tab signing in as someone
-// else can never relabel this tab's requests: the id is only used if it's still paired
-// with the exact access token this specific request is using. Mirrors the same pattern
-// in editor-standalone's apiCallHandler/shared.js — see that file for the full reasoning.
+// Kept in memory, not localStorage (shared across tabs), and only used if
+// the access token still matches, same approach as editor-standalone's
+// apiCallHandler/shared.js.
 let currentAccessToken = null;
 let currentUserId = null;
 
