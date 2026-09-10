@@ -4,10 +4,6 @@ import Prism from "../../../../../utils/prism";
 import sanitiseInstructions from "../../../../../utils/sanitiseInstructions";
 import { scratchblocksInit } from "../../../../../utils/scratchblocks";
 
-const GOOGLE_DRIVE_ORIGIN = "https://drive.google.com";
-const INSTRUCTION_ASSET_BASE_URL =
-  "https://editor-assets.raspberrypi.org/instructions-assets";
-
 const getStepHtml = (step) => {
   const html =
     step.content !== undefined
@@ -35,28 +31,6 @@ const applyExternalLinkAttributes = (container) => {
   });
 };
 
-const applyMirroredInstructionImages = (container) => {
-  container.querySelectorAll("img[src]").forEach((image) => {
-    try {
-      const sourceUrl = new URL(image.getAttribute("src"));
-      const id = sourceUrl.searchParams.get("id");
-
-      if (
-        sourceUrl.origin === GOOGLE_DRIVE_ORIGIN &&
-        sourceUrl.pathname === "/thumbnail" &&
-        id
-      ) {
-        image.setAttribute(
-          "src",
-          `${INSTRUCTION_ASSET_BASE_URL}/${encodeURIComponent(id)}`,
-        );
-      }
-    } catch {
-      // Leave relative and malformed image sources unchanged.
-    }
-  });
-};
-
 const InstructionsStep = ({
   className,
   step,
@@ -70,7 +44,6 @@ const InstructionsStep = ({
 
     stepContent.current.parentElement?.scrollTo({ top: 0 });
     stepContent.current.innerHTML = getStepHtml(step);
-    applyMirroredInstructionImages(stepContent.current);
     applySyntaxHighlighting(stepContent.current);
     applyExternalLinkAttributes(stepContent.current);
 
