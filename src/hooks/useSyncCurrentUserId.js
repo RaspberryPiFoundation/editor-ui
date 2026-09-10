@@ -5,7 +5,7 @@ import { setCurrentUser } from "../utils/apiCallHandler";
 // this ancestor effect updates the association, missing the cache for that load.
 const useSyncCurrentUserId = (user) => {
   const accessToken = user?.access_token || null;
-  const userId = user?.profile?.sub || user?.profile?.user || null;
+  const userId = user?.profile?.user ?? user?.profile?.sub ?? null;
 
   setCurrentUser(accessToken, userId);
 };
