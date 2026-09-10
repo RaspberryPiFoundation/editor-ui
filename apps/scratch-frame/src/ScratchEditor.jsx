@@ -40,6 +40,7 @@ const ScratchEditor = ({
   locale,
   apiUrl,
   accessToken: initialAccessToken,
+  projectLocale,
 }) => {
   const [accessToken, setAccessToken] = useState(initialAccessToken);
 
@@ -89,6 +90,10 @@ const ScratchEditor = ({
       basePath={`${import.meta.env.REACT_APP_SCRATCH_FRAME_URL}/scratch-gui/`}
       onStorageInit={(storage) => {
         scratchFetchApiRef.current = storage.scratchFetch;
+        scratchFetchApiRef.current.setMetadata(
+          "X-Project-Locale",
+          projectLocale,
+        );
         if (accessToken) {
           scratchFetchApiRef.current.setMetadata("Authorization", accessToken);
         }

@@ -10,6 +10,7 @@ import {
 const origin = "http://localhost:3011/web-component.html";
 const scratchFrameOrigin = Cypress.env("REACT_APP_SCRATCH_FRAME_URL");
 const authKey = "oidc.user:https://auth-v1.raspberrypi.org:editor-api";
+const scratchProjectsApiMatcher = "**/api/scratch/projects/**";
 const user = {
   access_token: "dummy-access-token",
   profile: {
@@ -105,6 +106,18 @@ describe("Scratch locale", () => {
         .findByRole("button", { name: /teapot/ })
         .should("be.visible");
     });
+  });
+
+  it("sets a header with the project locale", () => {
+    cy.intercept("GET", scratchProjectsApiMatcher).as("scratchProjectRequest");
+
+    cy.visit(scratchProjectURL({ locale: "fr-FR" }));
+
+    cy.wait("@scratchProjectRequest")
+      .its("request.headers")
+      .then((headers) => {
+        expect(headers["x-project-locale"]).to.equal("fr-FR");
+      });
   });
 
   it("falls back to English when Scratch does not support the locale", () => {
@@ -220,7 +233,6 @@ describe("Scratch save integration", () => {
 });
 
 describe("Scratch Authorization header", () => {
-  const scratchProjectsApiMatcher = "**/api/scratch/projects/**";
   const remixApiMatcher = "**/api/projects/*/remix";
 
   it("includes Authorization header when authKey and access token are present in localStorage", () => {

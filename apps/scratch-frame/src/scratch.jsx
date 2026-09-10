@@ -70,6 +70,7 @@ if (!projectId) {
           locale={locale}
           apiUrl={apiUrl}
           accessToken={accessToken}
+          projectLocale={raspberryPiLocale}
         />
       </>,
     );
