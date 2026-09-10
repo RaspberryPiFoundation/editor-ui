@@ -36,10 +36,11 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
         Accept: "application/json",
         Authorization: accessToken,
       };
-      // Read by the service worker to scope its offline cache per user — Authorization
-      // rotates on token renewal so it can't be used for that without fragmenting the cache
+      // Read by the service worker to scope its offline cache per user —
+      // Authorization rotates on token renewal so it can't be used for that
+      // without fragmenting the cache
       const userId = getStableUserId(accessToken);
-      if (userId) {
+      if (userId != null) {
         headersHash["X-Editor-User-Id"] = userId;
       }
       return headersHash;

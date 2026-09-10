@@ -250,6 +250,25 @@ describe("X-Editor-User-Id header", () => {
     );
   });
 
+  test("is added when the current user id is 0", async () => {
+    setCurrentUser(accessToken, 0);
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await readProject("hello-world-project", null, accessToken);
+
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/hello-world-project`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: accessToken,
+          "X-Editor-User-Id": 0,
+        },
+        withCredentials: true,
+      },
+    );
+  });
+
   test("is omitted when no current user has been set", async () => {
     axios.get.mockImplementationOnce(() => Promise.resolve());
 
@@ -261,7 +280,7 @@ describe("X-Editor-User-Id header", () => {
     );
   });
 
-  test("is omitted when the access token does not match the current user's token", async () => {
+  test("is omitted when the token doesn't match the current user", async () => {
     // Simulates another tab signing in as someone else.
     setCurrentUser("someone-elses-token", "someone-elses-id");
     axios.get.mockImplementationOnce(() => Promise.resolve());
