@@ -149,7 +149,9 @@ describe("scratch handshake retries", () => {
       );
 
       await loadScratchModule();
-      expect(mountScratchEditor().locale).toBe(expected);
+      const scratchEditorProps = mountScratchEditor();
+      expect(scratchEditorProps.locale).toBe(expected);
+      expect(scratchEditorProps.projectLocale).toBe(locale);
     },
   );
 

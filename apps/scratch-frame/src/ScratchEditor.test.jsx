@@ -102,6 +102,32 @@ describe("ScratchEditor", () => {
     );
   });
 
+  test("sends the project locale with scratch requests after storage init", () => {
+    render(
+      <ScratchEditor
+        projectId="project-123"
+        locale="fr"
+        apiUrl="https://api.example.com"
+        accessToken="token-123"
+        projectLocale="fr-FR"
+      />,
+    );
+
+    const scratchGuiProps = mockWrappedScratchGui.mock.calls[0][0];
+    const scratchStorage = {
+      scratchFetch: {
+        setMetadata: vi.fn(),
+      },
+    };
+
+    scratchGuiProps.onStorageInit(scratchStorage);
+
+    expect(scratchStorage.scratchFetch.setMetadata).toHaveBeenCalledWith(
+      "X-Project-Locale",
+      "fr-FR",
+    );
+  });
+
   test("updates scratchFetch metadata when scratch-gui-update-token message is received", () => {
     render(
       <ScratchEditor
