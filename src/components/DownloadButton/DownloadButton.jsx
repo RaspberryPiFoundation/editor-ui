@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { Button } from "@raspberrypifoundation/design-system-react";
+import { projectDownloadedEvent } from "../../events/WebComponentCustomEvents";
 
 const DownloadButton = (props) => {
   const {
@@ -37,6 +38,9 @@ const DownloadButton = (props) => {
     if (window.plausible) {
       window.plausible("Download");
     }
+    document.dispatchEvent(
+      projectDownloadedEvent({ projectType: project.project_type }),
+    );
 
     if (project.project_type === "code_editor_scratch") {
       postMessageToScratchIframe({

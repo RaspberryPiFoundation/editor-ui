@@ -15,6 +15,18 @@ vi.mock("jszip-utils", () => ({
 }));
 vi.mock("../../utils/scratchIframe");
 
+const projectDownloadedHandler = vi.fn();
+
+beforeAll(() => {
+  document.addEventListener("editor-projectDownloaded", (e) =>
+    projectDownloadedHandler(e.detail),
+  );
+});
+
+beforeEach(() => {
+  projectDownloadedHandler.mockClear();
+});
+
 describe("Downloading project with name set", () => {
   let downloadButton;
 
@@ -275,6 +287,13 @@ describe("When project is Scratch", () => {
     fireEvent.click(downloadButton);
     expect(JSZip).not.toHaveBeenCalled();
     expect(FileSaver.saveAs).not.toHaveBeenCalled();
+  });
+
+  test("editor-projectDownloaded reports the project type", () => {
+    fireEvent.click(downloadButton);
+    expect(projectDownloadedHandler).toHaveBeenCalledWith({
+      projectType: "code_editor_scratch",
+    });
   });
 });
 

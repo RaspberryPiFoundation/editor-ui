@@ -9,14 +9,19 @@ import useIsOnline from "../../hooks/useIsOnline";
 vi.mock("../../hooks/useIsOnline");
 
 const logInHandler = vi.fn();
+const saveTriggeredHandler = vi.fn();
 
 describe("When project is loaded", () => {
   beforeAll(() => {
     document.addEventListener("editor-logIn", logInHandler);
+    document.addEventListener("editor-saveTriggered", (e) =>
+      saveTriggeredHandler(e.detail),
+    );
   });
 
   beforeEach(() => {
     useIsOnline.mockReturnValue(true);
+    saveTriggeredHandler.mockClear();
   });
 
   describe("With logged in user", () => {
@@ -71,6 +76,12 @@ describe("When project is loaded", () => {
         const saveButton = screen.queryByText("header.save").parentElement;
         fireEvent.click(saveButton);
         expect(logInHandler).toHaveBeenCalled();
+      });
+
+      test("Clicking save dispatches editor-saveTriggered as logged in", () => {
+        const saveButton = screen.queryByText("header.save").parentElement;
+        fireEvent.click(saveButton);
+        expect(saveTriggeredHandler).toHaveBeenCalledWith({ loggedIn: true });
       });
     });
 
@@ -225,6 +236,12 @@ describe("When project is loaded", () => {
       const saveButton = screen.queryByText("header.loginToSave").parentElement;
       fireEvent.click(saveButton);
       expect(logInHandler).toHaveBeenCalled();
+    });
+
+    test("Clicking save dispatches editor-saveTriggered as logged out", () => {
+      const saveButton = screen.queryByText("header.loginToSave").parentElement;
+      fireEvent.click(saveButton);
+      expect(saveTriggeredHandler).toHaveBeenCalledWith({ loggedIn: false });
     });
   });
 
