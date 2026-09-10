@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import ApiCallHandler from "./apiCallHandler";
+import ApiCallHandler, { setCurrentUser } from "./apiCallHandler";
 
 vi.mock("axios");
 const host = "http://localhost:3009";
@@ -222,6 +222,55 @@ describe("Testing project errors API calls", () => {
         error_type: error?.errorType,
       },
       undefined,
+    );
+  });
+});
+
+describe("X-Editor-User-Id header", () => {
+  afterEach(() => {
+    setCurrentUser(null, null);
+  });
+
+  test("is added when it matches the current access token", async () => {
+    setCurrentUser(accessToken, "user-sub-123");
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await readProject("hello-world-project", null, accessToken);
+
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/hello-world-project`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: accessToken,
+          "X-Editor-User-Id": "user-sub-123",
+        },
+        withCredentials: true,
+      },
+    );
+  });
+
+  test("is omitted when no current user has been set", async () => {
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await readProject("hello-world-project", null, accessToken);
+
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/hello-world-project`,
+      { ...authHeaders, withCredentials: true },
+    );
+  });
+
+  test("is omitted when the access token does not match the current user's token", async () => {
+    // Simulates another tab signing in as someone else.
+    setCurrentUser("someone-elses-token", "someone-elses-id");
+    axios.get.mockImplementationOnce(() => Promise.resolve());
+
+    await readProject("hello-world-project", null, accessToken);
+
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/projects/hello-world-project`,
+      { ...authHeaders, withCredentials: true },
     );
   });
 });

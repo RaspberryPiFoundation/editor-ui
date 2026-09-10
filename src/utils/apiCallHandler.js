@@ -1,6 +1,22 @@
 import axios from "axios";
 import omit from "lodash/omit";
 
+// Set by useSyncCurrentUserId whenever this tab's own auth user changes. Module-level
+// (not localStorage, which is shared across tabs) so a second tab signing in as someone
+// else can never relabel this tab's requests: the id is only used if it's still paired
+// with the exact access token this specific request is using. Mirrors the same pattern
+// in editor-standalone's apiCallHandler/shared.js — see that file for the full reasoning.
+let currentAccessToken = null;
+let currentUserId = null;
+
+export const setCurrentUser = (accessToken, userId) => {
+  currentAccessToken = accessToken || null;
+  currentUserId = accessToken ? userId : null;
+};
+
+const getStableUserId = (accessToken) =>
+  accessToken && accessToken === currentAccessToken ? currentUserId : null;
+
 const ApiCallHandler = ({ reactAppApiEndpoint }) => {
   const host = reactAppApiEndpoint;
 
@@ -18,7 +34,17 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
 
   const headers = (accessToken) => {
     if (accessToken) {
-      return { Accept: "application/json", Authorization: accessToken };
+      const headersHash = {
+        Accept: "application/json",
+        Authorization: accessToken,
+      };
+      // Read by the service worker to scope its offline cache per user — Authorization
+      // rotates on token renewal so it can't be used for that without fragmenting the cache
+      const userId = getStableUserId(accessToken);
+      if (userId) {
+        headersHash["X-Editor-User-Id"] = userId;
+      }
+      return headersHash;
     } else {
       return { Accept: "application/json" };
     }
