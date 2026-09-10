@@ -26,11 +26,14 @@ const optionsWithDownload = [
 ];
 
 const sidebarToggledHandler = vi.fn();
+const onSidebarToggled = (e) => sidebarToggledHandler(e.detail);
 
 beforeAll(() => {
-  document.addEventListener("editor-sidebarToggled", (e) =>
-    sidebarToggledHandler(e.detail),
-  );
+  document.addEventListener("editor-sidebarToggled", onSidebarToggled);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-sidebarToggled", onSidebarToggled);
 });
 
 beforeEach(() => {

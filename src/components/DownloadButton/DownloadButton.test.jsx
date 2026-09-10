@@ -16,11 +16,14 @@ vi.mock("jszip-utils", () => ({
 vi.mock("../../utils/scratchIframe");
 
 const projectDownloadedHandler = vi.fn();
+const onProjectDownloaded = (e) => projectDownloadedHandler(e.detail);
 
 beforeAll(() => {
-  document.addEventListener("editor-projectDownloaded", (e) =>
-    projectDownloadedHandler(e.detail),
-  );
+  document.addEventListener("editor-projectDownloaded", onProjectDownloaded);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-projectDownloaded", onProjectDownloaded);
 });
 
 beforeEach(() => {

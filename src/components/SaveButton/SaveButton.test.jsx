@@ -10,13 +10,12 @@ vi.mock("../../hooks/useIsOnline");
 
 const logInHandler = vi.fn();
 const saveTriggeredHandler = vi.fn();
+const onSaveTriggered = (e) => saveTriggeredHandler(e.detail);
 
 describe("When project is loaded", () => {
   beforeAll(() => {
     document.addEventListener("editor-logIn", logInHandler);
-    document.addEventListener("editor-saveTriggered", (e) =>
-      saveTriggeredHandler(e.detail),
-    );
+    document.addEventListener("editor-saveTriggered", onSaveTriggered);
   });
 
   beforeEach(() => {
@@ -390,6 +389,7 @@ describe("When project is loaded", () => {
 
   afterAll(() => {
     document.removeEventListener("editor-logIn", logInHandler);
+    document.removeEventListener("editor-saveTriggered", onSaveTriggered);
   });
 });
 

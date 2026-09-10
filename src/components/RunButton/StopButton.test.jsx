@@ -6,11 +6,14 @@ import store from "../../app/store";
 import { codeRunHandled, triggerCodeRun } from "../../redux/EditorSlice";
 
 const runStoppedHandler = vi.fn();
+const onRunStopped = (e) => runStoppedHandler(e.detail);
 
 beforeAll(() => {
-  document.addEventListener("editor-runStopped", (e) =>
-    runStoppedHandler(e.detail),
-  );
+  document.addEventListener("editor-runStopped", onRunStopped);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-runStopped", onRunStopped);
 });
 
 beforeEach(() => {
