@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { stopCodeRun, stopDraw } from "../../redux/EditorSlice";
 import { useTranslation } from "react-i18next";
+import { runStoppedEvent } from "../../events/WebComponentCustomEvents";
 
 const StopButton = ({ embedded = false, className, ...props }) => {
   const codeRunStopped = useSelector((state) => state.editor.codeRunStopped);
@@ -16,6 +17,7 @@ const StopButton = ({ embedded = false, className, ...props }) => {
     if (window.plausible) {
       window.plausible(`Stop button${embedded ? " embedded" : ""}`);
     }
+    document.dispatchEvent(runStoppedEvent({ embedded }));
     if (codeRunTriggered) {
       dispatch(stopCodeRun());
     }

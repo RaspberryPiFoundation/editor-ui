@@ -5,8 +5,20 @@ import StopButton from "./StopButton";
 import store from "../../app/store";
 import { codeRunHandled, triggerCodeRun } from "../../redux/EditorSlice";
 
+const runStoppedHandler = vi.fn();
+const onRunStopped = (e) => runStoppedHandler(e.detail);
+
+beforeAll(() => {
+  document.addEventListener("editor-runStopped", onRunStopped);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-runStopped", onRunStopped);
+});
+
 beforeEach(() => {
   vi.useFakeTimers();
+  runStoppedHandler.mockClear();
 });
 
 afterEach(() => {
@@ -48,4 +60,19 @@ test("Clicking stop button changes it to 'Stopping...' after a time out", () => 
     vi.runAllTimers();
   });
   expect(stopButton.textContent).toEqual("runButton.stopping");
+});
+
+test("Clicking stop button dispatches editor-runStopped with the embedded context", () => {
+  store.dispatch(codeRunHandled());
+  store.dispatch(triggerCodeRun());
+
+  const component = render(
+    <Provider store={store}>
+      <StopButton buttonText="Stop Code" embedded />
+    </Provider>,
+  );
+
+  fireEvent.click(component.getByRole("button"));
+
+  expect(runStoppedHandler).toHaveBeenCalledWith({ embedded: true });
 });

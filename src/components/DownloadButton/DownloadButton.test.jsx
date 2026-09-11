@@ -15,6 +15,21 @@ vi.mock("jszip-utils", () => ({
 }));
 vi.mock("../../utils/scratchIframe");
 
+const projectDownloadedHandler = vi.fn();
+const onProjectDownloaded = (e) => projectDownloadedHandler(e.detail);
+
+beforeAll(() => {
+  document.addEventListener("editor-projectDownloaded", onProjectDownloaded);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-projectDownloaded", onProjectDownloaded);
+});
+
+beforeEach(() => {
+  projectDownloadedHandler.mockClear();
+});
+
 describe("Downloading project with name set", () => {
   let downloadButton;
 
@@ -27,6 +42,7 @@ describe("Downloading project with name set", () => {
         project: {
           name: "My epic project",
           identifier: "hello-world-project",
+          project_type: "python",
           instructions: "print hello world to the console",
           components: [
             {
@@ -95,6 +111,14 @@ describe("Downloading project with name set", () => {
         "my_epic_project",
       ),
     );
+  });
+
+  // The Scratch case returns early, so this covers the zip branch
+  test("Clicking download dispatches editor-projectDownloaded", () => {
+    fireEvent.click(downloadButton);
+    expect(projectDownloadedHandler).toHaveBeenCalledWith({
+      projectType: "python",
+    });
   });
 });
 
@@ -275,6 +299,13 @@ describe("When project is Scratch", () => {
     fireEvent.click(downloadButton);
     expect(JSZip).not.toHaveBeenCalled();
     expect(FileSaver.saveAs).not.toHaveBeenCalled();
+  });
+
+  test("editor-projectDownloaded reports the project type", () => {
+    fireEvent.click(downloadButton);
+    expect(projectDownloadedHandler).toHaveBeenCalledWith({
+      projectType: "code_editor_scratch",
+    });
   });
 });
 

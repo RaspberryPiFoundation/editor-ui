@@ -29,8 +29,20 @@ export const runCompletedEvent = (detail) =>
 export const runStartedEvent = (detail) =>
   webComponentCustomEvent("editor-runStarted", detail);
 
+export const runStoppedEvent = (detail) =>
+  webComponentCustomEvent("editor-runStopped", detail);
+
+export const saveTriggeredEvent = (detail) =>
+  webComponentCustomEvent("editor-saveTriggered", detail);
+
+export const projectDownloadedEvent = (detail) =>
+  webComponentCustomEvent("editor-projectDownloaded", detail);
+
 export const stepChangedEvent = (detail) =>
   webComponentCustomEvent("editor-stepChanged", detail);
+
+export const sidebarToggledEvent = (detail) =>
+  webComponentCustomEvent("editor-sidebarToggled", detail);
 
 export const logInEvent = webComponentCustomEvent("editor-logIn");
 

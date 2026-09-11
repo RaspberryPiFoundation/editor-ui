@@ -25,6 +25,21 @@ const optionsWithDownload = [
   "info",
 ];
 
+const sidebarToggledHandler = vi.fn();
+const onSidebarToggled = (e) => sidebarToggledHandler(e.detail);
+
+beforeAll(() => {
+  document.addEventListener("editor-sidebarToggled", onSidebarToggled);
+});
+
+afterAll(() => {
+  document.removeEventListener("editor-sidebarToggled", onSidebarToggled);
+});
+
+beforeEach(() => {
+  sidebarToggledHandler.mockClear();
+});
+
 const renderSidebarWithState = (initialState, props = {}) => {
   const mockStore = configureStore([]);
   const store = mockStore(initialState);
@@ -91,6 +106,25 @@ describe("When project has images", () => {
       fireEvent.click(fileButton);
       fireEvent.click(fileButton);
       expect(screen.queryByText("filePanel.files")).not.toBeInTheDocument();
+    });
+
+    test("Clicking collapse dispatches editor-sidebarToggled as collapsed", () => {
+      fireEvent.click(screen.getByTitle("sidebar.collapse"));
+      expect(sidebarToggledHandler).toHaveBeenCalledTimes(1);
+      expect(sidebarToggledHandler).toHaveBeenCalledWith({
+        panel: "file",
+        expanded: false,
+      });
+    });
+
+    test("editor-sidebarToggled reports the panel that was opened", () => {
+      fireEvent.click(screen.getByTitle("sidebar.collapse"));
+      sidebarToggledHandler.mockClear();
+      fireEvent.click(screen.getByTitle("sidebar.images"));
+      expect(sidebarToggledHandler).toHaveBeenCalledWith({
+        panel: "images",
+        expanded: true,
+      });
     });
 
     test("Shows file icon", () => {
