@@ -31,10 +31,6 @@ afterAll(() => {
   document.removeEventListener("editor-saveTriggered", onSaveTriggered);
 });
 
-beforeEach(() => {
-  saveTriggeredHandler.mockClear();
-});
-
 const scratchProject = {
   name: "Hello world",
   identifier: "hello-world-project",

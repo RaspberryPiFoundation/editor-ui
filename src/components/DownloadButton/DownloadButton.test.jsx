@@ -42,6 +42,7 @@ describe("Downloading project with name set", () => {
         project: {
           name: "My epic project",
           identifier: "hello-world-project",
+          project_type: "python",
           instructions: "print hello world to the console",
           components: [
             {
@@ -110,6 +111,14 @@ describe("Downloading project with name set", () => {
         "my_epic_project",
       ),
     );
+  });
+
+  // The Scratch case returns early, so this covers the zip branch
+  test("Clicking download dispatches editor-projectDownloaded", () => {
+    fireEvent.click(downloadButton);
+    expect(projectDownloadedHandler).toHaveBeenCalledWith({
+      projectType: "python",
+    });
   });
 });
 

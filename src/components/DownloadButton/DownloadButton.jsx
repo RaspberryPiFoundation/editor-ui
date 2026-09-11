@@ -39,7 +39,7 @@ const DownloadButton = (props) => {
       window.plausible("Download");
     }
     document.dispatchEvent(
-      projectDownloadedEvent({ projectType: project.project_type }),
+      projectDownloadedEvent({ projectType: project?.project_type }),
     );
 
     if (project.project_type === "code_editor_scratch") {

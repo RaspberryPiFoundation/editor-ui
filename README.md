@@ -154,13 +154,13 @@ The web component communicates with the host page via the following custom event
 - `editor-codeChanged`: When the code in the editor is changed
 - `editor-navigateToProjectsPage`: When the user requests to navigate to the projects index page
 - `editor-projectIdentifierChanged`: When the project identifier changes - event detail is the new identifier
-- `editor-projectDownloaded`: When the user downloads the project - event detail contains the `projectType`
+- `editor-projectDownloaded`: When the user clicks download - event detail contains the `projectType`. Fires on the click, not on a completed download
 - `editor-projectOwnerLoaded`: When the project owner has been loaded - event detail is the user's name
 - `editor-runCompleted`: When a code run is completed in the editor - event detail contains data about the code run, such as whether there were any errors, and whether certain functions were used
 - `editor-runStarted`: When a code run is started in the editor
-- `editor-runStopped`: When the user stops a code run - event detail contains whether the editor is `embedded`
+- `editor-runStopped`: When the user presses stop - event detail contains whether the editor is `embedded`. Reports the click rather than a run ending, so it is not a counterpart to `editor-runStarted`: it also fires for draw-only runs, and Scratch does not emit it
 - `editor-saveTriggered`: When the user clicks save - event detail contains whether the user is `loggedIn`. Fires on the click, not on a successful save
-- `editor-sidebarToggled`: When the selected sidebar panel changes - event detail contains the `panel` name and whether it is now `expanded`. Mobile showing or hiding the whole sidebar is not reported
+- `editor-sidebarToggled`: When the user selects a different sidebar panel - event detail contains the `panel` name and whether it is now `expanded`. Only user-initiated toggles are reported: mobile showing or hiding the whole sidebar, and panels reassigned by the editor when one becomes unavailable, are not
 - `editor-stepChanged`: When the instructions step changes - event detail contains the new step position
 - `editor-logIn`: When the user requests to log in
 - `editor-signUp`: When the user requests to sign up
