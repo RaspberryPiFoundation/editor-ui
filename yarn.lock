@@ -2627,7 +2627,7 @@ __metadata:
     react: "npm:^19.2.7"
     react-app-polyfill: "npm:^2.0.0"
     react-confirm-alert: "npm:^2.8.0"
-    react-cookie: "npm:^4.1.1"
+    react-cookie: "npm:^8.1.2"
     react-dom: "npm:^19.2.7"
     react-i18next: "npm:^12.0.0"
     react-modal: "npm:^3.14.4"
@@ -3699,13 +3699,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cookie@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@types/cookie@npm:0.3.3"
-  checksum: 10/c314e4741e1cb0b98fc6789a36da8701321d4df499d4ce3993eb65fca8dacc5ce3fa5b9b62cfe11d13437255e2b7a4be5e59b5b955a96cdc593e86913fa7e92d
-  languageName: node
-  linkType: hard
-
 "@types/deep-eql@npm:*":
   version: 4.0.2
   resolution: "@types/deep-eql@npm:4.0.2"
@@ -3743,7 +3736,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:3":
+"@types/hoist-non-react-statics@npm:3, @types/hoist-non-react-statics@npm:^3.3.7":
   version: 3.3.7
   resolution: "@types/hoist-non-react-statics@npm:3.3.7"
   dependencies:
@@ -3754,7 +3747,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:^3.0.1, @types/hoist-non-react-statics@npm:^3.3.1":
+"@types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.5
   resolution: "@types/hoist-non-react-statics@npm:3.3.5"
   dependencies:
@@ -6090,10 +6083,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^0.4.0":
-  version: 0.4.2
-  resolution: "cookie@npm:0.4.2"
-  checksum: 10/2e1de9fdedca54881eab3c0477aeb067f281f3155d9cfee9d28dfb252210d09e85e9d175c0a60689661feb9e35e588515352f2456bc1f8e8db4267e05fd70137
+"cookie@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "cookie@npm:1.1.1"
+  checksum: 10/85538153054791155cf4d38d2e807e3b9382d71bf71d92fc46fca348515ea574049d0d9ef8eb84d2d54a681ad1d7a7316b1989b901dace50a6c0f4c3858dbdb2
   languageName: node
   linkType: hard
 
@@ -9788,7 +9781,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:3, hoist-non-react-statics@npm:^3.0.0, hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:3, hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -13905,16 +13898,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-cookie@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "react-cookie@npm:4.1.1"
+"react-cookie@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "react-cookie@npm:8.1.2"
   dependencies:
-    "@types/hoist-non-react-statics": "npm:^3.0.1"
-    hoist-non-react-statics: "npm:^3.0.0"
-    universal-cookie: "npm:^4.0.0"
+    "@types/hoist-non-react-statics": "npm:^3.3.7"
+    hoist-non-react-statics: "npm:^3.3.2"
+    universal-cookie: "npm:^8.0.0"
   peerDependencies:
     react: ">= 16.3.0"
-  checksum: 10/ea55d5213e937722fadfc8d8c7f44d41181708d027e79f04cd480637e0361ce6e585f03ee211145ac56b0a1ef8124973ec8d010a8bf940514e25a24ff266be11
+  checksum: 10/0432e6fdc3706f21be5c78e37626fe0a92048efc651aae71a4ca1fedc7f04a6f877ef580f5950ab6c60b8d6130ff030838e3a6f2ef23b3bdb6814ecc912078dc
   languageName: node
   linkType: hard
 
@@ -17187,13 +17180,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"universal-cookie@npm:^4.0.0":
-  version: 4.0.4
-  resolution: "universal-cookie@npm:4.0.4"
+"universal-cookie@npm:^8.0.0":
+  version: 8.1.2
+  resolution: "universal-cookie@npm:8.1.2"
   dependencies:
-    "@types/cookie": "npm:^0.3.3"
-    cookie: "npm:^0.4.0"
-  checksum: 10/4f34c9432c480957b95d13110cd0f8adc7005ebdefe4717ebfc1480771403d62cb3826681d5bb585004884e24b1fa4e876403d00d1267d82800e9e0a42126df8
+    cookie: "npm:^1.1.1"
+  checksum: 10/6893ccaef9c022d376daf2dd4f727d97a322691e3421a4d5004fb8765ab0413b1ae9e80511a2e53aa311af0ac52c5282cf6cf2d57eed8108df8412013e98d32f
   languageName: node
   linkType: hard
 

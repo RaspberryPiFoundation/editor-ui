@@ -49,7 +49,7 @@
     "react": "^19.2.7",
     "react-app-polyfill": "^2.0.0",
     "react-confirm-alert": "^2.8.0",
-    "react-cookie": "^4.1.1",
+    "react-cookie": "^8.1.2",
     "react-dom": "^19.2.7",
     "react-i18next": "^12.0.0",
     "react-modal": "^3.14.4",
