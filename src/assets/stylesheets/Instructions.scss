@@ -17,6 +17,10 @@
     }
   }
 
+  code[class*="block3"] {
+    display: inline-block;
+  }
+
   @media (prefers-contrast: more) {
     code[class*="block3"] {
       color: var(--rpf-black);
