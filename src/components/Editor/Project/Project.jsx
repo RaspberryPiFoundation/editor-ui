@@ -10,6 +10,7 @@ import { showSavedMessage } from "../../../utils/Notifications";
 import ProjectBar from "../../ProjectBar/ProjectBar";
 import ScratchProjectBar from "../../ProjectBar/ScratchProjectBar";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
+import SidebarExpandButton from "../../Menus/Sidebar/SidebarExpandButton";
 import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
@@ -69,12 +70,20 @@ const Project = (props) => {
           />
         )}
         <div className="project-wrapper" ref={containerRef}>
-          {withProjectbar &&
-            (isCodeEditorScratchProject ? (
-              <ScratchProjectBar nameEditable={nameEditable} />
-            ) : (
-              <ProjectBar nameEditable={nameEditable} />
-            ))}
+          {withProjectbar && (
+            <div className="project-bar-row">
+              {withSidebar && (
+                <SidebarExpandButton
+                  allowMobileView={!isCodeEditorScratchProject}
+                />
+              )}
+              {isCodeEditorScratchProject ? (
+                <ScratchProjectBar nameEditable={nameEditable} />
+              ) : (
+                <ProjectBar nameEditable={nameEditable} />
+              )}
+            </div>
+          )}
           {!loading && !isCodeEditorScratchProject && (
             <div className="proj-editor-wrapper">
               <ResizableWithHandle
