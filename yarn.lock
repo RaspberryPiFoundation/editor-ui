@@ -2625,7 +2625,7 @@ __metadata:
     prop-types: "npm:^15.8.1"
     re-resizable: "npm:6.11.2"
     react: "npm:^19.2.7"
-    react-app-polyfill: "npm:^2.0.0"
+    react-app-polyfill: "npm:^3.0.0"
     react-confirm-alert: "npm:^2.8.0"
     react-cookie: "npm:^4.1.1"
     react-dom: "npm:^19.2.7"
@@ -6132,6 +6132,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.19.2":
+  version: 3.50.0
+  resolution: "core-js@npm:3.50.0"
+  checksum: 10/9690bd111d8500437e65b365ec0dbe8d8899e99e877452d142c72bfbf272bd6edbf38ec9c2da8fa88d9186bba9246309bff68cedd2a6c43a3bf0748625e0e092
+  languageName: node
+  linkType: hard
+
 "core-js@npm:^3.35.0":
   version: 3.48.0
   resolution: "core-js@npm:3.48.0"
@@ -6139,7 +6146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.6.5, core-js@npm:^3.8.3":
+"core-js@npm:^3.8.3":
   version: 3.38.1
   resolution: "core-js@npm:3.38.1"
   checksum: 10/3c25fdf0b2595ed37ceb305213a61e2cf26185f628455e99d1c736dda5f69e2de4de7126e6a1da136f54260c4fcc982c4215e37b5a618790a597930f854c0a37
@@ -13881,17 +13888,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-app-polyfill@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "react-app-polyfill@npm:2.0.0"
+"react-app-polyfill@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "react-app-polyfill@npm:3.0.0"
   dependencies:
-    core-js: "npm:^3.6.5"
+    core-js: "npm:^3.19.2"
     object-assign: "npm:^4.1.1"
     promise: "npm:^8.1.0"
     raf: "npm:^3.4.1"
-    regenerator-runtime: "npm:^0.13.7"
-    whatwg-fetch: "npm:^3.4.1"
-  checksum: 10/667920bcfc0351ea9ae52e7365dad0a795727059f5484263c746c31597e6cfcf90f9f99e62781720e8efc8cbfdef3dc84bfa8a742d0cde344d114b1ae56a45fb
+    regenerator-runtime: "npm:^0.13.9"
+    whatwg-fetch: "npm:^3.6.2"
+  checksum: 10/c544a1d9f5b3e4df1f51a01ceaa21d1350016520d0caf67549239ce112ea00b6014612f756e576609b986abe6eca1bb4f2625608bb9ae4501b74ca4398874be3
   languageName: node
   linkType: hard
 
@@ -14476,7 +14483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.5, regenerator-runtime@npm:^0.13.7":
+"regenerator-runtime@npm:^0.13.5, regenerator-runtime@npm:^0.13.9":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 10/d493e9e118abef5b099c78170834f18540c4933cedf9bfabc32d3af94abfb59a7907bd7950259cbab0a929ebca7db77301e8024e5121e6482a82f78283dfd20c
@@ -17767,7 +17774,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"whatwg-fetch@npm:^3.4.1":
+"whatwg-fetch@npm:^3.6.2":
   version: 3.6.20
   resolution: "whatwg-fetch@npm:3.6.20"
   checksum: 10/2b4ed92acd6a7ad4f626a6cb18b14ec982bbcaf1093e6fe903b131a9c6decd14d7f9c9ca3532663c2759d1bdf01d004c77a0adfb2716a5105465c20755a8c57c
