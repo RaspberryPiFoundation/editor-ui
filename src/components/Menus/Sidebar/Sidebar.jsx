@@ -28,6 +28,7 @@ import PluginSlot from "./PluginSlot";
 import MaterialSymbol from "./MaterialSymbol";
 import { setSidebarOption } from "../../../redux/EditorSlice";
 import { selectInstructionSteps } from "../../../redux/InstructionsSlice";
+import { sidebarToggledEvent } from "../../../events/WebComponentCustomEvents";
 
 const resolvePluginIcon = (icon) => {
   if (typeof icon === "string") {
@@ -215,9 +216,18 @@ const Sidebar = ({
     }
   }, [dispatch, nextDefaultOption, optionIsAvailable, selectedSidebarOption]);
 
+  // Emit here rather than from each control: on mobile toggleOption never
+  // collapses, so a control computing `expanded` itself would report
+  // closures that don't happen
   const updateOption = (nextOption) => {
     setOption(nextOption);
     dispatch(setSidebarOption(nextOption));
+    document.dispatchEvent(
+      sidebarToggledEvent({
+        panel: nextOption ?? option,
+        expanded: nextOption !== null,
+      }),
+    );
   };
 
   const toggleOption = (newOption) => {

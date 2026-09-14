@@ -2,7 +2,10 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-import { logInEvent } from "../../events/WebComponentCustomEvents";
+import {
+  logInEvent,
+  saveTriggeredEvent,
+} from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
 
 import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
@@ -36,9 +39,10 @@ const SaveButton = ({ className, type, fill = false }) => {
     if (window.plausible) {
       window.plausible("Save button");
     }
+    document.dispatchEvent(saveTriggeredEvent({ loggedIn: !!user }));
     document.dispatchEvent(logInEvent);
     dispatch(triggerSave());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const projectOwner = isOwner(user, project);
 
