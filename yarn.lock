@@ -650,14 +650,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codemirror/lang-python@npm:6.1.2":
-  version: 6.1.2
-  resolution: "@codemirror/lang-python@npm:6.1.2"
+"@codemirror/lang-python@npm:6.2.1":
+  version: 6.2.1
+  resolution: "@codemirror/lang-python@npm:6.2.1"
   dependencies:
     "@codemirror/autocomplete": "npm:^6.3.2"
-    "@codemirror/language": "npm:^6.0.0"
-    "@lezer/python": "npm:^1.0.0"
-  checksum: 10/3df537a1cf8631dc398326aeb15b2b6c83bf6eff2240d4e3677ac129765a1534637fdd63378af2e965d11641d8afb91970eac061de423f998d941ccc751a35c8
+    "@codemirror/language": "npm:^6.8.0"
+    "@codemirror/state": "npm:^6.0.0"
+    "@lezer/common": "npm:^1.2.1"
+    "@lezer/python": "npm:^1.1.4"
+  checksum: 10/8651972fcfc194c0da028bea0162eb070f8f9b6241a9ec7771b3061bd7f3c4122ca0eed2e5fcf4c46e731cb31d4af1fb7f1d2949387ba9133826aa0253a9dddb
   languageName: node
   linkType: hard
 
@@ -672,6 +674,20 @@ __metadata:
     "@lezer/lr": "npm:^1.0.0"
     style-mod: "npm:^4.0.0"
   checksum: 10/75869ca19c76998cc9be76f02061b6212d389b29647cf72505a06495fba3b330003f9952ddf8762bcaa2bf4defd39fd4f240d05b3df0b28c1c4415a025bc257c
+  languageName: node
+  linkType: hard
+
+"@codemirror/language@npm:^6.8.0":
+  version: 6.12.4
+  resolution: "@codemirror/language@npm:6.12.4"
+  dependencies:
+    "@codemirror/state": "npm:^6.0.0"
+    "@codemirror/view": "npm:^6.23.0"
+    "@lezer/common": "npm:^1.5.0"
+    "@lezer/highlight": "npm:^1.0.0"
+    "@lezer/lr": "npm:^1.0.0"
+    style-mod: "npm:^4.0.0"
+  checksum: 10/6a9af11337d15036761ad959dceba4cfd054cdfae84afa4d54534927d277591a57c2b581f66df4428510dd06c641151aa699ab1dc7c338d923ac06a219d83bc6
   languageName: node
   linkType: hard
 
@@ -1532,6 +1548,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lezer/common@npm:^1.2.1, @lezer/common@npm:^1.5.0":
+  version: 1.5.2
+  resolution: "@lezer/common@npm:1.5.2"
+  checksum: 10/62c0a0ce431cb14bfa6cded04e24a05efa566e9260314bb3f3cf547d501efa1db5c83fc9a7871f8e0b6a4030212840f0e6567433168960c7c83bb3ffbeef8b99
+  languageName: node
+  linkType: hard
+
 "@lezer/css@npm:^1.1.0, @lezer/css@npm:^1.1.7":
   version: 1.1.9
   resolution: "@lezer/css@npm:1.1.9"
@@ -1583,14 +1606,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lezer/python@npm:^1.0.0":
-  version: 1.1.14
-  resolution: "@lezer/python@npm:1.1.14"
+"@lezer/python@npm:^1.1.4":
+  version: 1.1.19
+  resolution: "@lezer/python@npm:1.1.19"
   dependencies:
     "@lezer/common": "npm:^1.2.0"
     "@lezer/highlight": "npm:^1.0.0"
     "@lezer/lr": "npm:^1.0.0"
-  checksum: 10/5b8c5ba9483fb13749425a1bd986821ba6b825a40914d80f51397cb5f672d7b8d9cec460ad862dedd92d0c698a505b047d19c84fda0bc019accdae875c1d55a7
+  checksum: 10/6c8cd140306421ad89530e2c82df147283a036465604605b964e6f095aeac097d92645c9d716d9bfe979749e621a2dacdbead56f77007ee338735ef1f1d60e65
   languageName: node
   linkType: hard
 
@@ -2555,7 +2578,7 @@ __metadata:
     "@codemirror/lang-css": "npm:^6.3.1"
     "@codemirror/lang-html": "npm:^6.1.2"
     "@codemirror/lang-javascript": "npm:^6.2.1"
-    "@codemirror/lang-python": "npm:6.1.2"
+    "@codemirror/lang-python": "npm:6.2.1"
     "@codemirror/language": "npm:^6.2.1"
     "@codemirror/view": "npm:^6.3.0"
     "@hello-pangea/dnd": "npm:^16.2.0"
