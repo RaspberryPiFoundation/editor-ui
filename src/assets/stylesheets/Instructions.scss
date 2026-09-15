@@ -17,11 +17,6 @@
     }
   }
 
-  code[class*="block3"] {
-    display: inline-block;
-    margin-block: var(--space-0-125);
-  }
-
   @media (prefers-contrast: more) {
     code[class*="block3"] {
       color: var(--rpf-black);
