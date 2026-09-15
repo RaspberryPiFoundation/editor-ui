@@ -107,7 +107,7 @@
     "babel-eslint": "^10.1.0",
     "browserslist": "^4.28.6",
     "browserslist-to-esbuild": "^2.1.1",
-    "camelcase": "^6.1.0",
+    "camelcase": "^9.0.0",
     "cypress": "15.21.1",
     "cypress-real-events": "^1.15.0",
     "dotenv": "8.2.0",
