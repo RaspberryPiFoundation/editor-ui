@@ -7,6 +7,7 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const path = require("path");
 const fs = require("fs");
+const mime = require("mime-types");
 const {
   browserTargets,
   processEnvBuildDefine,
@@ -76,6 +77,45 @@ const serveStandalonePyodideWorkerInDev = (replacements) => ({
   },
 });
 
+const scratchAssetFixtureRoot = path.resolve(
+  __dirname,
+  "public/api/scratch/assets/internalapi/asset",
+);
+const scratchAssetUrlPrefix = "/api/scratch/assets/internalapi/asset/";
+
+const serveScratchAssetFixtures = () => ({
+  name: "serve-scratch-asset-fixtures",
+  configureServer(server) {
+    server.middlewares.use(scratchAssetFixtureMiddleware);
+  },
+  configurePreviewServer(server) {
+    server.middlewares.use(scratchAssetFixtureMiddleware);
+  },
+});
+
+const scratchAssetFixtureMiddleware = (req, res, next) => {
+  const url = decodeURIComponent((req.url || "").split("?")[0]);
+  if (!url.startsWith(scratchAssetUrlPrefix) || !url.endsWith("/get/")) {
+    return next();
+  }
+
+  const assetName = url.slice(scratchAssetUrlPrefix.length, -"/get/".length);
+  const filePath = path.resolve(scratchAssetFixtureRoot, assetName, "get");
+  if (
+    !filePath.startsWith(`${scratchAssetFixtureRoot}${path.sep}`) ||
+    !fs.existsSync(filePath)
+  ) {
+    return next();
+  }
+
+  res.setHeader(
+    "Content-Type",
+    mime.lookup(assetName) || "application/octet-stream",
+  );
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  res.end(fs.readFileSync(filePath));
+};
+
 const serveIndexAtRootForCypress = () => ({
   name: "serve-index-at-root-for-cypress",
   apply: "serve",
@@ -127,6 +167,7 @@ export default defineConfig(async ({ mode }) => {
         ],
       }),
       serveCrossOriginResources(),
+      serveScratchAssetFixtures(),
       serveIndexAtRootForCypress(),
       injectProcessEnvIntoDevHtml(mode, env),
       serveStandalonePyodideWorkerInDev({
