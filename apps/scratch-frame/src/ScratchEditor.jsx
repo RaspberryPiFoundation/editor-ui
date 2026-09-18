@@ -5,10 +5,6 @@ import { useCallback, useRef, useEffect, useState } from "react";
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
 import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
 
-/** Scratch library picker assets (not project save/load — those use editor-api). */
-export const SCRATCH_LIBRARY_ASSET_URL_TEMPLATE =
-  "https://editor-assets.raspberrypi.org/internalapi/asset/{assetPath}/get/";
-
 const handleUpdateProjectId = (updatedProjectId) => {
   postScratchGuiEvent("scratch-gui-project-id-updated", {
     projectId: updatedProjectId,
@@ -86,7 +82,6 @@ const ScratchEditor = ({
       noBeforeUnloadHandler={true}
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
-      libraryAssetUrlTemplate={SCRATCH_LIBRARY_ASSET_URL_TEMPLATE}
       basePath={`${import.meta.env.REACT_APP_SCRATCH_FRAME_URL}/scratch-gui/`}
       onStorageInit={(storage) => {
         scratchFetchApiRef.current = storage.scratchFetch;

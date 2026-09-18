@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 import { combineReducers, createStore } from "redux";
+import { buildLibraryAssetUrl } from "./utils/libraryAssetUrl.js";
 
 const scratchGui = window.GUI;
 const ScratchComponent = scratchGui.default;
@@ -10,6 +11,12 @@ const ScratchComponent = scratchGui.default;
 const appTarget = document.getElementById("app");
 scratchGui.setAppElement(appTarget);
 const ScratchGuiWithIntegration = ScratchIntegrationHOC(ScratchComponent);
+
+// Scratch GUI calls getLibraryAssetUrl on the configured storage to build
+// library thumbnail URLs, so point it at our own asset host rather than
+// cdn.assets.scratch.mit.edu. Overridden in place because parts of the GUI read
+// legacyConfig.storage directly instead of going through the store.
+scratchGui.legacyConfig.storage.getLibraryAssetUrl = buildLibraryAssetUrl;
 
 export const createScratchStore = (locale) =>
   createStore(
