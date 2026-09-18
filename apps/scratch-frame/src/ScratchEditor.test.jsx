@@ -1,8 +1,6 @@
 import React from "react";
 import { render, cleanup, act } from "@testing-library/react";
-import ScratchEditor, {
-  SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
-} from "./ScratchEditor.jsx";
+import ScratchEditor from "./ScratchEditor.jsx";
 
 const { mockWrappedScratchGui, mockScratchProjectSave } = vi.hoisted(() => ({
   mockWrappedScratchGui: vi.fn(),
@@ -43,7 +41,6 @@ describe("ScratchEditor", () => {
       expect.objectContaining({
         assetHost: "https://api.example.com/api/scratch/assets",
         projectHost: "https://api.example.com/api/scratch/projects",
-        libraryAssetUrlTemplate: SCRATCH_LIBRARY_ASSET_URL_TEMPLATE,
       }),
     );
   });
