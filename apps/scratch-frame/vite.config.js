@@ -95,12 +95,6 @@ export default defineConfig(({ mode }) => {
         dest: "scratch-gui/static",
         rename: { stripBase: 5 },
       },
-      // Chunks are requested from two different bases: lazy-loaded chunks such
-      // as paper-source resolve against the bundle's publicPath
-      // (/scratch-gui/chunks/), while workers such as scratch-storage's
-      // fetch-worker resolve against the server root (/chunks/). Serve both,
-      // or whichever one is missing fails silently - a missing fetch-worker
-      // leaves project loading hanging with no error.
       {
         src: `${scratchChunkDir}/**/*`,
         dest: "scratch-gui/chunks",

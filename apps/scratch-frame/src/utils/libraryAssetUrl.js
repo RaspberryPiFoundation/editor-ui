@@ -1,8 +1,3 @@
-/**
- * Scratch library picker assets (not project save/load — those use editor-api).
- *
- * Keep in sync with cspScratchLibraryAssetOrigin in vite.config.js.
- */
 export const SCRATCH_LIBRARY_ASSET_HOST =
   "https://editor-assets.raspberrypi.org";
 
