@@ -32,7 +32,7 @@ export default defineConfig(({ mode }) => {
   );
   const cspAssetOrigin = toOrigin("ASSETS_URL", env.ASSETS_URL);
 
-  // Keep in sync with SCRATCH_LIBRARY_ASSET_URL_TEMPLATE in ScratchEditor.jsx
+  // Keep in sync with SCRATCH_LIBRARY_ASSET_HOST in utils/libraryAssetUrl.js
   const cspScratchLibraryAssetOrigin = "https://editor-assets.raspberrypi.org";
 
   // When present these override cspApiOrigin for CSP API/connect-src origins.
@@ -68,9 +68,7 @@ export default defineConfig(({ mode }) => {
   const resolveFromApp = (request) =>
     require.resolve(request, { paths: [__dirname] });
 
-  const scratchDistDir = path.dirname(
-    resolveFromApp("@RaspberryPiFoundation/scratch-gui"),
-  );
+  const scratchDistDir = path.dirname(resolveFromApp("@scratch/scratch-gui"));
 
   const scratchStaticDir = path.resolve(scratchDistDir, "static");
   const scratchChunkDir = path.resolve(scratchDistDir, "chunks");
@@ -95,6 +93,11 @@ export default defineConfig(({ mode }) => {
       {
         src: `${scratchStaticDir}/**/*`,
         dest: "scratch-gui/static",
+        rename: { stripBase: 5 },
+      },
+      {
+        src: `${scratchChunkDir}/**/*`,
+        dest: "scratch-gui/chunks",
         rename: { stripBase: 5 },
       },
       {

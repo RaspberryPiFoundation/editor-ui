@@ -33,7 +33,7 @@ describe("WrappedScratchGui", () => {
         scratchGui: (state = {}) => state,
       },
       buildInitialState: vi.fn(() => ({ projectState: {} })),
-      legacyConfig: {},
+      legacyConfig: { storage: {} },
       guiMiddleware: undefined,
     };
   });
@@ -68,6 +68,16 @@ describe("WrappedScratchGui", () => {
     expect(window.GUI.initLocale).toHaveBeenCalledWith(
       localesInitialState,
       "es-419",
+    );
+  });
+
+  it("points Scratch's library thumbnails at our own asset host", async () => {
+    await import("./WrappedScratchGui.jsx");
+
+    expect(
+      window.GUI.legacyConfig.storage.getLibraryAssetUrl("abc123", "svg"),
+    ).toBe(
+      "https://editor-assets.raspberrypi.org/internalapi/asset/abc123.svg/get/",
     );
   });
 });
