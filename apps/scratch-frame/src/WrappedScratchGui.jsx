@@ -14,15 +14,24 @@ const ScratchGuiWithIntegration = ScratchIntegrationHOC(ScratchComponent);
 
 scratchGui.legacyConfig.storage.getLibraryAssetUrl = buildLibraryAssetUrl;
 
-export const createScratchStore = (locale) =>
-  createStore(
+export const createScratchStore = (locale) => {
+  const initialState = scratchGui.buildInitialState(scratchGui.legacyConfig);
+
+  return createStore(
     combineReducers(scratchGui.guiReducers),
     {
       locales: scratchGui.initLocale(scratchGui.localesInitialState, locale),
-      scratchGui: scratchGui.buildInitialState(scratchGui.legacyConfig),
+      scratchGui: {
+        ...initialState,
+        settings: {
+          ...initialState.settings,
+          colorMode: "high-contrast",
+        },
+      },
     },
     scratchGui.guiMiddleware,
   );
+};
 
 const WrappedScratchGui = ({ locale, ...componentProps }) => {
   const [store] = useState(() => createScratchStore(locale));
