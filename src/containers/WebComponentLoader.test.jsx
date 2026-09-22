@@ -868,8 +868,12 @@ describe("when the host swaps the identifier attribute", () => {
   test("loads the newly requested project", () => {
     const mockStore = configureStore([]);
     store = mockStore({
-      editor: { ...editorInitialState, project: { components: [] } },
-      auth: { user: null },
+      editor: {
+        ...editorInitialState,
+        loading: "success",
+        project: { identifier: "teacher-original", components: [] },
+      },
+      auth: { user },
       instructions: {},
     });
     cookies = new Cookies();
@@ -877,7 +881,11 @@ describe("when the host swaps the identifier attribute", () => {
     const tree = (projectIdentifier) => (
       <Provider store={store}>
         <CookiesProvider cookies={cookies}>
-          <WebComponentLoader identifier={projectIdentifier} />
+          <WebComponentLoader
+            identifier={projectIdentifier}
+            authKey={authKey}
+            loadRemixDisabled={true}
+          />
         </CookiesProvider>
       </Provider>
     );
@@ -886,7 +894,10 @@ describe("when the host swaps the identifier attribute", () => {
     rerender(tree("student-remix"));
 
     expect(useProject).toHaveBeenLastCalledWith(
-      expect.objectContaining({ projectIdentifier: "student-remix" }),
+      expect.objectContaining({
+        projectIdentifier: "student-remix",
+        loadRemix: false,
+      }),
     );
   });
 });

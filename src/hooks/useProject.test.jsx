@@ -753,3 +753,47 @@ describe("When embedded", () => {
     window.history.pushState({}, "", "/");
   });
 });
+
+describe("When the requested identifier changes", () => {
+  test("loads the newly requested project", async () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({
+      editor: {
+        isBrowserPreview: false,
+        isEmbedded: false,
+        project: {
+          identifier: "teacher-original",
+          project_type: "python",
+          components: [],
+        },
+      },
+    });
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    );
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
+
+    const { rerender } = renderHook(
+      ({ projectIdentifier }) =>
+        useProject({
+          projectIdentifier,
+          accessToken,
+          reactAppApiEndpoint,
+          locale: "en",
+          loadCache: false,
+        }),
+      { wrapper, initialProps: { projectIdentifier: "teacher-original" } },
+    );
+
+    rerender({ projectIdentifier: "student-remix" });
+
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: "student-remix",
+        locale: "en",
+        accessToken,
+        reactAppApiEndpoint,
+      }),
+    );
+  });
+});
