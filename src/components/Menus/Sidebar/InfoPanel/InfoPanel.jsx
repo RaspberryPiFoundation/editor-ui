@@ -110,7 +110,6 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
           <section className="info-panel__licences-modal__section">
             <h2>Scratch Editor</h2>
             <p>Copyright (C) Scratch Foundation</p>
-            <p>Modified 2026 by the Raspberry Pi Foundation</p>
             <p>
               This program is free software: you can redistribute it and/or
               modify it under the terms of the GNU Affero General Public License
@@ -143,17 +142,6 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
                 rel="noreferrer"
               >
                 https://github.com/scratchfoundation/scratch-editor
-              </a>
-              .
-            </p>
-            <p>
-              See modified source code and full licence at{" "}
-              <a
-                href="https://github.com/RaspberryPiFoundation/scratch-editor/tree/code-classroom"
-                target="_blank"
-                rel="noreferrer"
-              >
-                https://github.com/RaspberryPiFoundation/scratch-editor/tree/code-classroom
               </a>
               .
             </p>
