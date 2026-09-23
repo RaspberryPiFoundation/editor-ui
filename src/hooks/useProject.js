@@ -40,6 +40,7 @@ export const useProject = ({
     (state) => state.editor.initialProjectInstructions,
   );
   const loadDispatched = useRef(false);
+  const lastRequestedIdentifier = useRef(null);
 
   const getCachedProject = (id) =>
     shouldSkipCache ? null : JSON.parse(localStorage.getItem(id || "project"));
@@ -61,9 +62,23 @@ export const useProject = ({
 
   useEffect(() => {
     let didUnmount = false;
+    const hostRequestedDifferentProject =
+      lastRequestedIdentifier.current !== projectIdentifier;
+    lastRequestedIdentifier.current = projectIdentifier;
 
     const loadProjectData = async () => {
       if (loadRemix) {
+        return;
+      }
+
+      const scratchRemixedInPlace =
+        !hostRequestedDifferentProject &&
+        project?.project_type === "code_editor_scratch" &&
+        projectIdentifier &&
+        project?.identifier &&
+        project.identifier !== projectIdentifier;
+
+      if (scratchRemixedInPlace) {
         return;
       }
 

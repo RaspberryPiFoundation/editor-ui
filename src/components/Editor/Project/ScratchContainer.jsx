@@ -29,6 +29,21 @@ const SCRATCH_SCROLLBAR_OPTIONS = {
 
 OverlayScrollbars.plugin(ClickScrollPlugin);
 
+const buildScratchIframeSrc = ({
+  projectIdentifier,
+  scratchApiEndpoint,
+  locale,
+}) => {
+  const queryParams = new URLSearchParams();
+  queryParams.set("project_id", projectIdentifier);
+  queryParams.set("api_url", scratchApiEndpoint);
+  queryParams.set("scratchMetadata", "1");
+  queryParams.set("parent_origin", window.location.origin);
+  queryParams.set("locale", locale);
+
+  return `${process.env.REACT_APP_SCRATCH_FRAME_URL}/scratch.html?${queryParams.toString()}`;
+};
+
 export default function ScratchContainer({ locale = "en" }) {
   const dispatch = useDispatch();
   const projectIdentifier = useSelector(
@@ -42,9 +57,6 @@ export default function ScratchContainer({ locale = "en" }) {
   );
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const [initialAccessToken] = useState(accessToken);
-  const iframeProjectIdentifier =
-    scratchIframeProjectIdentifier || projectIdentifier;
-
   const lastScratchTokenStateRef = useRef({
     nonce: null,
     hadAccessToken: false,
@@ -136,14 +148,26 @@ export default function ScratchContainer({ locale = "en" }) {
     };
   }, [accessToken]);
 
-  const queryParams = new URLSearchParams();
-  queryParams.set("project_id", iframeProjectIdentifier);
-  queryParams.set("api_url", scratchApiEndpoint);
-  queryParams.set("scratchMetadata", "1");
-  queryParams.set("parent_origin", window.location.origin);
-  queryParams.set("locale", locale);
+  const srcKey = [
+    scratchIframeProjectIdentifier,
+    scratchApiEndpoint,
+    locale,
+  ].join("|");
+  const currentIframeSrc = () => ({
+    key: srcKey,
+    url: buildScratchIframeSrc({
+      projectIdentifier: projectIdentifier || scratchIframeProjectIdentifier,
+      scratchApiEndpoint,
+      locale,
+    }),
+  });
+  const [iframeSrc, setIframeSrc] = useState(currentIframeSrc);
 
-  const iframeSrcUrl = `${process.env.REACT_APP_SCRATCH_FRAME_URL}/scratch.html?${queryParams.toString()}`;
+  if (iframeSrc.key !== srcKey) {
+    setIframeSrc(currentIframeSrc());
+  }
+
+  const iframeSrcUrl = iframeSrc.url;
 
   return (
     <div className="scratch-container" data-testid="scratch-container">

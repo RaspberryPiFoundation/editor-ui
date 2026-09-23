@@ -753,3 +753,66 @@ describe("When embedded", () => {
     window.history.pushState({}, "", "/");
   });
 });
+
+describe("When a Scratch project has been remixed in place", () => {
+  const renderScratchProject = () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({
+      editor: {
+        isBrowserPreview: false,
+        isEmbedded: false,
+        project: {
+          identifier: "student-remix",
+          project_type: "code_editor_scratch",
+        },
+      },
+    });
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    );
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
+
+    return renderHook(
+      ({ projectIdentifier, locale }) =>
+        useProject({
+          projectIdentifier,
+          locale,
+          accessToken,
+          reactAppApiEndpoint,
+          loadCache: false,
+        }),
+      {
+        wrapper,
+        initialProps: {
+          projectIdentifier: "teacher-original",
+          locale: "en",
+        },
+      },
+    );
+  };
+
+  test("does not reload the original when only the locale changes", async () => {
+    const { rerender } = renderScratchProject();
+    loadProject.mockClear();
+
+    rerender({ projectIdentifier: "teacher-original", locale: "fr-FR" });
+
+    await waitFor(() => expect(loadProject).not.toHaveBeenCalled());
+  });
+
+  test("still loads when the host asks for a different project", async () => {
+    const { rerender } = renderScratchProject();
+    loadProject.mockClear();
+
+    rerender({ projectIdentifier: "another-project", locale: "en" });
+
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: "another-project",
+        locale: "en",
+        accessToken,
+        reactAppApiEndpoint,
+      }),
+    );
+  });
+});
