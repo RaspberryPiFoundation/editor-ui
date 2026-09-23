@@ -863,3 +863,41 @@ describe("when a Scratch remix updates the project identifier", () => {
     });
   });
 });
+
+describe("when the host swaps the identifier attribute", () => {
+  test("loads the newly requested project", () => {
+    const mockStore = configureStore([]);
+    store = mockStore({
+      editor: {
+        ...editorInitialState,
+        loading: "success",
+        project: { identifier: "teacher-original", components: [] },
+      },
+      auth: { user },
+      instructions: {},
+    });
+    cookies = new Cookies();
+
+    const tree = (projectIdentifier) => (
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader
+            identifier={projectIdentifier}
+            authKey={authKey}
+            loadRemixDisabled={true}
+          />
+        </CookiesProvider>
+      </Provider>
+    );
+
+    const { rerender } = render(tree("teacher-original"));
+    rerender(tree("student-remix"));
+
+    expect(useProject).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        projectIdentifier: "student-remix",
+        loadRemix: false,
+      }),
+    );
+  });
+});
