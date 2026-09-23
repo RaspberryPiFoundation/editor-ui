@@ -17,9 +17,6 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,9 +37,6 @@ jobs:
         with:
           node-version-file: .tool-versions
           cache: "yarn"
-          registry-url: "https://npm.pkg.github.com"
-          # Defaults to the user or organization that owns the workflow file
-          scope: "@RaspberryPiFoundation"
 
       - name: Install code
         run: yarn install --immutable
@@ -56,9 +50,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -68,9 +59,6 @@ jobs:
         with:
           node-version-file: .tool-versions
           cache: "yarn"
-          registry-url: "https://npm.pkg.github.com"
-          # Defaults to the user or organization that owns the workflow file
-          scope: "@RaspberryPiFoundation"
 
       - name: Install code
         run: yarn install --immutable
@@ -86,8 +74,6 @@ jobs:
   test-cypress:
     runs-on: ubuntu-latest
     env:
-      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
       PUBLIC_URL: "http://localhost:3011"
       ASSETS_URL: "http://localhost:3011"
@@ -103,9 +89,6 @@ jobs:
         with:
           node-version-file: .tool-versions
           cache: "yarn"
-          registry-url: "https://npm.pkg.github.com"
-          # Defaults to the user or organization that owns the workflow file
-          scope: "@RaspberryPiFoundation"
 
       - name: Install code
         run: yarn install --immutable

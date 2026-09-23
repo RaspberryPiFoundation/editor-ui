@@ -121,6 +121,10 @@ const WebComponentLoader = (props) => {
   }, [theme, setCookie, dispatch]);
 
   useEffect(() => {
+    setProjectIdentifier(identifier);
+  }, [identifier]);
+
+  useEffect(() => {
     if (
       loading === "idle" &&
       project.project_type !== "code_editor_scratch" &&
