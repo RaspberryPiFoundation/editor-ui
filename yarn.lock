@@ -2503,7 +2503,7 @@ __metadata:
     classnames: "npm:^2.3.2"
     codemirror: "npm:^6.0.2"
     cypress: "npm:15.21.1"
-    cypress-real-events: "npm:^1.15.0"
+    cypress-real-events: "npm:^1.15.1"
     date-fns: "npm:^4.4.0"
     dompurify: "npm:^3.4.6"
     dotenv: "npm:8.2.0"
@@ -6569,12 +6569,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress-real-events@npm:^1.15.0":
-  version: 1.15.0
-  resolution: "cypress-real-events@npm:1.15.0"
+"cypress-real-events@npm:^1.15.1":
+  version: 1.15.1
+  resolution: "cypress-real-events@npm:1.15.1"
   peerDependencies:
-    cypress: ^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x || ^11.x || ^12.x || ^13.x || ^14.x || ^15.x
-  checksum: 10/a722b69c7b35fce34de6c7a1439c96d08651bfba976878bc7110d1927a89220f9ea23912970f3f7bd47a96fa2022bdf9ea1156fc1f7b09a1d2d7426fc004bf75
+    cypress: ^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x || ^11.x || ^12.x || ^13.x || ^14.x || ^15.x || ^16.x
+  checksum: 10/8b7a6351fb04642c0cde07da45bd564cfcaf08ffa67a020b8986f24272bdd622413083c3b96b631d3fa79ed04a86d81cd4eb2bd098640ebf0766acebb0df6b50
   languageName: node
   linkType: hard
 
