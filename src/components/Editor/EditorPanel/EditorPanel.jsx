@@ -24,8 +24,10 @@ import { Alert } from "@raspberrypifoundation/design-system-react";
 import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
+import { tabExitIndicator } from "./tabExitIndicator";
 
 const MAX_CHARACTERS = 8500000;
+const TAB_EXIT_INSTRUCTION_ID = "editor-tab-exit-instruction";
 
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
@@ -38,8 +40,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const [characterLimitExceeded, setCharacterLimitExceeded] = useState(false);
-  const [tabExitReady, setTabExitReady] = useState(false);
-  const tabExitTimer = useRef();
 
   const updateStoredProject = (content) => {
     dispatch(
@@ -56,6 +56,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     "aria-label": t("editorPanel.ariaLabel", {
       fileName: `${fileName}.${extension}`,
     }),
+    "aria-describedby": TAB_EXIT_INSTRUCTION_ID,
   });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if (viewUpdate.docChanged) {
@@ -110,37 +111,12 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       return transaction;
     });
 
-    const tabExitEvents = EditorView.domEventHandlers({
-      blur: () => {
-        window.clearTimeout(tabExitTimer.current);
-        setTabExitReady(false);
-        return false;
-      },
-      keydown: (event) => {
-        if (event.key === "Escape") {
-          window.clearTimeout(tabExitTimer.current);
-          setTabExitReady(true);
-          tabExitTimer.current = window.setTimeout(
-            () => setTabExitReady(false),
-            2000,
-          );
-        } else if (
-          !["Tab", "Shift", "Control", "Alt", "Meta"].includes(event.key)
-        ) {
-          window.clearTimeout(tabExitTimer.current);
-          setTabExitReady(false);
-        }
-
-        return false;
-      },
-    });
-
     const startState = EditorState.create({
       doc: code,
       extensions: [
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
-        tabExitEvents,
+        tabExitIndicator,
         mode,
         label,
         onUpdate,
@@ -168,7 +144,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     }
 
     return () => {
-      window.clearTimeout(tabExitTimer.current);
       view.destroy();
     };
   }, [cookies]);
@@ -191,11 +166,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   }, [file, cascadeUpdate, editorViewRef]);
 
   return (
-    <div
-      className={`editor-wrapper${
-        tabExitReady ? " editor-wrapper--tab-exit-ready" : ""
-      }`}
-    >
+    <div className="editor-wrapper">
+      <span id={TAB_EXIT_INSTRUCTION_ID} className="rpf-visually-hidden">
+        {t("editorPanel.tabExitInstruction")}
+      </span>
       <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
       {characterLimitExceeded && (
         <Alert

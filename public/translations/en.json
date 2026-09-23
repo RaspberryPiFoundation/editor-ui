@@ -10,7 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "{{fileName}} editor. Press Escape, then Tab to exit.",
+    "ariaLabel": "{{fileName}} editor",
+    "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Error: Character limit reached",
     "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
     "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters",

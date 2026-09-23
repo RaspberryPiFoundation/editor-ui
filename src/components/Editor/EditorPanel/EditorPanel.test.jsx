@@ -26,6 +26,27 @@ const renderEditorPanel = ({ readOnly }) => {
   );
 };
 
+describe("Editor accessibility", () => {
+  beforeEach(() => {
+    renderEditorPanel({ readOnly: false });
+  });
+
+  test("Editor is exposed as a labelled textbox", () => {
+    expect(
+      screen.getByRole("textbox", { name: "editorPanel.ariaLabel" }),
+    ).toBeInTheDocument();
+  });
+
+  test("Editor describes how to leave with the keyboard", () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    const instructionId = editorInputArea.getAttribute("aria-describedby");
+
+    expect(document.getElementById(instructionId)).toHaveTextContent(
+      "editorPanel.tabExitInstruction",
+    );
+  });
+});
+
 describe("When font size is set", () => {
   let editor;
 
@@ -77,20 +98,33 @@ describe("When not read only", () => {
     expect(editorInputArea).toHaveAttribute("contenteditable", "true");
   });
 
-  test("Editor is exposed as a labelled textbox", () => {
-    expect(
-      screen.getByRole("textbox", { name: "editorPanel.ariaLabel" }),
-    ).toBeInTheDocument();
-  });
-
   test("Pressing Escape shows the tab exit state", () => {
     const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    const codeMirror = editorInputArea.closest(".cm-editor");
 
     fireEvent.keyDown(editorInputArea, { key: "Escape", keyCode: 27 });
 
-    expect(editorInputArea.closest(".editor-wrapper")).toHaveClass(
-      "editor-wrapper--tab-exit-ready",
-    );
+    expect(codeMirror).toHaveClass("cm-tab-exit-ready");
+  });
+
+  test("Typing clears the tab exit state", () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    const codeMirror = editorInputArea.closest(".cm-editor");
+
+    fireEvent.keyDown(editorInputArea, { key: "Escape", keyCode: 27 });
+    fireEvent.keyDown(editorInputArea, { key: "a", keyCode: 65 });
+
+    expect(codeMirror).not.toHaveClass("cm-tab-exit-ready");
+  });
+
+  test("Pressing a modifier keeps the tab exit state", () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+    const codeMirror = editorInputArea.closest(".cm-editor");
+
+    fireEvent.keyDown(editorInputArea, { key: "Escape", keyCode: 27 });
+    fireEvent.keyDown(editorInputArea, { key: "Shift", keyCode: 16 });
+
+    expect(codeMirror).toHaveClass("cm-tab-exit-ready");
   });
 });
 
