@@ -2538,7 +2538,7 @@ __metadata:
     plotly.js: "npm:^3.3.1"
     postcss: "npm:^8.5.10"
     prettier: "npm:^3.8.1"
-    prismjs: "npm:^1.29.0"
+    prismjs: "npm:^1.30.0"
     prop-types: "npm:^15.8.1"
     re-resizable: "npm:6.11.2"
     react: "npm:^19.2.7"
@@ -13623,13 +13623,6 @@ __metadata:
     ansi-styles: "npm:^5.0.0"
     react-is: "npm:^18.0.0"
   checksum: 10/dea96bc83c83cd91b2bfc55757b6b2747edcaac45b568e46de29deee80742f17bc76fe8898135a70d904f4928eafd8bb693cd1da4896e8bdd3c5e82cadf1d2bb
-  languageName: node
-  linkType: hard
-
-"prismjs@npm:^1.29.0":
-  version: 1.29.0
-  resolution: "prismjs@npm:1.29.0"
-  checksum: 10/2080db382c2dde0cfc7693769e89b501ef1bfc8ff4f8d25c07fd4c37ca31bc443f6133d5b7c145a73309dc396e829ddb7cc18560026d862a887ae08864ef6b07
   languageName: node
   linkType: hard
 
