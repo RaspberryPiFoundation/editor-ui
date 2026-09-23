@@ -17,10 +17,8 @@
     }
   }
 
-  @media (prefers-contrast: more) {
-    code[class*="block3"] {
-      color: var(--rpf-black);
-    }
+  code[class*="block3"] {
+    color: var(--rpf-black);
   }
 
   &__content {
