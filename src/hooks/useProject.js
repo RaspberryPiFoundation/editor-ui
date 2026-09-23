@@ -62,14 +62,15 @@ export const useProject = ({
 
   useEffect(() => {
     let didUnmount = false;
-    const hostRequestedDifferentProject =
-      lastRequestedIdentifier.current !== projectIdentifier;
-    lastRequestedIdentifier.current = projectIdentifier;
 
     const loadProjectData = async () => {
       if (loadRemix) {
         return;
       }
+
+      const hostRequestedDifferentProject =
+        lastRequestedIdentifier.current !== projectIdentifier;
+      lastRequestedIdentifier.current = projectIdentifier;
 
       const scratchRemixedInPlace =
         !hostRequestedDifferentProject &&

@@ -800,6 +800,50 @@ describe("When a Scratch project has been remixed in place", () => {
     await waitFor(() => expect(loadProject).not.toHaveBeenCalled());
   });
 
+  test("still loads the requested project after a failed remix load", async () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({
+      editor: {
+        isBrowserPreview: false,
+        isEmbedded: false,
+        project: {
+          identifier: "student-remix",
+          project_type: "code_editor_scratch",
+        },
+      },
+    });
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    );
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
+
+    const { rerender } = renderHook(
+      ({ loadRemix }) =>
+        useProject({
+          projectIdentifier: "another-project",
+          locale: "en",
+          accessToken,
+          reactAppApiEndpoint,
+          loadCache: false,
+          loadRemix,
+          remixLoadFailed: !loadRemix,
+        }),
+      { wrapper, initialProps: { loadRemix: true } },
+    );
+    loadProject.mockClear();
+
+    rerender({ loadRemix: false });
+
+    await waitFor(() =>
+      expect(loadProject).toHaveBeenCalledWith({
+        identifier: "another-project",
+        locale: "en",
+        accessToken,
+        reactAppApiEndpoint,
+      }),
+    );
+  });
+
   test("still loads when the host asks for a different project", async () => {
     const { rerender } = renderScratchProject();
     loadProject.mockClear();
