@@ -2505,7 +2505,7 @@ __metadata:
     cypress: "npm:15.21.1"
     cypress-real-events: "npm:^1.15.0"
     date-fns: "npm:^4.4.0"
-    dompurify: "npm:^3.4.6"
+    dompurify: "npm:^3.4.15"
     dotenv: "npm:8.2.0"
     dotenv-expand: "npm:5.1.0"
     eslint: "npm:^7.11.0"
@@ -7243,15 +7243,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.4.6":
-  version: 3.4.6
-  resolution: "dompurify@npm:3.4.6"
+"dompurify@npm:^3.4.15":
+  version: 3.4.15
+  resolution: "dompurify@npm:3.4.15"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/950bfadc9ad6ee5706ccdfde09313c9c8f6a299206f77ccb621b1355947443753163031770cbb46236f1b6910e57e6710c34970b13c8a9e0fd7c93fac77c4815
+  checksum: 10/159f592307578405c5217ba40ab467d4ac35f23eb20abc7f32b85698b8c1aff92f71b00c80779f891a8e463edafab05d9a4db53052d5c67005240ac4fff7fc72
   languageName: node
   linkType: hard
 
