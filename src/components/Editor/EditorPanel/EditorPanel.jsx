@@ -38,6 +38,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
   const [characterLimitExceeded, setCharacterLimitExceeded] = useState(false);
+  const [tabExitReady, setTabExitReady] = useState(false);
+  const tabExitTimer = useRef();
 
   const updateStoredProject = (content) => {
     dispatch(
@@ -51,7 +53,9 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   };
 
   const label = EditorView.contentAttributes.of({
-    "aria-label": t("editorPanel.ariaLabel"),
+    "aria-label": t("editorPanel.ariaLabel", {
+      fileName: `${fileName}.${extension}`,
+    }),
   });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if (viewUpdate.docChanged) {
@@ -106,11 +110,37 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       return transaction;
     });
 
+    const tabExitEvents = EditorView.domEventHandlers({
+      blur: () => {
+        window.clearTimeout(tabExitTimer.current);
+        setTabExitReady(false);
+        return false;
+      },
+      keydown: (event) => {
+        if (event.key === "Escape") {
+          window.clearTimeout(tabExitTimer.current);
+          setTabExitReady(true);
+          tabExitTimer.current = window.setTimeout(
+            () => setTabExitReady(false),
+            2000,
+          );
+        } else if (
+          !["Tab", "Shift", "Control", "Alt", "Meta"].includes(event.key)
+        ) {
+          window.clearTimeout(tabExitTimer.current);
+          setTabExitReady(false);
+        }
+
+        return false;
+      },
+    });
+
     const startState = EditorState.create({
       doc: code,
       extensions: [
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
+        tabExitEvents,
         mode,
         label,
         onUpdate,
@@ -130,9 +160,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
 
     editorViewRef.current = view;
 
-    // 'aria-hidden' to fix keyboard access accessibility error
-    view.scrollDOM.setAttribute("aria-hidden", "true");
-
     // Add alt text to hidden images to fix accessibility error
     const hiddenImages =
       view.contentDOM.getElementsByClassName("cm-widgetBuffer");
@@ -141,6 +168,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     }
 
     return () => {
+      window.clearTimeout(tabExitTimer.current);
       view.destroy();
     };
   }, [cookies]);
@@ -163,7 +191,11 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   }, [file, cascadeUpdate, editorViewRef]);
 
   return (
-    <div className="editor-wrapper">
+    <div
+      className={`editor-wrapper${
+        tabExitReady ? " editor-wrapper--tab-exit-ready" : ""
+      }`}
+    >
       <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
       {characterLimitExceeded && (
         <Alert

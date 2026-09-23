@@ -76,6 +76,22 @@ describe("When not read only", () => {
     const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
     expect(editorInputArea).toHaveAttribute("contenteditable", "true");
   });
+
+  test("Editor is exposed as a labelled textbox", () => {
+    expect(
+      screen.getByRole("textbox", { name: "editorPanel.ariaLabel" }),
+    ).toBeInTheDocument();
+  });
+
+  test("Pressing Escape shows the tab exit state", () => {
+    const editorInputArea = screen.getByLabelText("editorPanel.ariaLabel");
+
+    fireEvent.keyDown(editorInputArea, { key: "Escape", keyCode: 27 });
+
+    expect(editorInputArea.closest(".editor-wrapper")).toHaveClass(
+      "editor-wrapper--tab-exit-ready",
+    );
+  });
 });
 
 describe("When read only", () => {

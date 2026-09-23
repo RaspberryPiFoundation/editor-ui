@@ -2,6 +2,20 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
 
+.react-tabs__tab-panel--selected:has(.editor-wrapper--tab-exit-ready) {
+  position: relative;
+  min-block-size: 0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 5;
+    inset: 4px;
+    outline: 4px solid var(--rpf-raspberry-800);
+    pointer-events: none;
+  }
+}
+
 .editor-wrapper {
   // Needed here for vertical scroll
   overflow: auto;
