@@ -10,7 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "поле для введення тексту",
+    "ariaLabel": "{{fileName}} editor",
+    "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Помилка: досягнуто ліміту символів",
     "viewOnly": "Лише перегляд",
     "close": "закрити",
