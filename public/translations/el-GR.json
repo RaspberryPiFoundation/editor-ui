@@ -10,7 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "πεδίο εισαγωγής κειμένου στον επεξεργαστή",
+    "ariaLabel": "{{fileName}} editor",
+    "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Σφάλμα: Έχεις συμπληρώσει το όριο χαρακτήρων",
     "viewOnly": "Μόνο προβολή",
     "close": "κλείσιμο",
