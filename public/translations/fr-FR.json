@@ -10,7 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "saisie de texte dans le Code Editor",
+    "ariaLabel": "{{fileName}} editor",
+    "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Erreur : limite de caractères atteinte",
     "viewOnly": "Voir seulement",
     "close": "fermer ",
