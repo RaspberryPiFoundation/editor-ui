@@ -308,8 +308,10 @@
   },
   "sidebar": {
     "collapse": "Collapse sidebar",
+    "collapseInstructions": "Collapse project instructions",
     "download": "Download project",
     "expand": "Expand sidebar",
+    "expandInstructions": "Open project instructions",
     "file": "Project files",
     "images": "Image gallery",
     "settings": "Settings",
