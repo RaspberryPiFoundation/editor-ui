@@ -10,7 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "editor text input",
+    "ariaLabel": "{{fileName}} editor",
+    "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Error: Character limit reached",
     "viewOnly": "View only",
     "close": "close",
