@@ -24,8 +24,10 @@ import { Alert } from "@raspberrypifoundation/design-system-react";
 import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
+import { tabExitIndicator } from "./tabExitIndicator";
 
 const MAX_CHARACTERS = 8500000;
+const TAB_EXIT_INSTRUCTION_ID = "editor-tab-exit-instruction";
 
 const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const editor = useRef();
@@ -51,7 +53,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   };
 
   const label = EditorView.contentAttributes.of({
-    "aria-label": t("editorPanel.ariaLabel"),
+    "aria-label": t("editorPanel.ariaLabel", {
+      fileName: `${fileName}.${extension}`,
+    }),
+    "aria-describedby": TAB_EXIT_INSTRUCTION_ID,
   });
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if (viewUpdate.docChanged) {
@@ -111,6 +116,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       extensions: [
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
+        tabExitIndicator,
         mode,
         label,
         onUpdate,
@@ -129,9 +135,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     });
 
     editorViewRef.current = view;
-
-    // 'aria-hidden' to fix keyboard access accessibility error
-    view.scrollDOM.setAttribute("aria-hidden", "true");
 
     // Add alt text to hidden images to fix accessibility error
     const hiddenImages =
@@ -164,6 +167,9 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
 
   return (
     <div className="editor-wrapper">
+      <span id={TAB_EXIT_INSTRUCTION_ID} className="rpf-visually-hidden">
+        {t("editorPanel.tabExitInstruction")}
+      </span>
       <div className={`editor editor--${settings.fontSize}`} ref={editor}></div>
       {characterLimitExceeded && (
         <Alert

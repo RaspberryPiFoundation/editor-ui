@@ -19,8 +19,13 @@
     flex: 1;
     overflow: hidden;
 
-    &:focus {
-      outline: none;
+    &.cm-tab-exit-ready::after {
+      content: "";
+      position: absolute;
+      z-index: 201;
+      inset: 4px;
+      outline: 4px solid var(--rpf-input-outline-color);
+      pointer-events: none;
     }
 
     .cm-scroller {
