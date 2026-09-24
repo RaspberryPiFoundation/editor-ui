@@ -10,7 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "tekstinvoer in de editor",
+    "ariaLabel": "{{fileName}} editor",
+    "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Fout: Tekenlimiet bereikt",
     "viewOnly": "Alleen bekijken",
     "close": "afsluiten",
