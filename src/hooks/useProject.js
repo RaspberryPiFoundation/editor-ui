@@ -68,6 +68,8 @@ export const useProject = ({
         return;
       }
 
+      // Scratch remixes inside the iframe, so projectIdentifier still points
+      // at the original while the project we are on is the student's remix.
       const hostRequestedDifferentProject =
         lastRequestedIdentifier.current !== projectIdentifier;
       lastRequestedIdentifier.current = projectIdentifier;
@@ -78,10 +80,9 @@ export const useProject = ({
         projectIdentifier &&
         project?.identifier &&
         project.identifier !== projectIdentifier;
-
-      if (scratchRemixedInPlace) {
-        return;
-      }
+      const identifierToLoad = scratchRemixedInPlace
+        ? project.identifier
+        : projectIdentifier;
 
       const isCachedSavedProject =
         projectIdentifier &&
@@ -139,7 +140,7 @@ export const useProject = ({
         dispatch(
           syncProject("load")({
             reactAppApiEndpoint,
-            identifier: projectIdentifier,
+            identifier: identifierToLoad,
             locale: effectiveLocale,
             accessToken: accessToken,
           }),

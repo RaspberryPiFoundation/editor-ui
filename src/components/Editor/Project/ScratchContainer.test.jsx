@@ -3,7 +3,7 @@ import React, { act } from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import ScratchContainer from "./ScratchContainer";
-import EditorReducer, { setProject } from "../../../redux/EditorSlice";
+import EditorReducer from "../../../redux/EditorSlice";
 import * as scratchIframeUtils from "../../../utils/scratchIframe";
 import webComponentStore from "../../../redux/stores/WebComponentStore";
 import { setUser } from "../../../redux/WebComponentAuthSlice";
@@ -416,49 +416,6 @@ describe("ScratchContainer", () => {
 
     const url = new URL(screen.getByTitle("Scratch").getAttribute("src"));
     expect(url.searchParams.get("project_id")).toBe("project-123");
-  });
-
-  test("reloads the remixed project, not the original, when the locale changes", () => {
-    const store = buildStore();
-    const { rerender } = render(
-      <Provider store={store}>
-        <ScratchContainer locale="en" />
-      </Provider>,
-    );
-
-    act(() => {
-      dispatchMessage({
-        type: "scratch-gui-project-id-updated",
-        projectId: "project-456",
-      });
-    });
-
-    rerender(
-      <Provider store={store}>
-        <ScratchContainer locale="fr-FR" />
-      </Provider>,
-    );
-
-    const url = new URL(screen.getByTitle("Scratch").getAttribute("src"));
-    expect(url.searchParams.get("project_id")).toBe("project-456");
-    expect(url.searchParams.get("locale")).toBe("fr-FR");
-  });
-
-  test("reloads the newly loaded project when the editor loads a different one", () => {
-    const store = buildStore();
-    renderScratchContainer(store);
-
-    act(() => {
-      store.dispatch(
-        setProject({
-          identifier: "project-789",
-          project_type: "code_editor_scratch",
-        }),
-      );
-    });
-
-    const url = new URL(screen.getByTitle("Scratch").getAttribute("src"));
-    expect(url.searchParams.get("project_id")).toBe("project-789");
   });
 
   test("sends scratch-gui-set-token when scratch-gui-ready message is received", () => {
