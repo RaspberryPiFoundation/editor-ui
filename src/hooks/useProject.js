@@ -40,6 +40,7 @@ export const useProject = ({
     (state) => state.editor.initialProjectInstructions,
   );
   const loadDispatched = useRef(false);
+  const lastRequestedIdentifier = useRef(null);
 
   const getCachedProject = (id) =>
     shouldSkipCache ? null : JSON.parse(localStorage.getItem(id || "project"));
@@ -66,6 +67,22 @@ export const useProject = ({
       if (loadRemix) {
         return;
       }
+
+      // Scratch remixes inside the iframe, so projectIdentifier still points
+      // at the original while the project we are on is the student's remix.
+      const hostRequestedDifferentProject =
+        lastRequestedIdentifier.current !== projectIdentifier;
+      lastRequestedIdentifier.current = projectIdentifier;
+
+      const scratchRemixedInPlace =
+        !hostRequestedDifferentProject &&
+        project?.project_type === "code_editor_scratch" &&
+        projectIdentifier &&
+        project?.identifier &&
+        project.identifier !== projectIdentifier;
+      const identifierToLoad = scratchRemixedInPlace
+        ? project.identifier
+        : projectIdentifier;
 
       const isCachedSavedProject =
         projectIdentifier &&
@@ -123,7 +140,7 @@ export const useProject = ({
         dispatch(
           syncProject("load")({
             reactAppApiEndpoint,
-            identifier: projectIdentifier,
+            identifier: identifierToLoad,
             locale: effectiveLocale,
             accessToken: accessToken,
           }),
