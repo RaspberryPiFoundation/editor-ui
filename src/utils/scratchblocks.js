@@ -70,7 +70,7 @@ const localeMap = {
 export const scratchblocksInit = (currentLocale, container = document) => {
   const selectors = {
     ".language-blocks": "scratch2",
-    ".language-blocks3": "scratch3",
+    ".language-blocks3": "scratch3-high-contrast",
   };
 
   if (!languagesLoaded) {
@@ -134,7 +134,9 @@ const renderScratchblock = (block, currentLocale, style) => {
     return;
   }
 
-  if (style === "scratch3") {
+  svg.classList.add(`scratchblocks-style-${style}`);
+
+  if (style.startsWith("scratch3")) {
     svg.style.transform = "scale(1)";
     svg.style.transformOrigin = "0 0";
   }

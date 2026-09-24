@@ -2479,7 +2479,7 @@ __metadata:
     "@juggle/resize-observer": "npm:^3.3.1"
     "@raspberrypifoundation/design-system-react": "npm:^2.10.4"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
-    "@raspberrypifoundation/rpf-markdown-core": "npm:^0.1.4"
+    "@raspberrypifoundation/rpf-markdown-core": "npm:^0.2.0"
     "@react-three/drei": "npm:^10.0.0"
     "@react-three/fiber": "npm:^9.6.1"
     "@react-three/test-renderer": "npm:^9.0.0"
@@ -2503,9 +2503,9 @@ __metadata:
     classnames: "npm:^2.3.2"
     codemirror: "npm:^6.0.2"
     cypress: "npm:15.21.1"
-    cypress-real-events: "npm:^1.15.0"
+    cypress-real-events: "npm:^1.15.1"
     date-fns: "npm:^4.4.0"
-    dompurify: "npm:^3.4.6"
+    dompurify: "npm:^3.4.15"
     dotenv: "npm:8.2.0"
     dotenv-expand: "npm:5.1.0"
     eslint: "npm:^7.11.0"
@@ -2538,11 +2538,10 @@ __metadata:
     plotly.js: "npm:^3.3.1"
     postcss: "npm:^8.5.10"
     prettier: "npm:^3.8.1"
-    prismjs: "npm:^1.29.0"
+    prismjs: "npm:^1.30.0"
     prop-types: "npm:^15.8.1"
     re-resizable: "npm:6.11.2"
     react: "npm:^19.2.7"
-    react-app-polyfill: "npm:^2.0.0"
     react-confirm-alert: "npm:^2.8.0"
     react-cookie: "npm:^4.1.1"
     react-dom: "npm:^19.2.7"
@@ -2583,16 +2582,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/rpf-markdown-core@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@raspberrypifoundation/rpf-markdown-core@npm:0.1.4"
+"@raspberrypifoundation/rpf-markdown-core@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@raspberrypifoundation/rpf-markdown-core@npm:0.2.0"
   dependencies:
     happy-dom: "npm:^20.9.0"
     marked: "npm:^17.0.5"
     marked-gfm-heading-id: "npm:^4.1.4"
     prismjs: "npm:^1.30.0"
     scratchblocks: "npm:^3.6.4"
-  checksum: 10/b43e91495ae756c4ebfb6e4936ad77fe4f02d3c6bbc6f376c7dfa16eab6b3ef1901842aab98cdf1ebc488e8e3d4591c4227e3186a13c85016fcb7855781e0344
+  checksum: 10/abc8b16b91b8f0745063dad951e26bc2922679dddfe2ffe0a622882047bdd5943456175b24e9dfaec4e640230c918dd9aecfabb47b30adaad09030a0976d4fd4
   languageName: node
   linkType: hard
 
@@ -4755,13 +4754,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asap@npm:~2.0.6":
-  version: 2.0.6
-  resolution: "asap@npm:2.0.6"
-  checksum: 10/b244c0458c571945e4b3be0b14eb001bea5596f9868cc50cc711dc03d58a7e953517d3f0dad81ccde3ff37d1f074701fa76a6f07d41aaa992d7204a37b915dda
-  languageName: node
-  linkType: hard
-
 "asn1.js@npm:^4.10.1":
   version: 4.10.1
   resolution: "asn1.js@npm:4.10.1"
@@ -6136,7 +6128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.6.5, core-js@npm:^3.8.3":
+"core-js@npm:^3.8.3":
   version: 3.38.1
   resolution: "core-js@npm:3.38.1"
   checksum: 10/3c25fdf0b2595ed37ceb305213a61e2cf26185f628455e99d1c736dda5f69e2de4de7126e6a1da136f54260c4fcc982c4215e37b5a618790a597930f854c0a37
@@ -6577,12 +6569,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress-real-events@npm:^1.15.0":
-  version: 1.15.0
-  resolution: "cypress-real-events@npm:1.15.0"
+"cypress-real-events@npm:^1.15.1":
+  version: 1.15.1
+  resolution: "cypress-real-events@npm:1.15.1"
   peerDependencies:
-    cypress: ^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x || ^11.x || ^12.x || ^13.x || ^14.x || ^15.x
-  checksum: 10/a722b69c7b35fce34de6c7a1439c96d08651bfba976878bc7110d1927a89220f9ea23912970f3f7bd47a96fa2022bdf9ea1156fc1f7b09a1d2d7426fc004bf75
+    cypress: ^4.x || ^5.x || ^6.x || ^7.x || ^8.x || ^9.x || ^10.x || ^11.x || ^12.x || ^13.x || ^14.x || ^15.x || ^16.x
+  checksum: 10/8b7a6351fb04642c0cde07da45bd564cfcaf08ffa67a020b8986f24272bdd622413083c3b96b631d3fa79ed04a86d81cd4eb2bd098640ebf0766acebb0df6b50
   languageName: node
   linkType: hard
 
@@ -7251,15 +7243,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.4.6":
-  version: 3.4.6
-  resolution: "dompurify@npm:3.4.6"
+"dompurify@npm:^3.4.15":
+  version: 3.4.15
+  resolution: "dompurify@npm:3.4.15"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/950bfadc9ad6ee5706ccdfde09313c9c8f6a299206f77ccb621b1355947443753163031770cbb46236f1b6910e57e6710c34970b13c8a9e0fd7c93fac77c4815
+  checksum: 10/159f592307578405c5217ba40ab467d4ac35f23eb20abc7f32b85698b8c1aff92f71b00c80779f891a8e463edafab05d9a4db53052d5c67005240ac4fff7fc72
   languageName: node
   linkType: hard
 
@@ -13634,13 +13626,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prismjs@npm:^1.29.0":
-  version: 1.29.0
-  resolution: "prismjs@npm:1.29.0"
-  checksum: 10/2080db382c2dde0cfc7693769e89b501ef1bfc8ff4f8d25c07fd4c37ca31bc443f6133d5b7c145a73309dc396e829ddb7cc18560026d862a887ae08864ef6b07
-  languageName: node
-  linkType: hard
-
 "prismjs@npm:^1.30.0":
   version: 1.30.0
   resolution: "prismjs@npm:1.30.0"
@@ -13711,15 +13696,6 @@ __metadata:
     is-promise: "npm:^2.1.0"
     lie: "npm:^3.0.2"
   checksum: 10/a54414fb3d17c9c2c3e120052f86b308787b10716f47ee2ff91f7e1a864b25320a740c9a9df32e9fe331510dbf83a782b7bb8499ba60fed13f84f5ce2e8dfe91
-  languageName: node
-  linkType: hard
-
-"promise@npm:^8.1.0":
-  version: 8.3.0
-  resolution: "promise@npm:8.3.0"
-  dependencies:
-    asap: "npm:~2.0.6"
-  checksum: 10/55e9d0d723c66810966bc055c6c77a3658c0af7e4a8cc88ea47aeaf2949ca0bd1de327d9c631df61236f5406ad478384fa19a77afb3f88c0303eba9e5eb0a8d8
   languageName: node
   linkType: hard
 
@@ -13948,20 +13924,6 @@ __metadata:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
   checksum: 10/3b814c61b77af294862bd36382b6f2e7f9a90a86f3696fd93780d39d2534c1fcbab68f63b088fc1e1935b1b9dba6c1ab8f61f4f4e6e5d16e86e5805bae40cfb6
-  languageName: node
-  linkType: hard
-
-"react-app-polyfill@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "react-app-polyfill@npm:2.0.0"
-  dependencies:
-    core-js: "npm:^3.6.5"
-    object-assign: "npm:^4.1.1"
-    promise: "npm:^8.1.0"
-    raf: "npm:^3.4.1"
-    regenerator-runtime: "npm:^0.13.7"
-    whatwg-fetch: "npm:^3.4.1"
-  checksum: 10/667920bcfc0351ea9ae52e7365dad0a795727059f5484263c746c31597e6cfcf90f9f99e62781720e8efc8cbfdef3dc84bfa8a742d0cde344d114b1ae56a45fb
   languageName: node
   linkType: hard
 
@@ -14546,7 +14508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.5, regenerator-runtime@npm:^0.13.7":
+"regenerator-runtime@npm:^0.13.5":
   version: 0.13.11
   resolution: "regenerator-runtime@npm:0.13.11"
   checksum: 10/d493e9e118abef5b099c78170834f18540c4933cedf9bfabc32d3af94abfb59a7907bd7950259cbab0a929ebca7db77301e8024e5121e6482a82f78283dfd20c
@@ -17792,13 +17754,6 @@ __metadata:
   dependencies:
     iconv-lite: "npm:0.6.3"
   checksum: 10/bbef815eb67f91487c7f2ef96329743f5fd8357d7d62b1119237d25d41c7e452dff8197235b2d3c031365a17f61d3bb73ca49d0ed1582475aa4a670815e79534
-  languageName: node
-  linkType: hard
-
-"whatwg-fetch@npm:^3.4.1":
-  version: 3.6.20
-  resolution: "whatwg-fetch@npm:3.6.20"
-  checksum: 10/2b4ed92acd6a7ad4f626a6cb18b14ec982bbcaf1093e6fe903b131a9c6decd14d7f9c9ca3532663c2759d1bdf01d004c77a0adfb2716a5105465c20755a8c57c
   languageName: node
   linkType: hard
 
