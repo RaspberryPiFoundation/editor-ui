@@ -1,8 +1,8 @@
 {
   "modal": {
-    "close": "Close",
+    "close": "Dún",
     "error": {
-      "error": "Error",
+      "error": "Earráid",
       "heading": "An error has occurred",
       "externalLink": {
         "message": "Unfortunately links to external sites are not available in the Editor."
@@ -14,7 +14,7 @@
     "tabExitInstruction": "Press Escape, then Tab to exit.",
     "characterLimitError": "Error: Character limit reached",
     "viewOnly": "View only",
-    "close": "close",
+    "close": "dún",
     "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
     "characterLimitExplanation_two": "Files in the editor are limited to {{count}} characters",
     "characterLimitExplanation_few": "Files in the editor are limited to {{count}} characters",
@@ -25,9 +25,9 @@
     "errors": {
       "reservedFileName": "{{fileName}} is a reserved file name. Please choose a different name.",
       "containsSpaces": "File names must not contain spaces.",
-      "generalError": "Error",
+      "generalError": "Earráid",
       "notUnique": "File names must be unique.",
-      "or": "or",
+      "or": "nó",
       "unsupportedExtension": "File names must end in {{allowedExtensions}}.",
       "emptyFileName": "File name cannot be empty."
     },
@@ -35,7 +35,7 @@
     "images": "Image gallery",
     "newFileButton": "Add file",
     "newFileModal": {
-      "cancel": "Cancel",
+      "cancel": "Cealaigh",
       "heading": "Add a new file to your project",
       "helpText": "Remember to add the file extension at the end of your file name, for example, {{examples}}",
       "helpTextExample": {
@@ -46,10 +46,10 @@
       "addFile": "Add file"
     },
     "renameFileModal": {
-      "cancel": "Cancel",
+      "cancel": "Cealaigh",
       "heading": "Rename file",
       "inputLabel": "Name your file",
-      "save": "Save"
+      "save": "Sábháil"
     },
     "fileMenu": {
       "label": "Open file menu",
@@ -61,17 +61,17 @@
     "logInTitle": "Log in to save your progress",
     "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
     "logInButton": "Log in to save",
-    "signUpButton": "Sign up",
+    "signUpButton": "Cláraigh",
     "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
-    "downloadButton": "Download project",
-    "uploadButton": "Upload project"
+    "downloadButton": "Íoslódáil tionscadal",
+    "uploadButton": "Uaslódáil tionscadal"
   },
   "footer": {
-    "accessibility": "Accessibility",
-    "charityNameAndNumber": "Raspberry Pi Foundation UK registered charity 1129409",
-    "cookies": "Cookies",
-    "privacy": "Privacy",
-    "safeguarding": "Safeguarding"
+    "accessibility": "Inrochtaineacht",
+    "charityNameAndNumber": "Raspberry Pi Foundation UK Carthanas Cláraithe 1129409",
+    "cookies": "Fianáin",
+    "privacy": "Príobháideachas",
+    "safeguarding": "Cosaint"
   },
   "projectName": {
     "label": "Project name",
@@ -79,13 +79,13 @@
   },
   "header": {
     "download": "Download",
-    "upload": "Upload",
+    "upload": "Uaslódáil",
     "downloadFileNameDefault": "my {{project_type}} project",
     "editorLogoAltText": "Editor logo",
-    "projects": "Your projects",
+    "projects": "Do thionscadail",
     "renameProject": "Edit project name",
     "renameSave": "Save project name",
-    "save": "Save",
+    "save": "Sábháil",
     "loginToSave": "Log in to save",
     "offline": "Offline",
     "offlineTooltipDevice": "Code changes are being saved to your device.",
@@ -112,29 +112,29 @@
       "lineBreaks": "A backslash at the end of a line starts a new line, as above. A blank line starts a new paragraph. Three dashes on their own line draw a divider, like the one above.",
       "headingsHeading": "Headings",
       "headings": "Start a line with `##`, and add more `#` characters for smaller headings — like the headings in this document.",
-      "listsHeading": "Lists",
+      "listsHeading": "Liostaí",
       "addSprite": "Add a sprite",
       "addBackdrop": "Add a backdrop",
       "nestList": "Indent by two spaces to put a list inside a list",
       "openFile": "Open the file `main.py`",
       "typeCode": "Type your code",
       "clickRun": "Click **Run**",
-      "linksHeading": "Links",
+      "linksHeading": "Naisc",
       "links": "Link to a website like this: [Raspberry Pi Foundation](https://www.raspberrypi.org).",
-      "codeHeading": "Code",
+      "codeHeading": "Cód",
       "codeIntro": "In Python and Web projects you might want to include some example code in your instructions.",
       "inlineCode": "Use single backticks for code in a sentence:",
       "inlineCodeExample": "The `print()` function shows a message.",
       "codeBlocks": "For longer code, use three backticks and name the language. `python`, `html`, `css` or `javascript`:",
       "pythonPrompt": "What is your name?",
-      "pythonNameVar": "name",
-      "pythonGreeting": "Hello, ",
+      "pythonNameVar": "ainm",
+      "pythonGreeting": "Dia dhuit, ",
       "blocksHeading": "Blocks code",
       "blocksIntro": "In a Blocks project you might want to reference a particular type of block in your instructions. You can highlight words with the same colour that's used for the block type itself:",
       "blocksColourExample": "Get a block from the `Looks`{:block-type=\"looks\"} section.",
       "blocksTypes": "The [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) lists all types you can use.",
       "blocksExample": "You might also want to include an example of blocks. To do this use `blocks` as the language name in a code block:",
-      "blocksGreeting": "Hello!",
+      "blocksGreeting": "Dia dhuit!",
       "blockSyntaxReference": "For more information on how to write blocks as text, see the [block syntax reference](https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax).",
       "turningOffFormattingHeading": "Turning off formatting",
       "turningOffFormatting": "\\_A backslash before a symbol stops it formatting\\_, so this is not italic."
@@ -149,12 +149,12 @@
     "addStep": "Add a step",
     "removeStep": "Remove step",
     "newStepDefaultContent": "## Step title",
-    "nextStep": "Next step",
-    "previousStep": "Previous step",
+    "nextStep": "An chéad chéim eile",
+    "previousStep": "Céim roimhe",
     "stepCounter": "{{currentStep}} of {{totalSteps}}",
     "projectSteps": "Project instructions",
     "guideLink": "View instructions guide",
-    "edit": "Edit",
+    "edit": "Cuir in eagar",
     "view": "View",
     "removeStepModal": {
       "heading": "Remove instructions?",
@@ -169,12 +169,12 @@
         "currentStep": "Remove current step",
         "allSteps": "Remove all steps"
       },
-      "cancel": "Cancel",
+      "cancel": "Cealaigh",
       "removeInstructions": "Remove instructions"
     }
   },
   "projectsPanel": {
-    "projects": "Projects",
+    "projects": "Tionscadail",
     "yourProjectsButton": "Go to your projects",
     "projectTypeLabel": "Project type"
   },
@@ -187,17 +187,17 @@
     }
   },
   "mobile": {
-    "code": "Code",
-    "menu": "Menu",
+    "code": "Cód",
+    "menu": "Roghchlár",
     "output": "Output",
     "preview": "Preview",
     "steps": "Steps"
   },
   "modals": {
-    "close": "Close"
+    "close": "Dún"
   },
   "notifications": {
-    "close": "close",
+    "close": "dún",
     "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
     "projectRemixed": "Your remixed project has been saved",
     "projectRenamed": "You have renamed your project.",
@@ -213,16 +213,16 @@
     "preview": "preview",
     "senseHat": {
       "controls": {
-        "colour": "colour",
+        "colour": "dath",
         "humidity": "humidity",
-        "motion": "motion",
+        "motion": "gluaiseacht",
         "motionSensorOptions": {
-          "no": "No",
-          "yes": "Yes"
+          "no": "Níl",
+          "yes": "Tá"
         },
         "name": "Space Station Control Panel",
         "pressure": "pressure",
-        "temperature": "temperature",
+        "temperature": "teocht",
         "timer": "timer"
       },
       "model": {
@@ -264,7 +264,7 @@
   },
   "projectHeader": {
     "subTitle": "Code Editor",
-    "title": "Your projects",
+    "title": "Do thionscadail",
     "text": "Select a project to continue coding, view, or edit it."
   },
   "projectList": {
@@ -288,7 +288,7 @@
       "cancel": "Do not save",
       "heading": "Rename project",
       "inputLabel": "Change the name of your project",
-      "save": "Save"
+      "save": "Sábháil"
     },
     "updated": "Edited",
     "python_type": "Python",
@@ -299,34 +299,34 @@
     "python": "Python"
   },
   "runButton": {
-    "run": "Run",
+    "run": "Rith",
     "stop": "Stop",
     "stopping": "Stopping..."
   },
   "saveStatus": {
     "saving": "Saving",
-    "saved": "Saved"
+    "saved": "Sábháilte"
   },
   "runners": {
     "HtmlOutput": "HTML Output Preview"
   },
   "sidebar": {
     "collapse": "Collapse sidebar",
-    "download": "Download project",
+    "download": "Íoslódáil tionscadal",
     "expand": "Expand sidebar",
     "file": "Project files",
     "images": "Image gallery",
     "settings": "Settings",
-    "projects": "Projects",
+    "projects": "Tionscadail",
     "information": "Information",
     "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
     "instructions": "Project instructions",
-    "feedback": "Feedback",
-    "help": "Help",
-    "privacy": "Privacy",
-    "cookies": "Cookies",
-    "accessibility": "Accessibility",
-    "safeguarding": "Safeguarding",
+    "feedback": "Aiseolas",
+    "help": "Cabhair",
+    "privacy": "Príobháideachas",
+    "cookies": "Fianáin",
+    "accessibility": "Inrochtaineacht",
+    "safeguarding": "Cosaint",
     "licences": "Licences",
     "charity": "Raspberry Pi Foundation - UK registered charity 1129409",
     "settingsMenu": {
@@ -336,7 +336,7 @@
       "textSizeOptions": {
         "large": "Large",
         "medium": "Medium",
-        "small": "Small"
+        "small": "Beag"
       },
       "themeOptions": {
         "dark": "Dark",
@@ -345,18 +345,18 @@
     }
   },
   "webComponent": {
-    "loading": "Loading...",
+    "loading": "Ag lódáil...",
     "failed": "Load failed.",
-    "retry": "Try again"
+    "retry": "Triail arís é"
   },
   "newInputPanelButton": {
     "buttonText": "Add another panel"
   },
   "button": {
-    "yes": "Yes",
-    "no": "No"
+    "yes": "Tá",
+    "no": "Níl"
   },
   "common": {
-    "or": "or"
+    "or": "nó"
   }
 }
