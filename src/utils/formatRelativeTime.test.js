@@ -70,5 +70,10 @@ describe("formatRelativeTime", () => {
       const result = formatRelativeTime(oneHourAgo, Date.now(), "es-LA");
       expect(result).toEqual("hace 1 h");
     });
+
+    test("formats relative time in ga-IE", () => {
+      const result = formatRelativeTime(oneHourAgo, Date.now(), "ga-IE");
+      expect(result).toEqual("1 uair ó shin");
+    });
   });
 });

@@ -5,6 +5,7 @@ const localeMap = {
   en: "en-GB",
   "fr-FR": "fr",
   "es-LA": "es",
+  "ga-IE": "ga-IE",
 };
 
 export const formatRelativeTime = (
