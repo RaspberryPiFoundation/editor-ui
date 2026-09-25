@@ -85,6 +85,7 @@ describe("When markdown attaches a class to inline code", () => {
     "block3control",
     "block3events",
     "block3extensions",
+    "block3lists",
     "block3looks",
     "block3motion",
     "block3myblocks",
