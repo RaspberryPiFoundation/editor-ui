@@ -11,14 +11,15 @@
     block-size: 100%;
   }
 
+  code[class*="block3"] {
+    color: var(--rpf-black);
+    background-color: var(--rpf-grey-150);
+  }
+
   @each $block, $category in $scratch-block-categories {
     code.block3#{$block} {
       background-color: var(--scratch-#{$category}-primary);
     }
-  }
-
-  code[class*="block3"] {
-    color: var(--rpf-black);
   }
 
   &__content {
