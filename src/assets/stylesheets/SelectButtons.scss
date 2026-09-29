@@ -82,5 +82,5 @@
 }
 
 .select-buttons__button:focus-visible + .select-buttons__label {
-  outline: 3px solid $rpf-brand-raspberry;
+  outline: 3px solid var(--editor-focus-color);
 }

@@ -53,7 +53,7 @@
 
       &:focus-visible {
         outline-offset: -3px;
-        outline: 3px solid $rpf-brand-raspberry;
+        outline: 3px solid var(--editor-focus-color);
       }
 
       &:focus:after {
@@ -87,7 +87,7 @@
         border: 0;
 
         svg {
-          border: 3px solid $rpf-brand-raspberry;
+          border: 3px solid var(--editor-focus-color);
         }
       }
     }
