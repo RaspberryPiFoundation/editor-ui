@@ -309,7 +309,7 @@
   --rpf-button-primary-text-color: var(--rpf-white);
 
   // Secondary
-  --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+  --rpf-button-secondary-background-color-focus: var(--editor-focus-color);
   --rpf-button-secondary-background-color-hover: var(
     --editor-color-theme-tertiary
   );
@@ -341,7 +341,7 @@
   --rpf-button-primary-text-color: var(--rpf-black);
 
   // Secondary
-  --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+  --rpf-button-secondary-background-color-focus: var(--editor-focus-color);
   --rpf-button-secondary-background-color-hover: var(--editor-color-outline);
   --rpf-button-secondary-background-color-active: var(--rpf-navy-200);
   --rpf-button-secondary-background-color-disabled: var(--editor-color-layer-3);
