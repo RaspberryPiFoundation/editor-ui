@@ -23,7 +23,7 @@
     "@sentry/react": "8.55.2",
     "@szhsin/react-menu": "^3.2.0",
     "assert": "^2.1.0",
-    "axios": "^1.15.2",
+    "axios": "^1.20.0",
     "classnames": "^2.3.2",
     "codemirror": "^6.0.2",
     "date-fns": "^4.4.0",
