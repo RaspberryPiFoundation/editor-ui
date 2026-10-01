@@ -8607,9 +8607,9 @@ __metadata:
   linkType: hard
 
 "fast-uri@npm:^3.0.1":
-  version: 3.1.6
-  resolution: "fast-uri@npm:3.1.6"
-  checksum: 10/de34fceafd3a1d917989a1116b092d9b6ebe6fa3c9e908a308b988a6455449fa0a0256b6ef628aa7da80f1f84031d704c290d6ba0ea4c6f4c42b7974a3bd43ae
+  version: 3.1.8
+  resolution: "fast-uri@npm:3.1.8"
+  checksum: 10/d3dfa29fd2e5fa2371833699f3f78c975b79f65e52e0ce37604db10dffb85b5b448b5075e93453272cb95fb1c6a759495164e60649ffd69e59ec43f20d44f791
   languageName: node
   linkType: hard
 
@@ -17178,17 +17178,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:^7.21.0":
-  version: 7.25.0
-  resolution: "undici@npm:7.25.0"
-  checksum: 10/038d3568c72bb976e3cc389284f7f1cc64cd70d578300e4676a449fbcb624a35fe99ac127b5f3729f18b8246d6c090444ab61b1b67736bb88f52a3e913d76bf8
-  languageName: node
-  linkType: hard
-
-"undici@npm:^7.25.0":
-  version: 7.29.0
-  resolution: "undici@npm:7.29.0"
-  checksum: 10/ca73639071bdcbc41e57be1800847fa18f86f8fbf7a5641ff9899f7bbb6f5cecdd593e225f5fd94e31703dcbfaea4a722a3b81cab90c5c4e2b406aec1ae55732
+"undici@npm:^7.21.0, undici@npm:^7.25.0":
+  version: 7.29.1
+  resolution: "undici@npm:7.29.1"
+  checksum: 10/8b9eaf83615e96f83826c9b6b129bd378c26f750f183e931df89bf07dfae24a39736b3648c16c25904e59e34f9e151e7a852c82ef0f1fb8e8a1297c52ff3170c
   languageName: node
   linkType: hard
 
