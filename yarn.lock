@@ -2542,7 +2542,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.2.0"
     eslint-plugin-testing-library: "npm:^3.9.2"
     file-saver: "npm:^2.0.5"
-    highcharts: "npm:^9.3.1"
+    highcharts: "npm:^13.0.2"
     i18next: "npm:^22.0.3"
     i18next-http-backend: "npm:^3.0.5"
     identity-obj-proxy: "npm:3.0.0"
@@ -9830,10 +9830,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highcharts@npm:^9.3.1":
-  version: 9.3.3
-  resolution: "highcharts@npm:9.3.3"
-  checksum: 10/c41f7dd0de125c81571490e64cd77c51186a1b427cea908a449f6eae44084dd1656d67fc617fc41a6f681bba66d20b3135682fb9fdc4d86089871137eff0b98d
+"highcharts@npm:^13.0.2":
+  version: 13.0.2
+  resolution: "highcharts@npm:13.0.2"
+  peerDependencies:
+    jspdf: ^4.1.0
+    svg2pdf.js: ^2.7.0
+  peerDependenciesMeta:
+    jspdf:
+      optional: true
+    svg2pdf.js:
+      optional: true
+  checksum: 10/8602bdd5e93d05841ddb8ac5622342ceed4b8a0ddda4815073a7b2d2362554976e9596548c74bc0b7ce42ddd4f9a2a329c3a5ed5731392e4e106667d58d41000
   languageName: node
   linkType: hard
 
