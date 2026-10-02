@@ -174,6 +174,27 @@ describe("ScratchContainer", () => {
     expect(url.searchParams.get("locale")).toBe("ga-IE");
   });
 
+  test("updates the Scratch frame locale without reloading the iframe", () => {
+    const store = buildStore();
+    const { rerender } = render(
+      <Provider store={store}>
+        <ScratchContainer locale="en" />
+      </Provider>,
+    );
+    const initialSrc = screen.getByTitle("Scratch").getAttribute("src");
+
+    rerender(
+      <Provider store={store}>
+        <ScratchContainer locale="fr-FR" />
+      </Provider>,
+    );
+
+    expect(screen.getByTitle("Scratch").getAttribute("src")).toBe(initialSrc);
+    expect(getScratchIframeMessages("scratch-gui-update-locale")).toEqual([
+      { type: "scratch-gui-update-locale", locale: "fr-FR" },
+    ]);
+  });
+
   test("configures OverlayScrollbars for an overflow-aware horizontal Scratch scrollbar", () => {
     renderScratchContainer();
 

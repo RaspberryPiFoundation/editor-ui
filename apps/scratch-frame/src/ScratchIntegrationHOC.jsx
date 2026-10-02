@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { saveAs } from "file-saver";
 import { allowedIframeHost } from "./utils/iframeUtils";
 import { postScratchGuiEvent } from "./utils/events.js";
+import { toScratchLocale } from "./utils/scratchLocale.js";
 
 const ScratchGui = window.GUI;
 
@@ -109,6 +110,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         case "scratch-gui-save":
           this.handleSave(event);
           break;
+        case "scratch-gui-update-locale":
+          this.props.selectLocale(toScratchLocale(event.data.locale));
+          break;
         case "scratch-gui-update-token":
           // handled elsewhere
           break;
@@ -159,6 +163,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         onClickRemix,
         onClickSave,
         saveProjectSb3,
+        selectLocale,
         setStageSize,
         ...componentProps
       } = this.props;
@@ -185,11 +190,13 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
   const mapDispatchToProps = (dispatch) => ({
     onClickRemix: () => dispatch(ScratchGui.remixProject()),
     onClickSave: () => dispatch(ScratchGui.manualUpdateProject()),
+    selectLocale: (locale) => dispatch(ScratchGui.selectLocale(locale)),
     setStageSize: () => dispatch(ScratchGui.setStageSize("small")),
   });
 
   ScratchIntegrationComponent.propTypes = {
     saveProjectSb3: PropTypes.func,
+    selectLocale: PropTypes.func,
     loadProject: PropTypes.func,
     onClickRemix: PropTypes.func,
     onClickSave: PropTypes.func,

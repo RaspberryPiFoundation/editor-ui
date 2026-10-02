@@ -106,7 +106,13 @@ export const useProject = ({
 
       // If this same project has local edits, keep them across rerenders such
       // as locale, access-token, or cache changes until the user saves or remixes.
-      if (currentProjectMatchesRequest && currentProjectChanged) {
+      // Scratch edits live in the iframe and can't be detected here, so always
+      // keep the current Scratch project.
+      const isScratchProject = project?.project_type === "code_editor_scratch";
+      if (
+        currentProjectMatchesRequest &&
+        (currentProjectChanged || isScratchProject)
+      ) {
         return;
       }
 

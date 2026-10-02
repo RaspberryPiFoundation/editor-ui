@@ -99,6 +99,29 @@ describe("ScratchIntegrationHOC", () => {
     });
   });
 
+  describe("scratch-gui-update-locale message", () => {
+    it("selects the matching Scratch locale", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: allowedOrigin,
+          data: {
+            type: "scratch-gui-update-locale",
+            locale: "es-LA",
+          },
+        }),
+      );
+
+      expect(store.getActions()).toContainEqual({
+        type: "selectLocale",
+        locale: "es-419",
+      });
+    });
+  });
+
   describe("scratch-gui-upload message", () => {
     it("calls loadProject with arrayBuffer from event.data.file", async () => {
       const arrayBuffer = new ArrayBuffer(8);

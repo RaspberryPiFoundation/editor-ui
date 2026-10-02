@@ -209,6 +209,28 @@ describe("When not embedded", () => {
     await waitFor(() => expect(setProject).not.toHaveBeenCalled());
   });
 
+  test("If current project is Scratch and locale changes, keeps current project", async () => {
+    initialState.editor.project = {
+      project_type: "code_editor_scratch",
+      identifier: cachedProject.identifier,
+    };
+    store = configureStore([])(initialState);
+
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: "en",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+
+    expect(syncProject).not.toHaveBeenCalled();
+    await waitFor(() => expect(setProject).not.toHaveBeenCalled());
+  });
+
   test("If current project has changed and locale changes back, keeps current project", async () => {
     setCurrentProjectWithEdits();
     localStorage.setItem(
