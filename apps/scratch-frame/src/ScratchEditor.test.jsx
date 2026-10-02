@@ -45,6 +45,25 @@ describe("ScratchEditor", () => {
     );
   });
 
+  test("passes the updated project id to the Scratch GUI after a remix", () => {
+    render(
+      <ScratchEditor
+        projectId="project-123"
+        locale="en"
+        apiUrl="https://api.example.com"
+        accessToken="token-123"
+      />,
+    );
+
+    act(() => {
+      mockWrappedScratchGui.mock.calls[0][0].onUpdateProjectId("remix-456");
+    });
+
+    expect(mockWrappedScratchGui).toHaveBeenLastCalledWith(
+      expect.objectContaining({ projectId: "remix-456" }),
+    );
+  });
+
   test("disables the Scratch GUI's own beforeunload handler", () => {
     render(
       <ScratchEditor
