@@ -349,7 +349,7 @@
       border: 0;
 
       &:focus-visible {
-        border: 3px solid $rpf-brand-raspberry;
+        border: 3px solid var(--editor-focus-color);
         outline: none;
       }
     }

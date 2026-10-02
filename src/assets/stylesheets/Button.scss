@@ -31,7 +31,7 @@
   }
 
   &:focus-visible {
-    border: 3px solid $rpf-brand-raspberry;
+    border: 3px solid var(--editor-focus-color);
     outline: none;
   }
 
@@ -219,10 +219,11 @@
     &:focus-visible {
       background-clip: padding-box;
       border: 2px solid transparent;
-      outline: 3px solid $rpf-brand-raspberry;
+      outline: 3px solid var(--editor-focus-color);
     }
 
-    &.btn--secondary, &.btn--secondary:hover {
+    &.btn--secondary,
+    &.btn--secondary:hover {
       border-color: var(--rpf-alert-error);
       --rpf-button-secondary-border-color-hover: var(--rpf-alert-error);
     }
@@ -276,7 +277,7 @@
     outline: none;
 
     .btn {
-      border: 3px solid $rpf-brand-raspberry;
+      border: 3px solid var(--editor-focus-color);
     }
   }
 
@@ -308,7 +309,7 @@
   --rpf-button-primary-text-color: var(--rpf-white);
 
   // Secondary
-  --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+  --rpf-button-secondary-background-color-focus: var(--editor-focus-color);
   --rpf-button-secondary-background-color-hover: var(
     --editor-color-theme-tertiary
   );
@@ -340,7 +341,7 @@
   --rpf-button-primary-text-color: var(--rpf-black);
 
   // Secondary
-  --rpf-button-secondary-background-color-focus: var(--rpf-brand-raspberry);
+  --rpf-button-secondary-background-color-focus: var(--editor-focus-color);
   --rpf-button-secondary-background-color-hover: var(--editor-color-outline);
   --rpf-button-secondary-background-color-active: var(--rpf-navy-200);
   --rpf-button-secondary-background-color-disabled: var(--editor-color-layer-3);

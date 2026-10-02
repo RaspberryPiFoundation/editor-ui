@@ -14,7 +14,7 @@
 
 a:not(:where(.rpf-button)) {
   &:focus-visible {
-    outline: 3px solid var(--rpf-raspberry-800);
+    outline: 3px solid var(--editor-focus-color);
   }
 }
 
@@ -22,7 +22,7 @@ button:not(:where(.rpf-button)) {
   all: initial;
   cursor: pointer;
   &:focus-visible {
-    outline: 3px solid var(--rpf-raspberry-800);
+    outline: 3px solid var(--editor-focus-color);
   }
 }
 
