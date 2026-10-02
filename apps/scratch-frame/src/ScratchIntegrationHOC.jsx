@@ -44,9 +44,13 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.vm.on("PROJECT_RUN_STOP", this.handleProjectRunStop);
       this.props.setStageSize();
       this.syncLoadSettled(null);
+      document.documentElement.lang = this.props.currentLocale;
     }
     componentDidUpdate(prevProps) {
       this.syncLoadSettled(prevProps);
+      if (prevProps.currentLocale !== this.props.currentLocale) {
+        document.documentElement.lang = this.props.currentLocale;
+      }
     }
     // Scratch fires PROJECT_CHANGED during load, before setProjectUnchanged runs.
     // Wait until the project is showing and that initial dirty spell has cleared.
@@ -167,6 +171,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
     render() {
       const {
+        currentLocale,
         loadProject,
         localesOnly,
         messagesByLocale,
@@ -195,6 +200,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       isShowingWithId: isScratchProjectShowingWithId(loadingState),
       projectChanged: state.scratchGui.projectChanged,
       messagesByLocale: state.locales.messagesByLocale,
+      currentLocale: state.locales.locale,
     };
   };
 
@@ -217,6 +223,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     isShowingWithId: PropTypes.bool,
     projectChanged: PropTypes.bool,
     messagesByLocale: PropTypes.object,
+    currentLocale: PropTypes.string,
   };
   return connect(
     mapStateToProps,

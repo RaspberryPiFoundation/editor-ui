@@ -27,7 +27,7 @@ describe("ScratchIntegrationHOC", () => {
   const allowedOrigin =
     import.meta.env.REACT_APP_ALLOWED_IFRAME_ORIGINS?.split(",")[0] ||
     "http://localhost:3011";
-  const locales = { messagesByLocale: { en: {}, "es-419": {} } };
+  const locales = { locale: "en", messagesByLocale: { en: {}, "es-419": {} } };
   let store;
   let Wrapped;
 
@@ -99,6 +99,36 @@ describe("ScratchIntegrationHOC", () => {
         expect(saveAs).toHaveBeenCalledWith(mockBlob, "my-project.sb3");
       });
       expect(mockSaveProjectSb3).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("document language", () => {
+    it("sets the document language to the Scratch locale on mount", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      expect(document.documentElement.lang).toBe("en");
+    });
+
+    it("updates the document language when the Scratch locale changes", () => {
+      const { rerender } = render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+      const updatedStore = configureStore([])({
+        ...store.getState(),
+        locales: { ...locales, locale: "es-419" },
+      });
+
+      rerender(
+        React.createElement(
+          Provider,
+          { store: updatedStore },
+          React.createElement(Wrapped),
+        ),
+      );
+
+      expect(document.documentElement.lang).toBe("es-419");
     });
   });
 
