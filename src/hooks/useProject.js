@@ -80,9 +80,6 @@ export const useProject = ({
         projectIdentifier &&
         project?.identifier &&
         project.identifier !== projectIdentifier;
-      const identifierToLoad = scratchRemixedInPlace
-        ? project.identifier
-        : projectIdentifier;
 
       const isCachedSavedProject =
         projectIdentifier &&
@@ -110,8 +107,9 @@ export const useProject = ({
       // keep the current Scratch project.
       const isScratchProject = project?.project_type === "code_editor_scratch";
       if (
-        currentProjectMatchesRequest &&
-        (currentProjectChanged || isScratchProject)
+        (currentProjectMatchesRequest &&
+          (currentProjectChanged || isScratchProject)) ||
+        scratchRemixedInPlace
       ) {
         return;
       }
@@ -146,7 +144,7 @@ export const useProject = ({
         dispatch(
           syncProject("load")({
             reactAppApiEndpoint,
-            identifier: identifierToLoad,
+            identifier: projectIdentifier,
             locale: effectiveLocale,
             accessToken: accessToken,
           }),

@@ -30,6 +30,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.handleDownload = this.handleDownload.bind(this);
       this.handleUpload = this.handleUpload.bind(this);
       this.handleRemix = this.handleRemix.bind(this);
+      this.handleUpdateLocale = this.handleUpdateLocale.bind(this);
       this.handleSave = this.handleSave.bind(this);
       this.handleProjectChanged = this.handleProjectChanged.bind(this);
       this.handleProjectRunStart = this.handleProjectRunStart.bind(this);
@@ -111,7 +112,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
           this.handleSave(event);
           break;
         case "scratch-gui-update-locale":
-          this.props.selectLocale(toScratchLocale(event.data.locale));
+          this.handleUpdateLocale(event);
           break;
         case "scratch-gui-update-token":
           // handled elsewhere
@@ -137,6 +138,14 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
           this.handleProjectChanged();
         });
     }
+    handleUpdateLocale(event) {
+      const locale = toScratchLocale(event.data.locale);
+      const isSupported = Object.prototype.hasOwnProperty.call(
+        this.props.messagesByLocale,
+        locale,
+      );
+      this.props.selectLocale(isSupported ? locale : "en");
+    }
     handleRemix() {
       this.props.onClickRemix();
     }
@@ -160,6 +169,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       const {
         loadProject,
         localesOnly,
+        messagesByLocale,
         onClickRemix,
         onClickSave,
         saveProjectSb3,
@@ -184,6 +194,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       isLoading: isScratchProjectLoading(loadingState),
       isShowingWithId: isScratchProjectShowingWithId(loadingState),
       projectChanged: state.scratchGui.projectChanged,
+      messagesByLocale: state.locales.messagesByLocale,
     };
   };
 
@@ -205,6 +216,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     isLoading: PropTypes.bool,
     isShowingWithId: PropTypes.bool,
     projectChanged: PropTypes.bool,
+    messagesByLocale: PropTypes.object,
   };
   return connect(
     mapStateToProps,

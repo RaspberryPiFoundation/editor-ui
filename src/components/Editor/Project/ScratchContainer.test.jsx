@@ -124,6 +124,7 @@ describe("ScratchContainer", () => {
       nonce,
       accessToken,
       requiresAuth,
+      locale: "en",
     });
   };
 
@@ -193,6 +194,26 @@ describe("ScratchContainer", () => {
     expect(getScratchIframeMessages("scratch-gui-update-locale")).toEqual([
       { type: "scratch-gui-update-locale", locale: "fr-FR" },
     ]);
+  });
+
+  test("sends the latest locale when the Scratch frame is ready", () => {
+    const store = buildStore();
+    const { rerender } = render(
+      <Provider store={store}>
+        <ScratchContainer locale="en" />
+      </Provider>,
+    );
+
+    rerender(
+      <Provider store={store}>
+        <ScratchContainer locale="fr-FR" />
+      </Provider>,
+    );
+    dispatchScratchGuiReady({ nonce: "nonce-abc" });
+
+    expect(getScratchIframeMessages("scratch-gui-set-token")[0].locale).toBe(
+      "fr-FR",
+    );
   });
 
   test("configures OverlayScrollbars for an overflow-aware horizontal Scratch scrollbar", () => {

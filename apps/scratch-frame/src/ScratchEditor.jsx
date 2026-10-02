@@ -5,12 +5,6 @@ import { useCallback, useRef, useEffect, useState } from "react";
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
 import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
 
-const handleUpdateProjectId = (updatedProjectId) => {
-  postScratchGuiEvent("scratch-gui-project-id-updated", {
-    projectId: updatedProjectId,
-  });
-};
-
 const handleRemixingStarted = () =>
   postScratchGuiEvent("scratch-gui-remixing-started");
 
@@ -39,6 +33,7 @@ const ScratchEditor = ({
   projectLocale,
 }) => {
   const [accessToken, setAccessToken] = useState(initialAccessToken);
+  const [currentProjectId, setCurrentProjectId] = useState(projectId);
 
   const scratchFetchApiRef = useRef(null);
 
@@ -61,6 +56,13 @@ const ScratchEditor = ({
     };
   }, []);
 
+  const handleUpdateProjectId = useCallback((updatedProjectId) => {
+    setCurrentProjectId(updatedProjectId);
+    postScratchGuiEvent("scratch-gui-project-id-updated", {
+      projectId: updatedProjectId,
+    });
+  }, []);
+
   const handleUpdateProjectData = useCallback(
     async (currentProjectId, vmState, params) => {
       return scratchProjectSave({
@@ -76,7 +78,7 @@ const ScratchEditor = ({
 
   return (
     <WrapperdScratchGui
-      projectId={projectId}
+      projectId={currentProjectId}
       locale={locale}
       menuBarHidden={true}
       noBeforeUnloadHandler={true}

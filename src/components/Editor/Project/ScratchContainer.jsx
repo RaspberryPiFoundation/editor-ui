@@ -139,6 +139,7 @@ export default function ScratchContainer({ locale = "en" }) {
         nonce: event.data.nonce,
         accessToken: accessToken || null,
         requiresAuth,
+        locale: lastLocaleRef.current,
       });
     };
 

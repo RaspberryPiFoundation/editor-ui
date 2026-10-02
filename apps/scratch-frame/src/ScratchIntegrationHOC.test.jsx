@@ -27,6 +27,7 @@ describe("ScratchIntegrationHOC", () => {
   const allowedOrigin =
     import.meta.env.REACT_APP_ALLOWED_IFRAME_ORIGINS?.split(",")[0] ||
     "http://localhost:3011";
+  const locales = { messagesByLocale: { en: {}, "es-419": {} } };
   let store;
   let Wrapped;
 
@@ -40,6 +41,7 @@ describe("ScratchIntegrationHOC", () => {
     postScratchGuiEvent.mockClear();
     const mockStore = configureStore([]);
     store = mockStore({
+      locales,
       scratchGui: {
         vm: mockVm,
         projectState: { loadingState: "SHOWING_WITH_ID" },
@@ -64,7 +66,8 @@ describe("ScratchIntegrationHOC", () => {
     delete window.GUI;
   });
 
-  const createStore = (scratchGui) => configureStore([])({ scratchGui });
+  const createStore = (scratchGui) =>
+    configureStore([])({ locales, scratchGui });
 
   const getVmHandler = (eventName) =>
     mockVm.on.mock.calls.find(
@@ -118,6 +121,27 @@ describe("ScratchIntegrationHOC", () => {
       expect(store.getActions()).toContainEqual({
         type: "selectLocale",
         locale: "es-419",
+      });
+    });
+
+    it("falls back to English when Scratch does not support the locale", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: allowedOrigin,
+          data: {
+            type: "scratch-gui-update-locale",
+            locale: "xx-XX",
+          },
+        }),
+      );
+
+      expect(store.getActions()).toContainEqual({
+        type: "selectLocale",
+        locale: "en",
       });
     });
   });

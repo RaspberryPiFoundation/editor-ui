@@ -857,20 +857,13 @@ describe("When a Scratch project has been remixed in place", () => {
     );
   };
 
-  test("loads the remix, not the original, when the locale changes", async () => {
+  test("keeps the remix when the locale changes", async () => {
     const { rerender } = renderScratchProject();
     loadProject.mockClear();
 
     rerender({ projectIdentifier: "teacher-original", locale: "fr-FR" });
 
-    await waitFor(() =>
-      expect(loadProject).toHaveBeenCalledWith({
-        identifier: "student-remix",
-        locale: "fr-FR",
-        accessToken,
-        reactAppApiEndpoint,
-      }),
-    );
+    await waitFor(() => expect(loadProject).not.toHaveBeenCalled());
   });
 
   test("still loads the requested project after a failed remix load", async () => {
