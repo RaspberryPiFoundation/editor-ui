@@ -168,6 +168,8 @@ const PyodideWorker = () => {
           if "x" in mode and os.path.exists(filename):
               raise FileExistsError(f"File '{filename}' already exists")
           if ("w" in mode or "a" in mode or "x" in mode) and "b" not in mode:
+              if not os.path.splitext(filename)[1][1:]:
+                  raise OSError(f"File '{filename}' must have an extension, e.g. '{filename}.py'")
               if len(os.listdir()) > MAX_FILES and not os.path.exists(filename):
                   raise OSError(f"File system limit reached, no more than {MAX_FILES} files allowed")
               class CustomFile:
