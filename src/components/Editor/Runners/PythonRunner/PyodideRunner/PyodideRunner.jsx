@@ -366,7 +366,8 @@ const PyodideRunner = ({
   };
 
   const handleFileWrite = (filename, content, mode, cascadeUpdate) => {
-    const [name, extension] = filename.split(".");
+    const [name, ...extensionParts] = filename.split(".");
+    const extension = extensionParts.join(".");
     const componentToUpdate = projectCode.find(
       (item) => item.extension === extension && item.name === name,
     );

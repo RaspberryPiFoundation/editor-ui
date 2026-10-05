@@ -92,6 +92,32 @@ describe("Running the code with pyodide", () => {
     );
   });
 
+  ["w", "a", "x"].forEach((mode) => {
+    it(`errors when writing to a file without an extension in '${mode}' mode`, () => {
+      runCode(`with open("test", "${mode}") as f:\n\tf.write("Hello world")`);
+      getErrorMessage().should(
+        "contain",
+        "OSError: File 'test' must have an extension",
+      );
+      ensureFilePanelOpen();
+      getEditorShadow()
+        .findByRole("button", { name: /^test/ })
+        .should("not.exist");
+    });
+  });
+
+  it("errors when writing to a file with consecutive dots in its name", () => {
+    runCode('with open("test..txt", "w") as f:\n\tf.write("Hello world")');
+    getErrorMessage().should(
+      "contain",
+      "OSError: File 'test..txt' is not a valid file name",
+    );
+    ensureFilePanelOpen();
+    getEditorShadow()
+      .findByRole("button", { name: /^test/ })
+      .should("not.exist");
+  });
+
   it("updates the file in the editor when the content is updated programmatically", () => {
     runCode('with open("output.txt", "w") as f:\n\tf.write("Hello world")');
     setCodeEditorContent(

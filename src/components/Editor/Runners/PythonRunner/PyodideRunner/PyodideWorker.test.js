@@ -205,6 +205,21 @@ describe("PyodideWorker", () => {
     );
   });
 
+  test("it blocks writing files without an extension", async () => {
+    await worker.onmessage({
+      data: {
+        method: "runPython",
+        python: "print('hello')",
+      },
+    });
+    await waitFor(() =>
+      expect(pyodide.runPythonAsync).toHaveBeenCalledWith(
+        expect.stringMatching(/must have an extension/),
+        { filename: "__custom_open__.py" },
+      ),
+    );
+  });
+
   test("it runs the python code", async () => {
     await worker.onmessage({
       data: {
