@@ -34,27 +34,16 @@ const ProjectBar = ({ nameEditable = true }) => {
     <div className="project-bar" data-testid="default-project-bar">
       <ProjectName editable={canSave && nameEditable} isHeading={true} />
       <div className="project-bar__right">
-        <div className="project-bar__btn-wrapper">
-          <DownloadButton
-            buttonText={t("header.download")}
-            className="project-bar__btn"
-            Icon={DownloadIcon}
-            type="tertiary"
-          />
-        </div>
-        {!projectOwner && canSave && (
-          <div className="project-bar__btn-wrapper">
-            <SaveButton className="project-bar__btn btn--save" />
-          </div>
-        )}
+        <DownloadButton
+          buttonText={t("header.download")}
+          className="project-bar__btn"
+          Icon={DownloadIcon}
+        />
+        {!projectOwner && canSave && <SaveButton />}
         {user &&
           canSave &&
           (offlineEnabled && !isOnline
-            ? projectOwner && (
-                <div className="project-bar__btn-wrapper">
-                  <OfflineBadge className="project-bar__btn" />
-                </div>
-              )
+            ? projectOwner && <OfflineBadge />
             : lastSavedTime && <SaveStatus />)}
       </div>
     </div>

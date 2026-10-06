@@ -83,6 +83,7 @@ const DownloadButton = (props) => {
       icon={Icon ? <Icon /> : null}
       iconPosition="right"
       type="secondary"
+      size="small"
       {...otherProps}
     />
   );
