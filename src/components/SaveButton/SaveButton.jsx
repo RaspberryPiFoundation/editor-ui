@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -15,25 +15,17 @@ import { triggerSave } from "../../redux/EditorSlice";
 import useIsOnline from "../../hooks/useIsOnline";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
 
-const SaveButton = ({ className, type, fill = false }) => {
+const SaveButton = ({ className, type = "primary", fill = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const [buttonType, setButtonType] = useState(type);
   const loading = useSelector((state) => state.editor.loading);
-  const webComponent = useSelector((state) => state.editor.webComponent);
   const user = useSelector((state) => state.auth.user);
   const project = useSelector((state) => state.editor.project);
   const offlineEnabled = useSelector((state) => state.editor.offlineEnabled);
   const readOnly = useSelector((state) => state.editor.readOnly);
   const previewMode = usePreviewMode();
   const isOnline = useIsOnline();
-
-  useEffect(() => {
-    if (!type) {
-      setButtonType(!!webComponent ? "primary" : "secondary");
-    }
-  }, [webComponent, type]);
 
   const onClickSave = useCallback(async () => {
     if (window.plausible) {
@@ -49,7 +41,7 @@ const SaveButton = ({ className, type, fill = false }) => {
   if (
     loading !== "success" ||
     projectOwner ||
-    !buttonType ||
+    !type ||
     readOnly ||
     previewMode
   )
@@ -66,7 +58,7 @@ const SaveButton = ({ className, type, fill = false }) => {
       text={t(user ? "header.save" : "header.loginToSave")}
       textAlways
       icon={<SaveIcon />}
-      type={buttonType}
+      type={type}
       fill={fill}
     />
   );
