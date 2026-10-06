@@ -8,14 +8,14 @@ import {
 } from "../../events/WebComponentCustomEvents";
 import { isOwner } from "../../utils/projectHelpers";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import SaveIcon from "../../assets/icons/save.svg";
 import { triggerSave } from "../../redux/EditorSlice";
 import useIsOnline from "../../hooks/useIsOnline";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
 
-const SaveButton = ({ className, type = "primary", fill = false }) => {
+const SaveButton = ({ className }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -38,13 +38,7 @@ const SaveButton = ({ className, type = "primary", fill = false }) => {
 
   const projectOwner = isOwner(user, project);
 
-  if (
-    loading !== "success" ||
-    projectOwner ||
-    !type ||
-    readOnly ||
-    previewMode
-  )
+  if (loading !== "success" || projectOwner || readOnly || previewMode)
     return null;
 
   if (offlineEnabled && !isOnline) {
@@ -52,14 +46,12 @@ const SaveButton = ({ className, type = "primary", fill = false }) => {
   }
 
   return (
-    <DesignSystemButton
+    <Button
       className={className}
       onClick={onClickSave}
       text={t(user ? "header.save" : "header.loginToSave")}
-      textAlways
       icon={<SaveIcon />}
-      type={type}
-      fill={fill}
+      iconPosition="right"
     />
   );
 };
