@@ -72,6 +72,12 @@
           display: none;
         }
       }
+
+      .project-bar-preview-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
     </style>
   </head>
   <body>
@@ -90,6 +96,28 @@
       </div>
       <div id="editor-component"></div>
       <div class="debug">
+        <!-- DEV ONLY: remove this label and the module below together. -->
+        <div class="project-bar-preview-controls">
+          <label>
+            Project state
+            <select id="project-bar-project-state">
+              <option value="owner">Owner</option>
+              <option value="logged-out">Logged out</option>
+              <option value="non-owner">Non-owner</option>
+              <option value="read-only">Read only</option>
+              <option value="long-name">Owner with long name</option>
+            </select>
+          </label>
+          <label>
+            Save state
+            <select id="project-bar-save-state">
+              <option value="unsaved">Not saved</option>
+              <option value="saved">Saved</option>
+              <option value="saving">Saving</option>
+              <option value="offline">Offline</option>
+            </select>
+          </label>
+        </div>
         <button id="run-button">Run code</button>
         <p id="results"></p>
         <p id="project-identifier"></p>
@@ -165,6 +193,7 @@
           const newWebComp = document.createElement("editor-wc");
 
           newWebComp.setAttribute("with_projectbar", "true");
+          newWebComp.setAttribute("project_name_editable", "true");
           newWebComp.setAttribute("with_sidebar", "true");
           newWebComp.setAttribute("friendly_errors_enabled", "true");
           newWebComp.setAttribute("editable_instructions", "true");
@@ -235,6 +264,86 @@
           webComp.rerunCode();
         };
       });
+    </script>
+
+    <!-- DEV ONLY: project bar state mocks. Remove this module and its label. -->
+    <script type="module">
+      import store from "/src/redux/stores/WebComponentStore.js";
+      import {
+        setProject,
+        setReadOnly,
+      } from "/src/redux/EditorSlice.js";
+      import { setUser } from "/src/redux/WebComponentAuthSlice.js";
+
+      const projectStateSelect = document.getElementById(
+        "project-bar-project-state",
+      );
+      const saveStateSelect = document.getElementById(
+        "project-bar-save-state",
+      );
+      const previewUser = {
+        profile: { user: "project-bar-preview-user" },
+      };
+      const previewRequestId = "project-bar-preview";
+      let baseProject;
+
+      const clearSaveStatus = (project) => {
+        store.dispatch({
+          type: "editor/loadProject/pending",
+          meta: { requestId: previewRequestId },
+        });
+        store.dispatch(setProject(project));
+      };
+
+      const markSaved = () => {
+        const project = store.getState().editor.project;
+        store.dispatch({
+          type: "editor/saveProject/fulfilled",
+          payload: { autosave: true, project },
+        });
+      };
+
+      const applyProjectBarState = () => {
+        const editor = store.getState().editor;
+        if (editor.loading !== "success") return;
+
+        baseProject ||= { ...editor.project };
+
+        const projectState = projectStateSelect.value;
+        const saveState = saveStateSelect.value;
+        const loggedOut = projectState === "logged-out";
+        const nonOwner = projectState === "non-owner";
+        const project = {
+          ...baseProject,
+          identifier: baseProject.identifier || "project-bar-preview",
+          name:
+            projectState === "long-name"
+              ? "A very long project name for testing how the project bar wraps"
+              : baseProject.name,
+          user_id: nonOwner ? "another-user" : previewUser.profile.user,
+        };
+
+        store.dispatch(setUser(loggedOut ? null : previewUser));
+        store.dispatch(setReadOnly(projectState === "read-only"));
+        window.dispatchEvent(
+          new Event(saveState === "offline" ? "offline" : "online"),
+        );
+        clearSaveStatus(project);
+
+        if (["saved", "saving"].includes(saveState)) {
+          markSaved();
+        }
+        if (saveState === "saving") {
+          store.dispatch({ type: "editor/saveProject/pending" });
+        }
+      };
+
+      projectStateSelect.addEventListener("change", applyProjectBarState);
+      saveStateSelect.addEventListener("change", applyProjectBarState);
+      document.addEventListener(
+        "editor-projectOwnerLoaded",
+        applyProjectBarState,
+      );
     </script>
   </body>
 </html>
