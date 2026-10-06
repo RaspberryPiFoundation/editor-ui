@@ -33,7 +33,6 @@ describe("When project is loaded", () => {
         const initialState = {
           editor: {
             loading: "success",
-            webComponent: true,
             project: {
               identifier: "hot-diggity-dog",
               user_id: "some-other-user",
@@ -91,7 +90,6 @@ describe("When project is loaded", () => {
         const initialState = {
           editor: {
             loading: "success",
-            webComponent: true,
             project: {
               identifier: "hot-diggity-dog",
               user_id: "some-dummy-user",
@@ -131,7 +129,6 @@ describe("When project is loaded", () => {
         const initialState = {
           editor: {
             loading: "success",
-            webComponent: true,
             preview: true,
             readOnly: false,
             project: {
@@ -167,7 +164,6 @@ describe("When project is loaded", () => {
         const initialState = {
           editor: {
             loading: "success",
-            webComponent: true,
             readOnly: true,
             project: {
               identifier: "hot-diggity-dog",
@@ -205,7 +201,6 @@ describe("When project is loaded", () => {
       const initialState = {
         editor: {
           loading: "success",
-          webComponent: false,
         },
         auth: {},
       };
@@ -244,65 +239,10 @@ describe("When project is loaded", () => {
     });
   });
 
-  describe("with webComponent=false", () => {
-    let store;
-
-    beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
-        editor: {
-          loading: "success",
-          webComponent: false,
-        },
-        auth: {},
-      };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
-    });
-
-    test("Renders a secondary button", () => {
-      const saveButton = screen.queryByText("header.loginToSave").parentElement;
-      expect(saveButton).toHaveClass("rpf-button--secondary");
-    });
-  });
-
-  describe("with webComponent=true", () => {
-    let store;
-
-    beforeEach(() => {
-      const middlewares = [];
-      const mockStore = configureStore(middlewares);
-      const initialState = {
-        editor: {
-          loading: "success",
-          webComponent: true,
-        },
-        auth: {},
-      };
-      store = mockStore(initialState);
-      render(
-        <Provider store={store}>
-          <SaveButton />
-        </Provider>,
-      );
-    });
-
-    test("Renders a primary button", () => {
-      const saveButton = screen.queryByText("header.loginToSave").parentElement;
-      expect(saveButton).toHaveClass("rpf-button--primary");
-    });
-  });
-
   describe("offline badge", () => {
     const offlineState = {
       editor: {
         loading: "success",
-        webComponent: true,
         offlineEnabled: true,
         project: {},
       },
