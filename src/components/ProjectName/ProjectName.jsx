@@ -120,7 +120,6 @@ const ProjectName = ({
         {editable && (
           <div ref={tickButton}>
             <Button
-              className="project-name__button"
               aria-label={t(
                 isEditing ? "header.renameSave" : "header.renameProject",
               )}
@@ -131,6 +130,7 @@ const ProjectName = ({
               iconOnly
               onClick={isEditing ? updateName : onEditNameButtonClick}
               type={isEditing ? "primary" : "tertiary"}
+              size="small"
             />
           </div>
         )}

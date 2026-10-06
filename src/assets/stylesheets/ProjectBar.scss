@@ -2,103 +2,29 @@
 @use "./rpf_design_system/colours" as *;
 
 .project-bar {
-  border-radius: $space-0-5;
+  border-radius: var(--border-radius);
+  padding: 0 var(--space-1-5);
+
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
   z-index: 1;
   container-type: inline-size;
   background-color: var(--editor-color-layer-3);
   border: 1px solid var(--editor-color-outline);
 
-  @container (max-width: 367px) {
-    flex-direction: column;
-    block-size: fit-content;
-    justify-content: left;
-  }
-
-  .rpf-button {
-    border-radius: var(--project-bar-button-radius, $space-0-5);
-    &:hover,
-    &:active,
-    &:focus-visible,
-    &::before {
-      border-radius: var(--project-bar-button-radius, $space-0-5);
-    }
-  }
-
-  .btn--save {
-    @container (min-width: 560px) {
-      .icon {
-        display: none;
-      }
-    }
+  * {
+    box-sizing: border-box;
   }
 
   .project-name {
-    border-inline-end: 1px solid var(--editor-color-outline);
-    margin-inline-end: -1px;
-    min-inline-size: 0px;
-
-    @container (max-width: 365px) {
-      inline-size: 100%;
-      box-sizing: border-box;
-      border-inline-end: none;
-    }
-  }
-
-  .project-bar__btn-wrapper {
-    display: flex;
-    block-size: 100%;
-  }
-
-  .project-bar__btn-wrapper:not(:last-child) {
-    border-inline-end: 1px solid var(--editor-color-outline);
+    padding-block: var(--space-1);
   }
 }
 
 .project-bar__right {
-  border-inline-start: 1px solid var(--editor-color-outline);
-  margin-inline-start: auto;
   display: flex;
   align-items: center;
-  block-size: 100%;
-  flex-shrink: 0;
-  max-inline-size: 55%;
-
-  @container (max-width: 365px) {
-    margin-inline-start: 0;
-    border-inline-start: none;
-    border-block-start: 1px solid var(--editor-color-outline);
-    block-size: fit-content;
-    inline-size: 100%;
-    max-inline-size: 100%;
-
-    .save-status {
-      flex: 1;
-      justify-content: center;
-    }
-  }
-}
-
-.project-bar__btn {
-  border-radius: $space-0-5;
-  justify-content: center;
-
-  margin: $space-0-5;
-  gap: $space-0-5;
-
-  .text {
-    display: none;
-  }
-
-  &:hover & {
-    border-radius: inherit;
-  }
-
-  @container (min-width: 560px) {
-    .text {
-      min-inline-size: auto;
-      display: block;
-    }
-  }
+  gap: 0 var(--space-1);
+  flex-wrap: wrap;
 }

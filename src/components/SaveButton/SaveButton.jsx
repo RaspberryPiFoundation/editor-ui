@@ -52,6 +52,7 @@ const SaveButton = ({ className }) => {
       text={t(user ? "header.save" : "header.loginToSave")}
       icon={<SaveIcon />}
       iconPosition="right"
+      size="small"
     />
   );
 };
