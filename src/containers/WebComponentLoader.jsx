@@ -32,7 +32,6 @@ import resetStyles from "../assets/stylesheets/Reset.scss?inline";
 import globalStyles from "../assets/stylesheets/Global.scss?inline";
 import internalStyles from "../assets/stylesheets/InternalStyles.scss?inline";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss?inline";
-import editorStyles from "../assets/stylesheets/index.scss?inline";
 import "../assets/stylesheets/Notifications.scss?inline";
 import {
   projectLoadFailed,
@@ -69,7 +68,6 @@ const WebComponentLoader = (props) => {
     friendlyErrorsEnabled = false,
     showSavePrompt = false,
     sidebarOptions = [],
-    useEditorStyles = false, // If true use the standard editor styling for the web component
     withProjectbar = false,
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
@@ -233,15 +231,9 @@ const WebComponentLoader = (props) => {
         }}
       >
         {webComponentStyles}
-        {useEditorStyles && <style>{editorStyles.toString()}</style>}
         {hostStyles && <style>{hostStyles}</style>}
 
-        <div
-          id="wc"
-          className={`--${cookies.theme || themeDefault}${
-            useEditorStyles ? " --use-editor-styles" : ""
-          }`}
-        >
+        <div id="wc" className={`--${cookies.theme || themeDefault}`}>
           <ToastContainer
             enableMultiContainer
             containerId="top-center"

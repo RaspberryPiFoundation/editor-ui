@@ -343,54 +343,7 @@ describe("When no user is in state", () => {
       expect(cookies.cookies.theme).toEqual("light");
     });
 
-    test("Renders editor styles when useEditorStyles is true", () => {
-      const { container } = render(
-        <Provider store={store}>
-          <CookiesProvider cookies={cookies}>
-            <WebComponentLoader
-              code={code}
-              identifier={identifier}
-              senseHatAlwaysEnabled={true}
-              instructions={instructions}
-              authKey={authKey}
-              theme="light"
-              useEditorStyles={true}
-            />
-          </CookiesProvider>
-        </Provider>,
-      );
-
-      const styleTags = container.querySelectorAll("style");
-      const editorStyles = Array.from(styleTags).find((tag) =>
-        tag.textContent.includes("editorStyles"),
-      );
-      expect(editorStyles).not.toBeNull();
-    });
-
-    test("Adds editor override marker class when useEditorStyles is true", () => {
-      const { container } = render(
-        <Provider store={store}>
-          <CookiesProvider cookies={cookies}>
-            <WebComponentLoader
-              code={code}
-              identifier={identifier}
-              senseHatAlwaysEnabled={true}
-              instructions={instructions}
-              authKey={authKey}
-              theme="light"
-              useEditorStyles={true}
-            />
-          </CookiesProvider>
-        </Provider>,
-      );
-
-      expect(container.querySelector("[id='wc']")).toHaveClass(
-        "--light",
-        "--use-editor-styles",
-      );
-    });
-
-    test("Does not add editor override marker class when useEditorStyles is false", () => {
+    test("Sets theme class on the root element", () => {
       const { container } = render(
         <Provider store={store}>
           <CookiesProvider cookies={cookies}>
@@ -401,15 +354,14 @@ describe("When no user is in state", () => {
               instructions={instructions}
               authKey={authKey}
               theme="dark"
-              useEditorStyles={false}
             />
           </CookiesProvider>
         </Provider>,
       );
 
-      expect(container.querySelector("[id='wc']")).toHaveClass("--dark");
-      expect(container.querySelector("[id='wc']")).not.toHaveClass(
-        "--use-editor-styles",
+      expect(container.querySelector("[id='wc']")).toHaveAttribute(
+        "class",
+        "--dark",
       );
     });
   });

@@ -109,7 +109,6 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `show_save_prompt`: Prompt the user to save their work (defaults to `false`)
 - `sidebar_options`: Array of strings specifying the panels to be displayed in the sidebar (defaults to an empty array). The options that can be included are `"projects"`, `"instructions"`, `"file"`, `"images"`, `"download"`, `"settings"` and `"info"`.
 - `theme`: Force editor into `"dark"` or `"light"` mode - browser or system preferences will be used if not specified
-- `use_editor_styles`: Style web component using themes for the main editor site (defaults to `false`)
 - `with_projectbar`: Show the project bar containing project name and save status (defaults to `false`)
 - `with_sidebar`: Show the sidebar (defaults to `false`)
 
