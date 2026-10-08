@@ -57,7 +57,7 @@ if (!projectId) {
     event.data?.type === "scratch-gui-set-token" &&
     event.data?.nonce === nonce;
 
-  const mountGui = (accessToken) => {
+  const mountGui = (accessToken, latestLocale) => {
     if (isMounted) return;
     isMounted = true;
     root = root || createRoot(appTarget);
@@ -67,7 +67,7 @@ if (!projectId) {
         <style>{ScratchStyles}</style>
         <ScratchEditor
           projectId={projectId}
-          locale={locale}
+          locale={latestLocale ? toScratchLocale(latestLocale) : locale}
           apiUrl={apiUrl}
           accessToken={accessToken}
           projectLocale={raspberryPiLocale}
@@ -82,7 +82,11 @@ if (!projectId) {
     if (hasTimedOut) return;
     if (!isValidScratchSetTokenMessage(event)) return;
 
-    const { requiresAuth, accessToken } = event.data || {};
+    const {
+      requiresAuth,
+      accessToken,
+      locale: latestLocale,
+    } = event.data || {};
     authHandshake.requiresAuth = Boolean(requiresAuth);
     authHandshake.latestAccessToken = accessToken || null;
 
@@ -94,7 +98,7 @@ if (!projectId) {
       clearInterval(readyRetryIntervalId);
       readyRetryIntervalId = null;
     }
-    mountGui(authHandshake.latestAccessToken);
+    mountGui(authHandshake.latestAccessToken, latestLocale);
     authHandshake.latestAccessToken = null;
     window.removeEventListener("message", handleMessage);
   };
