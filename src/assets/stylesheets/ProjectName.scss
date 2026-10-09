@@ -4,35 +4,27 @@
 @use "./rpf_design_system/colours" as *;
 
 .project-name {
-  align-items: center;
   display: flex;
-  block-size: 100%;
-  padding-inline-start: $space-0-5;
+  gap: var(--space-0-5);
 }
 
 .project-name__title {
-  @include font-size-1-25(bold);
-  font-weight: $font-weight-bold;
-  margin-block: $space-1;
-  margin-inline-start: $space-0-5;
-  margin-inline-end: $space-1;
+  @include font-size-1(bold);
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
 
 .project-name__label {
-  @include font-size-1(regular);
-  font-weight: $font-weight-bold;
+  @include font-size-1(bold);
   margin-block-end: $space-0-5;
   display: block;
 }
 
 .project-name__input {
   @include font-size-1(regular);
-  padding: 0 $space-1-5;
-  block-size: $space-3;
-  border-radius: $space-0-5;
+  padding: var(--space-1);
+  border-radius: var(--border-radius);
   border: none;
   color: inherit;
   background-color: inherit;
@@ -40,34 +32,23 @@
   inline-size: 100%;
 }
 
-.project-name__button {
-  margin: $space-0-5;
-
-  svg {
-    block-size: $space-1-5;
-    inline-size: $space-1-5;
-    margin: 0;
-  }
-}
-
 .--dark {
   .project-name__input {
-    background-color: $rpf-grey-600;
+    background-color: var(--rpf-grey-600);
 
     &:focus-visible {
-      background-color: inherit;
-      outline: 2px solid $rpf-white;
+      outline: 2px solid var(--editor-focus-color);
     }
   }
 }
 
 .--light {
   .project-name__input {
-    background-color: $rpf-grey-50;
+    background-color: var(--rpf-grey-50);
 
     &:focus-visible {
       background-color: inherit;
-      outline: 2px solid $rpf-text-primary;
+      outline: 2px solid var(--editor-focus-color);
     }
   }
 }
