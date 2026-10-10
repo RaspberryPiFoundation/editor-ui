@@ -66,6 +66,34 @@ describe("layout resize", () => {
     );
   });
 
+  it("keeps the editor within the mobile viewport", () => {
+    cy.viewport(390, 844);
+    cy.visit("http://localhost:3011/web-component.html?project=cool-python");
+    checkEditorInitialized();
+
+    cy.document().should((document) => {
+      expect(document.documentElement.scrollWidth).to.be.at.most(
+        document.documentElement.clientWidth,
+      );
+    });
+
+    cy.get("editor-wc").should(($editor) => {
+      const editorWidth = $editor[0].getBoundingClientRect().width;
+      const viewportWidth =
+        $editor[0].ownerDocument.documentElement.clientWidth;
+      expect(editorWidth).to.be.at.most(viewportWidth);
+    });
+
+    cy.get("editor-wc")
+      .shadow()
+      .find(".cm-scroller")
+      .should(($scroller) => {
+        expect($scroller[0].scrollWidth).to.be.greaterThan(
+          $scroller[0].clientWidth,
+        );
+      });
+  });
+
   it("resizes sidebar file panel on desktop", () => {
     cy.viewport(1280, 800);
     visitAndLoadPythonProject();
