@@ -86,22 +86,14 @@ describe("Default width", () => {
   });
 
   test("Uses the default width on large screens", () => {
-    render(
-      <SidebarPanel heading="wide panel" defaultWidth="30vw">
-        some content
-      </SidebarPanel>,
-    );
+    render(<SidebarPanel heading="wide panel">some content</SidebarPanel>);
     const panel = screen.getAllByTestId("sidebar__panel").at(-1);
     expect(panel).toHaveStyle({ width: "30vw" });
   });
 
   test("Uses the minimum width on small screens", () => {
     mockMediaQuery = (query) => query === SMALL_SCREEN_MEDIA_QUERY;
-    render(
-      <SidebarPanel heading="narrow panel" defaultWidth="30vw">
-        some content
-      </SidebarPanel>,
-    );
+    render(<SidebarPanel heading="narrow panel">some content</SidebarPanel>);
     const panel = screen.getAllByTestId("sidebar__panel").at(-1);
     expect(panel).toHaveStyle({ width: "280px" });
   });

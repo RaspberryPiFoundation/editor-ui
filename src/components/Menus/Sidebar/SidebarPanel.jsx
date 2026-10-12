@@ -19,7 +19,7 @@ const SidebarPanel = (props) => {
     buttons,
     headerContent,
     panelRef,
-    defaultWidth = "320px",
+    defaultWidth = "30vw",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isSmallScreen = useMediaQuery({ query: SMALL_SCREEN_MEDIA_QUERY });
