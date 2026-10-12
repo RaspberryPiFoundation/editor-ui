@@ -2502,7 +2502,7 @@ __metadata:
     "@juggle/resize-observer": "npm:^3.3.1"
     "@raspberrypifoundation/design-system-react": "npm:^2.10.4"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
-    "@raspberrypifoundation/rpf-markdown-core": "npm:^0.2.0"
+    "@raspberrypifoundation/rpf-markdown-core": "npm:^0.2.2"
     "@react-three/drei": "npm:^10.7.8"
     "@react-three/fiber": "npm:^9.6.1"
     "@react-three/test-renderer": "npm:^9.0.0"
@@ -2605,16 +2605,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/rpf-markdown-core@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "@raspberrypifoundation/rpf-markdown-core@npm:0.2.0"
+"@raspberrypifoundation/rpf-markdown-core@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@raspberrypifoundation/rpf-markdown-core@npm:0.2.2"
   dependencies:
     happy-dom: "npm:^20.9.0"
     marked: "npm:^17.0.5"
     marked-gfm-heading-id: "npm:^4.1.4"
     prismjs: "npm:^1.30.0"
     scratchblocks: "npm:^3.6.4"
-  checksum: 10/abc8b16b91b8f0745063dad951e26bc2922679dddfe2ffe0a622882047bdd5943456175b24e9dfaec4e640230c918dd9aecfabb47b30adaad09030a0976d4fd4
+  checksum: 10/884e3bae3218cf715afb2a37bc8a7b04f7211f569f0b5a7e5eeaf8615031c5cb53f81c8e283b6f5c91aa3c68a989605b10d7fa08f8e512b0488388732d78c9be
   languageName: node
   linkType: hard
 
