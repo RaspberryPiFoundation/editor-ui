@@ -2,8 +2,13 @@ import React from "react";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
+import {
+  MOBILE_MEDIA_QUERY,
+  SMALL_SCREEN_MEDIA_QUERY,
+} from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
+
+const MIN_WIDTH = "280px";
 
 const SidebarPanel = (props) => {
   const {
@@ -17,6 +22,7 @@ const SidebarPanel = (props) => {
     defaultWidth = "320px",
   } = props;
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const isSmallScreen = useMediaQuery({ query: SMALL_SCREEN_MEDIA_QUERY });
 
   const buttonsIsEmptyArray =
     buttons && Array.isArray(buttons) && buttons.length === 0;
@@ -48,10 +54,10 @@ const SidebarPanel = (props) => {
     <ResizableWithHandle
       data-testid="sidebar__panel"
       className={classNames("sidebar__panel", className)}
-      defaultWidth={defaultWidth}
+      defaultWidth={isSmallScreen ? MIN_WIDTH : defaultWidth}
       defaultHeight="100%"
       handleDirection="right"
-      minWidth="280px"
+      minWidth={MIN_WIDTH}
       maxWidth="600px"
     >
       {panelContent}
