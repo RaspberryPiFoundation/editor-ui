@@ -79,6 +79,9 @@ const buildPluginPanel = (plugin) => {
   );
 };
 
+const isPageFullscreen = () =>
+  document.fullscreenElement === document.documentElement;
+
 const Sidebar = ({
   options = [],
   plugins = [],
@@ -98,13 +101,10 @@ const Sidebar = ({
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
-  const [isFullscreen, setIsFullscreen] = useState(
-    Boolean(document.fullscreenElement),
-  );
+  const [isFullscreen, setIsFullscreen] = useState(isPageFullscreen());
 
   useEffect(() => {
-    const onFullscreenChange = () =>
-      setIsFullscreen(Boolean(document.fullscreenElement));
+    const onFullscreenChange = () => setIsFullscreen(isPageFullscreen());
 
     document.addEventListener("fullscreenchange", onFullscreenChange);
 
@@ -113,7 +113,7 @@ const Sidebar = ({
   }, []);
 
   const toggleFullscreen = () => {
-    const request = document.fullscreenElement
+    const request = isPageFullscreen()
       ? document.exitFullscreen()
       : document.documentElement.requestFullscreen();
 
@@ -121,6 +121,8 @@ const Sidebar = ({
       console.warn("Fullscreen request failed", error);
     });
   };
+
+  const fullscreenEnabled = document.fullscreenEnabled;
 
   let menuOptions = [
     {
@@ -182,6 +184,7 @@ const Sidebar = ({
     },
   ].filter((option) => {
     if (!options.includes(option.name)) return false;
+    if (option.name === "fullscreen" && !fullscreenEnabled) return false;
     if (projectType === "code_editor_scratch" && option.name === "file")
       return false;
     return true;
