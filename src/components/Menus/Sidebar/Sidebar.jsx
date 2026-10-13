@@ -8,6 +8,8 @@ import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
+import FullscreenIcon from "../../../assets/icons/fullscreen.svg";
+import FullscreenExitIcon from "../../../assets/icons/fullscreen_exit.svg";
 import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
@@ -96,6 +98,7 @@ const Sidebar = ({
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   let menuOptions = [
     {
@@ -132,6 +135,14 @@ const Sidebar = ({
       title: t("sidebar.download"),
       position: "top",
       panel: DownloadPanel,
+    },
+    {
+      name: "fullscreen",
+      icon: isFullscreen ? FullscreenExitIcon : FullscreenIcon,
+      title: isFullscreen ? "Exit fullscreen" : "Fullscreen",
+      position: "bottom",
+      // Dummy action: only toggles the icon for now
+      onClick: () => setIsFullscreen((prev) => !prev),
     },
     {
       name: "settings",
