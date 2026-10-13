@@ -98,7 +98,29 @@ const Sidebar = ({
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(
+    Boolean(document.fullscreenElement),
+  );
+
+  useEffect(() => {
+    const onFullscreenChange = () =>
+      setIsFullscreen(Boolean(document.fullscreenElement));
+
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+
+    return () =>
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    const request = document.fullscreenElement
+      ? document.exitFullscreen()
+      : document.documentElement.requestFullscreen();
+
+    request?.catch((error) => {
+      console.warn("Fullscreen request failed", error);
+    });
+  };
 
   let menuOptions = [
     {
@@ -141,8 +163,7 @@ const Sidebar = ({
       icon: isFullscreen ? FullscreenExitIcon : FullscreenIcon,
       title: isFullscreen ? "Exit fullscreen" : "Fullscreen",
       position: "bottom",
-      // Dummy action: only toggles the icon for now
-      onClick: () => setIsFullscreen((prev) => !prev),
+      onClick: () => toggleFullscreen(),
     },
     {
       name: "settings",
