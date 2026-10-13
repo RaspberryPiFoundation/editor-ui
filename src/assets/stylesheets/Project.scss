@@ -1,5 +1,7 @@
 @use "./rpf_design_system/spacing" as *;
 @use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+@use "./breakpoints" as *;
 @use "./ScratchContainer";
 
 .proj {
@@ -40,6 +42,10 @@
   margin: $space-1;
 
   block-size: 100%;
+
+  @include unique-max-width($stacked-editor-max-width) {
+    gap: $space-0-5;
+  }
 
   .project-wrapper {
     container-type: inline-size;

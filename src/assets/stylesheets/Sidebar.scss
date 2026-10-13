@@ -1,6 +1,8 @@
 @use "./rpf_design_system/spacing" as *;
 @use "./rpf_design_system/font-size" as *;
 @use "./rpf_design_system/colours" as *;
+@use "./rpf_design_system/mixins" as *;
+@use "./breakpoints" as *;
 
 /* Sidebar */
 .sidebar {
@@ -23,6 +25,12 @@
   inline-size: var(--space-5);
   margin: var(--space-1-5);
   display: var(--editor-logo-display, inherit);
+
+  @include unique-max-width($stacked-editor-max-width) {
+    block-size: var(--space-4);
+    inline-size: var(--space-4);
+    margin: var(--space-1) var(--space-0-5);
+  }
 }
 
 .sidebar__bar {
@@ -51,6 +59,10 @@
   padding: var(--space-1);
   border: 1px solid transparent;
 
+  @include unique-max-width($stacked-editor-max-width) {
+    padding: var(--space-0-5);
+  }
+
   &--selected {
     background-color: var(--sidebar-panel-background);
     border-radius: var(--space-1) 0 0 var(--space-1);
@@ -67,6 +79,12 @@
       inline-size: var(--sidebar-border-obscurer-width);
       block-size: 60px;
       background-color: var(--sidebar-panel-background);
+
+      @include unique-max-width($stacked-editor-max-width) {
+        inset-block: -4px -1px;
+        inset-inline-end: -8px;
+        block-size: 40px;
+      }
     }
 
     .sidebar__bar-option {
@@ -88,6 +106,23 @@
 
   svg {
     margin: 0;
+  }
+
+  @include unique-max-width($stacked-editor-max-width) {
+    &.btn {
+      min-block-size: 32px;
+      min-inline-size: 32px;
+      padding: var(--space-0-5);
+    }
+
+    svg {
+      inline-size: 20px;
+      block-size: 20px;
+    }
+
+    .material-symbols-sharp {
+      font-size: 20px;
+    }
   }
 
   &:hover {
