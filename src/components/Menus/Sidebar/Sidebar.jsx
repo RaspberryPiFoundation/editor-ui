@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,8 +79,13 @@ const buildPluginPanel = (plugin) => {
   );
 };
 
-const isPageFullscreen = () =>
-  document.fullscreenElement === document.documentElement;
+// Targetting <editor-wc> host so everything in its shadow root (modals,
+// toasts) stays visible. Falls back to the page outside of the web component
+const getFullscreenTarget = (element) =>
+  element?.getRootNode().host ?? document.documentElement;
+
+const isEditorFullscreen = (element) =>
+  document.fullscreenElement === getFullscreenTarget(element);
 
 const Sidebar = ({
   options = [],
@@ -101,10 +106,12 @@ const Sidebar = ({
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
-  const [isFullscreen, setIsFullscreen] = useState(isPageFullscreen());
+  const sidebarRef = useRef(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
-    const onFullscreenChange = () => setIsFullscreen(isPageFullscreen());
+    const onFullscreenChange = () =>
+      setIsFullscreen(isEditorFullscreen(sidebarRef.current));
 
     document.addEventListener("fullscreenchange", onFullscreenChange);
 
@@ -113,9 +120,9 @@ const Sidebar = ({
   }, []);
 
   const toggleFullscreen = () => {
-    const request = isPageFullscreen()
+    const request = isEditorFullscreen(sidebarRef.current)
       ? document.exitFullscreen()
-      : document.documentElement.requestFullscreen();
+      : getFullscreenTarget(sidebarRef.current).requestFullscreen();
 
     request?.catch((error) => {
       console.warn("Fullscreen request failed", error);
@@ -283,6 +290,7 @@ const Sidebar = ({
 
   return (
     <div
+      ref={sidebarRef}
       className={classNames("sidebar", {
         "sidebar--mobile": isMobile,
         "sidebar--scratch": projectType === "code_editor_scratch",

@@ -9,6 +9,8 @@
     monospace;
 }
 
+:host(:fullscreen) { background-color: var(--editor-secondary-theme, $rpf-white); }
+
 // :not(:where(.rpf-button))
 // avoids targeting the design system buttons without increasing specificity
 
