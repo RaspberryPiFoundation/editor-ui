@@ -112,7 +112,6 @@ const InstructionsPanel = () => {
 
   return (
     <SidebarPanel
-      defaultWidth="30vw"
       panelRef={panelRef}
       heading={t("instructionsPanel.projectSteps")}
       buttons={
