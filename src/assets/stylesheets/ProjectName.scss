@@ -6,10 +6,6 @@
   align-items: center;
   inline-size: 100%;
   max-inline-size: 15em;
-
-  * > {
-    box-sizing: border-box;
-  }
 }
 
 .project-name__value {
