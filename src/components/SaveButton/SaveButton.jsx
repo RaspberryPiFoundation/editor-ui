@@ -45,11 +45,14 @@ const SaveButton = ({ className, ...buttonProps }) => {
     return <OfflineBadge className={className} />;
   }
 
+  const buttonText = t(user ? "header.save" : "header.loginToSave");
+
   return (
     <Button
+      aria-label={buttonText}
       className={className}
       onClick={onClickSave}
-      text={t(user ? "header.save" : "header.loginToSave")}
+      text={buttonText}
       icon={<SaveIcon />}
       {...buttonProps}
     />

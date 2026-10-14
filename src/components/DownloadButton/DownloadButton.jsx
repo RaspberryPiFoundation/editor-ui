@@ -77,6 +77,7 @@ const DownloadButton = (props) => {
 
   return (
     <Button
+      aria-label={buttonText}
       onClick={onClickDownload}
       text={buttonText}
       icon={Icon ? <Icon /> : null}

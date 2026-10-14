@@ -34,6 +34,7 @@ const UploadButton = (props) => {
   return (
     <>
       <Button
+        aria-label={buttonText}
         onClick={onClickUpload}
         text={buttonText}
         icon={Icon ? <Icon /> : null}
