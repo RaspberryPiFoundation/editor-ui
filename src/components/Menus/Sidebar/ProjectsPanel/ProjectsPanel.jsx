@@ -3,7 +3,7 @@ import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 
 import "../../../../assets/stylesheets/ProjectsPanel.scss?inline";
-import ProjectName from "../../../ProjectName/ProjectName";
+import ProjectNameInput from "./ProjectNameInput";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
 import DownloadIcon from "../../../../assets/icons/download.svg";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
@@ -60,11 +60,7 @@ const ProjectsPanel = () => {
       buttons={buttons}
       className="projects-panel-wrapper"
     >
-      <ProjectName
-        showLabel={true}
-        className="projects-panel__item"
-        editable={canEditProjectName}
-      />
+      <ProjectNameInput editable={canEditProjectName} />
       <ProjectInfo className="projects-panel__item" />
       <div className="projects-panel__button">
         <DownloadButton
