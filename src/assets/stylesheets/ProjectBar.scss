@@ -3,6 +3,7 @@
 
   display: flex;
   flex-wrap: wrap;
+  gap: 0 var(--space-1);
   justify-content: space-between;
   z-index: 1;
   container-type: inline-size;

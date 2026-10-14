@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   flex: 1 1 calc(5rem + var(--min-target-size));
+  min-block-size: var(--min-target-size);
   min-inline-size: calc(5rem + var(--min-target-size));
   max-inline-size: 16em;
 }
