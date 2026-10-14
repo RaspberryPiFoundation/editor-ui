@@ -16,7 +16,7 @@
 
 .project-name__title,
 .project-name__input {
-  @include typography.style-1(bold);
+  @include typography.style-1;
   box-sizing: border-box;
 
   min-block-size: var(--sm-target-size);
@@ -26,7 +26,7 @@
 }
 
 .project-name__title {
-  @include typography.style-1(bold);
+  @include typography.style-1;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
@@ -49,9 +49,6 @@
 
   background-color: inherit;
   border: 2px solid var(--rpf-text-primary);
-
-  // text-overflow: ellipsis;
-  // inline-size: 100%;
 }
 
 .--dark {
