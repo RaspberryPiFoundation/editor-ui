@@ -71,7 +71,9 @@ describe("When logged in and user owns project", () => {
   });
 
   test("Project name is shown", () => {
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: project.name }),
+    ).toBeInTheDocument();
   });
 
   test("Project name is editable", () => {
@@ -118,7 +120,9 @@ describe("When logged in and no project identifier", () => {
   });
 
   test("Project name is shown", () => {
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: project.name }),
+    ).toBeInTheDocument();
   });
 
   test("Project name is editable", () => {
@@ -148,7 +152,9 @@ describe("When not logged in", () => {
   });
 
   test("Project name is shown", () => {
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: project.name }),
+    ).toBeInTheDocument();
   });
 
   test("Project name is editable", () => {

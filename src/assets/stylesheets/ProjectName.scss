@@ -1,41 +1,63 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
 
 .project-name {
   display: flex;
-  gap: var(--space-0-5);
+  align-items: center;
+  inline-size: 100%;
+  max-inline-size: 15em;
+
+  * > {
+    box-sizing: border-box;
+  }
+}
+
+.project-name__value {
+  inline-size: 100%;
+}
+
+.project-name__title,
+.project-name__input {
+  @include typography.style-1(bold);
+  box-sizing: border-box;
+
+  min-block-size: var(--sm-target-size);
+  inline-size: 100%;
+  padding: var(--space-0-5) var(--space-1);
+  border-radius: var(--border-radius);
 }
 
 .project-name__title {
-  @include font-size-1(bold);
+  @include typography.style-1(bold);
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+  align-self: center;
+  border: 2px solid var(--editor-color-layer-1);
+  background-color: var(--editor-color-layer-1);
+}
+
+.project-name__action {
+  flex: none;
 }
 
 .project-name__label {
-  @include font-size-1(bold);
-  margin-block-end: $space-0-5;
+  @include typography.style-1;
   display: block;
 }
 
 .project-name__input {
-  @include font-size-1(regular);
-  padding: var(--space-1);
-  border-radius: var(--border-radius);
-  border: none;
-  color: inherit;
+  outline: none;
+
   background-color: inherit;
-  text-overflow: ellipsis;
-  inline-size: 100%;
+  border: 2px solid var(--rpf-text-primary);
+
+  // text-overflow: ellipsis;
+  // inline-size: 100%;
 }
 
 .--dark {
   .project-name__input {
-    background-color: var(--rpf-grey-600);
-
     &:focus-visible {
       outline: 2px solid var(--editor-focus-color);
     }
@@ -44,8 +66,6 @@
 
 .--light {
   .project-name__input {
-    background-color: var(--rpf-grey-50);
-
     &:focus-visible {
       background-color: inherit;
       outline: 2px solid var(--editor-focus-color);

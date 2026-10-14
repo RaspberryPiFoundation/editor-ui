@@ -2,7 +2,7 @@
 @use "./rpf_design_system/colours" as *;
 
 .project-bar {
-  padding: 0 var(--space-1-5);
+  padding: var(--space-0-5) var(--space-1);
 
   display: flex;
   flex-wrap: wrap;
@@ -13,18 +13,14 @@
   border-block-end: 1px solid var(--editor-color-outline);
   border-inline-start: 1px solid var(--editor-color-outline);
   border-block-start: 1px solid var(--editor-color-outline);
-  border-start-start-radius: $space-0-5;
+  border-start-start-radius: var(--border-radius);
 
   * {
     box-sizing: border-box;
   }
 
-  .project-name {
-    padding-block: var(--space-1);
-  }
-
   &.scratch-project-bar {
-    border-end-start-radius: $space-0-5;
+    border-end-start-radius: var(--border-radius);
   }
 }
 

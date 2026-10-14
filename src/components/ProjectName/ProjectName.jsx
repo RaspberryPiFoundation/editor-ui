@@ -100,25 +100,28 @@ const ProjectName = ({
         <h1 className="rpf-visually-hidden">
           {project.name || t("header.newProject")}
         </h1>
-        {editable || !isHeading ? (
-          <input
-            className="project-name__input"
-            id={"project_name"}
-            ref={nameInput}
-            type="text"
-            onFocus={selectText}
-            onScroll={handleScroll}
-            onKeyDown={handleKeyDown}
-            value={name}
-            disabled={!isEditing}
-            onChange={handleOnChange}
-            onBlur={handleOnBlur}
-          />
-        ) : (
-          <div className="project-name__title">{name}</div>
-        )}
+
+        <div className="project-name__value">
+          {isEditing || !isHeading ? (
+            <input
+              className="project-name__input"
+              id={"project_name"}
+              ref={nameInput}
+              type="text"
+              onFocus={selectText}
+              onScroll={handleScroll}
+              onKeyDown={handleKeyDown}
+              value={name}
+              disabled={!isEditing}
+              onChange={handleOnChange}
+              onBlur={handleOnBlur}
+            />
+          ) : (
+            <div className="project-name__title">{name}</div>
+          )}
+        </div>
         {editable && (
-          <div ref={tickButton}>
+          <div className="project-name__action" ref={tickButton}>
             <Button
               aria-label={t(
                 isEditing ? "header.renameSave" : "header.renameProject",
