@@ -28,7 +28,11 @@ const ProjectsPanel = () => {
   const saveOptions = (
     <>
       <div className="projects-panel__save">
-        <SaveButton className="projects-panel__save-button" />
+        <SaveButton
+          className="projects-panel__save-button"
+          iconPosition="right"
+          fullWidth
+        />
       </div>
       <div className="projects-panel__save-status">
         <SaveStatus isMobile={isMobile} />
@@ -69,7 +73,7 @@ const ProjectsPanel = () => {
           Icon={DownloadIcon}
           iconPosition="right"
           type="secondary"
-          fill
+          fullWidth
         />
       </div>
       {isMobile && saveOptions}

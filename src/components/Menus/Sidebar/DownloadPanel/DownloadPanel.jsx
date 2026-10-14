@@ -70,7 +70,7 @@ const DownloadPanel = () => {
             Icon={DownloadIcon}
             iconPosition="right"
             type="secondary"
-            fill
+            fullWidth
           />
           {/* Upload currently only applies to Scratch; hidden for other project types. */}
           {project.project_type === "code_editor_scratch" && (
@@ -80,12 +80,12 @@ const DownloadPanel = () => {
               Icon={UploadIcon}
               iconPosition="right"
               type="secondary"
-              fill
+              fullWidth
             />
           )}
         </div>
       </div>
-      {user && !projectOwner && <SaveButton fill />}
+      {user && !projectOwner && <SaveButton iconPosition="right" fullWidth />}
     </SidebarPanel>
   );
 };

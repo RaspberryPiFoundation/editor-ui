@@ -15,7 +15,7 @@ import { triggerSave } from "../../redux/EditorSlice";
 import useIsOnline from "../../hooks/useIsOnline";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
 
-const SaveButton = ({ className }) => {
+const SaveButton = ({ className, ...buttonProps }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -51,8 +51,7 @@ const SaveButton = ({ className }) => {
       onClick={onClickSave}
       text={t(user ? "header.save" : "header.loginToSave")}
       icon={<SaveIcon />}
-      iconPosition="right"
-      size="small"
+      {...buttonProps}
     />
   );
 };

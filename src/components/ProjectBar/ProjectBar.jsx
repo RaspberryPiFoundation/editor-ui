@@ -63,7 +63,9 @@ const ProjectBar = ({ nameEditable = true }) => {
           <ScratchProjectBarActions canSave={Boolean(user && canEdit)} />
         ) : (
           <>
-            {!projectOwner && canEdit && <SaveButton />}
+            {!projectOwner && canEdit && (
+              <SaveButton iconPosition="right" size="small" />
+            )}
             {user &&
               canEdit &&
               (offlineEnabled && !isOnline
