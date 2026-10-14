@@ -269,18 +269,13 @@
     <!-- DEV ONLY: project bar state mocks. Remove this module and its label. -->
     <script type="module">
       import store from "/src/redux/stores/WebComponentStore.js";
-      import {
-        setProject,
-        setReadOnly,
-      } from "/src/redux/EditorSlice.js";
+      import { setProject, setReadOnly } from "/src/redux/EditorSlice.js";
       import { setUser } from "/src/redux/WebComponentAuthSlice.js";
 
       const projectStateSelect = document.getElementById(
         "project-bar-project-state",
       );
-      const saveStateSelect = document.getElementById(
-        "project-bar-save-state",
-      );
+      const saveStateSelect = document.getElementById("project-bar-save-state");
       const previewUser = {
         profile: { user: "project-bar-preview-user" },
       };

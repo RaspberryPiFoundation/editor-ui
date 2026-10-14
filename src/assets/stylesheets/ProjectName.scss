@@ -11,7 +11,7 @@
 
 .project-name__value {
   flex: 1;
-  min-inline-size: 50px;
+  min-inline-size: 0;
 }
 
 .project-name__title,
@@ -26,7 +26,6 @@
 }
 
 .project-name__title {
-  @include typography.style-1;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
