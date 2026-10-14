@@ -4,14 +4,14 @@
 .project-name {
   display: flex;
   align-items: center;
-  inline-size: 100%;
-  min-inline-size: 0;
+  flex: 1 1 calc(5rem + var(--min-target-size));
+  min-inline-size: calc(5rem + var(--min-target-size));
   max-inline-size: 16em;
 }
 
 .project-name__value {
   flex: 1;
-  min-inline-size: 0;
+  min-inline-size: 50px;
 }
 
 .project-name__title,
@@ -26,6 +26,7 @@
 }
 
 .project-name__title {
+  @include typography.style-1;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
