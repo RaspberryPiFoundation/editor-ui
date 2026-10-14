@@ -6,7 +6,7 @@ import { Button } from "@raspberrypifoundation/design-system-react";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 const UploadButton = (props) => {
-  const { buttonText, className, Icon, ...otherProps } = props;
+  const { buttonText, Icon, ...buttonProps } = props;
   const project = useSelector((state) => state.editor.project);
   const fileInputRef = useRef(null);
 
@@ -34,14 +34,10 @@ const UploadButton = (props) => {
   return (
     <>
       <Button
-        className={className}
         onClick={onClickUpload}
         text={buttonText}
         icon={Icon ? <Icon /> : null}
-        iconPosition="right"
-        type="secondary"
-        size="small"
-        {...otherProps}
+        {...buttonProps}
       />
       <input
         ref={fileInputRef}

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import SidebarPanel from "../SidebarPanel";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import SaveButton from "../../../SaveButton/SaveButton";
+import UploadButton from "../../../UploadButton/UploadButton";
 import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
 import UploadIcon from "../../../../assets/icons/upload.svg";
@@ -14,7 +15,6 @@ import {
   signUpEvent,
 } from "../../../../events/WebComponentCustomEvents";
 import "../../../../assets/stylesheets/DownloadPanel.scss?inline";
-import UploadButton from "../../../UploadButton/UploadButton";
 
 const DownloadPanel = () => {
   const { t } = useTranslation();
@@ -68,6 +68,8 @@ const DownloadPanel = () => {
             buttonText={t("downloadPanel.downloadButton")}
             className="download-panel__button"
             Icon={DownloadIcon}
+            iconPosition="right"
+            type="secondary"
             fill
           />
           {/* Upload currently only applies to Scratch; hidden for other project types. */}
@@ -76,6 +78,8 @@ const DownloadPanel = () => {
               buttonText={t("downloadPanel.uploadButton")}
               className="download-panel__button"
               Icon={UploadIcon}
+              iconPosition="right"
+              type="secondary"
               fill
             />
           )}

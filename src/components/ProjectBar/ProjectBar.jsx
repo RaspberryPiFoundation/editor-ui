@@ -7,8 +7,8 @@ import DownloadIcon from "../../assets/icons/download.svg";
 import UploadIcon from "../../assets/icons/upload.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
-import UploadButton from "../UploadButton/UploadButton";
 import SaveButton from "../SaveButton/SaveButton";
+import UploadButton from "../UploadButton/UploadButton";
 import ScratchProjectBarActions from "./ScratchProjectBarActions";
 import useIsOnline from "../../hooks/useIsOnline";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
@@ -44,9 +44,21 @@ const ProjectBar = ({ nameEditable = true }) => {
       <ProjectName editable={canEdit && nameEditable} isHeading={true} />
       <div className="project-bar__right">
         {isScratchProject && !readOnly && (
-          <UploadButton buttonText={t("header.upload")} Icon={UploadIcon} />
+          <UploadButton
+            buttonText={t("header.upload")}
+            Icon={UploadIcon}
+            iconPosition="right"
+            type="secondary"
+            size="small"
+          />
         )}
-        <DownloadButton buttonText={t("header.download")} Icon={DownloadIcon} />
+        <DownloadButton
+          buttonText={t("header.download")}
+          Icon={DownloadIcon}
+          iconPosition="right"
+          type="secondary"
+          size="small"
+        />
         {isScratchProject ? (
           <ScratchProjectBarActions canSave={Boolean(user && canEdit)} />
         ) : (

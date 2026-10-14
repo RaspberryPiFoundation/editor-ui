@@ -67,6 +67,9 @@ const ProjectsPanel = () => {
           buttonText={t("header.download")}
           className="projects-panel__download-button"
           Icon={DownloadIcon}
+          iconPosition="right"
+          type="secondary"
+          fill
         />
       </div>
       {isMobile && saveOptions}
