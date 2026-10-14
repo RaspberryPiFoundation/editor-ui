@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
-import ScratchProjectBar from "./ScratchProjectBar";
+import ProjectBar from "./ProjectBar";
 import editorReducer, { editorInitialState } from "../../redux/EditorSlice";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
@@ -72,7 +72,7 @@ const renderScratchProjectBar = (state) => {
   render(
     <Provider store={store}>
       <MemoryRouter>
-        <ScratchProjectBar />
+        <ProjectBar />
       </MemoryRouter>
     </Provider>,
   );
