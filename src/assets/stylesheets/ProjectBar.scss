@@ -9,6 +9,8 @@
   background-color: var(--editor-color-layer-3);
   border-block-end: 1px solid var(--editor-color-outline);
   border-inline-start: 1px solid var(--editor-color-outline);
+  border-block-start: 1px solid var(--editor-color-outline);
+  border-top-left-radius: $space-0-5;
 
   @container (max-width: 367px) {
     flex-direction: column;
