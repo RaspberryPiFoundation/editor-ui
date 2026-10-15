@@ -1,9 +1,19 @@
 import React from "react";
 import Button from "../../Button/Button";
 import classNames from "classnames";
+import { getSidebarPanelId, getSidebarTabId } from "./sidebarTabIds";
 
 const SidebarBarOption = (props) => {
-  const { Icon, isActive, name, title, toggleOption } = props;
+  const {
+    Icon,
+    isActive,
+    isFocusable = isActive,
+    name,
+    title,
+    toggleOption,
+    onKeyDown,
+    buttonRef,
+  } = props;
 
   const onClickHandler = () => {
     toggleOption(name);
@@ -24,6 +34,13 @@ const SidebarBarOption = (props) => {
         })}
         ButtonIcon={Icon}
         title={title}
+        role="tab"
+        id={getSidebarTabId(name)}
+        tabIndex={isFocusable ? 0 : -1}
+        ariaSelected={!!isActive}
+        ariaControls={isActive ? getSidebarPanelId(name) : undefined}
+        buttonRef={buttonRef}
+        onKeyDown={onKeyDown}
         onClickHandler={onClickHandler}
       />
     </div>
