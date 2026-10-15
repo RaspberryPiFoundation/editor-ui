@@ -47,6 +47,32 @@
   border-inline-end: 1px solid var(--sidebar-border);
 }
 
+// The expand/collapse button comes after the panel in the DOM (so Tab moves
+// from the selected tab into its panel first) but is drawn under the tabs
+.sidebar:not(.sidebar--mobile) {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 1fr auto;
+  justify-content: start;
+
+  .sidebar__panel {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
+}
+
+.sidebar__bar--has-collapse {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.sidebar__bar-collapse {
+  grid-column: 1;
+  grid-row: 2;
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+}
+
 .sidebar__bar-options--top,
 .sidebar__bar-options--bottom {
   display: flex;

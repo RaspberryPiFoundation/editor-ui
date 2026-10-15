@@ -260,15 +260,16 @@ const Sidebar = ({
         toggleOption={toggleOption}
         instructions={instructionsSteps}
         allowMobileView={allowMobileView}
-      />
-      {activeOption && (
-        <SidebarActiveOptionContext.Provider value={activeOption}>
-          <CustomSidebarPanel
-            isMobile={isMobile}
-            {...(optionDict.panelProps || {})}
-          />
-        </SidebarActiveOptionContext.Provider>
-      )}
+      >
+        {activeOption && (
+          <SidebarActiveOptionContext.Provider value={activeOption}>
+            <CustomSidebarPanel
+              isMobile={isMobile}
+              {...(optionDict.panelProps || {})}
+            />
+          </SidebarActiveOptionContext.Provider>
+        )}
+      </SidebarBar>
     </div>
   );
 };

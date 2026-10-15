@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useMediaQuery } from "react-responsive";
@@ -20,6 +20,7 @@ const SidebarBar = (props) => {
     toggleOption,
     instructions = false,
     allowMobileView = true,
+    children,
   } = props;
   const project = useSelector((state) => state.editor.project);
   const { t } = useTranslation();
@@ -32,6 +33,58 @@ const SidebarBar = (props) => {
   const menuOptionNames = menuOptions.map((menuOption) => menuOption.name);
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
+  const tabRefs = useRef({});
+  const tabNames = [...topMenuOptions, ...bottomMenuOptions].map(
+    (menuOption) => menuOption.name,
+  );
+  // With no open panel, the first tab is the tab stop
+  const focusableTab = tabNames.includes(option) ? option : tabNames[0];
+
+  const onTabKeyDown = (e, name) => {
+    const index = tabNames.indexOf(name);
+    const lastIndex = tabNames.length - 1;
+    let nextIndex;
+
+    switch (e.key) {
+      case "ArrowDown":
+        nextIndex = index === lastIndex ? 0 : index + 1;
+        break;
+      case "ArrowUp":
+        nextIndex = index === 0 ? lastIndex : index - 1;
+        break;
+      case "Home":
+        nextIndex = 0;
+        break;
+      case "End":
+        nextIndex = lastIndex;
+        break;
+      default:
+        return;
+    }
+
+    e.preventDefault();
+    const nextName = tabNames[nextIndex];
+    tabRefs.current[nextName]?.focus();
+
+    // Open the focused tab's panel. toggleOption would close an open one.
+    if (nextName !== option) toggleOption(nextName);
+  };
+
+  const renderTab = (menuOption, i) => (
+    <SidebarBarOption
+      key={i}
+      Icon={menuOption.icon}
+      title={menuOption.title}
+      isActive={option === menuOption.name}
+      isFocusable={focusableTab === menuOption.name}
+      toggleOption={toggleOption}
+      name={menuOption.name}
+      onKeyDown={(e) => onTabKeyDown(e, menuOption.name)}
+      buttonRef={(el) => {
+        tabRefs.current[menuOption.name] = el;
+      }}
+    />
+  );
 
   const findFirstExistingOption = (candidateOptions = []) => {
     return candidateOptions.find(
@@ -79,61 +132,61 @@ const SidebarBar = (props) => {
   };
 
   return (
-    <div
-      className={classNames("sidebar__bar", {
-        "sidebar__bar--selected": option,
-      })}
-    >
-      <div className={`sidebar__bar-options--top`}>
-        <img
-          className="editor-logo"
-          src={getProjectTypeLogo(project.project_type)}
-          alt={t("header.editorLogoAltText")}
-        />
-        {topMenuOptions.map((menuOption, i) => (
-          <SidebarBarOption
-            key={i}
-            Icon={menuOption.icon}
-            title={menuOption.title}
-            isActive={option === menuOption.name}
-            toggleOption={toggleOption}
-            name={menuOption.name}
+    <>
+      <div
+        className={classNames("sidebar__bar", {
+          "sidebar__bar--selected": option,
+          "sidebar__bar--has-collapse": !isMobile,
+        })}
+        role="tablist"
+        aria-orientation="vertical"
+        aria-label={t("sidebar.tablistLabel")}
+      >
+        <div className={`sidebar__bar-options--top`}>
+          <img
+            className="editor-logo"
+            src={getProjectTypeLogo(project.project_type)}
+            alt={t("header.editorLogoAltText")}
           />
-        ))}
+          {topMenuOptions.map(renderTab)}
+        </div>
+        <div className={`sidebar__bar-options--bottom`}>
+          {bottomMenuOptions.map(renderTab)}
+        </div>
       </div>
-      <div className={`sidebar__bar-options--bottom`}>
-        {bottomMenuOptions.map((menuOption, i) => (
-          <SidebarBarOption
-            key={i}
-            Icon={menuOption.icon}
-            title={menuOption.title}
-            isActive={option === menuOption.name}
-            toggleOption={toggleOption}
-            name={menuOption.name}
-          />
-        ))}
-        {!isMobile &&
-          (option ? (
-            <div className="sidebar__bar-option-wrapper">
-              <Button
-                className="sidebar__bar-option"
-                ButtonIcon={DoubleArrowLeft}
-                title={t("sidebar.collapse")}
-                onClickHandler={collapsePopOut}
-              />
-            </div>
-          ) : (
-            <div className="sidebar__bar-option-wrapper">
-              <Button
-                className="sidebar__bar-option"
-                ButtonIcon={DoubleArrowRight}
-                title={t("sidebar.expand")}
-                onClickHandler={expandPopOut}
-              />
-            </div>
-          ))}
-      </div>
-    </div>
+      {/* Tab moves from the selected tab into its panel before the collapse button.
+          The collapse button is not a tab, so it is outside the tablist */}
+      {children}
+      {!isMobile && (
+        <div
+          className={classNames("sidebar__bar", "sidebar__bar-collapse", {
+            "sidebar__bar--selected": option,
+          })}
+        >
+          <div className={`sidebar__bar-options--bottom`}>
+            {option ? (
+              <div className="sidebar__bar-option-wrapper">
+                <Button
+                  className="sidebar__bar-option"
+                  ButtonIcon={DoubleArrowLeft}
+                  title={t("sidebar.collapse")}
+                  onClickHandler={collapsePopOut}
+                />
+              </div>
+            ) : (
+              <div className="sidebar__bar-option-wrapper">
+                <Button
+                  className="sidebar__bar-option"
+                  ButtonIcon={DoubleArrowRight}
+                  title={t("sidebar.expand")}
+                  onClickHandler={expandPopOut}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
