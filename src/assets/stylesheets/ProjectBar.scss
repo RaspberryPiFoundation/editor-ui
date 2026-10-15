@@ -54,6 +54,10 @@
   .project-bar__btn-wrapper:not(:last-child) {
     border-inline-end: 1px solid var(--editor-color-outline);
   }
+
+  &.scratch-project-bar {
+    border-end-start-radius: $space-0-5;
+  }
 }
 
 .project-bar__right {
