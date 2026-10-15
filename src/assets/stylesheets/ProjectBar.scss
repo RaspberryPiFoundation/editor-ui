@@ -2,13 +2,13 @@
 @use "./rpf_design_system/colours" as *;
 
 .project-bar {
-  border-radius: $space-0-5;
   display: flex;
   align-items: center;
   z-index: 1;
   container-type: inline-size;
   background-color: var(--editor-color-layer-3);
-  border: 1px solid var(--editor-color-outline);
+  border-block-end: 1px solid var(--editor-color-outline);
+  border-inline-start: 1px solid var(--editor-color-outline);
 
   @container (max-width: 367px) {
     flex-direction: column;
