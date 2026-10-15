@@ -24,6 +24,12 @@ const Button = (props) => {
     text,
     title,
     label,
+    role,
+    id,
+    tabIndex,
+    ariaSelected,
+    ariaControls,
+    onKeyDown: onKeyDownHandler,
     buttonIconPosition = "left",
   } = props;
 
@@ -54,6 +60,7 @@ const Button = (props) => {
   };
 
   const onKeyDown = (e) => {
+    onKeyDownHandler?.(e);
     e.stopPropagation();
   };
 
@@ -83,6 +90,11 @@ const Button = (props) => {
       aria-label={label}
       title={title}
       text={text}
+      role={role}
+      id={id}
+      tabIndex={tabIndex}
+      aria-selected={ariaSelected}
+      aria-controls={ariaControls}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
     >
