@@ -72,7 +72,10 @@ const ScratchProjectBar = ({ nameEditable = true }) => {
   }
 
   return (
-    <div className="project-bar" data-testid="scratch-project-bar">
+    <div
+      className="project-bar scratch-project-bar"
+      data-testid="scratch-project-bar"
+    >
       <ProjectName editable={canEditProjectName} isHeading={true} />
       <div className="project-bar__right">
         {!readOnly && (
