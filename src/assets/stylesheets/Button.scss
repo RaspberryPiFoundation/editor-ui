@@ -24,7 +24,8 @@
   text-align: center;
   text-decoration: none;
 
-  &:disabled {
+  &:disabled,
+  &[aria-disabled="true"] {
     background-color: $rpf-grey-600;
     color: $rpf-white;
     cursor: default;
@@ -61,7 +62,8 @@
       border-radius: var(--rpf-primary-button-radius, $space-0-5);
     }
 
-    &:disabled {
+    &:disabled,
+    &[aria-disabled="true"] {
       background-color: var(--rpf-button-primary-background-color-disabled);
       color: var(--rpf-button-primary-color-disabled);
 
@@ -281,7 +283,8 @@
     }
   }
 
-  &:has(.btn:disabled) {
+  &:has(.btn:disabled),
+  &:has(.btn[aria-disabled="true"]) {
     cursor: default;
   }
 }

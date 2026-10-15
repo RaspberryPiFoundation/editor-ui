@@ -116,6 +116,21 @@ describe("When running and stopping code", () => {
     expect(button).toHaveTextContent("runButton.stopping");
   });
 
+  test("The button keeps focus while stopping", () => {
+    store.dispatch(triggerCodeRun());
+    renderControls();
+    const button = screen.getByRole("button");
+    button.focus();
+    fireEvent.click(button);
+
+    act(() => {
+      vi.runAllTimers();
+    });
+    expect(button).toHaveAttribute("aria-disabled", "true");
+    expect(button).not.toBeDisabled();
+    expect(button).toHaveFocus();
+  });
+
   test("Clicking stop dispatches editor-runStopped with the embedded context", () => {
     store.dispatch(triggerCodeRun());
     renderControls({ embedded: true });

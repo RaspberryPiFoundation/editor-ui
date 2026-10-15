@@ -41,6 +41,9 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
   };
 
   const onClickStop = () => {
+    if (stopping) {
+      return;
+    }
     if (window.plausible) {
       window.plausible(`Stop button${embedded ? " embedded" : ""}`);
     }
@@ -69,10 +72,10 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
           "btn--small": skinny,
         })}
         disabled={
-          isRunning
-            ? stopping
-            : !activeRunner || activeRunner !== loadedRunner || codeRunLoading
+          !isRunning &&
+          (!activeRunner || activeRunner !== loadedRunner || codeRunLoading)
         }
+        ariaDisabled={isRunning && stopping}
         onClickHandler={isRunning ? onClickStop : onClickRun}
       />
     </div>
