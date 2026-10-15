@@ -19,6 +19,7 @@ const Button = (props) => {
     buttonOuterClassName,
     buttonRef,
     disabled,
+    ariaDisabled,
     confirmText,
     href,
     text,
@@ -80,6 +81,7 @@ const Button = (props) => {
       ref={buttonRef}
       className={buttonClass}
       disabled={disabled}
+      aria-disabled={ariaDisabled || undefined}
       aria-label={label}
       title={title}
       text={text}
