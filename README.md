@@ -107,6 +107,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 - `read_only`: Display the editor in read only mode (defaults to `false`)
 - `sense_hat_always_enabled`: Show the Astro Pi Sense HAT emulator on page load (defaults to `false`)
 - `show_save_prompt`: Prompt the user to save their work (defaults to `false`)
+- `show_top_margin`: Leave a gap above the editor, rounding the top corners of the sidebar and project bar (defaults to `true`)
 - `sidebar_options`: Array of strings specifying the panels to be displayed in the sidebar (defaults to an empty array). The options that can be included are `"projects"`, `"instructions"`, `"file"`, `"images"`, `"download"`, `"settings"` and `"info"`.
 - `theme`: Force editor into `"dark"` or `"light"` mode - browser or system preferences will be used if not specified
 - `with_projectbar`: Show the project bar containing project name and save status (defaults to `false`)

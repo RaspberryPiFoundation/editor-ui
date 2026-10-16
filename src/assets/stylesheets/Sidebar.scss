@@ -9,6 +9,9 @@
   display: flex;
   position: relative;
   background-color: var(--editor-color-layer-2);
+}
+
+.proj-container--top-margin .sidebar {
   border-block-start: 1px solid var(--editor-color-outline);
   border-start-end-radius: $space-0-5;
 }

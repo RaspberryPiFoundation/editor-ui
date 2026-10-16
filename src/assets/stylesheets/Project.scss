@@ -41,9 +41,12 @@
   --resize-handle-size: 16px;
 
   gap: var(--resize-handle-size);
-  margin-block-start: $space-1;
 
   block-size: 100%;
+
+  &--top-margin {
+    margin-block-start: $space-1;
+  }
 
   .project-wrapper {
     container-type: inline-size;

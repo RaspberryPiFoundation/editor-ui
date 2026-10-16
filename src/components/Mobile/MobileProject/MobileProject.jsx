@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import classnames from "classnames";
 import EditorInput from "../../Editor/EditorInput/EditorInput";
 import Output from "../../Editor/Output/Output";
 import MobileProjectBar from "../MobileProjectBar/MobileProjectBar";
@@ -16,6 +17,7 @@ import { showSidebar } from "../../../redux/EditorSlice";
 
 const MobileProject = ({
   withSidebar,
+  showTopMargin = true,
   sidebarOptions = [],
   feedbackFormUrl,
   sidebarPlugins = [],
@@ -43,7 +45,12 @@ const MobileProject = ({
 
   return (
     <div
-      className="proj-container proj-editor-container proj-container--mobile"
+      className={classnames(
+        "proj-container",
+        "proj-editor-container",
+        "proj-container--mobile",
+        { "proj-container--top-margin": showTopMargin },
+      )}
       data-testid="mobile-project"
     >
       <Tabs
