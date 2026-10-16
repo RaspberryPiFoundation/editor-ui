@@ -28,14 +28,18 @@ vi.mock("re-resizable", () => ({
   },
 }));
 
-test("renders a horizontal handle", () => {
+test("renders a horizontal handle indicator", () => {
   render(<ResizableWithHandle handleDirection="bottom" />);
-  expect(screen.getByTestId("horizontalHandle")).toBeTruthy();
+  expect(screen.getByTestId("horizontalHandle")).toHaveClass(
+    "resizable-with-handle__indicator--horizontal",
+  );
 });
 
-test("renders a vertical handle", () => {
+test("renders a vertical handle indicator", () => {
   render(<ResizableWithHandle handleDirection="right" />);
-  expect(screen.getByTestId("verticalHandle")).toBeTruthy();
+  expect(screen.getByTestId("verticalHandle")).toHaveClass(
+    "resizable-with-handle__indicator--vertical",
+  );
 });
 
 test("it does not add an incorrect class to the handle", () => {

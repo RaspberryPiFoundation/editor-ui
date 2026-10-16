@@ -38,14 +38,12 @@
   flex-direction: row;
   overflow-y: hidden;
 
-  gap: $space-1;
-  margin-block-start: $space-1;
-  
-  block-size: 100%;
+  --resize-handle-size: 16px;
 
-  @include unique-max-width($stacked-editor-max-width) {
-    gap: $space-0-5;
-  }
+  gap: var(--resize-handle-size);
+  margin-block-start: $space-1;
+
+  block-size: 100%;
 
   .project-wrapper {
     container-type: inline-size;
@@ -59,7 +57,7 @@
     display: flex;
     flex: 0 1 auto;
     flex-flow: column;
-    gap: var(--project-editor-wrapper-grid-gap, #{$space-1});
+    gap: var(--project-editor-wrapper-grid-gap, var(--resize-handle-size));
     overflow: hidden;
     block-size: 100%;
     inline-size: 100%;
@@ -87,7 +85,7 @@
     background-color: var(--editor-color-layer-2);
     border-block-start: 1px solid var(--editor-color-outline);
     border-start-start-radius: 8px;
-    
+
     .react-tabs__tab-panel--selected {
       overflow-y: auto;
     }
@@ -108,13 +106,15 @@
       .proj-editor-container {
         inline-size: 50%;
         border: 0;
-        border-radius: 0;
+        border-end-start-radius: 0;
+        border-start-start-radius: 0;
       }
     }
   }
 
   @media screen and (min-width: 601px) {
-    .sidebar, .proj-editor-container {
+    .sidebar,
+    .proj-editor-container {
       border-inline-end: 1px solid var(--editor-color-outline);
     }
 
