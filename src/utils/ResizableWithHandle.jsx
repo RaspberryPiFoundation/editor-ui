@@ -7,13 +7,13 @@ import "../assets/stylesheets/ResizableWithHandle.scss?inline";
 const VerticalHandle = () => (
   <svg
     data-testid="verticalHandle"
-    width="44"
+    width="16"
     height="56"
-    viewBox="0 0 44 56"
+    viewBox="0 0 16 56"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <rect x="20" width="4" height="56" rx="2" fill="#616575" />
+    <rect x="2" width="4" height="56" rx="2" fill="#616575" />
   </svg>
 );
 
@@ -21,18 +21,18 @@ const HorizontalHandle = () => (
   <svg
     data-testid="horizontalHandle"
     width="56"
-    height="44"
-    viewBox="0 0 56 44"
+    height="16"
+    viewBox="0 0 56 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
     <rect
       x="56"
-      y="20"
+      y="2"
       width="4"
       height="56"
       rx="2"
-      transform="rotate(90 56 20)"
+      transform="rotate(90 56 2)"
       fill="#616575"
     />
   </svg>

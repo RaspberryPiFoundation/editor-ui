@@ -1,18 +1,26 @@
 .resizable-with-handle__handle--right div {
-  /* stylelint-disable-next-line csstools/use-logical */
-  right: 3px !important;
+  // Keep the target clear of content and scrollbars in the resized panel.
+  /* stylelint-disable csstools/use-logical */
+  right: -20px !important;
+  width: 16px !important;
+  /* stylelint-enable csstools/use-logical */
 
   svg {
     block-size: 100%;
+    inline-size: 100%;
     min-inline-size: 0;
   }
 }
 
 .resizable-with-handle__handle--bottom div {
-  /* stylelint-disable-next-line csstools/use-logical */
-  bottom: 3px !important;
+  // Keep the target clear of content and scrollbars in the resized panel.
+  /* stylelint-disable csstools/use-logical */
+  bottom: -20px !important;
+  height: 16px !important;
+  /* stylelint-enable csstools/use-logical */
 
   svg {
+    block-size: 100%;
     inline-size: 100%;
   }
 }
