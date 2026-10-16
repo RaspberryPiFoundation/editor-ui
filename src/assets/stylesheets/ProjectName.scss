@@ -31,8 +31,8 @@
   text-overflow: ellipsis;
   text-wrap: nowrap;
   align-self: center;
-  border: 2px solid var(--editor-color-layer-1);
-  background-color: var(--editor-color-layer-1);
+  border: 2px solid var(--rpf-grey-50);
+  background-color: var(--rpf-grey-50);
 }
 
 .project-name__action {
@@ -68,3 +68,9 @@
   }
 }
 
+.--dark {
+  .project-name__title {
+    border: 2px solid var(--rpf-grey-850);
+    background-color: var(--rpf-grey-850);
+  }
+}
