@@ -68,7 +68,6 @@
     box-sizing: border-box;
     min-block-size: 30%;
     max-block-size: 70%;
-    background-color: var(--editor-color-layer-2);
     border-block-end: 1px solid var(--editor-color-outline);
     border-end-start-radius: 8px;
 
@@ -82,7 +81,6 @@
     box-sizing: border-box;
     flex: 5;
     overflow: hidden;
-    background-color: var(--editor-color-layer-2);
     border-block-start: 1px solid var(--editor-color-outline);
     border-start-start-radius: 8px;
 
@@ -136,6 +134,8 @@
 
 .proj-editor-container,
 .proj-runner-container {
+  background-color: var(--editor-color-layer-2);
+
   .react-tabs__tab-list {
     flex: 1;
   }
