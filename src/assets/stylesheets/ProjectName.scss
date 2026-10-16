@@ -1,73 +1,70 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
 
 .project-name {
-  align-items: center;
   display: flex;
-  block-size: 100%;
-  padding-inline-start: $space-0-5;
+  align-items: center;
+  flex: 1 1 calc(5rem + var(--min-target-size));
+  min-block-size: var(--min-target-size);
+  min-inline-size: calc(5rem + var(--min-target-size));
+  max-inline-size: 16em;
+}
+
+.project-name__value {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.project-name__title,
+.project-name__input {
+  @include typography.style-1;
+  box-sizing: border-box;
+
+  min-block-size: var(--sm-target-size);
+  inline-size: 100%;
+  padding: var(--space-0-5) var(--space-1);
+  border-radius: var(--border-radius);
 }
 
 .project-name__title {
-  @include font-size-1-25(bold);
-  font-weight: $font-weight-bold;
-  margin-block: $space-1;
-  margin-inline-start: $space-0-5;
-  margin-inline-end: $space-1;
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+  align-self: center;
+  border: 2px solid var(--editor-color-layer-1);
+  background-color: var(--editor-color-layer-1);
+}
+
+.project-name__action {
+  flex: none;
 }
 
 .project-name__label {
-  @include font-size-1(regular);
-  font-weight: $font-weight-bold;
-  margin-block-end: $space-0-5;
+  @include typography.style-1;
   display: block;
 }
 
 .project-name__input {
-  @include font-size-1(regular);
-  padding: 0 $space-1-5;
-  block-size: $space-3;
-  border-radius: $space-0-5;
-  border: none;
-  color: inherit;
+  outline: none;
+
   background-color: inherit;
-  text-overflow: ellipsis;
-  inline-size: 100%;
-}
-
-.project-name__button {
-  margin: $space-0-5;
-
-  svg {
-    block-size: $space-1-5;
-    inline-size: $space-1-5;
-    margin: 0;
-  }
+  border: 2px solid var(--rpf-text-primary);
 }
 
 .--dark {
   .project-name__input {
-    background-color: $rpf-grey-600;
-
     &:focus-visible {
-      background-color: inherit;
-      outline: 2px solid $rpf-white;
+      outline: 2px solid var(--editor-focus-color);
     }
   }
 }
 
 .--light {
   .project-name__input {
-    background-color: $rpf-grey-50;
-
     &:focus-visible {
       background-color: inherit;
-      outline: 2px solid $rpf-text-primary;
+      outline: 2px solid var(--editor-focus-color);
     }
   }
 }
+

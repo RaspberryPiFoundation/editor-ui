@@ -14,7 +14,7 @@ const getProjectLastSavedTime = (updatedAt) => {
   return Number.isNaN(timestamp) ? null : timestamp;
 };
 
-const ScratchProjectBarActions = ({ canSave }) => {
+const ScratchProjectBarActions = ({ canSave, iconOnly }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -57,6 +57,7 @@ const ScratchProjectBarActions = ({ canSave }) => {
       {showSaveButton && (
         <Button
           aria-label={t("header.save")}
+          iconOnly={iconOnly}
           onClick={onClickSave}
           text={t("header.save")}
           icon={<SaveIcon />}

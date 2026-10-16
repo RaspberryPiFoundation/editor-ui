@@ -11,6 +11,7 @@ import SaveButton from "../SaveButton/SaveButton";
 import UploadButton from "../UploadButton/UploadButton";
 import ScratchProjectBarActions from "./ScratchProjectBarActions";
 import useIsOnline from "../../hooks/useIsOnline";
+import { useContainerMinWidth } from "../../hooks/useContainerMinWidth";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
 
 import "../../assets/stylesheets/ProjectBar.scss?inline";
@@ -29,6 +30,7 @@ const ProjectBar = ({ nameEditable = true }) => {
   const canEdit = !readOnly && !previewMode;
   const isScratchProject = project?.project_type === "code_editor_scratch";
   const isOnline = useIsOnline();
+  const [showActionText, projectBarRef] = useContainerMinWidth(560);
 
   if (loading !== "success") {
     return null;
@@ -37,6 +39,7 @@ const ProjectBar = ({ nameEditable = true }) => {
   return (
     <div
       className={`project-bar${isScratchProject ? " scratch-project-bar" : ""}`}
+      ref={projectBarRef}
       data-testid={
         isScratchProject ? "scratch-project-bar" : "default-project-bar"
       }
@@ -44,14 +47,37 @@ const ProjectBar = ({ nameEditable = true }) => {
       <ProjectName editable={canEdit && nameEditable} isHeading={true} />
       <div className="project-bar__right">
         {isScratchProject && !readOnly && (
-          <UploadButton buttonText={t("header.upload")} Icon={UploadIcon} />
+          <UploadButton
+            buttonText={t("header.upload")}
+            Icon={UploadIcon}
+            iconOnly={!showActionText}
+            iconPosition="right"
+            type="secondary"
+            size="small"
+          />
         )}
-        <DownloadButton buttonText={t("header.download")} Icon={DownloadIcon} />
+        <DownloadButton
+          buttonText={t("header.download")}
+          Icon={DownloadIcon}
+          iconOnly={!showActionText}
+          iconPosition="right"
+          type="secondary"
+          size="small"
+        />
         {isScratchProject ? (
-          <ScratchProjectBarActions canSave={Boolean(user && canEdit)} />
+          <ScratchProjectBarActions
+            canSave={Boolean(user && canEdit)}
+            iconOnly={!showActionText}
+          />
         ) : (
           <>
-            {!projectOwner && canEdit && <SaveButton />}
+            {!projectOwner && canEdit && (
+              <SaveButton
+                iconOnly={!showActionText}
+                iconPosition="right"
+                size="small"
+              />
+            )}
             {user &&
               canEdit &&
               (offlineEnabled && !isOnline
