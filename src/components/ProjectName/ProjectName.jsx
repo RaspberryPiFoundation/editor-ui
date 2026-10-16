@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import PencilIcon from "../../assets/icons/pencil.svg";
 import TickIcon from "../../assets/icons/tick.svg";
 
 import { Button } from "@raspberrypifoundation/design-system-react";
-import { updateProjectName } from "../../redux/EditorSlice";
+import { useProjectNameEditing } from "../../hooks/useProjectNameEditing";
 
 import "../../assets/stylesheets/ProjectName.scss?inline";
 import classNames from "classnames";
@@ -17,20 +16,19 @@ const ProjectName = ({
   editable = true,
   isHeading = false,
 }) => {
-  const project = useSelector((state) => state.editor.project, shallowEqual);
-
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const {
+    actionRef,
+    handleBlur,
+    handleKeyDown,
+    isEditing,
+    name,
+    projectName,
+    saveName,
+    setName,
+    startEditing,
+  } = useProjectNameEditing();
   const nameInput = useRef();
-  const tickButton = useRef();
-
-  const [isEditing, setEditing] = useState(false);
-  const [name, setName] = useState(project.name || t("projectName.newProject"));
-
-  const onEditNameButtonClick = () => {
-    setEditing(true);
-  };
 
   const selectText = () => {
     nameInput.current.select();
@@ -43,51 +41,10 @@ const ProjectName = ({
   };
 
   useEffect(() => {
-    setName(project.name);
-  }, [project.name]);
-
-  const handleOnChange = () => {
-    setName(nameInput.current.value);
-  };
-
-  const updateName = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    setEditing(false);
-    dispatch(updateProjectName(nameInput.current.value));
-  };
-
-  const resetName = useCallback(
-    (event) => {
-      event.preventDefault();
-      setEditing(false);
-      setName(project.name);
-    },
-    [project.name],
-  );
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      updateName(event);
-    } else if (event.key === "Escape") {
-      resetName(event);
-    }
-  };
-
-  const handleOnBlur = (event) => {
-    // If the blur event is triggered by clicking the tick button we want to make sure updateName is called
-    if (tickButton?.current?.contains(event.relatedTarget)) {
-      event.preventDefault();
-      return;
-    }
-    resetName(event);
-  };
-
-  useEffect(() => {
     if (isEditing) {
       nameInput.current.focus();
     }
-  });
+  }, [isEditing]);
 
   return (
     <>
@@ -98,7 +55,7 @@ const ProjectName = ({
       )}
       <div className={classNames("project-name", className)}>
         <h1 className="rpf-visually-hidden">
-          {project.name || t("header.newProject")}
+          {projectName || t("header.newProject")}
         </h1>
 
         <div className="project-name__value">
@@ -113,15 +70,15 @@ const ProjectName = ({
               onKeyDown={handleKeyDown}
               value={name}
               disabled={!isEditing}
-              onChange={handleOnChange}
-              onBlur={handleOnBlur}
+              onChange={(event) => setName(event.target.value)}
+              onBlur={handleBlur}
             />
           ) : (
             <div className="project-name__title">{name}</div>
           )}
         </div>
         {editable && (
-          <div className="project-name__action" ref={tickButton}>
+          <div className="project-name__action" ref={actionRef}>
             <Button
               aria-label={t(
                 isEditing ? "header.renameSave" : "header.renameProject",
@@ -131,7 +88,7 @@ const ProjectName = ({
               )}
               icon={isEditing ? <TickIcon /> : <PencilIcon />}
               iconOnly
-              onClick={isEditing ? updateName : onEditNameButtonClick}
+              onClick={isEditing ? saveName : startEditing}
               type={isEditing ? "primary" : "tertiary"}
               size="small"
             />
