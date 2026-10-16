@@ -8,7 +8,6 @@ import "../../../assets/stylesheets/Project.scss?inline";
 import Output from "../Output/Output";
 import { showSavedMessage } from "../../../utils/Notifications";
 import ProjectBar from "../../ProjectBar/ProjectBar";
-import ScratchProjectBar from "../../ProjectBar/ScratchProjectBar";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
@@ -69,12 +68,7 @@ const Project = (props) => {
           />
         )}
         <div className="project-wrapper" ref={containerRef}>
-          {withProjectbar &&
-            (isCodeEditorScratchProject ? (
-              <ScratchProjectBar nameEditable={nameEditable} />
-            ) : (
-              <ProjectBar nameEditable={nameEditable} />
-            ))}
+          {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
           {!loading && !isCodeEditorScratchProject && (
             <div className="proj-editor-wrapper">
               <ResizableWithHandle

@@ -3,11 +3,13 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
-import ScratchProjectBar from "./ScratchProjectBar";
+import ProjectBar from "./ProjectBar";
 import editorReducer, { editorInitialState } from "../../redux/EditorSlice";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
+import { useContainerMinWidth } from "../../hooks/useContainerMinWidth";
 
 vi.mock("axios");
+vi.mock("../../hooks/useContainerMinWidth");
 vi.mock("../../utils/scratchIframe", async () => ({
   ...(await vi.importActual("../../utils/scratchIframe")),
   postMessageToScratchIframe: vi.fn(),
@@ -72,7 +74,7 @@ const renderScratchProjectBar = (state) => {
   render(
     <Provider store={store}>
       <MemoryRouter>
-        <ScratchProjectBar />
+        <ProjectBar />
       </MemoryRouter>
     </Provider>,
   );
@@ -111,6 +113,7 @@ const dispatchScratchMessage = (type, origin = getScratchOrigin()) => {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  useContainerMinWidth.mockReturnValue([true, vi.fn()]);
 });
 
 afterEach(() => {
@@ -128,6 +131,22 @@ describe("When project is Scratch", () => {
     renderSignedInScratchProjectBar();
 
     expect(screen.queryByText("header.download")).toBeInTheDocument();
+  });
+
+  test("uses icon-only actions when the project bar is narrow", () => {
+    useContainerMinWidth.mockReturnValue([false, vi.fn()]);
+    renderSignedInScratchProjectBar({
+      project: {
+        ...scratchProject,
+        identifier: null,
+      },
+    });
+
+    expect(useContainerMinWidth).toHaveBeenCalledWith(560);
+    ["header.upload", "header.download", "header.save"].forEach((name) => {
+      expect(screen.getByRole("button", { name })).toBeInTheDocument();
+      expect(screen.queryByText(name)).not.toBeInTheDocument();
+    });
   });
 
   test("clicking Save sends scratch-gui-save for a new Scratch project", () => {
