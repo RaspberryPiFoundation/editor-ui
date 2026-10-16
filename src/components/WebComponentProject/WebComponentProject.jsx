@@ -42,6 +42,7 @@ const WebComponentProject = ({
   nameEditable = false,
   editableInstructions = false,
   withSidebar = false,
+  showTopMargin = true,
   sidebarOptions = [],
   outputOnly = false,
   outputPanels = ["text", "visual"],
@@ -189,6 +190,7 @@ const WebComponentProject = ({
         (isMobile && projectType !== "code_editor_scratch" ? (
           <MobileProject
             withSidebar={withSidebar}
+            showTopMargin={showTopMargin}
             sidebarOptions={sidebarOptions}
             feedbackFormUrl={feedbackFormUrl}
             sidebarPlugins={sidebarPlugins}
@@ -199,6 +201,7 @@ const WebComponentProject = ({
             nameEditable={nameEditable}
             withProjectbar={withProjectbar}
             withSidebar={withSidebar}
+            showTopMargin={showTopMargin}
             sidebarOptions={sidebarOptions}
             feedbackFormUrl={feedbackFormUrl}
             sidebarPlugins={sidebarPlugins}

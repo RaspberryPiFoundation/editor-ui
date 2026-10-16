@@ -22,6 +22,7 @@ const Project = (props) => {
     nameEditable = true,
     withProjectbar = true,
     withSidebar = true,
+    showTopMargin = true,
     sidebarOptions = [],
     feedbackFormUrl,
     sidebarPlugins = [],
@@ -58,6 +59,7 @@ const Project = (props) => {
       <div
         className={classnames("proj-container", {
           "proj-container--wc": webComponent,
+          "proj-container--top-margin": showTopMargin,
         })}
       >
         {withSidebar && (

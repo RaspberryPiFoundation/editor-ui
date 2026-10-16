@@ -67,6 +67,7 @@ const WebComponentLoader = (props) => {
     senseHatAlwaysEnabled = false,
     friendlyErrorsEnabled = false,
     showSavePrompt = false,
+    showTopMargin = true,
     sidebarOptions = [],
     withProjectbar = false,
     withSidebar = false,
@@ -246,6 +247,7 @@ const WebComponentLoader = (props) => {
             withProjectbar={withProjectbar}
             nameEditable={projectNameEditable}
             withSidebar={withSidebar}
+            showTopMargin={showTopMargin}
             sidebarOptions={sidebarOptions}
             outputOnly={outputOnly}
             outputPanels={outputPanels}

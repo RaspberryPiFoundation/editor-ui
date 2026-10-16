@@ -7,6 +7,7 @@ import Project from "./Project";
 import { showSavedMessage } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
 import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
+import { renderWithProviders } from "../../../utils/renderWithProviders";
 
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
@@ -280,4 +281,36 @@ test("Successful manual save prompts project saved message", async () => {
     </Provider>,
   );
   await waitFor(() => expect(showSavedMessage).toHaveBeenCalled());
+});
+
+describe("Top margin", () => {
+  const renderProject = (props) =>
+    renderWithProviders(
+      <MemoryRouter>
+        <Project {...props} />
+      </MemoryRouter>,
+      {
+        preloadedState: {
+          editor: {
+            project: { components: [] },
+            openFiles: [[]],
+            focussedFileIndices: [0],
+          },
+        },
+      },
+    );
+
+  test("is applied by default", () => {
+    const { getByTestId } = renderProject({});
+    expect(getByTestId("project").firstChild).toHaveClass(
+      "proj-container--top-margin",
+    );
+  });
+
+  test("is not applied when showTopMargin is false", () => {
+    const { getByTestId } = renderProject({ showTopMargin: false });
+    expect(getByTestId("project").firstChild).not.toHaveClass(
+      "proj-container--top-margin",
+    );
+  });
 });
