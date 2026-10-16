@@ -1,12 +1,9 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/font-weight" as *;
 
 // Custom button styles and deliberately not sharing anything with Button.scss
 // This will make it easier to migrate to RPF design system/polish on its own.
 .context-menu__drop {
   align-items: center;
-  border-radius: $space-0-5;
+  border-radius: var(--space-1);
   border: 3px solid transparent;
   box-sizing: border-box;
   color: var(--editor-color-text);
@@ -14,8 +11,8 @@
   display: flex;
   font-family: var(--editor-font-family-sans-serif);
   font-size: inherit;
-  font-weight: $font-weight-bold;
-  gap: $space-0-5;
+  font-weight: var(--font-weight-bold);
+  gap: var(--space-1);
   justify-content: center;
   margin: 0;
   min-block-size: var(--min-target-size);
@@ -26,13 +23,13 @@
   text-decoration: none;
 
   &:disabled {
-    background-color: $rpf-grey-600;
-    color: $rpf-white;
+    background-color: var(--rpf-grey-600);
+    color: var(--rpf-white);
     cursor: default;
   }
 
   &:focus-visible {
-    border: 3px solid $rpf-brand-raspberry;
+    border: 3px solid var(--rpf-brand-raspberry);
     outline: none;
   }
 
@@ -48,7 +45,7 @@
 .context-menu {
   list-style-type: none;
   padding: 0;
-  margin-inline: $space-0-5 0;
+  margin-inline: var(--space-1) 0;
   margin-block: 0;
   border-radius: 5px;
   display: flex;
@@ -61,35 +58,35 @@
   .context-menu__item {
     align-items: center;
     background-color: inherit;
-    border-radius: $space-0-5;
+    border-radius: var(--space-1);
     border: 3px solid transparent;
     box-sizing: border-box;
     cursor: pointer;
     display: inline-flex;
     font-family: var(--editor-font-family-sans-serif);
     font-size: inherit;
-    font-weight: $font-weight-bold;
-    gap: $space-0-5;
+    font-weight: var(--font-weight-bold);
+    gap: var(--space-1);
     inline-size: 100%;
     justify-content: start;
     margin: 0;
     min-block-size: 44px;
     min-inline-size: 44px;
     overflow-x: visible;
-    padding: $space-0-5;
+    padding: var(--space-1);
     position: relative;
     text-align: start;
     text-decoration: none;
     white-space: nowrap;
 
     &:disabled {
-      background-color: $rpf-grey-600;
-      color: $rpf-white;
+      background-color: var(--rpf-grey-600);
+      color: var(--rpf-white);
       cursor: default;
     }
 
     &:focus-visible {
-      border: 3px solid $rpf-brand-raspberry;
+      border: 3px solid var(--rpf-brand-raspberry);
       outline: none;
     }
   }
@@ -99,52 +96,52 @@
   }
 
   svg {
-    inline-size: $space-1-5;
+    inline-size: var(--space-3);
     block-size: auto;
   }
 
   &--dark {
-    background-color: $rpf-black;
-    color: $rpf-white;
+    background-color: var(--rpf-black);
+    color: var(--rpf-white);
     border: 1px solid transparent;
 
     svg {
-      fill: $rpf-white;
+      fill: var(--rpf-white);
     }
 
     .context-menu__item:hover {
-      background-color: $rpf-grey-700;
+      background-color: var(--rpf-grey-700);
     }
 
     .context-menu__item:disabled {
-      color: $rpf-grey-600;
+      color: var(--rpf-grey-600);
     }
   }
 
   &--light {
-    background-color: $rpf-white;
-    color: $rpf-text-primary;
-    border: 1px solid $rpf-grey-150;
+    background-color: var(--rpf-white);
+    color: var(--rpf-text-primary);
+    border: 1px solid var(--rpf-grey-150);
 
     svg {
-      fill: $rpf-black;
+      fill: var(--rpf-black);
     }
 
     .context-menu__item:hover {
-      background-color: $rpf-grey-100;
+      background-color: var(--rpf-grey-100);
     }
 
     .context-menu__item:disabled {
-      color: $rpf-grey-300;
+      color: var(--rpf-grey-300);
     }
   }
 
   &--dark .context-menu__item:disabled svg {
-    fill: $rpf-grey-600;
+    fill: var(--rpf-grey-600);
   }
 
   &--light .context-menu__item:disabled svg {
-    fill: $rpf-grey-100;
+    fill: var(--rpf-grey-100);
   }
 
   .context-menu__item:disabled:hover {

@@ -1,23 +1,20 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/colours.scss" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/font-size.scss" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 .download-panel__login-section {
-  border-block-end: 1px solid $rpf-grey-150;
-  margin-block-end: $space-1-5;
-  padding-block-end: $space-1-5;
+  border-block-end: 1px solid var(--rpf-grey-150);
+  margin-block-end: var(--space-3);
+  padding-block-end: var(--space-3);
 }
 
 .download-panel__subtitle {
-  @include font-size-1(regular);
-  font-weight: $font-weight-bold;
-  margin-block-end: $space-0-5;
+  @include typography.style-1;
+  font-weight: var(--font-weight-bold);
+  margin-block-end: var(--space-1);
 }
 
 .download-panel__hint {
   margin: 0;
-  margin-block-end: $space-1;
+  margin-block-end: var(--space-2);
 }
 
 .download-panel__button-container {
@@ -25,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-self: stretch;
-  gap: $space-1;
+  gap: var(--space-2);
   align-items: stretch;
 }
 
@@ -37,5 +34,5 @@
 }
 
 .download-panel__download-section {
-  margin-block-end: $space-1;
+  margin-block-end: var(--space-2);
 }

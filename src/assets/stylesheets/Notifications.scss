@@ -1,18 +1,15 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 #app, #wc {
   .toast--bottom-center__message,
   .toast--top-center__message {
     min-block-size: fit-content;
-    padding: $space-0-25 $space-0-5;
+    padding: var(--space-0-5) var(--space-1);
     margin: 0;
   }
 
   .toast--bottom-center {
-    @include font-size-0-75(regular);
+    @include typography.style-0-75;
     inline-size: fit-content;
     max-inline-size: 100%;
     inset-block-end: 1em;
@@ -23,7 +20,7 @@
 
     .Toastify__toast-icon {
       margin-block: 0;
-      margin-inline: $space-0-25 0;
+      margin-inline: var(--space-0-5) 0;
     }
   }
   .toast--bottom-center__message {
@@ -33,7 +30,7 @@
   .toast--top-center {
     max-inline-size: fit-content;
     inline-size: 100%;
-    font-weight: $font-weight-bold;
+    font-weight: var(--font-weight-bold);
     inset-block-start: 20%;
     z-index: 1;
 
@@ -43,39 +40,39 @@
   }
 
   .toast--top-center__message {
-    background-color: $rpf-white;
+    background-color: var(--rpf-white);
     border-radius: 25px;
   }
 
   .toast--info {
-    color: $rpf-alert-information;
-    border: 2px solid $rpf-alert-information;
+    color: var(--rpf-alert-information);
+    border: 2px solid var(--rpf-alert-information);
     svg {
-      fill: $rpf-grey-900;
+      fill: var(--rpf-grey-900);
     }
     .Toastify__toast-icon {
       svg {
-        fill: $rpf-alert-information;
+        fill: var(--rpf-alert-information);
       }
     }
   }
 
   &.--dark {
     .toast--bottom-center__message {
-      background-color: $rpf-white;
-      color: $rpf-grey-900;
+      background-color: var(--rpf-white);
+      color: var(--rpf-grey-900);
       svg {
-        fill: $rpf-grey-900;
+        fill: var(--rpf-grey-900);
       }
     }
   }
 
   &.--light {
     .toast--bottom-center__message {
-      background-color: $rpf-grey-900;
-      color: $rpf-white;
+      background-color: var(--rpf-grey-900);
+      color: var(--rpf-white);
       svg {
-        fill: $rpf-white;
+        fill: var(--rpf-white);
       }
     }
   }

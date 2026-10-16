@@ -1,8 +1,6 @@
 @use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/components/squiggle.scss"
   as *;
 @use "../../../node_modules/@raspberrypifoundation/design-system-core/scss/mixins/typography";
-@use "./rpf_design_system/colours" as *;
-@use "./rpf_design_system/spacing" as *;
 @use "./scratch_colours" as *;
 
 .project-instructions {
@@ -63,7 +61,7 @@
     inline-size: 100%;
 
     tr {
-      border-block-end: 1px solid $rpf-black;
+      border-block-end: 1px solid var(--rpf-black);
     }
 
     td {
@@ -72,8 +70,8 @@
   }
 
   code {
-    color: $rpf-white;
-    background-color: $rpf-grey-700;
+    color: var(--rpf-white);
+    background-color: var(--rpf-grey-700);
     border-radius: 8px;
     padding: var(--space-0-25) var(--space-0-5);
   }
@@ -81,8 +79,8 @@
   pre {
     @include typography.style-1();
 
-    background-color: var(--code-background-color, #{$rpf-grey-700});
-    border: 1px solid var(--code-block-border-color, #{$rpf-grey-600});
+    background-color: var(--code-background-color, var(--rpf-grey-700));
+    border: 1px solid var(--code-block-border-color, var(--rpf-grey-600));
     border-radius: 8px;
     padding: var(--space-1) var(--space-2);
     overflow: auto;
@@ -91,13 +89,13 @@
 
     code {
       padding-inline: 0;
-      background-color: var(--code-background-color, #{$rpf-grey-700});
-      color: var(--code-text-color, #{$rpf-white});
+      background-color: var(--code-background-color, var(--rpf-grey-700));
+      color: var(--code-text-color, var(--rpf-white));
     }
   }
 
   .c-project-code {
-    background-color: $rpf-grey-700;
+    background-color: var(--rpf-grey-700);
     border-radius: 8px;
     margin: var(--space-2) 0 var(--space-3) 0;
 
@@ -133,11 +131,11 @@
     font-family: var(--editor-font-family-monospace);
     margin: 0;
     padding: var(--space-1) var(--space-2);
-    color: $rpf-white;
-    background-color: $rpf-grey-800;
+    color: var(--rpf-white);
+    background-color: var(--rpf-grey-800);
     border-start-start-radius: 8px;
     border-start-end-radius: 8px;
-    border-block-end: 1px solid $rpf-grey-600;
+    border-block-end: 1px solid var(--rpf-grey-600);
   }
 
   .line-numbers {
@@ -146,17 +144,17 @@
   }
 
   .line-numbers-rows {
-    border-color: $rpf-text-secondary-dark;
+    border-color: var(--rpf-text-secondary-darkmode);
 
     span::before {
       padding-inline-end: var(--space-1);
-      color: $rpf-text-secondary-dark;
+      color: var(--rpf-text-secondary-darkmode);
     }
   }
 
   .line-highlight {
     margin-block-start: 0.5rem;
-    background: var(--code-block-line-highlight-color, #{$rpf-white});
+    background: var(--code-block-line-highlight-color, var(--rpf-white));
     mix-blend-mode: var(--code-block-blend-mode, difference);
     min-inline-size: 100%;
     border-inline-start: var(--code-block-line-highlight-border, none);
@@ -166,89 +164,89 @@
   .language-python {
     .number,
     .boolean {
-      color: var(--code-syntax-1, #{$rpf-syntax-1});
+      color: var(--code-syntax-1, var(--editor-code-syntax-1));
     }
     .function {
-      color: var(--code-syntax-5, #{$rpf-syntax-1});
+      color: var(--code-syntax-5, var(--editor-code-syntax-1));
     }
     .keyword {
-      color: var(--code-syntax-4, #{$rpf-syntax-4});
+      color: var(--code-syntax-4, var(--editor-code-syntax-4));
     }
     .string,
     .char {
-      color: var(--code-syntax-2, #{$rpf-syntax-2});
+      color: var(--code-syntax-2, var(--editor-code-syntax-2));
     }
     .comment {
-      color: var(--code-syntax-3, #{$rpf-syntax-3});
+      color: var(--code-syntax-3, var(--editor-code-syntax-3));
     }
 
     .keyword-print {
-      color: var(--code-print-color, #{$rpf-white});
+      color: var(--code-print-color, var(--rpf-white));
     }
   }
 
   .language-javascript {
     .number,
     .boolean {
-      color: var(--code-syntax-1, #{$rpf-syntax-1});
+      color: var(--code-syntax-1, var(--editor-code-syntax-1));
     }
     .keyword {
-      color: var(--code-syntax-4, #{$rpf-syntax-4});
+      color: var(--code-syntax-4, var(--editor-code-syntax-4));
     }
     .string,
     .char {
-      color: var(--code-syntax-2, #{$rpf-syntax-2});
+      color: var(--code-syntax-2, var(--editor-code-syntax-2));
     }
     .comment {
-      color: var(--code-syntax-3, #{$rpf-syntax-3});
+      color: var(--code-syntax-3, var(--editor-code-syntax-3));
     }
 
     .keyword-print {
-      color: var(--code-print-color, #{$rpf-white});
+      color: var(--code-print-color, var(--rpf-white));
     }
   }
 
   .language-css {
-    color: var(--code-syntax-1, #{$rpf-syntax-1});
+    color: var(--code-syntax-1, var(--editor-code-syntax-1));
 
     .comment {
-      color: var(--code-syntax-3, #{$rpf-syntax-3});
+      color: var(--code-syntax-3, var(--editor-code-syntax-3));
     }
     .selector {
-      color: var(--code-syntax-4, #{$rpf-syntax-4});
+      color: var(--code-syntax-4, var(--editor-code-syntax-4));
     }
 
     .function {
-      color: var(--code-syntax-4, #{$rpf-syntax-4});
+      color: var(--code-syntax-4, var(--editor-code-syntax-4));
     }
 
     .property,
     .punctuation {
-      color: var(--code-print-color, #{$rpf-white});
+      color: var(--code-print-color, var(--rpf-white));
     }
   }
 
   .language-html {
     .tag {
-      color: var(--code-syntax-4, #{$rpf-syntax-4});
+      color: var(--code-syntax-4, var(--editor-code-syntax-4));
       .punctuation,
       .attr-name {
-        color: var(--code-print-color, #{$rpf-white});
+        color: var(--code-print-color, var(--rpf-white));
       }
 
       .attr-value {
-        color: var(--code-syntax-2, #{$rpf-syntax-2});
+        color: var(--code-syntax-2, var(--editor-code-syntax-2));
         .punctuation {
           color: inherit;
         }
         .attr-equals {
-          color: var(--code-print-color, #{$rpf-white});
+          color: var(--code-print-color, var(--rpf-white));
         }
       }
     }
 
     .comment {
-      color: var(--code-syntax-3, #{$rpf-syntax-3});
+      color: var(--code-syntax-3, var(--editor-code-syntax-3));
     }
   }
 
@@ -268,8 +266,8 @@
   }
 
   .c-project-callout {
-    background-color: $rpf-blue-100;
-    border-inline-start: 4px solid $rpf-blue-800;
+    background-color: var(--rpf-blue-100);
+    border-inline-start: 4px solid var(--rpf-blue-800);
     padding: var(--space-1) var(--space-2);
     display: flex;
     flex-direction: column;
@@ -291,8 +289,8 @@
   }
 
   .c-project-callout--tip {
-    background-color: $rpf-green-100;
-    border-inline-start: 4px solid $rpf-green-800;
+    background-color: var(--rpf-green-100);
+    border-inline-start: 4px solid var(--rpf-green-800);
 
     h3 {
       background-image: url("../tip.svg");
@@ -300,8 +298,8 @@
   }
 
   .c-project-callout--debug {
-    background-color: $rpf-red-100;
-    border-inline-start: 4px solid $rpf-red-800;
+    background-color: var(--rpf-red-100);
+    border-inline-start: 4px solid var(--rpf-red-800);
 
     h3 {
       background-image: url("../bug.svg");
@@ -318,7 +316,7 @@
     margin-block-end: var(--space-3);
 
     pre {
-      background-color: $rpf-white;
+      background-color: var(--rpf-white);
       border: none;
       inline-size: 100%;
       margin: 0;
@@ -326,8 +324,8 @@
     }
 
     code {
-      background-color: $rpf-white;
-      color: $rpf-text-primary;
+      background-color: var(--rpf-white);
+      color: var(--rpf-text-primary);
       padding: 0;
       white-space: pre-wrap;
     }
@@ -361,7 +359,7 @@
   // with their category colours above and win by coming later in the file.
   pre,
   code:not([class*="block3"]) {
-    background-color: $rpf-grey-850;
+    background-color: var(--rpf-grey-850);
   }
 }
 
