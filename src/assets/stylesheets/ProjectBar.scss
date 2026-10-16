@@ -1,5 +1,3 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/colours" as *;
 
 .project-bar {
   display: flex;
@@ -10,7 +8,7 @@
   border-block-end: 1px solid var(--editor-color-outline);
   border-inline-start: 1px solid var(--editor-color-outline);
   border-block-start: 1px solid var(--editor-color-outline);
-  border-start-start-radius: $space-0-5;
+  border-start-start-radius: var(--space-1);
 
   @container (max-width: 367px) {
     flex-direction: column;
@@ -19,12 +17,12 @@
   }
 
   .rpf-button {
-    border-radius: var(--project-bar-button-radius, $space-0-5);
+    border-radius: var(--project-bar-button-radius, var(--space-1));
     &:hover,
     &:active,
     &:focus-visible,
     &::before {
-      border-radius: var(--project-bar-button-radius, $space-0-5);
+      border-radius: var(--project-bar-button-radius, var(--space-1));
     }
   }
 
@@ -58,7 +56,7 @@
   }
 
   &.scratch-project-bar {
-    border-end-start-radius: $space-0-5;
+    border-end-start-radius: var(--space-1);
   }
 }
 
@@ -87,11 +85,11 @@
 }
 
 .project-bar__btn {
-  border-radius: $space-0-5;
+  border-radius: var(--space-1);
   justify-content: center;
 
-  margin: $space-0-5;
-  gap: $space-0-5;
+  margin: var(--space-1);
+  gap: var(--space-1);
 
   .text {
     display: none;

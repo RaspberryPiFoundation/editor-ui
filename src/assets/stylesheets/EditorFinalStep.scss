@@ -1,6 +1,5 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
-@use "./rpf_design_system/spacing" as *;
 .project-instructions {
   .whats-next {
     display: flex;
@@ -16,13 +15,13 @@
     background-image: url("../cc-wallpaper.svg");
     background-position: center;
     background-size: cover;
-    border-radius: $space-1-5;
+    border-radius: var(--space-3);
     display: flex;
     flex-direction: column;
-    gap: $space-1-5;
+    gap: var(--space-3);
     overflow: hidden;
-    padding-block: $space-2-5;
-    padding-inline: $space-2;
+    padding-block: var(--space-5);
+    padding-inline: var(--space-4);
     position: relative;
 
     &::before {
@@ -34,7 +33,7 @@
         color-mix(in srgb, var(--cc-light-cyan) 90%, transparent) 80%,
         transparent 100%
       );
-      border-radius: $space-1-5;
+      border-radius: var(--space-3);
       content: "";
       inset: 0;
       pointer-events: none;

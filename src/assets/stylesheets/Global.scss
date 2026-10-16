@@ -1,6 +1,9 @@
-@use "./rpf_design_system/colours" as *;
-
 :host {
+  --editor-astropi-dark-blue: #002b3f;
+  --editor-code-syntax-1: #9ee8ff;
+  --editor-code-syntax-2: #94f9af;
+  --editor-code-syntax-3: #ffca99;
+  --editor-code-syntax-4: #eeccff;
   --editor-font-family-sans-serif:
     Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu,
     Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -35,9 +38,9 @@ svg {
 }
 
 .--light {
-  background-color: $rpf-teal-100;
-  color: $rpf-text-primary;
-  caret-color: $rpf-black;
+  background-color: var(--rpf-teal-100);
+  color: var(--rpf-text-primary);
+  caret-color: var(--rpf-black);
   color-scheme: light;
 
   .pythonrunner-input {
@@ -46,9 +49,9 @@ svg {
 }
 
 .--dark {
-  background-color: $rpf-grey-900;
-  color: $rpf-white;
-  caret-color: $rpf-white;
+  background-color: var(--rpf-grey-900);
+  color: var(--rpf-white);
+  caret-color: var(--rpf-white);
   color-scheme: dark;
 
   .pythonrunner-input {

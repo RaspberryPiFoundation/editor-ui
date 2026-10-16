@@ -1,11 +1,9 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/colours" as *;
 
 .project-images {
   display: grid;
   grid-template-columns: repeat(auto-fill, 135px);
   justify-content: center;
-  gap: $space-1;
+  gap: var(--space-2);
 
   &__block {
     display: flex;

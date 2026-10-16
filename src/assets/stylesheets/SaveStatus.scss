@@ -1,6 +1,4 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 .save-status {
   align-items: center;
@@ -17,7 +15,7 @@
   gap: var(--space-0-5);
 
   .save-status__text {
-    @include font-size-0-75(regular);
+    @include typography.style-0-75;
   }
 
   .save-status__icon {

@@ -1,38 +1,35 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 .project-name {
   align-items: center;
   display: flex;
   block-size: 100%;
-  padding-inline-start: $space-0-5;
+  padding-inline-start: var(--space-1);
 }
 
 .project-name__title {
-  @include font-size-1-25(bold);
-  font-weight: $font-weight-bold;
-  margin-block: $space-1;
-  margin-inline-start: $space-0-5;
-  margin-inline-end: $space-1;
+  @include typography.style-1-5(bold);
+  font-weight: var(--font-weight-bold);
+  margin-block: var(--space-2);
+  margin-inline-start: var(--space-1);
+  margin-inline-end: var(--space-2);
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
 
 .project-name__label {
-  @include font-size-1(regular);
-  font-weight: $font-weight-bold;
-  margin-block-end: $space-0-5;
+  @include typography.style-1;
+  font-weight: var(--font-weight-bold);
+  margin-block-end: var(--space-1);
   display: block;
 }
 
 .project-name__input {
-  @include font-size-1(regular);
-  padding: 0 $space-1-5;
-  block-size: $space-3;
-  border-radius: $space-0-5;
+  @include typography.style-1;
+  padding: 0 var(--space-3);
+  block-size: var(--space-6);
+  border-radius: var(--space-1);
   border: none;
   color: inherit;
   background-color: inherit;
@@ -41,33 +38,33 @@
 }
 
 .project-name__button {
-  margin: $space-0-5;
+  margin: var(--space-1);
 
   svg {
-    block-size: $space-1-5;
-    inline-size: $space-1-5;
+    block-size: var(--space-3);
+    inline-size: var(--space-3);
     margin: 0;
   }
 }
 
 .--dark {
   .project-name__input {
-    background-color: $rpf-grey-600;
+    background-color: var(--rpf-grey-600);
 
     &:focus-visible {
       background-color: inherit;
-      outline: 2px solid $rpf-white;
+      outline: 2px solid var(--rpf-white);
     }
   }
 }
 
 .--light {
   .project-name__input {
-    background-color: $rpf-grey-50;
+    background-color: var(--rpf-grey-50);
 
     &:focus-visible {
       background-color: inherit;
-      outline: 2px solid $rpf-text-primary;
+      outline: 2px solid var(--rpf-text-primary);
     }
   }
 }

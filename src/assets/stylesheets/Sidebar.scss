@@ -1,6 +1,4 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/mixins" as *;
 @use "./breakpoints" as *;
 
@@ -10,7 +8,7 @@
   position: relative;
   background-color: var(--editor-color-layer-2);
   border-block-start: 1px solid var(--editor-color-outline);
-  border-start-end-radius: var(--space-1)
+  border-start-end-radius: var(--space-1);
 }
 
 .sidebar--mobile {
@@ -160,7 +158,7 @@
 
 .sidebar__panel-heading {
   margin: 0;
-  @include font-size-1-5(regular);
+  @include typography.style-1-5(bold);
 }
 
 .sidebar__panel-header {
