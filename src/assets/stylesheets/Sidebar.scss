@@ -10,7 +10,7 @@
   position: relative;
   background-color: var(--editor-color-layer-2);
   border-block-start: 1px solid var(--editor-color-outline);
-  border-start-end-radius: $space-0-5;
+  border-start-end-radius: var(--space-1)
 }
 
 .sidebar--mobile {
@@ -40,12 +40,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 8px;
+  border-start-end-radius: var(--space-1);
   background-color: var(--sidebar-background);
 }
 
 .sidebar__bar--selected {
-  border-radius: 8px 0 0 8px;
+  border-start-end-radius: 0;
   background-color: var(--sidebar-background-selected);
   border-inline-end: 1px solid var(--sidebar-border);
 }
