@@ -8,6 +8,9 @@
 .sidebar {
   display: flex;
   position: relative;
+  background-color: var(--editor-color-layer-2);
+  border-block-start: 1px solid var(--editor-color-outline);
+  border-start-end-radius: $space-0-5;
 }
 
 .sidebar--mobile {
