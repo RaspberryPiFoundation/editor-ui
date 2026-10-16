@@ -138,3 +138,51 @@ describe("When running and stopping code", () => {
     expect(runStoppedHandler).toHaveBeenCalledWith({ embedded: true });
   });
 });
+
+describe("After saving", () => {
+  const renderWithSaveState = (saveState) => {
+    const store = mockStore({
+      editor: {
+        activeRunner: "pyodide",
+        loadedRunner: "pyodide",
+        ...saveState,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <RunnerControls />
+      </Provider>,
+    );
+    return screen.getByRole("button", { name: "runButton.run" });
+  };
+
+  test("focuses the Run button when a manual save has dropped focus", () => {
+    const runButton = renderWithSaveState({
+      saving: "success",
+      lastSaveAutosave: false,
+    });
+    expect(runButton).toHaveFocus();
+  });
+
+  test("does not focus the Run button after an autosave", () => {
+    const runButton = renderWithSaveState({
+      saving: "success",
+      lastSaveAutosave: true,
+    });
+    expect(runButton).not.toHaveFocus();
+  });
+
+  test("does not take focus from another element", () => {
+    const input = document.createElement("input");
+    document.body.appendChild(input);
+    input.focus();
+
+    const runButton = renderWithSaveState({
+      saving: "success",
+      lastSaveAutosave: false,
+    });
+    expect(runButton).not.toHaveFocus();
+    expect(input).toHaveFocus();
+    input.remove();
+  });
+});

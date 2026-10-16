@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames";
@@ -18,9 +18,14 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
   const codeRunLoading = useSelector((state) => state.editor.codeRunLoading);
   const activeRunner = useSelector((state) => state.editor.activeRunner);
   const loadedRunner = useSelector((state) => state.editor.loadedRunner);
+  const saving = useSelector((state) => state.editor.saving);
+  const lastSaveAutosave = useSelector(
+    (state) => state.editor.lastSaveAutosave,
+  );
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [stopping, setStopping] = useState(false);
+  const buttonRef = useRef();
 
   const isRunning = codeRunTriggered || drawTriggered;
 
@@ -32,6 +37,17 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
     const timeout = setTimeout(() => setStopping(true), 100);
     return () => clearTimeout(timeout);
   }, [codeRunStopped]);
+
+  useEffect(() => {
+    if (saving !== "success" || lastSaveAutosave) return;
+
+    const button = buttonRef.current;
+    const focusLost =
+      !document.activeElement || document.activeElement === document.body;
+    if (button && focusLost) {
+      button.focus();
+    }
+  }, [saving, lastSaveAutosave]);
 
   const onClickRun = () => {
     if (window.plausible) {
@@ -63,6 +79,7 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
     <div className="runner-controls">
       <Button
         buttonText={buttonText}
+        buttonRef={buttonRef}
         ButtonIcon={isRunning ? (stopping ? null : StopIcon) : RunIcon}
         buttonIconPosition="right"
         buttonOuter={skinny}
