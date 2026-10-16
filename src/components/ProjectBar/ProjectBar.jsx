@@ -4,9 +4,12 @@ import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";
 import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import DownloadIcon from "../../assets/icons/download.svg";
+import UploadIcon from "../../assets/icons/upload.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
+import UploadButton from "../UploadButton/UploadButton";
+import ScratchProjectBarActions from "./ScratchProjectBarActions";
 import useIsOnline from "../../hooks/useIsOnline";
 import { usePreviewMode } from "../../hooks/usePreviewMode";
 
@@ -23,7 +26,8 @@ const ProjectBar = ({ nameEditable = true }) => {
   const projectOwner = isOwner(user, project);
   const readOnly = useSelector((state) => state.editor.readOnly);
   const previewMode = usePreviewMode();
-  const canSave = !readOnly && !previewMode;
+  const canEdit = !readOnly && !previewMode;
+  const isScratchProject = project?.project_type === "code_editor_scratch";
   const isOnline = useIsOnline();
 
   if (loading !== "success") {
@@ -31,31 +35,30 @@ const ProjectBar = ({ nameEditable = true }) => {
   }
 
   return (
-    <div className="project-bar" data-testid="default-project-bar">
-      <ProjectName editable={canSave && nameEditable} isHeading={true} />
+    <div
+      className={`project-bar${isScratchProject ? " scratch-project-bar" : ""}`}
+      data-testid={
+        isScratchProject ? "scratch-project-bar" : "default-project-bar"
+      }
+    >
+      <ProjectName editable={canEdit && nameEditable} isHeading={true} />
       <div className="project-bar__right">
-        <div className="project-bar__btn-wrapper">
-          <DownloadButton
-            buttonText={t("header.download")}
-            className="project-bar__btn"
-            Icon={DownloadIcon}
-            type="tertiary"
-          />
-        </div>
-        {!projectOwner && canSave && (
-          <div className="project-bar__btn-wrapper">
-            <SaveButton className="project-bar__btn btn--save" />
-          </div>
+        {isScratchProject && !readOnly && (
+          <UploadButton buttonText={t("header.upload")} Icon={UploadIcon} />
         )}
-        {user &&
-          canSave &&
-          (offlineEnabled && !isOnline
-            ? projectOwner && (
-                <div className="project-bar__btn-wrapper">
-                  <OfflineBadge className="project-bar__btn" />
-                </div>
-              )
-            : lastSavedTime && <SaveStatus />)}
+        <DownloadButton buttonText={t("header.download")} Icon={DownloadIcon} />
+        {isScratchProject ? (
+          <ScratchProjectBarActions canSave={Boolean(user && canEdit)} />
+        ) : (
+          <>
+            {!projectOwner && canEdit && <SaveButton />}
+            {user &&
+              canEdit &&
+              (offlineEnabled && !isOnline
+                ? projectOwner && <OfflineBadge />
+                : lastSavedTime && <SaveStatus />)}
+          </>
+        )}
       </div>
     </div>
   );
