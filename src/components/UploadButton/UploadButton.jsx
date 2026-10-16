@@ -2,17 +2,11 @@ import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { postMessageToScratchIframe } from "../../utils/scratchIframe";
 
 const UploadButton = (props) => {
-  const {
-    buttonText,
-    className,
-    Icon,
-    type = "secondary",
-    ...otherProps
-  } = props;
+  const { buttonText, Icon, ...buttonProps } = props;
   const project = useSelector((state) => state.editor.project);
   const fileInputRef = useRef(null);
 
@@ -39,14 +33,12 @@ const UploadButton = (props) => {
 
   return (
     <>
-      <DesignSystemButton
-        className={className}
+      <Button
+        aria-label={buttonText}
         onClick={onClickUpload}
         text={buttonText}
-        textAlways
         icon={Icon ? <Icon /> : null}
-        type={type}
-        {...otherProps}
+        {...buttonProps}
       />
       <input
         ref={fileInputRef}
