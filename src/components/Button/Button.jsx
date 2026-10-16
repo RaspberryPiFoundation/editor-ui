@@ -31,6 +31,7 @@ const Button = (props) => {
     ariaSelected,
     ariaControls,
     onKeyDown: onKeyDownHandler,
+    onKeyUp,
     buttonIconPosition = "left",
   } = props;
 
@@ -99,6 +100,7 @@ const Button = (props) => {
       aria-controls={ariaControls}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
     >
       {buttonImage && (
         <img src={buttonImage} alt={buttonImageAltText} crossOrigin="true" />

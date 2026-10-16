@@ -81,6 +81,18 @@ describe("SidebarBar", () => {
       fireEvent.click(projectsButton);
       expect(toggleOption).toHaveBeenCalledWith("projects");
     });
+
+    test("Tabbing into a tab opens its panel", () => {
+      toggleOption.mockClear();
+      fireEvent.keyUp(screen.getByTitle("file_button"), { key: "Tab" });
+      expect(toggleOption).toHaveBeenCalledWith("file");
+    });
+
+    test("Other key ups on a tab do not open its panel", () => {
+      toggleOption.mockClear();
+      fireEvent.keyUp(screen.getByTitle("file_button"), { key: "a" });
+      expect(toggleOption).not.toHaveBeenCalled();
+    });
   });
 
   describe("With instructions", () => {
@@ -188,6 +200,12 @@ describe("SidebarBar", () => {
     test("Moving to the already selected tab does not close its panel", () => {
       toggleOption.mockClear();
       fireEvent.keyDown(screen.getByTitle("projects_button"), { key: "End" });
+      expect(toggleOption).not.toHaveBeenCalled();
+    });
+
+    test("Tabbing into a tab does not close the open panel", () => {
+      toggleOption.mockClear();
+      fireEvent.keyUp(screen.getByTitle("projects_button"), { key: "Tab" });
       expect(toggleOption).not.toHaveBeenCalled();
     });
   });

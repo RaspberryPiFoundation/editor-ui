@@ -12,6 +12,7 @@ const SidebarBarOption = (props) => {
     title,
     toggleOption,
     onKeyDown,
+    onKeyUp,
     buttonRef,
   } = props;
 
@@ -41,6 +42,7 @@ const SidebarBarOption = (props) => {
         ariaControls={isActive ? getSidebarPanelId(name) : undefined}
         buttonRef={buttonRef}
         onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         onClickHandler={onClickHandler}
       />
     </div>

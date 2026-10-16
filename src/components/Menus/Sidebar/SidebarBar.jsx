@@ -40,7 +40,10 @@ const SidebarBar = (props) => {
   // With no open panel, the first tab is the tab stop
   const focusableTab = tabNames.includes(option) ? option : tabNames[0];
 
-  const onTabKeyDown = (e, name) => {
+  // Arrow keys, Home and End move focus between tabs and open the
+  // focused tab's panel. toggleOption would close an already open panel,
+  // so it's only called when the tab changes.
+  const moveBetweenTabs = (e, name) => {
     const index = tabNames.indexOf(name);
     const lastIndex = tabNames.length - 1;
     let nextIndex;
@@ -66,8 +69,13 @@ const SidebarBar = (props) => {
     const nextName = tabNames[nextIndex];
     tabRefs.current[nextName]?.focus();
 
-    // Open the focused tab's panel. toggleOption would close an open one.
     if (nextName !== option) toggleOption(nextName);
+  };
+
+  // When all panels closed and the first tab gets focus from Tab key,
+  // toggle to open the panel.
+  const openPanelOnTabIn = (e, name) => {
+    if (e.key === "Tab" && !option) toggleOption(name);
   };
 
   const renderTab = (menuOption, i) => (
@@ -79,7 +87,8 @@ const SidebarBar = (props) => {
       isFocusable={focusableTab === menuOption.name}
       toggleOption={toggleOption}
       name={menuOption.name}
-      onKeyDown={(e) => onTabKeyDown(e, menuOption.name)}
+      onKeyDown={(e) => moveBetweenTabs(e, menuOption.name)}
+      onKeyUp={(e) => openPanelOnTabIn(e, menuOption.name)}
       buttonRef={(el) => {
         tabRefs.current[menuOption.name] = el;
       }}
