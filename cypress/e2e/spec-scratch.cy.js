@@ -40,10 +40,7 @@ describe("Scratch", () => {
   it("hides text size in settings for Scratch", () => {
     assertScratchIsRendered();
 
-    getEditorShadow()
-      .findByRole("button", { name: "Settings" })
-      .first()
-      .click();
+    getEditorShadow().findByRole("tab", { name: "Settings" }).first().click();
     getEditorShadow()
       .find(".settings-panel__text-size")
       .should("exist")

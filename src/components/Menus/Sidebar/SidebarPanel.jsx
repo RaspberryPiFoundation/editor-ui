@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
 import classNames from "classnames";
 import PropTypes from "prop-types";
@@ -7,6 +7,11 @@ import {
   SMALL_SCREEN_MEDIA_QUERY,
 } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
+import {
+  SidebarActiveOptionContext,
+  getSidebarPanelId,
+  getSidebarTabId,
+} from "./sidebarTabIds";
 
 const MIN_WIDTH = "280px";
 
@@ -21,6 +26,15 @@ const SidebarPanel = (props) => {
     panelRef,
     defaultWidth = "320px",
   } = props;
+  const activeOption = useContext(SidebarActiveOptionContext);
+  const tabpanelProps = activeOption
+    ? {
+        role: "tabpanel",
+        id: getSidebarPanelId(activeOption),
+        "aria-labelledby": getSidebarTabId(activeOption),
+        tabIndex: 0,
+      }
+    : {};
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const [initialWidth] = useState(() =>
     window.matchMedia(SMALL_SCREEN_MEDIA_QUERY).matches
@@ -51,6 +65,7 @@ const SidebarPanel = (props) => {
     <div
       data-testid="sidebar__panel"
       className={classNames("sidebar__panel", className)}
+      {...tabpanelProps}
     >
       {panelContent}
     </div>
@@ -63,6 +78,7 @@ const SidebarPanel = (props) => {
       handleDirection="right"
       minWidth={MIN_WIDTH}
       maxWidth="600px"
+      {...tabpanelProps}
     >
       {panelContent}
     </ResizableWithHandle>

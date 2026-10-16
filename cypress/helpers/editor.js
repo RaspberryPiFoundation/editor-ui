@@ -17,7 +17,7 @@ const getSaveButton = () =>
   getEditorShadow().findByRole("button", { name: "Save" });
 
 const getDownloadProjectButton = () =>
-  getEditorShadow().findByRole("button", { name: "Download project" });
+  getEditorShadow().findByRole("tab", { name: "Download project" });
 
 const getAddFileButton = () =>
   getEditorShadow().findByRole("button", { name: "Add file" });
