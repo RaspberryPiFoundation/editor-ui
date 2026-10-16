@@ -28,14 +28,17 @@ vi.mock("re-resizable", () => ({
   },
 }));
 
-test("renders a horizontal handle", () => {
+test("renders a 16px-high horizontal handle", () => {
   render(<ResizableWithHandle handleDirection="bottom" />);
-  expect(screen.getByTestId("horizontalHandle")).toBeTruthy();
+  expect(screen.getByTestId("horizontalHandle")).toHaveAttribute(
+    "height",
+    "16",
+  );
 });
 
-test("renders a vertical handle", () => {
+test("renders a 16px-wide vertical handle", () => {
   render(<ResizableWithHandle handleDirection="right" />);
-  expect(screen.getByTestId("verticalHandle")).toBeTruthy();
+  expect(screen.getByTestId("verticalHandle")).toHaveAttribute("width", "16");
 });
 
 test("it does not add an incorrect class to the handle", () => {
