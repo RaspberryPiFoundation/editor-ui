@@ -3,9 +3,13 @@ import Button from "../../Button/Button";
 import classNames from "classnames";
 
 const SidebarBarOption = (props) => {
-  const { Icon, isActive, name, title, toggleOption } = props;
+  const { Icon, isActive, name, title, toggleOption, onClick } = props;
 
   const onClickHandler = () => {
+    if (onClick) {
+      onClick();
+      return;
+    }
     toggleOption(name);
     if (name === "file" && window.plausible) {
       window.plausible("Side menu open project files");

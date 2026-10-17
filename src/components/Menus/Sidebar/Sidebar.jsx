@@ -8,6 +8,8 @@ import FilePanel from "./FilePanel/FilePanel";
 import InfoPanel from "./InfoPanel/InfoPanel";
 import SidebarBar from "./SidebarBar";
 import SettingsPanel from "./SettingsPanel/SettingsPanel";
+import FullscreenIcon from "../../../assets/icons/fullscreen.svg";
+import FullscreenExitIcon from "../../../assets/icons/fullscreen_exit.svg";
 import HomeIcon from "../../../assets/icons/home.svg";
 import ImageIcon from "../../../assets/icons/image.svg";
 import InfoIcon from "../../../assets/icons/info.svg";
@@ -77,6 +79,9 @@ const buildPluginPanel = (plugin) => {
   );
 };
 
+const isPageFullscreen = () =>
+  document.fullscreenElement === document.documentElement;
+
 const Sidebar = ({
   options = [],
   plugins = [],
@@ -96,6 +101,28 @@ const Sidebar = ({
   );
   const viewportIsMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const isMobile = allowMobileView && viewportIsMobile;
+  const [isFullscreen, setIsFullscreen] = useState(isPageFullscreen());
+
+  useEffect(() => {
+    const onFullscreenChange = () => setIsFullscreen(isPageFullscreen());
+
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+
+    return () =>
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, []);
+
+  const toggleFullscreen = () => {
+    const request = isPageFullscreen()
+      ? document.exitFullscreen()
+      : document.documentElement.requestFullscreen();
+
+    request?.catch((error) => {
+      console.warn("Fullscreen request failed", error);
+    });
+  };
+
+  const fullscreenEnabled = document.fullscreenEnabled;
 
   let menuOptions = [
     {
@@ -134,6 +161,13 @@ const Sidebar = ({
       panel: DownloadPanel,
     },
     {
+      name: "fullscreen",
+      icon: isFullscreen ? FullscreenExitIcon : FullscreenIcon,
+      title: isFullscreen ? "Exit fullscreen" : "Fullscreen",
+      position: "bottom",
+      onClick: () => toggleFullscreen(),
+    },
+    {
       name: "settings",
       icon: SettingsIcon,
       title: t("sidebar.settings"),
@@ -150,6 +184,7 @@ const Sidebar = ({
     },
   ].filter((option) => {
     if (!options.includes(option.name)) return false;
+    if (option.name === "fullscreen" && !fullscreenEnabled) return false;
     if (projectType === "code_editor_scratch" && option.name === "file")
       return false;
     return true;
