@@ -369,7 +369,7 @@ describe("When project has no identifier", () => {
     expect(dispatch.mock.calls[1][0].type).toBe("editor/saveProject/fulfilled");
   });
 
-  test("The saveProject/fulfilled action sets saving to success and loaded to idle", async () => {
+  test("The saveProject/fulfilled action sets saving to success", async () => {
     const returnedProject = {
       ...project,
       identifier: "auto-generated-identifier",
@@ -378,7 +378,6 @@ describe("When project has no identifier", () => {
       project: returnedProject,
       saving: "success",
       lastSavedTime: 1669808953,
-      loading: "idle",
       initialComponents: [
         {
           name: "main",
@@ -519,11 +518,10 @@ describe("When project has an identifier", () => {
     );
   });
 
-  test("The remixProject/fulfilled action sets saving, loading and lastSaveAutosave", async () => {
+  test("The remixProject/fulfilled action sets saving and lastSaveAutosave", async () => {
     const expectedState = {
       project: project,
       saving: "success",
-      loading: "idle",
       lastSaveAutosave: false,
       initialComponents: [
         {

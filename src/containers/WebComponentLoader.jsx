@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
@@ -82,6 +82,7 @@ const WebComponentLoader = (props) => {
   const project = useSelector((state) => state.editor.project);
   const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
+  const saving = useSelector((state) => state.editor.saving);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const loadRemix = !remixLoadFailed && !!user;
@@ -122,16 +123,22 @@ const WebComponentLoader = (props) => {
     setProjectIdentifier(identifier);
   }, [identifier]);
 
+  const previousProjectIdentifier = useRef(project.identifier);
   useEffect(() => {
+    const savedAsNewProject =
+      saving === "success" &&
+      previousProjectIdentifier.current !== project.identifier;
+    previousProjectIdentifier.current = project.identifier;
+
     if (
-      loading === "idle" &&
+      savedAsNewProject &&
       project.project_type !== "code_editor_scratch" &&
       project.identifier &&
       project.identifier !== projectIdentifier
     ) {
       setProjectIdentifier(project.identifier);
     }
-  }, [loading, project.project_type, project.identifier, projectIdentifier]);
+  }, [saving, project.project_type, project.identifier, projectIdentifier]);
 
   useEffect(() => {
     if (loading === "failed" && !remixLoadFailed) {
