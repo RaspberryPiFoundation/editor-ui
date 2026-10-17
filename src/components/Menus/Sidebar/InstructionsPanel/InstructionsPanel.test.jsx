@@ -42,6 +42,44 @@ const selectRemoveModalScope = (scope) =>
     fireEvent.click(removeModalScopeRadio(scope));
   });
 
+describe("The panel header collapse button", () => {
+  const renderPanel = (props = {}) =>
+    renderWithProviders(<InstructionsPanel {...props} />, {
+      preloadedState: {
+        editor: {
+          project: { instructions: [{ markdown_content: "instructions" }] },
+          instructionsEditable: true,
+        },
+        instructions: { permitOverride: true, currentStepPosition: 0 },
+      },
+    });
+
+  test("is not rendered when the panel cannot be toggled", () => {
+    renderPanel();
+
+    expect(
+      screen.queryByTitle("sidebar.collapseInstructions"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("is not rendered on mobile", () => {
+    renderPanel({ toggleOption: vi.fn(), isMobile: true });
+
+    expect(
+      screen.queryByTitle("sidebar.collapseInstructions"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("closes the instructions panel when clicked", () => {
+    const toggleOption = vi.fn();
+    renderPanel({ toggleOption });
+
+    fireEvent.click(screen.getByTitle("sidebar.collapseInstructions"));
+
+    expect(toggleOption).toHaveBeenCalledWith("instructions");
+  });
+});
+
 describe("When instructionsEditable changes from false to true", () => {
   test("does not leave the rendered preview above the edit/view tabs", () => {
     const { container, store } = renderWithProviders(<InstructionsPanel />, {
