@@ -189,28 +189,18 @@ There are several mechanisms that can be utilised to style part or all of the we
 
 The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/containers/WebComponentLoader.jsx) applies internal styles (from within the `editor-ui` repo) and external styles (related to external libraries) to the web component. This is necessary because the HTML that makes up the web component is mounted inside a shadow DOM, so only styles specificly applied within the shadow DOM will be utilised. This means that any stylesheets added to the project must be explicitly imported in [`InternalStyles.scss`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/InternalStyles.scss), and stylesheets from external libraries such as those providing ready-made React components may need to be imported in [`ExternalStyles`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/ExternalStyles.scss) to work.
 
-To account for the fact that different host pages may have varying base font sizes and spacing variables, a `--scale-factor` is being used to scale the font and spacing variables in the web component. This allows the web component to make use of existing font and spacing variables from the host page, alongside the `em` unit. However, use of the `rem` unit should be avoided because it cannot be overwritten in the shadow DOM. Wherever possible, existing calculations using the `--scale-factor` or `em` should be used instead, but beware of nested relative styling, which may scale variables more than once.
-
 #### Styling externally
 
 Styles from the parent application can be passed to the web component in a few different ways:
 
 - The web component utilises a shadow DOM, this creates a shadow root element in the DOM which is separate from the main DOM. It does however copy and create a new DOM tree from the main DOM with all styles applied to the root in the main DOM available in the shadow root.
 
-- A class can be applied to the custom element `wc-editor` which allows the parent application to style the web component container. This can be done by using the `class` attribute on the custom element. **NB** This attribute is `class` **NOT** `className`.
+- A class can be applied to the custom element `editor-wc`, allowing the parent application to style the web component container. Use the `class` attribute rather than React's `className` prop.
 
-- Other styles from the parent application will not be inherited by the web component. However, the web component can be styled by the parent application by using the `::part` pseudo-element selector. This allows the parent application to style the web component by targeting the web component's shadow DOM. For example, the following CSS will style the web component's `#root` element (due to the part attribute definition in [web-component.js](./src/web-component.js)):
+- Other styles from the parent application will not be inherited by the web component. The parent application can use the `::part` pseudo-element to target exposed elements in the shadow DOM. For example, this CSS styles the component's `#root` element, which [web-component.jsx](./src/web-component.jsx) exposes as `editor-root`:
 
-```scss
-::part(editor-root) {
-  // allows variables to be passed into the shadow dom
-  @include sauce-theme-primary-vars();
-  @include sauce-theme-secondary-vars();
-  // allows you to set custom variables inside the shadow dom
-  --editor-primary-theme: var(--theme-primary);
-  --editor-secondary-theme: var(--theme-secondary);
-  // background: var(--theme-secondary); // variables can then be applied inside the shadow dom
-  // enables the parent application to control the size of the web components root element
+```css
+editor-wc::part(editor-root) {
   display: block;
   flex: 1 1 auto;
   max-block-size: 100dvh;
@@ -219,12 +209,47 @@ Styles from the parent application can be passed to the web component in a few d
 
 ##### Custom properties
 
-The web component supports these custom properties. This list is not complete.
+Set these supported custom properties on `editor-wc`. They inherit into the
+shadow DOM, so `::part(editor-root)` is not required when setting them. Custom
+properties used only as internal design tokens are not part of this API.
 
-| Property                      | Default          | Use                                                                                    |
-| ----------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
-| `--editor-margin-block-start` | `var(--space-2)` | Sets the margin above the editor panels. A value of `0` also removes their top border. |
-| `--editor-panel-radius`       | `var(--space-1)` | Sets the radius of the editor panels' top corners.                                     |
+Layout and controls:
+
+| Property                            | Default                  | Use                                                                                    |
+| ----------------------------------- | ------------------------ | -------------------------------------------------------------------------------------- |
+| `--editor-font-family-monospace`    | Roboto Mono system stack | Sets the font used for code.                                                           |
+| `--editor-font-family-sans-serif`   | Roboto system stack      | Sets the font used for the editor interface.                                           |
+| `--editor-htmlrunner-link-display`  | `inline-flex`            | Sets the `display` value of the link that opens the HTML output in a new tab.          |
+| `--editor-logo-display`             | `inherit`                | Sets the `display` value of the logo in the sidebar.                                   |
+| `--editor-margin-block-start`       | `var(--space-2)`         | Sets the margin above the editor panels. A value of `0` also removes their top border. |
+| `--editor-panel-radius`             | `var(--space-1)`         | Sets the radius of the editor panels' top corners.                                     |
+| `--editor-secondary-theme`          | `transparent`            | Sets the editor's outer background.                                                    |
+| `--progress-bar-color`              | `--editor-color-theme`   | Sets the progress bar accent colour.                                                   |
+| `--project-bar-button-radius`       | `8px`                    | Sets the corner radius of buttons in the project bar and instructions.                 |
+| `--project-editor-wrapper-grid-gap` | `16px`                   | Sets the gap between the editor and output panels.                                     |
+| `--project-instructions-padding`    | `var(--space-2)`         | Sets the padding below the instructions content.                                       |
+| `--sidebar-border-obscurer-width`   | `auto`                   | Sets the width of the selected sidebar item's border cover.                            |
+| `--sidebar-options-alignment`       | `center`                 | Sets the cross-axis alignment of the sidebar options.                                  |
+| `--tertiary-btn-hover-color`        | `inherit`                | Sets the hover background of tertiary buttons.                                         |
+
+Instruction code blocks:
+
+| Property                                   | Default               | Use                                                    |
+| ------------------------------------------ | --------------------- | ------------------------------------------------------ |
+| `--code-background-color`                  | `var(--rpf-grey-700)` | Sets the code block background.                        |
+| `--code-block-blend-mode`                  | `difference`          | Sets the blend mode of a highlighted line.             |
+| `--code-block-border-color`                | `var(--rpf-grey-600)` | Sets the code block border colour.                     |
+| `--code-block-line-highlight-border`       | `none`                | Sets the border style and width of a highlighted line. |
+| `--code-block-line-highlight-border-color` | `none`                | Sets the border colour of a highlighted line.          |
+| `--code-block-line-highlight-color`        | `var(--rpf-white)`    | Sets the background colour of a highlighted line.      |
+| `--code-block-scrollbar-color`             | `auto`                | Sets the code block scrollbar colours.                 |
+| `--code-print-color`                       | `var(--rpf-white)`    | Sets the colour of Python `print` calls.               |
+| `--code-syntax-1`                          | `#9ee8ff`             | Sets the first syntax-highlighting colour.             |
+| `--code-syntax-2`                          | `#94f9af`             | Sets the second syntax-highlighting colour.            |
+| `--code-syntax-3`                          | `#ffca99`             | Sets the third syntax-highlighting colour.             |
+| `--code-syntax-4`                          | `#eeccff`             | Sets the fourth syntax-highlighting colour.            |
+| `--code-syntax-5`                          | `#9ee8ff`             | Sets the fifth syntax-highlighting colour.             |
+| `--code-text-color`                        | `var(--rpf-white)`    | Sets the code block text colour.                       |
 
 #### Instructions Sanitisation
 
