@@ -1,41 +1,38 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 .mobile-project-bar {
-  background-color: $rpf-white;
-  border-block-start: 1px solid $rpf-grey-150;
+  background-color: var(--rpf-white);
+  border-block-start: 1px solid var(--rpf-grey-150);
   display: flex;
   justify-content: space-between;
-  padding: $space-0-5;
+  padding: var(--space-1);
   gap: var(--space-1);
 }
 
 .mobile-project-bar__name {
-  @include font-size-0-75(regular);
-  font-weight: $font-weight-bold;
+  @include typography.style-0-75;
+  font-weight: var(--font-weight-bold);
   margin: auto 0;
 }
 
 .--dark {
   .mobile-project-bar {
-    background-color: $rpf-grey-800;
-    border-block-start: 1px solid $rpf-grey-600;
+    background-color: var(--rpf-grey-800);
+    border-block-start: 1px solid var(--rpf-grey-600);
   }
 
   .mobile-project-bar__name {
-    color: $rpf-white;
+    color: var(--rpf-white);
   }
 }
 
 .--light {
   .mobile-project-bar {
-    background-color: $rpf-white;
-    border-block-start: 1px solid $rpf-grey-150;
+    background-color: var(--rpf-white);
+    border-block-start: 1px solid var(--rpf-grey-150);
   }
 
   .mobile-project-bar__name {
-    color: $rpf-text-secondary;
+    color: var(--rpf-text-secondary);
   }
 }
