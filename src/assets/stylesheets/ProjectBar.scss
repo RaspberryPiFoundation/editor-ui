@@ -12,7 +12,7 @@
   border-inline-start: 1px solid var(--editor-color-outline);
   border-block-start: clamp(0px, var(--editor-margin-block-start, var(--space-2)), 1px)
     solid var(--editor-color-outline);
-  border-start-start-radius: var(--editor-top-border-radius, var(--space-1));
+  border-start-start-radius: var(--editor-panel-radius, var(--space-1));
 
 
   * {

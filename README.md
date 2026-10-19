@@ -222,7 +222,7 @@ The web component supports these custom properties. This list is not complete.
 | Property                        | Default          | Use                                                                                    |
 | ------------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
 | `--editor-margin-block-start`    | `var(--space-2)` | Sets the margin above the editor panels. A value of `0` also removes their top border.  |
-| `--editor-top-border-radius`     | `var(--space-1)` | Sets the radius of the editor panels' top corners.                                     |
+| `--editor-panel-radius`         | `var(--space-1)` | Sets the radius of the editor panels' top corners.                                     |
 
 #### Instructions Sanitisation
 
