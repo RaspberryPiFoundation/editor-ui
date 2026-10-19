@@ -4,6 +4,7 @@ import {
   getEditorResizeHandle,
   getProjEditorContainer,
   getSidebarPanel,
+  getSidebarResizeHandle,
   checkEditorInitialized,
 } from "../helpers/editor.js";
 
@@ -28,7 +29,15 @@ describe("layout resize", () => {
     cy.viewport(1280, 800);
     visitAndLoadPythonProject();
 
-    getEditorResizeHandle("verticalHandle").should("exist");
+    getProjEditorContainer().then(($container) => {
+      getEditorResizeHandle("verticalHandle").should(($handle) => {
+        const containerRect = $container[0].getBoundingClientRect();
+        const handleRect = $handle[0].getBoundingClientRect();
+
+        expect(handleRect.width).to.equal(16);
+        expect(handleRect.left).to.be.closeTo(containerRect.right + 3, 1);
+      });
+    });
 
     let initialWidth;
     getProjEditorContainer().then(($el) => {
@@ -51,7 +60,15 @@ describe("layout resize", () => {
     cy.viewport(700, 900);
     visitAndLoadPythonProject();
 
-    getEditorResizeHandle("horizontalHandle").should("exist");
+    getProjEditorContainer().then(($container) => {
+      getEditorResizeHandle("horizontalHandle").should(($handle) => {
+        const containerRect = $container[0].getBoundingClientRect();
+        const handleRect = $handle[0].getBoundingClientRect();
+
+        expect(handleRect.height).to.equal(16);
+        expect(handleRect.top).to.be.closeTo(containerRect.bottom + 3, 1);
+      });
+    });
 
     let initialHeight;
     getProjEditorContainer().then(($el) => {
@@ -70,7 +87,17 @@ describe("layout resize", () => {
     cy.viewport(1280, 800);
     visitAndLoadPythonProject();
 
-    getSidebarPanel().should("be.visible");
+    getSidebarPanel()
+      .should("be.visible")
+      .then(($panel) => {
+        getSidebarResizeHandle().should(($handle) => {
+          const panelRect = $panel[0].getBoundingClientRect();
+          const handleRect = $handle[0].getBoundingClientRect();
+
+          expect(handleRect.width).to.equal(16);
+          expect(handleRect.left).to.be.closeTo(panelRect.right + 4, 0.5);
+        });
+      });
 
     let initialWidth;
     getSidebarPanel().then(($el) => {

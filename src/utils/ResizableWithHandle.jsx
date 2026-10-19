@@ -5,37 +5,17 @@ import { Resizable } from "re-resizable";
 import "../assets/stylesheets/ResizableWithHandle.scss?inline";
 
 const VerticalHandle = () => (
-  <svg
+  <span
+    className="resizable-with-handle__indicator resizable-with-handle__indicator--vertical"
     data-testid="verticalHandle"
-    width="44"
-    height="56"
-    viewBox="0 0 44 56"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect x="20" width="4" height="56" rx="2" fill="#616575" />
-  </svg>
+  />
 );
 
 const HorizontalHandle = () => (
-  <svg
+  <span
+    className="resizable-with-handle__indicator resizable-with-handle__indicator--horizontal"
     data-testid="horizontalHandle"
-    width="56"
-    height="44"
-    viewBox="0 0 56 44"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <rect
-      x="56"
-      y="20"
-      width="4"
-      height="56"
-      rx="2"
-      transform="rotate(90 56 20)"
-      fill="#616575"
-    />
-  </svg>
+  />
 );
 
 const ResizableWithHandle = (props) => {
