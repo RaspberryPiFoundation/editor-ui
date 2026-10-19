@@ -5,9 +5,11 @@ import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 import ProjectBar from "./ProjectBar";
 import useIsOnline from "../../hooks/useIsOnline";
+import { useContainerMinWidth } from "../../hooks/useContainerMinWidth";
 
 vi.mock("axios");
 vi.mock("../../hooks/useIsOnline");
+vi.mock("../../hooks/useContainerMinWidth");
 
 vi.mock("react-router-dom", async () => ({
   ...(await vi.importActual("react-router-dom")),
@@ -31,6 +33,7 @@ const user = {
 
 beforeEach(() => {
   useIsOnline.mockReturnValue(true);
+  useContainerMinWidth.mockReturnValue([true, vi.fn()]);
 });
 
 const renderProjectBar = (state) => {
@@ -71,7 +74,9 @@ describe("When logged in and user owns project", () => {
   });
 
   test("Project name is shown", () => {
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: project.name }),
+    ).toBeInTheDocument();
   });
 
   test("Project name is editable", () => {
@@ -118,7 +123,9 @@ describe("When logged in and no project identifier", () => {
   });
 
   test("Project name is shown", () => {
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: project.name }),
+    ).toBeInTheDocument();
   });
 
   test("Project name is editable", () => {
@@ -148,7 +155,9 @@ describe("When not logged in", () => {
   });
 
   test("Project name is shown", () => {
-    expect(screen.queryByText(project.name)).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: project.name }),
+    ).toBeInTheDocument();
   });
 
   test("Project name is editable", () => {
@@ -226,6 +235,24 @@ describe("offline badge", () => {
       auth: { user },
     });
     expect(screen.queryByText("header.offline")).not.toBeInTheDocument();
+  });
+});
+
+describe("When the project bar is narrower than 560px", () => {
+  test("uses accessible icon-only actions", () => {
+    useContainerMinWidth.mockReturnValue([false, vi.fn()]);
+    renderProjectBar({
+      editor: { project },
+      auth: {
+        user: { ...user, profile: { user: "someone-else" } },
+      },
+    });
+
+    expect(useContainerMinWidth).toHaveBeenCalledWith(560);
+    ["header.download", "header.save"].forEach((name) => {
+      expect(screen.getByRole("button", { name })).toBeInTheDocument();
+      expect(screen.queryByText(name)).not.toBeInTheDocument();
+    });
   });
 });
 
