@@ -24,6 +24,7 @@ import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
+import { SidebarActiveOptionContext } from "./sidebarTabIds";
 import PluginSlot from "./PluginSlot";
 import MaterialSymbol from "./MaterialSymbol";
 import { setSidebarOption } from "../../../redux/EditorSlice";
@@ -259,13 +260,16 @@ const Sidebar = ({
         toggleOption={toggleOption}
         instructions={instructionsSteps}
         allowMobileView={allowMobileView}
-      />
-      {activeOption && (
-        <CustomSidebarPanel
-          isMobile={isMobile}
-          {...(optionDict.panelProps || {})}
-        />
-      )}
+      >
+        {activeOption && (
+          <SidebarActiveOptionContext.Provider value={activeOption}>
+            <CustomSidebarPanel
+              isMobile={isMobile}
+              {...(optionDict.panelProps || {})}
+            />
+          </SidebarActiveOptionContext.Provider>
+        )}
+      </SidebarBar>
     </div>
   );
 };
