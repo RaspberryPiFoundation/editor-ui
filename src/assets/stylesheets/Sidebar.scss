@@ -8,7 +8,7 @@
   display: flex;
   position: relative;
   background-color: var(--editor-color-layer-2);
-  border-block-start: clamp(0px, var(--editor-top-gap, var(--space-2)), 1px)
+  border-block-start: clamp(0px, var(--editor-margin-block-start, var(--space-2)), 1px)
     solid var(--editor-color-outline);
   border-start-end-radius: var(--editor-top-border-radius, var(--space-1));
 }

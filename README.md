@@ -219,10 +219,10 @@ Styles from the parent application can be passed to the web component in a few d
 
 The web component supports these custom properties. This list is not complete.
 
-| Property                     | Default          | Use                                                                                   |
-| ---------------------------- | ---------------- | ------------------------------------------------------------------------------------- |
-| `--editor-top-gap`           | `var(--space-2)` | Sets the space above the editor panels. A value of `0` also removes their top border. |
-| `--editor-top-border-radius` | `var(--space-1)` | Sets the radius of the editor panels' top corners.                                    |
+| Property                        | Default          | Use                                                                                    |
+| ------------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
+| `--editor-margin-block-start`    | `var(--space-2)` | Sets the margin above the editor panels. A value of `0` also removes their top border.  |
+| `--editor-top-border-radius`     | `var(--space-1)` | Sets the radius of the editor panels' top corners.                                     |
 
 #### Instructions Sanitisation
 
