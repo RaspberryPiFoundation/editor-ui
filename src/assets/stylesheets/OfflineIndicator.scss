@@ -1,11 +1,10 @@
-
 .offline-badge {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
   padding-inline: var(--space-1);
-  padding-block: var(--space-1);
+  padding-block: var(--space-0-5);
   border-radius: 100vw;
   border: 3px solid var(--rpf-red-400);
   color: var(--rpf-red-900);
@@ -25,8 +24,8 @@
     inline-size: 12rem;
     padding: var(--space-2);
     border-radius: var(--space-1);
-    background: #1d1d1d;
-    color: #fff;
+    background: var(--rpf-black);
+    color: var(--rpf-white);
     font-size: 1rem;
     white-space: normal;
     opacity: 0;
@@ -44,14 +43,14 @@
       block-size: 0;
       border-inline-start: 8px solid transparent;
       border-inline-end: 8px solid transparent;
-      border-block-end: 8px solid #1d1d1d;
+      border-block-end: 8px solid var(--rpf-black);
     }
 
     p {
       margin: 0;
 
       & + p {
-        margin-block-start: var(--space-3);
+        margin-block-start: var(--space-2);
       }
     }
   }

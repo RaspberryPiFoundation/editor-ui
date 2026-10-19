@@ -3,7 +3,7 @@ import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
 
 import "../../../../assets/stylesheets/ProjectsPanel.scss?inline";
-import ProjectName from "../../../ProjectName/ProjectName";
+import ProjectNameInput from "./ProjectNameInput";
 import ProjectInfo from "./ProjectInfo/ProjectInfo";
 import DownloadIcon from "../../../../assets/icons/download.svg";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
@@ -28,7 +28,11 @@ const ProjectsPanel = () => {
   const saveOptions = (
     <>
       <div className="projects-panel__save">
-        <SaveButton className="projects-panel__save-button" />
+        <SaveButton
+          className="projects-panel__save-button"
+          iconPosition="right"
+          fullWidth
+        />
       </div>
       <div className="projects-panel__save-status">
         <SaveStatus isMobile={isMobile} />
@@ -60,17 +64,16 @@ const ProjectsPanel = () => {
       buttons={buttons}
       className="projects-panel-wrapper"
     >
-      <ProjectName
-        showLabel={true}
-        className="projects-panel__item"
-        editable={canEditProjectName}
-      />
+      <ProjectNameInput editable={canEditProjectName} />
       <ProjectInfo className="projects-panel__item" />
       <div className="projects-panel__button">
         <DownloadButton
           buttonText={t("header.download")}
           className="projects-panel__download-button"
           Icon={DownloadIcon}
+          iconPosition="right"
+          type="secondary"
+          fullWidth
         />
       </div>
       {isMobile && saveOptions}

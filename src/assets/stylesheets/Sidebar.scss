@@ -7,8 +7,9 @@
   display: flex;
   position: relative;
   background-color: var(--editor-color-layer-2);
-  border-block-start: 1px solid var(--editor-color-outline);
-  border-start-end-radius: var(--space-1);
+  border-block-start: clamp(0px, var(--editor-margin-block-start, var(--space-2)), 1px)
+    solid var(--editor-color-outline);
+  border-start-end-radius: var(--editor-panel-radius, var(--space-1));
 }
 
 .sidebar--mobile {

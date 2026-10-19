@@ -43,7 +43,7 @@
 
 .--light {
   // Theme colours
-  --editor-color-layer-1: var(--rpf-teal-100);
+  --editor-color-layer-1: var(--rpf-grey-50);
   --editor-color-layer-2: var(--rpf-white);
   --editor-color-layer-3: var(--rpf-white);
   --editor-color-outline: var(--rpf-grey-150);
@@ -109,6 +109,7 @@
 
   // Form controls
   --rpf-input-background-color: var(--editor-color-layer-3);
+  --rpf-input-background-color-readonly: var(--rpf-grey-600);
   --rpf-input-border-colour: var(--editor-color-text);
   --rpf-input-color: var(--editor-color-text);
   --rpf-input-outline-color: var(--editor-color-theme);

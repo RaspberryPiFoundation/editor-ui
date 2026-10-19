@@ -17,16 +17,23 @@
     justify-content: center;
   }
 
-  .project-name {
-    block-size: auto;
-    padding-inline-start: 0;
+  .projects-panel__project-name {
+    display: grid;
+    align-items: end;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-0-5);
 
-    &__label {
-      padding-inline-start: 0;
+    > div:first-child,
+    .rpf-input-field {
+      min-inline-size: 0;
     }
 
-    &__input {
-      padding: 0 var(--space-2);
+    .rpf-input-field {
+      margin-block-end: 0;
+    }
+
+    .rpf-input {
+      min-inline-size: 0;
     }
   }
 

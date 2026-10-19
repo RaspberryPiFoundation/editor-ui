@@ -1,70 +1,76 @@
-@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
 
 .project-name {
-  align-items: center;
   display: flex;
-  block-size: 100%;
-  padding-inline-start: var(--space-1);
+  align-items: center;
+  flex: 1 1 calc(5rem + var(--min-target-size));
+  min-block-size: var(--min-target-size);
+  min-inline-size: calc(5rem + var(--min-target-size));
+  max-inline-size: 16em;
+}
+
+.project-name__value {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.project-name__title,
+.project-name__input {
+  @include typography.style-1;
+  box-sizing: border-box;
+
+  min-block-size: var(--sm-target-size);
+  inline-size: 100%;
+  padding: var(--space-0-5) var(--space-1);
+  border-radius: var(--border-radius);
 }
 
 .project-name__title {
-  @include typography.style-1-5(bold);
-  font-weight: var(--font-weight-bold);
-  margin-block: var(--space-2);
-  margin-inline-start: var(--space-1);
-  margin-inline-end: var(--space-2);
   overflow: hidden;
   text-overflow: ellipsis;
   text-wrap: nowrap;
+  align-self: center;
+  border: 2px solid var(--rpf-grey-50);
+  background-color: var(--rpf-grey-50);
+}
+
+.project-name__action {
+  flex: none;
 }
 
 .project-name__label {
   @include typography.style-1;
-  font-weight: var(--font-weight-bold);
-  margin-block-end: var(--space-1);
   display: block;
 }
 
 .project-name__input {
-  @include typography.style-1;
-  padding: 0 var(--space-3);
-  block-size: var(--space-6);
-  border-radius: var(--space-1);
-  border: none;
-  color: inherit;
+  outline: none;
+
   background-color: inherit;
-  text-overflow: ellipsis;
-  inline-size: 100%;
-}
-
-.project-name__button {
-  margin: var(--space-1);
-
-  svg {
-    block-size: var(--space-3);
-    inline-size: var(--space-3);
-    margin: 0;
-  }
+  border: 2px solid var(--rpf-text-primary);
 }
 
 .--dark {
   .project-name__input {
-    background-color: var(--rpf-grey-600);
-
     &:focus-visible {
-      background-color: inherit;
-      outline: 2px solid var(--rpf-white);
+      outline: 2px solid var(--editor-focus-color);
     }
   }
 }
 
 .--light {
   .project-name__input {
-    background-color: var(--rpf-grey-50);
-
     &:focus-visible {
       background-color: inherit;
-      outline: 2px solid var(--rpf-text-primary);
+      outline: 2px solid var(--editor-focus-color);
     }
+  }
+}
+
+.--dark {
+  .project-name__title {
+    border: 2px solid var(--rpf-grey-850);
+    background-color: var(--rpf-grey-850);
   }
 }
