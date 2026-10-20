@@ -217,9 +217,9 @@ Styles from the parent application can be passed to the web component in a few d
 }
 ```
 
-##### Custom properties
+##### Customising with custom properties
 
-Set these supported custom properties on `editor-wc`. They inherit into the shadow DOM, so `::part(editor-root)` is not required when setting them. Custom properties used only as internal design tokens are not part of this API.
+Custom properties let the parent application adjust supported parts of the editor's appearance without relying on its internal elements or structure. Set them on `editor-wc` so they inherit into the shadow DOM. Properties used only as internal design tokens are not part of this API.
 
 **Layout and controls:**
 
