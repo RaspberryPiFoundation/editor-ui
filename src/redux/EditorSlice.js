@@ -456,7 +456,6 @@ const EditorSlice = createSlice({
       if (state.project.identifier !== action.payload.project.identifier) {
         state.project.image_list = state.project.image_list || [];
         state.project = action.payload.project;
-        state.loading = "idle";
       }
       syncInitialProjectSnapshot(state, action.payload.project);
     });
@@ -472,7 +471,6 @@ const EditorSlice = createSlice({
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;
-      state.loading = "idle";
       syncInitialProjectSnapshot(state, action.payload.project);
     });
     builder.addCase("editor/loadRemixProject/pending", loadProjectPending);

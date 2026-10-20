@@ -926,3 +926,43 @@ describe("When a Scratch project has been remixed in place", () => {
     );
   });
 });
+
+describe("When a save or remix has just returned the project", () => {
+  test("does not reload it when its new identifier is adopted", async () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({
+      editor: {
+        isBrowserPreview: false,
+        isEmbedded: false,
+        loading: "success",
+        saving: "success",
+        project: {
+          identifier: "student-remix",
+          project_type: "python",
+          components: [],
+        },
+      },
+    });
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    );
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
+
+    const { rerender } = renderHook(
+      ({ projectIdentifier }) =>
+        useProject({
+          projectIdentifier,
+          accessToken,
+          reactAppApiEndpoint,
+          locale: "en",
+          loadCache: false,
+        }),
+      { wrapper, initialProps: { projectIdentifier: "teacher-original" } },
+    );
+    loadProject.mockClear();
+
+    rerender({ projectIdentifier: "student-remix" });
+
+    await waitFor(() => expect(loadProject).not.toHaveBeenCalled());
+  });
+});
