@@ -193,7 +193,11 @@ The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob
 
 The shadow DOM prevents selectors in the parent page from targeting most of the web component's internal elements. Inherited CSS properties and custom properties set on the host element still inherit into its shadow tree unless an internal style overrides them.
 
+##### Styling the host element
+
 A class can be applied to the `editor-wc` element, allowing the parent application to style the web component container. Use the `class` attribute rather than React's `className` prop.
+
+##### Styling exposed parts
 
 The parent application can use the `::part` pseudo-element to target elements explicitly exposed from the shadow DOM. For example, this CSS styles the component's `#root` element, which [web-component.jsx](./src/web-component.jsx) exposes as `editor-root`:
 
@@ -205,9 +209,9 @@ editor-wc::part(editor-root) {
 }
 ```
 
-##### Custom properties
+##### Customising with custom properties
 
-The web component supports these custom properties. This list is not complete.
+Custom properties let the parent application adjust supported parts of the editor's appearance without relying on its internal elements or structure. Set them on `editor-wc` so they inherit into the shadow DOM. The currently documented properties are:
 
 | Property                      | Default          | Use                                                                                    |
 | ----------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
