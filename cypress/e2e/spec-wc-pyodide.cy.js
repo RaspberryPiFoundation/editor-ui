@@ -1,4 +1,6 @@
 import {
+  getAiErrorHelp,
+  getAiErrorHelpButton,
   getEditorShadow,
   getErrorMessage,
   getFriendlyErrorMessage,
@@ -320,5 +322,81 @@ describe("When friendly errors enabled with pyodide", () => {
       "contain",
       "This variable doesn't exist here",
     );
+  });
+
+  it("escalates through the levels of support when asked", () => {
+    // Ollama is stubbed so this stays deterministic and does not need a model
+    // pulled. The response is newline-delimited JSON, as Ollama streams it.
+    cy.intercept("POST", "**/api/chat", (req) => {
+      req.reply({
+        statusCode: 200,
+        headers: { "content-type": "application/x-ndjson" },
+        body: `${JSON.stringify({
+          message: { content: "Look at line 1 and check what kitten is." },
+        })}\n${JSON.stringify({ done: true, done_reason: "stop" })}\n`,
+      });
+    }).as("chat");
+
+    runCode("print(kitten)");
+    getFriendlyErrorMessage().should(
+      "contain",
+      "This variable doesn't exist here",
+    );
+
+    // Rung 1: the pre-written explanation, with no request to the model.
+    getAiErrorHelpButton().should("contain", "Explain this to me").click();
+    getAiErrorHelp().should(
+      "contain",
+      "A variable created in another place might not be available here",
+    );
+    getAiErrorHelp().should("contain", "If it is meant to be text");
+    cy.get("@chat.all").should("have.length", 0);
+
+    // Rung 2: escalate to the model.
+    getAiErrorHelpButton().should("contain", "I'm still stuck").click();
+    cy.wait("@chat")
+      .its("request.body")
+      .then((body) => {
+        expect(body.stream).to.eq(true);
+        expect(body.think).to.eq(false);
+        expect(body.options).to.deep.eq({ temperature: 0.7, num_predict: 400 });
+        expect(body.messages[0].content).to.contain("Do not repeat");
+        expect(body.messages[1].content).to.contain("print(kitten)");
+        expect(body.messages[1].content).to.contain("NameError");
+      });
+    getAiErrorHelp().should(
+      "contain",
+      "Look at line 1 and check what kitten is.",
+    );
+    getAiErrorHelp().should("contain", "Written by AI");
+
+    // Rung 3: the fix, with the previous answer replayed to the model.
+    getAiErrorHelpButton().should("contain", "Show me the fix").click();
+    cy.wait("@chat")
+      .its("request.body.messages")
+      .then((messages) => {
+        expect(messages.map((m) => m.role)).to.deep.eq([
+          "system",
+          "user",
+          "assistant",
+          "user",
+        ]);
+        expect(messages[2].content).to.contain("Look at line 1");
+      });
+
+    // Ladder exhausted.
+    getAiErrorHelpButton().should("not.exist");
+  });
+
+  it("leaves the pre-written help working when Ollama is unreachable", () => {
+    cy.intercept("POST", "**/api/chat", { forceNetworkError: true }).as("chat");
+
+    runCode("print(kitten)");
+    getAiErrorHelpButton().click();
+    getAiErrorHelp().should("contain", "If it is meant to be text");
+
+    getAiErrorHelpButton().click();
+    getAiErrorHelp().should("contain", "The help service is not running");
+    getAiErrorHelp().should("contain", "If it is meant to be text");
   });
 });

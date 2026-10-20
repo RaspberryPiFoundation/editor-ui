@@ -201,6 +201,24 @@
     "savePrompt": "Save this project to access it later under \"Your projects\"."
   },
   "output": {
+    "aiHelp": {
+      "tag": "AI",
+      "notice": "Written by AI, which can get things wrong.",
+      "thinking": "Generating…",
+      "truncated": "This answer stopped early because it got too long.",
+      "fixWithheld": "The fix is hidden for now, so you can try it yourself first.",
+      "ask": {
+        "prewritten": "Explain this to me",
+        "explain": "Help me with this",
+        "hint": "I'm still stuck",
+        "solve": "Show me the fix"
+      },
+      "failure": {
+        "unreachable": "The help service is not running, so there is no extra help right now.",
+        "modelMissing": "The help service does not have that model installed.",
+        "server": "The help service could not answer. Try asking again."
+      }
+    },
     "errors": {
       "interrupted": "Execution interrupted"
     },

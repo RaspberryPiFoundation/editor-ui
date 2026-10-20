@@ -22,8 +22,8 @@ import {
   loadCopydeckFor,
   registerAdapter,
   cpythonAdapter,
-  friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
+import buildFriendlyErrorPayload from "../../../../../utils/friendlyErrorPayload";
 import ErrorMessage from "../../../ErrorMessage/ErrorMessage";
 import ApiCallHandler from "../../../../../utils/apiCallHandler";
 import store from "../../../../../redux/stores/WebComponentStore";
@@ -477,15 +477,14 @@ const SkulptRunner = ({
             ?.content ?? "";
 
         try {
-          const friendlyError = friendlyExplain({
+          const friendlyError = buildFriendlyErrorPayload({
             error: errorMessage,
             code: inputCode,
             runtime: "skulpt",
-            sections: ["title", "summary"],
           });
 
-          if (friendlyError?.html) {
-            dispatch(setFriendlyError({ html: friendlyError.html }));
+          if (friendlyError) {
+            dispatch(setFriendlyError(friendlyError));
           }
         } catch {
           console.error("Could not parse friendly error");

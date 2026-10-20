@@ -19,6 +19,10 @@ const browserProcessEnvValues = (mode, env) => ({
   REACT_APP_SCRATCH_FRAME_URL: env.REACT_APP_SCRATCH_FRAME_URL ?? "",
   REACT_APP_SENTRY_DSN: env.REACT_APP_SENTRY_DSN ?? "",
   REACT_APP_SENTRY_ENV: env.REACT_APP_SENTRY_ENV ?? "",
+  // Escalating error help; see docs/ErrorHelpEscalation.md. Empty disables the
+  // model-backed rungs.
+  REACT_APP_OLLAMA_URL: env.REACT_APP_OLLAMA_URL ?? "",
+  REACT_APP_OLLAMA_MODEL: env.REACT_APP_OLLAMA_MODEL ?? "",
 });
 
 const processEnvBuildDefine = (mode, env) => {

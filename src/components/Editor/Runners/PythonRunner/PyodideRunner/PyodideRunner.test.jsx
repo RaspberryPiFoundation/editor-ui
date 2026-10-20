@@ -586,7 +586,9 @@ describe("When an error is received", () => {
 
       test("dispatches setFriendlyError", () => {
         expect(dispatchSpy).toHaveBeenCalledWith(
-          setFriendlyError({ html: friendlyErrorHtml }),
+          setFriendlyError(
+            expect.objectContaining({ html: friendlyErrorHtml }),
+          ),
         );
       });
     });
