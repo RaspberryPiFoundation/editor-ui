@@ -5,6 +5,7 @@ import DOMPurify from "dompurify";
 import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
+import AiErrorHelp from "../AiErrorHelp/AiErrorHelp";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
@@ -22,6 +23,9 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
+      {/* Keyed on the error so a new error resets the help ladder and abandons
+          any response still streaming for the previous one. */}
+      <AiErrorHelp key={error} />
     </div>
   ) : null;
 };

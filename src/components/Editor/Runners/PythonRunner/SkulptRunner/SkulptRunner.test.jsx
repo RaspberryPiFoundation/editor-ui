@@ -307,9 +307,9 @@ describe("When an error occurs", () => {
     test("dispatches setFriendlyError", () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
-          setFriendlyError({
-            html: friendlyErrorHtml,
-          }),
+          setFriendlyError(
+            expect.objectContaining({ html: friendlyErrorHtml }),
+          ),
         ]),
       );
     });

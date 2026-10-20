@@ -1,0 +1,127 @@
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
+
+// Sits below the friendly error summary inside the red .error-message card, so
+// it uses the editor's semantic theme tokens rather than a literal white - that
+// is what makes it work in both light and dark themes without a second
+// ruleset.
+.ai-error-help {
+  background-color: var(--editor-color-layer-2);
+  color: var(--editor-color-text);
+  // Stated rather than inherited. This card sits between the monospace
+  // traceback and the monospace console output, and it is prose - it should not
+  // depend on what an ancestor happens to set, in a component whose styling
+  // hosts can override.
+  font-family: var(--editor-font-family-sans-serif);
+  border: var(--border-width-sm) solid var(--editor-color-outline);
+  border-radius: var(--border-radius);
+  padding: var(--space-1) var(--space-1-5);
+  margin-block-start: var(--space-1);
+  @include typography.style-1;
+
+  &--medium {
+    @include typography.style-1;
+  }
+
+  &--large {
+    @include typography.style-2;
+  }
+
+  // The pre-written rung is the copydeck's own markup, so it inherits the
+  // .pfem__* rules from FriendlyErrorMessage.scss and needs no styling of its
+  // own beyond spacing.
+  &__prewritten {
+    .pfem__why {
+      margin-block: 0 var(--space-1);
+    }
+
+    .pfem__steps {
+      margin-block: 0;
+      padding-inline-start: var(--space-3);
+    }
+  }
+
+  &__model {
+    margin-block-start: var(--space-1);
+  }
+
+  &__notice {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-block: 0 var(--space-1);
+    color: var(--editor-color-text-secondary);
+    @include typography.style-0-75;
+  }
+
+  // The chip showing which model answered. Distinct from &__model, which is the
+  // wrapper around all model output - giving both the same name made this
+  // monospace rule apply to every paragraph in the answer.
+  &__model-name {
+    margin-inline-start: auto;
+    font-family: var(--editor-font-family-monospace);
+    color: var(--editor-color-text-secondary);
+  }
+
+  // Paragraphs come pre-split by parseAnswer, so these wrap normally. Honouring
+  // the model's own line breaks here is what made answers look preformatted.
+  &__answer {
+    overflow-wrap: break-word;
+    margin-block: 0 var(--space-1);
+  }
+
+  // Model answers regularly contain code. Rendering it as monospace on a tinted
+  // panel is the difference between a readable fix and a wall of backticks.
+  &__code {
+    margin-block: 0 var(--space-1);
+    padding: var(--space-1);
+    background-color: var(--editor-color-layer-1);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--editor-font-family-monospace);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow-x: auto;
+  }
+
+  &__inline-code {
+    padding-inline: var(--space-0-5);
+    background-color: var(--editor-color-layer-1);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--editor-font-family-monospace);
+    overflow-wrap: break-word;
+  }
+
+  &__meta {
+    margin-block: 0 var(--space-1);
+    color: var(--editor-color-text-secondary);
+    @include typography.style-0-75;
+  }
+
+  &__failure {
+    margin-block: 0 var(--space-1);
+    color: var(--rpf-alert-error);
+  }
+
+  &__thinking {
+    color: var(--editor-color-text-secondary);
+    animation: ai-error-help-pulse 1.4s ease-in-out infinite;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-1);
+  }
+}
+
+@keyframes ai-error-help-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+// Age-appropriate guidelines: animation must respect motion preferences.
+@media (prefers-reduced-motion: reduce) {
+  .ai-error-help__thinking {
+    animation: none;
+  }
+}
