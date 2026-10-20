@@ -209,11 +209,9 @@ editor-wc::part(editor-root) {
 
 ##### Custom properties
 
-Set these supported custom properties on `editor-wc`. They inherit into the
-shadow DOM, so `::part(editor-root)` is not required when setting them. Custom
-properties used only as internal design tokens are not part of this API.
+Set these supported custom properties on `editor-wc`. They inherit into the shadow DOM, so `::part(editor-root)` is not required when setting them. Custom properties used only as internal design tokens are not part of this API.
 
-Layout and controls:
+**Layout and controls:**
 
 | Property                            | Default                  | Use                                                                                    |
 | ----------------------------------- | ------------------------ | -------------------------------------------------------------------------------------- |
@@ -232,7 +230,7 @@ Layout and controls:
 | `--sidebar-options-alignment`       | `center`                 | Sets the cross-axis alignment of the sidebar options.                                  |
 | `--tertiary-btn-hover-color`        | `inherit`                | Sets the hover background of tertiary buttons.                                         |
 
-Instruction code blocks:
+**Instruction code blocks:**
 
 | Property                                   | Default               | Use                                                    |
 | ------------------------------------------ | --------------------- | ------------------------------------------------------ |
