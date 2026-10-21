@@ -10,8 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "{{fileName}} editor",
-    "tabExitInstruction": "Press Escape, then Tab to exit.",
+    "ariaLabel": "Editor de {{fileName}}",
+    "tabExitInstruction": "Presiona la tecla Escape y, luego, Tab para salir.",
     "characterLimitError": "Error: Se alcanzó el límite de caracteres",
     "viewOnly": "Vista solamente",
     "close": "cerrar",
@@ -85,8 +85,8 @@
     "save": "Guardar",
     "loginToSave": "Inicia sesión para guardar",
     "offline": "Sin conexión",
-    "offlineTooltipDevice": "Code changes are being saved to your device.",
-    "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
+    "offlineTooltipDevice": "Los cambios en el código se guardan en tu dispositivo.",
+    "offlineTooltipContinue": "Puedes seguir programando y tu trabajo se guardará cuando vuelvas a estar en línea.",
     "settings": "Configuración"
   },
   "imagePanel": {
@@ -97,7 +97,7 @@
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How to use instructions",
+      "title": "Cómo usar las instrucciones",
       "replaceThisText": "Replace this text with your own instructions. Anything you write here appears in the sidebar for your students.",
       "writtenInMarkdown": "Instructions are written in Markdown. Switch between the **Edit** and **View** tabs to see how each example below was written, or read our [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions).",
       "studentCopyWarning": "Students get their own copy of a project when they start it, so changes you make later will not reach anyone who has already started.",
