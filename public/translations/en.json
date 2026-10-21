@@ -191,6 +191,7 @@
     "steps": "Steps"
   },
   "modals": {
+    "close": "Close",
     "accept": "OK",
     "scratchAssetTooLarge": {
       "heading": "Your project could not be saved",
