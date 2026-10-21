@@ -1,16 +1,22 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
 
+// The raw error on top, then the friendly and AI cards stacked below it. The
+// gap here spaces all three, so the cards carry no margins of their own.
 .error-message {
-  color: var(--rpf-red-900);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  color: var(--rpf-alert-error);
   background-color: var(--rpf-red-100);
   border-block: 1px solid var(--editor-color-outline);
-  padding: var(--space-1);
+  padding: var(--space-1-5);
   overflow-y: auto;
 
   &__error {
     padding: 0;
     margin: 0;
+    font-family: inherit;
     white-space: pre-wrap;
     overflow-wrap: break-word;
     font-weight: bold;
@@ -18,7 +24,15 @@
 
   &__python {
     display: flex;
+    align-items: flex-start;
     gap: var(--space-1);
+
+    svg {
+      flex-shrink: 0;
+      inline-size: 1.25em;
+      block-size: 1.25em;
+      margin-block-start: 0.125em;
+    }
     @include typography.style-1;
 
     &--medium {

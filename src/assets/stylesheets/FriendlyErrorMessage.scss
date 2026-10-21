@@ -1,15 +1,18 @@
 .friendly-error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
   background-color: var(--rpf-white);
-  padding: var(--space-1) var(--space-1-5);
+  padding: var(--space-1-5);
   color: var(--rpf-text-primary);
   border-radius: var(--space-1);
-  margin-block-start: var(--space-1);
 
   &__content {
-    line-height: 1.75rem;
+    line-height: 1.5;
 
     .pfem__title {
-      font-weight: 600;
+      font-weight: bold;
       display: inline;
     }
 
@@ -53,6 +56,14 @@
 
     .pfem__line {
       background-color: var(--rpf-blue-100);
+    }
+  }
+
+  // The pre-written `why`, revealed in place under the summary. It arrives as
+  // the copydeck's own markup, so only its outer spacing needs resetting.
+  &__detail {
+    .pfem__why {
+      margin: 0;
     }
   }
 }
