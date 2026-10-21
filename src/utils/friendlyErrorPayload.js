@@ -24,14 +24,16 @@ const buildFriendlyErrorPayload = (options) => {
     return null;
   }
 
-  const detail = friendlyExplain({ ...options, sections: ["why", "steps"] });
+  // Concept 3 shows the pre-written `why` straight away, under the summary,
+  // and leaves the steps out: the learner's own question to the model takes
+  // their place.
+  const detail = friendlyExplain({ ...options, sections: ["why"] });
 
   return {
     html: summary.html,
-    // The next rung of support, pre-written and human-reviewed. Null when this
-    // copydeck variant has no `why` or `steps`, in which case the ladder skips
-    // straight to the model.
-    detailHtml: detail?.why || detail?.steps?.length ? detail.html : null,
+    // Pre-written and human-reviewed. Null when this copydeck variant has no
+    // `why`.
+    detailHtml: detail?.why ? detail.html : null,
     title: summary.title,
     summary: summary.summary,
     why: summary.why,

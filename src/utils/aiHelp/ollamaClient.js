@@ -56,26 +56,13 @@ const consumeLines = (buffer, onLine) => {
   return remainder;
 };
 
-/**
- * Stream a chat completion, calling onToken with each fragment of content.
- *
- * Resolves with { text, truncated }. `truncated` means the model ran out of
- * token budget rather than finishing its answer, which is worth telling the
- * learner about so a sentence cut off mid-word does not look like a bug.
- */
-export const streamChat = async ({
-  url,
-  model,
-  messages,
-  signal,
-  onToken = () => {},
-}) => {
+const postChat = async (url, body, signal) => {
   let response;
   try {
     response = await fetch(`${url.replace(/\/$/, "")}/api/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(buildRequestBody(model, messages)),
+      body: JSON.stringify(body),
       signal,
     });
   } catch (error) {
@@ -100,6 +87,64 @@ export const streamChat = async ({
       status: response.status,
     });
   }
+
+  return response;
+};
+
+// The completions offered after a prompt starter are short and are only useful
+// all at once, so there is nothing to gain from streaming them. Plain text
+// rather than Ollama's `format` JSON schema: the MLX runner answers "structured
+// output is unavailable" to that, and one-per-line is easy to parse anyway.
+export const COMPLETIONS_MAX_TOKENS = 120;
+
+export const chatText = async ({ url, model, messages, signal }) => {
+  const response = await postChat(
+    url,
+    {
+      model,
+      messages,
+      stream: false,
+      think: false,
+      options: {
+        temperature: TEMPERATURE,
+        num_predict: COMPLETIONS_MAX_TOKENS,
+      },
+    },
+    signal,
+  );
+
+  try {
+    return (await response.json())?.message?.content ?? "";
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      throw new OllamaError(OLLAMA_ERROR_KINDS.aborted, "Request aborted");
+    }
+    throw new OllamaError(
+      OLLAMA_ERROR_KINDS.server,
+      "Ollama returned something that was not JSON",
+    );
+  }
+};
+
+/**
+ * Stream a chat completion, calling onToken with each fragment of content.
+ *
+ * Resolves with { text, truncated }. `truncated` means the model ran out of
+ * token budget rather than finishing its answer, which is worth telling the
+ * learner about so a sentence cut off mid-word does not look like a bug.
+ */
+export const streamChat = async ({
+  url,
+  model,
+  messages,
+  signal,
+  onToken = () => {},
+}) => {
+  const response = await postChat(
+    url,
+    buildRequestBody(model, messages),
+    signal,
+  );
 
   const reader = response.body?.getReader();
   if (!reader) {

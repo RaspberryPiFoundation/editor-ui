@@ -9,6 +9,9 @@ const FriendlyErrorMessage = () => {
   const friendlyErrorHtml = friendlyError?.html
     ? DOMPurify.sanitize(friendlyError.html)
     : null;
+  const detailHtml = friendlyError?.detailHtml
+    ? DOMPurify.sanitize(friendlyError.detailHtml)
+    : null;
 
   return friendlyErrorHtml ? (
     <div className="friendly-error-message">
@@ -16,6 +19,12 @@ const FriendlyErrorMessage = () => {
         className="friendly-error-message__content"
         dangerouslySetInnerHTML={{ __html: friendlyErrorHtml }}
       />
+      {detailHtml ? (
+        <div
+          className="friendly-error-message__content friendly-error-message__detail"
+          dangerouslySetInnerHTML={{ __html: detailHtml }}
+        />
+      ) : null}
     </div>
   ) : null;
 };

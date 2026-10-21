@@ -177,4 +177,41 @@ instruction does not apply to this reply. Everything else in the guidance still 
 - Show only the line or two that change, in a fenced \`python\` block. Do not repeat
   their whole program.
 - Then say, in two short sentences, what was wrong and why this change fixes it.`,
+
+  // Concept 3, "controlled prompt creation". The learner builds their own
+  // question from a starter ("How do I") and a completion, which tells the
+  // model what kind of help they want. It stays at the hint-and-direct rung,
+  // with no corrected code, because "How do I fix it?" is always one tap away.
+  question: `### This request
+
+The learner has already been shown a plain-English explanation of this error. They
+have chosen a question about it, which is at the end of their message.
+
+Answer that question, and only that question, about their code. Use the exact line,
+variable and function names from their code.
+
+Three or four short sentences.
+
+Do not write any code in this reply. No code blocks and no corrected lines. Describe
+the change in words.`,
 };
+
+// Concept 3: once the learner picks a starter ("How do I"), the model suggests
+// ways to finish the question, so the questions on offer are about this
+// learner's code rather than a generic list. The output is parsed one line per
+// completion, and the component tidies up any numbering or bullets.
+export const COMPLETIONS_SYSTEM_PROMPT = `You help young people aged 7 to 16 who are learning Python ask good questions about an error in their code.
+
+The learner has started a question with a few words. Suggest exactly three different
+ways to finish it, about their code and their error.
+
+- Each one continues the learner's words directly, so do not repeat their words.
+- Each one is under eight words and uses simple words. End it with a question mark
+  when the finished sentence is a question.
+- Use the real variable and function names from their code where they help.
+- Make the three ask for different things, from understanding the error to what to
+  change.
+- Never include a fix, or any code beyond a single name.
+
+Write each one on its own line, with nothing else: no numbers, no bullets, no quotes
+and no introduction.`;

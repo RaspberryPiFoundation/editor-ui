@@ -203,17 +203,26 @@
   },
   "output": {
     "aiHelp": {
-      "tag": "AI",
-      "notice": "Written by AI, which can get things wrong.",
-      "thinking": "Generating…",
+      "title": "Need more help?",
+      "intro": "Create your own prompt to send to an AI model",
+      "starters": "Start your prompt",
+      "completions": "Finish your prompt",
+      "starter": {
+        "explain": "Explain",
+        "howDoI": "How do I",
+        "whyDoes": "Why does"
+      },
+      "starterOption": {
+        "explain": "Explain…",
+        "howDoI": "How do I…",
+        "whyDoes": "Why does…"
+      },
+      "loadingCompletions": "Loading ways to finish your prompt…",
+      "loading": "Loading explanation…",
+      "responseLabel": "AI generated response:",
+      "disclaimer": "Responses created using an AI model may not always be correct.",
       "truncated": "This answer stopped early because it got too long.",
       "fixWithheld": "The fix is hidden for now, so you can try it yourself first.",
-      "ask": {
-        "prewritten": "Explain this to me",
-        "explain": "Help me with this",
-        "hint": "I'm still stuck",
-        "solve": "Show me the fix"
-      },
       "failure": {
         "unreachable": "The help service is not running, so there is no extra help right now.",
         "modelMissing": "The help service does not have that model installed.",

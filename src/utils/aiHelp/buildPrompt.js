@@ -1,5 +1,6 @@
 import {
   BASE_SYSTEM_PROMPT,
+  COMPLETIONS_SYSTEM_PROMPT,
   GUIDELINES,
   LEVEL_INSTRUCTIONS,
   NO_REPLY_POSSIBLE,
@@ -151,3 +152,28 @@ export const buildMessages = ({ level, previousTurn, ...context }) => {
 
   return messages;
 };
+
+// Concept 3. The learner's own question goes at the very end of the user turn,
+// after everything else, because it is the thing the model has to answer.
+export const buildQuestionMessages = ({ question, ...context }) => [
+  { role: "system", content: buildSystemPrompt("question") },
+  {
+    role: "user",
+    content: [buildUserTurn(context), `My question: ${question}`]
+      .filter(Boolean)
+      .join("\n\n"),
+  },
+];
+
+export const buildCompletionMessages = ({ starter, ...context }) => [
+  { role: "system", content: COMPLETIONS_SYSTEM_PROMPT },
+  {
+    role: "user",
+    content: [
+      buildUserTurn(context),
+      `The words I have started my question with: "${starter}"`,
+    ]
+      .filter(Boolean)
+      .join("\n\n"),
+  },
+];

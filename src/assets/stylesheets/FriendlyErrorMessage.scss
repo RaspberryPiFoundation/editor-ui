@@ -55,4 +55,13 @@
       background-color: var(--rpf-blue-100);
     }
   }
+
+  // The pre-written `why`, shown under the summary as its own paragraph.
+  &__detail {
+    margin-block-start: var(--space-1);
+
+    .pfem__why {
+      margin: 0;
+    }
+  }
 }
