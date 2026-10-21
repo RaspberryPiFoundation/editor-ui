@@ -7,14 +7,14 @@ import React, {
 } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import DOMPurify from "dompurify";
-import { Tag } from "@raspberrypifoundation/design-system-react";
 import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
-import InfoIcon from "../../../assets/icons/info.svg";
-import SparkleIcon from "../../../assets/icons/sparkle.svg";
+import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
+import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg";
+import SyncIcon from "../../../assets/icons/sync.svg";
 import { SettingsContext } from "../../../utils/settings";
 import {
   aiHelpAvailable,
+  aiHelpLearnMoreUrl,
   ollamaModel,
   ollamaUrl,
 } from "../../../utils/aiHelp/config";
@@ -26,41 +26,17 @@ import {
 } from "../../../utils/aiHelp/ollamaClient";
 import "../../../assets/stylesheets/AiErrorHelp.scss?inline";
 
-// The escalating half of the "levels of learner support" ladder. The raw error
-// and the friendly summary above this are always visible; each click here adds
-// one more rung, only when the learner asks for it.
+// The help shown under the raw Python error, one step at a time:
 //
-// PRE_WRITTEN comes from the friendly-error copydeck and is human-reviewed, so
-// it always goes before anything a model says. The model rungs only exist when
-// an Ollama URL is configured.
-const PRE_WRITTEN = "prewritten";
-
-const buildLadder = ({ hasPreWritten, hasModel }) => {
-  const rungs = [];
-  if (hasPreWritten) {
-    rungs.push(PRE_WRITTEN);
-  }
-  if (hasModel) {
-    // With no pre-written explanation the learner has seen nothing but the raw
-    // Python error, so the model has to start by explaining rather than
-    // hinting. This is the case the copydeck does not cover.
-    if (!hasPreWritten) {
-      rungs.push("explain");
-    }
-    rungs.push("hint", "solve");
-  }
-  return rungs;
-};
-
-// Only the last rung is allowed to hand over code. Earlier rungs are enforced
-// rather than trusted: the models write the fix out regardless of instruction,
-// and if they do there is no reason for the learner to click any further.
-const applyLevelPolicy = (level, text) => {
-  if (level === "solve") {
-    return { text: text.trim(), withheld: false };
-  }
-  return withheldFix(text);
-};
+//   1. The friendly summary, with "Explain why this happened".
+//   2. The pre-written `why` in the same card, and a separate AI card offering
+//      a hint. The AI card is kept apart so it is always clear which words came
+//      from a model and which were written by people.
+//   3. "Generating a hint with AI…" while the model streams.
+//   4. The AI explanation, with a disclaimer.
+//
+// With no pre-written `why` the AI card shows straight away, and asks the
+// model to explain rather than hint - the learner has only seen the summary.
 
 // Model output rendered as React elements from parsed blocks, never as HTML -
 // the text is untrusted, so nothing here goes near dangerouslySetInnerHTML.
@@ -98,8 +74,8 @@ const AiErrorHelp = () => {
   );
   const errorDetails = useSelector((state) => state.editor.errorDetails);
 
-  const [step, setStep] = useState(0);
-  const [turns, setTurns] = useState([]);
+  const [detailShown, setDetailShown] = useState(false);
+  const [answer, setAnswer] = useState(null);
   const [streamingText, setStreamingText] = useState(null);
   const [failure, setFailure] = useState(null);
   const abortRef = useRef(null);
@@ -113,176 +89,151 @@ const AiErrorHelp = () => {
     [],
   );
 
-  const detailHtml = friendlyError?.detailHtml;
-  const ladder = buildLadder({
-    hasPreWritten: Boolean(detailHtml),
-    hasModel: aiHelpAvailable(),
-  });
-  const nextRung = ladder[step];
+  const hasPreWritten = Boolean(
+    friendlyError?.html && friendlyError?.detailHtml,
+  );
+  const level = hasPreWritten ? "hint" : "explain";
+  const showAiCard = aiHelpAvailable() && (detailShown || !hasPreWritten);
   const isStreaming = streamingText !== null;
 
-  const askModel = useCallback(
-    async (level) => {
-      const model = ollamaModel();
-      const controller = new AbortController();
-      abortRef.current = controller;
-      setFailure(null);
-      setStreamingText("");
+  const askModel = useCallback(async () => {
+    const model = ollamaModel();
+    const controller = new AbortController();
+    abortRef.current = controller;
+    setFailure(null);
+    setStreamingText("");
 
-      let accumulated = "";
-      try {
-        const { text, truncated } = await streamChat({
-          url: ollamaUrl(),
-          model,
-          signal: controller.signal,
-          messages: buildMessages({
-            level,
-            previousTurn: turns[turns.length - 1],
-            components: projectComponents,
-            error,
-            friendlyError,
-            erroringFile: errorDetails?.file,
-          }),
-          onToken: (token) => {
-            accumulated += token;
-            setStreamingText(accumulated);
-          },
-        });
-        setTurns((previous) => [
-          ...previous,
-          { level, model, ...applyLevelPolicy(level, text), truncated },
-        ]);
-      } catch (caught) {
-        if (caught?.kind === OLLAMA_ERROR_KINDS.aborted) {
-          return;
-        }
-        // Keep whatever arrived before the failure - a half answer is still
-        // more use to the learner than an error on its own.
-        if (accumulated) {
-          setTurns((previous) => [
-            ...previous,
-            {
-              level,
-              ...applyLevelPolicy(level, accumulated),
-              truncated: false,
-            },
-          ]);
-        } else {
-          // Nothing came back, so this rung was not really spent. Offer it
-          // again rather than moving the learner on to the next one - that is
-          // what the failure copy invites them to do.
-          setStep((previous) => Math.max(0, previous - 1));
-        }
-        setFailure(caught?.kind ?? OLLAMA_ERROR_KINDS.server);
-      } finally {
-        setStreamingText(null);
-        abortRef.current = null;
+    let accumulated = "";
+    try {
+      const { text, truncated } = await streamChat({
+        url: ollamaUrl(),
+        model,
+        signal: controller.signal,
+        messages: buildMessages({
+          level,
+          components: projectComponents,
+          error,
+          friendlyError,
+          erroringFile: errorDetails?.file,
+        }),
+        onToken: (token) => {
+          accumulated += token;
+          setStreamingText(accumulated);
+        },
+      });
+      // The model writes the fix out regardless of instruction, so it is
+      // withheld here rather than trusted to the prompt.
+      setAnswer({ model, ...withheldFix(text), truncated });
+    } catch (caught) {
+      if (caught?.kind === OLLAMA_ERROR_KINDS.aborted) {
+        return;
       }
-    },
-    [turns, projectComponents, error, friendlyError, errorDetails],
-  );
-
-  const onEscalate = () => {
-    setStep(step + 1);
-    if (nextRung !== PRE_WRITTEN) {
-      askModel(nextRung);
+      // Keep whatever arrived before the failure - a half answer is still more
+      // use to the learner than an error on its own. With nothing at all the
+      // button stays, so the learner can try again.
+      if (accumulated) {
+        setAnswer({ model, ...withheldFix(accumulated), truncated: false });
+      }
+      setFailure(caught?.kind ?? OLLAMA_ERROR_KINDS.server);
+    } finally {
+      setStreamingText(null);
+      abortRef.current = null;
     }
-  };
+  }, [level, projectComponents, error, friendlyError, errorDetails]);
 
-  if (ladder.length === 0) {
-    return null;
-  }
-
-  const askLabel = nextRung ? t(`output.aiHelp.ask.${nextRung}`) : null;
-  const preWrittenShown = ladder[0] === PRE_WRITTEN && step > 0;
-  const modelUsed = turns.length > 0 || isStreaming || failure;
+  const askLabel = t(`output.aiHelp.ask.${level}`);
+  const learnMoreUrl = aiHelpLearnMoreUrl();
+  const modelUsed = Boolean(answer) || isStreaming;
 
   return (
-    <div
-      className={`ai-error-help ai-error-help--${settings.fontSize}`}
-      role="status"
-      aria-live="polite"
-      aria-busy={isStreaming}
-    >
-      {preWrittenShown ? (
-        <div
-          className="ai-error-help__prewritten"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(detailHtml) }}
-        />
-      ) : null}
+    <>
+      <FriendlyErrorMessage
+        detailShown={detailShown}
+        onShowDetail={() => setDetailShown(true)}
+      />
 
-      {modelUsed ? (
-        <div className="ai-error-help__model">
-          <p className="ai-error-help__notice">
-            <Tag text={t("output.aiHelp.tag")} variant="information" />
-            <span>{t("output.aiHelp.notice")}</span>
+      {showAiCard ? (
+        <div
+          className={`ai-error-help ai-error-help--${settings.fontSize}${
+            isStreaming && !streamingText ? " ai-error-help--generating" : ""
+          }`}
+          role="status"
+          aria-live="polite"
+          aria-busy={isStreaming}
+        >
+          <div className="ai-error-help__header">
+            {isStreaming ? (
+              <SyncIcon className="ai-error-help__icon ai-error-help__icon--generating" />
+            ) : (
+              <BadgeQuestionMarkIcon className="ai-error-help__icon" />
+            )}
+            <p className="ai-error-help__title">
+              {isStreaming
+                ? t(`output.aiHelp.generating.${level}`)
+                : t("output.aiHelp.title")}
+            </p>
             {/* Which model answered. The prototype is meant to be compared
                 across models in several tabs, so this has to be visible in a
                 screenshot without checking the URL. */}
-            <code className="ai-error-help__model-name">{ollamaModel()}</code>
-          </p>
+            {modelUsed ? (
+              <code className="ai-error-help__model-name">
+                {answer?.model ?? ollamaModel()}
+              </code>
+            ) : null}
+            {!answer && !isStreaming ? (
+              <DesignSystemButton
+                className="ai-error-help__button"
+                type="secondary"
+                size="small"
+                text={askLabel}
+                title={askLabel}
+                // The design system Button defaults aria-label to "", which
+                // would otherwise leave this button with no accessible name.
+                aria-label={askLabel}
+                onClick={askModel}
+              />
+            ) : null}
+          </div>
 
-          {turns.map((turn, index) => (
-            // Model output is rendered as plain text on purpose: it is
-            // untrusted, and partial markdown looks broken mid-stream.
-            <React.Fragment key={`${turn.level}-${index}`}>
-              <Answer text={turn.text} />
-              {turn.withheld ? (
-                <p className="ai-error-help__meta">
-                  {t("output.aiHelp.fixWithheld")}
-                </p>
-              ) : null}
-              {turn.truncated ? (
-                <p className="ai-error-help__meta">
-                  {t("output.aiHelp.truncated")}
-                </p>
-              ) : null}
-            </React.Fragment>
-          ))}
-
-          {isStreaming ? (
-            streamingText ? (
-              <Answer text={streamingText} />
-            ) : (
-              <p className="ai-error-help__answer">
-                <span className="ai-error-help__thinking">
-                  {t("output.aiHelp.thinking")}
-                </span>
-              </p>
-            )
+          {/* Model output is rendered as plain text on purpose: it is
+              untrusted, and partial markdown looks broken mid-stream. */}
+          {answer ? <Answer text={answer.text} /> : null}
+          {isStreaming && streamingText ? (
+            <Answer text={streamingText} />
           ) : null}
 
+          {answer?.withheld ? (
+            <p className="ai-error-help__meta">
+              {t("output.aiHelp.fixWithheld")}
+            </p>
+          ) : null}
+          {answer?.truncated ? (
+            <p className="ai-error-help__meta">
+              {t("output.aiHelp.truncated")}
+            </p>
+          ) : null}
           {failure ? (
             <p className="ai-error-help__failure">
               {t(`output.aiHelp.failure.${failure}`)}
             </p>
           ) : null}
-        </div>
-      ) : null}
 
-      {nextRung ? (
-        <div className="ai-error-help__actions">
-          <DesignSystemButton
-            className="ai-error-help__button"
-            type="secondary"
-            size="small"
-            text={askLabel}
-            title={askLabel}
-            // The design system Button defaults aria-label to "", which would
-            // otherwise leave this button with no accessible name at all.
-            aria-label={askLabel}
-            // SVG rather than a Material Symbols name: the icon font is only
-            // registered at document level by the host (see
-            // docs/ErrorHelpEscalation.md), so a name string renders as the
-            // literal word inside the shadow DOM.
-            icon={nextRung === PRE_WRITTEN ? <InfoIcon /> : <SparkleIcon />}
-            iconPosition="right"
-            disabled={isStreaming}
-            onClick={onEscalate}
-          />
+          {modelUsed ? (
+            <p className="ai-error-help__disclaimer">
+              {t("output.aiHelp.disclaimer")}
+              {learnMoreUrl ? (
+                <>
+                  {" "}
+                  <a href={learnMoreUrl} target="_blank" rel="noreferrer">
+                    {t("output.aiHelp.learnMore")}
+                  </a>
+                </>
+              ) : null}
+            </p>
+          ) : null}
         </div>
       ) : null}
-    </div>
+    </>
   );
 };
 

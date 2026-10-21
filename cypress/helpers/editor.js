@@ -72,6 +72,9 @@ export const getErrorMessage = () =>
 export const getFriendlyErrorMessage = () =>
   getEditorShadow().find(".friendly-error-message");
 
+export const getFriendlyErrorExplainButton = () =>
+  getEditorShadow().find(".friendly-error-message__button");
+
 export const getAiErrorHelp = () => getEditorShadow().find(".ai-error-help");
 
 export const getAiErrorHelpButton = () =>

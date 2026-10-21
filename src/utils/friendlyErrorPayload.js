@@ -24,7 +24,7 @@ const buildFriendlyErrorPayload = (options) => {
     return null;
   }
 
-  const detail = friendlyExplain({ ...options, sections: ["why", "steps"] });
+  const detail = friendlyExplain({ ...options, sections: ["why"] });
 
   return {
     html: summary.html,

@@ -203,17 +203,20 @@
   },
   "output": {
     "aiHelp": {
-      "tag": "AI",
-      "notice": "Written by AI, which can get things wrong.",
-      "thinking": "Generating…",
+      "explainWhy": "Explain why this happened",
+      "title": "AI explanation",
+      "ask": {
+        "hint": "Get a hint with AI",
+        "explain": "Explain with AI"
+      },
+      "generating": {
+        "hint": "Generating a hint with AI…",
+        "explain": "Generating an explanation with AI…"
+      },
+      "disclaimer": "Generated responses from an AI model are not always correct.",
+      "learnMore": "Learn more",
       "truncated": "This answer stopped early because it got too long.",
       "fixWithheld": "The fix is hidden for now, so you can try it yourself first.",
-      "ask": {
-        "prewritten": "Explain this to me",
-        "explain": "Help me with this",
-        "hint": "I'm still stuck",
-        "solve": "Show me the fix"
-      },
       "failure": {
         "unreachable": "The help service is not running, so there is no extra help right now.",
         "modelMissing": "The help service does not have that model installed.",

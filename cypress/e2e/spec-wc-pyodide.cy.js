@@ -3,6 +3,7 @@ import {
   getAiErrorHelpButton,
   getEditorShadow,
   getErrorMessage,
+  getFriendlyErrorExplainButton,
   getFriendlyErrorMessage,
   getFileButtonByName,
   getProgramInput,
@@ -350,7 +351,7 @@ describe("When friendly errors enabled with pyodide", () => {
     );
   });
 
-  it("escalates through the levels of support when asked", () => {
+  it("explains the error, then gives a hint from AI when asked", () => {
     // Ollama is stubbed so this stays deterministic and does not need a model
     // pulled. The response is newline-delimited JSON, as Ollama streams it.
     cy.intercept("POST", "**/api/chat", (req) => {
@@ -368,18 +369,20 @@ describe("When friendly errors enabled with pyodide", () => {
       "contain",
       "This variable doesn't exist here",
     );
+    getAiErrorHelp().should("not.exist");
 
-    // Rung 1: the pre-written explanation, with no request to the model.
-    getAiErrorHelpButton().should("contain", "Explain this to me").click();
-    getAiErrorHelp().should(
+    // The pre-written explanation, in the same card, with no request made.
+    getFriendlyErrorExplainButton()
+      .should("contain", "Explain why this happened")
+      .click();
+    getFriendlyErrorMessage().should(
       "contain",
       "A variable created in another place might not be available here",
     );
-    getAiErrorHelp().should("contain", "If it is meant to be text");
     cy.get("@chat.all").should("have.length", 0);
 
-    // Rung 2: escalate to the model.
-    getAiErrorHelpButton().should("contain", "I'm still stuck").click();
+    // The AI card, separate from it.
+    getAiErrorHelpButton().should("contain", "Get a hint with AI").click();
     cy.wait("@chat")
       .its("request.body")
       .then((body) => {
@@ -390,27 +393,12 @@ describe("When friendly errors enabled with pyodide", () => {
         expect(body.messages[1].content).to.contain("print(kitten)");
         expect(body.messages[1].content).to.contain("NameError");
       });
+    getAiErrorHelp().should("contain", "AI explanation");
     getAiErrorHelp().should(
       "contain",
       "Look at line 1 and check what kitten is.",
     );
-    getAiErrorHelp().should("contain", "Written by AI");
-
-    // Rung 3: the fix, with the previous answer replayed to the model.
-    getAiErrorHelpButton().should("contain", "Show me the fix").click();
-    cy.wait("@chat")
-      .its("request.body.messages")
-      .then((messages) => {
-        expect(messages.map((m) => m.role)).to.deep.eq([
-          "system",
-          "user",
-          "assistant",
-          "user",
-        ]);
-        expect(messages[2].content).to.contain("Look at line 1");
-      });
-
-    // Ladder exhausted.
+    getAiErrorHelp().should("contain", "not always correct");
     getAiErrorHelpButton().should("not.exist");
   });
 
@@ -418,11 +406,13 @@ describe("When friendly errors enabled with pyodide", () => {
     cy.intercept("POST", "**/api/chat", { forceNetworkError: true }).as("chat");
 
     runCode("print(kitten)");
-    getAiErrorHelpButton().click();
-    getAiErrorHelp().should("contain", "If it is meant to be text");
-
+    getFriendlyErrorExplainButton().click();
     getAiErrorHelpButton().click();
     getAiErrorHelp().should("contain", "The help service is not running");
-    getAiErrorHelp().should("contain", "If it is meant to be text");
+    getAiErrorHelpButton().should("exist");
+    getFriendlyErrorMessage().should(
+      "contain",
+      "A variable created in another place might not be available here",
+    );
   });
 });

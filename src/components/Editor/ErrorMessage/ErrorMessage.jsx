@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import DOMPurify from "dompurify";
 import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
-import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
 import AiErrorHelp from "../AiErrorHelp/AiErrorHelp";
 
 const ErrorMessage = () => {
@@ -22,9 +21,9 @@ const ErrorMessage = () => {
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }}
         />
       </div>
-      <FriendlyErrorMessage />
-      {/* Keyed on the error so a new error resets the help ladder and abandons
-          any response still streaming for the previous one. */}
+      {/* Renders the friendly explanation and the AI help below it. Keyed on
+          the error so a new error starts the help over and abandons any
+          response still streaming for the previous one. */}
       <AiErrorHelp key={error} />
     </div>
   ) : null;

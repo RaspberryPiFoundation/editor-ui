@@ -1,22 +1,22 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
 
-// Sits below the friendly error summary inside the red .error-message card, so
-// it uses the editor's semantic theme tokens rather than a literal white - that
-// is what makes it work in both light and dark themes without a second
-// ruleset.
+// The AI card, a sibling of the friendly error card inside the red
+// .error-message panel. It matches that card's surface so the two read as a
+// pair, but stays a separate box so model output is never mistaken for the
+// human-written explanation above it.
 .ai-error-help {
-  background-color: var(--editor-color-layer-2);
-  color: var(--editor-color-text);
-  // Stated rather than inherited. This card sits between the monospace
-  // traceback and the monospace console output, and it is prose - it should not
-  // depend on what an ancestor happens to set, in a component whose styling
-  // hosts can override.
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+  background-color: var(--rpf-white);
+  color: var(--rpf-text-primary);
+  // Stated rather than inherited. This card sits between the raw error and the
+  // console output, and it is prose - it should not depend on what an ancestor
+  // happens to set, in a component whose styling hosts can override.
   font-family: var(--editor-font-family-sans-serif);
-  border: var(--border-width-sm) solid var(--editor-color-outline);
-  border-radius: var(--border-radius);
+  border-radius: var(--space-1);
   padding: var(--space-1) var(--space-1-5);
-  margin-block-start: var(--space-1);
   @include typography.style-1;
 
   &--medium {
@@ -27,55 +27,57 @@
     @include typography.style-2;
   }
 
-  // The pre-written rung is the copydeck's own markup, so it inherits the
-  // .pfem__* rules from FriendlyErrorMessage.scss and needs no styling of its
-  // own beyond spacing.
-  &__prewritten {
-    .pfem__why {
-      margin-block: 0 var(--space-1);
-    }
-
-    .pfem__steps {
-      margin-block: 0;
-      padding-inline-start: var(--space-3);
-    }
+  // Only the header and the disclaimer are showing, so they get a little more
+  // room between them.
+  &--generating {
+    gap: var(--space-1);
   }
 
-  &__model {
-    margin-block-start: var(--space-1);
-  }
-
-  &__notice {
+  &__header {
     display: flex;
     align-items: center;
     gap: var(--space-1);
-    margin-block: 0 var(--space-1);
-    color: var(--editor-color-text-secondary);
-    @include typography.style-0-75;
+    min-block-size: 2em;
   }
 
-  // The chip showing which model answered. Distinct from &__model, which is the
-  // wrapper around all model output - giving both the same name made this
-  // monospace rule apply to every paragraph in the answer.
+  &__icon {
+    flex-shrink: 0;
+
+    &--generating {
+      animation: ai-error-help-spin 1.6s linear infinite;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  // The chip showing which model answered.
   &__model-name {
     margin-inline-start: auto;
     font-family: var(--editor-font-family-monospace);
-    color: var(--editor-color-text-secondary);
+    color: var(--rpf-text-secondary);
+    @include typography.style-0-75;
+  }
+
+  &__button {
+    margin-inline-start: auto;
   }
 
   // Paragraphs come pre-split by parseAnswer, so these wrap normally. Honouring
   // the model's own line breaks here is what made answers look preformatted.
   &__answer {
     overflow-wrap: break-word;
-    margin-block: 0 var(--space-1);
+    margin: 0;
   }
 
   // Model answers regularly contain code. Rendering it as monospace on a tinted
   // panel is the difference between a readable fix and a wall of backticks.
   &__code {
-    margin-block: 0 var(--space-1);
+    margin: 0;
     padding: var(--space-1);
-    background-color: var(--editor-color-layer-1);
+    background-color: var(--rpf-grey-100);
     border-radius: var(--border-radius-sm);
     font-family: var(--editor-font-family-monospace);
     white-space: pre-wrap;
@@ -85,43 +87,39 @@
 
   &__inline-code {
     padding-inline: var(--space-0-5);
-    background-color: var(--editor-color-layer-1);
+    background-color: var(--rpf-grey-100);
     border-radius: var(--border-radius-sm);
     font-family: var(--editor-font-family-monospace);
     overflow-wrap: break-word;
   }
 
-  &__meta {
-    margin-block: 0 var(--space-1);
-    color: var(--editor-color-text-secondary);
+  &__meta,
+  &__disclaimer {
+    margin: 0;
+    color: var(--rpf-text-secondary);
     @include typography.style-0-75;
   }
 
+  &__disclaimer a {
+    color: var(--rpf-link-text);
+    font-weight: bold;
+  }
+
   &__failure {
-    margin-block: 0 var(--space-1);
+    margin: 0;
     color: var(--rpf-alert-error);
-  }
-
-  &__thinking {
-    color: var(--editor-color-text-secondary);
-    animation: ai-error-help-pulse 1.4s ease-in-out infinite;
-  }
-
-  &__actions {
-    display: flex;
-    gap: var(--space-1);
   }
 }
 
-@keyframes ai-error-help-pulse {
-  50% {
-    opacity: 0.45;
+@keyframes ai-error-help-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
 // Age-appropriate guidelines: animation must respect motion preferences.
 @media (prefers-reduced-motion: reduce) {
-  .ai-error-help__thinking {
+  .ai-error-help__icon--generating {
     animation: none;
   }
 }
