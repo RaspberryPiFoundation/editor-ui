@@ -42,6 +42,10 @@
 
   &__icon {
     flex-shrink: 0;
+    // Global.scss fills every svg with currentColor, which turns the outlined
+    // question badge solid. Its paths are strokes, and the sync icon sets its
+    // own fill on its path, so neither needs the root fill.
+    fill: none;
 
     &--generating {
       animation: ai-error-help-spin 1.6s linear infinite;

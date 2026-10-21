@@ -14,7 +14,6 @@ import SyncIcon from "../../../assets/icons/sync.svg";
 import { SettingsContext } from "../../../utils/settings";
 import {
   aiHelpAvailable,
-  aiHelpLearnMoreUrl,
   ollamaModel,
   ollamaUrl,
 } from "../../../utils/aiHelp/config";
@@ -142,7 +141,6 @@ const AiErrorHelp = () => {
   }, [level, projectComponents, error, friendlyError, errorDetails]);
 
   const askLabel = t(`output.aiHelp.ask.${level}`);
-  const learnMoreUrl = aiHelpLearnMoreUrl();
   const modelUsed = Boolean(answer) || isStreaming;
 
   return (
@@ -220,15 +218,12 @@ const AiErrorHelp = () => {
 
           {modelUsed ? (
             <p className="ai-error-help__disclaimer">
-              {t("output.aiHelp.disclaimer")}
-              {learnMoreUrl ? (
-                <>
-                  {" "}
-                  <a href={learnMoreUrl} target="_blank" rel="noreferrer">
-                    {t("output.aiHelp.learnMore")}
-                  </a>
-                </>
-              ) : null}
+              {t("output.aiHelp.disclaimer")}{" "}
+              {/* Placeholder until there is a page to link to. */}
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a href="#" onClick={(event) => event.preventDefault()}>
+                {t("output.aiHelp.learnMore")}
+              </a>
             </p>
           ) : null}
         </div>
