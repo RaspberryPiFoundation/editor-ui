@@ -86,7 +86,6 @@ const askForHint = async () => {
 
 describe("AiErrorHelp", () => {
   const originalUrl = process.env.REACT_APP_OLLAMA_URL;
-  const originalLearnMore = process.env.REACT_APP_AI_HELP_LEARN_MORE_URL;
 
   beforeEach(() => {
     global.fetch = vi.fn();
@@ -96,7 +95,6 @@ describe("AiErrorHelp", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     process.env.REACT_APP_OLLAMA_URL = originalUrl;
-    process.env.REACT_APP_AI_HELP_LEARN_MORE_URL = originalLearnMore;
   });
 
   describe("when a pre-written explanation is available", () => {
@@ -204,33 +202,17 @@ describe("AiErrorHelp", () => {
     });
   });
 
-  describe("the learn more link", () => {
-    test("is shown when a url is configured", async () => {
-      process.env.REACT_APP_AI_HELP_LEARN_MORE_URL = "https://example.com/ai";
-      mockOllamaReply("Look at line 1.");
-      renderHelp();
+  test("shows a learn more link under the answer", async () => {
+    mockOllamaReply("Look at line 1.");
+    renderHelp();
 
-      await askForHint();
+    await askForHint();
 
-      await waitFor(() =>
-        expect(
-          screen.getByRole("link", { name: "output.aiHelp.learnMore" }),
-        ).toHaveAttribute("href", "https://example.com/ai"),
-      );
-    });
-
-    test("is left out when no url is configured", async () => {
-      delete process.env.REACT_APP_AI_HELP_LEARN_MORE_URL;
-      mockOllamaReply("Look at line 1.");
-      renderHelp();
-
-      await askForHint();
-
-      await waitFor(() =>
-        expect(screen.getByText("Look at line 1.")).toBeInTheDocument(),
-      );
-      expect(screen.queryByRole("link")).not.toBeInTheDocument();
-    });
+    await waitFor(() =>
+      expect(
+        screen.getByRole("link", { name: "output.aiHelp.learnMore" }),
+      ).toBeInTheDocument(),
+    );
   });
 
   describe("rendering model output", () => {

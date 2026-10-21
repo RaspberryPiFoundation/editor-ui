@@ -72,8 +72,3 @@ export const ollamaModel = () => {
 // entirely rather than offered and then failing. The pre-written rung does not
 // depend on this.
 export const aiHelpAvailable = () => Boolean(ollamaUrl());
-
-// Where the "Learn more" link under an AI answer goes. There is no agreed page
-// for this yet, so the link is left out until one is configured.
-export const aiHelpLearnMoreUrl = () =>
-  process.env.REACT_APP_AI_HELP_LEARN_MORE_URL || null;
