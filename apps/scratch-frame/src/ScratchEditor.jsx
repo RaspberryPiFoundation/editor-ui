@@ -52,7 +52,7 @@ const ScratchEditor = ({
     postScratchGuiEvent("scratch-gui-project-id-updated", {
       projectId: updatedProjectId,
     });
-  });
+  }, []);
 
   const handleStorageInit = useCallback(
     (storage) => {
