@@ -1,11 +1,18 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
 
-// Sits below the friendly error summary inside the red .error-message card, so
-// it uses the editor's semantic theme tokens rather than a literal white - that
-// is what makes it work in both light and dark themes without a second
-// ruleset.
+// Sits below the friendly error summary inside the red .error-message card,
+// matching it as a second white card. Background and text use the editor's
+// semantic theme tokens so it still reads in the dark theme; the grey outlines
+// are the design's literal grey-100.
 .ai-error-help {
+  // The darker skeleton line in the design is not a design system colour.
+  --ai-error-help-skeleton-strong: #e9ebf2;
+  --ai-error-help-skeleton-weak: var(--rpf-off-white);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   background-color: var(--editor-color-layer-2);
   color: var(--editor-color-text);
   // Stated rather than inherited. This card sits between the monospace
@@ -13,9 +20,8 @@
   // depend on what an ancestor happens to set, in a component whose styling
   // hosts can override.
   font-family: var(--editor-font-family-sans-serif);
-  border: var(--border-width-sm) solid var(--editor-color-outline);
   border-radius: var(--border-radius);
-  padding: var(--space-1) var(--space-1-5);
+  padding: var(--space-2);
   margin-block-start: var(--space-1);
   @include typography.style-1;
 
@@ -27,53 +33,147 @@
     @include typography.style-2;
   }
 
-  // The pre-written rung is the copydeck's own markup, so it inherits the
-  // .pfem__* rules from FriendlyErrorMessage.scss and needs no styling of its
-  // own beyond spacing.
-  &__prewritten {
-    .pfem__why {
-      margin-block: 0 var(--space-1);
-    }
-
-    .pfem__steps {
-      margin-block: 0;
-      padding-inline-start: var(--space-3);
-    }
+  p {
+    margin: 0;
   }
 
-  &__model {
-    margin-block-start: var(--space-1);
-  }
-
-  &__notice {
+  &__heading {
     display: flex;
     align-items: center;
     gap: var(--space-1);
-    margin-block: 0 var(--space-1);
-    color: var(--editor-color-text-secondary);
-    @include typography.style-0-75;
+    font-weight: var(--font-weight-bold);
+
+    svg {
+      flex-shrink: 0;
+      inline-size: 1.25em;
+      block-size: 1.25em;
+    }
+
+    // The icon is an outline with a black stroke. Follow the text so it themes,
+    // and pin the fill, which editor-wide svg rules otherwise fill in solid.
+    path {
+      fill: none;
+      stroke: currentcolor;
+    }
   }
 
-  // The chip showing which model answered. Distinct from &__model, which is the
-  // wrapper around all model output - giving both the same name made this
-  // monospace rule apply to every paragraph in the answer.
-  &__model-name {
-    margin-inline-start: auto;
-    font-family: var(--editor-font-family-monospace);
+  &__turns {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__questions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  // The asked question, and the ones still to ask, share one chip shape. The
+  // asked one is filled to mark it as what the answer below responds to.
+  &__question,
+  &__asked {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    min-block-size: 2em;
+    padding: var(--space-0-5) var(--space-1);
+    border: 2px solid var(--rpf-grey-100);
+    border-radius: var(--border-radius);
+    font: inherit;
+    text-align: center;
+  }
+
+  &__question {
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background-color: var(--rpf-grey-100);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--editor-focus-color);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: progress;
+      opacity: 0.6;
+    }
+  }
+
+  &__asked {
+    background-color: var(--editor-color-text);
+    border-color: var(--editor-color-text);
+    color: var(--editor-color-layer-2);
+    font-weight: var(--font-weight-bold);
+  }
+
+  &__response {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: 1px solid var(--rpf-grey-100);
+    border-radius: var(--border-radius);
+  }
+
+  &__loading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     color: var(--editor-color-text-secondary);
+    font-weight: var(--font-weight-bold);
+    @include typography.style-0-75;
+
+    svg {
+      flex-shrink: 0;
+      inline-size: 1.333em;
+      block-size: 1.333em;
+      animation: ai-error-help-spin 1.2s linear infinite;
+    }
+
+    path {
+      fill: currentcolor;
+    }
+  }
+
+  &__skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+
+    span {
+      display: block;
+      block-size: 17px;
+      max-inline-size: 100%;
+      inline-size: 260px;
+      background-color: var(--ai-error-help-skeleton-strong);
+      animation: ai-error-help-pulse 1.4s ease-in-out infinite;
+    }
+
+    span:nth-child(even) {
+      inline-size: 342px;
+      background-color: var(--ai-error-help-skeleton-weak);
+    }
   }
 
   // Paragraphs come pre-split by parseAnswer, so these wrap normally. Honouring
   // the model's own line breaks here is what made answers look preformatted.
   &__answer {
     overflow-wrap: break-word;
-    margin-block: 0 var(--space-1);
   }
 
   // Model answers regularly contain code. Rendering it as monospace on a tinted
   // panel is the difference between a readable fix and a wall of backticks.
   &__code {
-    margin-block: 0 var(--space-1);
+    margin: 0;
     padding: var(--space-1);
     background-color: var(--editor-color-layer-1);
     border-radius: var(--border-radius-sm);
@@ -92,24 +192,26 @@
   }
 
   &__meta {
-    margin-block: 0 var(--space-1);
     color: var(--editor-color-text-secondary);
     @include typography.style-0-75;
   }
 
   &__failure {
-    margin-block: 0 var(--space-1);
     color: var(--rpf-alert-error);
   }
 
-  &__thinking {
+  &__disclaimer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
     color: var(--editor-color-text-secondary);
-    animation: ai-error-help-pulse 1.4s ease-in-out infinite;
+    @include typography.style-0-75;
   }
 
-  &__actions {
-    display: flex;
-    gap: var(--space-1);
+  // The chip showing which model answered.
+  &__model-name {
+    margin-inline-start: auto;
+    font-family: var(--editor-font-family-monospace);
   }
 }
 
@@ -119,9 +221,16 @@
   }
 }
 
+@keyframes ai-error-help-spin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 // Age-appropriate guidelines: animation must respect motion preferences.
 @media (prefers-reduced-motion: reduce) {
-  .ai-error-help__thinking {
+  .ai-error-help__skeleton span,
+  .ai-error-help__loading svg {
     animation: none;
   }
 }

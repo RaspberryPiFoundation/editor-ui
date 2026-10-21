@@ -122,12 +122,31 @@ export const USER_TURN_REMINDER =
   "Remember: I cannot reply to you, so please do not ask me any questions " +
   "that I would need to answer.";
 
-export const LEVELS = ["explain", "hint", "solve"];
+export const LEVELS = ["question", "explain", "hint", "solve"];
 
 // One block per rung of the levels-of-support ladder, appended after GUIDELINES.
 // Only `solve` overrides anything in GUIDELINES, and it says so explicitly so a
 // small model does not have to reconcile two contradictory instructions itself.
 export const LEVEL_INSTRUCTIONS = {
+  // The learner picked one of our canned questions (see cannedQuestions.js),
+  // which is appended to the user turn. Still "Hint and direct" in spirit, but
+  // aimed at the one thing they said they are stuck on.
+  question: `### This request
+
+The learner has already been shown a plain-English explanation of this error. They
+have chosen one specific question about it, given at the end of their message.
+Answer that question, and only that question. Do not repeat the explanation they
+have already seen.
+
+- If the question is about what something means, explain it in plain language,
+  using their own code as the example.
+- If it is about how or where to change something, name the exact line and the
+  variable or function in their code, and describe the change in words.
+
+Two or three short sentences.
+
+Do not write any code in this reply. No code blocks and no corrected lines.`,
+
   // Used only when the friendly-error copydeck had no match, so the learner has
   // seen nothing but the raw Python error. This is the "Explain and suggest"
   // rung: plain English, and a suggestion rather than an instruction.

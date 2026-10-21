@@ -9,6 +9,11 @@ const FriendlyErrorMessage = () => {
   const friendlyErrorHtml = friendlyError?.html
     ? DOMPurify.sanitize(friendlyError.html)
     : null;
+  // The copydeck's `why`, shown straight away rather than behind a button: it
+  // is human-reviewed copy, so it goes ahead of anything a model says.
+  const whyHtml = friendlyError?.detailHtml
+    ? DOMPurify.sanitize(friendlyError.detailHtml)
+    : null;
 
   return friendlyErrorHtml ? (
     <div className="friendly-error-message">
@@ -16,6 +21,12 @@ const FriendlyErrorMessage = () => {
         className="friendly-error-message__content"
         dangerouslySetInnerHTML={{ __html: friendlyErrorHtml }}
       />
+      {whyHtml ? (
+        <div
+          className="friendly-error-message__why"
+          dangerouslySetInnerHTML={{ __html: whyHtml }}
+        />
+      ) : null}
     </div>
   ) : null;
 };

@@ -104,6 +104,7 @@ export const buildUserTurn = ({
   error,
   friendlyError,
   erroringFile,
+  question,
 }) => {
   const code = buildCodeBlock(components, erroringFile);
   const errorText = (error ?? "").trim();
@@ -118,6 +119,11 @@ export const buildUserTurn = ({
   }
   if (alreadyShown) {
     parts.push(alreadyShown);
+  }
+  // The canned question the learner picked. Last before the reminder, so it is
+  // the freshest thing the model reads about what to answer.
+  if (question) {
+    parts.push(`My question is: ${question}`);
   }
   if (parts.length > 0) {
     parts.push(USER_TURN_REMINDER);

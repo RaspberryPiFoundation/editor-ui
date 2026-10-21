@@ -6,9 +6,8 @@ import { friendlyExplain } from "@raspberrypifoundation/python-friendly-error-me
  * `friendlyExplain` is called twice on purpose. Its `sections` option filters
  * only the assembled `html` string, not the structured fields, and the library
  * returns the plain-text `why`/`steps` but not their token-highlighted HTML.
- * Two calls therefore give us two ready-made snippets - the summary shown
- * immediately, and the fuller explanation revealed on request - both styled by
- * the same `.pfem__*` rules. It is a pure function over an already-loaded
+ * Two calls therefore give us two ready-made snippets - the summary, and the
+ * `why` paragraph shown beneath it - both styled by the same `.pfem__*` rules. It is a pure function over an already-loaded
  * copydeck, so the second call costs nothing.
  *
  * Returns null when the error has no friendly explanation, so callers fall back
@@ -24,14 +23,13 @@ const buildFriendlyErrorPayload = (options) => {
     return null;
   }
 
-  const detail = friendlyExplain({ ...options, sections: ["why", "steps"] });
+  const detail = friendlyExplain({ ...options, sections: ["why"] });
 
   return {
     html: summary.html,
-    // The next rung of support, pre-written and human-reviewed. Null when this
-    // copydeck variant has no `why` or `steps`, in which case the ladder skips
-    // straight to the model.
-    detailHtml: detail?.why || detail?.steps?.length ? detail.html : null,
+    // The pre-written, human-reviewed `why`, shown under the summary. Null when
+    // this copydeck variant has none.
+    detailHtml: detail?.why ? detail.html : null,
     title: summary.title,
     summary: summary.summary,
     why: summary.why,

@@ -5,6 +5,14 @@
   border-radius: var(--space-1);
   margin-block-start: var(--space-1);
 
+  &__why {
+    margin-block-start: var(--space-1);
+
+    .pfem__why {
+      margin: 0;
+    }
+  }
+
   &__content {
     line-height: 1.75rem;
 

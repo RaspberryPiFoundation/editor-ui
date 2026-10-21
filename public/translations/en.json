@@ -203,16 +203,37 @@
   },
   "output": {
     "aiHelp": {
-      "tag": "AI",
-      "notice": "Written by AI, which can get things wrong.",
-      "thinking": "Generating…",
+      "heading": "Need more help? Use AI to help understand this error:",
+      "loading": "Loading explanation…",
+      "disclaimer": "Responses created using an AI model may not always be correct.",
       "truncated": "This answer stopped early because it got too long.",
       "fixWithheld": "The fix is hidden for now, so you can try it yourself first.",
-      "ask": {
-        "prewritten": "Explain this to me",
-        "explain": "Help me with this",
-        "hint": "I'm still stuck",
-        "solve": "Show me the fix"
+      "questions": {
+        "NameError": {
+          "whatIsVariable": "What is a variable?",
+          "howCreateVariable": "How do I create a variable?",
+          "whereCreateVariable": "Where do I create the variable?"
+        },
+        "SyntaxError": {
+          "whatIsSyntax": "What is syntax?",
+          "whereIsMistake": "Where is the mistake?",
+          "howFindMistakes": "How do I find syntax mistakes?"
+        },
+        "IndentationError": {
+          "whatIsIndentation": "What is indentation?",
+          "whichLinesIndent": "Which lines need indenting?",
+          "howMuchIndent": "How much should I indent?"
+        },
+        "TypeError": {
+          "whatIsType": "What is a type?",
+          "whichValueWrongType": "Which value has the wrong type?",
+          "howChangeType": "How do I change a value's type?"
+        },
+        "generic": {
+          "whatDoesErrorMean": "What does this error mean?",
+          "whereShouldILook": "Where should I look in my code?",
+          "whatShouldITry": "What should I try next?"
+        }
       },
       "failure": {
         "unreachable": "The help service is not running, so there is no extra help right now.",

@@ -11,23 +11,18 @@ expect.extend(toHaveNoViolations);
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-const DETAIL_HTML =
-  '<div class="pfem"><p class="pfem__why">Python treats foo as a variable.</p>' +
-  '<ul class="pfem__steps"><li>Put foo in quotes.</li></ul></div>';
-
 const friendlyError = {
   html: '<p class="pfem__title">Variable does not exist</p>',
-  detailHtml: DETAIL_HTML,
+  detailHtml: '<p class="pfem__why">Python treats foo as a variable.</p>',
   title: "Variable does not exist",
   summary: "The variable foo is used at line 1 in main.py.",
   why: "Python treats foo as a variable.",
-  steps: ["Put foo in quotes."],
 };
 
 const buildState = (overrides = {}) => ({
   editor: {
     error: "NameError: name 'foo' is not defined on line 1 of main.py",
-    errorDetails: { file: "main.py", line: 1 },
+    errorDetails: { type: "NameError", file: "main.py", line: 1 },
     friendlyError,
     project: {
       components: [{ name: "main", extension: "py", content: "print(foo)" }],
@@ -45,8 +40,8 @@ const renderHelp = (overrides) =>
 
 const encoder = new TextEncoder();
 
-// One-chunk streaming response, enough for the component's purposes. A fresh
-// reader per call, so several escalations in one test each get their own stream.
+// One-chunk streaming response. A fresh reader per call, so several questions
+// in one test each get their own stream.
 const ndjsonResponse = (content, doneReason) => () => {
   const payload =
     `${JSON.stringify({ message: { content } })}\n` +
@@ -73,16 +68,16 @@ const mockOllamaReply = (content, doneReason = "stop") => {
   global.fetch.mockImplementation(ndjsonResponse(content, doneReason));
 };
 
-// Click the next rung and wait for any streamed answer to land, so that the
-// button for the rung after it has re-enabled.
-const escalate = async (level) => {
-  await userEvent.click(
-    screen.getByRole("button", { name: `output.aiHelp.ask.${level}` }),
+const NAME_ERROR_KEY = "output.aiHelp.questions.NameError";
+
+const ask = async (key) => {
+  await userEvent.click(screen.getByRole("button", { name: key }));
+  // The asked question stops being a button once its answer has landed.
+  await waitFor(() =>
+    expect(screen.queryByRole("button", { name: key })).not.toBeInTheDocument(),
   );
   await waitFor(() =>
-    expect(
-      screen.queryByRole("button", { name: `output.aiHelp.ask.${level}` }),
-    ).not.toBeInTheDocument(),
+    expect(screen.getAllByRole("button")[0]).not.toBeDisabled(),
   );
 };
 
@@ -99,437 +94,175 @@ describe("AiErrorHelp", () => {
     process.env.REACT_APP_OLLAMA_URL = originalUrl;
   });
 
-  describe("when a pre-written explanation is available", () => {
-    test("offers it first, and calls nothing to show it", async () => {
-      renderHelp();
+  test("offers the canned questions for the error type", () => {
+    renderHelp();
 
-      const button = screen.getByRole("button", {
-        name: "output.aiHelp.ask.prewritten",
-      });
-      await userEvent.click(button);
-
-      expect(
-        screen.getByText("Python treats foo as a variable."),
-      ).toBeInTheDocument();
-      expect(screen.getByText("Put foo in quotes.")).toBeInTheDocument();
-      expect(global.fetch).not.toHaveBeenCalled();
-    });
-
-    test("escalates to the model on the second click", async () => {
-      mockOllamaReply("Look at line 1 and check what foo refers to.");
-      renderHelp();
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
-      );
-
-      await waitFor(() =>
-        expect(
-          screen.getByText("Look at line 1 and check what foo refers to."),
-        ).toBeInTheDocument(),
-      );
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-    });
-
-    test("sends the code, the error and the already-shown explanation", async () => {
-      mockOllamaReply("ok");
-      renderHelp();
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
-      );
-
-      await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-      const body = JSON.parse(global.fetch.mock.calls[0][1].body);
-      const userTurn = body.messages[1].content;
-
-      expect(body.messages[0].content).toContain("Do not repeat");
-      expect(userTurn).toContain("print(foo)");
-      expect(userTurn).toContain("NameError: name 'foo' is not defined");
-      expect(userTurn).toContain("Variable does not exist");
-    });
-
-    test("labels model output as AI-written", async () => {
-      mockOllamaReply("Look at line 1.");
-      renderHelp();
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      expect(
-        screen.queryByText("output.aiHelp.notice"),
-      ).not.toBeInTheDocument();
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
-      );
-
-      await waitFor(() =>
-        expect(screen.getByText("output.aiHelp.notice")).toBeInTheDocument(),
-      );
-    });
-
-    test("replays the previous answer when asked for the fix", async () => {
-      mockOllamaReply("Look at line 1.");
-      renderHelp();
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
-      );
-      await waitFor(() =>
-        expect(screen.getByText("Look at line 1.")).toBeInTheDocument(),
-      );
-
-      mockOllamaReply("foo = 0");
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.solve" }),
-      );
-
-      await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(2));
-      const body = JSON.parse(global.fetch.mock.calls[1][1].body);
-      expect(body.messages.map(({ role }) => role)).toEqual([
-        "system",
-        "user",
-        "assistant",
-        "user",
-      ]);
-      expect(body.messages[2].content).toEqual("Look at line 1.");
-    });
-
-    test("stops offering help after the last rung", async () => {
-      mockOllamaReply("answer");
-      renderHelp();
-
-      for (const level of ["prewritten", "hint", "solve"]) {
-        await escalate(level);
-      }
-
-      expect(screen.queryByRole("button")).not.toBeInTheDocument();
-    });
+    expect(screen.getByText("output.aiHelp.heading")).toBeInTheDocument();
+    expect(
+      screen.getAllByRole("button").map((button) => button.textContent),
+    ).toEqual([
+      `${NAME_ERROR_KEY}.whatIsVariable`,
+      `${NAME_ERROR_KEY}.howCreateVariable`,
+      `${NAME_ERROR_KEY}.whereCreateVariable`,
+    ]);
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
-  describe("rendering model output", () => {
-    test("shows fenced code as code, not literal backticks", async () => {
-      mockOllamaReply('Change it to:\n\n```python\nfoo = "hi"\n```');
-      const { container } = renderHelp({ friendlyError: null });
+  test("falls back to generic questions for other errors", () => {
+    renderHelp({ errorDetails: { type: "ZeroDivisionError" } });
 
-      // explain and hint withhold the fix, so escalate to solve to see code.
-      await escalate("explain");
-      await escalate("hint");
-      await escalate("solve");
-
-      await waitFor(() =>
-        expect(container.querySelector(".ai-error-help__code")).not.toBeNull(),
-      );
-      expect(
-        container.querySelector(".ai-error-help__code").textContent,
-      ).toEqual('foo = "hi"');
-      expect(container.textContent).not.toContain("```");
-    });
-
-    test("keeps the model-name chip off the answer wrapper", async () => {
-      // These were once both `ai-error-help__model`, so the monospace rule for
-      // the chip applied to every paragraph of the answer.
-      mockOllamaReply("Look at line 1.");
-      const { container } = renderHelp({ friendlyError: null });
-
-      await escalate("explain");
-
-      await waitFor(() =>
-        expect(
-          container.querySelector(".ai-error-help__model-name"),
-        ).not.toBeNull(),
-      );
-      const wrapper = container.querySelector(".ai-error-help__model");
-      expect(wrapper).not.toBeNull();
-      expect(wrapper.classList.contains("ai-error-help__model-name")).toBe(
-        false,
-      );
-      expect(
-        container.querySelector(".ai-error-help__answer").className,
-      ).toEqual("ai-error-help__answer");
-    });
-
-    test("shows inline backticks as code", async () => {
-      mockOllamaReply("The variable `ar` is not `art`.");
-      const { container } = renderHelp({ friendlyError: null });
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.explain" }),
-      );
-
-      await waitFor(() =>
-        expect(
-          container.querySelectorAll(".ai-error-help__inline-code"),
-        ).to.have.length(2),
-      );
-      expect(container.textContent).not.toContain("`");
-    });
+    expect(
+      screen.getByRole("button", {
+        name: "output.aiHelp.questions.generic.whatDoesErrorMean",
+      }),
+    ).toBeInTheDocument();
   });
 
-  describe("withholding the fix before the last rung", () => {
-    test("cuts code out of the hint rung and says so", async () => {
-      mockOllamaReply(
-        "You are using `ar` but line 8 defines `art`.\n\n" +
-          "Change the line to:\n\n```python\nprint(art)\n```",
-      );
-      const { container } = renderHelp();
+  test("sends the chosen question with the code and error", async () => {
+    mockOllamaReply("A variable is a name for a value.");
+    renderHelp();
 
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
-      );
+    await ask(`${NAME_ERROR_KEY}.whatIsVariable`);
 
-      await waitFor(() =>
-        expect(
-          screen.getByText("output.aiHelp.fixWithheld"),
-        ).toBeInTheDocument(),
-      );
-      expect(container.textContent).not.toContain("print(art)");
-      // The diagnosis before the code is kept, and the dangling lead-in is not.
-      expect(container.textContent).to.contain("but line 8 defines");
-      expect(container.textContent).not.toContain("Change the line to:");
-    });
-
-    test("lets the solve rung hand over the code", async () => {
-      mockOllamaReply("Change it to:\n\n```python\nprint(art)\n```");
-      const { container } = renderHelp();
-
-      for (const level of ["prewritten", "hint", "solve"]) {
-        await escalate(level);
-      }
-
-      await waitFor(() =>
-        expect(container.textContent).to.contain("print(art)"),
-      );
-      // The hint rung withheld its copy of the fix; solve did not.
-      expect(screen.getAllByText("output.aiHelp.fixWithheld")).toHaveLength(1);
-    });
+    const body = JSON.parse(global.fetch.mock.calls[0][1].body);
+    expect(body.messages[0].content).toContain("one specific question");
+    expect(body.messages[1].content).toContain("print(foo)");
+    expect(body.messages[1].content).toContain("NameError");
+    expect(body.messages[1].content).toContain(
+      `My question is: ${NAME_ERROR_KEY}.whatIsVariable`,
+    );
   });
 
-  describe("when there is no friendly explanation for the error", () => {
-    test("goes straight to the model", async () => {
-      mockOllamaReply("That error means...");
-      renderHelp({ friendlyError: null });
+  test("shows the question above its answer and keeps the rest", async () => {
+    mockOllamaReply("A variable is a name for a value.");
+    renderHelp();
 
-      expect(
-        screen.queryByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      ).not.toBeInTheDocument();
+    await ask(`${NAME_ERROR_KEY}.whatIsVariable`);
 
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.explain" }),
-      );
-
-      await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-      const body = JSON.parse(global.fetch.mock.calls[0][1].body);
-      expect(body.messages[0].content).toContain(
-        "only seen the raw Python error",
-      );
-    });
+    expect(
+      screen.getByText("A variable is a name for a value."),
+    ).toBeInTheDocument();
+    expect(screen.getByText(`${NAME_ERROR_KEY}.whatIsVariable`)).toHaveClass(
+      "ai-error-help__asked",
+    );
+    expect(screen.getAllByRole("button")).toHaveLength(2);
   });
 
-  describe("when the copydeck matched but has no further detail", () => {
-    test("skips the pre-written rung", () => {
-      renderHelp({ friendlyError: { ...friendlyError, detailHtml: null } });
+  test("shows a loading state until the first token", async () => {
+    global.fetch.mockImplementation(() => new Promise(() => {}));
+    renderHelp();
 
-      expect(
-        screen.queryByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: "output.aiHelp.ask.explain" }),
-      ).toBeInTheDocument();
-    });
+    await userEvent.click(
+      screen.getByRole("button", { name: `${NAME_ERROR_KEY}.whatIsVariable` }),
+    );
+
+    expect(screen.getByText("output.aiHelp.loading")).toBeInTheDocument();
+    screen
+      .getAllByRole("button")
+      .forEach((button) => expect(button).toBeDisabled());
   });
 
-  describe("when no Ollama url is configured", () => {
-    beforeEach(() => {
-      delete process.env.REACT_APP_OLLAMA_URL;
-    });
+  test("stops offering questions once all are asked", async () => {
+    mockOllamaReply("An answer.");
+    renderHelp();
 
-    test("still offers the pre-written explanation", async () => {
-      renderHelp();
+    await ask(`${NAME_ERROR_KEY}.whatIsVariable`);
+    await ask(`${NAME_ERROR_KEY}.howCreateVariable`);
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: `${NAME_ERROR_KEY}.whereCreateVariable`,
+      }),
+    );
 
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
+    await waitFor(() =>
+      expect(screen.queryByRole("button")).not.toBeInTheDocument(),
+    );
+    expect(screen.getAllByText("An answer.")).toHaveLength(3);
+  });
 
-      expect(
-        screen.getByText("Python treats foo as a variable."),
-      ).toBeInTheDocument();
-      expect(screen.queryByRole("button")).not.toBeInTheDocument();
-    });
+  test("cuts code out of the answer and says so", async () => {
+    mockOllamaReply("Give it a value first.\n\n```python\nfoo = 1\n```");
+    renderHelp();
 
-    test("renders nothing at all when there is no pre-written help either", () => {
-      const { container } = renderHelp({ friendlyError: null });
+    await ask(`${NAME_ERROR_KEY}.howCreateVariable`);
 
-      expect(container).toBeEmptyDOMElement();
-    });
+    expect(screen.getByText("Give it a value first.")).toBeInTheDocument();
+    expect(screen.queryByText("foo = 1")).not.toBeInTheDocument();
+    expect(screen.getByText("output.aiHelp.fixWithheld")).toBeInTheDocument();
+  });
+
+  test("shows inline backticks as code", async () => {
+    mockOllamaReply("Look at `foo` on line 1.");
+    const { container } = renderHelp();
+
+    await ask(`${NAME_ERROR_KEY}.whatIsVariable`);
+
+    expect(
+      container.querySelector(".ai-error-help__inline-code"),
+    ).toHaveTextContent("foo");
+  });
+
+  test("tells the learner when the answer is cut short", async () => {
+    mockOllamaReply("A long answer", "length");
+    renderHelp();
+
+    await ask(`${NAME_ERROR_KEY}.whatIsVariable`);
+
+    expect(screen.getByText("output.aiHelp.truncated")).toBeInTheDocument();
+  });
+
+  test("renders nothing when no Ollama url is configured", () => {
+    process.env.REACT_APP_OLLAMA_URL = "";
+    const { container } = renderHelp();
+
+    expect(container).toBeEmptyDOMElement();
   });
 
   describe("when Ollama cannot be reached", () => {
-    test("offers the same rung again rather than skipping it", async () => {
+    beforeEach(() => {
       global.fetch.mockRejectedValue(new TypeError("Failed to fetch"));
+    });
+
+    test("says so, and offers the question again", async () => {
       renderHelp();
 
       await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
+        screen.getByRole("button", {
+          name: `${NAME_ERROR_KEY}.whatIsVariable`,
+        }),
       );
 
-      await waitFor(() =>
-        expect(
-          screen.getByText("output.aiHelp.failure.unreachable"),
-        ).toBeInTheDocument(),
-      );
       expect(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
+        await screen.findByText("output.aiHelp.failure.unreachable"),
       ).toBeInTheDocument();
-    });
-
-    test("says so, and leaves the earlier rungs intact", async () => {
-      global.fetch.mockRejectedValue(new TypeError("Failed to fetch"));
-      renderHelp();
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.hint" }),
-      );
-
-      await waitFor(() =>
-        expect(
-          screen.getByText("output.aiHelp.failure.unreachable"),
-        ).toBeInTheDocument(),
-      );
       expect(
-        screen.getByText("Python treats foo as a variable."),
+        screen.getByRole("button", {
+          name: `${NAME_ERROR_KEY}.whatIsVariable`,
+        }),
       ).toBeInTheDocument();
-    });
-
-    test("reports a missing model separately", async () => {
-      global.fetch.mockResolvedValue({ ok: false, status: 404 });
-      renderHelp({ friendlyError: null });
-
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.explain" }),
-      );
-
-      await waitFor(() =>
-        expect(
-          screen.getByText("output.aiHelp.failure.modelMissing"),
-        ).toBeInTheDocument(),
-      );
-    });
-  });
-
-  describe("when the answer is cut short by the token budget", () => {
-    test("tells the learner", async () => {
-      const payload =
-        `${JSON.stringify({ message: { content: "half a sen" } })}\n` +
-        `${JSON.stringify({ done: true, done_reason: "length" })}\n`;
-      let sent = false;
-      global.fetch.mockResolvedValue({
-        ok: true,
-        status: 200,
-        body: {
-          getReader: () => ({
-            read: () =>
-              Promise.resolve(
-                sent
-                  ? { done: true, value: undefined }
-                  : ((sent = true),
-                    { done: false, value: encoder.encode(payload) }),
-              ),
-          }),
-        },
-      });
-
-      renderHelp({ friendlyError: null });
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.explain" }),
-      );
-
-      await waitFor(() =>
-        expect(screen.getByText("output.aiHelp.truncated")).toBeInTheDocument(),
-      );
     });
   });
 
   describe("accessibility", () => {
-    test("the button has an accessible name", () => {
+    test("the answers are a live region before any answer arrives", () => {
       renderHelp();
 
-      // The design system Button blanks aria-label unless one is passed, so
-      // this is a real regression risk rather than a tautology.
-      expect(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      ).toHaveAccessibleName("output.aiHelp.ask.prewritten");
+      expect(screen.getByRole("status")).toHaveAttribute("aria-live", "polite");
     });
 
-    test("the answer region is a live region before any answer arrives", () => {
-      renderHelp();
-
-      // It has to already be in the DOM for a screen reader to announce the
-      // streamed answer without focus being stolen.
-      const region = screen.getByRole("status");
-      expect(region).toHaveAttribute("aria-live", "polite");
-      expect(region).toHaveAttribute("aria-busy", "false");
-    });
-
-    test("passes AXE with the pre-written explanation shown", async () => {
+    test("passes AXE with questions shown", async () => {
       const { container } = renderHelp();
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-      );
 
       expect(await axe(container)).toHaveNoViolations();
     });
 
-    test("passes AXE with a model answer shown", async () => {
-      mockOllamaReply("Look at line 1.");
-      const { container } = renderHelp({ friendlyError: null });
+    test("passes AXE with an answer shown", async () => {
+      mockOllamaReply("A variable is a name for a value.");
+      const { container } = renderHelp();
 
-      await userEvent.click(
-        screen.getByRole("button", { name: "output.aiHelp.ask.explain" }),
-      );
-      await waitFor(() =>
-        expect(screen.getByText("Look at line 1.")).toBeInTheDocument(),
-      );
+      await ask(`${NAME_ERROR_KEY}.whatIsVariable`);
 
       expect(await axe(container)).toHaveNoViolations();
     });
-  });
-
-  test("strips unsafe markup from the pre-written explanation", async () => {
-    const { container } = renderHelp({
-      friendlyError: {
-        ...friendlyError,
-        detailHtml:
-          '<p class="pfem__why">Safe</p><script>alert("xss")</script>' +
-          '<img src="x" onerror="alert(1)" />',
-      },
-    });
-
-    await userEvent.click(
-      screen.getByRole("button", { name: "output.aiHelp.ask.prewritten" }),
-    );
-
-    expect(screen.getByText("Safe")).toBeInTheDocument();
-    expect(container.querySelector("script")).toBeNull();
-    expect(container.querySelector("img[onerror]")).toBeNull();
   });
 });
