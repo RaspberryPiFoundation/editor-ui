@@ -132,3 +132,38 @@ describe("When error is set", () => {
     );
   });
 });
+
+describe("AI coming soon message", () => {
+  const mockStore = configureStore([]);
+
+  const renderErrorMessage = (editorState) => {
+    render(
+      <Provider store={mockStore({ editor: editorState })}>
+        <SettingsContext.Provider
+          value={{ theme: "dark", fontSize: "myFontSize" }}
+        >
+          <ErrorMessage />
+        </SettingsContext.Provider>
+      </Provider>,
+    );
+  };
+
+  test("displays when there is an error and aiErrorsEnabled is true", () => {
+    renderErrorMessage({ error: "Oops", aiErrorsEnabled: true });
+    expect(screen.getByText("output.errors.aiComingSoon")).toBeInTheDocument();
+  });
+
+  test("does not display when aiErrorsEnabled is false", () => {
+    renderErrorMessage({ error: "Oops", aiErrorsEnabled: false });
+    expect(
+      screen.queryByText("output.errors.aiComingSoon"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("does not display when there is no error", () => {
+    renderErrorMessage({ error: "", aiErrorsEnabled: true });
+    expect(
+      screen.queryByText("output.errors.aiComingSoon"),
+    ).not.toBeInTheDocument();
+  });
+});

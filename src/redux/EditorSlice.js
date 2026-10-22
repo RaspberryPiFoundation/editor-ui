@@ -133,6 +133,7 @@ export const editorInitialState = {
   scratchIframeProjectIdentifier: null,
   friendlyErrorsEnabled: false,
   friendlyError: null,
+  aiErrorsEnabled: false,
 };
 
 const isScratchProject = (state) =>
@@ -312,6 +313,9 @@ const EditorSlice = createSlice({
     },
     setScratchApiEndpoint: (state, action) => {
       state.scratchApiEndpoint = action.payload;
+    },
+    setAiErrorsEnabled: (state, action) => {
+      state.aiErrorsEnabled = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -551,6 +555,7 @@ export const {
   disableTheming,
   setErrorDetails,
   setFriendlyError,
+  setAiErrorsEnabled,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

@@ -24,6 +24,7 @@ import reducer, {
   scratchSaveFailed,
   setFriendlyErrorsEnabled,
   setFriendlyError,
+  setAiErrorsEnabled,
 } from "./EditorSlice";
 
 const mockCreateRemix = vi.fn();
@@ -1028,4 +1029,20 @@ describe("initialComponents snapshot", () => {
     const failedState = reducer(savedState, scratchSaveFailed());
     expect(failedState.saving).toBe("failed");
   });
+});
+
+test("Action setAiErrorsEnabled sets aiErrorsEnabled to true", () => {
+  const previousState = { aiErrorsEnabled: false };
+  const expectedState = { aiErrorsEnabled: true };
+  expect(reducer(previousState, setAiErrorsEnabled(true))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setAiErrorsEnabled sets aiErrorsEnabled to false", () => {
+  const previousState = { aiErrorsEnabled: true };
+  const expectedState = { aiErrorsEnabled: false };
+  expect(reducer(previousState, setAiErrorsEnabled(false))).toEqual(
+    expectedState,
+  );
 });

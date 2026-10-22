@@ -85,6 +85,7 @@ class WebComponent extends HTMLElement {
       "load_cache",
       "offline_enabled",
       "friendly_errors_enabled",
+      "ai_errors_enabled",
     ];
   }
 
@@ -105,6 +106,7 @@ class WebComponent extends HTMLElement {
       "load_cache",
       "offline_enabled",
       "friendly_errors_enabled",
+      "ai_errors_enabled",
     ];
     const jsonAttrs = [
       "instructions",
