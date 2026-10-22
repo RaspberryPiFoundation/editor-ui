@@ -456,6 +456,16 @@ const EditorSlice = createSlice({
       if (state.project.identifier !== action.payload.project.identifier) {
         state.project.image_list = state.project.image_list || [];
         state.project = action.payload.project;
+      } else {
+        // when the project identifier hasn't changed,
+        // copy of the IDs of new files from the response onto the components
+        action.payload.project.components.forEach((saved) => {
+          const local = state.project.components.find(
+            (c) =>
+              !c.id && c.name === saved.name && c.extension === saved.extension,
+          );
+          if (local) local.id = saved.id;
+        });
       }
       syncInitialProjectSnapshot(state, action.payload.project);
     });
