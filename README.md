@@ -217,14 +217,47 @@ Styles from the parent application can be passed to the web component in a few d
 }
 ```
 
-##### Custom properties
+##### Customising with custom properties
 
-The web component supports these custom properties. This list is not complete.
+Custom properties let the parent application adjust supported parts of the editor's appearance without relying on its internal elements or structure. Set them on `editor-wc` so they inherit into the shadow DOM. Properties used only as internal design tokens are not part of this API.
 
-| Property                      | Default          | Use                                                                                    |
-| ----------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
-| `--editor-margin-block-start` | `var(--space-2)` | Sets the margin above the editor panels. A value of `0` also removes their top border. |
-| `--editor-panel-radius`       | `var(--space-1)` | Sets the radius of the editor panels' top corners.                                     |
+**Layout and controls:**
+
+| Property                            | Default                  | Use                                                                                    |
+| ----------------------------------- | ------------------------ | -------------------------------------------------------------------------------------- |
+| `--editor-font-family-monospace`    | Roboto Mono system stack | Sets the font used for code.                                                           |
+| `--editor-font-family-sans-serif`   | Roboto system stack      | Sets the font used for the editor interface.                                           |
+| `--editor-htmlrunner-link-display`  | `inline-flex`            | Sets the `display` value of the link that opens the HTML output in a new tab.          |
+| `--editor-logo-display`             | `inherit`                | Sets the `display` value of the logo in the sidebar.                                   |
+| `--editor-margin-block-start`       | `var(--space-2)`         | Sets the margin above the editor panels. A value of `0` also removes their top border. |
+| `--editor-panel-radius`             | `var(--space-1)`         | Sets the radius of the editor panels' top corners.                                     |
+| `--editor-secondary-theme`          | `transparent`            | Sets the editor's outer background.                                                    |
+| `--progress-bar-color`              | `--editor-color-theme`   | Sets the progress bar accent colour.                                                   |
+| `--project-bar-button-radius`       | `8px`                    | Sets the corner radius of buttons in the project bar and instructions.                 |
+| `--project-editor-wrapper-grid-gap` | `16px`                   | Sets the gap between the editor and output panels.                                     |
+| `--project-instructions-padding`    | `var(--space-2)`         | Sets the padding below the instructions content.                                       |
+| `--sidebar-border-obscurer-width`   | `auto`                   | Sets the width of the selected sidebar item's border cover.                            |
+| `--sidebar-options-alignment`       | `center`                 | Sets the cross-axis alignment of the sidebar options.                                  |
+| `--tertiary-btn-hover-color`        | `inherit`                | Sets the hover background of tertiary buttons.                                         |
+
+**Instruction code blocks:**
+
+| Property                                   | Default               | Use                                                    |
+| ------------------------------------------ | --------------------- | ------------------------------------------------------ |
+| `--code-background-color`                  | `var(--rpf-grey-700)` | Sets the code block background.                        |
+| `--code-block-blend-mode`                  | `difference`          | Sets the blend mode of a highlighted line.             |
+| `--code-block-border-color`                | `var(--rpf-grey-600)` | Sets the code block border colour.                     |
+| `--code-block-line-highlight-border`       | `none`                | Sets the border style and width of a highlighted line. |
+| `--code-block-line-highlight-border-color` | `none`                | Sets the border colour of a highlighted line.          |
+| `--code-block-line-highlight-color`        | `var(--rpf-white)`    | Sets the background colour of a highlighted line.      |
+| `--code-block-scrollbar-color`             | `auto`                | Sets the code block scrollbar colours.                 |
+| `--code-print-color`                       | `var(--rpf-white)`    | Sets the colour of Python `print` calls.               |
+| `--code-syntax-1`                          | `#9ee8ff`             | Sets the first syntax-highlighting colour.             |
+| `--code-syntax-2`                          | `#94f9af`             | Sets the second syntax-highlighting colour.            |
+| `--code-syntax-3`                          | `#ffca99`             | Sets the third syntax-highlighting colour.             |
+| `--code-syntax-4`                          | `#eeccff`             | Sets the fourth syntax-highlighting colour.            |
+| `--code-syntax-5`                          | `#9ee8ff`             | Sets the fifth syntax-highlighting colour.             |
+| `--code-text-color`                        | `var(--rpf-white)`    | Sets the code block text colour.                       |
 
 #### Instructions Sanitisation
 
