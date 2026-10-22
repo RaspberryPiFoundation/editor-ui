@@ -213,10 +213,10 @@
   },
   "output": {
     "aiHelp": {
-      "explainWhy": "Explain why this happened",
-      "title": "AI explanation",
+      "explainWhy": "Get more information",
+      "title": "Need more help? Generate an AI hint",
       "ask": {
-        "hint": "Get a hint with AI",
+        "hint": "Generate hint",
         "explain": "Explain with AI"
       },
       "generating": {

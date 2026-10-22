@@ -36,15 +36,79 @@ const splitInlineCode = (text) => {
   return spans;
 };
 
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+// The friendly error message highlights the variable, file and line it is
+// talking about with `pfem__var`, `pfem__file` and `pfem__line`. The model is
+// not trusted to write that markup, so the same words are found in its answer
+// here instead, using the values the copydeck highlighted. Any "line N" is
+// tagged, not just the error's line - the model often points elsewhere.
+const highlightPattern = ({ name, file } = {}) => {
+  // Python names are case-sensitive, so only "line" ignores case.
+  const alternatives = ["(?<line>\\b[Ll]ine \\d+\\b)"];
+  if (name) {
+    alternatives.push(`(?<var>(?<![\\w.])${escapeRegExp(name)}(?!\\w))`);
+  }
+  if (file) {
+    alternatives.push(`(?<file>(?<![\\w.])${escapeRegExp(file)}(?!\\w))`);
+  }
+  return new RegExp(alternatives.join("|"), "g");
+};
+
+const highlightText = (text, terms) => {
+  const spans = [];
+  const pattern = highlightPattern(terms);
+  let cursor = 0;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    if (match.index > cursor) {
+      spans.push({ code: false, text: text.slice(cursor, match.index) });
+    }
+    const { groups } = match;
+    const highlight = Object.keys(groups).find((key) => groups[key]);
+    spans.push({ code: false, text: match[0], highlight });
+    cursor = match.index + match[0].length;
+  }
+  if (cursor < text.length) {
+    spans.push({ code: false, text: text.slice(cursor) });
+  }
+
+  return spans;
+};
+
+// Code the model put in backticks takes the variable or file colour when it is
+// exactly that name, and the general code colour otherwise.
+const highlightCode = (text, { name, file } = {}) => {
+  if (name && text === name) {
+    return "var";
+  }
+  if (file && text === file) {
+    return "file";
+  }
+  return "code";
+};
+
+const highlightSpans = (spans, terms) =>
+  spans.flatMap((span) =>
+    span.code
+      ? [{ ...span, highlight: highlightCode(span.text, terms) }]
+      : highlightText(span.text, terms),
+  );
+
 /**
  * Split an answer into text and code blocks.
  *
  * Returns [{ type: "text", spans }, { type: "code", language, content, open }].
+ *
+ * Pass `terms` ({ name, file }) to tag text spans with a `highlight` of "var",
+ * "file", "line" or "code", matching the friendly error message's classes.
+ * Without it, spans are left untagged.
  * `open` marks a fence that has not been closed yet, which is the normal state
  * part-way through a streamed answer - it is rendered the same way, so the code
  * does not reflow when the closing fence arrives.
  */
-export const parseAnswer = (text = "") => {
+export const parseAnswer = (text = "", terms = null) => {
   const blocks = [];
   let textLines = [];
   let codeLines = null;
@@ -64,7 +128,11 @@ export const parseAnswer = (text = "") => {
       .filter(Boolean);
 
     for (const paragraph of paragraphs) {
-      blocks.push({ type: "text", spans: splitInlineCode(paragraph) });
+      const spans = splitInlineCode(paragraph);
+      blocks.push({
+        type: "text",
+        spans: terms ? highlightSpans(spans, terms) : spans,
+      });
     }
     textLines = [];
   };

@@ -89,11 +89,9 @@
     overflow-x: auto;
   }
 
+  // Colours and padding come from the shared pfem__* highlight rules in
+  // FriendlyErrorMessage.scss.
   &__inline-code {
-    padding-inline: var(--space-0-5);
-    background-color: var(--rpf-grey-100);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--editor-font-family-monospace);
     overflow-wrap: break-word;
   }
 

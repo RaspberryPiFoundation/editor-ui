@@ -39,29 +39,54 @@ import "../../../assets/stylesheets/AiErrorHelp.scss?inline";
 
 // Model output rendered as React elements from parsed blocks, never as HTML -
 // the text is untrusted, so nothing here goes near dangerouslySetInnerHTML.
-const Answer = ({ text }) => (
+//
+// Highlighted words reuse the friendly error message's `pfem__*` classes, so
+// a variable, file or line looks the same in both cards. The library wraps a
+// line in a span and everything else in code, so this does too.
+const Span = ({ span }) => {
+  if (span.code) {
+    return (
+      <code className={`ai-error-help__inline-code pfem__${span.highlight}`}>
+        {span.text}
+      </code>
+    );
+  }
+  if (span.highlight === "line") {
+    return <span className="pfem__line">{span.text}</span>;
+  }
+  if (span.highlight) {
+    return <code className={`pfem__${span.highlight}`}>{span.text}</code>;
+  }
+  return span.text;
+};
+
+const Answer = ({ text, terms }) => (
   <>
-    {parseAnswer(text).map((block, index) =>
+    {parseAnswer(text, terms).map((block, index) =>
       block.type === "code" ? (
         <pre className="ai-error-help__code" key={index}>
           <code>{block.content}</code>
         </pre>
       ) : (
         <p className="ai-error-help__answer" key={index}>
-          {block.spans.map((span, spanIndex) =>
-            span.code ? (
-              <code className="ai-error-help__inline-code" key={spanIndex}>
-                {span.text}
-              </code>
-            ) : (
-              <React.Fragment key={spanIndex}>{span.text}</React.Fragment>
-            ),
-          )}
+          {block.spans.map((span, spanIndex) => (
+            <Span span={span} key={spanIndex} />
+          ))}
         </p>
       ),
     )}
   </>
 );
+
+// The names the friendly error message highlights. With no copydeck match
+// there is no trace, but a NameError still names its variable in the message.
+const highlightTerms = ({ friendlyError, error, errorDetails }) => ({
+  name:
+    friendlyError?.trace?.name ||
+    error?.match(/name '([^']+)' is not defined/)?.[1] ||
+    null,
+  file: errorDetails?.file || friendlyError?.trace?.file || null,
+});
 
 const AiErrorHelp = () => {
   const { t } = useTranslation();
@@ -94,6 +119,7 @@ const AiErrorHelp = () => {
   const level = hasPreWritten ? "hint" : "explain";
   const showAiCard = aiHelpAvailable() && (detailShown || !hasPreWritten);
   const isStreaming = streamingText !== null;
+  const terms = highlightTerms({ friendlyError, error, errorDetails });
 
   const askModel = useCallback(async () => {
     const model = ollamaModel();
@@ -195,9 +221,9 @@ const AiErrorHelp = () => {
 
           {/* Model output is rendered as plain text on purpose: it is
               untrusted, and partial markdown looks broken mid-stream. */}
-          {answer ? <Answer text={answer.text} /> : null}
+          {answer ? <Answer text={answer.text} terms={terms} /> : null}
           {isStreaming && streamingText ? (
-            <Answer text={streamingText} />
+            <Answer text={streamingText} terms={terms} />
           ) : null}
 
           {answer?.withheld ? (

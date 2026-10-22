@@ -106,6 +106,70 @@ describe("parseAnswer", () => {
   });
 });
 
+describe("parseAnswer with highlight terms", () => {
+  const terms = { name: "kittens", file: "main.py" };
+  const spansOf = (answer, withTerms = terms) =>
+    parseAnswer(answer, withTerms)[0].spans;
+
+  test("tags the variable, file and line in plain text", () => {
+    expect(
+      spansOf("Look at line 2 in main.py, where kittens is used."),
+    ).toEqual([
+      { code: false, text: "Look at " },
+      { code: false, text: "line 2", highlight: "line" },
+      { code: false, text: " in " },
+      { code: false, text: "main.py", highlight: "file" },
+      { code: false, text: ", where " },
+      { code: false, text: "kittens", highlight: "var" },
+      { code: false, text: " is used." },
+    ]);
+  });
+
+  test("tags any line number, not just the error's", () => {
+    expect(spansOf("Line 8 defines it.")).toEqual([
+      { code: false, text: "Line 8", highlight: "line" },
+      { code: false, text: " defines it." },
+    ]);
+  });
+
+  test("only matches the variable as a whole, case-sensitive name", () => {
+    expect(spansOf("kittens2 and Kittens and mykittens")).toEqual([
+      { code: false, text: "kittens2 and Kittens and mykittens" },
+    ]);
+  });
+
+  test("colours backticked code by what it names", () => {
+    expect(spansOf("`kittens` in `main.py` is not `print(cats)`")).toEqual([
+      { code: true, text: "kittens", highlight: "var" },
+      { code: false, text: " in " },
+      { code: true, text: "main.py", highlight: "file" },
+      { code: false, text: " is not " },
+      { code: true, text: "print(cats)", highlight: "code" },
+    ]);
+  });
+
+  test("treats names as literal text, not as patterns", () => {
+    expect(spansOf("a.b and axb", { name: "a.b" })).toEqual([
+      { code: false, text: "a.b", highlight: "var" },
+      { code: false, text: " and axb" },
+    ]);
+  });
+
+  test("still tags line numbers when no names are known", () => {
+    expect(spansOf("See line 3.", {})).toEqual([
+      { code: false, text: "See " },
+      { code: false, text: "line 3", highlight: "line" },
+      { code: false, text: "." },
+    ]);
+  });
+
+  test("leaves spans untagged without terms", () => {
+    expect(parseAnswer("Look at line 2.")[0].spans).toEqual([
+      { code: false, text: "Look at line 2." },
+    ]);
+  });
+});
+
 describe("withheldFix", () => {
   test("leaves an answer with no code alone", () => {
     expect(withheldFix("Look at line 1 - nothing gives ar a value.")).toEqual({

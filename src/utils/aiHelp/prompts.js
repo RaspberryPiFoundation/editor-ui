@@ -141,6 +141,9 @@ rather than "change…".
 
 Three or four short sentences.
 
+Put variable names, function names and file names in backticks, like \`score\` or
+\`main.py\`.
+
 Do not write any code in this reply. No code blocks and no corrected lines.`,
 
   // "Hint and direct". The learner has already had the copydeck's explanation and
@@ -160,9 +163,11 @@ Go one step further and be specific:
 
 Two or three short sentences.
 
+Put variable names, function names and file names in backticks, like \`score\` or
+\`main.py\`.
+
 Do not write any code in this reply. No code blocks, no corrected lines, not
-even a short one. Naming a line and a variable is enough - they have a "Show me
-the fix" button for when it is not.`,
+even a short one. Naming a line and a variable is enough.`,
 
   // "Solve". This is the only rung that overrides GUIDELINES, and it is reached
   // only by an explicit request from the learner after two earlier rungs.

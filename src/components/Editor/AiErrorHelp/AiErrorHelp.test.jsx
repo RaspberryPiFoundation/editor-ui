@@ -75,6 +75,13 @@ const mockOllamaReply = (content, doneReason = "stop") => {
 
 const EXPLAIN_WHY = "output.aiHelp.explainWhy";
 
+// Highlighting splits the answer into several elements, so match on the whole
+// paragraph rather than a single text node.
+const answerText = () =>
+  [...document.querySelectorAll(".ai-error-help__answer")]
+    .map((paragraph) => paragraph.textContent)
+    .join("\n");
+
 const clickButton = (name) =>
   userEvent.click(screen.getByRole("button", { name }));
 
@@ -143,9 +150,9 @@ describe("AiErrorHelp", () => {
       await askForHint();
 
       await waitFor(() =>
-        expect(
-          screen.getByText("Look at line 1 and check what foo refers to."),
-        ).toBeInTheDocument(),
+        expect(answerText()).toContain(
+          "Look at line 1 and check what foo refers to.",
+        ),
       );
       expect(global.fetch).toHaveBeenCalledTimes(1);
       expect(
@@ -194,9 +201,7 @@ describe("AiErrorHelp", () => {
 
       await clickButton("output.aiHelp.ask.hint");
 
-      await waitFor(() =>
-        expect(screen.getByText("Look at line 1.")).toBeInTheDocument(),
-      );
+      await waitFor(() => expect(answerText()).toContain("Look at line 1."));
       expect(screen.getByText("output.aiHelp.title")).toBeInTheDocument();
       expect(screen.getByText("output.aiHelp.disclaimer")).toBeInTheDocument();
     });
@@ -244,6 +249,42 @@ describe("AiErrorHelp", () => {
       expect(
         container.querySelector(".ai-error-help__answer").className,
       ).toEqual("ai-error-help__answer");
+    });
+  });
+
+  describe("highlighting the answer", () => {
+    test("uses the friendly error's variable, file and line colours", async () => {
+      mockOllamaReply("Look at line 1 in main.py, where foo has no value.");
+      const { container } = renderHelp({
+        friendlyError: { ...friendlyError, trace: { name: "foo" } },
+      });
+
+      await askForHint();
+
+      await waitFor(() =>
+        expect(
+          container.querySelector(".ai-error-help .pfem__var"),
+        ).toHaveTextContent("foo"),
+      );
+      expect(
+        container.querySelector(".ai-error-help .pfem__file"),
+      ).toHaveTextContent("main.py");
+      expect(
+        container.querySelector(".ai-error-help .pfem__line"),
+      ).toHaveTextContent("line 1");
+    });
+
+    test("finds the variable in a NameError with no copydeck match", async () => {
+      mockOllamaReply("The name foo has no value yet.");
+      const { container } = renderHelp({ friendlyError: null });
+
+      await clickButton("output.aiHelp.ask.explain");
+
+      await waitFor(() =>
+        expect(
+          container.querySelector(".ai-error-help .pfem__var"),
+        ).toHaveTextContent("foo"),
+      );
     });
   });
 
@@ -409,9 +450,7 @@ describe("AiErrorHelp", () => {
       const { container } = renderHelp();
 
       await askForHint();
-      await waitFor(() =>
-        expect(screen.getByText("Look at line 1.")).toBeInTheDocument(),
-      );
+      await waitFor(() => expect(answerText()).toContain("Look at line 1."));
 
       expect(await axe(container)).toHaveNoViolations();
     });

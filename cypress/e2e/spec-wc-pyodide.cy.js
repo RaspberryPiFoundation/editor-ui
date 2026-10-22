@@ -377,7 +377,7 @@ describe("When friendly errors enabled with pyodide", () => {
 
     // The pre-written explanation, in the same card, with no request made.
     getFriendlyErrorExplainButton()
-      .should("contain", "Explain why this happened")
+      .should("contain", "Get more information")
       .click();
     getFriendlyErrorMessage().should(
       "contain",
@@ -386,7 +386,7 @@ describe("When friendly errors enabled with pyodide", () => {
     cy.get("@chat.all").should("have.length", 0);
 
     // The AI card, separate from it.
-    getAiErrorHelpButton().should("contain", "Get a hint with AI").click();
+    getAiErrorHelpButton().should("contain", "Generate hint").click();
     cy.wait("@chat")
       .its("request.body")
       .then((body) => {
@@ -397,7 +397,7 @@ describe("When friendly errors enabled with pyodide", () => {
         expect(body.messages[1].content).to.contain("print(kitten)");
         expect(body.messages[1].content).to.contain("NameError");
       });
-    getAiErrorHelp().should("contain", "AI explanation");
+    getAiErrorHelp().should("contain", "Need more help? Generate an AI hint");
     getAiErrorHelp().should(
       "contain",
       "Look at line 1 and check what kitten is.",
