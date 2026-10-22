@@ -202,7 +202,7 @@ REACT_APP_OLLAMA_MODEL='qwen3.5:9b'
 REACT_APP_OLLAMA_URL='http://localhost:11434'
 ```
 
-And start up the web component with `yarn start`, visit http://localhost:3011/web-component.html and run some code that produces an error, eg:
+And, with `ollama serve` still running, in a new terminal start up the web component with `yarn start`, visit http://localhost:3011/web-component.html and run some code that produces an error, eg:
 
 ```python
 age = "30"
