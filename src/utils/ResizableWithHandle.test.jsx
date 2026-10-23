@@ -8,6 +8,7 @@ let mockResizableProps;
 vi.mock("re-resizable", () => ({
   Resizable: ({
     children,
+    handleClasses,
     handleComponent,
     handleWrapperClass,
     onResizeStop,
@@ -22,7 +23,9 @@ vi.mock("re-resizable", () => ({
       <div style={{ ...style, ...size }}>
         <div className={handleWrapperClass}>
           {Object.entries(handleComponent).map(([direction, handle]) => (
-            <div key={direction}>{handle}</div>
+            <div className={handleClasses[direction]} key={direction}>
+              {handle}
+            </div>
           ))}
         </div>
         {children}
@@ -31,10 +34,6 @@ vi.mock("re-resizable", () => ({
   },
 }));
 
-afterEach(() => {
-  document.documentElement.removeAttribute("dir");
-});
-
 test("renders a horizontal handle indicator", () => {
   render(<ResizableWithHandle handleDirection="block-end" />);
   expect(screen.getByTestId("horizontalHandle")).toHaveClass(
@@ -42,11 +41,13 @@ test("renders a horizontal handle indicator", () => {
   );
 });
 
-test("renders a vertical handle indicator", () => {
+test("renders vertical handle indicators for both physical edges", () => {
   render(<ResizableWithHandle handleDirection="inline-end" />);
-  expect(screen.getByTestId("verticalHandle")).toHaveClass(
-    "resizable-with-handle__indicator--vertical",
-  );
+
+  expect(screen.getAllByTestId("verticalHandle")).toHaveLength(2);
+  screen.getAllByTestId("verticalHandle").forEach((handle) => {
+    expect(handle).toHaveClass("resizable-with-handle__indicator--vertical");
+  });
 });
 
 test("it does not add an incorrect class to the handle", () => {
@@ -70,24 +71,21 @@ test("it adds the expected class to the handle", () => {
   ).toBe(1);
 });
 
-test("uses the right resize edge for inline end in LTR", () => {
-  render(<ResizableWithHandle handleDirection="inline-end" />);
+test("provides both physical resize edges for an inline end handle", () => {
+  const { container } = render(
+    <ResizableWithHandle handleDirection="inline-end" />,
+  );
 
   expect(mockResizableProps.enable).toMatchObject({
     right: true,
-    left: false,
-  });
-});
-
-test("uses the left resize edge for inline end in RTL", () => {
-  document.documentElement.dir = "rtl";
-
-  render(<ResizableWithHandle handleDirection="inline-end" />);
-
-  expect(mockResizableProps.enable).toMatchObject({
-    right: false,
     left: true,
   });
+  expect(
+    container.getElementsByClassName("resizable-with-handle__handle--right"),
+  ).toHaveLength(1);
+  expect(
+    container.getElementsByClassName("resizable-with-handle__handle--left"),
+  ).toHaveLength(1);
 });
 
 test("persists the measured width after a horizontal resize", () => {

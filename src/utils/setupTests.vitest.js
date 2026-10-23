@@ -57,7 +57,6 @@ vi.mock("react-i18next", () => ({
     t: (str) => (str.includes("null") ? null : str),
     i18n: {
       changeLanguage: () => new Promise(() => {}),
-      dir: () => document.documentElement.dir || "ltr",
       language: "ja-JP",
       options: {
         locales: ["en", "es-LA", "fr-FR", "ja-JP"],

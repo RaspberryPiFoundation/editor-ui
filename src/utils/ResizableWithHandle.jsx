@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Resizable } from "re-resizable";
-import { useTranslation } from "react-i18next";
 
 import "../assets/stylesheets/ResizableWithHandle.scss?inline";
 
@@ -22,13 +21,8 @@ const HorizontalHandle = () => (
 const ResizableWithHandle = (props) => {
   const { children, defaultWidth, defaultHeight, handleDirection, ...rest } =
     props;
-  const { i18n } = useTranslation();
-  const resizeDirection =
-    handleDirection === "inline-end"
-      ? i18n.dir() === "rtl"
-        ? "left"
-        : "right"
-      : "bottom";
+  const isInlineEndHandle = handleDirection === "inline-end";
+  const resizeDirections = isInlineEndHandle ? ["right", "left"] : ["bottom"];
 
   const [width, setWidth] = useState("auto");
   const [height, setHeight] = useState("auto");
@@ -47,11 +41,21 @@ const ResizableWithHandle = (props) => {
     }
   };
 
-  const handleComponent =
-    handleDirection === "inline-end"
-      ? { [resizeDirection]: <VerticalHandle /> }
-      : { [resizeDirection]: <HorizontalHandle /> };
-
+  const handleComponent = Object.fromEntries(
+    resizeDirections.map((direction) => [
+      direction,
+      isInlineEndHandle ? <VerticalHandle /> : <HorizontalHandle />,
+    ]),
+  );
+  const handleClasses = Object.fromEntries(
+    resizeDirections.map((direction) => [
+      direction,
+      `resizable-with-handle__handle--${direction}`,
+    ]),
+  );
+  const enabledHandles = Object.fromEntries(
+    resizeDirections.map((direction) => [direction, true]),
+  );
   const handleWrapperClass = `resizable-with-handle__handle resizable-with-handle__handle--${handleDirection}`;
 
   return (
@@ -61,15 +65,19 @@ const ResizableWithHandle = (props) => {
         right: false,
         bottom: false,
         left: false,
-        ...{ [resizeDirection]: true },
+        ...enabledHandles,
       }}
+      handleClasses={handleClasses}
       handleComponent={handleComponent}
       handleWrapperClass={handleWrapperClass}
       onResizeStop={onResizeStop}
       size={{ width: width, height: height }}
       handleStyles={
-        handleDirection === "inline-end"
-          ? { [resizeDirection]: { height: "96%", top: "2%" } }
+        isInlineEndHandle
+          ? {
+              right: { height: "96%", top: "2%" },
+              left: { height: "96%", top: "2%" },
+            }
           : {}
       }
       {...rest}

@@ -1,7 +1,14 @@
-.resizable-with-handle__handle--inline-end > div {
-  // Keep the target clear of content and scrollbars in the resized panel.
-  inset-inline-end: -20px !important;
-  inline-size: 16px !important;
+.resizable-with-handle__handle--inline-end {
+  > div {
+    // Keep the target clear of content and scrollbars in the resized panel.
+    inset-inline-end: -20px !important;
+    inline-size: 16px !important;
+  }
+
+  &:dir(ltr) > .resizable-with-handle__handle--left,
+  &:dir(rtl) > .resizable-with-handle__handle--right {
+    display: none;
+  }
 }
 
 .resizable-with-handle__handle--block-end > div {

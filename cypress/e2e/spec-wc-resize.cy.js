@@ -52,6 +52,54 @@ describe("layout resize", () => {
     );
   });
 
+  it("resizes inline end panels in right-to-left layouts", () => {
+    cy.viewport(1280, 800);
+    visitAndLoadPythonProject();
+    cy.get("editor-wc").invoke("attr", "dir", "rtl");
+
+    getProjEditorContainer().then(($container) => {
+      getEditorResizeHandle("verticalHandle").should(($handle) => {
+        const containerRect = $container[0].getBoundingClientRect();
+        const handleRect = $handle[0].getBoundingClientRect();
+
+        expect(handleRect.right).to.be.closeTo(containerRect.left - 3, 1);
+      });
+    });
+
+    let initialEditorWidth;
+    getProjEditorContainer().then(($el) => {
+      initialEditorWidth = $el[0].getBoundingClientRect().width;
+    });
+
+    dragEditorResizeHandle("verticalHandle", { deltaX: -100 }).then(() =>
+      getProjEditorContainer().should(($el) => {
+        const nextWidth = $el[0].getBoundingClientRect().width;
+        expect(nextWidth).to.be.greaterThan(initialEditorWidth);
+      }),
+    );
+
+    getSidebarPanel().then(($panel) => {
+      getSidebarResizeHandle().should(($handle) => {
+        const panelRect = $panel[0].getBoundingClientRect();
+        const handleRect = $handle[0].getBoundingClientRect();
+
+        expect(handleRect.right).to.be.closeTo(panelRect.left - 4, 0.5);
+      });
+    });
+
+    let initialSidebarWidth;
+    getSidebarPanel().then(($el) => {
+      initialSidebarWidth = $el[0].getBoundingClientRect().width;
+    });
+
+    return dragSidebarResizeHandle({ deltaX: -80 }).then(() =>
+      getSidebarPanel().should(($el) => {
+        const nextWidth = $el[0].getBoundingClientRect().width;
+        expect(nextWidth).to.be.greaterThan(initialSidebarWidth);
+      }),
+    );
+  });
+
   it("resizes editor/output split on stacked layout", () => {
     // 700px is deliberately between two layout breakpoints:
     // - Wider than 600px: still uses the desktop editor (with resize handles).

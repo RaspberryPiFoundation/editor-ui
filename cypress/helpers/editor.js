@@ -91,10 +91,16 @@ export const getProjEditorContainer = () =>
   getEditorShadow().findByTestId("proj-editor-container");
 
 export const getEditorResizeHandle = (handleTestId) =>
-  getProjEditorContainer().findByTestId(handleTestId).parent("div");
+  getProjEditorContainer()
+    .findAllByTestId(handleTestId)
+    .parent("div")
+    .filter(":visible");
 
 export const getSidebarResizeHandle = () =>
-  getSidebarPanel().findByTestId("verticalHandle").parent("div");
+  getSidebarPanel()
+    .findAllByTestId("verticalHandle")
+    .parent("div")
+    .filter(":visible");
 
 const dragHandle = (getHandle, { deltaX = 0, deltaY = 0 }) => {
   return getHandle().then(($handle) => {
