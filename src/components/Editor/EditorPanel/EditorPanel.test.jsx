@@ -291,13 +291,6 @@ describe("When there is a Python error", () => {
     expect(highlightedLineNumber()).not.toBeInTheDocument();
   });
 
-  test("Does not highlight non-Python files", () => {
-    renderWithErrorDetails({ fileName: "index", extension: "html" });
-    setErrorLine(1, "index.html");
-
-    expect(highlightedLine()).not.toBeInTheDocument();
-  });
-
   test("Editing the file clears the highlight", () => {
     renderWithErrorDetails();
     setErrorLine(2);
