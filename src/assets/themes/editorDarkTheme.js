@@ -7,6 +7,11 @@ export const editorDarkTheme = EditorView.theme(
       color: "white",
       border: "none",
     },
+    ".cm-lineNumbers .cm-gutterElement": {
+      "padding-inline-start": "5px",
+      "padding-inline-end": "3px",
+      "text-align": "end",
+    },
     ".cm-activeLine": {
       "background-color": "inherit",
     },
