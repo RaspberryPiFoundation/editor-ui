@@ -1,4 +1,5 @@
 import {
+  getErrorLine,
   getErrorMessage,
   getFriendlyErrorMessage,
   getP5Canvas,
@@ -155,6 +156,29 @@ describe("Running the code with skulpt", () => {
     );
 
     getTurtleOutput().should("exist");
+  });
+
+  it("highlights the line an error is on", () => {
+    runCode("import turtle\nx = 1 / 0");
+    getErrorMessage().should("contain", "on line 2 of main.py");
+    getErrorLine().should("have.length", 1).and("contain", "x = 1 / 0");
+  });
+
+  it("uses a different error line colour in light and dark themes", () => {
+    const errorLineColour = (theme) => {
+      cy.setCookie("theme", theme);
+      cy.reload();
+      runCode("import turtle\nx = 1 / 0");
+      return getErrorLine().invoke("css", "background-color");
+    };
+
+    errorLineColour("light").then((light) => {
+      expect(light).not.to.equal("rgba(0, 0, 0, 0)");
+      errorLineColour("dark").then((dark) => {
+        expect(dark).not.to.equal("rgba(0, 0, 0, 0)");
+        expect(dark).not.to.equal(light);
+      });
+    });
   });
 
   it("includes an explanation of import errors if cross-origin isolated", () => {
