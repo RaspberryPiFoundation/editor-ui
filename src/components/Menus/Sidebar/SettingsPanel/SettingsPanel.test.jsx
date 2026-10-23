@@ -13,6 +13,7 @@ describe("Settings panel", () => {
       const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
+          project: {},
           isThemeable: true,
         },
       };
@@ -46,6 +47,7 @@ describe("Settings panel", () => {
       const mockStore = configureStore(middlewares);
       const initialState = {
         editor: {
+          project: {},
           isThemeable: false,
         },
       };
