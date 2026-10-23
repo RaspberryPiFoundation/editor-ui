@@ -14,6 +14,11 @@ export const editorLightTheme = EditorView.theme(
       color: "black",
       "background-color": "white",
     },
+    ".cm-lineNumbers .cm-gutterElement": {
+      "padding-inline-start": "5px",
+      "padding-inline-end": "3px",
+      "text-align": "end",
+    },
     ".cm-line .cm-indentation-marker": {
       background: "none",
       "border-inline-start": "solid lightgrey",

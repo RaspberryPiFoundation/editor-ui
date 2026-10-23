@@ -63,7 +63,15 @@ const errorLineTheme = EditorView.baseTheme({
     backgroundColor: "var(--editor-color-error-line)",
   },
   [`.cm-lineNumbers .cm-gutterElement.${ERROR_LINE_GUTTER_CLASS}`]: {
-    boxShadow: "inset 3px 0 var(--editor-color-error-line-bar)",
+    position: "relative",
+  },
+  [`.cm-lineNumbers .cm-gutterElement.${ERROR_LINE_GUTTER_CLASS}::before`]: {
+    content: '""',
+    position: "absolute",
+    insetBlock: 0,
+    insetInlineStart: 0,
+    inlineSize: "3px",
+    backgroundColor: "var(--editor-color-error-line-bar)",
   },
 });
 
