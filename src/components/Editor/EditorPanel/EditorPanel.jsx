@@ -25,6 +25,7 @@ import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
 import { tabExitIndicator } from "./tabExitIndicator";
+import { errorLineHighlight, setErrorLine } from "./errorLineHighlight";
 
 const MAX_CHARACTERS = 8500000;
 const TAB_EXIT_INSTRUCTION_ID = "editor-tab-exit-instruction";
@@ -35,6 +36,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
   const cascadeUpdate = useSelector((state) => state.editor.cascadeUpdate);
+  const errorDetails = useSelector((state) => state.editor.errorDetails);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -117,6 +119,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
         tabExitIndicator,
+        errorLineHighlight,
         mode,
         label,
         onUpdate,
@@ -164,6 +167,19 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       dispatch(setCascadeUpdate(false));
     }
   }, [file, cascadeUpdate, editorViewRef]);
+
+  // Highlight the line a Python error points at, if it's in this file.
+  useEffect(() => {
+    const view = editorViewRef.current;
+    if (!view || extension !== "py") {
+      return;
+    }
+    const errorLine =
+      errorDetails?.file === `${fileName}.${extension}`
+        ? parseInt(errorDetails.line, 10)
+        : null;
+    view.dispatch({ effects: setErrorLine.of(errorLine || null) });
+  }, [errorDetails, cookies]);
 
   return (
     <div className="editor-wrapper">
