@@ -149,6 +149,41 @@ This allows the host page to query the current code in the editor and to control
 
 Deeper host guides live under [docs/host-integration](./docs/host-integration/README.md).
 
+### Experimental SLM features
+
+Enable support for the AI-assisted error message functionality (using a locally-running SLM):
+
+```bash
+brew install ollama
+ollama serve
+```
+
+This starts up the Ollama server, which is then used to fetch a model - in a new terminal, run:
+
+```bash
+ollama pull qwen3.5:9b
+```
+
+Then ensure you have the following set in `.env`:
+
+```bash
+REACT_APP_OLLAMA_MODEL='qwen3.5:9b'
+REACT_APP_OLLAMA_URL='http://localhost:11434'
+```
+
+And, with `ollama serve` still running, in a new terminal start up the web component with `yarn start`, visit http://localhost:3011/web-component.html and run some code that produces an error, eg:
+
+```python
+age = "30"
+print(age + 1)
+```
+
+(this will generate an error that the friendly / simple error message library will first handle, and then escalate to the SLM for a more detailed explanation).
+
+You can also install different models (using `ollama pull <model>`), and change the model used dynamically by setting the `ollama_model` query parameter, for example:
+
+http://localhost:3011/web-component.html?ollama_model=llama3.2:3b
+
 ### Offline support
 
 The web component displays an offline indicator when the host page's service worker broadcasts connectivity changes. The web component itself does not register a service worker - caching and offline detection are the host app's responsibility.

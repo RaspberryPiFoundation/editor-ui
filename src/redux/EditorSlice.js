@@ -132,6 +132,11 @@ export const editorInitialState = {
   initialProjectInstructions: undefined,
   scratchIframeProjectIdentifier: null,
   friendlyErrorsEnabled: false,
+  // Set by the runners from buildFriendlyErrorPayload. Shape:
+  // { html, detailHtml, title, summary, why, steps, variantId, trace }.
+  // `html` is the summary shown with the error; `detailHtml` is the fuller
+  // pre-written explanation revealed on request. Null when the error has no
+  // friendly explanation.
   friendlyError: null,
 };
 
