@@ -1,5 +1,6 @@
 import {
   getEditorShadow,
+  getErrorLine,
   getErrorMessage,
   getFriendlyErrorMessage,
   getFileButtonByName,
@@ -256,6 +257,12 @@ print(text_out)
       `,
     );
     getPythonConsoleOutput().should("contain", "ULRYQJMVHLFQKBEFUGEOFL");
+  });
+
+  it("highlights the line an error is on", () => {
+    runCode("print('one')\nx = 1 / 0");
+    getErrorMessage().should("contain", "on line 2 of main.py");
+    getErrorLine().should("have.length", 1).and("contain", "x = 1 / 0");
   });
 
   it("errors when importing a non-existent module", () => {
