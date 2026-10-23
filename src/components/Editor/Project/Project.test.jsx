@@ -206,12 +206,13 @@ describe("When not logged in and falling on default container width", () => {
     });
 
     expect(
-      container.getElementsByClassName("resizable-with-handle__handle--bottom")
-        .length,
+      container.getElementsByClassName(
+        "resizable-with-handle__handle--block-end",
+      ).length,
     ).toBe(1);
   });
 
-  test("Shows right drag bar with expected params on desktop containers", () => {
+  test("Shows inline end drag bar with expected params on desktop containers", () => {
     useContainerMinWidth.mockReturnValue([true, vi.fn()]);
 
     const middlewares = [];
@@ -246,8 +247,9 @@ describe("When not logged in and falling on default container width", () => {
     });
 
     expect(
-      container.getElementsByClassName("resizable-with-handle__handle--right")
-        .length,
+      container.getElementsByClassName(
+        "resizable-with-handle__handle--inline-end",
+      ).length,
     ).toBe(1);
   });
 });

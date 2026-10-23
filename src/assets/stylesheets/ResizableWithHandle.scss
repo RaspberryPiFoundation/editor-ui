@@ -1,17 +1,13 @@
-.resizable-with-handle__handle--right > div {
+.resizable-with-handle__handle--inline-end > div {
   // Keep the target clear of content and scrollbars in the resized panel.
-  /* stylelint-disable csstools/use-logical */
-  right: -20px !important;
-  width: 16px !important;
-  /* stylelint-enable csstools/use-logical */
+  inset-inline-end: -20px !important;
+  inline-size: 16px !important;
 }
 
-.resizable-with-handle__handle--bottom > div {
+.resizable-with-handle__handle--block-end > div {
   // Keep the target clear of content and scrollbars in the resized panel.
-  /* stylelint-disable csstools/use-logical */
-  bottom: -20px !important;
-  height: 16px !important;
-  /* stylelint-enable csstools/use-logical */
+  inset-block-end: -20px !important;
+  block-size: 16px !important;
 }
 
 .resizable-with-handle__indicator {

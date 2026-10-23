@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Resizable } from "re-resizable";
+import { useTranslation } from "react-i18next";
 
 import "../assets/stylesheets/ResizableWithHandle.scss?inline";
 
@@ -21,6 +22,13 @@ const HorizontalHandle = () => (
 const ResizableWithHandle = (props) => {
   const { children, defaultWidth, defaultHeight, handleDirection, ...rest } =
     props;
+  const { i18n } = useTranslation();
+  const resizeDirection =
+    handleDirection === "inline-end"
+      ? i18n.dir() === "rtl"
+        ? "left"
+        : "right"
+      : "bottom";
 
   const [width, setWidth] = useState("auto");
   const [height, setHeight] = useState("auto");
@@ -39,13 +47,12 @@ const ResizableWithHandle = (props) => {
     }
   };
 
-  let handleComponent = ["right", "left"].includes(handleDirection)
-    ? { [handleDirection]: <VerticalHandle /> }
-    : ["top", "bottom"].includes(handleDirection)
-      ? { [handleDirection]: <HorizontalHandle /> }
-      : {};
+  const handleComponent =
+    handleDirection === "inline-end"
+      ? { [resizeDirection]: <VerticalHandle /> }
+      : { [resizeDirection]: <HorizontalHandle /> };
 
-  let handleWrapperClass = `resizable-with-handle__handle resizable-with-handle__handle--${handleDirection}`;
+  const handleWrapperClass = `resizable-with-handle__handle resizable-with-handle__handle--${handleDirection}`;
 
   return (
     <Resizable
@@ -54,15 +61,17 @@ const ResizableWithHandle = (props) => {
         right: false,
         bottom: false,
         left: false,
-        ...{ [handleDirection]: true },
+        ...{ [resizeDirection]: true },
       }}
       handleComponent={handleComponent}
       handleWrapperClass={handleWrapperClass}
       onResizeStop={onResizeStop}
       size={{ width: width, height: height }}
-      handleStyles={{
-        right: { height: "96%", top: "2%" },
-      }}
+      handleStyles={
+        handleDirection === "inline-end"
+          ? { [resizeDirection]: { height: "96%", top: "2%" } }
+          : {}
+      }
       {...rest}
     >
       {children}
@@ -74,8 +83,7 @@ ResizableWithHandle.propTypes = {
   children: PropTypes.any.isRequired,
   defaultWidth: PropTypes.string,
   defaultHeight: PropTypes.string,
-  handleDirection: PropTypes.oneOf(["right", "left", "top", "bottom"])
-    .isRequired,
+  handleDirection: PropTypes.oneOf(["inline-end", "block-end"]).isRequired,
 };
 
 export default ResizableWithHandle;

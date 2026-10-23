@@ -46,7 +46,7 @@ const Project = (props) => {
   const defaultWidth = isDesktop ? "50%" : "100%";
   const defaultHeight = isDesktop ? "100%" : "50%";
   const maxWidth = isDesktop ? "75%" : "100%";
-  const handleDirection = isDesktop ? "right" : "bottom";
+  const handleDirection = isDesktop ? "inline-end" : "block-end";
 
   useEffect(() => {
     setLoading(false);

@@ -75,7 +75,7 @@ const SidebarPanel = (props) => {
       className={classNames("sidebar__panel", className)}
       defaultWidth={initialWidth}
       defaultHeight="100%"
-      handleDirection="right"
+      handleDirection="inline-end"
       minWidth={MIN_WIDTH}
       maxWidth="600px"
       {...tabpanelProps}
