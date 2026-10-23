@@ -5,14 +5,10 @@ import DOMPurify from "dompurify";
 import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
-import { useTranslation } from "react-i18next";
 
 const ErrorMessage = () => {
-  const { t } = useTranslation();
-
   const error = useSelector((state) => state.editor.error);
   const settings = useContext(SettingsContext);
-  const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
 
   return error ? (
     <div className="error-message">
@@ -26,7 +22,6 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
-      {aiErrorsEnabled && <p>{t("output.errors.aiComingSoon")}</p>}
     </div>
   ) : null;
 };

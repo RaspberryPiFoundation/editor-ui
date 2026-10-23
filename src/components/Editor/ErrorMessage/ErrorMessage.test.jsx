@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
-import { renderWithProviders } from "../../../utils/renderWithProviders";
 
 describe("When error is set", () => {
   const middlewares = [];
@@ -131,32 +130,5 @@ describe("When error is set", () => {
       "href",
       "https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor",
     );
-  });
-});
-
-describe("AI coming soon message", () => {
-  const renderErrorMessage = (editorState) => {
-    renderWithProviders(<ErrorMessage />, {
-      preloadedState: { editor: editorState },
-    });
-  };
-
-  test("displays when there is an error and aiErrorsEnabled is true", () => {
-    renderErrorMessage({ error: "Oops", aiErrorsEnabled: true });
-    expect(screen.getByText("output.errors.aiComingSoon")).toBeInTheDocument();
-  });
-
-  test("does not display when aiErrorsEnabled is false", () => {
-    renderErrorMessage({ error: "Oops", aiErrorsEnabled: false });
-    expect(
-      screen.queryByText("output.errors.aiComingSoon"),
-    ).not.toBeInTheDocument();
-  });
-
-  test("does not display when there is no error", () => {
-    renderErrorMessage({ error: "", aiErrorsEnabled: true });
-    expect(
-      screen.queryByText("output.errors.aiComingSoon"),
-    ).not.toBeInTheDocument();
   });
 });
