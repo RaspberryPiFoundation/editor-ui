@@ -46,7 +46,7 @@ class ErrorLineGutterMarker extends GutterMarker {
 
 const errorLineGutterMarker = new ErrorLineGutterMarker();
 
-// Hightlight in the gutter
+// Highlight in the gutter
 const errorLineGutter = gutterLineClass.compute([errorLineField], (state) => {
   const markers = [];
   state.field(errorLineField).between(0, state.doc.length, (from) => {
