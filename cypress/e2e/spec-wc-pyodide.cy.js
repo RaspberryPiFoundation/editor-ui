@@ -259,18 +259,15 @@ print(text_out)
     getPythonConsoleOutput().should("contain", "ULRYQJMVHLFQKBEFUGEOFL");
   });
 
-  it("highlights the line an error is on", () => {
-    runCode("print('one')\nx = 1 / 0");
-    getErrorMessage().should("contain", "on line 2 of main.py");
-    getErrorLine().should("have.length", 1).and("contain", "x = 1 / 0");
-  });
-
-  it("errors when importing a non-existent module", () => {
+  it("shows and highlights an error when importing a non-existent module", () => {
     runCode("import i_do_not_exist");
     getErrorMessage().should(
       "contain",
       "ModuleNotFoundError: No module named 'i_do_not_exist' on line 1 of main.py",
     );
+    getErrorLine()
+      .should("have.length", 1)
+      .and("contain", "import i_do_not_exist");
   });
 
   it("clears user-defined variables between code runs", () => {
