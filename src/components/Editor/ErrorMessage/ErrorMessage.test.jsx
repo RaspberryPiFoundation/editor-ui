@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
+import { renderWithProviders } from "../../../utils/renderWithProviders";
 
 describe("When error is set", () => {
   const middlewares = [];
@@ -134,18 +135,10 @@ describe("When error is set", () => {
 });
 
 describe("AI coming soon message", () => {
-  const mockStore = configureStore([]);
-
   const renderErrorMessage = (editorState) => {
-    render(
-      <Provider store={mockStore({ editor: editorState })}>
-        <SettingsContext.Provider
-          value={{ theme: "dark", fontSize: "myFontSize" }}
-        >
-          <ErrorMessage />
-        </SettingsContext.Provider>
-      </Provider>,
-    );
+    renderWithProviders(<ErrorMessage />, {
+      preloadedState: { editor: editorState },
+    });
   };
 
   test("displays when there is an error and aiErrorsEnabled is true", () => {
