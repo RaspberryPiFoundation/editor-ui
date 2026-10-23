@@ -1,7 +1,6 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import configureStore from "redux-mock-store";
-import { Provider } from "react-redux";
+import { screen } from "@testing-library/react";
+import { renderWithProviders } from "../../../utils/renderWithProviders";
 import SidebarPanel, {
   SMALL_SIDEBAR_PROJECT_TYPE,
   SMALL_SIDEBAR_PROJECT_TYPE_BREAKPOINTS,
@@ -9,34 +8,22 @@ import SidebarPanel, {
 
 const Footer = () => <p>footer</p>;
 
-const renderWithProjectType = (ui, projectType) => {
-  const mockStore = configureStore([]);
-  const store = mockStore({
-    editor: { project: { project_type: projectType } },
-  });
-
-  return {
-    store,
-    ...render(<Provider store={store}>{ui}</Provider>),
-  };
-};
-
 test("Renders heading", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel heading="heading">some content</SidebarPanel>,
   );
   expect(screen.queryByText("heading")).toBeInTheDocument();
 });
 
 test("Renders content", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel heading="heading">some content</SidebarPanel>,
   );
   expect(screen.queryByText("some content")).toBeInTheDocument();
 });
 
 test("Renders footer", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel heading="heading" Footer={Footer}>
       some content
     </SidebarPanel>,
@@ -45,7 +32,7 @@ test("Renders footer", () => {
 });
 
 test("Renders a single button", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel heading="heading" buttons={[<button key="1">button</button>]}>
       some content
     </SidebarPanel>,
@@ -54,7 +41,7 @@ test("Renders a single button", () => {
 });
 
 test("Renders arbitrary header content", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel heading="heading" headerContent={<a href="/x">a link</a>}>
       some content
     </SidebarPanel>,
@@ -63,7 +50,7 @@ test("Renders arbitrary header content", () => {
 });
 
 test("Renders header content alongside buttons", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel
       heading="heading"
       buttons={[<button key="1">button</button>]}
@@ -77,7 +64,7 @@ test("Renders header content alongside buttons", () => {
 });
 
 test("Renders multiple buttons", () => {
-  renderWithProjectType(
+  renderWithProviders(
     <SidebarPanel
       heading="heading"
       buttons={[
@@ -108,7 +95,7 @@ describe("Default width", () => {
 
   test("Uses the default width on larger screens", () => {
     mockMatchingMediaQuery(null);
-    renderWithProjectType(
+    renderWithProviders(
       <SidebarPanel heading="wide panel">some content</SidebarPanel>,
     );
     expect(screen.getByTestId("sidebar__panel")).toHaveStyle({
@@ -118,7 +105,7 @@ describe("Default width", () => {
 
   test("Uses the minimum width on smaller screens", () => {
     mockMatchingMediaQuery(SMALL_SIDEBAR_PROJECT_TYPE);
-    renderWithProjectType(
+    renderWithProviders(
       <SidebarPanel heading="narrow panel">some content</SidebarPanel>,
     );
     expect(screen.getByTestId("sidebar__panel")).toHaveStyle({
@@ -130,9 +117,13 @@ describe("Default width", () => {
     mockMatchingMediaQuery(
       SMALL_SIDEBAR_PROJECT_TYPE_BREAKPOINTS.code_editor_scratch,
     );
-    renderWithProjectType(
+    renderWithProviders(
       <SidebarPanel heading="scratch panel">some content</SidebarPanel>,
-      "code_editor_scratch",
+      {
+        preloadedState: {
+          editor: { project: { project_type: "code_editor_scratch" } },
+        },
+      },
     );
     expect(screen.getByTestId("sidebar__panel")).toHaveStyle({
       width: "280px",
@@ -143,9 +134,13 @@ describe("Default width", () => {
     mockMatchingMediaQuery(
       SMALL_SIDEBAR_PROJECT_TYPE_BREAKPOINTS.code_editor_scratch,
     );
-    renderWithProjectType(
+    renderWithProviders(
       <SidebarPanel heading="python panel">some content</SidebarPanel>,
-      "python",
+      {
+        preloadedState: {
+          editor: { project: { project_type: "python" } },
+        },
+      },
     );
     expect(screen.getByTestId("sidebar__panel")).toHaveStyle({
       width: "320px",
@@ -154,15 +149,11 @@ describe("Default width", () => {
 
   test("Keeps its width when the screen size changes", () => {
     mockMatchingMediaQuery(SMALL_SIDEBAR_PROJECT_TYPE);
-    const { rerender, store } = renderWithProjectType(
+    const { rerender } = renderWithProviders(
       <SidebarPanel heading="resized panel">some content</SidebarPanel>,
     );
     mockMatchingMediaQuery(null);
-    rerender(
-      <Provider store={store}>
-        <SidebarPanel heading="resized panel">some content</SidebarPanel>
-      </Provider>,
-    );
+    rerender(<SidebarPanel heading="resized panel">some content</SidebarPanel>);
     expect(screen.getByTestId("sidebar__panel")).toHaveStyle({
       width: "280px",
     });
