@@ -10,6 +10,7 @@ import reducer, {
   setLoadRemixDisabled,
   setIsOutputOnly,
   setErrorDetails,
+  dismissErrorLine,
   setReadOnly,
   setPreview,
   setOfflineEnabled,
@@ -115,6 +116,7 @@ test("Action setErrorDetails sets errorDetails to true", () => {
   };
   const expectedState = {
     errorDetails: { type: "Interrupted", message: "Some error message" },
+    errorLineDismissed: false,
   };
   expect(
     reducer(
@@ -122,6 +124,24 @@ test("Action setErrorDetails sets errorDetails to true", () => {
       setErrorDetails({ type: "Interrupted", message: "Some error message" }),
     ),
   ).toEqual(expectedState);
+});
+
+test("Action setErrorDetails resets a dismissed error line", () => {
+  const previousState = {
+    errorDetails: { type: "NameError", line: 2, file: "main.py" },
+    errorLineDismissed: true,
+  };
+  const expectedState = {
+    errorDetails: {},
+    errorLineDismissed: false,
+  };
+  expect(reducer(previousState, setErrorDetails({}))).toEqual(expectedState);
+});
+
+test("Action dismissErrorLine sets errorLineDismissed to true", () => {
+  const previousState = { errorLineDismissed: false };
+  const expectedState = { errorLineDismissed: true };
+  expect(reducer(previousState, dismissErrorLine())).toEqual(expectedState);
 });
 
 test("Action setReadOnly correctly sets readOnly", () => {

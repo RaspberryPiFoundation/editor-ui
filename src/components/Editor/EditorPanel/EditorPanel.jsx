@@ -3,6 +3,7 @@ import "../../../assets/stylesheets/EditorPanel.scss?inline";
 import React, { useRef, useEffect, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  dismissErrorLine,
   setCascadeUpdate,
   updateProjectComponent,
 } from "../../../redux/EditorSlice";
@@ -37,6 +38,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const readOnly = useSelector((state) => state.editor.readOnly);
   const cascadeUpdate = useSelector((state) => state.editor.cascadeUpdate);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
+  const errorLineDismissed = useSelector(
+    (state) => state.editor.errorLineDismissed,
+  );
+  const errorLineShowing = useRef(false);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -63,6 +68,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if (viewUpdate.docChanged) {
       updateStoredProject(viewUpdate.state.doc.toString());
+      if (errorLineShowing.current) {
+        errorLineShowing.current = false;
+        dispatch(dismissErrorLine());
+      }
     }
   });
 
@@ -175,11 +184,12 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       return;
     }
     const errorLine =
-      errorDetails?.file === `${fileName}.${extension}`
+      !errorLineDismissed && errorDetails?.file === `${fileName}.${extension}`
         ? parseInt(errorDetails.line, 10)
         : null;
+    errorLineShowing.current = Boolean(errorLine);
     view.dispatch({ effects: setErrorLine.of(errorLine || null) });
-  }, [errorDetails, cookies]);
+  }, [errorDetails, errorLineDismissed, cookies]);
 
   return (
     <div className="editor-wrapper">
