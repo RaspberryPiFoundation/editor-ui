@@ -1031,6 +1031,104 @@ describe("initialComponents snapshot", () => {
   });
 });
 
+describe("saveProject/fulfilled for a project that already has an identifier", () => {
+  const saveThunk = syncProject("save");
+  const savedProject = {
+    name: "my project",
+    project_type: "python",
+    identifier: "my-project",
+    components: [
+      { id: "main-id", name: "main", extension: "py", content: "# main" },
+    ],
+  };
+
+  const stateWithNewFile = () => {
+    const state = reducer(undefined, setProject(savedProject));
+    return reducer(
+      state,
+      addProjectComponent({
+        name: "extra",
+        extension: "py",
+        content: "# extra",
+      }),
+    );
+  };
+
+  const saveResponse = (components) => ({
+    project: { ...savedProject, components },
+  });
+
+  test("stores the server ID of a file added since the last load", () => {
+    const state = reducer(
+      stateWithNewFile(),
+      saveThunk.fulfilled(
+        saveResponse([
+          { id: "main-id", name: "main", extension: "py", content: "# main" },
+          {
+            id: "extra-id",
+            name: "extra",
+            extension: "py",
+            content: "# extra",
+          },
+        ]),
+      ),
+    );
+
+    expect(state.project.components).toEqual([
+      { id: "main-id", name: "main", extension: "py", content: "# main" },
+      { id: "extra-id", name: "extra", extension: "py", content: "# extra" },
+    ]);
+  });
+
+  test("keeps edits made while the save was in flight", () => {
+    const editedDuringSave = reducer(
+      stateWithNewFile(),
+      updateProjectComponent({
+        name: "extra",
+        extension: "py",
+        content: "# typed during save",
+        cascadeUpdate: false,
+      }),
+    );
+
+    const state = reducer(
+      editedDuringSave,
+      saveThunk.fulfilled(
+        saveResponse([
+          { id: "main-id", name: "main", extension: "py", content: "# main" },
+          {
+            id: "extra-id",
+            name: "extra",
+            extension: "py",
+            content: "# extra",
+          },
+        ]),
+      ),
+    );
+
+    expect(state.project.components[1]).toEqual({
+      id: "extra-id",
+      name: "extra",
+      extension: "py",
+      content: "# typed during save",
+    });
+  });
+
+  test("does not give a new file the ID of a differently named server file", () => {
+    const state = reducer(
+      stateWithNewFile(),
+      saveThunk.fulfilled(
+        saveResponse([
+          { id: "main-id", name: "main", extension: "py", content: "# main" },
+          { id: "other-id", name: "other", extension: "py", content: "" },
+        ]),
+      ),
+    );
+
+    expect(state.project.components[1].id).toBeUndefined();
+  });
+});
+
 test("Action setAiErrorsEnabled sets aiErrorsEnabled to true", () => {
   const previousState = { aiErrorsEnabled: false };
   const expectedState = { aiErrorsEnabled: true };
