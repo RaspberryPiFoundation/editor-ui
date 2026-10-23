@@ -1,4 +1,5 @@
 @use "./ScratchContainer";
+@use "./sizes" as *;
 
 .proj {
   display: flex;
@@ -34,7 +35,7 @@
   flex-direction: row;
   overflow-y: hidden;
 
-  --resize-handle-size: 16px;
+  --resize-handle-size: #{$resize-handle-size};
 
   gap: var(--resize-handle-size);
   margin-block-start: var(--editor-margin-block-start, var(--space-2));
