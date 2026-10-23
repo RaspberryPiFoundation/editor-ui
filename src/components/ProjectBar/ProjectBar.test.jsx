@@ -79,6 +79,12 @@ describe("When logged in and user owns project", () => {
     ).toBeInTheDocument();
   });
 
+  test("Is a labelled region", () => {
+    expect(
+      screen.getByRole("region", { name: "regions.projectBar" }),
+    ).toBeInTheDocument();
+  });
+
   test("Project name is editable", () => {
     expect(screen.queryByTitle("header.renameProject")).toBeInTheDocument();
   });

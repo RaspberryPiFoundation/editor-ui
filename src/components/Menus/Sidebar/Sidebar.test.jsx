@@ -85,6 +85,12 @@ describe("When project has images", () => {
       expect(screen.queryByTitle("sidebar.collapse")).toBeInTheDocument();
     });
 
+    test("Is a labelled region", () => {
+      expect(
+        screen.getByRole("region", { name: "regions.sidebar" }),
+      ).toBeInTheDocument();
+    });
+
     test("Clicking collapse closes the sidebar panel", () => {
       const collapseButton = screen.getByTitle("sidebar.collapse");
       fireEvent.click(collapseButton);

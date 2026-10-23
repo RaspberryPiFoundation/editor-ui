@@ -78,6 +78,12 @@ describe("Tab interactions", () => {
     expect(screen.queryByText("# Your code here")).toBeInTheDocument();
   });
 
+  test("Is a labelled region", () => {
+    expect(
+      screen.getByRole("region", { name: "regions.inputPanel" }),
+    ).toBeInTheDocument();
+  });
+
   test("Scrolls focussed file into view", () => {
     expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled();
   });

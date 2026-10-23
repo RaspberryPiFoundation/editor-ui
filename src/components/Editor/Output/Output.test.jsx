@@ -47,6 +47,20 @@ describe("Output component", () => {
     expect(container.lastChild).toHaveClass("proj-runner-container");
   });
 
+  test("Is a labelled region", () => {
+    const store = mockStore(initialState);
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Output />
+        </MemoryRouter>
+      </Provider>,
+    );
+    expect(
+      screen.getByRole("region", { name: "regions.outputPanel" }),
+    ).toBeInTheDocument();
+  });
+
   describe("when isEmbedded state is true", () => {
     beforeEach(() => {
       initialState.editor.isEmbedded = true;
