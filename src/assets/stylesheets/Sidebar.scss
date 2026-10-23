@@ -1,10 +1,12 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/mixins" as *;
+@use "./sizes" as *;
 
 $sidebar-min-width: 350px;
 $block-editor-min-width: 1024px;
-$sidebar-gap: 16px;
-$small-sidebar-breakpoint: calc($sidebar-min-width + $block-editor-min-width + $sidebar-gap);
+$small-sidebar-breakpoint: calc(
+  $sidebar-min-width + $block-editor-min-width + $resize-handle-size
+);
 
 /* Sidebar */
 .sidebar {
