@@ -54,6 +54,12 @@
   --editor-color-text-secondary: var(--rpf-text-secondary);
   --editor-color-tab-background: var(--rpf-off-white);
   --editor-focus-color: var(--rpf-raspberry-800);
+  --editor-color-error-line: color-mix(
+    in srgb,
+    var(--rpf-red-800) 15%,
+    transparent
+  );
+  --editor-color-error-line-bar: var(--rpf-red-900);
 
   --rpf-files-list-item-active: var(--editor-color-theme-tertiary);
   --rpf-files-list-item-hover: var(--editor-color-theme-tertiary);
@@ -85,6 +91,12 @@
   --editor-color-text: var(--rpf-white);
   --editor-color-text-secondary: var(--rpf-text-secondary-darkmode);
   --editor-focus-color: var(--rpf-raspberry-800);
+  --editor-color-error-line: color-mix(
+    in srgb,
+    var(--rpf-red-900) 30%,
+    transparent
+  );
+  --editor-color-error-line-bar: var(--rpf-red-600);
 
   --rpf-files-list-item-active: var(--editor-color-layer-2);
   --rpf-files-list-item-hover: var(--editor-color-layer-2);
@@ -164,5 +176,15 @@
     &:disabled {
       --rpf-button-text-color: transparent;
     }
+  }
+}
+
+@supports not (color: color-mix(in srgb, red, blue)) {
+  .--light {
+    --editor-color-error-line: hsla(1, 87%, 63%, 0.15); // --rpf-red-800
+  }
+
+  .--dark {
+    --editor-color-error-line: hsla(1, 52%, 50%, 0.3); // --rpf-red-900
   }
 }
