@@ -126,6 +126,7 @@ export const editorInitialState = {
   selectedSidebarOption: undefined,
   modals: {},
   errorDetails: {},
+  errorLineDismissed: false,
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
   initialProjectName: undefined,
@@ -444,6 +445,10 @@ const EditorSlice = createSlice({
     },
     setErrorDetails: (state, action) => {
       state.errorDetails = action.payload;
+      state.errorLineDismissed = false;
+    },
+    dismissErrorLine: (state) => {
+      state.errorLineDismissed = true;
     },
   },
   extraReducers: (builder) => {
@@ -564,6 +569,7 @@ export const {
   setSidebarOption,
   disableTheming,
   setErrorDetails,
+  dismissErrorLine,
   setFriendlyError,
   setAiErrorsEnabled,
 } = EditorSlice.actions;
