@@ -180,7 +180,7 @@ export const useScratchSaveState = ({
         case "scratch-gui-remixing-failed":
           lifecycle.clearAutoSaveTimeout();
           lifecycle.markAutosaveFailed(currentSaveIsAutosaveRef.current);
-          dispatch(scratchSaveFailed());
+          dispatch(scratchSaveFailed({ reason: event.data?.reason }));
           flushQueuedSave();
           break;
         default:

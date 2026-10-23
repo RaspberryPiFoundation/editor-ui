@@ -263,13 +263,15 @@ const EditorSlice = createSlice({
       state.lastSaveAutosave = action.payload?.autosave ?? true;
       state.saving = "success";
       state.lastSavedTime = Date.now();
+      state.saveError = "";
     },
-    scratchSaveFailed: (state) => {
+    scratchSaveFailed: (state, action) => {
       if (!isScratchProject(state)) {
         return;
       }
 
       state.saving = "failed";
+      state.saveError = action.payload?.reason ?? "";
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
