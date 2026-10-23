@@ -189,37 +189,29 @@ There are several mechanisms that can be utilised to style part or all of the we
 
 The [WebComponentLoader](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/containers/WebComponentLoader.jsx) applies internal styles (from within the `editor-ui` repo) and external styles (related to external libraries) to the web component. This is necessary because the HTML that makes up the web component is mounted inside a shadow DOM, so only styles specificly applied within the shadow DOM will be utilised. This means that any stylesheets added to the project must be explicitly imported in [`InternalStyles.scss`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/InternalStyles.scss), and stylesheets from external libraries such as those providing ready-made React components may need to be imported in [`ExternalStyles`](https://github.com/RaspberryPiFoundation/editor-ui/blob/main/src/assets/stylesheets/ExternalStyles.scss) to work.
 
-To account for the fact that different host pages may have varying base font sizes and spacing variables, a `--scale-factor` is being used to scale the font and spacing variables in the web component. This allows the web component to make use of existing font and spacing variables from the host page, alongside the `em` unit. However, use of the `rem` unit should be avoided because it cannot be overwritten in the shadow DOM. Wherever possible, existing calculations using the `--scale-factor` or `em` should be used instead, but beware of nested relative styling, which may scale variables more than once.
-
 #### Styling externally
 
-Styles from the parent application can be passed to the web component in a few different ways:
+The shadow DOM prevents selectors in the parent page from targeting most of the web component's internal elements. Inherited CSS properties and custom properties set on the host element still inherit into its shadow tree unless an internal style overrides them.
 
-- The web component utilises a shadow DOM, this creates a shadow root element in the DOM which is separate from the main DOM. It does however copy and create a new DOM tree from the main DOM with all styles applied to the root in the main DOM available in the shadow root.
+##### Styling the host element
 
-- A class can be applied to the custom element `wc-editor` which allows the parent application to style the web component container. This can be done by using the `class` attribute on the custom element. **NB** This attribute is `class` **NOT** `className`.
+A class can be applied to the `editor-wc` element, allowing the parent application to style the web component container. Use the `class` attribute rather than React's `className` prop.
 
-- Other styles from the parent application will not be inherited by the web component. However, the web component can be styled by the parent application by using the `::part` pseudo-element selector. This allows the parent application to style the web component by targeting the web component's shadow DOM. For example, the following CSS will style the web component's `#root` element (due to the part attribute definition in [web-component.js](./src/web-component.js)):
+##### Styling exposed parts
 
-```scss
-::part(editor-root) {
-  // allows variables to be passed into the shadow dom
-  @include sauce-theme-primary-vars();
-  @include sauce-theme-secondary-vars();
-  // allows you to set custom variables inside the shadow dom
-  --editor-primary-theme: var(--theme-primary);
-  --editor-secondary-theme: var(--theme-secondary);
-  // background: var(--theme-secondary); // variables can then be applied inside the shadow dom
-  // enables the parent application to control the size of the web components root element
+The parent application can use the `::part` pseudo-element to target elements explicitly exposed from the shadow DOM. For example, this CSS styles the component's `#root` element, which [web-component.jsx](./src/web-component.jsx) exposes as `editor-root`:
+
+```css
+editor-wc::part(editor-root) {
   display: block;
   flex: 1 1 auto;
   max-block-size: 100dvh;
 }
 ```
 
-##### Custom properties
+##### Customising with custom properties
 
-The web component supports these custom properties. This list is not complete.
+Custom properties let the parent application adjust supported parts of the editor's appearance without relying on its internal elements or structure. Set them on `editor-wc` so they inherit into the shadow DOM. The currently documented properties are:
 
 | Property                      | Default          | Use                                                                                    |
 | ----------------------------- | ---------------- | -------------------------------------------------------------------------------------- |
