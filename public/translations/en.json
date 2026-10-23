@@ -203,7 +203,8 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted"
+      "interrupted": "Execution interrupted",
+      "aiComingSoon": "AI support coming soon"
     },
     "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Preview in new tab",

@@ -84,6 +84,7 @@ The editor web component can be included in a page using the `<editor-wc>` HTML 
 
 The `editor-wc` tag accepts the following attributes, which must be provided as strings or booleans:
 
+- `ai_errors_enabled`: Enable AI powered help with errors (defaults to `false`)
 - `assets_identifier`: Load assets (not code) from this project identifier
 - `auth_key`: Authenticate the user to allow them to make API requests such as saving their work
 - `code`: A preset blob of code to show in the editor pane (overrides content of `main.py`/`index.html`)

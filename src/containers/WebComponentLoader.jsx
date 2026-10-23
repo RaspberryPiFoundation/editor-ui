@@ -10,6 +10,7 @@ import {
   setScratchApiEndpoint,
   setReadOnly,
   setPreview,
+  setAiErrorsEnabled,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
@@ -73,6 +74,7 @@ const WebComponentLoader = (props) => {
     loadCache = true, // Always use cache unless explicitly disabled
     initialProject = null,
     offlineEnabled = false,
+    aiErrorsEnabled = false,
   } = props;
   const dispatch = useDispatch();
 
@@ -219,6 +221,10 @@ const WebComponentLoader = (props) => {
   useEffect(() => {
     dispatch(setOfflineEnabled(offlineEnabled));
   }, [offlineEnabled, dispatch]);
+
+  useEffect(() => {
+    dispatch(setAiErrorsEnabled(aiErrorsEnabled));
+  }, [aiErrorsEnabled, dispatch]);
 
   const webComponentStyles = (
     <>
