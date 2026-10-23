@@ -311,6 +311,44 @@ describe("When there is a Python error", () => {
     expect(highlightedLineNumber()).not.toBeInTheDocument();
   });
 
+  test("Editing the file stops the highlight coming back when the editor is rebuilt", () => {
+    renderWithErrorDetails();
+    setErrorLine(2);
+
+    fireEvent.paste(screen.getByLabelText("editorPanel.ariaLabel"), {
+      clipboardData: { getData: () => "z" },
+    });
+    act(() => {
+      cookies.set("theme", "dark");
+    });
+
+    expect(store.getState().editor.errorLineDismissed).toBe(true);
+    expect(highlightedLine()).not.toBeInTheDocument();
+  });
+
+  test("Editing a different file does not dismiss the error", () => {
+    renderWithErrorDetails({ fileName: "helper" });
+    setErrorLine(2, "main.py");
+
+    fireEvent.paste(screen.getByLabelText("editorPanel.ariaLabel"), {
+      clipboardData: { getData: () => "z" },
+    });
+
+    expect(store.getState().editor.errorLineDismissed).toBe(false);
+  });
+
+  test("A new error is highlighted after the last one was dismissed", () => {
+    renderWithErrorDetails();
+    setErrorLine(2);
+    fireEvent.paste(screen.getByLabelText("editorPanel.ariaLabel"), {
+      clipboardData: { getData: () => "z" },
+    });
+
+    setErrorLine(3);
+
+    expect(highlightedLine()).toHaveTextContent("print('three')");
+  });
+
   test("Running the code again clears the highlight", () => {
     renderWithErrorDetails();
     setErrorLine(2);
