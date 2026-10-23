@@ -177,10 +177,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     }
   }, [file, cascadeUpdate, editorViewRef]);
 
-  // Highlight the line a Python error points at, if it's in this file.
+  // Highlight the line an error points at, if it's in this file.
   useEffect(() => {
     const view = editorViewRef.current;
-    if (!view || extension !== "py") {
+    if (!view) {
       return;
     }
     const errorLine =
