@@ -1049,6 +1049,78 @@ describe("initialComponents snapshot", () => {
     const failedState = reducer(savedState, scratchSaveFailed());
     expect(failedState.saving).toBe("failed");
   });
+
+  test("records the reason a scratch save failed", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    expect(failedState.saveError).toBe("assetTooLarge");
+  });
+
+  test("records no reason when a scratch save fails for another cause", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(initialState, scratchSaveFailed());
+    expect(failedState.saveError).toBe("");
+  });
+
+  test("clears the failure reason once a scratch save succeeds", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    const savedState = reducer(
+      failedState,
+      scratchSaveSucceeded({ autosave: true }),
+    );
+
+    expect(savedState.saveError).toBe("");
+  });
+
+  test("keeps the failure reason when a scratch save is retried", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    const retryingState = reducer(failedState, scratchSaveStarted());
+
+    expect(retryingState.saveError).toBe("assetTooLarge");
+  });
 });
 
 describe("saveProject/fulfilled for a project that already has an identifier", () => {
