@@ -1,22 +1,20 @@
 import { describe, expect, it } from "vitest";
 import {
   ASSET_TOO_LARGE,
+  PROJECT_TOO_LARGE,
   createAssetUploadErrorTracker,
-  isAssetTooLargeError,
+  getErrorType,
 } from "./assetUploadError.js";
 
 describe("isAssetTooLargeError", () => {
-  it("matches the status code scratch-storage rejects with", () => {
-    expect(isAssetTooLargeError(413)).toBe(true);
-  });
-
-  it("matches an error object carrying the status", () => {
-    expect(isAssetTooLargeError({ status: 413 })).toBe(true);
+  it("matches the status codes scratch-storage rejects with", () => {
+    expect(getErrorType(413)).toBe(ASSET_TOO_LARGE);
+    expect(getErrorType(422)).toBe(PROJECT_TOO_LARGE);
   });
 
   it("does not match other statuses", () => {
-    expect(isAssetTooLargeError(500)).toBe(false);
-    expect(isAssetTooLargeError(409)).toBe(false);
+    expect(getErrorType(500)).toBe(null);
+    expect(getErrorType(409)).toBe(null);
   });
 });
 
