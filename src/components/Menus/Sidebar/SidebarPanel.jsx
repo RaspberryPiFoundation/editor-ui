@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
+import { useSelector } from "react-redux";
 import classNames from "classnames";
 import PropTypes from "prop-types";
-import {
-  MOBILE_MEDIA_QUERY,
-  SMALL_SCREEN_MEDIA_QUERY,
-} from "../../../utils/mediaQueryBreakpoints";
+import { MOBILE_MEDIA_QUERY } from "../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import {
   SidebarActiveOptionContext,
@@ -14,6 +12,20 @@ import {
 } from "./sidebarTabIds";
 
 const MIN_WIDTH = "280px";
+
+export const SMALL_SIDEBAR_PROJECT_TYPE_BREAKPOINTS = {
+  code_editor_scratch: "(max-width: 1430px)",
+};
+
+export const SMALL_SIDEBAR_PROJECT_TYPE = "(max-width: 1146px)";
+
+export const sidebarStartingWidth = (projectType, defaultWidth) => {
+  const breakpoint =
+    SMALL_SIDEBAR_PROJECT_TYPE_BREAKPOINTS[projectType] ||
+    SMALL_SIDEBAR_PROJECT_TYPE;
+
+  return window.matchMedia(breakpoint).matches ? MIN_WIDTH : defaultWidth;
+};
 
 const SidebarPanel = (props) => {
   const {
@@ -26,6 +38,7 @@ const SidebarPanel = (props) => {
     panelRef,
     defaultWidth = "320px",
   } = props;
+  const projectType = useSelector((state) => state.editor.project.project_type);
   const activeOption = useContext(SidebarActiveOptionContext);
   const tabpanelProps = activeOption
     ? {
@@ -36,10 +49,8 @@ const SidebarPanel = (props) => {
       }
     : {};
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
-  const [initialWidth] = useState(() =>
-    window.matchMedia(SMALL_SCREEN_MEDIA_QUERY).matches
-      ? MIN_WIDTH
-      : defaultWidth,
+  const [initialWidth] = useState(
+    sidebarStartingWidth(projectType, defaultWidth),
   );
 
   const buttonsIsEmptyArray =

@@ -10,6 +10,7 @@ import reducer, {
   setLoadRemixDisabled,
   setIsOutputOnly,
   setErrorDetails,
+  dismissErrorLine,
   setReadOnly,
   setPreview,
   setOfflineEnabled,
@@ -115,6 +116,7 @@ test("Action setErrorDetails sets errorDetails to true", () => {
   };
   const expectedState = {
     errorDetails: { type: "Interrupted", message: "Some error message" },
+    errorLineDismissed: false,
   };
   expect(
     reducer(
@@ -122,6 +124,24 @@ test("Action setErrorDetails sets errorDetails to true", () => {
       setErrorDetails({ type: "Interrupted", message: "Some error message" }),
     ),
   ).toEqual(expectedState);
+});
+
+test("Action setErrorDetails resets a dismissed error line", () => {
+  const previousState = {
+    errorDetails: { type: "NameError", line: 2, file: "main.py" },
+    errorLineDismissed: true,
+  };
+  const expectedState = {
+    errorDetails: {},
+    errorLineDismissed: false,
+  };
+  expect(reducer(previousState, setErrorDetails({}))).toEqual(expectedState);
+});
+
+test("Action dismissErrorLine sets errorLineDismissed to true", () => {
+  const previousState = { errorLineDismissed: false };
+  const expectedState = { errorLineDismissed: true };
+  expect(reducer(previousState, dismissErrorLine())).toEqual(expectedState);
 });
 
 test("Action setReadOnly correctly sets readOnly", () => {
@@ -1028,6 +1048,78 @@ describe("initialComponents snapshot", () => {
 
     const failedState = reducer(savedState, scratchSaveFailed());
     expect(failedState.saving).toBe("failed");
+  });
+
+  test("records the reason a scratch save failed", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    expect(failedState.saveError).toBe("assetTooLarge");
+  });
+
+  test("records no reason when a scratch save fails for another cause", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(initialState, scratchSaveFailed());
+    expect(failedState.saveError).toBe("");
+  });
+
+  test("clears the failure reason once a scratch save succeeds", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    const savedState = reducer(
+      failedState,
+      scratchSaveSucceeded({ autosave: true }),
+    );
+
+    expect(savedState.saveError).toBe("");
+  });
+
+  test("keeps the failure reason when a scratch save is retried", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    const retryingState = reducer(failedState, scratchSaveStarted());
+
+    expect(retryingState.saveError).toBe("assetTooLarge");
   });
 });
 

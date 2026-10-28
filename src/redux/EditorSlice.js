@@ -126,6 +126,7 @@ export const editorInitialState = {
   selectedSidebarOption: undefined,
   modals: {},
   errorDetails: {},
+  errorLineDismissed: false,
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
   initialProjectName: undefined,
@@ -264,13 +265,15 @@ const EditorSlice = createSlice({
       state.lastSaveAutosave = action.payload?.autosave ?? true;
       state.saving = "success";
       state.lastSavedTime = Date.now();
+      state.saveError = "";
     },
-    scratchSaveFailed: (state) => {
+    scratchSaveFailed: (state, action) => {
       if (!isScratchProject(state)) {
         return;
       }
 
       state.saving = "failed";
+      state.saveError = action.payload?.reason ?? "";
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
@@ -444,6 +447,10 @@ const EditorSlice = createSlice({
     },
     setErrorDetails: (state, action) => {
       state.errorDetails = action.payload;
+      state.errorLineDismissed = false;
+    },
+    dismissErrorLine: (state) => {
+      state.errorLineDismissed = true;
     },
   },
   extraReducers: (builder) => {
@@ -564,6 +571,7 @@ export const {
   setSidebarOption,
   disableTheming,
   setErrorDetails,
+  dismissErrorLine,
   setFriendlyError,
   setAiErrorsEnabled,
 } = EditorSlice.actions;

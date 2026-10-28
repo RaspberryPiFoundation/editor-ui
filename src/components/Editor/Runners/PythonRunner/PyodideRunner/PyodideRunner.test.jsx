@@ -18,6 +18,7 @@ import {
 import {
   resetState,
   setError,
+  setErrorDetails,
   triggerCodeRun,
   setProject,
   setLoadedRunner,
@@ -535,6 +536,18 @@ describe("When an error is received", () => {
       payload:
         "SyntaxError: something's wrong on line 2 of main.py:\nif score = 10:\n   ^^^^^^^^^^",
     });
+  });
+
+  test("it dispatches action to set the error details with the line and file", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      setErrorDetails(
+        expect.objectContaining({
+          type: "SyntaxError",
+          line: 2,
+          file: "main.py",
+        }),
+      ),
+    );
   });
 
   describe("When friendly errors are enabled", () => {

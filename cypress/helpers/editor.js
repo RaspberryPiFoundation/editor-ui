@@ -69,6 +69,8 @@ export const getTurtleOutput = () => getEditorShadow().find("#turtleOutput");
 export const getErrorMessage = () =>
   getEditorShadow().find(".error-message__python");
 
+export const getErrorLine = () => getEditorShadow().find(".cm-error-line");
+
 export const getFriendlyErrorMessage = () =>
   getEditorShadow().find(".friendly-error-message");
 

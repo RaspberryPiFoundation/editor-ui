@@ -4,26 +4,13 @@ import { useCallback, useRef, useEffect, useState } from "react";
 
 import WrapperdScratchGui from "./WrappedScratchGui.jsx";
 import { postScratchGuiEvent, allowedParentOrigin } from "./utils/events.js";
-
-const handleRemixingStarted = () =>
-  postScratchGuiEvent("scratch-gui-remixing-started");
+import { createAssetUploadErrorTracker } from "./utils/assetUploadError.js";
 
 const handleRemixingSucceeded = () =>
   postScratchGuiEvent("scratch-gui-remixing-succeeded");
 
-const handleSavingStarted = () =>
-  postScratchGuiEvent("scratch-gui-saving-started");
-
 const handleSavingSucceeded = () =>
   postScratchGuiEvent("scratch-gui-saving-succeeded");
-
-const handleScratchGuiAlert = (alertType) => {
-  if (alertType === "savingError") {
-    postScratchGuiEvent("scratch-gui-saving-failed");
-  } else if (alertType === "creatingError") {
-    postScratchGuiEvent("scratch-gui-remixing-failed");
-  }
-};
 
 const ScratchEditor = ({
   projectId,
@@ -36,6 +23,10 @@ const ScratchEditor = ({
   const [currentProjectId, setCurrentProjectId] = useState(projectId);
 
   const scratchFetchApiRef = useRef(null);
+  const assetErrorRef = useRef(null);
+  if (!assetErrorRef.current) {
+    assetErrorRef.current = createAssetUploadErrorTracker();
+  }
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -63,6 +54,45 @@ const ScratchEditor = ({
     });
   }, []);
 
+  const handleStorageInit = useCallback(
+    (storage) => {
+      scratchFetchApiRef.current = storage.scratchFetch;
+      scratchFetchApiRef.current.setMetadata("X-Project-Locale", projectLocale);
+      if (accessToken) {
+        scratchFetchApiRef.current.setMetadata("Authorization", accessToken);
+      }
+
+      const originalStore = storage.store.bind(storage);
+      storage.store = (...args) =>
+        originalStore(...args).catch((error) => {
+          assetErrorRef.current.record(error);
+          throw error;
+        });
+    },
+    [accessToken, projectLocale],
+  );
+
+  const handleSavingStarted = useCallback(() => {
+    assetErrorRef.current.clear();
+    postScratchGuiEvent("scratch-gui-saving-started");
+  }, []);
+
+  const handleRemixingStarted = useCallback(() => {
+    assetErrorRef.current.clear();
+    postScratchGuiEvent("scratch-gui-remixing-started");
+  }, []);
+
+  const handleScratchGuiAlert = useCallback((alertType) => {
+    const reason = assetErrorRef.current.consume();
+    const payload = reason ? { reason } : {};
+
+    if (alertType === "savingError") {
+      postScratchGuiEvent("scratch-gui-saving-failed", payload);
+    } else if (alertType === "creatingError") {
+      postScratchGuiEvent("scratch-gui-remixing-failed", payload);
+    }
+  }, []);
+
   const handleUpdateProjectData = useCallback(
     async (currentProjectId, vmState, params) => {
       return scratchProjectSave({
@@ -85,16 +115,7 @@ const ScratchEditor = ({
       projectHost={`${apiUrl}/api/scratch/projects`}
       assetHost={`${apiUrl}/api/scratch/assets`}
       basePath={`${import.meta.env.REACT_APP_SCRATCH_FRAME_URL}/scratch-gui/`}
-      onStorageInit={(storage) => {
-        scratchFetchApiRef.current = storage.scratchFetch;
-        scratchFetchApiRef.current.setMetadata(
-          "X-Project-Locale",
-          projectLocale,
-        );
-        if (accessToken) {
-          scratchFetchApiRef.current.setMetadata("Authorization", accessToken);
-        }
-      }}
+      onStorageInit={handleStorageInit}
       onUpdateProjectData={handleUpdateProjectData}
       onUpdateProjectId={handleUpdateProjectId}
       onShowCreatingRemixAlert={handleRemixingStarted}

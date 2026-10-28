@@ -1,4 +1,5 @@
 import {
+  getErrorLine,
   getErrorMessage,
   getFriendlyErrorMessage,
   getP5Canvas,
@@ -157,7 +158,7 @@ describe("Running the code with skulpt", () => {
     getTurtleOutput().should("exist");
   });
 
-  it("includes an explanation of import errors if cross-origin isolated", () => {
+  it("explains and highlights an import error when cross-origin isolated", () => {
     cy.window().then((win) => {
       Object.defineProperty(win, "crossOriginIsolated", {
         value: true,
@@ -171,6 +172,7 @@ describe("Running the code with skulpt", () => {
       "contain.text",
       "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.",
     );
+    getErrorLine().should("have.length", 1).and("contain", "import matplotlib");
   });
 });
 

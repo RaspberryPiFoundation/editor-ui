@@ -1,6 +1,12 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 @use "./rpf_design_system/mixins" as *;
-@use "./breakpoints" as *;
+@use "./sizes" as *;
+
+$sidebar-min-width: 350px;
+$block-editor-min-width: 1024px;
+$small-sidebar-breakpoint: calc(
+  $sidebar-min-width + $block-editor-min-width + $resize-handle-size
+);
 
 /* Sidebar */
 .sidebar {
@@ -28,7 +34,7 @@
   margin: var(--space-1-5);
   display: var(--editor-logo-display, inherit);
 
-  @include unique-max-width($stacked-editor-max-width) {
+  @include unique-max-width($small-sidebar-breakpoint) {
     block-size: var(--space-4);
     inline-size: var(--space-4);
     margin: var(--space-1) var(--space-0-5);
@@ -87,7 +93,7 @@
   padding: var(--space-1);
   border: 1px solid transparent;
 
-  @include unique-max-width($stacked-editor-max-width) {
+  @include unique-max-width($small-sidebar-breakpoint) {
     padding: var(--space-0-5);
   }
 
@@ -108,7 +114,7 @@
       block-size: 60px;
       background-color: var(--sidebar-panel-background);
 
-      @include unique-max-width($stacked-editor-max-width) {
+      @include unique-max-width($small-sidebar-breakpoint) {
         inset-block: -4px -1px;
         inset-inline-end: -8px;
         block-size: 40px;
@@ -136,7 +142,7 @@
     margin: 0;
   }
 
-  @include unique-max-width($stacked-editor-max-width) {
+  @include unique-max-width($small-sidebar-breakpoint) {
     &.btn {
       min-block-size: 32px;
       min-inline-size: 32px;

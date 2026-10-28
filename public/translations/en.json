@@ -193,7 +193,12 @@
     "steps": "Steps"
   },
   "modals": {
-    "close": "Close"
+    "close": "Close",
+    "accept": "OK",
+    "scratchAssetTooLarge": {
+      "heading": "Your project could not be saved",
+      "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+    }
   },
   "notifications": {
     "close": "close",

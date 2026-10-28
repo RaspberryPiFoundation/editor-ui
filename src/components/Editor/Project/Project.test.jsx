@@ -7,6 +7,8 @@ import Project from "./Project";
 import { showSavedMessage } from "../../../utils/Notifications";
 import { MemoryRouter } from "react-router-dom";
 import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
+import { renderWithProviders } from "../../../utils/renderWithProviders";
+import { editorInitialState } from "../../../redux/EditorSlice";
 
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
@@ -280,4 +282,33 @@ test("Successful manual save prompts project saved message", async () => {
     </Provider>,
   );
   await waitFor(() => expect(showSavedMessage).toHaveBeenCalled());
+});
+
+test("Oversized asset save failure opens the error modal", async () => {
+  renderWithProviders(
+    <MemoryRouter>
+      <div id="app">
+        <Project />
+      </div>
+    </MemoryRouter>,
+    {
+      preloadedState: {
+        editor: {
+          ...editorInitialState,
+          project: { components: [], project_type: "code_editor_scratch" },
+          saving: "failed",
+          saveError: "assetTooLarge",
+        },
+      },
+    },
+  );
+
+  await waitFor(() =>
+    expect(
+      screen.queryByText("modals.scratchAssetTooLarge.heading"),
+    ).toBeInTheDocument(),
+  );
+  expect(
+    screen.queryByText("modals.scratchAssetTooLarge.text"),
+  ).toBeInTheDocument();
 });
