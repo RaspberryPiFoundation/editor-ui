@@ -113,15 +113,17 @@ const ProjectBar = ({ nameEditable = true }) => {
                 : lastSavedTime && <SaveStatus />)}
           </>
         )}
-        <Button
-          aria-label={fullscreenText}
-          title={fullscreenText}
-          icon={isFullscreen ? <FullscreenExit /> : <FullscreenEnter />}
-          iconOnly={true}
-          size="small"
-          text={fullscreenText}
-          onClick={toggleFullscreen}
-        />
+        {document.fullscreenEnabled && (
+          <Button
+            aria-label={fullscreenText}
+            title={fullscreenText}
+            icon={isFullscreen ? <FullscreenExit /> : <FullscreenEnter />}
+            iconOnly={true}
+            size="small"
+            text={fullscreenText}
+            onClick={toggleFullscreen}
+          />
+        )}
       </div>
     </div>
   );

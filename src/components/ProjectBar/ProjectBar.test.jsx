@@ -327,7 +327,15 @@ describe("Fullscreen button", () => {
     });
   };
 
+  const setFullscreenEnabled = (enabled) => {
+    Object.defineProperty(document, "fullscreenEnabled", {
+      configurable: true,
+      value: enabled,
+    });
+  };
+
   beforeEach(() => {
+    setFullscreenEnabled(true);
     setFullscreenElement(null);
     document.documentElement.requestFullscreen = vi.fn();
     document.exitFullscreen = vi.fn();
@@ -335,6 +343,7 @@ describe("Fullscreen button", () => {
   });
 
   afterEach(() => {
+    delete document.fullscreenEnabled;
     delete document.fullscreenElement;
     delete document.documentElement.requestFullscreen;
     delete document.exitFullscreen;
@@ -372,5 +381,19 @@ describe("Fullscreen button", () => {
       screen.getByRole("button", { name: "header.exitFullscreen" }),
     );
     expect(document.exitFullscreen).toHaveBeenCalled();
+  });
+});
+
+describe("When fullscreen is not supported", () => {
+  test("Fullscreen button is not shown", () => {
+    Object.defineProperty(document, "fullscreenEnabled", {
+      configurable: true,
+      value: false,
+    });
+    renderProjectBar({ editor: { project } });
+    expect(
+      screen.queryByRole("button", { name: "header.enterFullscreen" }),
+    ).not.toBeInTheDocument();
+    delete document.fullscreenEnabled;
   });
 });
