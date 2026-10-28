@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import SaveStatus from "../SaveStatus/SaveStatus";
 import OfflineBadge from "../OfflineBadge/OfflineBadge";
 import DownloadIcon from "../../assets/icons/download.svg";
 import UploadIcon from "../../assets/icons/upload.svg";
+import FullscreenEnter from "../../assets/icons/fullscreen-enter.svg";
+import FullscreenExit from "../../assets/icons/fullscreen-exit.svg";
 import ProjectName from "../ProjectName/ProjectName";
 import DownloadButton from "../DownloadButton/DownloadButton";
 import SaveButton from "../SaveButton/SaveButton";
@@ -16,6 +18,7 @@ import { usePreviewMode } from "../../hooks/usePreviewMode";
 
 import "../../assets/stylesheets/ProjectBar.scss?inline";
 import { isOwner } from "../../utils/projectHelpers";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 const ProjectBar = ({ nameEditable = true }) => {
   const { t } = useTranslation();
@@ -31,6 +34,31 @@ const ProjectBar = ({ nameEditable = true }) => {
   const isScratchProject = project?.project_type === "code_editor_scratch";
   const isOnline = useIsOnline();
   const [showActionText, projectBarRef] = useContainerMinWidth(560);
+  const [isFullscreen, setIsFullscreen] = useState(
+    Boolean(document.fullscreenElement),
+  );
+
+  useEffect(() => {
+    const onFullscreenChange = () =>
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, []);
+
+  const fullscreenText = isFullscreen
+    ? t("header.exitFullscreen")
+    : t("header.enterFullscreen");
+
+  const toggleFullscreen = (event) => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+      return;
+    }
+    const root = event.currentTarget.getRootNode();
+    const target = root.host || document.documentElement;
+    target.requestFullscreen();
+  };
 
   if (loading !== "success") {
     return null;
@@ -85,6 +113,15 @@ const ProjectBar = ({ nameEditable = true }) => {
                 : lastSavedTime && <SaveStatus />)}
           </>
         )}
+        <Button
+          aria-label={fullscreenText}
+          title={fullscreenText}
+          icon={isFullscreen ? <FullscreenExit /> : <FullscreenEnter />}
+          iconOnly={true}
+          size="small"
+          text={fullscreenText}
+          onClick={toggleFullscreen}
+        />
       </div>
     </div>
   );
