@@ -82,7 +82,21 @@ describe("ScratchEditor", () => {
 
       expect(postedEvent("scratch-gui-saving-failed")).toEqual({
         type: "scratch-gui-saving-failed",
-        reason: "assetTooLarge",
+        reason: "asset_too_large",
+      });
+    });
+
+    test("reports an oversized project when the save fails", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(422));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(422);
+      scratchGuiProps.onShowAlert("savingError");
+
+      expect(postedEvent("scratch-gui-saving-failed")).toEqual({
+        type: "scratch-gui-saving-failed",
+        reason: "project_too_large",
       });
     });
 
@@ -109,7 +123,21 @@ describe("ScratchEditor", () => {
 
       expect(postedEvent("scratch-gui-remixing-failed")).toEqual({
         type: "scratch-gui-remixing-failed",
-        reason: "assetTooLarge",
+        reason: "asset_too_large",
+      });
+    });
+
+    test("reports an oversized project when a remix fails", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(413));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(413);
+      scratchGuiProps.onShowAlert("creatingError");
+
+      expect(postedEvent("scratch-gui-remixing-failed")).toEqual({
+        type: "scratch-gui-remixing-failed",
+        reason: "asset_too_large",
       });
     });
 

@@ -111,7 +111,7 @@ jobs:
     needs: setup-environment
     environment:
       name: ${{ inputs.environment }}
-      url: ${{ needs.setup-environment.outputs.public_url }}
+      url: ${{ needs.setup-environment.outputs.public_url }}/web-component.html
     env:
       HAS_CLOUDFLARE_SECRETS: ${{ secrets.CLOUDFLARE_ZONE_ID != '' && secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:

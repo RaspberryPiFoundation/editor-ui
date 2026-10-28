@@ -49,7 +49,7 @@ const Project = (props) => {
   const [saveErrorModalOpen, setSaveErrorModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isCodeEditorScratchProject && saveError === "assetTooLarge") {
+    if (isCodeEditorScratchProject && !!saveError) {
       setSaveErrorModalOpen(true);
     }
   }, [isCodeEditorScratchProject, saveError]);
@@ -107,9 +107,16 @@ const Project = (props) => {
         <GeneralModal
           isOpen={saveErrorModalOpen}
           className="save-error-modal"
-          heading={t("modals.scratchAssetTooLarge.heading")}
+          heading={t("modals.projectSaveFailed.heading")}
           closeModal={() => setSaveErrorModalOpen(false)}
-          text={[{ content: t("modals.scratchAssetTooLarge.text") }]}
+          text={[
+            {
+              content:
+                saveError === "asset_too_large"
+                  ? t("modals.projectSaveFailed.scratchAssetTooLarge.text")
+                  : t("modals.projectSaveFailed.scratchProjectTooLarge.text"),
+            },
+          ]}
           buttons={[
             <DesignSystemButton
               key="accept"

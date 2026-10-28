@@ -248,7 +248,8 @@ const Sidebar = ({
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
-    <div
+    <section
+      aria-label={t("regions.sidebar")}
       className={classNames("sidebar", {
         "sidebar--mobile": isMobile,
         "sidebar--scratch": projectType === "code_editor_scratch",
@@ -270,7 +271,7 @@ const Sidebar = ({
           </SidebarActiveOptionContext.Provider>
         )}
       </SidebarBar>
-    </div>
+    </section>
   );
 };
 

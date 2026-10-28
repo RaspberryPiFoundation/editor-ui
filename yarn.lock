@@ -2457,20 +2457,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^2.4.10":
-  version: 2.4.10
-  resolution: "@raspberrypifoundation/design-system-core@npm:2.4.10"
+"@raspberrypifoundation/design-system-core@npm:^2.5.2":
+  version: 2.6.0
+  resolution: "@raspberrypifoundation/design-system-core@npm:2.6.0"
   dependencies:
     classnames: "npm:^2.3.2"
-  checksum: 10/d23850a2f04984f8f96f494481811215c1ceb24c013c95bdbe3cc94a8d6de584540e6d627839ebc4228e94682499c703328b43da202e70b374c5bd546e344e00
+  checksum: 10/8a59304246b126225c67b3186bbf8b5374259513d7221dab20903f9fa11fdfbf9826c693fb1631b1459ee3959e030464d5832dbd91a199021f1adc71e9ea0aed
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^2.10.4":
-  version: 2.10.4
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.10.4"
+"@raspberrypifoundation/design-system-react@npm:^2.13.0":
+  version: 2.13.0
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.13.0"
   dependencies:
-    "@raspberrypifoundation/design-system-core": "npm:^2.4.10"
+    "@raspberrypifoundation/design-system-core": "npm:^2.5.2"
     classnames: "npm:^2.5.1"
     lucide-react: "npm:^0.553.0"
   peerDependencies:
@@ -2482,7 +2482,7 @@ __metadata:
       optional: false
     react-dom:
       optional: false
-  checksum: 10/f5f23416d41d524c0d0222814f3be4a87df445d305430cbaa46ce8ae598dfa754ef1e1feaec7c9b2fdededf63045482383d5076af7d4bf32cf2b2fd701f4a4ae
+  checksum: 10/faf95fe734e8160b5428e9317c960e7ab9843998c2c7b95bfa3fb589e1b85e457cbaee1583bd7c9bc718d99c2b9cf7bc30923f97ec96a6a4bd215a7bc6307abc
   languageName: node
   linkType: hard
 
@@ -2500,7 +2500,7 @@ __metadata:
     "@codemirror/view": "npm:^6.43.12"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
-    "@raspberrypifoundation/design-system-react": "npm:^2.10.4"
+    "@raspberrypifoundation/design-system-react": "npm:^2.13.0"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
     "@raspberrypifoundation/rpf-markdown-core": "npm:^0.2.2"
     "@react-three/drei": "npm:^10.7.8"
@@ -2528,7 +2528,7 @@ __metadata:
     cypress: "npm:15.21.1"
     cypress-real-events: "npm:^1.15.1"
     date-fns: "npm:^4.4.0"
-    dompurify: "npm:^3.4.16"
+    dompurify: "npm:^3.4.17"
     dotenv: "npm:8.2.0"
     dotenv-expand: "npm:5.1.0"
     eslint: "npm:^7.11.0"
@@ -7279,15 +7279,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.4.16":
-  version: 3.4.16
-  resolution: "dompurify@npm:3.4.16"
+"dompurify@npm:^3.4.17":
+  version: 3.4.17
+  resolution: "dompurify@npm:3.4.17"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10/a571d0e2bede4f739666afd640398a86854abd27c71ce0724910249e2fd2ca7ddb8098a9ab579d3a5b39058419af694421f8fe859a81fd6d8acda16019a8ab9d
+  checksum: 10/ae03c068bd351d1201a24a9667cb302c65939f45a0c357edec8b84133108e19ac74f355c2d8b0f30baadadd7f0be2db300d269aa80d3ee15872712ca9ff4e1a8
   languageName: node
   linkType: hard
 
@@ -8613,9 +8613,9 @@ __metadata:
   linkType: hard
 
 "fast-uri@npm:^3.0.1":
-  version: 3.1.8
-  resolution: "fast-uri@npm:3.1.8"
-  checksum: 10/d3dfa29fd2e5fa2371833699f3f78c975b79f65e52e0ce37604db10dffb85b5b448b5075e93453272cb95fb1c6a759495164e60649ffd69e59ec43f20d44f791
+  version: 3.1.9
+  resolution: "fast-uri@npm:3.1.9"
+  checksum: 10/4276cf58661e68b4fefcbc3308a2c8429e5664d2a77b393a79c1cdbe9e5ba80617d27c7ce6685194ae40e4816df73dbd72a0324e5012d94a7e9cf85ee711f658
   languageName: node
   linkType: hard
 
@@ -12318,11 +12318,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^3.0.4, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
-  version: 3.1.2
-  resolution: "minimatch@npm:3.1.2"
+  version: 3.1.5
+  resolution: "minimatch@npm:3.1.5"
   dependencies:
     brace-expansion: "npm:^1.1.7"
-  checksum: 10/e0b25b04cd4ec6732830344e5739b13f8690f8a012d73445a4a19fbc623f5dd481ef7a5827fde25954cd6026fede7574cc54dc4643c99d6c6b653d6203f94634
+  checksum: 10/b11a7ee5773cd34c1a0c8436cdbe910901018fb4b6cb47aa508a18d567f6efd2148507959e35fba798389b161b8604a2d704ccef751ea36bd4582f9852b7d63f
   languageName: node
   linkType: hard
 
@@ -16639,11 +16639,11 @@ __metadata:
   linkType: hard
 
 "systeminformation@npm:^5.31.1":
-  version: 5.33.7
-  resolution: "systeminformation@npm:5.33.7"
+  version: 5.33.16
+  resolution: "systeminformation@npm:5.33.16"
   bin:
     systeminformation: lib/cli.js
-  checksum: 10/8b03e24bcd953a18aba2cbac7061d3a46f2b6deec58e5db54dc2e0d57083e930039a224353d646a4fceb365a93fc6cc0840ee1d7c9ed5e16ded5c38f4dd90e2e
+  checksum: 10/f2c41bebab5e864e781f0f30ab5fc48ddc65e6781da60d2027a2bba33adf16ebcecf450d8d62aa6a831afc4203a545eabece45eeea86c96b80fcc5125577ac14
   conditions: (os=darwin | os=linux | os=win32 | os=freebsd | os=openbsd | os=netbsd | os=sunos | os=android)
   languageName: node
   linkType: hard
@@ -17326,9 +17326,9 @@ __metadata:
   linkType: hard
 
 "undici@npm:^7.21.0, undici@npm:^7.25.0":
-  version: 7.29.1
-  resolution: "undici@npm:7.29.1"
-  checksum: 10/8b9eaf83615e96f83826c9b6b129bd378c26f750f183e931df89bf07dfae24a39736b3648c16c25904e59e34f9e151e7a852c82ef0f1fb8e8a1297c52ff3170c
+  version: 7.30.1
+  resolution: "undici@npm:7.30.1"
+  checksum: 10/306a28e4c715652a0e2cd59bcc98cf8b6083b989151054fafaac27bdab6f2bc7e0f33f5847f72f5ba257971226372d04705e0e984b26b42a03271d5a35eb99b1
   languageName: node
   linkType: hard
 

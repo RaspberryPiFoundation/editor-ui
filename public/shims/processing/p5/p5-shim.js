@@ -1597,6 +1597,16 @@ const $builtinmodule = function (name) {
     window.p5._friendlyError = function (message, func, color) {
       throw new Sk.builtin.Exception(message);
     };
+    // p5.js registers its friendly error monitor on window for the life of
+    // the page, so it sees every error and unhandled rejection not just the
+    // sketch's. With _friendlyError throwing, the listener rethrows unrelated
+    // page errors as Skulpt exceptions that nothing can catch. Sketch errors
+    // are already routed through Sk.uncaughtException, so we can remove it.
+    window.removeEventListener("error", window.p5._fesErrorMonitor);
+    window.removeEventListener(
+      "unhandledrejection",
+      window.p5._fesErrorMonitor,
+    );
     window.p5._clearValidateParamsCache();
 
     mod.p = new window.p5(sketchProc, p5Sketch);

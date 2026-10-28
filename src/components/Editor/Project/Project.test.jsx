@@ -297,7 +297,7 @@ test("Oversized asset save failure opens the error modal", async () => {
           ...editorInitialState,
           project: { components: [], project_type: "code_editor_scratch" },
           saving: "failed",
-          saveError: "assetTooLarge",
+          saveError: "asset_too_large",
         },
       },
     },
@@ -305,10 +305,39 @@ test("Oversized asset save failure opens the error modal", async () => {
 
   await waitFor(() =>
     expect(
-      screen.queryByText("modals.scratchAssetTooLarge.heading"),
+      screen.queryByText("modals.projectSaveFailed.heading"),
     ).toBeInTheDocument(),
   );
   expect(
-    screen.queryByText("modals.scratchAssetTooLarge.text"),
+    screen.queryByText("modals.projectSaveFailed.scratchAssetTooLarge.text"),
+  ).toBeInTheDocument();
+});
+
+test("Oversized project save failure opens the error modal", async () => {
+  renderWithProviders(
+    <MemoryRouter>
+      <div id="app">
+        <Project />
+      </div>
+    </MemoryRouter>,
+    {
+      preloadedState: {
+        editor: {
+          ...editorInitialState,
+          project: { components: [], project_type: "code_editor_scratch" },
+          saving: "failed",
+          saveError: "project_too_large",
+        },
+      },
+    },
+  );
+
+  await waitFor(() =>
+    expect(
+      screen.queryByText("modals.projectSaveFailed.heading"),
+    ).toBeInTheDocument(),
+  );
+  expect(
+    screen.queryByText("modals.projectSaveFailed.scratchProjectTooLarge.text"),
   ).toBeInTheDocument();
 });

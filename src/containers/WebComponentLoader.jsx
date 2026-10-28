@@ -253,6 +253,8 @@ const WebComponentLoader = (props) => {
             position="top-center"
             className="toast--top-center"
             closeButton={ToastCloseButton}
+            // clear react-toastify label so it doesn't show as a landmark
+            aria-label={undefined}
           />
           <WebComponentProject
             locale={locale}

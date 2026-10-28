@@ -325,6 +325,8 @@ const PyodideRunner = ({
         file,
         description: info || mistake || "",
         message: errorMessage,
+        trace: rawTraceback,
+        runtime: "pyodide",
       };
 
       const { createError } = ApiCallHandler({
@@ -600,7 +602,6 @@ const PyodideRunner = ({
                     <RunnerControls skinny />
                   )}
                 </div>
-                <ErrorMessage />
                 <TabPanel key={0}>
                   <pre
                     className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
@@ -608,6 +609,7 @@ const PyodideRunner = ({
                     ref={output}
                   ></pre>
                 </TabPanel>
+                <ErrorMessage />
               </Tabs>
             </div>
           )}
@@ -632,7 +634,6 @@ const PyodideRunner = ({
             {!isEmbedded && hasVisual && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          <ErrorMessage />
           {hasVisual && (
             <TabPanel key={0}>
               <VisualOutputPane visuals={visuals} setVisuals={setVisuals} />
@@ -645,6 +646,7 @@ const PyodideRunner = ({
               ref={output}
             ></pre>
           </TabPanel>
+          <ErrorMessage />
         </Tabs>
       )}
     </div>

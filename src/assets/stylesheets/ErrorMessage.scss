@@ -29,4 +29,12 @@
       @include typography.style-2;
     }
   }
+
+  &__hint {
+    display: flex;
+    justify-content: center;
+    color: var(--rpf-text-secondary);
+    font-size: var(--font-size-0-75);
+    margin: 0;
+  }
 }
