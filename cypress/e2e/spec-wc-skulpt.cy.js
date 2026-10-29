@@ -84,6 +84,31 @@ describe("Running the code with skulpt", () => {
     getErrorMessage().should("contain.text", "ValueError: boom in draw");
   });
 
+  it("does not turn unrelated page errors into Python exceptions", () => {
+    const uncaught = [];
+    cy.on("uncaught:exception", (err) => {
+      uncaught.push(err.message);
+      return false;
+    });
+
+    runCode(
+      "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tbackground(255)\nrun(frame_rate=2)",
+    );
+    getP5Canvas().should("exist");
+
+    cy.window().then((win) => {
+      const error = new win.TypeError("thing.method is not a function");
+      win.dispatchEvent(
+        new win.ErrorEvent("error", { error, message: error.message }),
+      );
+    });
+
+    cy.wrap(uncaught).should((messages) => {
+      expect(messages.filter((m) => /\$d|traceback/.test(m))).to.have.length(0);
+    });
+    getErrorMessage().should("not.exist");
+  });
+
   it("runs a simple py5 program", () => {
     runCode(
       "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
