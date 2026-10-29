@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
@@ -316,5 +316,84 @@ describe("When preview mode", () => {
 
   test("Download button remains available", () => {
     expect(screen.queryByText("header.download")).toBeInTheDocument();
+  });
+});
+
+describe("Fullscreen button", () => {
+  const setFullscreenElement = (element) => {
+    Object.defineProperty(document, "fullscreenElement", {
+      configurable: true,
+      value: element,
+    });
+  };
+
+  const setFullscreenEnabled = (enabled) => {
+    Object.defineProperty(document, "fullscreenEnabled", {
+      configurable: true,
+      value: enabled,
+    });
+  };
+
+  beforeEach(() => {
+    setFullscreenEnabled(true);
+    setFullscreenElement(null);
+    document.documentElement.requestFullscreen = vi.fn();
+    document.exitFullscreen = vi.fn();
+    renderProjectBar({ editor: { project } });
+  });
+
+  afterEach(() => {
+    delete document.fullscreenEnabled;
+    delete document.fullscreenElement;
+    delete document.documentElement.requestFullscreen;
+    delete document.exitFullscreen;
+  });
+
+  test("Enter fullscreen button is shown", () => {
+    expect(
+      screen.getByRole("button", { name: "header.enterFullscreen" }),
+    ).toBeInTheDocument();
+  });
+
+  test("Clicking it requests fullscreen", () => {
+    fireEvent.click(
+      screen.getByRole("button", { name: "header.enterFullscreen" }),
+    );
+    expect(document.documentElement.requestFullscreen).toHaveBeenCalled();
+  });
+
+  test("Shows exit button when fullscreen is entered", () => {
+    setFullscreenElement(document.documentElement);
+    act(() => {
+      document.dispatchEvent(new Event("fullscreenchange"));
+    });
+    expect(
+      screen.getByRole("button", { name: "header.exitFullscreen" }),
+    ).toBeInTheDocument();
+  });
+
+  test("Clicking exit button exits fullscreen", () => {
+    setFullscreenElement(document.documentElement);
+    act(() => {
+      document.dispatchEvent(new Event("fullscreenchange"));
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "header.exitFullscreen" }),
+    );
+    expect(document.exitFullscreen).toHaveBeenCalled();
+  });
+});
+
+describe("When fullscreen is not supported", () => {
+  test("Fullscreen button is not shown", () => {
+    Object.defineProperty(document, "fullscreenEnabled", {
+      configurable: true,
+      value: false,
+    });
+    renderProjectBar({ editor: { project } });
+    expect(
+      screen.queryByRole("button", { name: "header.enterFullscreen" }),
+    ).not.toBeInTheDocument();
+    delete document.fullscreenEnabled;
   });
 });
