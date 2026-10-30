@@ -3,66 +3,66 @@
     "close": "Dún",
     "error": {
       "error": "Earráid",
-      "heading": "An error has occurred",
+      "heading": "Tá earráid tarlaithe",
       "externalLink": {
-        "message": "Unfortunately links to external sites are not available in the Editor."
+        "message": "Ar an drochuair, níl fáil ar naisc chuig suíomhanna seachtracha san Editor."
       }
     }
   },
   "editorPanel": {
-    "ariaLabel": "{{fileName}} editor",
-    "tabExitInstruction": "Press Escape, then Tab to exit.",
-    "characterLimitError": "Error: Character limit reached",
-    "viewOnly": "View only",
+    "ariaLabel": "eagarthóir {{fileName}}",
+    "tabExitInstruction": "Brúigh Éalaigh, ansin Táb le himeacht.",
+    "characterLimitError": "Earráid: Teorainn carachtair sroichte",
+    "viewOnly": "Amharc amháin",
     "close": "dún",
-    "characterLimitExplanation_one": "Files in the editor are limited to {{count}} character",
-    "characterLimitExplanation_two": "Files in the editor are limited to {{count}} characters",
-    "characterLimitExplanation_few": "Files in the editor are limited to {{count}} characters",
-    "characterLimitExplanation_many": "Files in the editor are limited to {{count}} characters",
-    "characterLimitExplanation_other": "Files in the editor are limited to {{count}} characters"
+    "characterLimitExplanation_one": "Tá comhaid san eagarthóir teoranta chuig {{count}} carachtar",
+    "characterLimitExplanation_two": "Tá comhaid san eagarthóir teoranta chuig {{count}} carachtar",
+    "characterLimitExplanation_few": "Tá comhaid san eagarthóir teoranta chuig {{count}} carachtar",
+    "characterLimitExplanation_many": "Tá comhaid san eagarthóir teoranta chuig {{count}} carachtar",
+    "characterLimitExplanation_other": "Tá comhaid san eagarthóir teoranta chuig {{count}} carachtar"
   },
   "filePanel": {
     "errors": {
-      "reservedFileName": "{{fileName}} is a reserved file name. Please choose a different name.",
-      "containsSpaces": "File names must not contain spaces.",
+      "reservedFileName": "Ainm comhaid coimeádta is ea {{fileName}}. Roghnaigh ainm difriúil.",
+      "containsSpaces": "Níor cheart go mbeadh spásanna in ainmneacha comhaid.",
       "generalError": "Earráid",
-      "notUnique": "File names must be unique.",
+      "notUnique": "Ní mór go mbeadh ainmneacha comhaid uathúil.",
       "or": "nó",
-      "unsupportedExtension": "File names must end in {{allowedExtensions}}.",
-      "emptyFileName": "File name cannot be empty."
+      "unsupportedExtension": "Ní mór go mbeadh {{allowedExtensions}} ag deireadh ainmneacha comhaid.",
+      "emptyFileName": "Ní féidir leis an ainm comhaid a bheith folamh."
     },
-    "files": "Project files",
-    "images": "Image gallery",
-    "newFileButton": "Add file",
+    "files": "Comhaid tionscadail",
+    "images": "Gailearaí íomhánna",
+    "newFileButton": "Cuir comhad leis",
     "newFileModal": {
       "cancel": "Cealaigh",
-      "heading": "Add a new file to your project",
-      "helpText": "Remember to add the file extension at the end of your file name, for example, {{examples}}",
+      "heading": "Cuir comhad nua le do thionscadal",
+      "helpText": "Cuimhnigh an síneadh comhaid a chur ag deireadh ainm do chomhaid, mar shampla, {{examples}}",
       "helpTextExample": {
-        "html": "'file.html', 'file.css' or 'file.js'",
+        "html": "'file.html', 'file.css' nó 'file.js'",
         "python": "'file.py'"
       },
-      "inputLabel": "Name your file",
-      "addFile": "Add file"
+      "inputLabel": "Ainmnigh do chomhad",
+      "addFile": "Cuir comhad leis"
     },
     "renameFileModal": {
       "cancel": "Cealaigh",
-      "heading": "Rename file",
-      "inputLabel": "Name your file",
+      "heading": "Athainmnigh comhad",
+      "inputLabel": "Ainmnigh do chomhad",
       "save": "Sábháil"
     },
     "fileMenu": {
-      "label": "Open file menu",
-      "renameItem": "Rename file"
+      "label": "Oscail roghchlár comhaid",
+      "renameItem": "Athainmnigh comhad"
     }
   },
   "downloadPanel": {
-    "heading": "Save & download",
-    "logInTitle": "Log in to save your progress",
-    "logInHint": "With a Raspberry Pi Account you can save your code and project steps progress.",
-    "logInButton": "Log in to save",
+    "heading": "Sábháil agus íoslódáil",
+    "logInTitle": "Logáil isteach chun do dhul chun cinn a shábháil",
+    "logInHint": "Le Cuntas Raspberry Pi féadfaidh tú do chód a shábháil agus téann céimeanna tionscadail chun cinn.",
+    "logInButton": "Logáil isteach le sábháil",
     "signUpButton": "Cláraigh",
-    "downloadHint": "Download your project files so you can use them offline and in a different code editor.",
+    "downloadHint": "Íoslódáil do chomhaid tionscadail ionas gur féidir leat iad a úsáid as líne agus in eagarthóir cóid éagsúil.",
     "downloadButton": "Íoslódáil tionscadal",
     "uploadButton": "Uaslódáil tionscadal"
   },
@@ -74,223 +74,234 @@
     "safeguarding": "Cosaint"
   },
   "projectName": {
-    "label": "Project name",
-    "newProject": "New Project"
+    "label": "Ainm tionscadail",
+    "newProject": "Tionscadal Nua"
   },
   "header": {
-    "download": "Download",
+    "download": "Íoslódáil",
     "upload": "Uaslódáil",
-    "downloadFileNameDefault": "my {{project_type}} project",
-    "editorLogoAltText": "Editor logo",
+    "downloadFileNameDefault": "mo thionscadal {{project_type}}",
+    "editorLogoAltText": "Lógó Editor",
     "projects": "Do thionscadail",
-    "renameProject": "Edit project name",
-    "renameSave": "Save project name",
+    "renameProject": "Cuir ainm an tionscadail in eagar",
+    "renameSave": "Sábháil ainm an tionscadail",
     "save": "Sábháil",
-    "loginToSave": "Log in to save",
-    "offline": "Offline",
-    "offlineTooltipDevice": "Code changes are being saved to your device.",
-    "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
-    "settings": "Settings"
+    "loginToSave": "Logáil isteach le sábháil",
+    "offline": "As líne",
+    "offlineTooltipDevice": "Tá athruithe cóid á sábháil chuig so ghaireas.",
+    "offlineTooltipContinue": "Féadfaidh tú leanúint ag códáil agus sábhálfar d’obair nuair atá tú ar ais ar líne.",
+    "settings": "Socruithe"
   },
   "imagePanel": {
-    "gallery": "Image Gallery"
+    "gallery": "Gailearaí Íomhánna"
   },
   "infoPanel": {
-    "info": "Information"
+    "info": "Faisnéis"
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How to use instructions",
-      "replaceThisText": "Replace this text with your own instructions. Anything you write here appears in the sidebar for your students.",
-      "writtenInMarkdown": "Instructions are written in Markdown. Switch between the **Edit** and **View** tabs to see how each example below was written, or read our [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions).",
-      "studentCopyWarning": "Students get their own copy of a project when they start it, so changes you make later will not reach anyone who has already started.",
-      "formattingTextHeading": "Formatting text",
-      "bold": "**Bold text** draws attention to a word.",
-      "italic": "_Italic text_ is useful for emphasis.",
-      "boldItalic": "**_Bold and italic_** works too.",
-      "strikethrough": "~~Strikethrough~~ shows something that has changed.",
-      "lineBreaks": "A backslash at the end of a line starts a new line, as above. A blank line starts a new paragraph. Three dashes on their own line draw a divider, like the one above.",
-      "headingsHeading": "Headings",
-      "headings": "Start a line with `##`, and add more `#` characters for smaller headings — like the headings in this document.",
+      "title": "Conas treoracha a úsáid",
+      "replaceThisText": "Ionadaigh an téacs seo le do threoracha féin. Feictear aon rud a scríobhann tú anseo sa taobh-bharra do do dhaltaí.",
+      "writtenInMarkdown": "Scríobhtar treoracha in Markdown. Athraigh idir na táib **Cuir in eagar** agus **Amharc** lena fheiceáil conas a scríobhadh gach sampla thíos, nó léigh ár [dtreoir treoracha](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions).",
+      "studentCopyWarning": "Faigheann daltaí a gcóip féin de thionscadal nuair a thosaíonn siad é, ionas nach sroicheann athruithe a dhéanann tú níos déanaí aon duine atá tosaithe cheana féin.",
+      "formattingTextHeading": "Téacs a fhormáidiú",
+      "bold": "Tarraingíonn **Téacs trom** aird ar fhocal.",
+      "italic": "Tá _téacs Iodálach_ úsáideach chun béim a leagan ar rud.",
+      "boldItalic": "Oibríonn **_Trom agus iodálach_** freisin.",
+      "strikethrough": "Taispeánann ~~Líne tríd~~ go bhfuil rud éigin athraithe.",
+      "lineBreaks": "Cuireann cúlslais ag deireadh líne tús le líne nua, amhail thuas. Cuireann líne bhán tús le halt nua. Tarraingíonn trí dhais ar líne astu féin líne mar dheighilteoir, cosúil leis an gceann thuas.",
+      "headingsHeading": "Ceannteidil",
+      "headings": "Tosaigh líne le `##`, agus cuir tuilleadh carachtar `#` le haghaidh ceannteidil níos lú — cosúil leis na ceannteidil sa doiciméad seo.",
       "listsHeading": "Liostaí",
-      "addSprite": "Add a sprite",
-      "addBackdrop": "Add a backdrop",
-      "nestList": "Indent by two spaces to put a list inside a list",
-      "openFile": "Open the file `main.py`",
-      "typeCode": "Type your code",
-      "clickRun": "Click **Run**",
+      "addSprite": "Cuir sprid leis",
+      "addBackdrop": "Cuir cúlra leis",
+      "nestList": "Eangaigh de dhá spás chun liosta a chur taobh istigh de liosta",
+      "openFile": "Oscail an comhad `main.py`",
+      "typeCode": "Clóscríobh do chód",
+      "clickRun": "Cliceáil ar **Rith**",
       "linksHeading": "Naisc",
-      "links": "Link to a website like this: [Raspberry Pi Foundation](https://www.raspberrypi.org).",
+      "links": "Nasc chuig suíomh gréasáin cosúil leis seo: [Raspberry Pi Foundation](https://www.raspberrypi.org).",
       "codeHeading": "Cód",
-      "codeIntro": "In Python and Web projects you might want to include some example code in your instructions.",
-      "inlineCode": "Use single backticks for code in a sentence:",
-      "inlineCodeExample": "The `print()` function shows a message.",
-      "codeBlocks": "For longer code, use three backticks and name the language. `python`, `html`, `css` or `javascript`:",
-      "pythonPrompt": "What is your name?",
+      "codeIntro": "I dtionscadail Python agus Web b’fhéidir go mbeifeá ag iarraidh roinnt cód samplach a áireamh i do threoracha.",
+      "inlineCode": "Úsáid cúltic aonair don chód in abairt:",
+      "inlineCodeExample": "Taispeánann an fheidhm `priontáil()` teachtaireacht.",
+      "codeBlocks": "I ndáil le cód níos faide, úsáid trí chúltic agus ainmnigh an teanga. `python`, `html`, `css` nó `javascript`:",
+      "pythonPrompt": "Cén t-ainm atá ort?",
       "pythonNameVar": "ainm",
       "pythonGreeting": "Dia dhuit, ",
-      "blocksHeading": "Blocks code",
-      "blocksIntro": "In a Blocks project you might want to reference a particular type of block in your instructions. You can highlight words with the same colour that's used for the block type itself:",
-      "blocksColourExample": "Get a block from the `Looks`{:block-type=\"looks\"} section.",
-      "blocksTypes": "The [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) lists all types you can use.",
-      "blocksExample": "You might also want to include an example of blocks. To do this use `blocks` as the language name in a code block:",
+      "blocksHeading": "Cód bloc",
+      "blocksIntro": "I dtionscadal Bloc b’fhéidir go mbeifeá ag iarraidh tagairt a dhéanamh do chineál áirithe bloic i do threoracha. Is féidir leat focail a aibhsiú leis an dath céanna a úsáidtear don chineál bloic féin:",
+      "blocksColourExample": "Faigh bloc ón rannóg `Cumas`{:block-type=\"looks”}.",
+      "blocksTypes": "Liostaítear gach cineál is féidir leat a úsáid sa [treoir treoracha](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A).",
+      "blocksExample": "B’fhéidir gur mhaith leat freisin sampla de bhloic a áireamh freisin. Chun seo a dhéanamh úsáid `bloic` mar ainm na teanga i mbloc cóid:",
       "blocksGreeting": "Dia dhuit!",
-      "blockSyntaxReference": "For more information on how to write blocks as text, see the [block syntax reference](https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax).",
-      "turningOffFormattingHeading": "Turning off formatting",
-      "turningOffFormatting": "\\_A backslash before a symbol stops it formatting\\_, so this is not italic."
+      "blockSyntaxReference": "Chun tuilleadh faisnéise a fháil maidir le conas bloic a scríobh mar théacs, féach an [tagairt comhréire bloic](https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax).",
+      "turningOffFormattingHeading": "Múch formáidiú",
+      "turningOffFormatting": "\\_Stopann cúlslais roimh shiombail é ó fhormáidiú\\_, mar sin ní iodálach é seo."
     },
     "emptyState": {
-      "addInstructions": "Add instructions",
-      "edits": "Like project code, students will not see any edits you make to the instructions after they have saved their version of the project.",
-      "location": "These instructions will be shown to students in their project sidebar and will be view-only.",
-      "markdown": "Instructions are written in markdown. See our <0>guide</0> for more help",
-      "purpose": "Instructions can be added to your project to guide students."
+      "addInstructions": "Cuir treoracha leis",
+      "edits": "Cosúil le cód tionscadail, ní fheicfidh daltaí aon eagair a dhéanann tú leis na treoracha tar éis dóibh a leagan féin den tionscadal a shábháil.",
+      "location": "Taispeánfar na treoracha seo do dhaltaí ina dtaobh-bharra tionscadail agus beidh siad amharc-amháin.",
+      "markdown": "Tá na treoracha scríofa in markdown. Féach ár <0>dtreoir</0> chun tuilleadh cúnaimh a fháil",
+      "purpose": "Is féidir treoracha a chur le do thionscadal chun daltaí a threorú."
     },
-    "addStep": "Add a step",
-    "removeStep": "Remove step",
-    "newStepDefaultContent": "## Step title",
+    "addStep": "Cuir céim leis",
+    "removeStep": "Bain céim",
+    "newStepDefaultContent": "## Teideal na céime",
     "nextStep": "An chéad chéim eile",
     "previousStep": "Céim roimhe",
-    "stepCounter": "{{currentStep}} of {{totalSteps}}",
+    "stepCounter": "{{currentStep}} de {{totalSteps}}",
     "projectSteps": "Treoracha tionscadail",
-    "guideLink": "View instructions guide",
+    "guideLink": "Amharc an treoir treoracha",
     "edit": "Cuir in eagar",
-    "view": "View",
+    "view": "Amharc",
     "removeStepModal": {
-      "heading": "Remove instructions?",
-      "warning": "You will not be able to get deleted instructions back.",
-      "studentsWarning": "Students who have already started working on this project will still be able to see the instructions as they were when they started.",
-      "scopeLegend": "What do you want to remove?",
+      "heading": "Bain treoracha?",
+      "warning": "Ní bheidh tú in ann treoracha scriosta a fháil ar ais.",
+      "studentsWarning": "Beidh daltaí a thosaigh ag obair ar an tionscadal seo cheana féin fós in ann na treoracha a fheiceáil mar a bhí nuair a thosaigh siad.",
+      "scopeLegend": "Céard is mian leat a bhaint?",
       "scope": {
-        "currentStep": "Remove current step only",
-        "allSteps": "Remove all steps"
+        "currentStep": "Ná bain ach an chéim reatha",
+        "allSteps": "Bain gach céim"
       },
       "confirm": {
-        "currentStep": "Remove current step",
-        "allSteps": "Remove all steps"
+        "currentStep": "Bain an chéim reatha",
+        "allSteps": "Bain gach céim"
       },
       "cancel": "Cealaigh",
-      "removeInstructions": "Remove instructions"
+      "removeInstructions": "Bain treoracha"
     }
   },
   "projectsPanel": {
     "projects": "Tionscadail",
-    "yourProjectsButton": "Go to your projects",
-    "projectTypeLabel": "Project type"
+    "yourProjectsButton": "Téigh go do thionscadail",
+    "projectTypeLabel": "Cineál tionscadail"
   },
   "settingsPanel": {
-    "info": "Settings"
+    "info": "Socruithe"
   },
   "input": {
     "comment": {
-      "py5": "Py5: imported mode"
+      "py5": "Py5: modh iompórtáilte"
     }
   },
   "mobile": {
     "code": "Cód",
     "menu": "Roghchlár",
-    "output": "Output",
-    "preview": "Preview",
-    "steps": "Steps"
+    "output": "Aschur",
+    "preview": "Réamhamharc",
+    "steps": "Céimeanna"
   },
   "modals": {
-    "close": "Dún"
+    "close": "Dún",
+    "accept": "OK",
+    "projectSaveFailed": {
+      "heading": "Your project could not be saved",
+      "scratchAssetTooLarge": {
+        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+      },
+      "scratchProjectTooLarge": {
+        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+      }
+    }
   },
   "notifications": {
     "close": "dún",
-    "loginPrompt": "To save this project and access it later, don't forget to log in or sign up!",
-    "projectRemixed": "Your remixed project has been saved",
-    "projectRenamed": "You have renamed your project.",
-    "projectSaved": "Your project has been saved",
-    "savePrompt": "Save this project to access it later under \"Your projects\"."
+    "loginPrompt": "Chun an tionscadal seo a shábháil agus é a rochtain níos déanaí, ná dearmad logáil isteach nó clárú!",
+    "projectRemixed": "Sábháladh do thionscadal athmheasctha",
+    "projectRenamed": "Tá do thionscadal athainmnithe agat.",
+    "projectSaved": "Rinneadh do thionscadal a sábháil",
+    "savePrompt": "Sábháil an tionscadal seo chun é a rochtain níos déanaí faoi “Do thionscadail”."
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted"
+      "interrupted": "Cur i bhfeidhm idirbhriste",
+      "aiComingSoon": "AI support coming soon"
     },
-    "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
-    "newTab": "Preview in new tab",
-    "preview": "preview",
+    "limitReached": "Teorainn aschuir sroichte. Tá aschur breise folaithe, ach tá do chlár fós ag rith.",
+    "newTab": "Réamhamharc i dtáb nua",
+    "preview": "réamhamharc",
     "senseHat": {
       "controls": {
         "colour": "dath",
-        "humidity": "humidity",
+        "humidity": "bogthaise",
         "motion": "gluaiseacht",
         "motionSensorOptions": {
           "no": "Níl",
           "yes": "Tá"
         },
-        "name": "Space Station Control Panel",
-        "pressure": "pressure",
+        "name": "Painéal Rialúcháin Stáisiúin Spáis",
+        "pressure": "brú",
         "temperature": "teocht",
-        "timer": "timer"
+        "timer": "amadóir"
       },
       "model": {
-        "pitch": "pitch",
-        "roll": "roll",
-        "yaw": "yaw"
+        "pitch": "pits",
+        "roll": "rollaigh",
+        "yaw": "luascáil"
       }
     },
-    "textOutput": "Text output",
-    "visualOutput": "Visual output"
+    "textOutput": "Aschur téacs",
+    "visualOutput": "Aschur amhairc"
   },
   "outputViewToggle": {
-    "buttonTabLabel": "Tabbed view",
-    "buttonTabTitle": "Tabbed view",
-    "buttonSplitLabel": "Split view",
-    "buttonSplitTitle": "Split view"
+    "buttonTabLabel": "Amharc tábáilte",
+    "buttonTabTitle": "Amharc tábáilte",
+    "buttonSplitLabel": "Amharc scoilte",
+    "buttonSplitTitle": "Amharc scoilte"
   },
   "project": {
     "accessDeniedWithAuthModal": {
       "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
+        "text": "Tabhair cuairt ar shuíomh na dTionscadal chun smaointe maithe tionscadail a fháil"
       },
-      "heading": "You can't access this project",
-      "newProject": "Create a new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "Visit the Projects site for cool project ideas or start coding in a new project."
+      "heading": "Ní féidir leat an tionscadal seo a rochtain",
+      "newProject": "Cruthaigh cód tionscadail nua",
+      "projectsSiteLinkText": "Fiosraigh suíomh na dTionscadal",
+      "text": "Tabhair cuairt ar shuíomh na dTionscadal chun smaointe maithe tionscadail a fháil nó chun tosú ag códú i dtionscadal nua."
     },
-    "loading": "Loading",
+    "loading": "Ag lódáil",
     "notFoundModal": {
       "embedded": {
-        "text": "Visit the Projects site for cool project ideas"
+        "text": "Tabhair cuairt ar shuíomh na dTionscadal chun smaointe maithe tionscadail a fháil"
       },
-      "heading": "This project does not exist",
-      "newProject": "Start new code project",
-      "projectsSiteLinkText": "Explore Projects site",
-      "text": "You can start coding in a new project, or visit the Projects site for cool project ideas."
+      "heading": "Ní ann don tionscadal seo",
+      "newProject": "Tosaigh cód tionscadail nua",
+      "projectsSiteLinkText": "Fiosraigh suíomh na dTionscadal",
+      "text": "Is féidir leat tosú ag códú i dtionscadal nua, nó cuairt a thabhairt ar shuíomh na dTionscadal chun smaointe maithe tionscadail a fháil."
     },
-    "untitled": "Untitled project"
+    "untitled": "Tionscadal gan teideal"
   },
   "projectHeader": {
     "subTitle": "Code Editor",
     "title": "Do thionscadail",
-    "text": "Select a project to continue coding, view, or edit it."
+    "text": "Roghnaigh tionscadal le leanúint á chódú, á amharc, nó á chur in eagar."
   },
   "projectList": {
-    "delete": "Delete",
-    "deleteLabel": "Delete project",
-    "empty": "No projects created yet",
-    "label": "Open project menu",
-    "loading": "Loading",
-    "loadingFailed": "Failed to load projects",
-    "newProject": "Create a new project",
+    "delete": "Scrios",
+    "deleteLabel": "Scrios an tionscadal",
+    "empty": "Níor cruthaíodh aon tionscadal go fóill",
+    "label": "Oscail roghchlár an tionscadail",
+    "loading": "Ag lódáil",
+    "loadingFailed": "Teipeadh chun na tionscadail a lódáil",
+    "newProject": "Cruthaigh tionscadal nua",
     "pagination": {
-      "first": "First page",
-      "last": "Last page",
-      "next": "Next page",
-      "previous": "Previous page",
-      "more": "Load more projects"
+      "first": "An chéad leathanach",
+      "last": "An leathanach deiridh",
+      "next": "An chéad leathanach eile",
+      "previous": "An leathanach roimhe",
+      "more": "Lódáil tuilleadh tionscadal"
     },
-    "rename": "Rename",
-    "renameLabel": "Rename project",
+    "rename": "Athainmnigh",
+    "renameLabel": "Athainmnigh tionscadal",
     "renameProjectModal": {
-      "cancel": "Do not save",
-      "heading": "Rename project",
-      "inputLabel": "Change the name of your project",
+      "cancel": "Ná sábháil",
+      "heading": "Athainmnigh tionscadal",
+      "inputLabel": "Athraigh ainm do thionscadail",
       "save": "Sábháil"
     },
-    "updated": "Edited",
+    "updated": "Curtha in eagar",
     "python_type": "Python",
     "html_type": "HTML"
   },
@@ -301,26 +312,26 @@
   "runButton": {
     "run": "Rith",
     "stop": "Stop",
-    "stopping": "Stopping..."
+    "stopping": "Ag Stopadh..."
   },
   "saveStatus": {
-    "saving": "Saving",
+    "saving": "Ag Sábháil",
     "saved": "Sábháilte"
   },
   "runners": {
-    "HtmlOutput": "HTML Output Preview"
+    "HtmlOutput": "Réamhamharc Aschuir HTML"
   },
   "sidebar": {
-    "collapse": "Collapse sidebar",
+    "collapse": "Leacaigh an taobh-bharra",
     "download": "Íoslódáil tionscadal",
-    "expand": "Expand sidebar",
-    "file": "Project files",
-    "tablistLabel": "Sidebar panels",
-    "images": "Image gallery",
-    "settings": "Settings",
+    "expand": "Sínigh an taobh-bharra",
+    "file": "Comhaid tionscadail",
+    "tablistLabel": "Painéil taobh-bharra",
+    "images": "Gailearaí íomhánna",
+    "settings": "Socruithe",
     "projects": "Tionscadail",
-    "information": "Information",
-    "information_text": "Our Code Editor is a tool to help young people learn to code. We have only included functions that are simple and safe to use. That's why, for example, links to other websites are not allowed.",
+    "information": "Faisnéis",
+    "information_text": "Uirlis is ea ár Code Editor a chabhraíonn le daoine óga cód a fhoghlaim. Níor áiríomar ach feidhmeanna atá simplí agus sábháilte le húsáid. Sin an chúis, mar shampla, nach gceadaítear naisc chuig suíomhanna gréasáin eile.",
     "instructions": "Treoracha tionscadail",
     "feedback": "Aiseolas",
     "help": "Cabhair",
@@ -328,30 +339,30 @@
     "cookies": "Fianáin",
     "accessibility": "Inrochtaineacht",
     "safeguarding": "Cosaint",
-    "licences": "Licences",
-    "charity": "Raspberry Pi Foundation - UK registered charity 1129409",
+    "licences": "Ceadúnais",
+    "charity": "Raspberry Pi Foundation – Carthanas Cláraithe sa RA 1129409",
     "settingsMenu": {
-      "heading": "Settings",
-      "textSize": "Text size",
-      "theme": "Theme",
+      "heading": "Socruithe",
+      "textSize": "Méid téacs",
+      "theme": "Téama",
       "textSizeOptions": {
-        "large": "Large",
-        "medium": "Medium",
+        "large": "Mór",
+        "medium": "Meánach",
         "small": "Beag"
       },
       "themeOptions": {
-        "dark": "Dark",
-        "light": "Light"
+        "dark": "Dorcha",
+        "light": "Geal"
       }
     }
   },
   "webComponent": {
     "loading": "Ag lódáil...",
-    "failed": "Load failed.",
+    "failed": "Lódáil teipthe.",
     "retry": "Triail arís é"
   },
   "newInputPanelButton": {
-    "buttonText": "Add another panel"
+    "buttonText": "Cuir painéal eile leis"
   },
   "button": {
     "yes": "Tá",
