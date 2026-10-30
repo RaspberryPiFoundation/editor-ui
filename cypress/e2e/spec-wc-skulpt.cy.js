@@ -131,14 +131,14 @@ describe("Running the code with skulpt", () => {
   });
 
   it("does not render astro pi component on page load", () => {
-    getSkulptRunner().should("not.contain", "3D");
+    getSkulptRunner().should("not.contain", "Switch to 3D view");
   });
 
   it("renders 2D astro pi component if sense hat imported", () => {
     runCode("import sense_hat");
 
     getSkulptTabByName("Visual output").click();
-    getSkulptRunner().should("contain", "3D");
+    getSkulptRunner().should("contain", "Switch to 3D view");
   });
 
   it("does not render astro pi component if sense hat unimported", () => {
@@ -146,7 +146,7 @@ describe("Running the code with skulpt", () => {
     runCode("import p5");
 
     getSkulptTabByName("Visual output").click();
-    getSkulptRunner().should("not.contain", "3D");
+    getSkulptRunner().should("not.contain", "Switch to 3D view");
   });
 
   it("runs a simple turtle program", () => {
