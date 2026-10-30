@@ -46,6 +46,7 @@ const ProjectionPanel = ({ is3d, setIs3d }) => {
       }}
     >
       <div
+        className="sense-hat-projection-panel__flex"
         style={{
           display: "flex",
           flexDirection: "row-reverse",
@@ -54,14 +55,17 @@ const ProjectionPanel = ({ is3d, setIs3d }) => {
         }}
       >
         <button
+          className="sense-hat-projection-panel__flex__change-dimension-button"
           style={{
             backgroundColor: "white",
             zIndex: "1",
-            width: "32px",
-            height: "32px",
-            borderRadius: "5px",
+            width: "2rem",
+            height: "2rem",
+            borderRadius: "0.25rem",
             textAlign: "center",
             border: "1px solid white",
+            fontFamily: "var(--editor-font-family-sans-serif)",
+            fontWeight: 500,
           }}
           onClick={() => setIs3d((x) => !x)}
         >
