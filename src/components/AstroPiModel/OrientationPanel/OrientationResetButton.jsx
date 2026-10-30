@@ -5,8 +5,12 @@ import ResetIcon from "../../../assets/icons/reset.svg";
 const OrientationResetButton = (props) => {
   const { resetOrientation } = props;
 
+  // TODO translation
   return (
-    <button onClick={(e) => resetOrientation(e)}>
+    <button
+      aria-label="Reset Astro Pi orientation"
+      onClick={(e) => resetOrientation(e)}
+    >
       <ResetIcon />
     </button>
   );

@@ -76,9 +76,9 @@ const ProjectionPanel = ({ is3d, setIs3d }) => {
   );
 };
 
-const AstroPiModel = () => {
+const AstroPiModel = ({ initialIs3d = false }) => {
   const project = useSelector((state) => state.editor.project);
-  const [is3d, setIs3d] = useState(false);
+  const [is3d, setIs3d] = useState(initialIs3d);
   const [orientation, setOrientation] = useState([0, 90, 0]);
   const resetOrientation = (e) => {
     resetModel(e);
