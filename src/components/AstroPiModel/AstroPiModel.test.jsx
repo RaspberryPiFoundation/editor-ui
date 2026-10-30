@@ -45,8 +45,12 @@ describe("2D mode", () => {
   });
 
   test("Dimension button switches to 3D", () => {
-    fireEvent.click(container.getByRole("button", { name: "3D" }));
-    container.getByRole("button", { name: "2D" });
+    fireEvent.click(
+      container.getByRole("button", {
+        name: "output.senseHat.view.toggleTo3D",
+      }),
+    );
+    container.getByRole("button", { name: "output.senseHat.view.toggleTo2D" });
   });
 });
 
@@ -60,14 +64,18 @@ describe("3D mode", () => {
   test("Update orientation function resets the model", () => {
     fireEvent.click(
       container.getByRole("button", {
-        name: "Reset Astro Pi orientation",
+        name: "output.senseHat.view.resetOrientation",
       }),
     );
     expect(window.mod.rotation).toStrictEqual({ x: 0, y: 0, z: 0 });
   });
 
   test("Dimension button switches to 2D", () => {
-    fireEvent.click(container.getByRole("button", { name: "2D" }));
-    container.getByRole("button", { name: "3D" });
+    fireEvent.click(
+      container.getByRole("button", {
+        name: "output.senseHat.view.toggleTo2D",
+      }),
+    );
+    container.getByRole("button", { name: "output.senseHat.view.toggleTo3D" });
   });
 });
