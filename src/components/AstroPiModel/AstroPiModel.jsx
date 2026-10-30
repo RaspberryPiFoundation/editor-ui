@@ -1,16 +1,36 @@
-import React from "react";
 import "../../assets/stylesheets/AstroPiModel.scss?inline";
 import Simulator from "./Simulator";
+import Simulator2d from "./Simulator2d";
 import Sk from "skulpt";
 import AstroPiControls from "./AstroPiControls/AstroPiControls";
 import OrientationPanel from "./OrientationPanel/OrientationPanel";
+import ViewModeControls from "./ViewModeControls";
 import { useEffect, useState } from "react";
 import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
+import { rotate, rotationClockwise90degrees } from "../../utils/senseHatUtils";
 
-const AstroPiModel = () => {
+const B = [207, 207, 207];
+const W = [235, 235, 235];
+const SMILEY_FACE = rotate(
+  rotationClockwise90degrees,
+  // prettier-ignore
+  [
+    B, B, B, B, B, B, B, W,
+    B, B, B, B, B, B, B, B,
+    W, W, W, B, B, W, W, W,
+    W, B, W, B, B, W, B, W,
+    W, W, W, B, B, W, W, W,
+    B, B, B, B, B, B, B, B,
+    B, B, W, B, B, W, B, B,
+    B, B, W, W, W, W, B, B
+  ],
+);
+
+const AstroPiModel = ({ initialIs3d = false }) => {
   const project = useSelector((state) => state.editor.project);
+  const [is3d, setIs3d] = useState(initialIs3d);
   const [orientation, setOrientation] = useState([0, 90, 0]);
   const resetOrientation = (e) => {
     resetModel(e);
@@ -58,9 +78,7 @@ const AstroPiModel = () => {
       start_motion_callback: () => {},
       stop_motion_callback: () => {},
     };
-    for (var i = 0; i < 64; i++) {
-      Sk.sense_hat.pixels.push([0, 0, 0]);
-    }
+    Sk.sense_hat.pixels = SMILEY_FACE;
   }
 
   useEffect(() => {
@@ -75,11 +93,19 @@ const AstroPiModel = () => {
   return (
     <div className="sense-hat">
       <div className="sense-hat-model">
-        <Simulator updateOrientation={setOrientation} />
-        <OrientationPanel
-          orientation={orientation}
-          resetOrientation={resetOrientation}
-        />
+        <>
+          <ViewModeControls is3d={is3d} setIs3d={setIs3d} />
+          {is3d && (
+            <>
+              <Simulator updateOrientation={setOrientation} />
+              <OrientationPanel
+                orientation={orientation}
+                resetOrientation={resetOrientation}
+              />
+            </>
+          )}
+          {!is3d && <Simulator2d />}
+        </>
       </div>
 
       {/* <!-- Full sensor controls --> */}
