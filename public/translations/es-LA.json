@@ -128,7 +128,7 @@
       "pythonGreeting": "Hola, ",
       "blocksHeading": "Código con bloques",
       "blocksIntro": "En un proyecto de bloques, quizás desees hacer referencia a un tipo específico de bloque en tus instrucciones. Puedes resaltar palabras usando el mismo color que utiliza ese tipo de bloque:",
-      "blocksColourExample": "Usa un bloque de la categoría `Apariencia`{:block-type=\"looks\"}.",
+      "blocksColourExample": "Usa un bloque de la categoría `Apariencia`{:block-type=\"Apariencia\"}.",
       "blocksTypes": "La [guía de instrucciones](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) menciona todos los tipos que puedes usar.",
       "blocksExample": "Si quieres incluir un ejemplo de bloques, usa `blocks` como el nombre del lenguaje en un bloque de código:",
       "blocksGreeting": "¡Hola!",
@@ -191,7 +191,17 @@
     "steps": "Pasos"
   },
   "modals": {
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "accept": "OK",
+    "projectSaveFailed": {
+      "heading": "Your project could not be saved",
+      "scratchAssetTooLarge": {
+        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+      },
+      "scratchProjectTooLarge": {
+        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+      }
+    }
   },
   "notifications": {
     "close": "cerrar",
@@ -203,7 +213,8 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Se interrumpió la ejecución"
+      "interrupted": "Se interrumpió la ejecución",
+      "aiComingSoon": "AI support coming soon"
     },
     "limitReached": "Se alcanzó el límite de salida. La salida adicional está oculta, pero tu programa sigue ejecutándose.",
     "newTab": "Vista previa en nueva pestaña",
