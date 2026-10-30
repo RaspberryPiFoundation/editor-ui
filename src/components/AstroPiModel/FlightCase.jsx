@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import Sk from "skulpt";
 import { invalidate } from "@react-three/fiber";
+import { quantisePixel } from "../../utils/senseHatUtils";
 
 const FlightCase = () => {
   const { scene } = useGLTF(
@@ -14,11 +15,6 @@ const FlightCase = () => {
   var leds = {
     "0_0_0": blankLED,
   };
-
-  // Quantise RGB components to RGB565 step sizes
-  function quantisePixel(pixel) {
-    return [pixel[0] & ~7, pixel[1] & ~3, pixel[2] & ~7];
-  }
 
   function setPixel(ledIndex, r, g, b) {
     var x = ledIndex % 8;
@@ -51,6 +47,11 @@ const FlightCase = () => {
       i += 1;
     }
   }
+
+  useEffect(() => {
+    // copy the pixel map from Sk.sense_hat.pixels
+    setPixels(null, Sk.sense_hat.pixels);
+  }, []);
 
   Sk.sense_hat_emit = function (event, data) {
     if (event && event === "setpixel") {

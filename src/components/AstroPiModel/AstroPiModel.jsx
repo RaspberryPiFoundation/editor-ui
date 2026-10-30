@@ -9,6 +9,24 @@ import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
 import { useTranslation } from "react-i18next";
+import { rotate, rotationClockwise90degrees } from "../../utils/senseHatUtils";
+
+const B = [207, 207, 207];
+const W = [235, 235, 235];
+const SMILEY_FACE = rotate(
+  rotationClockwise90degrees,
+  // prettier-ignore
+  [
+    B, B, B, B, B, B, B, W,
+    B, B, B, B, B, B, B, B,
+    W, W, W, B, B, W, W, W,
+    W, B, W, B, B, W, B, W,
+    W, W, W, B, B, W, W, W,
+    B, B, B, B, B, B, B, B,
+    B, B, W, B, B, W, B, B,
+    B, B, W, W, W, W, B, B
+  ],
+);
 
 const ProjectionPanel = ({ is3d, setIs3d }) => {
   const target = is3d ? "2D" : "3D";
@@ -67,8 +85,6 @@ const AstroPiModel = () => {
   const defaultTemperature = 13;
   const defaultHumidity = 45;
 
-  // TODO pixels state lives here so that both 2d and 3d share state.
-
   if (!Sk.sense_hat) {
     Sk.sense_hat = {
       colour: "#FF0000",
@@ -106,9 +122,7 @@ const AstroPiModel = () => {
       start_motion_callback: () => {},
       stop_motion_callback: () => {},
     };
-    for (var i = 0; i < 64; i++) {
-      Sk.sense_hat.pixels.push([0, 0, 0]);
-    }
+    Sk.sense_hat.pixels = SMILEY_FACE;
   }
 
   useEffect(() => {
@@ -121,7 +135,6 @@ const AstroPiModel = () => {
   }, [orientation]);
 
   return (
-    // TODO add panel for 2d -> 3d
     <div className="sense-hat">
       <div className="sense-hat-model">
         <>
