@@ -10,8 +10,8 @@
     }
   },
   "editorPanel": {
-    "ariaLabel": "{{fileName}} editor",
-    "tabExitInstruction": "Press Escape, then Tab to exit.",
+    "ariaLabel": "éditeur {{fileName}}",
+    "tabExitInstruction": "Appuyez sur la touche Échap, puis sur Tab pour quitter.",
     "characterLimitError": "Erreur : limite de caractères atteinte",
     "viewOnly": "Voir seulement",
     "close": "fermer ",
@@ -84,9 +84,9 @@
     "renameSave": "Enregistrer le nom du projet",
     "save": "Enregistrer",
     "loginToSave": "Connectez-vous pour enregistrer",
-    "offline": "Offline",
-    "offlineTooltipDevice": "Code changes are being saved to your device.",
-    "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
+    "offline": "Hors ligne",
+    "offlineTooltipDevice": "Les modifications apportées au code sont en cours d’enregistrement sur votre appareil.",
+    "offlineTooltipContinue": "Vous pouvez continuer à coder et votre travail sera sauvegardé lorsque vous serez de nouveau en ligne.",
     "settings": "Paramètres"
   },
   "imagePanel": {
@@ -97,77 +97,77 @@
   },
   "instructionsPanel": {
     "demoInstructions": {
-      "title": "How to use instructions",
-      "replaceThisText": "Replace this text with your own instructions. Anything you write here appears in the sidebar for your students.",
-      "writtenInMarkdown": "Instructions are written in Markdown. Switch between the **Edit** and **View** tabs to see how each example below was written, or read our [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions).",
-      "studentCopyWarning": "Students get their own copy of a project when they start it, so changes you make later will not reach anyone who has already started.",
-      "formattingTextHeading": "Formatting text",
-      "bold": "**Bold text** draws attention to a word.",
-      "italic": "_Italic text_ is useful for emphasis.",
-      "boldItalic": "**_Bold and italic_** works too.",
-      "strikethrough": "~~Strikethrough~~ shows something that has changed.",
-      "lineBreaks": "A backslash at the end of a line starts a new line, as above. A blank line starts a new paragraph. Three dashes on their own line draw a divider, like the one above.",
-      "headingsHeading": "Headings",
-      "headings": "Start a line with `##`, and add more `#` characters for smaller headings — like the headings in this document.",
-      "listsHeading": "Lists",
-      "addSprite": "Add a sprite",
-      "addBackdrop": "Add a backdrop",
-      "nestList": "Indent by two spaces to put a list inside a list",
-      "openFile": "Open the file `main.py`",
-      "typeCode": "Type your code",
-      "clickRun": "Click **Run**",
-      "linksHeading": "Links",
-      "links": "Link to a website like this: [Raspberry Pi Foundation](https://www.raspberrypi.org).",
-      "codeHeading": "Code",
-      "codeIntro": "In Python and Web projects you might want to include some example code in your instructions.",
-      "inlineCode": "Use single backticks for code in a sentence:",
-      "inlineCodeExample": "The `print()` function shows a message.",
-      "codeBlocks": "For longer code, use three backticks and name the language. `python`, `html`, `css` or `javascript`:",
-      "pythonPrompt": "What is your name?",
-      "pythonNameVar": "name",
-      "pythonGreeting": "Hello, ",
-      "blocksHeading": "Blocks code",
-      "blocksIntro": "In a Blocks project you might want to reference a particular type of block in your instructions. You can highlight words with the same colour that's used for the block type itself:",
-      "blocksColourExample": "Get a block from the `Looks`{:block-type=\"looks\"} section.",
-      "blocksTypes": "The [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) lists all types you can use.",
-      "blocksExample": "You might also want to include an example of blocks. To do this use `blocks` as the language name in a code block:",
-      "blocksGreeting": "Hello!",
-      "blockSyntaxReference": "For more information on how to write blocks as text, see the [block syntax reference](https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax).",
-      "turningOffFormattingHeading": "Turning off formatting",
-      "turningOffFormatting": "\\_A backslash before a symbol stops it formatting\\_, so this is not italic."
+      "title": "Comment utiliser les instructions",
+      "replaceThisText": "Remplacez ce texte par vos propres instructions. Tout ce que vous écrirez ici apparaîtra dans la barre latérale destinée à vos élèves.",
+      "writtenInMarkdown": "Les instructions sont rédigées en Markdown. Passez de l’onglet **Modifier** à l’onglet **Afficher** pour voir comment chaque exemple ci-dessous a été écrit, ou consultez notre [guide d’instructions] (https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions).",
+      "studentCopyWarning": "Les élèves reçoivent leur propre copie d’un projet lorsqu’ils le commencent pour que les modifications que vous apporterez par la suite ne soient pas transmises à ceux qui ont déjà commencé.",
+      "formattingTextHeading": "Mise en forme du texte",
+      "bold": "**Le texte en gras** sert à attirer l’attention sur un mot.",
+      "italic": "Le _texte en italique_ sert à mettre l’accent sur certains éléments.",
+      "boldItalic": "**_Le gras et l’italique_** fonctionnent aussi.",
+      "strikethrough": "~~Le texte barré~~ indique un changement.",
+      "lineBreaks": "Une barre oblique inversée à la fin d’une ligne marque le début d’une nouvelle ligne, comme ci-dessus. Une ligne vide marque le début d’un nouveau paragraphe. Trois tirets sur une ligne distincte créent une ligne de séparation, comme celle ci-dessus.",
+      "headingsHeading": "Titres",
+      "headings": "Commencez une ligne par `##`, puis ajoutez d’autres caractères `#` pour les titres de niveau inférieur — comme les titres de ce document.",
+      "listsHeading": "Listes",
+      "addSprite": "Ajouter un sprite",
+      "addBackdrop": "Ajouter un arrière-plan",
+      "nestList": "Faites un retrait de deux espaces pour insérer une liste à l’intérieur d’une autre liste",
+      "openFile": "Ouvrir le fichier `main.py`",
+      "typeCode": "Saisir votre code",
+      "clickRun": "Cliquer sur **Exécuter**",
+      "linksHeading": "Liens",
+      "links": "Lien vers un site Web comme celui-ci : [Raspberry Pi Foundation](https://www.raspberrypi.org).",
+      "codeHeading": "Coder",
+      "codeIntro": "Dans les projets Python et Web, vous pourriez vouloir inclure des exemples de code dans vos instructions.",
+      "inlineCode": "Utilisez des accents graves inversés (backticks) simples pour le code dans une phrase :",
+      "inlineCodeExample": "La fonction `print()` affiche un message.",
+      "codeBlocks": "Pour les extraits de code plus longs, utilisez trois accents graves inversés et précisez le langage : `python`, `html`, `css` ou `javascript` :",
+      "pythonPrompt": "Quel est votre nom?",
+      "pythonNameVar": "nom",
+      "pythonGreeting": "Bonjour, ",
+      "blocksHeading": "Code par blocs",
+      "blocksIntro": "Dans un projet de programmation par blocs, vous pourriez vouloir faire référence à un type de bloc particulier dans vos instructions. Vous pouvez mettre en évidence des mots en utilisant la même couleur que celle utilisée pour le type de bloc en question :",
+      "blocksColourExample": "Récupérez un bloc dans la catégorie `Apparence`{:block-type=\"looks\"}.",
+      "blocksTypes": "Le [guide d’utilisation](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) répertorie tous les types que vous pouvez utiliser.",
+      "blocksExample": "Vous pourriez aussi vouloir inclure un exemple de blocs. Pour ce faire, utilisez `blocks` comme nom de langage dans un bloc de code :",
+      "blocksGreeting": "Bonjour!",
+      "blockSyntaxReference": "Pour en savoir plus sur la façon d’écrire des blocs sous forme de texte, consultez la [référence sur la syntaxe des blocs](https://en.scratch-wiki.info/wiki/Block_Plugin/Syntax).",
+      "turningOffFormattingHeading": "Désactivation de la mise en forme",
+      "turningOffFormatting": "\\_Une barre oblique inversée placée avant un symbole empêche sa mise en forme\\_; ce texte n’est donc pas en italique."
     },
     "emptyState": {
       "addInstructions": "Ajouter des instructions",
       "edits": "Comme pour les projets de codage, les élèves ne verront aucune modification que vous apportez aux instructions après avoir enregistré leur version du projet.",
       "location": "Les élèves pourront voir ces instructions dans la barre latérale de leur projet, mais elles seront en lecture seule.",
-      "markdown": "Instructions are written in markdown. See our <0>guide</0> for more help",
+      "markdown": "Les instructions sont rédigées en Markdown. Consultez notre <0>guide</0> pour obtenir de l’aide.",
       "purpose": "Des instructions peuvent être ajoutées à votre projet pour guider les élèves."
     },
-    "addStep": "Add a step",
-    "removeStep": "Remove step",
-    "newStepDefaultContent": "## Step title",
+    "addStep": "Ajouter une étape",
+    "removeStep": "Retirer une étape",
+    "newStepDefaultContent": "## Nom de l’étape",
     "nextStep": "Prochaine étape",
     "previousStep": "Étape précédente",
     "stepCounter": "{{currentStep}} sur {{totalSteps}}",
     "projectSteps": "Instructions du projet",
-    "guideLink": "View instructions guide",
+    "guideLink": "Consulter le guide d’instructions",
     "edit": "Modifier",
     "view": "Voir",
     "removeStepModal": {
-      "heading": "Remove instructions?",
-      "warning": "You will not be able to get deleted instructions back.",
-      "studentsWarning": "Students who have already started working on this project will still be able to see the instructions as they were when they started.",
-      "scopeLegend": "What do you want to remove?",
+      "heading": "Supprimer les instructions?",
+      "warning": "Vous ne pourrez pas récupérer les instructions supprimées.",
+      "studentsWarning": "Les élèves qui ont déjà commencé à travailler sur ce projet pourront toujours consulter les instructions telles qu’elles étaient au moment où ils ont commencé.",
+      "scopeLegend": "Que voulez-vous supprimer?",
       "scope": {
-        "currentStep": "Remove current step only",
-        "allSteps": "Remove all steps"
+        "currentStep": "Supprimer uniquement l’étape actuelle",
+        "allSteps": "Supprimer toutes les étapes"
       },
       "confirm": {
-        "currentStep": "Remove current step",
-        "allSteps": "Remove all steps"
+        "currentStep": "Supprimer l’étape actuelle",
+        "allSteps": "Supprimer toutes les étapes"
       },
-      "cancel": "Cancel",
-      "removeInstructions": "Remove instructions"
+      "cancel": "Annuler",
+      "removeInstructions": "Supprimer les instructions"
     }
   },
   "projectsPanel": {
@@ -191,7 +191,17 @@
     "steps": "Étapes"
   },
   "modals": {
-    "close": "Fermer "
+    "close": "Fermer ",
+    "accept": "OK",
+    "projectSaveFailed": {
+      "heading": "Your project could not be saved",
+      "scratchAssetTooLarge": {
+        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+      },
+      "scratchProjectTooLarge": {
+        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+      }
+    }
   },
   "notifications": {
     "close": "fermer ",
@@ -203,9 +213,10 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Exécution interrompue"
+      "interrupted": "Exécution interrompue",
+      "aiComingSoon": "AI support coming soon"
     },
-    "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
+    "limitReached": "La limite d’affichage des résultats est atteinte. La suite est masquée, mais votre programme continue de s’exécuter.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
     "preview": "aperçu",
     "senseHat": {
@@ -312,7 +323,7 @@
     "download": "Télécharger le projet",
     "expand": "Ouvrir la barre latérale",
     "file": "Fichiers du projet",
-    "tablistLabel": "Sidebar panels",
+    "tablistLabel": "Panneaux de la barre latérale",
     "images": "Galerie d'images",
     "settings": "Paramètres",
     "projects": "Projets",
