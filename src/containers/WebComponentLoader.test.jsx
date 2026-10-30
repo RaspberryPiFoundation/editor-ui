@@ -107,6 +107,12 @@ describe("When initially rendered", () => {
     expect(mockedChangeLanguage).toHaveBeenCalledWith("es-LA");
   });
 
+  test("the notifications container is not a landmark region", () => {
+    expect(
+      screen.queryByRole("region", { name: /notifications/i }),
+    ).not.toBeInTheDocument();
+  });
+
   describe("scratch API endpoint", () => {
     describe("when scratch API endpoint isn't set", () => {
       beforeEach(() => {

@@ -37,7 +37,8 @@ const ProjectBar = ({ nameEditable = true }) => {
   }
 
   return (
-    <div
+    <section
+      aria-label={t("regions.projectBar")}
       className={`project-bar${isScratchProject ? " scratch-project-bar" : ""}`}
       ref={projectBarRef}
       data-testid={
@@ -86,7 +87,7 @@ const ProjectBar = ({ nameEditable = true }) => {
           </>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 
