@@ -191,7 +191,17 @@
     "steps": "Steps"
   },
   "modals": {
-    "close": "Close"
+    "close": "Close",
+    "accept": "OK",
+    "projectSaveFailed": {
+      "heading": "Your project could not be saved",
+      "scratchAssetTooLarge": {
+        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+      },
+      "scratchProjectTooLarge": {
+        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+      }
+    }
   },
   "notifications": {
     "close": "Close",
@@ -203,7 +213,8 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted"
+      "interrupted": "Execution interrupted",
+      "aiComingSoon": "AI support coming soon"
     },
     "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Preview in new tab",
