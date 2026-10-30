@@ -4,11 +4,11 @@ import Simulator2d from "./Simulator2d";
 import Sk from "skulpt";
 import AstroPiControls from "./AstroPiControls/AstroPiControls";
 import OrientationPanel from "./OrientationPanel/OrientationPanel";
+import ViewModeControls from "./ViewModeControls";
 import { useEffect, useState } from "react";
 import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
-import { useTranslation } from "react-i18next";
 import { rotate, rotationClockwise90degrees } from "../../utils/senseHatUtils";
 
 const B = [207, 207, 207];
@@ -27,54 +27,6 @@ const SMILEY_FACE = rotate(
     B, B, W, W, W, W, B, B
   ],
 );
-
-const ProjectionPanel = ({ is3d, setIs3d }) => {
-  const target = is3d ? "2D" : "3D";
-  const { t } = useTranslation();
-  // const label = t("output.senseHat.toggleTo2d")
-  // const label = t("output.senseHat.toggleTo2d")
-  // name={t("output.senseHat.model.roll")}
-  const label = `Switch to ${target} view`;
-  return (
-    <div
-      className="sense-hat-projection-panel"
-      aria-label={label}
-      style={{
-        position: "absolute",
-        width: "100%",
-        display: "flex",
-      }}
-    >
-      <div
-        className="sense-hat-projection-panel__flex"
-        style={{
-          display: "flex",
-          flexDirection: "row-reverse",
-          flex: "1",
-          margin: "calc(0.5rem * var(--scale-factor, 1))",
-        }}
-      >
-        <button
-          className="sense-hat-projection-panel__flex__change-dimension-button"
-          style={{
-            backgroundColor: "white",
-            zIndex: "1",
-            width: "2rem",
-            height: "2rem",
-            borderRadius: "0.25rem",
-            textAlign: "center",
-            border: "1px solid white",
-            fontFamily: "var(--editor-font-family-sans-serif)",
-            fontWeight: 500,
-          }}
-          onClick={() => setIs3d((x) => !x)}
-        >
-          {target}
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const AstroPiModel = ({ initialIs3d = false }) => {
   const project = useSelector((state) => state.editor.project);
@@ -142,7 +94,7 @@ const AstroPiModel = ({ initialIs3d = false }) => {
     <div className="sense-hat">
       <div className="sense-hat-model">
         <>
-          <ProjectionPanel is3d={is3d} setIs3d={setIs3d} />
+          <ViewModeControls is3d={is3d} setIs3d={setIs3d} />
           {is3d && (
             <>
               <Simulator updateOrientation={setOrientation} />

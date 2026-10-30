@@ -209,6 +209,11 @@
     "newTab": "Preview in new tab",
     "preview": "preview",
     "senseHat": {
+      "view": {
+        "toggleTo2D": "Switch to 2D view",
+        "toggleTo3D": "Switch to 3D view",
+        "resetOrientation": "Reset Astro Pi orientation"
+      },
       "controls": {
         "colour": "colour",
         "humidity": "humidity",
