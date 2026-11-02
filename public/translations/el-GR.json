@@ -315,6 +315,12 @@
     "saving": "Αποθήκευση",
     "saved": "Αποθηκεύτηκε"
   },
+  "regions": {
+    "inputPanel": "Input panel",
+    "outputPanel": "Output panel",
+    "projectBar": "Project bar",
+    "sidebar": "Sidebar"
+  },
   "runners": {
     "HtmlOutput": "Προεπισκόπηση εξόδου HTML"
   },
