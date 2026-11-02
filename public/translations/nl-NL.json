@@ -315,6 +315,12 @@
     "saving": "Aan het opslaan",
     "saved": "Opgeslagen"
   },
+  "regions": {
+    "inputPanel": "Input panel",
+    "outputPanel": "Output panel",
+    "projectBar": "Project bar",
+    "sidebar": "Sidebar"
+  },
   "runners": {
     "HtmlOutput": "HTML-uitvoervoorbeeld"
   },
