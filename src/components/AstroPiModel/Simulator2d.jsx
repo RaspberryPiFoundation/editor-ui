@@ -4,8 +4,11 @@ import {
   quantisePixel,
   rotationClockwise90degrees,
 } from "../../utils/senseHatUtils";
+import { useTranslation } from "react-i18next";
 
 const Simulator2d = () => {
+  const [t] = useTranslation();
+
   const [pixels, setPixels] = useState(
     Sk.sense_hat.pixels || Array(64).fill([0, 0, 0]),
   );
