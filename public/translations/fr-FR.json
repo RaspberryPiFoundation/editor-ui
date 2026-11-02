@@ -315,6 +315,12 @@
     "saving": "Enregistrement en cours",
     "saved": "Enregistré"
   },
+  "regions": {
+    "inputPanel": "Input panel",
+    "outputPanel": "Output panel",
+    "projectBar": "Project bar",
+    "sidebar": "Sidebar"
+  },
   "runners": {
     "HtmlOutput": "Aperçu de la sortie HTML"
   },
