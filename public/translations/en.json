@@ -213,8 +213,12 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted",
-      "aiComingSoon": "AI support coming soon"
+      "interrupted": "Execution interrupted"
+    },
+    "aiErrorMessages": {
+      "loadingText": "Generating hint",
+      "buttonText": "Need help help? Generate an AI hint",
+      "aiGeneratedHint": "AI generated hint"
     },
     "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Preview in new tab",

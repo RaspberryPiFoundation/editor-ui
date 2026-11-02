@@ -5,6 +5,7 @@ import DOMPurify from "dompurify";
 import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
+import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
@@ -22,6 +23,7 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
+      <AiErrorMessage />
     </div>
   ) : null;
 };
