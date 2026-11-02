@@ -213,7 +213,8 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Execution interrupted"
+      "interrupted": "Execution interrupted",
+      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
     },
     "aiErrorMessages": {
       "loadingText": "Generating hint",

@@ -7,7 +7,6 @@
 		border-radius: var(--space-1);
   	padding-block: var(--space-1);
 		padding-inline: var(--space-1-5);
-
 	}
 
 	&__hint-heading {
@@ -15,19 +14,16 @@
 		display: flex; 
 		align-items: center; 
 		gap: var(--space-0-5);
-		
+
 		svg {
 			fill: none;
 		}
 	}
-
 	
-
 	&__button {
 		--rpf-button-lg-height: 40px;
 		--rpf-button-border-color: var(--rpf-navy-200);
 		padding: var(--space-1);
 		font-size: var(--font-size-1);
 	}
-
 }
