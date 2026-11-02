@@ -74,6 +74,11 @@ export const getErrorLine = () => getEditorShadow().find(".cm-error-line");
 export const getFriendlyErrorMessage = () =>
   getEditorShadow().find(".friendly-error-message");
 
+export const getAiErrorHelp = () => getEditorShadow().find(".ai-error-help");
+
+export const getAiErrorHelpButton = () =>
+  getEditorShadow().find(".ai-error-help__button");
+
 export const getTextOutputTab = () =>
   getPyodideOutput().findByLabelText("Text output");
 

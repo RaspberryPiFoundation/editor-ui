@@ -18,8 +18,8 @@ import {
   loadCopydeckFor,
   registerAdapter,
   cpythonAdapter,
-  friendlyExplain,
 } from "@raspberrypifoundation/python-friendly-error-messages";
+import buildFriendlyErrorPayload from "../../../../../utils/friendlyErrorPayload";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useMediaQuery } from "react-responsive";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
@@ -338,16 +338,15 @@ const PyodideRunner = ({
             ?.content ?? "";
 
         try {
-          const friendlyError = friendlyExplain({
+          const friendlyError = buildFriendlyErrorPayload({
             error: rawTraceback,
             file: file,
             code: inputCode,
             runtime: "pyodide",
-            sections: ["title", "summary"],
           });
 
-          if (friendlyError?.html) {
-            dispatch(setFriendlyError({ html: friendlyError.html }));
+          if (friendlyError) {
+            dispatch(setFriendlyError(friendlyError));
           }
         } catch {
           console.error("Could not parse friendly error");

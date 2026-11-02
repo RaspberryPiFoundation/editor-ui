@@ -102,6 +102,7 @@ yarn exec cypress open
 - `docs/host-integration/AutosaveFlush.md`
 - `docs/HTML.md`
 - `docs/PythonDependencies.md`
+- `docs/ErrorHelpEscalation.md`
 - `docs/Deployment.md`
 - `.github/workflows/ci-cd.yml`
 
