@@ -127,7 +127,7 @@
       "pythonNameVar": "name",
       "pythonGreeting": "Hello, ",
       "blocksHeading": "Blocks code",
-      "blocksIntro": "In a Blocks project you might want to reference a particular type of block in your instructions. You can highlight words with the same colour that's used for the block type itself:",
+      "blocksIntro": "In a Blocks project you might want to reference a particular type of block in your instructions. You can highlight words with the same color that's used for the block type itself:",
       "blocksColourExample": "Get a block from the `Looks`{:block-type=\"looks\"} section.",
       "blocksTypes": "The [instructions guide](https://help.editor.raspberrypi.org/hc/en-us/articles/52495086715028-How-to-write-project-instructions#h_01M0034Z2SSTYV4W3CQZ4JCV3A) lists all types you can use.",
       "blocksExample": "You might also want to include an example of blocks. To do this use `blocks` as the language name in a code block:",
