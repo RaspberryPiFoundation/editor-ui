@@ -36,73 +36,31 @@ const Simulator2d = () => {
     };
   }, []);
 
-  const gridBackgroundColor = "darkgrey";
-  const cellBackgroundColor = "#c9cacd";
 
   return (
-    // TODO move to stylesheet
     <>
       <div
         role="img"
-        aria-label="2D view of the Astro Pi 8 by 8 Sense HAT LED matrix"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          paddingTop: "0.5rem",
-          flex: "1",
-          boxSizing: "border-box",
-        }}
+        className="sense-hat-model-2d"
+        aria-label={t("output.senseHat.view.description")}
       >
-        <div
-          style={{
-            padding: "1%",
-            display: "grid",
-            backgroundColor: gridBackgroundColor,
-            gridTemplateColumns: "repeat(8, 1fr)",
-            gridTemplateRows: "repeat(8, 1fr)",
-            gap: "1%",
-            aspectRatio: "1 / 1",
-            maxHeight: "100%",
-            maxWidth: "100%",
-          }}
-          className="sense-hat-led-matrix-2d"
-          aria-hidden="true"
-        >
+        <div className="sense-hat-model-2d-matrix" aria-hidden="true">
           {
             // The div elements are ordered left to right-top to
             // bottom, but the SenseHAT is ordered top to
             // bottom-right to left in its default orientation
-            // (i.e. rotation=0). Hence, the divs need to be
+            // (i.e. rotation=0). Hence, the div indexes need to be
             // rotated 90 degrees clockwise.
             rotationClockwise90degrees.map((i) => {
               const [r, g, b] = pixels[i];
               return (
                 <div
+                  className="sense-hat-model-2d-matrix__led-housing"
                   key={`led-${i}`}
-                  style={{
-                    display: "flex",
-                    backgroundColor: cellBackgroundColor,
-                    borderWidth: "2px 2px 2px 1px",
-                    borderStyle: "solid",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderTopColor: "#cfcfcf",
-                    borderLeftColor: "lightgrey",
-                    borderBottomColor: "#cfcfcf",
-                    borderRightColor: "grey",
-                  }}
                 >
                   <div
-                    className="led"
+                    className="sense-hat-model-2d-matrix__led-bulb"
                     style={{
-                      boxSizing: "border-box",
-                      height: "90%",
-                      width: "90%",
-                      // controls the led circle
-                      borderWidth: "0.5px",
-                      borderStyle: "solid",
-                      borderColor: "grey",
-                      borderRadius: "50%",
                       backgroundColor: `rgb(${r} ${g} ${b})`,
                     }}
                   />

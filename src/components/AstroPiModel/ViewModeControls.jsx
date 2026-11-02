@@ -13,32 +13,8 @@ const ViewModeControls = ({ is3d, setIs3d }) => {
   );
 
   return (
-    <div
-      className="sense-hat-model-view-controls"
-      style={{
-        boxSizing: "border-box",
-        position: "absolute",
-        width: "100%",
-        display: "flex",
-        justifyContent: "flex-end",
-        padding: "calc(0.5rem * var(--scale-factor, 1))",
-      }}
-    >
-      <button
-        aria-label={label}
-        style={{
-          backgroundColor: "white",
-          zIndex: "1",
-          width: "2rem",
-          height: "2rem",
-          borderRadius: "0.25rem",
-          textAlign: "center",
-          border: "1px solid white",
-          fontFamily: "var(--editor-font-family-sans-serif)",
-          fontWeight: 500,
-        }}
-        onClick={() => setIs3d((x) => !x)}
-      >
+    <div className="sense-hat-model-view-controls">
+      <button aria-label={label} onClick={() => setIs3d((x) => !x)}>
         {target}
       </button>
     </div>

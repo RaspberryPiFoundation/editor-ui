@@ -59,6 +59,66 @@
         }
       }
     }
+    &-view-controls {
+      box-sizing: border-box;
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      padding: $space-0-5;
+
+      button {
+        background-color: $rpf-white;
+        z-index: 1;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.25rem;
+        text-align: center;
+        border: 1px solid $rpf-white;
+        font-family: var(--editor-font-family-sans-serif);
+        font-weight: 500;
+      }
+    }
+    &-2d {
+      display: flex;
+      justify-content: center;
+      padding-top: $space-0-5;
+      flex: 1;
+    }
+    &-2d-matrix {
+      padding: 1%;
+      display: grid;
+      background-color: darkgrey;
+      grid-template-columns: repeat(8, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+      gap: 1%;
+      aspect-ratio: 1 / 1;
+      max-height: 100%;
+      max-width: 100%;
+
+      &__led-housing {
+        display: flex;
+        background-color: #c9cacd;
+        border-width: 2px 2px 2px 1px;
+        border-style: solid;
+        justify-content: center;
+        align-items: center;
+        border-top-color: #cfcfcf;
+        border-left-color: lightgrey;
+        border-bottom-color: #cfcfcf;
+        border-right-color: grey;
+      }
+      &__led-bulb {
+        box-sizing: border-box;
+        height: 90%;
+        width: 90%;
+        // controls the led circle
+        border-width: 0.5px;
+        border-style: solid;
+        border-color: grey;
+        border-radius: 25%;
+      }
+    }
   }
 
   &-controls {
