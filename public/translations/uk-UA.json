@@ -317,6 +317,12 @@
     "saving": "Зберігаємо",
     "saved": "Збережено"
   },
+  "regions": {
+    "inputPanel": "Input panel",
+    "outputPanel": "Output panel",
+    "projectBar": "Project bar",
+    "sidebar": "Sidebar"
+  },
   "runners": {
     "HtmlOutput": "Попередній перегляд результату HTML"
   },
