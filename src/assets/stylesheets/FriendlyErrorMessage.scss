@@ -1,42 +1,25 @@
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
+  typography;
+
+// The SimpleErrorMessage card: the copydeck summary on a white card inside the
+// red .error-message panel.
 .friendly-error-message {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-1);
   background-color: var(--rpf-white);
   padding: var(--space-1-5);
   color: var(--rpf-text-primary);
   border-radius: var(--space-1);
+  @include typography.style-1;
 
   &__content {
-    line-height: 1.5;
-
-    .pfem__title {
-      font-weight: bold;
-      display: inline;
-    }
-
     .pfem__summary {
-      display: inline;
-
-      &::before {
-        content: " - ";
-      }
-    }
-  }
-
-  // The pre-written `why`, revealed in place under the summary. It arrives as
-  // the copydeck's own markup, so only its outer spacing needs resetting.
-  &__detail {
-    .pfem__why {
       margin: 0;
     }
   }
 }
 
-// The highlights the copydeck puts round a variable, a line of code, a file and
-// a line number. Shared with the AI card, which tags the same words in the
-// model's answer so the two cards read alike.
+// ErrorMessageCodeHighlight: the highlights the copydeck puts round a variable,
+// a line of code, a file and a line number. Shared with the AI card, which tags
+// the same words in the model's answer so the two cards read alike.
 .friendly-error-message__content,
 .ai-error-help {
   .pfem__var,
@@ -44,8 +27,9 @@
   .pfem__file,
   .pfem__line {
     font-family: var(--editor-font-family-monospace);
-    border-radius: 0.25rem;
-    padding: 0.2rem var(--space-0-5);
+    border-radius: 0.25em;
+    padding-block: 0;
+    padding-inline: var(--space-0-5);
   }
 
   .pfem__var {
@@ -67,7 +51,7 @@
       block-size: 1em;
       background: url("../error_file.svg") no-repeat center;
       background-size: contain;
-      margin-inline-end: 0.12rem;
+      margin-inline-end: var(--space-0-25);
       vertical-align: middle;
     }
   }

@@ -213,18 +213,13 @@
   },
   "output": {
     "aiHelp": {
-      "explainWhy": "Get more information",
-      "title": "Need more help? Generate an AI hint",
-      "ask": {
-        "hint": "Generate hint",
-        "explain": "Explain with AI"
-      },
-      "generating": {
-        "hint": "Generating a hint with AI…",
-        "explain": "Generating an explanation with AI…"
-      },
-      "disclaimer": "Generated responses from an AI model are not always correct.",
-      "learnMore": "Learn more",
+      "title": "AI generated hint",
+      "ask": "Need more help? Generate an AI hint",
+      "generating": "Generating hint",
+      "explainMore": "Explain more",
+      "generatingMore": "Generating",
+      "disclaimer": "AI hints will not give you the answer and may get things wrong.",
+      "learnMore": "Learn how AI hints work",
       "truncated": "This answer stopped early because it got too long.",
       "fixWithheld": "The fix is hidden for now, so you can try it yourself first.",
       "failure": {

@@ -17,7 +17,7 @@ import { friendlyExplain } from "@raspberrypifoundation/python-friendly-error-me
 const buildFriendlyErrorPayload = (options) => {
   const summary = friendlyExplain({
     ...options,
-    sections: ["title", "summary"],
+    sections: ["summary"],
   });
 
   if (!summary?.html) {

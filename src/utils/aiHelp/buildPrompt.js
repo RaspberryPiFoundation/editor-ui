@@ -126,15 +126,15 @@ export const buildUserTurn = ({
   return parts.join("\n\n");
 };
 
-// What the learner is taken to have said to get to this rung, in their own
-// voice. The system prompt already describes the rung; this is what makes the
+// What the learner is taken to have said to get to this step, in their own
+// voice. The system prompt already describes the step; this is what makes the
 // replayed conversation read as a conversation.
 export const FOLLOW_UPS = {
-  hint: "That did not help me. Can you tell me exactly what to change?",
-  solve: "I am still stuck. Please just show me the fix.",
+  explanation:
+    "I am still stuck. Can you explain what is going on in more detail?",
 };
 
-// Ollama /api/chat messages. The previous model turn is replayed so a later rung
+// Ollama /api/chat messages. The previous model turn is replayed so a later step
 // can see what it already said and not repeat it. Only the most recent turn is
 // sent: it keeps strict user/assistant alternation, and these context windows
 // are too small to spend on older turns the learner has already rejected.

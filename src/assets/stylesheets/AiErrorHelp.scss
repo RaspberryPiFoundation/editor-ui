@@ -1,22 +1,18 @@
 @use "@raspberrypifoundation/design-system-core/scss/mixins/typography" as
   typography;
 
-// The AI card, a sibling of the friendly error card inside the red
-// .error-message panel. It matches that card's surface so the two read as a
-// pair, but stays a separate box so model output is never mistaken for the
-// human-written explanation above it.
+// The AIErrorMessage block, a sibling of the friendly error card inside the
+// red .error-message panel: either the "Need more help?" button or the AI hint
+// card, with the disclaimer under both.
 .ai-error-help {
   display: flex;
   flex-direction: column;
-  gap: var(--space-0-5);
-  background-color: var(--rpf-white);
+  gap: var(--space-1);
   color: var(--rpf-text-primary);
-  // Stated rather than inherited. This card sits between the raw error and the
+  // Stated rather than inherited. This sits between the raw error and the
   // console output, and it is prose - it should not depend on what an ancestor
   // happens to set, in a component whose styling hosts can override.
   font-family: var(--editor-font-family-sans-serif);
-  border-radius: var(--space-1);
-  padding: var(--space-1) var(--space-1-5);
   @include typography.style-1;
 
   &--medium {
@@ -27,46 +23,130 @@
     @include typography.style-2;
   }
 
-  // Only the header and the disclaimer are showing, so they get a little more
-  // room between them.
-  &--generating {
-    gap: var(--space-1);
+  // The element the button morphs into the card inside. It draws the button's
+  // outline in an overlay, above the button's own background, so the outline
+  // can fade out without changing the layout. Its height follows its content
+  // (set inline from JS, as CSS cannot transition to an auto height).
+  &__morph {
+    --ai-error-help-outline: var(--rpf-navy-200);
+    position: relative;
+    background-color: var(--rpf-white);
+    border-radius: var(--space-1);
+    transition: block-size 200ms ease-out;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: var(--button-border-width, 2px) solid
+        var(--ai-error-help-outline);
+      border-radius: inherit;
+      pointer-events: none;
+      transition: border-color 150ms ease-out;
+    }
+
+    // The design system's own hover border, which the button can no longer
+    // draw now its outline belongs to this element.
+    &--button:has(.rpf-button:hover) {
+      --ai-error-help-outline: var(--rpf-navy-900);
+    }
+
+    // Clipped only once it starts to change shape, so the button's focus ring
+    // is not cut off while it is still a button.
+    &--fading,
+    &--subtitle,
+    &--text {
+      --ai-error-help-outline: transparent;
+      overflow: hidden;
+    }
+
+    &--fading .ai-error-help__button {
+      opacity: 0;
+    }
+
+    &--subtitle .ai-error-help__subtitle {
+      animation: ai-error-help-fade-in 250ms ease-out both;
+    }
   }
 
-  &__header {
+  // Design system secondary button at body-size text and a fixed 40px height,
+  // so the loading state does not change its size. Its own border is turned
+  // off, as the morph element draws it.
+  &__button.rpf-button {
+    --rpf-button-border-color: transparent;
+    --rpf-button-border-color-hover: transparent;
+    --rpf-button-border-color-active: transparent;
+    --rpf-button-border-radius: var(--space-1);
+    min-block-size: 2.5em;
+    padding: var(--space-1);
+    font-size: inherit;
+    line-height: inherit;
+    transition: opacity 150ms ease-out;
+  }
+
+  // The foot of the hint card: the "Explain more" button, which turns into the
+  // explanation in place. The padding plus the card's gap is the 12px between
+  // paragraphs in the design.
+  &__more {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0-5);
+    padding-block-start: var(--space-1);
+
+    &--fading .ai-error-help__more-button {
+      opacity: 0;
+    }
+  }
+
+  &__more-button.rpf-button {
+    transition: opacity 150ms ease-out;
+  }
+
+  // Global.scss fills every svg with currentColor; the spinner's own paths set
+  // a fixed navy, so both are pointed back at the button's text colour here.
+  &__spinner {
+    flex-shrink: 0;
+    inline-size: 1.125em;
+    block-size: 1.125em;
+    animation: ai-error-help-spin 0.8s linear infinite;
+
+    path {
+      fill: currentColor;
+    }
+  }
+
+  // AIHintCard: the model's answer on a white card of its own.
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0-5);
+    background-color: var(--rpf-white);
+    border-radius: var(--space-1);
+    padding: var(--space-1-5);
+  }
+
+  &__subtitle {
     display: flex;
     align-items: center;
     gap: var(--space-1);
-    min-block-size: 2em;
   }
 
   &__icon {
     flex-shrink: 0;
-    // Global.scss fills every svg with currentColor, which turns the outlined
-    // question badge solid. Its paths are strokes, and the sync icon sets its
-    // own fill on its path, so neither needs the root fill.
+    inline-size: 1.25em;
+    block-size: 1.25em;
+    // Its paths are strokes; the root fill from Global.scss turns the outlined
+    // badge solid.
     fill: none;
 
-    &--generating {
-      animation: ai-error-help-spin 1.6s linear infinite;
+    path {
+      stroke: currentColor;
     }
   }
 
   &__title {
     margin: 0;
     font-weight: bold;
-  }
-
-  // The chip showing which model answered.
-  &__model-name {
-    margin-inline-start: auto;
-    font-family: var(--editor-font-family-monospace);
-    color: var(--rpf-text-secondary);
-    @include typography.style-0-75;
-  }
-
-  &__button {
-    margin-inline-start: auto;
   }
 
   // Paragraphs come pre-split by parseAnswer, so these wrap normally. Honouring
@@ -95,21 +175,34 @@
     overflow-wrap: break-word;
   }
 
-  &__meta,
-  &__disclaimer {
+  &__meta {
     margin: 0;
     color: var(--rpf-text-secondary);
     @include typography.style-0-75;
   }
 
-  &__disclaimer a {
-    color: var(--rpf-link-text);
-    font-weight: bold;
+  &__disclaimer {
+    margin: 0;
+    text-align: center;
+    color: var(--rpf-text-secondary);
+    @include typography.style-0-75;
+
+    a {
+      color: inherit;
+      font-weight: bold;
+      text-decoration: underline;
+    }
   }
 
   &__failure {
     margin: 0;
     color: var(--rpf-alert-error);
+  }
+}
+
+@keyframes ai-error-help-fade-in {
+  from {
+    opacity: 0;
   }
 }
 
@@ -121,7 +214,15 @@
 
 // Age-appropriate guidelines: animation must respect motion preferences.
 @media (prefers-reduced-motion: reduce) {
-  .ai-error-help__icon--generating {
+  .ai-error-help__spinner,
+  .ai-error-help__subtitle {
     animation: none;
+  }
+
+  .ai-error-help__morph,
+  .ai-error-help__morph::after,
+  .ai-error-help__button.rpf-button,
+  .ai-error-help__more-button.rpf-button {
+    transition: none;
   }
 }

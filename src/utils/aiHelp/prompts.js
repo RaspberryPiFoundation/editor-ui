@@ -122,64 +122,86 @@ export const USER_TURN_REMINDER =
   "Remember: I cannot reply to you, so please do not ask me any questions " +
   "that I would need to answer.";
 
-export const LEVELS = ["explain", "hint", "solve"];
+// The AI steps of the pilot's scaffolded error-message structure (PRD,
+// "Scaffolded error messaging approach for the pilot"):
+//
+//   1. Present - the raw Python error              } shown without AI
+//   2. Generic explanation - the copydeck summary  }
+//   3. Specific hint - first request from the learner
+//   4. Detailed explanation and generic hints - second request
+//
+// There is no "show the fix" step in the pilot, so no level writes code.
+export const LEVELS = ["explainAndHint", "hint", "explanation"];
 
-// One block per rung of the levels-of-support ladder, appended after GUIDELINES.
-// Only `solve` overrides anything in GUIDELINES, and it says so explicitly so a
-// small model does not have to reconcile two contradictory instructions itself.
+// One block per step, appended after GUIDELINES.
 export const LEVEL_INSTRUCTIONS = {
-  // Used only when the friendly-error copydeck had no match, so the learner has
-  // seen nothing but the raw Python error. This is the "Explain and suggest"
-  // rung: plain English, and a suggestion rather than an instruction.
-  explain: `### This request
+  // Step 3 when the copydeck had no match, so the learner has seen nothing but
+  // the raw Python error. Step 2 is folded in as one sentence first, because a
+  // hint about an error nobody has explained does not make sense.
+  explainAndHint: `### This request
 
 The learner has only seen the raw Python error. Nothing has explained it to them yet.
 
-Say in plain language what the error means, and suggest which part of their code to
-look at. Pose it as a suggestion, not an instruction — "it might be worth checking…"
-rather than "change…".
+First, say in one sentence what the error means in plain language.
 
-Three or four short sentences.
+Then give one specific hint: name the exact line, and the exact variable or function
+name in their code, that is causing the error, and say in words what they should
+change about it. Leave the change itself to them.
+
+Three short sentences at most. Write so that a nine-year-old could read it.
 
 Put variable names, function names and file names in backticks, like \`score\` or
 \`main.py\`.
 
-Do not write any code in this reply. No code blocks and no corrected lines.`,
+Do not write any code in this reply. No code blocks, no corrected lines, not even a
+short one.`,
 
-  // "Hint and direct". The learner has already had the copydeck's explanation and
-  // its list of things to check, so a repeat of either is a wasted turn.
+  // Step 3, "Specific hint". The learner has read the copydeck's one-sentence
+  // explanation, so repeating it is a wasted turn.
   hint: `### This request
 
-The learner has already been shown a plain-English explanation of this error and a
-list of things to check. They have read those and are still stuck. Do not repeat
-them.
+The learner has already been shown a one-sentence, plain-English explanation of this
+error. They have read it and are still stuck. Do not repeat it.
 
-Go one step further and be specific:
+Give one specific hint:
 
 - Name the exact line, and the exact variable or function name in their code, that
-  has to change.
-- Tell them directly what to change about it, in words. Direct them, do not offer a
-  list of possibilities.
+  is causing the error.
+- Say in words what they should change about it. Be clear and actionable, like a
+  proposed fix, but leave them to make the change themselves.
 
-Two or three short sentences.
+Two or three short sentences. Write so that a nine-year-old could read it.
 
 Put variable names, function names and file names in backticks, like \`score\` or
 \`main.py\`.
 
-Do not write any code in this reply. No code blocks, no corrected lines, not
-even a short one. Naming a line and a variable is enough.`,
+Do not write any code in this reply. No code blocks, no corrected lines, not even a
+short one. Naming a line and a variable is enough.`,
 
-  // "Solve". This is the only rung that overrides GUIDELINES, and it is reached
-  // only by an explicit request from the learner after two earlier rungs.
-  solve: `### This request
+  // Step 4, "Detailed explanation and generic hints". Reached only when the
+  // learner asks again after the specific hint, which is replayed to the model
+  // as the previous turn.
+  explanation: `### This request
 
-The learner has asked to be shown the fix. They have already had an explanation and
-a specific hint, and are still stuck.
+The learner has been shown a short explanation of this error and then a specific
+hint, which is your previous reply. They are still stuck, and have asked for more
+explanation. Do not repeat the hint.
 
-This overrides the instruction above not to write the corrected code for them. That
-instruction does not apply to this reply. Everything else in the guidance still does.
+Explain in more depth:
 
-- Show only the line or two that change, in a fenced \`python\` block. Do not repeat
-  their whole program.
-- Then say, in two short sentences, what was wrong and why this change fixes it.`,
+- Describe what is going wrong in their program, based on the error message.
+- Explain any Python idea behind it in simple words, for example what a variable,
+  a string or an indent is, and how that links to this error.
+- Describe, in general terms, the ways someone could fix this kind of error. Here
+  it is fine to describe more than one way.
+
+Four to six short sentences. This overrides the guidance above to keep to three or
+four. Write so that a nine-year-old could read it.
+
+Put variable names, function names and file names in backticks, like \`score\` or
+\`main.py\`.
+
+Do not write any code in this reply. No code blocks and no corrected lines. A tiny
+general example such as \`score = 0\` in backticks is fine if it explains the idea,
+but never their own line corrected.`,
 };
