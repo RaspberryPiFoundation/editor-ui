@@ -11,27 +11,46 @@ const HINTS = [
   "Do you need more coffee? Probably.",
 ];
 
+const TYPING_SPEED_MS = 10;
+
 const AiErrorMessage = () => {
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [hint, setHint] = useState("");
+  const [typedLength, setTypedLength] = useState(0);
+  const typingDone = typedLength >= hint.length;
 
   const handleButtonClick = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setHint(HINTS[Math.floor(Math.random() * HINTS.length)]);
+      setTypedLength(0);
       setShowHint(true);
     }, 1000);
   };
 
   useEffect(() => {
     if (!showHint) return;
+    const interval = setInterval(() => {
+      setTypedLength((length) => {
+        if (length >= hint.length) {
+          clearInterval(interval);
+          return length;
+        }
+        return length + 1;
+      });
+    }, TYPING_SPEED_MS);
+    return () => clearInterval(interval);
+  }, [showHint, hint]);
+
+  useEffect(() => {
+    if (!showHint || !typingDone) return;
     const timeout = setTimeout(() => setShowHint(false), 3000);
     return () => clearTimeout(timeout);
-  }, [showHint]);
+  }, [showHint, typingDone]);
 
   return aiErrorsEnabled ? (
     <div className="ai-error-message">
@@ -41,7 +60,9 @@ const AiErrorMessage = () => {
             <BadgeQuestionMarkIcon />
             {t("output.aiErrorMessages.aiGeneratedHint")}
           </p>
-          <p className="ai-error-message__hint-text">{hint}</p>
+          <p className="ai-error-message__hint-text">
+            {hint.slice(0, typedLength)}
+          </p>
         </div>
       ) : (
         <Button
