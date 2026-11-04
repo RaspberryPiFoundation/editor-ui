@@ -1,7 +1,7 @@
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { fireEvent, render, screen } from "@testing-library/react";
-import AiErrorMessage from "./AiErrorMessage";
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import AiErrorMessage, { MIN_LOADING_MS } from "./AiErrorMessage";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 
 vi.mock("../../../utils/apiCallHandler");
@@ -49,11 +49,23 @@ const renderAiErrorMessage = (state = buildState()) => {
 const clickButton = () =>
   fireEvent.click(screen.getByText("output.aiErrorMessages.buttonText"));
 
+const advanceTimers = (ms) => act(() => vi.advanceTimersByTimeAsync(ms));
+
+const clickButtonAndWait = async () => {
+  clickButton();
+  await advanceTimers(MIN_LOADING_MS);
+};
+
 let getAiErrorHint;
 
 beforeEach(() => {
+  vi.useFakeTimers();
   getAiErrorHint = vi.fn();
   ApiCallHandler.mockImplementation(() => ({ getAiErrorHint }));
+});
+
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 describe("When AI errors are not available", () => {
@@ -84,9 +96,8 @@ describe("When AI errors are available", () => {
   test("Sends the error details, main.py code and access token", async () => {
     getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
     renderAiErrorMessage();
-    clickButton();
+    await clickButtonAndWait();
 
-    await screen.findByText("A friendly hint");
     expect(ApiCallHandler).toHaveBeenCalledWith({
       reactAppApiEndpoint: "http://localhost:3009",
     });
@@ -116,8 +127,9 @@ describe("When AI errors are available", () => {
       screen.getAllByText("output.aiErrorMessages.loadingText").length,
     ).toBeGreaterThan(0);
 
-    resolveRequest({ data: { fem: "A friendly hint" } });
-    await screen.findByText("A friendly hint");
+    await act(async () => resolveRequest({ data: { fem: "A friendly hint" } }));
+    await advanceTimers(MIN_LOADING_MS);
+    expect(screen.getByText("A friendly hint")).toBeInTheDocument();
     expect(
       screen.queryByText("output.aiErrorMessages.loadingText"),
     ).not.toBeInTheDocument();
@@ -126,9 +138,9 @@ describe("When AI errors are available", () => {
   test("Shows the hint and heading, and hides the button, on success", async () => {
     getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
     renderAiErrorMessage();
-    clickButton();
+    await clickButtonAndWait();
 
-    expect(await screen.findByText("A friendly hint")).toBeInTheDocument();
+    expect(screen.getByText("A friendly hint")).toBeInTheDocument();
     expect(
       screen.getByText("output.aiErrorMessages.aiGeneratedHint"),
     ).toBeInTheDocument();
@@ -137,13 +149,42 @@ describe("When AI errors are available", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("Shows the error text and keeps the button when the request fails", async () => {
+  test("Keeps loading for the minimum time when the response is fast", async () => {
+    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+    renderAiErrorMessage();
+    clickButton();
+
+    await advanceTimers(MIN_LOADING_MS - 1);
+    expect(screen.queryByText("A friendly hint")).not.toBeInTheDocument();
+    expect(screen.getByRole("button")).toHaveAttribute("aria-busy", "true");
+
+    await advanceTimers(1);
+    expect(screen.getByText("A friendly hint")).toBeInTheDocument();
+  });
+
+  test("Keeps loading for the minimum time when the request fails fast", async () => {
     getAiErrorHint.mockRejectedValue(new Error("Bad gateway"));
     renderAiErrorMessage();
     clickButton();
 
+    await advanceTimers(MIN_LOADING_MS - 1);
     expect(
-      await screen.findByText("output.aiErrorMessages.errorText"),
+      screen.queryByText("output.aiErrorMessages.errorText"),
+    ).not.toBeInTheDocument();
+
+    await advanceTimers(1);
+    expect(
+      screen.getByText("output.aiErrorMessages.errorText"),
+    ).toBeInTheDocument();
+  });
+
+  test("Shows the error text and keeps the button when the request fails", async () => {
+    getAiErrorHint.mockRejectedValue(new Error("Bad gateway"));
+    renderAiErrorMessage();
+    await clickButtonAndWait();
+
+    expect(
+      screen.getByText("output.aiErrorMessages.errorText"),
     ).toBeInTheDocument();
     expect(
       screen.getByText("output.aiErrorMessages.buttonText"),
@@ -156,11 +197,13 @@ describe("When AI errors are available", () => {
       .mockResolvedValueOnce({ data: { fem: "A friendly hint" } });
     renderAiErrorMessage();
 
-    clickButton();
-    await screen.findByText("output.aiErrorMessages.errorText");
+    await clickButtonAndWait();
+    expect(
+      screen.getByText("output.aiErrorMessages.errorText"),
+    ).toBeInTheDocument();
 
-    clickButton();
-    expect(await screen.findByText("A friendly hint")).toBeInTheDocument();
+    await clickButtonAndWait();
+    expect(screen.getByText("A friendly hint")).toBeInTheDocument();
     expect(
       screen.queryByText("output.aiErrorMessages.errorText"),
     ).not.toBeInTheDocument();
@@ -169,8 +212,8 @@ describe("When AI errors are available", () => {
   test("Resets to the button when a new error occurs", async () => {
     getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
     const { rerender } = renderAiErrorMessage();
-    clickButton();
-    await screen.findByText("A friendly hint");
+    await clickButtonAndWait();
+    expect(screen.getByText("A friendly hint")).toBeInTheDocument();
 
     const newStore = mockStore(
       buildState({ details: { ...errorDetails, line: 2 } }),

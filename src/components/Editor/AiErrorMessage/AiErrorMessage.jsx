@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 
+export const MIN_LOADING_MS = 500;
+
 const AiErrorMessage = () => {
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
@@ -32,19 +34,26 @@ const AiErrorMessage = () => {
 
     setLoading(true);
     setFailed(false);
+    const minLoadingTime = new Promise((resolve) =>
+      setTimeout(resolve, MIN_LOADING_MS),
+    );
     try {
       const { getAiErrorHint } = ApiCallHandler({ reactAppApiEndpoint });
-      const { data } = await getAiErrorHint(
-        {
-          message: errorDetails.message,
-          trace: errorDetails.trace,
-          runtime: errorDetails.runtime,
-          code,
-        },
-        accessToken,
-      );
+      const [{ data }] = await Promise.all([
+        getAiErrorHint(
+          {
+            message: errorDetails.message,
+            trace: errorDetails.trace,
+            runtime: errorDetails.runtime,
+            code,
+          },
+          accessToken,
+        ),
+        minLoadingTime,
+      ]);
       setHint(data.fem);
     } catch {
+      await minLoadingTime;
       setFailed(true);
     } finally {
       setLoading(false);
