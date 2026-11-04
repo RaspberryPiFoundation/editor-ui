@@ -469,6 +469,8 @@ const SkulptRunner = ({
         file: fileName,
         description: errorDescription,
         message: errorMessage,
+        trace: errorMessage,
+        runtime: "skulpt",
       };
 
       if (friendlyErrorsEnabled) {

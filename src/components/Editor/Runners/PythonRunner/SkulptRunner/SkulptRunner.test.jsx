@@ -278,6 +278,8 @@ describe("When an error occurs", () => {
           file: "main.py",
           description: "bad token T_OP",
           message: "SyntaxError: bad token T_OP on line 1 of main.py",
+          trace: "SyntaxError: bad token T_OP on line 1 of main.py",
+          runtime: "skulpt",
         }),
       ]),
     );
@@ -385,6 +387,9 @@ describe("When an error originates in the sense_hat shim", () => {
         description: "X position must be between 0 and 7",
         message:
           "ValueError: X position must be between 0 and 7 on line 2 of main.py",
+        trace:
+          "ValueError: X position must be between 0 and 7 on line 2 of main.py",
+        runtime: "skulpt",
       }),
     );
   });
@@ -455,6 +460,9 @@ describe("When native code called from Python throws a plain JS error (e.g. the 
           description: "Cannot read properties of undefined (reading 'foo')",
           message:
             "TypeError: Cannot read properties of undefined (reading 'foo')",
+          trace:
+            "TypeError: Cannot read properties of undefined (reading 'foo')",
+          runtime: "skulpt",
         }),
       ]),
     );

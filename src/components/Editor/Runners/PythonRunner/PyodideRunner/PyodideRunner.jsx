@@ -325,6 +325,8 @@ const PyodideRunner = ({
         file,
         description: info || mistake || "",
         message: errorMessage,
+        trace: rawTraceback,
+        runtime: "pyodide",
       };
 
       const { createError } = ApiCallHandler({
