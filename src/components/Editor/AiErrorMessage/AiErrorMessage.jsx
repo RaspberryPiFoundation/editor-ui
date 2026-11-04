@@ -4,65 +4,59 @@ import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../../assets/stylesheets/AiErrorMessage.scss?inline";
 import { useTranslation } from "react-i18next";
 import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg";
-
-const HINTS = [
-  "Your code uses the variable kittens, but this hasn't been created yet. Check line 2 in main.py. If you meant to print the text kittens, put it in double quotes.",
-  "Lorem ipsum dolor sit amet consectetur. Et sed metus arcu quis lectus. Mauris fringilla interdum vel vivamus et sociis risus nunc in. At a nunc id pellentesque amet at porttitor. Turpis leo aenean pulvinar nam enim aenean. Montes dictum augue eget fringilla quam.  ",
-  "Do you need more coffee? Probably.",
-];
-
-const TYPING_SPEED_MS = 10;
+import ApiCallHandler from "../../../utils/apiCallHandler";
 
 const AiErrorMessage = () => {
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
+  const errorDetails = useSelector((state) => state.editor.errorDetails);
+  const projectCode = useSelector((state) => state.editor.project?.components);
+  const accessToken = useSelector((state) => state.auth?.user?.access_token);
+  const reactAppApiEndpoint = useSelector(
+    (state) => state.editor.reactAppApiEndpoint,
+  );
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
-  const [showHint, setShowHint] = useState(false);
   const [hint, setHint] = useState("");
-  const [typedLength, setTypedLength] = useState(0);
-  const typingDone = typedLength >= hint.length;
 
-  const handleButtonClick = () => {
+  useEffect(() => {
+    setHint("");
+    setLoading(false);
+  }, [errorDetails]);
+
+  const handleButtonClick = async () => {
+    const code =
+      projectCode?.find((c) => c.name === "main" && c.extension === "py")
+        ?.content ?? "";
+
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const { getAiErrorHint } = ApiCallHandler({ reactAppApiEndpoint });
+      const { data } = await getAiErrorHint(
+        {
+          message: errorDetails.message,
+          trace: errorDetails.trace,
+          runtime: errorDetails.runtime,
+          code,
+        },
+        accessToken,
+      );
+      setHint(data.fem);
+    } catch {
+      console.error("Could not get AI error hint");
+    } finally {
       setLoading(false);
-      setHint(HINTS[Math.floor(Math.random() * HINTS.length)]);
-      setTypedLength(0);
-      setShowHint(true);
-    }, 1000);
+    }
   };
-
-  useEffect(() => {
-    if (!showHint) return;
-    const interval = setInterval(() => {
-      setTypedLength((length) => {
-        if (length >= hint.length) {
-          clearInterval(interval);
-          return length;
-        }
-        return length + 1;
-      });
-    }, TYPING_SPEED_MS);
-    return () => clearInterval(interval);
-  }, [showHint, hint]);
-
-  useEffect(() => {
-    if (!showHint || !typingDone) return;
-    const timeout = setTimeout(() => setShowHint(false), 3000);
-    return () => clearTimeout(timeout);
-  }, [showHint, typingDone]);
 
   return aiErrorsEnabled ? (
     <div className="ai-error-message">
-      {showHint ? (
+      {hint ? (
         <div className="ai-error-message__hint">
           <p className="ai-error-message__hint-heading">
             <BadgeQuestionMarkIcon />
             {t("output.aiErrorMessages.aiGeneratedHint")}
           </p>
-          <p className="ai-error-message__hint-text">
-            {hint.slice(0, typedLength)}
-          </p>
+          <p className="ai-error-message__hint-text">{hint}</p>
         </div>
       ) : (
         <Button
