@@ -16,10 +16,12 @@ const AiErrorMessage = () => {
   );
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [hint, setHint] = useState("");
 
   useEffect(() => {
     setHint("");
+    setFailed(false);
     setLoading(false);
   }, [errorDetails]);
 
@@ -29,6 +31,7 @@ const AiErrorMessage = () => {
         ?.content ?? "";
 
     setLoading(true);
+    setFailed(false);
     try {
       const { getAiErrorHint } = ApiCallHandler({ reactAppApiEndpoint });
       const { data } = await getAiErrorHint(
@@ -42,14 +45,16 @@ const AiErrorMessage = () => {
       );
       setHint(data.fem);
     } catch {
-      console.error("Could not get AI error hint");
+      setFailed(true);
     } finally {
       setLoading(false);
     }
   };
 
-  return aiErrorsEnabled ? (
-    <div className="ai-error-message">
+  if (!aiErrorsEnabled || !accessToken) return null;
+
+  return (
+    <div className="ai-error-message" aria-live="polite">
       {hint ? (
         <div className="ai-error-message__hint">
           <p className="ai-error-message__hint-heading">
@@ -59,18 +64,27 @@ const AiErrorMessage = () => {
           <p className="ai-error-message__hint-text">{hint}</p>
         </div>
       ) : (
-        <Button
-          className="ai-error-message__button"
-          loading={loading}
-          loadingText={t("output.aiErrorMessages.loadingText")}
-          fullWidth={true}
-          onClick={handleButtonClick}
-          type="secondary"
-          text={t("output.aiErrorMessages.buttonText")}
-        />
+        <>
+          {failed && (
+            <div className="ai-error-message__hint">
+              <p className="ai-error-message__hint-text">
+                {t("output.aiErrorMessages.errorText")}
+              </p>
+            </div>
+          )}
+          <Button
+            className="ai-error-message__button"
+            loading={loading}
+            loadingText={t("output.aiErrorMessages.loadingText")}
+            fullWidth={true}
+            onClick={handleButtonClick}
+            type="secondary"
+            text={t("output.aiErrorMessages.buttonText")}
+          />
+        </>
       )}
     </div>
-  ) : null;
+  );
 };
 
 export default AiErrorMessage;
