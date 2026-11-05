@@ -87,7 +87,9 @@
     "offline": "Offline",
     "offlineTooltipDevice": "Code changes are being saved to your device.",
     "offlineTooltipContinue": "You can keep coding and your work will be saved when you are back online.",
-    "settings": "Settings"
+    "settings": "Settings",
+    "enterFullscreen": "Enter fullscreen",
+    "exitFullscreen": "Exit fullscreen"
   },
   "imagePanel": {
     "gallery": "Image Gallery"
