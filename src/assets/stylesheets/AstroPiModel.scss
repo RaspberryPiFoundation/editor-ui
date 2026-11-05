@@ -73,10 +73,12 @@
         width: 2rem;
         height: 2rem;
         border-radius: 0.25rem;
-        text-align: center;
         border: 1px solid $rpf-white;
         font-family: var(--editor-font-family-sans-serif);
         font-weight: 500;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
     &-2d {
