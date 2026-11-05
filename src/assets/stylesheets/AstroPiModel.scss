@@ -7,6 +7,7 @@
   flex-flow: column;
 
   &-model {
+    position: relative;
     display: flex;
     flex-flow: column;
     max-block-size: 50%;
@@ -43,7 +44,6 @@
       }
 
       &__reset-btn {
-        flex: 1;
         display: flex;
         margin-inline-start: auto;
         svg {
@@ -57,20 +57,22 @@
       }
     }
     &-view-controls {
-      box-sizing: border-box;
+      // box-sizing: border-box;
       position: absolute;
-      width: 100%;
+      // width: 100%;
+      left: 0;
+      right: 0;
       display: flex;
-      justify-content: flex-end;
-      padding: $space-0-5;
+      flex-direction: row-reverse;
+      padding-top: 0.5rem;
+      margin: 0 var(--space-1);
 
       button {
-        background-color: $rpf-white;
-        z-index: 1;
+        background-color: var(--rpf-white);
         width: 2rem;
         height: 2rem;
         border-radius: 0.25rem;
-        border: 1px solid $rpf-white;
+        border: 1px solid var(--rpf-white);
         font-family: var(--editor-font-family-sans-serif);
         font-weight: 500;
         display: flex;
@@ -81,7 +83,7 @@
     &-2d {
       display: flex;
       justify-content: center;
-      padding-top: $space-0-5;
+      padding-top: var(--space-0-5);
       flex: 1;
     }
     &-2d-matrix {
