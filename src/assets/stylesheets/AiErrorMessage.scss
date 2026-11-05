@@ -1,0 +1,33 @@
+.ai-error-message {
+	padding-block: var(--space-1);
+
+	&__hint {
+	  color: var(--rpf-text-primary);
+		background-color: var(--rpf-white);
+		border-radius: var(--space-1);
+  		padding-block: var(--space-1);
+		padding-inline: var(--space-1-5);
+	}
+
+	&__hint-heading {
+		font-weight: bold;
+		display: flex; 
+		align-items: center; 
+		gap: var(--space-0-5);
+
+		svg {
+			fill: none;
+		}
+	}
+	
+	&__button {
+		--rpf-button-lg-height: 2.5rem;
+		--rpf-button-border-color: var(--rpf-navy-200);
+		padding: var(--space-1);
+		font-size: var(--font-size-1);
+	}
+
+	p {
+		margin: var(--space-0-5);
+	}
+}

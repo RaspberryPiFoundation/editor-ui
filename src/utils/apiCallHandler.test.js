@@ -16,6 +16,7 @@ const {
   loadAssets,
   createRemix,
   createError,
+  getAiErrorHint,
 } = ApiCallHandler({ reactAppApiEndpoint: host });
 
 describe("Testing project API calls", () => {
@@ -223,5 +224,29 @@ describe("Testing project errors API calls", () => {
       },
       undefined,
     );
+  });
+});
+
+describe("Testing AI error hint API calls", () => {
+  const errorDetails = {
+    message: "NameError: name 'prnt' is not defined on line 1 of main.py",
+    trace: "NameError: name 'prnt' is not defined on line 1 of main.py",
+    runtime: "skulpt",
+    code: 'prnt("Hello world")',
+  };
+
+  test("Posts error details with auth headers", async () => {
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200, data: { fem: "A friendly hint" } }),
+    );
+
+    const response = await getAiErrorHint(errorDetails, accessToken);
+
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/friendly_error_messages`,
+      errorDetails,
+      authHeaders,
+    );
+    expect(response.data.fem).toBe("A friendly hint");
   });
 });
