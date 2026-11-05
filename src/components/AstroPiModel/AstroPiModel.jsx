@@ -28,7 +28,7 @@ const SMILEY_FACE = rotate(
   ],
 );
 
-const AstroPiModel = ({ initialIs3d = false }) => {
+const AstroPiModel = ({ initialIs3d = true }) => {
   const project = useSelector((state) => state.editor.project);
   const [is3d, setIs3d] = useState(initialIs3d);
   const [orientation, setOrientation] = useState([0, 90, 0]);

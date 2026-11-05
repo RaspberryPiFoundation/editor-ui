@@ -16,7 +16,7 @@ const ViewModeControls = ({ is3d, setIs3d }) => {
   return (
     <div className="sense-hat-model-view-controls">
       <button aria-label={label} onClick={() => setIs3d((x) => !x)}>
-        {is3d ? <ZoomOutIcon /> : <ZoomInIcon />}
+        {is3d ? <ZoomInIcon /> : <ZoomOutIcon />}
       </button>
     </div>
   );
