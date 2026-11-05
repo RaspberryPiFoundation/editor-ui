@@ -40,6 +40,7 @@
 @use "./Loader.scss" as *;
 @use "./LoadFailed.scss" as *;
 @use "./FriendlyErrorMessage" as *;
+@use "./AiErrorMessage" as *;
 
 .--light {
   // Theme colours

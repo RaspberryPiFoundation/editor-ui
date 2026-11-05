@@ -95,6 +95,17 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     });
   };
 
+  const getAiErrorHint = async (
+    { message, trace, runtime, code },
+    accessToken,
+  ) => {
+    return await post(
+      `${host}/api/friendly_error_messages`,
+      { message, trace, runtime, code },
+      { headers: headers(accessToken) },
+    );
+  };
+
   return {
     get,
     post,
@@ -106,6 +117,7 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     readProject,
     loadAssets,
     createError,
+    getAiErrorHint,
   };
 };
 
