@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
  *
  * The 3D view leaves Sk.sense_hat.pixels in the order they were passed to
  * `set_pixels` and records the rotation index mapping that was used in
- * Sk.sense_hat.pixel_indexes. Normalise the snapshot back to framebuffer
+ * Sk.sense_hat.rotation_mapping. Normalise the snapshot back to framebuffer
  * order so the displayed orientation is preserved when switching views, and
  * write it back so subsequent `setpixel` events update the right LED.
  */
@@ -21,10 +21,10 @@ const getInitialPixels = () => {
     return Array(64).fill([0, 0, 0]);
   }
 
-  const indexes = Sk.sense_hat.pixel_indexes;
+  const indexes = Sk.sense_hat.rotation_mapping;
   if (indexes) {
     Sk.sense_hat.pixels = rotate(indexes, Sk.sense_hat.pixels);
-    Sk.sense_hat.pixel_indexes = null;
+    Sk.sense_hat.rotation_mapping = null;
   }
 
   return Sk.sense_hat.pixels;
@@ -55,7 +55,7 @@ const Simulator2d = () => {
           },
         );
         Sk.sense_hat.pixels = pixelBuffer;
-        Sk.sense_hat.pixel_indexes = null;
+        Sk.sense_hat.rotation_mapping = null;
         setPixels(pixelBuffer);
       }
     };

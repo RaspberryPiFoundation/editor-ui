@@ -96,7 +96,7 @@ describe("3D mode", () => {
 
     // State left behind by the 3D view after handling `setpixels`
     Sk.sense_hat.pixels = [...image];
-    Sk.sense_hat.pixel_indexes = rotation90Indexes;
+    Sk.sense_hat.rotation_mapping = rotation90Indexes;
 
     fireEvent.click(
       container.getByRole("button", {
@@ -109,7 +109,7 @@ describe("3D mode", () => {
     expect(Sk.sense_hat.pixels[15]).toEqual(green);
     expect(Sk.sense_hat.pixels[0]).toEqual(off);
     expect(Sk.sense_hat.pixels[1]).toEqual(off);
-    expect(Sk.sense_hat.pixel_indexes).toBeNull();
+    expect(Sk.sense_hat.rotation_mapping).toBeNull();
 
     // Framebuffer indexes 7 and 15 are rendered in the bottom-right corner
     const leds = container.container.querySelectorAll(

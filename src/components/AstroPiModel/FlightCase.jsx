@@ -71,7 +71,7 @@ const FlightCase = () => {
       // `set_pixels` (i.e. relative to the current rotation), so record the
       // index mapping so that other views (e.g. the 2D view) can map it
       // back to framebuffer order.
-      Sk.sense_hat.pixel_indexes = data ?? null;
+      Sk.sense_hat.rotation_mapping = data ?? null;
 
       setPixels(data, Sk.sense_hat.pixels);
     }

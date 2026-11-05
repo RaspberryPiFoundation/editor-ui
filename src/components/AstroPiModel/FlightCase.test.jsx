@@ -76,9 +76,9 @@ describe("FlightCase", () => {
 
     const indexes = Array.from({ length: 64 }, (_, i) => 63 - i);
     Sk.sense_hat_emit("setpixels", indexes);
-    expect(Sk.sense_hat.pixel_indexes).toEqual(indexes);
+    expect(Sk.sense_hat.rotation_mapping).toEqual(indexes);
 
     Sk.sense_hat_emit("setpixels", null);
-    expect(Sk.sense_hat.pixel_indexes).toBeNull();
+    expect(Sk.sense_hat.rotation_mapping).toBeNull();
   });
 });
