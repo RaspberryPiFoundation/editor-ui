@@ -59,7 +59,6 @@
     &-view-controls {
       // box-sizing: border-box;
       position: absolute;
-      // width: 100%;
       left: 0;
       right: 0;
       display: flex;
@@ -69,8 +68,8 @@
 
       button {
         background-color: var(--rpf-white);
-        width: 2rem;
-        height: 2rem;
+        inline-size: 2rem;
+        block-size: 2rem;
         border-radius: 0.25rem;
         border: 1px solid var(--rpf-white);
         font-family: var(--editor-font-family-sans-serif);
@@ -83,7 +82,7 @@
     &-2d {
       display: flex;
       justify-content: center;
-      padding-top: var(--space-0-5);
+      padding-block-start: var(--space-0-5);
       flex: 1;
     }
     &-2d-matrix {
@@ -94,8 +93,8 @@
       grid-template-rows: repeat(8, 1fr);
       gap: 1%;
       aspect-ratio: 1 / 1;
-      max-height: 100%;
-      max-width: 100%;
+      max-block-size: 100%;
+      max-inline-size: 100%;
 
       &__led-housing {
         display: flex;
@@ -104,15 +103,15 @@
         border-style: solid;
         justify-content: center;
         align-items: center;
-        border-top-color: #cfcfcf;
-        border-left-color: lightgrey;
-        border-bottom-color: #cfcfcf;
-        border-right-color: grey;
+        border-block-start-color: #cfcfcf;
+        border-inline-start-color: lightgrey;
+        border-block-end-color: #cfcfcf;
+        border-inline-end-color: grey;
       }
       &__led-bulb {
         box-sizing: border-box;
-        height: 90%;
-        width: 90%;
+        block-size: 90%;
+        inline-size: 90%;
         // controls the led circle
         border-width: 0.5px;
         border-style: solid;
