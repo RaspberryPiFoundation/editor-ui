@@ -39,7 +39,6 @@ const Simulator2d = () => {
     };
   }, []);
 
-
   return (
     <>
       <div
