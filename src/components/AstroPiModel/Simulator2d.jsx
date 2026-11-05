@@ -23,6 +23,7 @@ const Simulator2d = () => {
         // from the current pixels state.
         const newPixels = [...Sk.sense_hat.pixels];
         newPixels[index] = newValue;
+        Sk.sense_hat.pixels[index] = newValue;
         setPixels(newPixels);
       } else if (event && event === "setpixels") {
         const pixelBuffer = new Array(64);
