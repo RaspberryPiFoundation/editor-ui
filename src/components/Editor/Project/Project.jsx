@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import "react-tabs/style/react-tabs.css?inline";
 import "react-toastify/dist/ReactToastify.css?inline";
 import classnames from "classnames";
@@ -7,8 +8,9 @@ import classnames from "classnames";
 import "../../../assets/stylesheets/Project.scss?inline";
 import Output from "../Output/Output";
 import { showSavedMessage } from "../../../utils/Notifications";
+import GeneralModal from "../../Modals/GeneralModal";
+import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 import ProjectBar from "../../ProjectBar/ProjectBar";
-import ScratchProjectBar from "../../ProjectBar/ScratchProjectBar";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
 import ResizableWithHandle from "../../../utils/ResizableWithHandle";
@@ -16,6 +18,7 @@ import { useContainerMinWidth } from "../../../hooks/useContainerMinWidth";
 import ScratchContainer from "./ScratchContainer";
 
 const Project = (props) => {
+  const { t } = useTranslation();
   const webComponent = useSelector((state) => state.editor.webComponent);
   const {
     locale = "en",
@@ -28,6 +31,7 @@ const Project = (props) => {
   } = props;
   const saving = useSelector((state) => state.editor.saving);
   const autosave = useSelector((state) => state.editor.lastSaveAutosave);
+  const saveError = useSelector((state) => state.editor.saveError);
   const project = useSelector((state) => state.editor.project);
   const isCodeEditorScratchProject =
     project?.project_type === "code_editor_scratch";
@@ -41,6 +45,14 @@ const Project = (props) => {
       showSavedMessage();
     }
   }, [autosave, isCodeEditorScratchProject, saving]);
+
+  const [saveErrorModalOpen, setSaveErrorModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isCodeEditorScratchProject && !!saveError) {
+      setSaveErrorModalOpen(true);
+    }
+  }, [isCodeEditorScratchProject, saveError]);
 
   const [isDesktop, containerRef] = useContainerMinWidth(720);
   const [loading, setLoading] = useState(true);
@@ -69,12 +81,7 @@ const Project = (props) => {
           />
         )}
         <div className="project-wrapper" ref={containerRef}>
-          {withProjectbar &&
-            (isCodeEditorScratchProject ? (
-              <ScratchProjectBar nameEditable={nameEditable} />
-            ) : (
-              <ProjectBar nameEditable={nameEditable} />
-            ))}
+          {withProjectbar && <ProjectBar nameEditable={nameEditable} />}
           {!loading && !isCodeEditorScratchProject && (
             <div className="proj-editor-wrapper">
               <ResizableWithHandle
@@ -96,6 +103,30 @@ const Project = (props) => {
           )}
         </div>
       </div>
+      {isCodeEditorScratchProject && saveErrorModalOpen && (
+        <GeneralModal
+          isOpen={saveErrorModalOpen}
+          className="save-error-modal"
+          heading={t("modals.projectSaveFailed.heading")}
+          closeModal={() => setSaveErrorModalOpen(false)}
+          text={[
+            {
+              content:
+                saveError === "asset_too_large"
+                  ? t("modals.projectSaveFailed.scratchAssetTooLarge.text")
+                  : t("modals.projectSaveFailed.scratchProjectTooLarge.text"),
+            },
+          ]}
+          buttons={[
+            <DesignSystemButton
+              key="accept"
+              type="primary"
+              text={t("modals.accept")}
+              onClick={() => setSaveErrorModalOpen(false)}
+            />,
+          ]}
+        />
+      )}
     </div>
   );
 };

@@ -1,12 +1,9 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 .info-panel {
-  border-radius: $space-0-5;
-  padding: $space-1;
-  margin-block-end: $space-0-5;
+  border-radius: var(--space-1);
+  padding: var(--space-2);
+  margin-block-end: var(--space-1);
 
   p {
     margin: 0;
@@ -18,9 +15,9 @@
   flex-direction: column;
 
   a, button {
-    @include font-size-1(regular);
+    @include typography.style-1;
     font-family: inherit;
-    font-weight: $font-weight-bold;
+    font-weight: var(--font-weight-bold);
     text-decoration: underline;
   }
 
@@ -31,30 +28,30 @@
   }
 
   p {
-    margin-block-start: $space-1;
+    margin-block-start: var(--space-2);
   }
 }
 
 .--dark {
   .info-panel {
-    color: $rpf-text-primary-darkmode;
-    background-color: $rpf-grey-600;
+    color: var(--rpf-text-primary-darkmode);
+    background-color: var(--rpf-grey-600);
   }
 
   .info-panel__links a,
   .info-panel__links button {
-    color: $rpf-text-primary-darkmode;
+    color: var(--rpf-text-primary-darkmode);
   }
 }
 
 .--light {
   .info-panel {
-    color: $rpf-text-primary;
-    background-color: $rpf-grey-50;
+    color: var(--rpf-text-primary);
+    background-color: var(--rpf-grey-50);
   }
 
   .info-panel__links a,
   .info-panel__links button {
-    color: $rpf-text-primary;
+    color: var(--rpf-text-primary);
   }
 }

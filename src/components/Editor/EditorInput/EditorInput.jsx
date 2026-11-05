@@ -127,7 +127,7 @@ const EditorInput = () => {
       onDragStart={(input) => onDragStart(input)}
       onDragEnd={(result) => onDragEnd(result)}
     >
-      <div className="editor-input">
+      <section className="editor-input" aria-label={t("regions.inputPanel")}>
         {openFiles.map((panel, panelIndex) => (
           <Tabs
             key={panelIndex}
@@ -189,7 +189,7 @@ const EditorInput = () => {
             {isMobile ? null : <RunBar />}
           </Tabs>
         ))}
-      </div>
+      </section>
     </DragDropContext>
   );
 };

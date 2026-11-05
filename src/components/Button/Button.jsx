@@ -19,11 +19,19 @@ const Button = (props) => {
     buttonOuterClassName,
     buttonRef,
     disabled,
+    ariaDisabled,
     confirmText,
     href,
     text,
     title,
     label,
+    role,
+    id,
+    tabIndex,
+    ariaSelected,
+    ariaControls,
+    onKeyDown: onKeyDownHandler,
+    onKeyUp,
     buttonIconPosition = "left",
   } = props;
 
@@ -54,6 +62,7 @@ const Button = (props) => {
   };
 
   const onKeyDown = (e) => {
+    onKeyDownHandler?.(e);
     e.stopPropagation();
   };
 
@@ -80,11 +89,18 @@ const Button = (props) => {
       ref={buttonRef}
       className={buttonClass}
       disabled={disabled}
+      aria-disabled={ariaDisabled || undefined}
       aria-label={label}
       title={title}
       text={text}
+      role={role}
+      id={id}
+      tabIndex={tabIndex}
+      aria-selected={ariaSelected}
+      aria-controls={ariaControls}
       onClick={buttonOuter ? null : onButtonClick}
       onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
     >
       {buttonImage && (
         <img src={buttonImage} alt={buttonImageAltText} crossOrigin="true" />

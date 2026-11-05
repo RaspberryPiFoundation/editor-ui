@@ -209,6 +209,28 @@ describe("When not embedded", () => {
     await waitFor(() => expect(setProject).not.toHaveBeenCalled());
   });
 
+  test("If current project is Scratch and locale changes, keeps current project", async () => {
+    initialState.editor.project = {
+      project_type: "code_editor_scratch",
+      identifier: cachedProject.identifier,
+    };
+    store = configureStore([])(initialState);
+
+    renderHook(
+      () =>
+        useProject({
+          projectIdentifier: cachedProject.identifier,
+          locale: "en",
+          accessToken,
+          reactAppApiEndpoint,
+        }),
+      { wrapper },
+    );
+
+    expect(syncProject).not.toHaveBeenCalled();
+    await waitFor(() => expect(setProject).not.toHaveBeenCalled());
+  });
+
   test("If current project has changed and locale changes back, keeps current project", async () => {
     setCurrentProjectWithEdits();
     localStorage.setItem(
@@ -835,20 +857,13 @@ describe("When a Scratch project has been remixed in place", () => {
     );
   };
 
-  test("loads the remix, not the original, when the locale changes", async () => {
+  test("keeps the remix when the locale changes", async () => {
     const { rerender } = renderScratchProject();
     loadProject.mockClear();
 
     rerender({ projectIdentifier: "teacher-original", locale: "fr-FR" });
 
-    await waitFor(() =>
-      expect(loadProject).toHaveBeenCalledWith({
-        identifier: "student-remix",
-        locale: "fr-FR",
-        accessToken,
-        reactAppApiEndpoint,
-      }),
-    );
+    await waitFor(() => expect(loadProject).not.toHaveBeenCalled());
   });
 
   test("still loads the requested project after a failed remix load", async () => {
@@ -909,5 +924,45 @@ describe("When a Scratch project has been remixed in place", () => {
         reactAppApiEndpoint,
       }),
     );
+  });
+});
+
+describe("When a save or remix has just returned the project", () => {
+  test("does not reload it when its new identifier is adopted", async () => {
+    const mockStore = configureStore([]);
+    const store = mockStore({
+      editor: {
+        isBrowserPreview: false,
+        isEmbedded: false,
+        loading: "success",
+        saving: "success",
+        project: {
+          identifier: "student-remix",
+          project_type: "python",
+          components: [],
+        },
+      },
+    });
+    const wrapper = ({ children }) => (
+      <Provider store={store}>{children}</Provider>
+    );
+    syncProject.mockImplementation(vi.fn((_) => loadProject));
+
+    const { rerender } = renderHook(
+      ({ projectIdentifier }) =>
+        useProject({
+          projectIdentifier,
+          accessToken,
+          reactAppApiEndpoint,
+          locale: "en",
+          loadCache: false,
+        }),
+      { wrapper, initialProps: { projectIdentifier: "teacher-original" } },
+    );
+    loadProject.mockClear();
+
+    rerender({ projectIdentifier: "student-remix" });
+
+    await waitFor(() => expect(loadProject).not.toHaveBeenCalled());
   });
 });

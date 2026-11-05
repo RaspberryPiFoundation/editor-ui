@@ -17,7 +17,7 @@ const getSaveButton = () =>
   getEditorShadow().findByRole("button", { name: "Save" });
 
 const getDownloadProjectButton = () =>
-  getEditorShadow().findByRole("button", { name: "Download project" });
+  getEditorShadow().findByRole("tab", { name: "Download project" });
 
 const getAddFileButton = () =>
   getEditorShadow().findByRole("button", { name: "Add file" });
@@ -68,6 +68,8 @@ export const getTurtleOutput = () => getEditorShadow().find("#turtleOutput");
 
 export const getErrorMessage = () =>
   getEditorShadow().find(".error-message__python");
+
+export const getErrorLine = () => getEditorShadow().find(".cm-error-line");
 
 export const getFriendlyErrorMessage = () =>
   getEditorShadow().find(".friendly-error-message");

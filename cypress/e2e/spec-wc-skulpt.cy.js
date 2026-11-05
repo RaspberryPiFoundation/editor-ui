@@ -1,4 +1,5 @@
 import {
+  getErrorLine,
   getErrorMessage,
   getFriendlyErrorMessage,
   getP5Canvas,
@@ -83,6 +84,31 @@ describe("Running the code with skulpt", () => {
     getErrorMessage().should("contain.text", "ValueError: boom in draw");
   });
 
+  it("does not turn unrelated page errors into Python exceptions", () => {
+    const uncaught = [];
+    cy.on("uncaught:exception", (err) => {
+      uncaught.push(err.message);
+      return false;
+    });
+
+    runCode(
+      "from p5 import *\n\ndef setup():\n\tsize(400, 400)\ndef draw():\n\tbackground(255)\nrun(frame_rate=2)",
+    );
+    getP5Canvas().should("exist");
+
+    cy.window().then((win) => {
+      const error = new win.TypeError("thing.method is not a function");
+      win.dispatchEvent(
+        new win.ErrorEvent("error", { error, message: error.message }),
+      );
+    });
+
+    cy.wrap(uncaught).should((messages) => {
+      expect(messages.filter((m) => /\$d|traceback/.test(m))).to.have.length(0);
+    });
+    getErrorMessage().should("not.exist");
+  });
+
   it("runs a simple py5 program", () => {
     runCode(
       "import py5\ndef setup():\n\tpy5.size(400, 400)\ndef draw():\n\tpy5.background(255)\npy5.run_sketch()",
@@ -158,7 +184,7 @@ describe("Running the code with skulpt", () => {
     getTurtleOutput().should("exist");
   });
 
-  it("includes an explanation of import errors if cross-origin isolated", () => {
+  it("explains and highlights an import error when cross-origin isolated", () => {
     cy.window().then((win) => {
       Object.defineProperty(win, "crossOriginIsolated", {
         value: true,
@@ -172,6 +198,7 @@ describe("Running the code with skulpt", () => {
       "contain.text",
       "ImportError: No module named matplotlib on line 2 of main.py. You should check your code for typos. If you are using p5, py5, sense_hat or turtle, matplotlib might not work - read this article for more information.",
     );
+    getErrorLine().should("have.length", 1).and("contain", "import matplotlib");
   });
 });
 

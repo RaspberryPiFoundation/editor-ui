@@ -1,11 +1,21 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
+@use "./rpf_design_system/mixins" as *;
+@use "./sizes" as *;
+
+$sidebar-min-width: 350px;
+$block-editor-min-width: 1024px;
+$small-sidebar-breakpoint: calc(
+  $sidebar-min-width + $block-editor-min-width + $resize-handle-size
+);
 
 /* Sidebar */
 .sidebar {
   display: flex;
   position: relative;
+  background-color: var(--editor-color-layer-2);
+  border-block-start: clamp(0px, var(--editor-margin-block-start, var(--space-2)), 1px)
+    solid var(--editor-color-outline);
+  border-start-end-radius: var(--editor-panel-radius, var(--space-1));
 }
 
 .sidebar--mobile {
@@ -23,20 +33,52 @@
   inline-size: var(--space-5);
   margin: var(--space-1-5);
   display: var(--editor-logo-display, inherit);
+
+  @include unique-max-width($small-sidebar-breakpoint) {
+    block-size: var(--space-4);
+    inline-size: var(--space-4);
+    margin: var(--space-1) var(--space-0-5);
+  }
 }
 
 .sidebar__bar {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 8px;
+  border-start-end-radius: var(--space-1);
   background-color: var(--sidebar-background);
 }
 
 .sidebar__bar--selected {
-  border-radius: 8px 0 0 8px;
+  border-start-end-radius: 0;
   background-color: var(--sidebar-background-selected);
   border-inline-end: 1px solid var(--sidebar-border);
+}
+
+// The expand/collapse button comes after the panel in the DOM (so Tab moves
+// from the selected tab into its panel first) but is drawn under the tabs
+.sidebar:not(.sidebar--mobile) {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: 1fr auto;
+  justify-content: start;
+
+  .sidebar__panel {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
+}
+
+.sidebar__bar--has-collapse {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.sidebar__bar-collapse {
+  grid-column: 1;
+  grid-row: 2;
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
 }
 
 .sidebar__bar-options--top,
@@ -50,6 +92,10 @@
 .sidebar__bar-option-wrapper {
   padding: var(--space-1);
   border: 1px solid transparent;
+
+  @include unique-max-width($small-sidebar-breakpoint) {
+    padding: var(--space-0-5);
+  }
 
   &--selected {
     background-color: var(--sidebar-panel-background);
@@ -67,6 +113,12 @@
       inline-size: var(--sidebar-border-obscurer-width);
       block-size: 60px;
       background-color: var(--sidebar-panel-background);
+
+      @include unique-max-width($small-sidebar-breakpoint) {
+        inset-block: -4px -1px;
+        inset-inline-end: -8px;
+        block-size: 40px;
+      }
     }
 
     .sidebar__bar-option {
@@ -88,6 +140,23 @@
 
   svg {
     margin: 0;
+  }
+
+  @include unique-max-width($small-sidebar-breakpoint) {
+    &.btn {
+      min-block-size: 32px;
+      min-inline-size: 32px;
+      padding: var(--space-0-5);
+    }
+
+    svg {
+      inline-size: 20px;
+      block-size: 20px;
+    }
+
+    .material-symbols-sharp {
+      font-size: 20px;
+    }
   }
 
   &:hover {
@@ -122,7 +191,7 @@
 
 .sidebar__panel-heading {
   margin: 0;
-  @include font-size-1-5(regular);
+  @include typography.style-1-5(bold);
 }
 
 .sidebar__panel-header {

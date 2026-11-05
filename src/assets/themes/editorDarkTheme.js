@@ -1,7 +1,4 @@
 import { EditorView } from "@codemirror/view";
-import "../stylesheets/rpf_design_system/font-weight.scss?inline";
-import "../stylesheets/rpf_design_system/font-size.scss?inline";
-import "../stylesheets/rpf_design_system/line-height.scss?inline";
 
 export const editorDarkTheme = EditorView.theme(
   {
@@ -9,6 +6,11 @@ export const editorDarkTheme = EditorView.theme(
       "background-color": "#2A2B32",
       color: "white",
       border: "none",
+    },
+    ".cm-lineNumbers .cm-gutterElement": {
+      "padding-inline-start": "5px",
+      "padding-inline-end": "3px",
+      "text-align": "end",
     },
     ".cm-activeLine": {
       "background-color": "inherit",

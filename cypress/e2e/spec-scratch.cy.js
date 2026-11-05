@@ -40,10 +40,7 @@ describe("Scratch", () => {
   it("hides text size in settings for Scratch", () => {
     assertScratchIsRendered();
 
-    getEditorShadow()
-      .findByRole("button", { name: "Settings" })
-      .first()
-      .click();
+    getEditorShadow().findByRole("tab", { name: "Settings" }).first().click();
     getEditorShadow()
       .find(".settings-panel__text-size")
       .should("exist")
@@ -300,5 +297,77 @@ describe("Scratch Authorization header", () => {
       .then((headers) => {
         expect(headers.authorization).to.equal(user.access_token);
       });
+  });
+});
+
+describe("Scratch oversized asset save failure", () => {
+  beforeEach(() => {
+    cy.on("window:before:load", (win) => {
+      win.localStorage.setItem(authKey, JSON.stringify(user));
+    });
+
+    cy.visit(
+      scratchProjectURL({ auth_key: authKey, load_remix_disabled: "true" }),
+    );
+    assertScratchIsRendered();
+  });
+
+  const reportSaveFailure = (reason) => {
+    const payload = reason
+      ? `{type: "scratch-gui-saving-failed", reason: "${reason}"}`
+      : `{type: "scratch-gui-saving-failed"}`;
+
+    getEditorShadow()
+      .findByTitle("Scratch")
+      .then(($iframe) => {
+        $iframe[0].contentWindow.eval(
+          `window.parent.postMessage(${payload}, "*")`,
+        );
+      });
+  };
+
+  const saveErrorModal = () => getEditorShadow().find(".save-error-modal");
+
+  it("shows the message when the server rejects an asset as too large", () => {
+    cy.intercept("POST", "**/api/scratch/assets/**", {
+      statusCode: 413,
+    }).as("assetUpload");
+
+    getEditorShadow()
+      .findAllByTestId("upload-file-input")
+      .first()
+      .selectFile("cypress/fixtures/upload-test-project.sb3", { force: true });
+
+    getScratchIframeBody()
+      .findByRole("button", { name: "test sprite" })
+      .should("be.visible");
+
+    getEditorShadow().findByRole("button", { name: "Save" }).click();
+    cy.wait("@assetUpload");
+
+    saveErrorModal()
+      .should("be.visible")
+      .and("contain", "Your project could not be saved")
+      .and("contain", "The image or sound you added is too big");
+  });
+
+  it("lets the user dismiss the message, and keeps it dismissed when the save fails again", () => {
+    reportSaveFailure("assetTooLarge");
+    saveErrorModal().should("be.visible");
+
+    saveErrorModal().findByRole("button", { name: "OK" }).click();
+    getEditorShadow().find(".save-error-modal").should("not.exist");
+
+    reportSaveFailure("assetTooLarge");
+
+    getEditorShadow().find(".save-error-modal").should("not.exist");
+  });
+
+  it("stays silent for save failures with no known cause", () => {
+    reportSaveFailure();
+
+    getEditorShadow()
+      .contains("The image or sound you added is too big")
+      .should("not.exist");
   });
 });

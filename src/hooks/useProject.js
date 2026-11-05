@@ -20,6 +20,7 @@ export const useProject = ({
   embedded = false,
 }) => {
   const loading = useSelector((state) => state.editor.loading);
+  const saving = useSelector((state) => state.editor.saving);
   const isEmbedded = useSelector((state) => state.editor.isEmbedded);
   const isBrowserPreview = useSelector((state) => state.editor.browserPreview);
   const browserPreviewFromQuery =
@@ -80,9 +81,6 @@ export const useProject = ({
         projectIdentifier &&
         project?.identifier &&
         project.identifier !== projectIdentifier;
-      const identifierToLoad = scratchRemixedInPlace
-        ? project.identifier
-        : projectIdentifier;
 
       const isCachedSavedProject =
         projectIdentifier &&
@@ -106,7 +104,15 @@ export const useProject = ({
 
       // If this same project has local edits, keep them across rerenders such
       // as locale, access-token, or cache changes until the user saves or remixes.
-      if (currentProjectMatchesRequest && currentProjectChanged) {
+      // Scratch edits live in the iframe and can't be detected here, so always
+      // keep the current Scratch project.
+      const isScratchProject = project?.project_type === "code_editor_scratch";
+      const justSaved = saving === "success" && loading === "success";
+      if (
+        (currentProjectMatchesRequest &&
+          (currentProjectChanged || isScratchProject || justSaved)) ||
+        scratchRemixedInPlace
+      ) {
         return;
       }
 
@@ -140,7 +146,7 @@ export const useProject = ({
         dispatch(
           syncProject("load")({
             reactAppApiEndpoint,
-            identifier: identifierToLoad,
+            identifier: projectIdentifier,
             locale: effectiveLocale,
             accessToken: accessToken,
           }),

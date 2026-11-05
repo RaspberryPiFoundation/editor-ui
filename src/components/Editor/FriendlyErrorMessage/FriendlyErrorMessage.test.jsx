@@ -2,6 +2,7 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
 import FriendlyErrorMessage from "./FriendlyErrorMessage";
+import { renderWithProviders } from "../../../utils/renderWithProviders";
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
@@ -80,6 +81,37 @@ describe("When friendlyError is not set", () => {
   test("Does not display friendly error elements", () => {
     expect(
       document.querySelector(".friendly-error-message"),
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe("AI coming soon message", () => {
+  const friendlyError = {
+    html: '<div class="pfem__title">Friendly Error Title</div>',
+  };
+
+  const renderFriendlyErrorMessage = (editorState) => {
+    renderWithProviders(<FriendlyErrorMessage />, {
+      preloadedState: { editor: editorState },
+    });
+  };
+
+  test("displays when there is a friendly error and aiErrorsEnabled is true", () => {
+    renderFriendlyErrorMessage({ friendlyError, aiErrorsEnabled: true });
+    expect(screen.getByText("output.errors.aiComingSoon")).toBeInTheDocument();
+  });
+
+  test("does not display when aiErrorsEnabled is false", () => {
+    renderFriendlyErrorMessage({ friendlyError, aiErrorsEnabled: false });
+    expect(
+      screen.queryByText("output.errors.aiComingSoon"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("does not display when there is no friendly error", () => {
+    renderFriendlyErrorMessage({ friendlyError: null, aiErrorsEnabled: true });
+    expect(
+      screen.queryByText("output.errors.aiComingSoon"),
     ).not.toBeInTheDocument();
   });
 });

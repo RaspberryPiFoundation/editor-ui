@@ -1,6 +1,3 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-weight" as *;
-@use "./rpf_design_system/colours" as *;
 
 .dropdown {
   display: flex;
@@ -13,19 +10,19 @@
     border-radius: 0;
     cursor: pointer;
     display: flex;
-    padding: 0 $space-1-5;
+    padding: 0 var(--space-3);
 
     &--active {
-      border-block-end: 3px solid $rpf-teal-800;
+      border-block-end: 3px solid var(--rpf-teal-800);
     }
   }
 
   &-container {
     z-index: 2;
     position: absolute;
-    padding: $space-0-5;
+    padding: var(--space-1);
     border-radius: 10px;
-    margin-block-start: $space-1-5;
+    margin-block-start: var(--space-3);
 
     &--bottom {
       inset-block-start: 100%;
@@ -53,9 +50,9 @@
         cursor: pointer;
         font: inherit;
         justify-content: inline-start;
-        font-weight: $font-weight-regular;
+        font-weight: var(--font-weight-regular);
         text-decoration: none;
-        padding: $space-0-5 $space-0-25;
+        padding: var(--space-1) var(--space-0-5);
         border-radius: 5px;
         white-space: nowrap;
         inline-size: 100%;
@@ -76,37 +73,37 @@
 
 .--light {
   .dropdown-container {
-    background-color: $rpf-white;
+    background-color: var(--rpf-white);
 
     &--bottom::before {
-      border-block-end: 15px solid $rpf-white;
+      border-block-end: 15px solid var(--rpf-white);
     }
 
     &--list__item:hover {
-      background-color: $rpf-grey-100;
+      background-color: var(--rpf-grey-100);
     }
   }
   .dropdown-backdrop {
-    background-color: $rpf-grey-600;
+    background-color: var(--rpf-grey-600);
   }
 }
 
 .--dark {
   .dropdown-container {
-    background-color: $rpf-grey-700;
+    background-color: var(--rpf-grey-700);
 
     &--bottom::before {
-      border-block-end: 15px solid $rpf-grey-700;
+      border-block-end: 15px solid var(--rpf-grey-700);
     }
 
     &--list__item:hover {
-      background-color: $rpf-grey-600;
+      background-color: var(--rpf-grey-600);
     }
   }
   .dropdown-backdrop {
     background-color: black;
   }
   .dropdown-button--active {
-    background-color: $rpf-teal-400;
+    background-color: var(--rpf-teal-400);
   }
 }

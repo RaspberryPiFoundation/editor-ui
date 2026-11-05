@@ -126,6 +126,7 @@ export const editorInitialState = {
   selectedSidebarOption: undefined,
   modals: {},
   errorDetails: {},
+  errorLineDismissed: false,
   runnerBeingLoaded: null | "pyodide" | "skulpt",
   initialComponents: [],
   initialProjectName: undefined,
@@ -133,6 +134,7 @@ export const editorInitialState = {
   scratchIframeProjectIdentifier: null,
   friendlyErrorsEnabled: false,
   friendlyError: null,
+  aiErrorsEnabled: false,
 };
 
 const isScratchProject = (state) =>
@@ -263,13 +265,15 @@ const EditorSlice = createSlice({
       state.lastSaveAutosave = action.payload?.autosave ?? true;
       state.saving = "success";
       state.lastSavedTime = Date.now();
+      state.saveError = "";
     },
-    scratchSaveFailed: (state) => {
+    scratchSaveFailed: (state, action) => {
       if (!isScratchProject(state)) {
         return;
       }
 
       state.saving = "failed";
+      state.saveError = action.payload?.reason ?? "";
     },
     setProjectInstructions: (state, action) => {
       state.project.instructions = action.payload;
@@ -312,6 +316,9 @@ const EditorSlice = createSlice({
     },
     setScratchApiEndpoint: (state, action) => {
       state.scratchApiEndpoint = action.payload;
+    },
+    setAiErrorsEnabled: (state, action) => {
+      state.aiErrorsEnabled = action.payload;
     },
     triggerDraw: (state) => {
       state.drawTriggered = true;
@@ -440,6 +447,10 @@ const EditorSlice = createSlice({
     },
     setErrorDetails: (state, action) => {
       state.errorDetails = action.payload;
+      state.errorLineDismissed = false;
+    },
+    dismissErrorLine: (state) => {
+      state.errorLineDismissed = true;
     },
   },
   extraReducers: (builder) => {
@@ -456,7 +467,16 @@ const EditorSlice = createSlice({
       if (state.project.identifier !== action.payload.project.identifier) {
         state.project.image_list = state.project.image_list || [];
         state.project = action.payload.project;
-        state.loading = "idle";
+      } else {
+        // when the project identifier hasn't changed,
+        // copy of the IDs of new files from the response onto the components
+        action.payload.project.components.forEach((saved) => {
+          const local = state.project.components.find(
+            (c) =>
+              !c.id && c.name === saved.name && c.extension === saved.extension,
+          );
+          if (local) local.id = saved.id;
+        });
       }
       syncInitialProjectSnapshot(state, action.payload.project);
     });
@@ -472,7 +492,6 @@ const EditorSlice = createSlice({
       state.lastSaveAutosave = false;
       state.saving = "success";
       state.project = action.payload.project;
-      state.loading = "idle";
       syncInitialProjectSnapshot(state, action.payload.project);
     });
     builder.addCase("editor/loadRemixProject/pending", loadProjectPending);
@@ -552,7 +571,9 @@ export const {
   setSidebarOption,
   disableTheming,
   setErrorDetails,
+  dismissErrorLine,
   setFriendlyError,
+  setAiErrorsEnabled,
 } = EditorSlice.actions;
 
 export default EditorSlice.reducer;

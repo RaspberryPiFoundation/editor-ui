@@ -3,6 +3,7 @@ import "../../../assets/stylesheets/EditorPanel.scss?inline";
 import React, { useRef, useEffect, useContext, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  dismissErrorLine,
   setCascadeUpdate,
   updateProjectComponent,
 } from "../../../redux/EditorSlice";
@@ -25,6 +26,7 @@ import { editorLightTheme } from "../../../assets/themes/editorLightTheme";
 import { editorDarkTheme } from "../../../assets/themes/editorDarkTheme";
 import { SettingsContext } from "../../../utils/settings";
 import { tabExitIndicator } from "./tabExitIndicator";
+import { errorLineHighlight, setErrorLine } from "./errorLineHighlight";
 
 const MAX_CHARACTERS = 8500000;
 const TAB_EXIT_INSTRUCTION_ID = "editor-tab-exit-instruction";
@@ -35,6 +37,11 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const project = useSelector((state) => state.editor.project);
   const readOnly = useSelector((state) => state.editor.readOnly);
   const cascadeUpdate = useSelector((state) => state.editor.cascadeUpdate);
+  const errorDetails = useSelector((state) => state.editor.errorDetails);
+  const errorLineDismissed = useSelector(
+    (state) => state.editor.errorLineDismissed,
+  );
+  const errorLineShowing = useRef(false);
   const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -61,6 +68,10 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
   const onUpdate = EditorView.updateListener.of((viewUpdate) => {
     if (viewUpdate.docChanged) {
       updateStoredProject(viewUpdate.state.doc.toString());
+      if (errorLineShowing.current) {
+        errorLineShowing.current = false;
+        dispatch(dismissErrorLine());
+      }
     }
   });
 
@@ -117,6 +128,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         basicSetup,
         keymap.of([defaultKeymap, indentWithTab]),
         tabExitIndicator,
+        errorLineHighlight,
         mode,
         label,
         onUpdate,
@@ -164,6 +176,20 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
       dispatch(setCascadeUpdate(false));
     }
   }, [file, cascadeUpdate, editorViewRef]);
+
+  // Highlight the line an error points at, if it's in this file.
+  useEffect(() => {
+    const view = editorViewRef.current;
+    if (!view) {
+      return;
+    }
+    const errorLine =
+      !errorLineDismissed && errorDetails?.file === `${fileName}.${extension}`
+        ? parseInt(errorDetails.line, 10)
+        : null;
+    errorLineShowing.current = Boolean(errorLine);
+    view.dispatch({ effects: setErrorLine.of(errorLine || null) });
+  }, [errorDetails, errorLineDismissed, cookies]);
 
   return (
     <div className="editor-wrapper">

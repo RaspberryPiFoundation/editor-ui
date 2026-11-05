@@ -42,6 +42,8 @@ export default function ScratchContainer({ locale = "en" }) {
   );
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const [initialAccessToken] = useState(accessToken);
+  const [initialLocale] = useState(locale);
+  const lastLocaleRef = useRef(locale);
   const iframeProjectIdentifier =
     scratchIframeProjectIdentifier || projectIdentifier;
 
@@ -72,6 +74,16 @@ export default function ScratchContainer({ locale = "en" }) {
       accessToken: accessToken,
     });
   }, [accessToken, initialAccessToken]);
+
+  useEffect(() => {
+    if (locale === lastLocaleRef.current) return;
+    lastLocaleRef.current = locale;
+
+    postMessageToScratchIframe({
+      type: "scratch-gui-update-locale",
+      locale,
+    });
+  }, [locale]);
 
   useEffect(() => {
     const allowedOrigin = getScratchAllowedOrigin();
@@ -127,6 +139,7 @@ export default function ScratchContainer({ locale = "en" }) {
         nonce: event.data.nonce,
         accessToken: accessToken || null,
         requiresAuth,
+        locale: lastLocaleRef.current,
       });
     };
 
@@ -141,7 +154,7 @@ export default function ScratchContainer({ locale = "en" }) {
   queryParams.set("api_url", scratchApiEndpoint);
   queryParams.set("scratchMetadata", "1");
   queryParams.set("parent_origin", window.location.origin);
-  queryParams.set("locale", locale);
+  queryParams.set("locale", initialLocale);
 
   const iframeSrcUrl = `${process.env.REACT_APP_SCRATCH_FRAME_URL}/scratch.html?${queryParams.toString()}`;
 

@@ -80,12 +80,12 @@ class WebComponent extends HTMLElement {
       "show_save_prompt",
       "sidebar_options",
       "theme",
-      "use_editor_styles",
       "with_projectbar",
       "with_sidebar",
       "load_cache",
       "offline_enabled",
       "friendly_errors_enabled",
+      "ai_errors_enabled",
     ];
   }
 
@@ -101,12 +101,12 @@ class WebComponent extends HTMLElement {
       "read_only",
       "sense_hat_always_enabled",
       "show_save_prompt",
-      "use_editor_styles",
       "with_projectbar",
       "with_sidebar",
       "load_cache",
       "offline_enabled",
       "friendly_errors_enabled",
+      "ai_errors_enabled",
     ];
     const jsonAttrs = [
       "instructions",

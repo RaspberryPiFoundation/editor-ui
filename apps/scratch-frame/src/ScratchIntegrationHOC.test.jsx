@@ -27,6 +27,7 @@ describe("ScratchIntegrationHOC", () => {
   const allowedOrigin =
     import.meta.env.REACT_APP_ALLOWED_IFRAME_ORIGINS?.split(",")[0] ||
     "http://localhost:3011";
+  const locales = { locale: "en", messagesByLocale: { en: {}, "es-419": {} } };
   let store;
   let Wrapped;
 
@@ -40,6 +41,7 @@ describe("ScratchIntegrationHOC", () => {
     postScratchGuiEvent.mockClear();
     const mockStore = configureStore([]);
     store = mockStore({
+      locales,
       scratchGui: {
         vm: mockVm,
         projectState: { loadingState: "SHOWING_WITH_ID" },
@@ -64,7 +66,8 @@ describe("ScratchIntegrationHOC", () => {
     delete window.GUI;
   });
 
-  const createStore = (scratchGui) => configureStore([])({ scratchGui });
+  const createStore = (scratchGui) =>
+    configureStore([])({ locales, scratchGui });
 
   const getVmHandler = (eventName) =>
     mockVm.on.mock.calls.find(
@@ -96,6 +99,80 @@ describe("ScratchIntegrationHOC", () => {
         expect(saveAs).toHaveBeenCalledWith(mockBlob, "my-project.sb3");
       });
       expect(mockSaveProjectSb3).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("document language", () => {
+    it("sets the document language to the Scratch locale on mount", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      expect(document.documentElement.lang).toBe("en");
+    });
+
+    it("updates the document language when the Scratch locale changes", () => {
+      const { rerender } = render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+      const updatedStore = configureStore([])({
+        ...store.getState(),
+        locales: { ...locales, locale: "es-419" },
+      });
+
+      rerender(
+        React.createElement(
+          Provider,
+          { store: updatedStore },
+          React.createElement(Wrapped),
+        ),
+      );
+
+      expect(document.documentElement.lang).toBe("es-419");
+    });
+  });
+
+  describe("scratch-gui-update-locale message", () => {
+    it("selects the matching Scratch locale", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: allowedOrigin,
+          data: {
+            type: "scratch-gui-update-locale",
+            locale: "es-LA",
+          },
+        }),
+      );
+
+      expect(store.getActions()).toContainEqual({
+        type: "selectLocale",
+        locale: "es-419",
+      });
+    });
+
+    it("falls back to English when Scratch does not support the locale", () => {
+      render(
+        React.createElement(Provider, { store }, React.createElement(Wrapped)),
+      );
+
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          origin: allowedOrigin,
+          data: {
+            type: "scratch-gui-update-locale",
+            locale: "xx-XX",
+          },
+        }),
+      );
+
+      expect(store.getActions()).toContainEqual({
+        type: "selectLocale",
+        locale: "en",
+      });
     });
   });
 

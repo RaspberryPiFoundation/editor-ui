@@ -16,18 +16,16 @@ body,
 body {
   margin: 0;
   padding: 0;
-  margin-block-start: -5px;
-  block-size: calc(100% + 5px);
 }
 
 div[class*="sprite-selector_sprite-selector_"] {
-  border-block-end: 1px solid var(--rpf-black);
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
+  border-block-end: 0px;
 }
 
 div[class^="stage-selector_stage-selector_"] {
-  border-block-end: 1px solid var(--rpf-black);
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
+  border-block-end: 0px;
 }
 
 div[class^="gui_stage-and-target-wrapper_"] {
@@ -50,12 +48,19 @@ li[class*="gui_tab_"] {
   border-radius: 8px 8px 0 0;
 }
 
+#app .scratch-renderer {
+  border-end-end-radius: 0;
+  border-block-end: 0;
+}
+
 div[class^="gui_extension-button-container_"] {
   border-radius: 0 0 0 8px;
 }
 
-div[class^="asset-panel_wrapper_"] {
-  border-end-start-radius: 8px;
+#app section[class^="asset-panel_wrapper_"] {
+  border-radius: 0 8px 0 0;
+  border-block-end: 0px;
+  border-inline-start: 0px;
   overflow: hidden;
 }
 

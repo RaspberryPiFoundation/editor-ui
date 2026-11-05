@@ -10,6 +10,7 @@ import reducer, {
   setLoadRemixDisabled,
   setIsOutputOnly,
   setErrorDetails,
+  dismissErrorLine,
   setReadOnly,
   setPreview,
   setOfflineEnabled,
@@ -24,6 +25,7 @@ import reducer, {
   scratchSaveFailed,
   setFriendlyErrorsEnabled,
   setFriendlyError,
+  setAiErrorsEnabled,
 } from "./EditorSlice";
 
 const mockCreateRemix = vi.fn();
@@ -114,6 +116,7 @@ test("Action setErrorDetails sets errorDetails to true", () => {
   };
   const expectedState = {
     errorDetails: { type: "Interrupted", message: "Some error message" },
+    errorLineDismissed: false,
   };
   expect(
     reducer(
@@ -121,6 +124,24 @@ test("Action setErrorDetails sets errorDetails to true", () => {
       setErrorDetails({ type: "Interrupted", message: "Some error message" }),
     ),
   ).toEqual(expectedState);
+});
+
+test("Action setErrorDetails resets a dismissed error line", () => {
+  const previousState = {
+    errorDetails: { type: "NameError", line: 2, file: "main.py" },
+    errorLineDismissed: true,
+  };
+  const expectedState = {
+    errorDetails: {},
+    errorLineDismissed: false,
+  };
+  expect(reducer(previousState, setErrorDetails({}))).toEqual(expectedState);
+});
+
+test("Action dismissErrorLine sets errorLineDismissed to true", () => {
+  const previousState = { errorLineDismissed: false };
+  const expectedState = { errorLineDismissed: true };
+  expect(reducer(previousState, dismissErrorLine())).toEqual(expectedState);
 });
 
 test("Action setReadOnly correctly sets readOnly", () => {
@@ -369,7 +390,7 @@ describe("When project has no identifier", () => {
     expect(dispatch.mock.calls[1][0].type).toBe("editor/saveProject/fulfilled");
   });
 
-  test("The saveProject/fulfilled action sets saving to success and loaded to idle", async () => {
+  test("The saveProject/fulfilled action sets saving to success", async () => {
     const returnedProject = {
       ...project,
       identifier: "auto-generated-identifier",
@@ -378,7 +399,6 @@ describe("When project has no identifier", () => {
       project: returnedProject,
       saving: "success",
       lastSavedTime: 1669808953,
-      loading: "idle",
       initialComponents: [
         {
           name: "main",
@@ -519,11 +539,10 @@ describe("When project has an identifier", () => {
     );
   });
 
-  test("The remixProject/fulfilled action sets saving, loading and lastSaveAutosave", async () => {
+  test("The remixProject/fulfilled action sets saving and lastSaveAutosave", async () => {
     const expectedState = {
       project: project,
       saving: "success",
-      loading: "idle",
       lastSaveAutosave: false,
       initialComponents: [
         {
@@ -1030,4 +1049,190 @@ describe("initialComponents snapshot", () => {
     const failedState = reducer(savedState, scratchSaveFailed());
     expect(failedState.saving).toBe("failed");
   });
+
+  test("records the reason a scratch save failed", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    expect(failedState.saveError).toBe("assetTooLarge");
+  });
+
+  test("records no reason when a scratch save fails for another cause", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(initialState, scratchSaveFailed());
+    expect(failedState.saveError).toBe("");
+  });
+
+  test("clears the failure reason once a scratch save succeeds", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    const savedState = reducer(
+      failedState,
+      scratchSaveSucceeded({ autosave: true }),
+    );
+
+    expect(savedState.saveError).toBe("");
+  });
+
+  test("keeps the failure reason when a scratch save is retried", () => {
+    const initialState = reducer(
+      undefined,
+      setProject({
+        identifier: "scratch-project",
+        project_type: "code_editor_scratch",
+        components: [],
+      }),
+    );
+
+    const failedState = reducer(
+      initialState,
+      scratchSaveFailed({ reason: "assetTooLarge" }),
+    );
+    const retryingState = reducer(failedState, scratchSaveStarted());
+
+    expect(retryingState.saveError).toBe("assetTooLarge");
+  });
+});
+
+describe("saveProject/fulfilled for a project that already has an identifier", () => {
+  const saveThunk = syncProject("save");
+  const savedProject = {
+    name: "my project",
+    project_type: "python",
+    identifier: "my-project",
+    components: [
+      { id: "main-id", name: "main", extension: "py", content: "# main" },
+    ],
+  };
+
+  const stateWithNewFile = () => {
+    const state = reducer(undefined, setProject(savedProject));
+    return reducer(
+      state,
+      addProjectComponent({
+        name: "extra",
+        extension: "py",
+        content: "# extra",
+      }),
+    );
+  };
+
+  const saveResponse = (components) => ({
+    project: { ...savedProject, components },
+  });
+
+  test("stores the server ID of a file added since the last load", () => {
+    const state = reducer(
+      stateWithNewFile(),
+      saveThunk.fulfilled(
+        saveResponse([
+          { id: "main-id", name: "main", extension: "py", content: "# main" },
+          {
+            id: "extra-id",
+            name: "extra",
+            extension: "py",
+            content: "# extra",
+          },
+        ]),
+      ),
+    );
+
+    expect(state.project.components).toEqual([
+      { id: "main-id", name: "main", extension: "py", content: "# main" },
+      { id: "extra-id", name: "extra", extension: "py", content: "# extra" },
+    ]);
+  });
+
+  test("keeps edits made while the save was in flight", () => {
+    const editedDuringSave = reducer(
+      stateWithNewFile(),
+      updateProjectComponent({
+        name: "extra",
+        extension: "py",
+        content: "# typed during save",
+        cascadeUpdate: false,
+      }),
+    );
+
+    const state = reducer(
+      editedDuringSave,
+      saveThunk.fulfilled(
+        saveResponse([
+          { id: "main-id", name: "main", extension: "py", content: "# main" },
+          {
+            id: "extra-id",
+            name: "extra",
+            extension: "py",
+            content: "# extra",
+          },
+        ]),
+      ),
+    );
+
+    expect(state.project.components[1]).toEqual({
+      id: "extra-id",
+      name: "extra",
+      extension: "py",
+      content: "# typed during save",
+    });
+  });
+
+  test("does not give a new file the ID of a differently named server file", () => {
+    const state = reducer(
+      stateWithNewFile(),
+      saveThunk.fulfilled(
+        saveResponse([
+          { id: "main-id", name: "main", extension: "py", content: "# main" },
+          { id: "other-id", name: "other", extension: "py", content: "" },
+        ]),
+      ),
+    );
+
+    expect(state.project.components[1].id).toBeUndefined();
+  });
+});
+
+test("Action setAiErrorsEnabled sets aiErrorsEnabled to true", () => {
+  const previousState = { aiErrorsEnabled: false };
+  const expectedState = { aiErrorsEnabled: true };
+  expect(reducer(previousState, setAiErrorsEnabled(true))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action setAiErrorsEnabled sets aiErrorsEnabled to false", () => {
+  const previousState = { aiErrorsEnabled: true };
+  const expectedState = { aiErrorsEnabled: false };
+  expect(reducer(previousState, setAiErrorsEnabled(false))).toEqual(
+    expectedState,
+  );
 });

@@ -26,6 +26,151 @@ describe("ScratchEditor", () => {
     mockScratchProjectSave.mockClear();
   });
 
+  describe("asset upload failures", () => {
+    const renderEditor = () => {
+      render(
+        <ScratchEditor
+          projectId="project-123"
+          locale="en"
+          apiUrl="https://api.example.com"
+          accessToken="token-123"
+        />,
+      );
+      return mockWrappedScratchGui.mock.calls[0][0];
+    };
+
+    const storageStub = (store) => ({
+      scratchFetch: { setMetadata: vi.fn() },
+      store,
+    });
+
+    let postMessageSpy;
+
+    beforeEach(() => {
+      postMessageSpy = vi
+        .spyOn(window.parent, "postMessage")
+        .mockImplementation(() => {});
+    });
+
+    afterEach(() => {
+      postMessageSpy.mockRestore();
+    });
+
+    const postedEvent = (type) =>
+      postMessageSpy.mock.calls
+        .map(([message]) => message)
+        .find((message) => message.type === type);
+
+    test("preserves the original rejection when wrapping store", async () => {
+      const scratchGuiProps = renderEditor();
+      const originalStore = vi.fn().mockRejectedValue(413);
+      const storage = storageStub(originalStore);
+
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store("a", "b", "c", "d")).rejects.toBe(413);
+      expect(originalStore).toHaveBeenCalledWith("a", "b", "c", "d");
+    });
+
+    test("reports an oversized asset when the save fails", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(413));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(413);
+      scratchGuiProps.onShowAlert("savingError");
+
+      expect(postedEvent("scratch-gui-saving-failed")).toEqual({
+        type: "scratch-gui-saving-failed",
+        reason: "asset_too_large",
+      });
+    });
+
+    test("reports an oversized project when the save fails", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(422));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(422);
+      scratchGuiProps.onShowAlert("savingError");
+
+      expect(postedEvent("scratch-gui-saving-failed")).toEqual({
+        type: "scratch-gui-saving-failed",
+        reason: "project_too_large",
+      });
+    });
+
+    test("does not report a reason for unrelated failures", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(500));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(500);
+      scratchGuiProps.onShowAlert("savingError");
+
+      expect(postedEvent("scratch-gui-saving-failed")).toEqual({
+        type: "scratch-gui-saving-failed",
+      });
+    });
+
+    test("reports an oversized asset when a remix fails", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(413));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(413);
+      scratchGuiProps.onShowAlert("creatingError");
+
+      expect(postedEvent("scratch-gui-remixing-failed")).toEqual({
+        type: "scratch-gui-remixing-failed",
+        reason: "asset_too_large",
+      });
+    });
+
+    test("reports an oversized project when a remix fails", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(413));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(413);
+      scratchGuiProps.onShowAlert("creatingError");
+
+      expect(postedEvent("scratch-gui-remixing-failed")).toEqual({
+        type: "scratch-gui-remixing-failed",
+        reason: "asset_too_large",
+      });
+    });
+
+    test("does not carry a stale reason into the next save", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(413));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(413);
+      scratchGuiProps.onShowSavingAlert();
+      scratchGuiProps.onShowAlert("savingError");
+
+      expect(postedEvent("scratch-gui-saving-failed")).toEqual({
+        type: "scratch-gui-saving-failed",
+      });
+    });
+
+    test("reports the reason only once per failure", async () => {
+      const scratchGuiProps = renderEditor();
+      const storage = storageStub(vi.fn().mockRejectedValue(413));
+      scratchGuiProps.onStorageInit(storage);
+
+      await expect(storage.store()).rejects.toBe(413);
+      scratchGuiProps.onShowAlert("savingError");
+      postMessageSpy.mockClear();
+      scratchGuiProps.onShowAlert("savingError");
+
+      expect(postedEvent("scratch-gui-saving-failed")).toEqual({
+        type: "scratch-gui-saving-failed",
+      });
+    });
+  });
+
   test("renders WrappedScratchGui when editor is rendered", () => {
     const { getByTestId } = render(
       <ScratchEditor
@@ -42,6 +187,25 @@ describe("ScratchEditor", () => {
         assetHost: "https://api.example.com/api/scratch/assets",
         projectHost: "https://api.example.com/api/scratch/projects",
       }),
+    );
+  });
+
+  test("passes the updated project id to the Scratch GUI after a remix", () => {
+    render(
+      <ScratchEditor
+        projectId="project-123"
+        locale="en"
+        apiUrl="https://api.example.com"
+        accessToken="token-123"
+      />,
+    );
+
+    act(() => {
+      mockWrappedScratchGui.mock.calls[0][0].onUpdateProjectId("remix-456");
+    });
+
+    expect(mockWrappedScratchGui).toHaveBeenLastCalledWith(
+      expect.objectContaining({ projectId: "remix-456" }),
     );
   });
 
@@ -77,6 +241,7 @@ describe("ScratchEditor", () => {
       scratchFetch: {
         setMetadata: vi.fn(),
       },
+      store: vi.fn().mockResolvedValue({}),
     };
 
     scratchGuiProps.onStorageInit(scratchStorage);
@@ -115,6 +280,7 @@ describe("ScratchEditor", () => {
       scratchFetch: {
         setMetadata: vi.fn(),
       },
+      store: vi.fn().mockResolvedValue({}),
     };
 
     scratchGuiProps.onStorageInit(scratchStorage);
@@ -140,6 +306,7 @@ describe("ScratchEditor", () => {
       scratchFetch: {
         setMetadata: vi.fn(),
       },
+      store: vi.fn().mockResolvedValue({}),
     };
 
     scratchGuiProps.onStorageInit(scratchStorage);

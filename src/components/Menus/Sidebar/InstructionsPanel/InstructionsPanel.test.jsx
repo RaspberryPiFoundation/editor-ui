@@ -558,6 +558,7 @@ describe("When instructions are not editable", () => {
       renderWithProviders(<InstructionsPanel />, {
         preloadedState: {
           editor: {
+            project: {},
             instructionsEditable: false,
           },
           instructions: {

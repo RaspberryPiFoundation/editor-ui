@@ -57,12 +57,12 @@ const renderScratchSaveState = (options) => {
   return { ...hook, store };
 };
 
-const dispatchScratchMessage = (type, origin = scratchOrigin) => {
+const dispatchScratchMessage = (type, data = null, origin = scratchOrigin) => {
   act(() => {
     window.dispatchEvent(
       new MessageEvent("message", {
         origin,
-        data: { type },
+        data: data ? { type, ...data } : { type },
       }),
     );
   });
@@ -316,6 +316,7 @@ describe("useScratchSaveState", () => {
 
     dispatchScratchMessage(
       "scratch-gui-saving-started",
+      null,
       "https://other.example.com",
     );
 
@@ -425,5 +426,36 @@ describe("useScratchSaveState", () => {
     window.dispatchEvent(beforeUnloadEvent);
 
     expect(beforeUnloadEvent.defaultPrevented).toBe(true);
+  });
+
+  test("records an oversized asset as the reason a save failed", () => {
+    const { store } = renderScratchSaveState({ enabled: true });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-saving-failed", {
+      reason: "assetTooLarge",
+    });
+
+    expect(store.getState().editor.saveError).toBe("assetTooLarge");
+  });
+
+  test("records no reason when a save fails for another cause", () => {
+    const { store } = renderScratchSaveState({ enabled: true });
+
+    dispatchScratchMessage("scratch-gui-saving-started");
+    dispatchScratchMessage("scratch-gui-saving-failed");
+
+    expect(store.getState().editor.saveError).toBe("");
+  });
+
+  test("records an oversized asset as the reason a remix failed", () => {
+    const { store } = renderScratchSaveState({ enabled: true });
+
+    dispatchScratchMessage("scratch-gui-remixing-started");
+    dispatchScratchMessage("scratch-gui-remixing-failed", {
+      reason: "assetTooLarge",
+    });
+
+    expect(store.getState().editor.saveError).toBe("assetTooLarge");
   });
 });

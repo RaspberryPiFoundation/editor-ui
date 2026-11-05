@@ -12,13 +12,7 @@ import { Button } from "@raspberrypifoundation/design-system-react";
 import { projectDownloadedEvent } from "../../events/WebComponentCustomEvents";
 
 const DownloadButton = (props) => {
-  const {
-    buttonText,
-    className,
-    Icon,
-    type = "secondary",
-    ...otherProps
-  } = props;
+  const { buttonText, Icon, ...buttonProps } = props;
   const { t } = useTranslation();
   const project = useSelector((state) => state.editor.project);
 
@@ -83,13 +77,11 @@ const DownloadButton = (props) => {
 
   return (
     <Button
-      className={className}
+      aria-label={buttonText}
       onClick={onClickDownload}
       text={buttonText}
       icon={Icon ? <Icon /> : null}
-      iconPosition="right"
-      type={type}
-      {...otherProps}
+      {...buttonProps}
     />
   );
 };

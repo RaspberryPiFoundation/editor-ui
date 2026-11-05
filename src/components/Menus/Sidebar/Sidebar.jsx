@@ -24,6 +24,7 @@ import FileIcon from "../../../utils/FileIcon";
 import DownloadPanel from "./DownloadPanel/DownloadPanel";
 import InstructionsPanel from "./InstructionsPanel/InstructionsPanel";
 import SidebarPanel from "./SidebarPanel";
+import { SidebarActiveOptionContext } from "./sidebarTabIds";
 import PluginSlot from "./PluginSlot";
 import MaterialSymbol from "./MaterialSymbol";
 import { setSidebarOption } from "../../../redux/EditorSlice";
@@ -247,7 +248,8 @@ const Sidebar = ({
     optionDict && optionDict.panel ? optionDict.panel : () => {};
 
   return (
-    <div
+    <section
+      aria-label={t("regions.sidebar")}
       className={classNames("sidebar", {
         "sidebar--mobile": isMobile,
         "sidebar--scratch": projectType === "code_editor_scratch",
@@ -259,14 +261,17 @@ const Sidebar = ({
         toggleOption={toggleOption}
         instructions={instructionsSteps}
         allowMobileView={allowMobileView}
-      />
-      {activeOption && (
-        <CustomSidebarPanel
-          isMobile={isMobile}
-          {...(optionDict.panelProps || {})}
-        />
-      )}
-    </div>
+      >
+        {activeOption && (
+          <SidebarActiveOptionContext.Provider value={activeOption}>
+            <CustomSidebarPanel
+              isMobile={isMobile}
+              {...(optionDict.panelProps || {})}
+            />
+          </SidebarActiveOptionContext.Provider>
+        )}
+      </SidebarBar>
+    </section>
   );
 };
 

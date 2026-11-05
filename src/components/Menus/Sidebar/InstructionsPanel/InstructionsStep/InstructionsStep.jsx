@@ -9,7 +9,7 @@ const getStepHtml = (step) => {
     step.content !== undefined
       ? step.content
       : processEditorProject(step.markdown_content ?? "", {
-          scratchblocks: { highContrast: true },
+          scratchblocks: { highContrast: true, scale: 0.75 },
         });
 
   return sanitiseInstructions(html);

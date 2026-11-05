@@ -32,6 +32,7 @@ describe("scratch handshake retries", () => {
     nonce,
     accessToken,
     requiresAuth = true,
+    locale,
   }) => {
     window.dispatchEvent(
       new MessageEvent("message", {
@@ -42,15 +43,17 @@ describe("scratch handshake retries", () => {
           nonce,
           accessToken,
           requiresAuth,
+          locale,
         },
       }),
     );
   };
 
-  const mountScratchEditor = () => {
+  const mountScratchEditor = ({ locale } = {}) => {
     dispatchSetTokenMessage({
       nonce: getHandshakeNonce(),
       accessToken: "token-123",
+      locale,
     });
 
     const renderedTree = mockRenderRoot.mock.calls[0][0];
@@ -154,6 +157,19 @@ describe("scratch handshake retries", () => {
       expect(scratchEditorProps.projectLocale).toBe(locale);
     },
   );
+
+  test("uses the locale sent with the token message", async () => {
+    window.history.pushState(
+      {},
+      "",
+      "/scratch.html?project_id=project-123&api_url=https://api.example.com&locale=en",
+    );
+
+    await loadScratchModule();
+    const scratchEditorProps = mountScratchEditor({ locale: "fr-FR" });
+    expect(scratchEditorProps.locale).toBe("fr");
+    expect(scratchEditorProps.projectLocale).toBe("en");
+  });
 
   test("preserves a native Scratch locale from the legacy data attribute", async () => {
     document.getElementById("app").dataset.locale = "gd";

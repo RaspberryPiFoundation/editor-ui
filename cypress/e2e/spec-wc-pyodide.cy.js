@@ -1,5 +1,6 @@
 import {
   getEditorShadow,
+  getErrorLine,
   getErrorMessage,
   getFriendlyErrorMessage,
   getFileButtonByName,
@@ -258,12 +259,15 @@ print(text_out)
     getPythonConsoleOutput().should("contain", "ULRYQJMVHLFQKBEFUGEOFL");
   });
 
-  it("errors when importing a non-existent module", () => {
+  it("shows and highlights an error when importing a non-existent module", () => {
     runCode("import i_do_not_exist");
     getErrorMessage().should(
       "contain",
       "ModuleNotFoundError: No module named 'i_do_not_exist' on line 1 of main.py",
     );
+    getErrorLine()
+      .should("have.length", 1)
+      .and("contain", "import i_do_not_exist");
   });
 
   it("clears user-defined variables between code runs", () => {

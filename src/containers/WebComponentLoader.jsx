@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   disableTheming,
@@ -10,6 +10,7 @@ import {
   setScratchApiEndpoint,
   setReadOnly,
   setPreview,
+  setAiErrorsEnabled,
 } from "../redux/EditorSlice";
 import WebComponentProject from "../components/WebComponentProject/WebComponentProject";
 import { useTranslation } from "react-i18next";
@@ -32,7 +33,6 @@ import resetStyles from "../assets/stylesheets/Reset.scss?inline";
 import globalStyles from "../assets/stylesheets/Global.scss?inline";
 import internalStyles from "../assets/stylesheets/InternalStyles.scss?inline";
 import externalStyles from "../assets/stylesheets/ExternalStyles.scss?inline";
-import editorStyles from "../assets/stylesheets/index.scss?inline";
 import "../assets/stylesheets/Notifications.scss?inline";
 import {
   projectLoadFailed,
@@ -69,12 +69,12 @@ const WebComponentLoader = (props) => {
     friendlyErrorsEnabled = false,
     showSavePrompt = false,
     sidebarOptions = [],
-    useEditorStyles = false, // If true use the standard editor styling for the web component
     withProjectbar = false,
     withSidebar = false,
     loadCache = true, // Always use cache unless explicitly disabled
     initialProject = null,
     offlineEnabled = false,
+    aiErrorsEnabled = false,
   } = props;
   const dispatch = useDispatch();
 
@@ -84,6 +84,7 @@ const WebComponentLoader = (props) => {
   const project = useSelector((state) => state.editor.project);
   const projectOwner = useSelector((state) => state.editor.project.user_name);
   const loading = useSelector((state) => state.editor.loading);
+  const saving = useSelector((state) => state.editor.saving);
   const justLoaded = useSelector((state) => state.editor.justLoaded);
   const remixLoadFailed = useSelector((state) => state.editor.remixLoadFailed);
   const loadRemix = !remixLoadFailed && !!user;
@@ -124,16 +125,22 @@ const WebComponentLoader = (props) => {
     setProjectIdentifier(identifier);
   }, [identifier]);
 
+  const previousProjectIdentifier = useRef(project.identifier);
   useEffect(() => {
+    const savedAsNewProject =
+      saving === "success" &&
+      previousProjectIdentifier.current !== project.identifier;
+    previousProjectIdentifier.current = project.identifier;
+
     if (
-      loading === "idle" &&
+      savedAsNewProject &&
       project.project_type !== "code_editor_scratch" &&
       project.identifier &&
       project.identifier !== projectIdentifier
     ) {
       setProjectIdentifier(project.identifier);
     }
-  }, [loading, project.project_type, project.identifier, projectIdentifier]);
+  }, [saving, project.project_type, project.identifier, projectIdentifier]);
 
   useEffect(() => {
     if (loading === "failed" && !remixLoadFailed) {
@@ -215,6 +222,10 @@ const WebComponentLoader = (props) => {
     dispatch(setOfflineEnabled(offlineEnabled));
   }, [offlineEnabled, dispatch]);
 
+  useEffect(() => {
+    dispatch(setAiErrorsEnabled(aiErrorsEnabled));
+  }, [aiErrorsEnabled, dispatch]);
+
   const webComponentStyles = (
     <>
       <style>{resetStyles.toString()}</style>
@@ -233,21 +244,17 @@ const WebComponentLoader = (props) => {
         }}
       >
         {webComponentStyles}
-        {useEditorStyles && <style>{editorStyles.toString()}</style>}
         {hostStyles && <style>{hostStyles}</style>}
 
-        <div
-          id="wc"
-          className={`--${cookies.theme || themeDefault}${
-            useEditorStyles ? " --use-editor-styles" : ""
-          }`}
-        >
+        <div id="wc" className={`--${cookies.theme || themeDefault}`}>
           <ToastContainer
             enableMultiContainer
             containerId="top-center"
             position="top-center"
             className="toast--top-center"
             closeButton={ToastCloseButton}
+            // clear react-toastify label so it doesn't show as a landmark
+            aria-label={undefined}
           />
           <WebComponentProject
             locale={locale}

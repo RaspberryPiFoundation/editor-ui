@@ -1,6 +1,4 @@
-@use "./rpf_design_system/spacing" as *;
-@use "./rpf_design_system/font-size" as *;
-@use "./rpf_design_system/colours" as *;
+@use "@raspberrypifoundation/design-system-core/scss/mixins/typography";
 
 .pythonrunner-container {
   display: flex;
@@ -11,7 +9,7 @@
 }
 
 .pythonrunner-console {
-  padding: $space-0-5 $space-1-5;
+  padding: var(--space-1) var(--space-3);
   margin: 0;
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
@@ -21,11 +19,11 @@
   overflow-y: auto;
 
   &--medium {
-    @include font-size-1-5(regular);
+    @include typography.style-2;
   }
 
   &--large {
-    @include font-size-2(regular);
+    @include typography.style-3;
   }
 }
 
@@ -118,11 +116,11 @@
     }
 
     .--light & {
-      border-block-end: 5px solid $rpf-grey-100;
+      border-block-end: 5px solid var(--rpf-grey-100);
     }
 
     .--dark & {
-      border-block-end: 5px solid $rpf-grey-600;
+      border-block-end: 5px solid var(--rpf-grey-600);
     }
   }
 }

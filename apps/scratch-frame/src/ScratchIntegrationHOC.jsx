@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { saveAs } from "file-saver";
 import { allowedIframeHost } from "./utils/iframeUtils";
 import { postScratchGuiEvent } from "./utils/events.js";
+import { toScratchLocale } from "./utils/scratchLocale.js";
 
 const ScratchGui = window.GUI;
 
@@ -29,6 +30,7 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.handleDownload = this.handleDownload.bind(this);
       this.handleUpload = this.handleUpload.bind(this);
       this.handleRemix = this.handleRemix.bind(this);
+      this.handleUpdateLocale = this.handleUpdateLocale.bind(this);
       this.handleSave = this.handleSave.bind(this);
       this.handleProjectChanged = this.handleProjectChanged.bind(this);
       this.handleProjectRunStart = this.handleProjectRunStart.bind(this);
@@ -42,9 +44,13 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       this.props.vm.on("PROJECT_RUN_STOP", this.handleProjectRunStop);
       this.props.setStageSize();
       this.syncLoadSettled(null);
+      document.documentElement.lang = this.props.currentLocale;
     }
     componentDidUpdate(prevProps) {
       this.syncLoadSettled(prevProps);
+      if (prevProps.currentLocale !== this.props.currentLocale) {
+        document.documentElement.lang = this.props.currentLocale;
+      }
     }
     // Scratch fires PROJECT_CHANGED during load, before setProjectUnchanged runs.
     // Wait until the project is showing and that initial dirty spell has cleared.
@@ -109,6 +115,9 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
         case "scratch-gui-save":
           this.handleSave(event);
           break;
+        case "scratch-gui-update-locale":
+          this.handleUpdateLocale(event);
+          break;
         case "scratch-gui-update-token":
           // handled elsewhere
           break;
@@ -133,6 +142,14 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
           this.handleProjectChanged();
         });
     }
+    handleUpdateLocale(event) {
+      const locale = toScratchLocale(event.data.locale);
+      const isSupported = Object.prototype.hasOwnProperty.call(
+        this.props.messagesByLocale,
+        locale,
+      );
+      this.props.selectLocale(isSupported ? locale : "en");
+    }
     handleRemix() {
       this.props.onClickRemix();
     }
@@ -154,11 +171,14 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     }
     render() {
       const {
+        currentLocale,
         loadProject,
         localesOnly,
+        messagesByLocale,
         onClickRemix,
         onClickSave,
         saveProjectSb3,
+        selectLocale,
         setStageSize,
         ...componentProps
       } = this.props;
@@ -179,17 +199,21 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
       isLoading: isScratchProjectLoading(loadingState),
       isShowingWithId: isScratchProjectShowingWithId(loadingState),
       projectChanged: state.scratchGui.projectChanged,
+      messagesByLocale: state.locales.messagesByLocale,
+      currentLocale: state.locales.locale,
     };
   };
 
   const mapDispatchToProps = (dispatch) => ({
     onClickRemix: () => dispatch(ScratchGui.remixProject()),
     onClickSave: () => dispatch(ScratchGui.manualUpdateProject()),
+    selectLocale: (locale) => dispatch(ScratchGui.selectLocale(locale)),
     setStageSize: () => dispatch(ScratchGui.setStageSize("small")),
   });
 
   ScratchIntegrationComponent.propTypes = {
     saveProjectSb3: PropTypes.func,
+    selectLocale: PropTypes.func,
     loadProject: PropTypes.func,
     onClickRemix: PropTypes.func,
     onClickSave: PropTypes.func,
@@ -198,6 +222,8 @@ const ScratchIntegrationHOC = function (WrappedComponent) {
     isLoading: PropTypes.bool,
     isShowingWithId: PropTypes.bool,
     projectChanged: PropTypes.bool,
+    messagesByLocale: PropTypes.object,
+    currentLocale: PropTypes.string,
   };
   return connect(
     mapStateToProps,
