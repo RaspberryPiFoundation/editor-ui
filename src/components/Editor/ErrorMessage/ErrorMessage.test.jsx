@@ -4,6 +4,16 @@ import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
 
+const mockI18n = vi.hoisted(() => ({ language: "en" }));
+
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (str) => str, i18n: mockI18n }),
+}));
+
+vi.mock("../AiErrorMessage/AiErrorMessage", () => ({
+  default: () => <div>AiErrorMessage</div>,
+}));
+
 describe("When error is set", () => {
   const middlewares = [];
   const mockStore = configureStore(middlewares);
@@ -130,5 +140,73 @@ describe("When error is set", () => {
       "href",
       "https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor",
     );
+  });
+});
+
+describe("AI hint", () => {
+  const mockStore = configureStore([]);
+
+  const renderErrorMessage = ({
+    aiErrorsEnabled = true,
+    user = { access_token: "token" },
+    friendlyError = { html: "<div>Friendly error</div>" },
+    language = "en",
+  } = {}) => {
+    mockI18n.language = language;
+    const store = mockStore({
+      editor: { error: "Oops", aiErrorsEnabled, friendlyError },
+      auth: { user },
+    });
+    render(
+      <Provider store={store}>
+        <SettingsContext.Provider
+          value={{ theme: "dark", fontSize: "myFontSize" }}
+        >
+          <ErrorMessage />
+        </SettingsContext.Provider>
+      </Provider>,
+    );
+  };
+
+  const expectAiHintHidden = () => {
+    expect(screen.queryByText("AiErrorMessage")).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("output.errors.aiErrorsHint"),
+    ).not.toBeInTheDocument();
+  };
+
+  afterEach(() => {
+    mockI18n.language = "en";
+  });
+
+  test("displays when all conditions are met", () => {
+    renderErrorMessage();
+    expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
+    expect(screen.getByText("output.errors.aiErrorsHint")).toBeInTheDocument();
+  });
+
+  test("displays for regional English locales", () => {
+    renderErrorMessage({ language: "en-GB" });
+    expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
+  });
+
+  test("does not display when aiErrorsEnabled is false", () => {
+    renderErrorMessage({ aiErrorsEnabled: false });
+    expectAiHintHidden();
+  });
+
+  test("does not display when the user is not logged in", () => {
+    renderErrorMessage({ user: null });
+    expectAiHintHidden();
+  });
+
+  test("does not display when there is no friendly error", () => {
+    renderErrorMessage({ friendlyError: null });
+    expectAiHintHidden();
+  });
+
+  test("does not display when the language is not English", () => {
+    renderErrorMessage({ language: "fr-FR" });
+    expectAiHintHidden();
   });
 });

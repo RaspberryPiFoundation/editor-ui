@@ -469,6 +469,8 @@ const SkulptRunner = ({
         file: fileName,
         description: errorDescription,
         message: errorMessage,
+        trace: errorMessage,
+        runtime: "skulpt",
       };
 
       if (friendlyErrorsEnabled) {
@@ -666,7 +668,6 @@ const SkulptRunner = ({
                     <RunnerControls skinny />
                   )}
                 </div>
-                <ErrorMessage />
                 <TabPanel key={0}>
                   <pre
                     className={`pythonrunner-console pythonrunner-console--${settings.fontSize}`}
@@ -674,6 +675,7 @@ const SkulptRunner = ({
                     ref={output}
                   ></pre>
                 </TabPanel>
+                <ErrorMessage />
               </Tabs>
             </div>
           )}
@@ -703,7 +705,6 @@ const SkulptRunner = ({
             {!isEmbedded && showVisualOutput && <OutputViewToggle />}
             {!isEmbedded && isMobile && <RunnerControls skinny />}
           </div>
-          {!isOutputOnly && <ErrorMessage />}
           <TabPanel key={0}>
             <VisualOutputPane ref={visualOutputPaneRef} />
           </TabPanel>
@@ -714,6 +715,7 @@ const SkulptRunner = ({
               ref={output}
             ></pre>
           </TabPanel>
+          {!isOutputOnly && <ErrorMessage />}
         </Tabs>
       )}
     </div>

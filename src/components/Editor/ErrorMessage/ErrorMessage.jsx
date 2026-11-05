@@ -5,10 +5,22 @@ import DOMPurify from "dompurify";
 import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
+import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
+import { useTranslation } from "react-i18next";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
+  const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
+  const accessToken = useSelector((state) => state.auth?.user?.access_token);
+  const friendlyError = useSelector((state) => state.editor.friendlyError);
   const settings = useContext(SettingsContext);
+  const { t, i18n } = useTranslation();
+
+  const showAiHint =
+    aiErrorsEnabled &&
+    accessToken &&
+    friendlyError?.html &&
+    i18n.language?.startsWith("en");
 
   return error ? (
     <div className="error-message">
@@ -22,6 +34,15 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
+      {showAiHint && (
+        <>
+          <AiErrorMessage />
+          {/* Todo: Add link here */}
+          <p className="error-message__hint">
+            {t("output.errors.aiErrorsHint")}
+          </p>
+        </>
+      )}
     </div>
   ) : null;
 };
