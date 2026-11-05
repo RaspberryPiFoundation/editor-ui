@@ -94,7 +94,6 @@ const AstroPiModel = ({ initialIs3d = true }) => {
     <div className="sense-hat">
       <div className="sense-hat-model">
         <>
-          <ViewModeControls is3d={is3d} setIs3d={setIs3d} />
           {is3d && (
             <>
               <Simulator updateOrientation={setOrientation} />
@@ -104,6 +103,7 @@ const AstroPiModel = ({ initialIs3d = true }) => {
               />
             </>
           )}
+          <ViewModeControls is3d={is3d} setIs3d={setIs3d} />
           {!is3d && <Simulator2d />}
         </>
       </div>
