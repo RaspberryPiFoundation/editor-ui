@@ -57,13 +57,11 @@
       }
     }
     &-view-controls {
-      // box-sizing: border-box;
       position: absolute;
-      left: 0;
-      right: 0;
+      inset-inline: 0;
       display: flex;
       flex-direction: row-reverse;
-      padding-top: 0.5rem;
+      padding-block-start: 0.5rem;
       margin: 0 var(--space-1);
 
       button {
