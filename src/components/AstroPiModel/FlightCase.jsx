@@ -67,6 +67,11 @@ const FlightCase = () => {
       Sk.sense_hat.pixels.forEach((pixel, i) => {
         Sk.sense_hat.pixels[i] = quantisePixel(pixel);
       });
+      // Sk.sense_hat.pixels is left in the order it was passed to
+      // `set_pixels` (i.e. relative to the current rotation), so record the
+      // index mapping so that other views (e.g. the 2D view) can map it
+      // back to framebuffer order.
+      Sk.sense_hat.pixel_indexes = data ?? null;
 
       setPixels(data, Sk.sense_hat.pixels);
     }
