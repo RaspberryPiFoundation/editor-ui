@@ -23,18 +23,13 @@ const components = [
   { name: "other", extension: "py", content: "print('other')" },
 ];
 
-const buildState = ({
-  aiErrorsEnabled = true,
-  user = { access_token: accessToken },
-  details = errorDetails,
-} = {}) => ({
+const buildState = ({ details = errorDetails } = {}) => ({
   editor: {
-    aiErrorsEnabled,
     errorDetails: details,
     project: { components },
     reactAppApiEndpoint: "http://localhost:3009",
   },
-  auth: { user },
+  auth: { user: { access_token: accessToken } },
 });
 
 const renderAiErrorMessage = (state = buildState()) => {
@@ -68,21 +63,7 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe("When AI errors are not available", () => {
-  test("Renders nothing when aiErrorsEnabled is false", () => {
-    const { container } = renderAiErrorMessage(
-      buildState({ aiErrorsEnabled: false }),
-    );
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  test("Renders nothing when the user is not logged in", () => {
-    const { container } = renderAiErrorMessage(buildState({ user: null }));
-    expect(container).toBeEmptyDOMElement();
-  });
-});
-
-describe("When AI errors are available", () => {
+describe("AiErrorMessage", () => {
   test("Shows the generate hint button", () => {
     renderAiErrorMessage();
     expect(

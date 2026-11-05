@@ -12,8 +12,15 @@ const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
+  const friendlyError = useSelector((state) => state.editor.friendlyError);
   const settings = useContext(SettingsContext);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const showAiHint =
+    aiErrorsEnabled &&
+    accessToken &&
+    friendlyError?.html &&
+    i18n.language?.startsWith("en");
 
   return error ? (
     <div className="error-message">
@@ -27,10 +34,14 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
-      <AiErrorMessage />
-      {/* Todo: Add link here */}
-      {aiErrorsEnabled && accessToken && (
-        <p className="error-message__hint">{t("output.errors.aiErrorsHint")}</p>
+      {showAiHint && (
+        <>
+          <AiErrorMessage />
+          {/* Todo: Add link here */}
+          <p className="error-message__hint">
+            {t("output.errors.aiErrorsHint")}
+          </p>
+        </>
       )}
     </div>
   ) : null;

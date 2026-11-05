@@ -9,7 +9,6 @@ import ApiCallHandler from "../../../utils/apiCallHandler";
 export const MIN_LOADING_MS = 500;
 
 const AiErrorMessage = () => {
-  const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
   const errorDetails = useSelector((state) => state.editor.errorDetails);
   const projectCode = useSelector((state) => state.editor.project?.components);
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
@@ -59,8 +58,6 @@ const AiErrorMessage = () => {
       setLoading(false);
     }
   };
-
-  if (!aiErrorsEnabled || !accessToken) return null;
 
   return (
     <div className="ai-error-message" aria-live="polite">
