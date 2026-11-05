@@ -2,16 +2,38 @@ import Sk from "skulpt";
 import { useState, useEffect } from "react";
 import {
   quantisePixel,
+  rotate,
   rotationClockwise90degrees,
 } from "../../utils/senseHatUtils";
 import { useTranslation } from "react-i18next";
 
+/**
+ * Returns the current pixels in framebuffer order.
+ *
+ * The 3D view leaves Sk.sense_hat.pixels in the order they were passed to
+ * `set_pixels` and records the rotation index mapping that was used in
+ * Sk.sense_hat.pixel_indexes. Normalise the snapshot back to framebuffer
+ * order so the displayed orientation is preserved when switching views, and
+ * write it back so subsequent `setpixel` events update the right LED.
+ */
+const getInitialPixels = () => {
+  if (!Sk.sense_hat.pixels) {
+    return Array(64).fill([0, 0, 0]);
+  }
+
+  const indexes = Sk.sense_hat.pixel_indexes;
+  if (indexes) {
+    Sk.sense_hat.pixels = rotate(indexes, Sk.sense_hat.pixels);
+    Sk.sense_hat.pixel_indexes = null;
+  }
+
+  return Sk.sense_hat.pixels;
+};
+
 const Simulator2d = () => {
   const { t } = useTranslation();
 
-  const [pixels, setPixels] = useState(
-    Sk.sense_hat.pixels || Array(64).fill([0, 0, 0]),
-  );
+  const [pixels, setPixels] = useState(getInitialPixels);
 
   useEffect(() => {
     Sk.sense_hat_emit = function (event, data) {
@@ -27,10 +49,13 @@ const Simulator2d = () => {
         setPixels(newPixels);
       } else if (event && event === "setpixels") {
         const pixelBuffer = new Array(64);
-        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach((rotated_i, i) => {
-          pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
-        });
+        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach(
+          (rotated_i, i) => {
+            pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
+          },
+        );
         Sk.sense_hat.pixels = pixelBuffer;
+        Sk.sense_hat.pixel_indexes = null;
         setPixels(pixelBuffer);
       }
     };
