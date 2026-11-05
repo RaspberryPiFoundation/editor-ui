@@ -23,19 +23,27 @@ describe("findUnclosedBracketLine", () => {
     test("ignores brackets that were closed on later lines", () => {
       expect(findUnclosedBracketLine("x = (\n  foo(1)\n")).toBe(1);
     });
+
+    test("finds an unclosed bracket followed by more code", () => {
+      expect(findUnclosedBracketLine('print("hi"\n\n\nx = 1')).toBe(1);
+    });
   });
 
-  describe("scanning before a given line", () => {
-    test("ignores brackets closed on or after that line", () => {
-      expect(findUnclosedBracketLine('print("hi"\nx = 1)', 2)).toBe(1);
+  describe("multi-line brackets that are closed", () => {
+    test("returns null for a list with a missing comma", () => {
+      expect(findUnclosedBracketLine("nums = [\n  1,\n  2\n  3,\n]")).toBe(
+        null,
+      );
     });
 
-    test("skips blank lines between the bracket and that line", () => {
-      expect(findUnclosedBracketLine('print("hi"\n\n\nx = 1', 4)).toBe(1);
+    test("returns null for a call with a bad token", () => {
+      expect(findUnclosedBracketLine("print(\n  'a',\n  = 'b',\n)")).toBe(null);
     });
 
-    test("ignores brackets opened on that line", () => {
-      expect(findUnclosedBracketLine("x = 1\ny = = (2", 2)).toBe(null);
+    test("returns null for a dict with a missing comma", () => {
+      expect(findUnclosedBracketLine("d = {\n  'a': 1\n  'b': 2\n}")).toBe(
+        null,
+      );
     });
   });
 

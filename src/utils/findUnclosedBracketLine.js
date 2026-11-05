@@ -2,17 +2,18 @@ const OPENING_BRACKETS = "([{";
 const CLOSING_BRACKETS = ")]}";
 
 // Returns the line number of the innermost bracket that is still open at the
-// end of the line before `beforeLine` (or at the end of the source when
-// `beforeLine` is omitted), or null if every bracket is closed. Brackets in
-// strings and comments are ignored. Used to correct Skulpt's line numbers for
+// end of the source, or null if every bracket is closed. Brackets in strings
+// and comments are ignored. Used to correct Skulpt's line numbers for
 // unclosed brackets, which point at EOF or at the next statement instead.
-export const findUnclosedBracketLine = (source, beforeLine = Infinity) => {
+// Like CPython, only brackets that are never closed count, so a syntax error
+// inside a multi-line list or call isn't blamed on its opening bracket.
+export const findUnclosedBracketLine = (source) => {
   const openBracketLines = [];
   // Line number starting from 1
   let line = 1;
   let i = 0;
 
-  while (i < source.length && line < beforeLine) {
+  while (i < source.length) {
     const char = source[i];
 
     if (char === "\n") {

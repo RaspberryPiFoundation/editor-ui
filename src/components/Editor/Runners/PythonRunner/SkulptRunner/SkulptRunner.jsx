@@ -449,10 +449,9 @@ const SkulptRunner = ({
           (component) =>
             `${component.name}.${component.extension}` === fileName,
         )?.content;
-        const unclosedBracketLine =
-          source &&
-          findUnclosedBracketLine(source, isEofError ? undefined : lineNumber);
-        if (unclosedBracketLine) {
+        const unclosedBracketLine = source && findUnclosedBracketLine(source);
+        // A bracket opened after the error line didn't cause this error
+        if (unclosedBracketLine && unclosedBracketLine <= lineNumber) {
           lineNumber = unclosedBracketLine;
         }
       }
