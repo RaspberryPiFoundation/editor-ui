@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
+  const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const settings = useContext(SettingsContext);
   const { t } = useTranslation();
 
@@ -28,7 +29,7 @@ const ErrorMessage = () => {
       <FriendlyErrorMessage />
       <AiErrorMessage />
       {/* Todo: Add link here */}
-      {aiErrorsEnabled && (
+      {aiErrorsEnabled && accessToken && (
         <p className="error-message__hint">{t("output.errors.aiErrorsHint")}</p>
       )}
     </div>

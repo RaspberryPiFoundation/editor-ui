@@ -132,3 +132,48 @@ describe("When error is set", () => {
     );
   });
 });
+
+describe("AI errors hint text", () => {
+  const mockStore = configureStore([]);
+
+  const renderErrorMessage = ({ aiErrorsEnabled, user }) => {
+    const store = mockStore({
+      editor: { error: "Oops", aiErrorsEnabled },
+      auth: { user },
+    });
+    render(
+      <Provider store={store}>
+        <SettingsContext.Provider
+          value={{ theme: "dark", fontSize: "myFontSize" }}
+        >
+          <ErrorMessage />
+        </SettingsContext.Provider>
+      </Provider>,
+    );
+  };
+
+  test("displays when aiErrorsEnabled is true and the user is logged in", () => {
+    renderErrorMessage({
+      aiErrorsEnabled: true,
+      user: { access_token: "token" },
+    });
+    expect(screen.getByText("output.errors.aiErrorsHint")).toBeInTheDocument();
+  });
+
+  test("does not display when the user is not logged in", () => {
+    renderErrorMessage({ aiErrorsEnabled: true, user: null });
+    expect(
+      screen.queryByText("output.errors.aiErrorsHint"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("does not display when aiErrorsEnabled is false", () => {
+    renderErrorMessage({
+      aiErrorsEnabled: false,
+      user: { access_token: "token" },
+    });
+    expect(
+      screen.queryByText("output.errors.aiErrorsHint"),
+    ).not.toBeInTheDocument();
+  });
+});
