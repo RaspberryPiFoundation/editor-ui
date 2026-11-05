@@ -214,7 +214,13 @@
   "output": {
     "errors": {
       "interrupted": "Exécution interrompue",
-      "aiComingSoon": "AI support coming soon"
+      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+    },
+    "aiErrorMessages": {
+      "loadingText": "Generating hint",
+      "buttonText": "Need help? Generate an AI hint",
+      "aiGeneratedHint": "AI generated hint",
+      "errorText": "Sorry, we couldn't generate a hint. Please try again."
     },
     "limitReached": "La limite d’affichage des résultats est atteinte. La suite est masquée, mais votre programme continue de s’exécuter.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
