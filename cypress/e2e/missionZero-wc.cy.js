@@ -26,14 +26,14 @@ it("defaults to the visual output tab", () => {
 });
 
 it("renders the 3D astro pi component on page load", () => {
-  getSkulptRunner().should("contain", "Zoom in to 2D view");
+  getSkulptRunner().should("contain", "yaw");
 });
 
 it("keeps astro pi component if code run without sense hat imported", () => {
   setCodeEditorContent("");
   runProject();
 
-  getSkulptRunner().should("contain", "Zoom in to 2D view");
+  getSkulptRunner().should("contain", "yaw");
 });
 
 it("loads the sense hat library", () => {
