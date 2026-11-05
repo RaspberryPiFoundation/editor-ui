@@ -49,9 +49,11 @@ const Simulator2d = () => {
         setPixels(newPixels);
       } else if (event && event === "setpixels") {
         const pixelBuffer = new Array(64);
-        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach((rotated_i, i) => {
-          pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
-        });
+        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach(
+          (rotated_i, i) => {
+            pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
+          },
+        );
         Sk.sense_hat.pixels = pixelBuffer;
         Sk.sense_hat.pixel_indexes = null;
         setPixels(pixelBuffer);
