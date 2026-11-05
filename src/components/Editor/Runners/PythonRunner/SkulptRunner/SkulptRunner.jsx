@@ -34,6 +34,7 @@ import RunnerControls from "../../../../RunButton/RunnerControls";
 import { MOBILE_MEDIA_QUERY } from "../../../../../utils/mediaQueryBreakpoints";
 import { getPythonImports } from "../../../../../utils/getPythonImports";
 import { configureTurtleGraphics } from "../../../../../utils/configureTurtleGraphics";
+import { findUnclosedBracketLine } from "../../../../../utils/findUnclosedBracketLine";
 
 const externalLibraries = {
   "./pygal/__init__.js": {
@@ -439,6 +440,22 @@ const SkulptRunner = ({
       }
 
       fileName = fileName ? fileName.replace(/^\.\//, "") : fileName;
+
+      const isEofError = errorDescription === "EOF in multi-line statement";
+      const isBadInputError = errorDescription === "bad input";
+
+      if (isEofError || isBadInputError) {
+        const source = projectCode?.find(
+          (component) =>
+            `${component.name}.${component.extension}` === fileName,
+        )?.content;
+        const unclosedBracketLine =
+          source &&
+          findUnclosedBracketLine(source, isEofError ? undefined : lineNumber);
+        if (unclosedBracketLine) {
+          lineNumber = unclosedBracketLine;
+        }
+      }
 
       if (errorType === "ImportError" && window.crossOriginIsolated) {
         const articleLink = `https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor`;
