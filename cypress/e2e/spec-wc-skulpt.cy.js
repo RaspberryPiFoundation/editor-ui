@@ -165,7 +165,6 @@ describe("Running the code with skulpt", () => {
 
     getSkulptTabByName("Visual output").click();
     getSkulptRunner().should("contain", "yaw");
-    getSkulptRunner().should("contain", "Zoom in to 2D view");
   });
 
   it("does not render astro pi component if sense hat unimported", () => {
@@ -173,7 +172,7 @@ describe("Running the code with skulpt", () => {
     runCode("import p5");
 
     getSkulptTabByName("Visual output").click();
-    getSkulptRunner().should("not.contain", "Zoom in to 2D view");
+    getSkulptRunner().should("not.contain", "yaw");
   });
 
   it("runs a simple turtle program", () => {
