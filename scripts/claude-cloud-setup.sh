@@ -10,7 +10,8 @@
 # Claude's context, so keep it to a one-line summary.
 #
 # Network: the cloud environment's allowlist can only be set in the claude.ai
-# UI, so we check REQUIRED_HOSTS below and tell Claude which are blocked.
+# UI, so we check REQUIRED_HOSTS first. If any are blocked we stop and tell
+# both the user and Claude which ones to add.
 set -euo pipefail
 
 # Hosts the cloud environment must allow, beyond the default trusted list.
@@ -48,11 +49,16 @@ check_hosts() {
   done
   rm -rf "$dir"
   if [ "${#blocked[@]}" -gt 0 ]; then
-    # stdout reaches Claude's context, so it can tell the user what to fix.
-    echo "WARNING: this cloud environment cannot reach: ${blocked[*]}." \
-      "Ask an org Owner to add them to the environment's network allowlist" \
-      "(claude.ai/code > environment settings > Network access: Custom)." \
-      "Until then, Cypress install, Pyodide/PyPI or e2e tests may fail."
+    local msg="Cloud setup stopped: this environment's network allowlist is"
+    msg+=" missing ${blocked[*]}. Ask an org Owner to add them"
+    msg+=" (claude.ai/code > environment settings > Network access: Custom,"
+    msg+=" keep the default list) and start a new session. Node 24,"
+    msg+=" dependencies and .env were not set up."
+    log "$msg"
+    # systemMessage is shown to the user; additionalContext goes to Claude.
+    printf '{"systemMessage":"%s","hookSpecificOutput":{%s,%s}}\n' \
+      "$msg" '"hookEventName":"SessionStart"' "\"additionalContext\":\"$msg\""
+    exit 0
   fi
 }
 check_hosts
@@ -68,7 +74,9 @@ fi
 # shellcheck source=/dev/null
 . "$NVM_DIR/nvm.sh"
 
-if [ "$(node --version 2>/dev/null)" != "v$node_version" ]; then
+# Ask nvm, not the node on PATH: a system node of the same version doesn't
+# mean nvm has it, and `nvm use` below would then fail.
+if [ "$(nvm version "$node_version")" = "N/A" ]; then
   log "Installing Node $node_version"
   nvm install "$node_version" >&2
 fi
