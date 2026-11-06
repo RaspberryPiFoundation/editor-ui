@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import Sk from "skulpt";
 import { invalidate } from "@react-three/fiber";
 import { quantisePixel } from "../../utils/senseHatUtils";
+import { rotate } from "../../utils/senseHatUtils";
 
 const FlightCase = () => {
   const { scene } = useGLTF(
@@ -36,15 +37,9 @@ const FlightCase = () => {
     }
   }
 
-  function setPixels(indexes, pix) {
-    if (indexes == null) {
-      indexes = Array.from(Array(8 * 8).keys());
-    }
-
-    var i = 0;
-    for (const ledIndex of indexes) {
-      setPixel(ledIndex, pix[i][0], pix[i][1], pix[i][2]);
-      i += 1;
+  function setPixels(_, pix) {
+    for (let ledIndex = 0; ledIndex < 64; ledIndex += 1) {
+      setPixel(ledIndex, pix[ledIndex][0], pix[ledIndex][1], pix[ledIndex][2]);
     }
   }
 
@@ -63,16 +58,11 @@ const FlightCase = () => {
 
       setPixel(ledIndex, ledData[0], ledData[1], ledData[2]);
     } else if (event && event === "setpixels") {
+      const rotation_mapping = data;
+      // rotate the pixels so that they are in framebuffer form.
+      const rotatedPixels = rotate(rotation_mapping, Sk.sense_hat.pixels);
       // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-      Sk.sense_hat.pixels.forEach((pixel, i) => {
-        Sk.sense_hat.pixels[i] = quantisePixel(pixel);
-      });
-      // Sk.sense_hat.pixels is left in the order it was passed to
-      // `set_pixels` (i.e. relative to the current rotation), so record the
-      // index mapping so that other views (e.g. the 2D view) can map it
-      // back to framebuffer order.
-      Sk.sense_hat.rotation_mapping = data ?? null;
-
+      Sk.sense_hat.pixels = rotatedPixels.map(quantisePixel);
       setPixels(data, Sk.sense_hat.pixels);
     }
     invalidate();
