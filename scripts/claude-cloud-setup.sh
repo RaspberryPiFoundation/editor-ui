@@ -1,21 +1,11 @@
 #!/usr/bin/env bash
 # SessionStart hook for Claude Code cloud sessions (claude.ai/code).
 #
-# The cloud base image ships Node 20-22, but this repo pins Node in
-# .tool-versions, so we install that version with nvm, enable corepack for
-# Yarn 4, create .env from .env.example and install dependencies.
+# The cloud base image ships Node 20-22, but this repo pins Node in .tool-versions, so we install that version with nvm, enable corepack for Yarn 4, create .env from .env.example and install dependencies.
 #
-# It is a no-op outside the cloud (CLAUDE_CODE_REMOTE is unset locally), so
-# local sessions are unaffected. Progress goes to stderr; stdout is added to
-# Claude's context, so keep it to a one-line summary.
+# It is a no-op outside the cloud (CLAUDE_CODE_REMOTE is unset locally), so local sessions are unaffected. Progress goes to stderr; stdout is added to Claude's context, so keep it to a one-line summary.
 #
-# Cypress is not run in cloud sessions: it crashes behind the sandbox proxy
-# (read ECONNRESET), so CI's test-cypress job is the e2e check. We skip the
-# Cypress binary download, which also keeps the allowlist short.
-#
-# Network: the cloud environment's allowlist can only be set in the claude.ai
-# UI, so we check REQUIRED_HOSTS first. If any are blocked we stop and tell
-# both the user and Claude which ones to add.
+# Network: the cloud environment's allowlist can only be set in the claude.ai UI, so we check REQUIRED_HOSTS first. If any are blocked we stop and tell both the user and Claude which ones to add.
 set -euo pipefail
 
 # Hosts the cloud environment must allow, beyond the default trusted list.
@@ -31,8 +21,7 @@ cd "${CLAUDE_PROJECT_DIR:-$(dirname "$0")/..}"
 
 log() { echo ">>> $*" >&2; }
 
-# Any HTTP response (even 4xx) means the host is reachable. A blocked host
-# fails at the connection or proxy CONNECT step, so curl exits non-zero.
+# Any HTTP response (even 4xx) means the host is reachable. A blocked host fails at the connection or proxy CONNECT step, so curl exits non-zero.
 check_hosts() {
   local dir host blocked=()
   dir="$(mktemp -d)"
@@ -71,8 +60,7 @@ fi
 # shellcheck source=/dev/null
 . "$NVM_DIR/nvm.sh"
 
-# Ask nvm, not the node on PATH: a system node of the same version doesn't
-# mean nvm has it, and `nvm use` below would then fail.
+# Ask nvm, not the node on PATH: a system node of the same version doesn't mean nvm has it, and `nvm use` below would then fail.
 if [ "$(nvm version "$node_version")" = "N/A" ]; then
   log "Installing Node $node_version"
   nvm install "$node_version" >&2
@@ -86,8 +74,7 @@ if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
   echo "export PATH=\"$node_bin:\$PATH\"" >>"$CLAUDE_ENV_FILE"
 fi
 
-# Node's built-in fetch, which corepack uses to download Yarn, ignores
-# HTTPS_PROXY unless this is set; without it corepack fails with ENOTFOUND.
+# corepack's Yarn download ignores HTTPS_PROXY without this.
 export NODE_USE_ENV_PROXY=1
 export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 corepack enable >&2
@@ -98,6 +85,7 @@ if [ ! -f .env ]; then
 fi
 
 log "Installing dependencies"
+# Cypress isn't run in cloud sessions; CI's test-cypress job covers e2e.
 CYPRESS_INSTALL_BINARY=0 yarn install --immutable >&2
 
 echo "Cloud setup done: Node $(node --version), Yarn $(yarn --version)," \
