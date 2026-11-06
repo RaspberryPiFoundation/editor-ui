@@ -9,9 +9,21 @@
 # local sessions are unaffected. Progress goes to stderr; stdout is added to
 # Claude's context, so keep it to a one-line summary.
 #
-# Network: the cloud environment must allow download.cypress.io and
-# cdn.cypress.io (Cypress binary) and editor-assets.raspberrypi.org (Pyodide).
+# Network: the cloud environment's allowlist can only be set in the claude.ai
+# UI, so we check REQUIRED_HOSTS below and tell Claude which are blocked.
 set -euo pipefail
+
+# Hosts the cloud environment must allow, beyond the default trusted list.
+REQUIRED_HOSTS=(
+  download.cypress.io            # Cypress binary (yarn install)
+  cdn.cypress.io                 # Cypress binary (yarn install)
+  editor-assets.raspberrypi.org  # Pyodide runtime and packages
+  pypi.org                       # micropip installs
+  files.pythonhosted.org         # micropip installs
+  test-editor-api.raspberrypi.org # API endpoint used by e2e
+  fonts.googleapis.com           # web fonts
+  fonts.gstatic.com              # web fonts
+)
 
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
@@ -20,6 +32,30 @@ fi
 cd "${CLAUDE_PROJECT_DIR:-$(dirname "$0")/..}"
 
 log() { echo ">>> $*" >&2; }
+
+# Any HTTP response (even 4xx) means the host is reachable. A blocked host
+# fails at the connection or proxy CONNECT step, so curl exits non-zero.
+check_hosts() {
+  local dir host blocked=()
+  dir="$(mktemp -d)"
+  for host in "${REQUIRED_HOSTS[@]}"; do
+    (curl -s -o /dev/null --max-time 10 "https://$host/" ||
+      touch "$dir/$host") &
+  done
+  wait
+  for host in "${REQUIRED_HOSTS[@]}"; do
+    [ -e "$dir/$host" ] && blocked+=("$host")
+  done
+  rm -rf "$dir"
+  if [ "${#blocked[@]}" -gt 0 ]; then
+    # stdout reaches Claude's context, so it can tell the user what to fix.
+    echo "WARNING: this cloud environment cannot reach: ${blocked[*]}." \
+      "Ask an org Owner to add them to the environment's network allowlist" \
+      "(claude.ai/code > environment settings > Network access: Custom)." \
+      "Until then, Cypress install, Pyodide/PyPI or e2e tests may fail."
+  fi
+}
+check_hosts
 
 node_version="$(awk '$1 == "nodejs" { print $2 }' .tool-versions)"
 
