@@ -4,7 +4,7 @@ import { useGLTF } from "@react-three/drei";
 import Sk from "skulpt";
 import { invalidate } from "@react-three/fiber";
 import { quantisePixel } from "../../utils/senseHatUtils";
-import { rotate } from "../../utils/senseHatUtils";
+import { rotateInverse } from "../../utils/senseHatUtils";
 
 export const REGISTRY_ID = "3D";
 
@@ -74,7 +74,7 @@ const FlightCase = ({ senseHatEmitRegistryRef }) => {
         } else if (event && event === "setpixels") {
           const rotation_mapping = data;
           // rotate the pixels so that they are in framebuffer form.
-          const rotatedPixels = rotate(rotation_mapping, Sk.sense_hat.pixels);
+          const rotatedPixels = rotateInverse(rotation_mapping, Sk.sense_hat.pixels);
           // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
           Sk.sense_hat.pixels = rotatedPixels.map(quantisePixel);
           setPixels(data, Sk.sense_hat.pixels);

@@ -9,11 +9,14 @@ import { useEffect, useState, useRef } from "react";
 import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
-import { rotate, rotationClockwise90degrees } from "../../utils/senseHatUtils";
+import {
+  rotateInverse,
+  rotationClockwise90degrees,
+} from "../../utils/senseHatUtils";
 
 const B = [207, 207, 207];
 const W = [235, 235, 235];
-const SMILEY_FACE = rotate(
+const SMILEY_FACE = rotateInverse(
   rotationClockwise90degrees,
   // prettier-ignore
   [
