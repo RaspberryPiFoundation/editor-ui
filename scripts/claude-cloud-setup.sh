@@ -9,6 +9,10 @@
 # local sessions are unaffected. Progress goes to stderr; stdout is added to
 # Claude's context, so keep it to a one-line summary.
 #
+# Cypress is not run in cloud sessions: it crashes behind the sandbox proxy
+# (read ECONNRESET), so CI's test-cypress job is the e2e check. We skip the
+# Cypress binary download, which also keeps the allowlist short.
+#
 # Network: the cloud environment's allowlist can only be set in the claude.ai
 # UI, so we check REQUIRED_HOSTS first. If any are blocked we stop and tell
 # both the user and Claude which ones to add.
@@ -16,14 +20,7 @@ set -euo pipefail
 
 # Hosts the cloud environment must allow, beyond the default trusted list.
 REQUIRED_HOSTS=(
-  download.cypress.io            # Cypress binary (yarn install)
-  cdn.cypress.io                 # Cypress binary (yarn install)
-  editor-assets.raspberrypi.org  # Pyodide runtime and packages
-  pypi.org                       # micropip installs
-  files.pythonhosted.org         # micropip installs
-  test-editor-api.raspberrypi.org # API endpoint used by e2e
-  fonts.googleapis.com           # web fonts
-  fonts.gstatic.com              # web fonts
+  repo.yarnpkg.com # Yarn release that corepack downloads
 )
 
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
@@ -89,6 +86,10 @@ if [ -n "${CLAUDE_ENV_FILE:-}" ]; then
   echo "export PATH=\"$node_bin:\$PATH\"" >>"$CLAUDE_ENV_FILE"
 fi
 
+# Node's built-in fetch, which corepack uses to download Yarn, ignores
+# HTTPS_PROXY unless this is set; without it corepack fails with ENOTFOUND.
+export NODE_USE_ENV_PROXY=1
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 corepack enable >&2
 
 if [ ! -f .env ]; then
@@ -97,7 +98,7 @@ if [ ! -f .env ]; then
 fi
 
 log "Installing dependencies"
-yarn install --immutable >&2
+CYPRESS_INSTALL_BINARY=0 yarn install --immutable >&2
 
 echo "Cloud setup done: Node $(node --version), Yarn $(yarn --version)," \
   "dependencies installed."

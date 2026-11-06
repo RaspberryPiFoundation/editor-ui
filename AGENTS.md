@@ -122,3 +122,13 @@ offline. This does not affect unit tests or linting.
 on demand rather than bundled upfront. Wait for the `VITE vX.X.X ready in
 Xms` message before curling or browsing port 3011.
 The test page is served at port 3011 under path `/web-component.html`.
+
+## Claude Code cloud sessions (claude.ai/code)
+- Setup: `scripts/claude-cloud-setup.sh` runs as a `SessionStart` hook and
+  installs the pinned Node, Yarn (via corepack), `.env` and dependencies.
+  Hooks don't run in sessions with more than one repository, so those rely
+  on the cloud environment's own setup script instead.
+- Do not run Cypress in cloud sessions. It crashes behind the sandbox proxy
+  (`read ECONNRESET`), and the Cypress binary isn't installed there. Run
+  `yarn lint` and the relevant unit tests, push, then check the PR's
+  `test-cypress` job in CI for e2e results.
