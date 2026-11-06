@@ -5,7 +5,7 @@ import Sk from "skulpt";
 import AstroPiControls from "./AstroPiControls/AstroPiControls";
 import OrientationPanel from "./OrientationPanel/OrientationPanel";
 import ViewModeControls from "./ViewModeControls";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { resetModel, updateRTIMU } from "../../utils/Orientation";
 import { useSelector } from "react-redux";
 import { defaultMZCriteria } from "../../utils/DefaultMZCriteria";
