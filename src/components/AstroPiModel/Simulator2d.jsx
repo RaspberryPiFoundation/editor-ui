@@ -5,6 +5,7 @@ import {
   rotationClockwise90degrees,
 } from "../../utils/senseHatUtils";
 import { useTranslation } from "react-i18next";
+import { rotate } from "../../utils/senseHatUtils";
 
 const REGISTRY_ID = "2D";
 
@@ -33,14 +34,13 @@ const Simulator2d = (props) => {
           Sk.sense_hat.pixels[index] = newValue;
           setPixels(newPixels);
         } else if (event && event === "setpixels") {
-          const pixelBuffer = new Array(64);
-          (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach(
-            (rotated_i, i) => {
-              pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
-            },
-          );
-          Sk.sense_hat.pixels = pixelBuffer;
-          setPixels(pixelBuffer);
+          const rotation_mapping = data;
+          // rotate the pixels so that they are in framebuffer form.
+          const rotatedPixels = rotate(rotation_mapping, Sk.sense_hat.pixels);
+          // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
+          const quantisedPixels = rotatedPixels.map(quantisePixel);
+          Sk.sense_hat.pixels = quantisedPixels;
+          setPixels(quantisedPixels);
         }
       };
       return () => {
