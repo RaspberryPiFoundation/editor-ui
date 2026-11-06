@@ -6,7 +6,7 @@ import { invalidate } from "@react-three/fiber";
 import { quantisePixel } from "../../utils/senseHatUtils";
 import { rotate } from "../../utils/senseHatUtils";
 
-const REGISTRY_ID = "3D";
+export const REGISTRY_ID = "3D";
 
 const FlightCase = ({ senseHatEmitRegistryRef }) => {
   const { scene } = useGLTF(
