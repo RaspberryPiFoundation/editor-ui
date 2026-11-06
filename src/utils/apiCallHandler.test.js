@@ -235,7 +235,7 @@ describe("Testing AI error hint API calls", () => {
     code: 'prnt("Hello world")',
   };
 
-  test("Posts error details with auth headers", async () => {
+  test("Posts error details with auth headers and a timeout", async () => {
     axios.post.mockImplementationOnce(() =>
       Promise.resolve({ status: 200, data: { fem: "A friendly hint" } }),
     );
@@ -245,7 +245,7 @@ describe("Testing AI error hint API calls", () => {
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/friendly_error_messages`,
       errorDetails,
-      authHeaders,
+      { ...authHeaders, timeout: 20000 },
     );
     expect(response.data.fem).toBe("A friendly hint");
   });

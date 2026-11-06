@@ -50,6 +50,7 @@ const AiErrorMessage = () => {
         ),
         minLoadingTime,
       ]);
+      if (!data?.fem) throw new Error("Empty hint");
       setHint(data.fem);
     } catch {
       await minLoadingTime;

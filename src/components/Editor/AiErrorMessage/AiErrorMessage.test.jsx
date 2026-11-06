@@ -172,6 +172,22 @@ describe("AiErrorMessage", () => {
     ).toBeInTheDocument();
   });
 
+  test.each([{ fem: "" }, {}])(
+    "Shows the error text when the response has empty hint in the form of %o",
+    async (data) => {
+      getAiErrorHint.mockResolvedValue({ data });
+      renderAiErrorMessage();
+      await clickButtonAndWait();
+
+      expect(
+        screen.getByText("output.aiErrorMessages.errorText"),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText("output.aiErrorMessages.aiGeneratedHint"),
+      ).not.toBeInTheDocument();
+    },
+  );
+
   test("Clears the error text and shows the hint when a retry succeeds", async () => {
     getAiErrorHint
       .mockRejectedValueOnce(new Error("Bad gateway"))
