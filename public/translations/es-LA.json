@@ -214,7 +214,13 @@
   "output": {
     "errors": {
       "interrupted": "Se interrumpió la ejecución",
-      "aiComingSoon": "AI support coming soon"
+      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+    },
+    "aiErrorMessages": {
+      "loadingText": "Generating hint",
+      "buttonText": "Need help? Generate an AI hint",
+      "aiGeneratedHint": "AI generated hint",
+      "errorText": "Sorry, we couldn't generate a hint. Please try again."
     },
     "limitReached": "Se alcanzó el límite de salida. La salida adicional está oculta, pero tu programa sigue ejecutándose.",
     "newTab": "Vista previa en nueva pestaña",

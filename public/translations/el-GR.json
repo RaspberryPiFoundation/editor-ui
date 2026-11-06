@@ -214,7 +214,13 @@
   "output": {
     "errors": {
       "interrupted": "Η εκτέλεση διακόπηκε",
-      "aiComingSoon": "AI support coming soon"
+      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+    },
+    "aiErrorMessages": {
+      "loadingText": "Generating hint",
+      "buttonText": "Need help? Generate an AI hint",
+      "aiGeneratedHint": "AI generated hint",
+      "errorText": "Sorry, we couldn't generate a hint. Please try again."
     },
     "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Προεπισκόπηση σε νέα καρτέλα",
