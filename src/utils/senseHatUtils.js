@@ -30,6 +30,11 @@ export const rotationAnticlockwise90degrees = [
   0,  8, 16, 24, 32, 40, 48, 56,
 ];
 
+export function rotate(rotation, arr) {
+  if (!rotation) return [...arr];
+  return rotation.map((i) => arr[i]);
+}
+
 export function rotateInverse(rotation, arr) {
   if (!rotation) return [...arr];
   const buffer = new Array(arr.length);
