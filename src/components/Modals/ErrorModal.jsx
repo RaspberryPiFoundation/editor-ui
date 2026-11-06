@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
+import { Button } from "@raspberrypifoundation/design-system-react";
+
 import { closeErrorModal, setError } from "../../redux/EditorSlice";
 import "../../assets/stylesheets/Modal.scss?inline";
 
@@ -56,7 +57,7 @@ const ErrorModal = ({ errorType, additionalOnClose }) => {
         )}
 
         <div className="modal-content__buttons">
-          <DesignSystemButton
+          <Button
             key="close"
             type="primary"
             text={t("modal.close")}
