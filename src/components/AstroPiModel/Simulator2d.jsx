@@ -7,7 +7,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { rotateInverse } from "../../utils/senseHatUtils";
 
-const REGISTRY_ID = "2D";
+export const REGISTRY_ID = "2D";
 
 const Simulator2d = (props) => {
   const { senseHatEmitRegistryRef } = props;
