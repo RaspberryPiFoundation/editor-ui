@@ -217,7 +217,13 @@
   "output": {
     "errors": {
       "interrupted": "Cur i bhfeidhm idirbhriste",
-      "aiComingSoon": "AI support coming soon"
+      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+    },
+    "aiErrorMessages": {
+      "loadingText": "Generating hint",
+      "buttonText": "Need help? Generate an AI hint",
+      "aiGeneratedHint": "AI generated hint",
+      "errorText": "Sorry, we couldn't generate a hint. Please try again."
     },
     "limitReached": "Teorainn aschuir sroichte. Tá aschur breise folaithe, ach tá do chlár fós ag rith.",
     "newTab": "Réamhamharc i dtáb nua",
