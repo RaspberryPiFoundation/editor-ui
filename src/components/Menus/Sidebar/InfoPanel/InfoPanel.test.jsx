@@ -122,4 +122,15 @@ describe("when the project is a Scratch project", () => {
     expect(screen.queryByText("Scratch Editor")).toBeInTheDocument();
     expect(screen.queryByText("Scratch Frame")).toBeInTheDocument();
   });
+
+  test("the licences modal closes when the close button is clicked", () => {
+    renderInfoPanel({}, scratchInitialState);
+
+    fireEvent.click(screen.getByText("sidebar.licences"));
+    fireEvent.click(
+      screen.getByRole("button", { name: "modals.close", hidden: true }),
+    );
+
+    expect(screen.queryByText("Scratch Editor")).not.toBeInTheDocument();
+  });
 });
