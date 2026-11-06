@@ -443,16 +443,25 @@ const SkulptRunner = ({
 
       const isEofError = errorDescription === "EOF in multi-line statement";
       const isBadInputError = errorDescription === "bad input";
+      const source = projectCode?.find(
+        (component) => `${component.name}.${component.extension}` === fileName,
+      )?.content;
 
-      if (isEofError || isBadInputError) {
-        const source = projectCode?.find(
-          (component) =>
-            `${component.name}.${component.extension}` === fileName,
-        )?.content;
-        const unclosedBracketLine = source && findUnclosedBracketLine(source);
-        // A bracket opened after the error line didn't cause this error
-        if (unclosedBracketLine && unclosedBracketLine <= lineNumber) {
-          lineNumber = unclosedBracketLine;
+      if (source && lineNumber) {
+        if (isEofError || isBadInputError) {
+          const unclosedBracketLine = findUnclosedBracketLine(source);
+          // A bracket opened after the error line didn't cause this error
+          if (unclosedBracketLine && unclosedBracketLine <= lineNumber) {
+            lineNumber = unclosedBracketLine;
+          }
+        }
+
+        // Skulpt counts the end of the file as an extra line, so errors found
+        // there (e.g. a block with no body) point past the last line of code
+        const lastCodeLine =
+          source.split("\n").findLastIndex((line) => line.trim()) + 1;
+        if (lastCodeLine > 0 && lineNumber > lastCodeLine) {
+          lineNumber = lastCodeLine;
         }
       }
 

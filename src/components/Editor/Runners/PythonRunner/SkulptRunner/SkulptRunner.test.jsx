@@ -224,6 +224,48 @@ describe("Stopping during input()", () => {
   });
 });
 
+describe("When Skulpt reports a syntax error on the wrong line", () => {
+  test.each([
+    [
+      "an unclosed bracket followed by code",
+      'print("hi"\nx = 1',
+      "bad input",
+      1,
+    ],
+    [
+      "a block with no body followed by blank lines",
+      "for i in range(4):\n\n\n",
+      "bad input",
+      1,
+    ],
+  ])("reports the right line for %s", async (_, content, description, line) => {
+    const mockStore = configureMockStore([]);
+    const store = mockStore({
+      editor: {
+        project: {
+          components: [{ name: "main", extension: "py", content }],
+          image_list: [],
+        },
+        codeRunTriggered: true,
+      },
+      auth: { user },
+    });
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          setError(`SyntaxError: ${description} on line ${line} of main.py`),
+        ]),
+      );
+    });
+  });
+});
+
 describe("When an error occurs", () => {
   let store;
   beforeEach(() => {
