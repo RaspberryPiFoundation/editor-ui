@@ -5,7 +5,7 @@ import {
   rotationClockwise90degrees,
 } from "../../utils/senseHatUtils";
 import { useTranslation } from "react-i18next";
-import { rotateInverse } from "../../utils/senseHatUtils";
+import { rotate, rotateInverse } from "../../utils/senseHatUtils";
 
 export const REGISTRY_ID = "2D";
 
@@ -66,12 +66,13 @@ const Simulator2d = (props) => {
             // bottom-right to left in its default orientation
             // (i.e. rotation=0). Hence, the div indexes need to be
             // rotated 90 degrees clockwise.
-            rotationClockwise90degrees.map((i) => {
-              const [r, g, b] = pixels[i];
+            rotate(rotationClockwise90degrees, pixels).map(([r, g, b], i) => {
+              const key = `led-${i}`;
               return (
                 <div
                   className="sense-hat-model-2d-matrix__led-housing"
-                  key={`led-${i}`}
+                  key={key}
+                  data-testid={key}
                 >
                   <div
                     className="sense-hat-model-2d-matrix__led-bulb"
