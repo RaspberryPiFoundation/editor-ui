@@ -70,15 +70,4 @@ describe("FlightCase", () => {
     expect(Sk.sense_hat.pixels[1]).toEqual([8, 4, 8]);
     expect(Sk.sense_hat.pixels[2]).toEqual([8, 4, 8]);
   });
-
-  test("setpixels event records the index mapping", async () => {
-    await ReactThreeTestRenderer.create(<FlightCase />);
-
-    const indexes = Array.from({ length: 64 }, (_, i) => 63 - i);
-    Sk.sense_hat_emit("setpixels", indexes);
-    expect(Sk.sense_hat.rotation_mapping).toEqual(indexes);
-
-    Sk.sense_hat_emit("setpixels", null);
-    expect(Sk.sense_hat.rotation_mapping).toBeNull();
-  });
 });

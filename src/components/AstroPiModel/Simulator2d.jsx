@@ -2,7 +2,6 @@ import Sk from "skulpt";
 import { useState, useEffect } from "react";
 import {
   quantisePixel,
-  rotate,
   rotationClockwise90degrees,
 } from "../../utils/senseHatUtils";
 import { useTranslation } from "react-i18next";
@@ -28,11 +27,9 @@ const Simulator2d = () => {
         setPixels(newPixels);
       } else if (event && event === "setpixels") {
         const pixelBuffer = new Array(64);
-        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach(
-          (rotated_i, i) => {
-            pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
-          },
-        );
+        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach((rotated_i, i) => {
+          pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
+        });
         Sk.sense_hat.pixels = pixelBuffer;
         setPixels(pixelBuffer);
       }
