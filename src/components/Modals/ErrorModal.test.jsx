@@ -134,3 +134,24 @@ test("Additional closeModal function fired", () => {
   fireEvent.click(closeButton);
   expect(testOnClose).toHaveBeenCalledTimes(1);
 });
+
+test("Close button is a primary Design System button without the wrapper class", () => {
+  const initialState = {
+    editor: {
+      errorModalShowing: true,
+    },
+  };
+  const store = mockStore(initialState);
+
+  render(
+    <Provider store={store}>
+      <div id="app">
+        <ErrorModal />
+      </div>
+    </Provider>,
+  );
+
+  const closeButton = screen.getByRole("button", { name: "modal.close" });
+  expect(closeButton).toHaveClass("rpf-button", "rpf-button--primary");
+  expect(closeButton).not.toHaveClass("buttonWrapper");
+});
