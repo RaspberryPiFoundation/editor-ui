@@ -10,7 +10,11 @@ set -euo pipefail
 
 # Hosts the cloud environment must allow, beyond the default trusted list.
 REQUIRED_HOSTS=(
-  repo.yarnpkg.com # Yarn release that corepack downloads
+  repo.yarnpkg.com                # Yarn release that corepack downloads
+  editor-assets.raspberrypi.org   # Pyodide runtime and packages
+  test-editor-api.raspberrypi.org # API endpoint when REACT_APP_API_ENDPOINT points at it
+  fonts.googleapis.com            # web fonts
+  fonts.gstatic.com               # web fonts
 )
 
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
