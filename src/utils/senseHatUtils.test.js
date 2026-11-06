@@ -61,7 +61,5 @@ describe("rotateInverse", () => {
       G, X, X, X, X, X, X, X,
       R, X, X, X, X, X, X, X,
     ]);
-
-
   });
 });
