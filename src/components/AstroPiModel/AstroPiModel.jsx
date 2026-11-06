@@ -36,6 +36,12 @@ const AstroPiModel = ({ initialIs3d = true }) => {
     resetModel(e);
     setOrientation([0, 90, 0]);
   };
+  // Registry that both the 2d and 3d views can subscribe to (
+  // using unique ids) in order to run their own
+  // Sk.sense_hat_emit event listeners.
+  // Used to avoid race conditions when switching from
+  // 3d to 2d view (or vice-versa).
+  const senseHatEmitRegistryRef = useRef({});
 
   const defaultPressure = 1013;
   const defaultTemperature = 13;
@@ -90,13 +96,30 @@ const AstroPiModel = ({ initialIs3d = true }) => {
     updateRTIMU();
   }, [orientation]);
 
+  useEffect(() => {
+    Sk.sense_hat_emit = (event, data) => {
+      const listeners = senseHatEmitRegistryRef.current;
+      if (listeners) {
+        for (let listener of Object.values(listeners)) {
+          listener(event, data);
+        }
+      }
+    };
+    return () => {
+      Sk.sense_hat_emit = null;
+    };
+  }, [senseHatEmitRegistryRef]);
+
   return (
     <div className="sense-hat">
       <div className="sense-hat-model">
         <>
           {is3d && (
             <>
-              <Simulator updateOrientation={setOrientation} />
+              <Simulator
+                updateOrientation={setOrientation}
+                senseHatEmitRegistryRef={senseHatEmitRegistryRef}
+              />
               <OrientationPanel
                 orientation={orientation}
                 resetOrientation={resetOrientation}
@@ -104,7 +127,9 @@ const AstroPiModel = ({ initialIs3d = true }) => {
             </>
           )}
           <ViewModeControls is3d={is3d} setIs3d={setIs3d} />
-          {!is3d && <Simulator2d />}
+          {!is3d && (
+            <Simulator2d senseHatEmitRegistryRef={senseHatEmitRegistryRef} />
+          )}
         </>
       </div>
 

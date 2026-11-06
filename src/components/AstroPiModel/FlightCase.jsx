@@ -6,7 +6,9 @@ import { invalidate } from "@react-three/fiber";
 import { quantisePixel } from "../../utils/senseHatUtils";
 import { rotate } from "../../utils/senseHatUtils";
 
-const FlightCase = () => {
+const REGISTRY_ID = "3D";
+
+const FlightCase = ({ senseHatEmitRegistryRef }) => {
   const { scene } = useGLTF(
     `${process.env.ASSETS_URL}/models/raspi-compressed.glb`,
   );
@@ -58,36 +60,31 @@ const FlightCase = () => {
       setPixels(null, Sk.sense_hat.pixels);
     }
 
-    // const previousEmit = Sk.sense_hat_emit;
+    const registry = senseHatEmitRegistryRef?.current;
+    if (registry) {
+      registry[REGISTRY_ID] = function (event, data) {
+        if (event && event === "setpixel") {
+          // change the led
+          const ledIndex = data;
+          const ledData = quantisePixel(Sk.sense_hat.pixels[ledIndex]);
+          // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
+          Sk.sense_hat.pixels[ledIndex] = ledData;
 
-    Sk.sense_hat_emit = function (event, data) {
-      console.log("Inside sense_hat_emit 3D");
-      if (event && event === "setpixel") {
-        // change the led
-        const ledIndex = data;
-        const ledData = quantisePixel(Sk.sense_hat.pixels[ledIndex]);
-        // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-        Sk.sense_hat.pixels[ledIndex] = ledData;
-
-        setPixel(ledIndex, ledData[0], ledData[1], ledData[2]);
-      } else if (event && event === "setpixels") {
-        const rotation_mapping = data;
-        // rotate the pixels so that they are in framebuffer form.
-        const rotatedPixels = rotate(rotation_mapping, Sk.sense_hat.pixels);
-        // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-        Sk.sense_hat.pixels = rotatedPixels.map(quantisePixel);
-        setPixels(data, Sk.sense_hat.pixels);
-      }
-      invalidate();
-    };
+          setPixel(ledIndex, ledData[0], ledData[1], ledData[2]);
+        } else if (event && event === "setpixels") {
+          const rotation_mapping = data;
+          // rotate the pixels so that they are in framebuffer form.
+          const rotatedPixels = rotate(rotation_mapping, Sk.sense_hat.pixels);
+          // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
+          Sk.sense_hat.pixels = rotatedPixels.map(quantisePixel);
+          setPixels(data, Sk.sense_hat.pixels);
+        }
+        invalidate();
+      };
+    }
     return () => {
-      // console.log("I would reset sense_hat_emit to:", previousEmit);
+      if (registry) delete registry[REGISTRY_ID];
 
-      // FIXME there is a race condition in the teardown when
-      // switching to the 2D view. This can probably be fixed
-      // by using a subscription model insted.
-      // Sk.sense_hat_emit = null;
-      // Sk.sense_hat_emit = previousEmit;
       delete window.mod;
 
       // remove the allocated materials
@@ -101,7 +98,7 @@ const FlightCase = () => {
         }
       }
     };
-  }, [scene]);
+  }, [scene, senseHatEmitRegistryRef]);
 
   return <primitive object={scene} scale={4} />;
 };

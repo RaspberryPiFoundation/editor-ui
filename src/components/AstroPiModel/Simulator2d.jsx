@@ -6,7 +6,11 @@ import {
 } from "../../utils/senseHatUtils";
 import { useTranslation } from "react-i18next";
 
-const Simulator2d = () => {
+const REGISTRY_ID = "2D";
+
+const Simulator2d = (props) => {
+  const { senseHatEmitRegistryRef } = props;
+
   const { t } = useTranslation();
 
   const [pixels, setPixels] = useState(
@@ -14,32 +18,36 @@ const Simulator2d = () => {
   );
 
   useEffect(() => {
-    Sk.sense_hat_emit = function (event, data) {
-      if (event && event === "setpixel") {
-        const index = data;
-        const newValue = quantisePixel(Sk.sense_hat.pixels[index]);
-        // Copy from Sk.sense_hat.pixels since it gets
-        // reset on every run and therefore may be vastly different
-        // from the current pixels state.
-        const newPixels = [...Sk.sense_hat.pixels];
-        newPixels[index] = newValue;
-        Sk.sense_hat.pixels[index] = newValue;
-        setPixels(newPixels);
-      } else if (event && event === "setpixels") {
-        const pixelBuffer = new Array(64);
-        (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach(
-          (rotated_i, i) => {
-            pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
-          },
-        );
-        Sk.sense_hat.pixels = pixelBuffer;
-        setPixels(pixelBuffer);
-      }
-    };
-    return () => {
-      Sk.sense_hat_emit = null;
-    };
-  }, []);
+    const registry = senseHatEmitRegistryRef?.current;
+
+    if (registry) {
+      registry[REGISTRY_ID] = function (event, data) {
+        if (event && event === "setpixel") {
+          const index = data;
+          const newValue = quantisePixel(Sk.sense_hat.pixels[index]);
+          // Copy from Sk.sense_hat.pixels since it gets
+          // reset on every run and therefore may be vastly different
+          // from the current pixels state.
+          const newPixels = [...Sk.sense_hat.pixels];
+          newPixels[index] = newValue;
+          Sk.sense_hat.pixels[index] = newValue;
+          setPixels(newPixels);
+        } else if (event && event === "setpixels") {
+          const pixelBuffer = new Array(64);
+          (data ?? Array.from({ length: 64 }, (_, i) => i)).forEach(
+            (rotated_i, i) => {
+              pixelBuffer[rotated_i] = quantisePixel(Sk.sense_hat.pixels[i]);
+            },
+          );
+          Sk.sense_hat.pixels = pixelBuffer;
+          setPixels(pixelBuffer);
+        }
+      };
+      return () => {
+        if (registry) delete registry[REGISTRY_ID];
+      };
+    }
+  }, [senseHatEmitRegistryRef]);
 
   return (
     <>
