@@ -23,7 +23,7 @@ var slowingFactor = 0.25;
 const rotationScaleFactor = 0.00025;
 
 const Simulator = (props) => {
-  const { updateOrientation } = props;
+  const { updateOrientation, senseHatEmitRegistryRef } = props;
 
   const handleDragStart = (e) => {
     isDragging = true;
@@ -76,7 +76,7 @@ const Simulator = (props) => {
           far={20000}
           position={[0, 1.5, 0]}
         />
-        <FlightCase />
+        <FlightCase senseHatEmitRegistryRef={senseHatEmitRegistryRef} />
         <OrbitControls
           enableRotate={false}
           enablePan={false}
