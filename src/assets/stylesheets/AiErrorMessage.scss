@@ -23,11 +23,24 @@
 	&__button {
 		--rpf-button-lg-height: 2.5rem;
 		--rpf-button-border-color: var(--rpf-navy-200);
+		--rpf-button-border-color-hover: var(--rpf-navy-200);
+		--rpf-button-border-color-active: var(--rpf-navy-200);
+		--rpf-button-border-color-disabled: var(--rpf-navy-200);
 		padding: var(--space-1);
 		font-size: var(--font-size-1);
 	}
 
 	p {
 		margin: var(--space-0-5);
+	}
+}
+
+.--dark {
+	.ai-error-message__button.rpf-button--secondary {
+		--rpf-button-text-color: var(--rpf-white);
+		--rpf-button-background-color: var(--rpf-navy-800);
+		--rpf-button-background-color-hover: var(--rpf-navy-800);
+		--rpf-button-background-color-active: var(--rpf-navy-800);
+		--rpf-button-background-color-disabled: var(--rpf-navy-800);
 	}
 }
