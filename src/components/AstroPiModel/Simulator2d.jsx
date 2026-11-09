@@ -1,5 +1,5 @@
 import Sk from "skulpt";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   quantisePixel,
   rotationClockwise90degrees,
@@ -18,39 +18,41 @@ const Simulator2d = (props) => {
     Sk.sense_hat.pixels || Array(64).fill([0, 0, 0]),
   );
 
+  const onSenseHatEmit = useCallback((event, data) => {
+    if (event && event === "setpixel") {
+      const index = data;
+      const newValue = quantisePixel(Sk.sense_hat.pixels[index]);
+      // Copy from Sk.sense_hat.pixels since it gets
+      // reset on every run and therefore may be vastly different
+      // from the current pixels state.
+      const newPixels = [...Sk.sense_hat.pixels];
+      newPixels[index] = newValue;
+      Sk.sense_hat.pixels[index] = newValue;
+      setPixels(newPixels);
+    } else if (event && event === "setpixels") {
+      const rotation_mapping = data;
+      // rotate the pixels so that they are in framebuffer form.
+      const rotatedPixels = rotateInverse(
+        rotation_mapping,
+        Sk.sense_hat.pixels,
+      );
+      // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
+      const quantisedPixels = rotatedPixels.map(quantisePixel);
+      Sk.sense_hat.pixels = quantisedPixels;
+      setPixels(quantisedPixels);
+    }
+  }, []);
+
   useEffect(() => {
     const registry = senseHatEmitRegistryRef?.current;
 
     if (registry) {
-      registry[REGISTRY_ID] = function (event, data) {
-        if (event && event === "setpixel") {
-          const index = data;
-          const newValue = quantisePixel(Sk.sense_hat.pixels[index]);
-          // Copy from Sk.sense_hat.pixels since it gets
-          // reset on every run and therefore may be vastly different
-          // from the current pixels state.
-          const newPixels = [...Sk.sense_hat.pixels];
-          newPixels[index] = newValue;
-          Sk.sense_hat.pixels[index] = newValue;
-          setPixels(newPixels);
-        } else if (event && event === "setpixels") {
-          const rotation_mapping = data;
-          // rotate the pixels so that they are in framebuffer form.
-          const rotatedPixels = rotateInverse(
-            rotation_mapping,
-            Sk.sense_hat.pixels,
-          );
-          // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-          const quantisedPixels = rotatedPixels.map(quantisePixel);
-          Sk.sense_hat.pixels = quantisedPixels;
-          setPixels(quantisedPixels);
-        }
-      };
+      registry[REGISTRY_ID] = onSenseHatEmit;
       return () => {
         if (registry) delete registry[REGISTRY_ID];
       };
     }
-  }, [senseHatEmitRegistryRef]);
+  }, [onSenseHatEmit, senseHatEmitRegistryRef]);
 
   return (
     <>
