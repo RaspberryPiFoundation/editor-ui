@@ -9,14 +9,13 @@ import { rotateInverse } from "../../utils/senseHatUtils";
 export const REGISTRY_ID = "3D";
 
 const FlightCase = ({ senseHatEmitRegistryRef }) => {
+  console.log("Rendering FlightCase");
   const { scene } = useGLTF(
     `${process.env.ASSETS_URL}/models/raspi-compressed.glb`,
   );
 
   useEffect(() => {
-    if (import.meta.env.DEV) {
-      window.mod = scene;
-    }
+    window.mod = scene;
 
     // Helper functions
 
@@ -26,7 +25,12 @@ const FlightCase = ({ senseHatEmitRegistryRef }) => {
       const object = scene.getObjectByName(`circle${x}_${7 - y}-1`);
 
       if (object && object.material) {
-        object.material.color.setRGB(r / 255, g / 255, b / 255);
+        object.material.color.setRGB(
+          r / 255,
+          g / 255,
+          b / 255,
+          THREE.SRGBColorSpace,
+        );
       }
     }
 
@@ -62,6 +66,7 @@ const FlightCase = ({ senseHatEmitRegistryRef }) => {
 
     const registry = senseHatEmitRegistryRef?.current;
     if (registry) {
+      console.log("Registered");
       registry[REGISTRY_ID] = function (event, data) {
         if (event && event === "setpixel") {
           // change the led
