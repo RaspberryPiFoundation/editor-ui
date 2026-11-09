@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import SidebarPanel from "../SidebarPanel";
 import GeneralModal from "../../../Modals/GeneralModal";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 
 import "../../../../assets/stylesheets/InfoPanel.scss?inline";
 
@@ -99,7 +99,7 @@ const InfoPanel = ({ feedbackFormUrl = CODE_EDITOR_FEEDBACK_URL }) => {
           heading={t("sidebar.licences")}
           closeModal={() => setIsLicencesModalOpen(false)}
           buttons={[
-            <DesignSystemButton
+            <Button
               key="close"
               type="secondary"
               text={t("modals.close")}
