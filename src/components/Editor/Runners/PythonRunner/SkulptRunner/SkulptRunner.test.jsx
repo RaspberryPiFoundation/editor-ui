@@ -224,6 +224,34 @@ describe("Stopping during input()", () => {
   });
 });
 
+describe("When the friendly error copydeck fails to load", () => {
+  let store;
+  beforeEach(() => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    loadCopydeckFor.mockRejectedValueOnce(new Error("No copydeck found"));
+    const mockStore = configureMockStore([]);
+    store = mockStore({
+      editor: {
+        project: { components: [], image_list: [] },
+      },
+      auth: { user },
+    });
+    render(
+      <Provider store={store}>
+        <SkulptRunner active={true} friendlyErrorsEnabled={true} />
+      </Provider>,
+    );
+  });
+
+  test("Clears the friendly error", async () => {
+    await waitFor(() => {
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([setFriendlyError(null)]),
+      );
+    });
+  });
+});
+
 describe("When an error occurs", () => {
   let store;
   beforeEach(() => {
