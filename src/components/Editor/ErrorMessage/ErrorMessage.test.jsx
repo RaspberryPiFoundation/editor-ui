@@ -3,8 +3,11 @@ import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
+import useIsOnline from "../../../hooks/useIsOnline";
 
 const mockI18n = vi.hoisted(() => ({ language: "en" }));
+
+vi.mock("../../../hooks/useIsOnline");
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (str) => str, i18n: mockI18n }),
@@ -175,6 +178,10 @@ describe("AI hint", () => {
     ).not.toBeInTheDocument();
   };
 
+  beforeEach(() => {
+    useIsOnline.mockReturnValue(true);
+  });
+
   afterEach(() => {
     mockI18n.language = "en";
   });
@@ -207,6 +214,12 @@ describe("AI hint", () => {
 
   test("does not display when the language is not English", () => {
     renderErrorMessage({ language: "fr-FR" });
+    expectAiHintHidden();
+  });
+
+  test("does not display when the user is offline", () => {
+    useIsOnline.mockReturnValue(false);
+    renderErrorMessage();
     expectAiHintHidden();
   });
 });

@@ -7,16 +7,20 @@ import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
 import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
 import { useTranslation } from "react-i18next";
+import useIsOnline from "../../../hooks/useIsOnline";
 
 const ErrorMessage = () => {
+  const { t, i18n } = useTranslation();
+
   const error = useSelector((state) => state.editor.error);
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const friendlyError = useSelector((state) => state.editor.friendlyError);
   const settings = useContext(SettingsContext);
-  const { t, i18n } = useTranslation();
+  const isOnline = useIsOnline();
 
   const showAiHint =
+    isOnline &&
     aiErrorsEnabled &&
     accessToken &&
     friendlyError?.html &&
