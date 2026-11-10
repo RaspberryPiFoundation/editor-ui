@@ -176,17 +176,20 @@ const SkulptRunner = ({
   };
 
   useEffect(() => {
-    if (friendlyErrorsEnabled) {
+    if (!friendlyErrorsEnabled) return;
+
+    const loadFriendlyErrors = async () => {
       try {
-        loadCopydeckFor(i18n.language, {
+        registerAdapter("skulpt", cpythonAdapter);
+        await loadCopydeckFor(i18n.language, {
           base: `${process.env.PUBLIC_URL}/python-error-copydecks/`,
         });
-        registerAdapter("skulpt", cpythonAdapter);
       } catch {
         console.error("Could not load friendly error copydeck");
         dispatch(setFriendlyError(null));
       }
-    }
+    };
+    loadFriendlyErrors();
   }, [friendlyErrorsEnabled, i18n.language]);
 
   useEffect(() => {

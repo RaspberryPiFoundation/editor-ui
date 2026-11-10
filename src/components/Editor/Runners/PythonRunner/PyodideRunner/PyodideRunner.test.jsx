@@ -582,6 +582,24 @@ describe("When an error is received", () => {
       });
     });
 
+    describe("when the copydeck fails to load", () => {
+      beforeEach(() => {
+        vi.spyOn(console, "error").mockImplementation(() => {});
+        loadCopydeckFor.mockRejectedValueOnce(new Error("No copydeck found"));
+        render(
+          <Provider store={store}>
+            <PyodideRunner active={true} friendlyErrorsEnabled={true} />
+          </Provider>,
+        );
+      });
+
+      test("it clears the friendly error", async () => {
+        await waitFor(() => {
+          expect(dispatchSpy).toHaveBeenCalledWith(setFriendlyError(null));
+        });
+      });
+    });
+
     describe("when an error occurs and friendlyExplain returns HTML", () => {
       beforeEach(() => {
         friendlyExplain.mockReturnValue({ html: friendlyErrorHtml });
