@@ -173,9 +173,6 @@ describe("AI hint", () => {
 
   const expectAiHintHidden = () => {
     expect(screen.queryByText("AiErrorMessage")).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("output.errors.aiErrorsHint"),
-    ).not.toBeInTheDocument();
   };
 
   beforeEach(() => {
@@ -189,7 +186,6 @@ describe("AI hint", () => {
   test("displays when all conditions are met", () => {
     renderErrorMessage();
     expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
-    expect(screen.getByText("output.errors.aiErrorsHint")).toBeInTheDocument();
   });
 
   test("displays for regional English locales", () => {

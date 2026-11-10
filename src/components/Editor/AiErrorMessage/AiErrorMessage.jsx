@@ -62,34 +62,36 @@ const AiErrorMessage = () => {
 
   return (
     <div className="ai-error-message" aria-live="polite">
-      {hint ? (
+      {(hint || failed) && (
         <div className="ai-error-message__hint">
           <p className="ai-error-message__hint-heading">
             <BadgeQuestionMarkIcon />
             {t("output.aiErrorMessages.aiGeneratedHint")}
           </p>
-          <p className="ai-error-message__hint-text">{hint}</p>
+          <p className="ai-error-message__hint-text">
+            {hint || t("output.aiErrorMessages.errorText")}
+          </p>
         </div>
-      ) : (
-        <>
-          {failed && (
-            <div className="ai-error-message__hint">
-              <p className="ai-error-message__hint-text">
-                {t("output.aiErrorMessages.errorText")}
-              </p>
-            </div>
-          )}
-          <Button
-            className="ai-error-message__button"
-            loading={loading}
-            loadingText={t("output.aiErrorMessages.loadingText")}
-            fullWidth={true}
-            onClick={handleButtonClick}
-            type="secondary"
-            text={t("output.aiErrorMessages.buttonText")}
-          />
-        </>
       )}
+      {!hint && (
+        <Button
+          className="ai-error-message__button"
+          loading={loading}
+          loadingText={t("output.aiErrorMessages.loadingText")}
+          fullWidth={true}
+          onClick={handleButtonClick}
+          type="secondary"
+          text={
+            failed
+              ? t("output.aiErrorMessages.retryButtonText")
+              : t("output.aiErrorMessages.buttonText")
+          }
+        />
+      )}
+      {/* Todo: Add link here */}
+      <p className="ai-error-message__notice">
+        {t("output.aiErrorMessages.notice")}
+      </p>
     </div>
   );
 };

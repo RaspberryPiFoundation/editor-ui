@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import useIsOnline from "../../../hooks/useIsOnline";
 
 const ErrorMessage = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const error = useSelector((state) => state.editor.error);
   const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
@@ -38,15 +38,7 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
-      {showAiHint && (
-        <>
-          <AiErrorMessage />
-          {/* Todo: Add link here */}
-          <p className="error-message__hint">
-            {t("output.errors.aiErrorsHint")}
-          </p>
-        </>
-      )}
+      {showAiHint && <AiErrorMessage />}
     </div>
   ) : null;
 };

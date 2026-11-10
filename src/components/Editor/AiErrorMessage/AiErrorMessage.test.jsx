@@ -41,8 +41,7 @@ const renderAiErrorMessage = (state = buildState()) => {
   );
 };
 
-const clickButton = () =>
-  fireEvent.click(screen.getByText("output.aiErrorMessages.buttonText"));
+const clickButton = () => fireEvent.click(screen.getByRole("button"));
 
 const advanceTimers = (ms) => act(() => vi.advanceTimersByTimeAsync(ms));
 
@@ -72,6 +71,13 @@ describe("AiErrorMessage", () => {
     expect(
       screen.queryByText("output.aiErrorMessages.aiGeneratedHint"),
     ).not.toBeInTheDocument();
+  });
+
+  test("Shows the AI notice", () => {
+    renderAiErrorMessage();
+    expect(
+      screen.getByText("output.aiErrorMessages.notice"),
+    ).toBeInTheDocument();
   });
 
   test("Sends the error details, main.py code and access token", async () => {
@@ -165,10 +171,13 @@ describe("AiErrorMessage", () => {
     await clickButtonAndWait();
 
     expect(
+      screen.getByText("output.aiErrorMessages.aiGeneratedHint"),
+    ).toBeInTheDocument();
+    expect(
       screen.getByText("output.aiErrorMessages.errorText"),
     ).toBeInTheDocument();
     expect(
-      screen.getByText("output.aiErrorMessages.buttonText"),
+      screen.getByText("output.aiErrorMessages.retryButtonText"),
     ).toBeInTheDocument();
   });
 
@@ -183,8 +192,8 @@ describe("AiErrorMessage", () => {
         screen.getByText("output.aiErrorMessages.errorText"),
       ).toBeInTheDocument();
       expect(
-        screen.queryByText("output.aiErrorMessages.aiGeneratedHint"),
-      ).not.toBeInTheDocument();
+        screen.getByText("output.aiErrorMessages.aiGeneratedHint"),
+      ).toBeInTheDocument();
     },
   );
 
