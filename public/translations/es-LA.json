@@ -213,14 +213,15 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Se interrumpió la ejecución",
-      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+      "interrupted": "Se interrumpió la ejecución"
     },
     "aiErrorMessages": {
       "loadingText": "Generating hint",
       "buttonText": "Need help? Generate an AI hint",
+      "retryButtonText": "Try again",
       "aiGeneratedHint": "AI generated hint",
-      "errorText": "Sorry, we couldn't generate a hint. Please try again."
+      "errorText": "We were not able to generate a hint, try again later.",
+      "notice": "AI hints can be wrong. Learn more and share feedback"
     },
     "limitReached": "Se alcanzó el límite de salida. La salida adicional está oculta, pero tu programa sigue ejecutándose.",
     "newTab": "Vista previa en nueva pestaña",

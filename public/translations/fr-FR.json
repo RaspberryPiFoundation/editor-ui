@@ -213,14 +213,15 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Exécution interrompue",
-      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+      "interrupted": "Exécution interrompue"
     },
     "aiErrorMessages": {
       "loadingText": "Generating hint",
       "buttonText": "Need help? Generate an AI hint",
+      "retryButtonText": "Try again",
       "aiGeneratedHint": "AI generated hint",
-      "errorText": "Sorry, we couldn't generate a hint. Please try again."
+      "errorText": "We were not able to generate a hint, try again later.",
+      "notice": "AI hints can be wrong. Learn more and share feedback"
     },
     "limitReached": "La limite d’affichage des résultats est atteinte. La suite est masquée, mais votre programme continue de s’exécuter.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
