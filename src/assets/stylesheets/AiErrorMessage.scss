@@ -1,12 +1,19 @@
 .ai-error-message {
-	padding-block: var(--space-1);
+	display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-block-start: var(--space-1);
 
 	&__hint {
 	  color: var(--rpf-text-primary);
 		background-color: var(--rpf-white);
 		border-radius: var(--space-1);
-  		padding-block: var(--space-1);
+  	padding-block: var(--space-1);
 		padding-inline: var(--space-1-5);
+
+		p {
+			margin: var(--space-0-5);
+		}
 	}
 
 	&__hint-heading {
@@ -23,11 +30,26 @@
 	&__button {
 		--rpf-button-lg-height: 2.5rem;
 		--rpf-button-border-color: var(--rpf-navy-200);
+		--rpf-button-border-color-hover: var(--rpf-navy-200);
+		--rpf-button-border-color-active: var(--rpf-navy-200);
+		--rpf-button-border-color-disabled: var(--rpf-navy-200);
 		padding: var(--space-1);
 		font-size: var(--font-size-1);
 	}
 
-	p {
-		margin: var(--space-0-5);
+	&__notice {
+		color: var(--rpf-text-secondary);
+		font-size: var(--font-size-0-75);
+		margin: 0;
+	}
+}
+
+.--dark {
+	.ai-error-message__button.rpf-button--secondary {
+		--rpf-button-text-color: var(--rpf-white);
+		--rpf-button-background-color: var(--rpf-navy-800);
+		--rpf-button-background-color-hover: var(--rpf-navy-800);
+		--rpf-button-background-color-active: var(--rpf-navy-800);
+		--rpf-button-background-color-disabled: var(--rpf-navy-800);
 	}
 }

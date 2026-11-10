@@ -3,8 +3,11 @@ import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
+import useIsOnline from "../../../hooks/useIsOnline";
 
 const mockI18n = vi.hoisted(() => ({ language: "en" }));
+
+vi.mock("../../../hooks/useIsOnline");
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (str) => str, i18n: mockI18n }),
@@ -170,10 +173,11 @@ describe("AI hint", () => {
 
   const expectAiHintHidden = () => {
     expect(screen.queryByText("AiErrorMessage")).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("output.errors.aiErrorsHint"),
-    ).not.toBeInTheDocument();
   };
+
+  beforeEach(() => {
+    useIsOnline.mockReturnValue(true);
+  });
 
   afterEach(() => {
     mockI18n.language = "en";
@@ -182,7 +186,6 @@ describe("AI hint", () => {
   test("displays when all conditions are met", () => {
     renderErrorMessage();
     expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
-    expect(screen.getByText("output.errors.aiErrorsHint")).toBeInTheDocument();
   });
 
   test("displays for regional English locales", () => {
@@ -207,6 +210,12 @@ describe("AI hint", () => {
 
   test("does not display when the language is not English", () => {
     renderErrorMessage({ language: "fr-FR" });
+    expectAiHintHidden();
+  });
+
+  test("does not display when the user is offline", () => {
+    useIsOnline.mockReturnValue(false);
+    renderErrorMessage();
     expectAiHintHidden();
   });
 });

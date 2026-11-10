@@ -99,10 +99,12 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     { message, trace, runtime, code },
     accessToken,
   ) => {
+    // Timeout is set longer than editor-api's 15 seconds
+    // so that the backend's 502 bad gateway arrives first.
     return await post(
       `${host}/api/friendly_error_messages`,
       { message, trace, runtime, code },
-      { headers: headers(accessToken) },
+      { headers: headers(accessToken), timeout: 20000 },
     );
   };
 
