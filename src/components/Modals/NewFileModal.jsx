@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import {
   addProjectComponent,
   closeNewFileModal,
@@ -58,13 +58,13 @@ const NewFileModal = () => {
       ]}
       defaultCallback={createComponent}
       buttons={[
-        <DesignSystemButton
+        <Button
           key="create"
           type="primary"
           text={t("filePanel.newFileModal.addFile")}
           onClick={createComponent}
         />,
-        <DesignSystemButton
+        <Button
           key="close"
           type="secondary"
           text={t("filePanel.newFileModal.cancel")}
