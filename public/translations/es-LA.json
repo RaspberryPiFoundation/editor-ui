@@ -194,12 +194,12 @@
     "close": "Cerrar",
     "accept": "OK",
     "projectSaveFailed": {
-      "heading": "Your project could not be saved",
+      "heading": "No se pudo guardar tu proyecto.",
       "scratchAssetTooLarge": {
-        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+        "text": "No pudimos guardar tu proyecto porque la imagen o el sonido que agregaste es demasiado grande. Lo dejamos en el editor, pero no podremos guardarlo hasta que lo quites. Intenta reemplazarlo por un archivo más pequeño."
       },
       "scratchProjectTooLarge": {
-        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+        "text": "No pudimos guardar tu proyecto porque es demasiado grande. Lo dejamos en el editor, pero no podremos guardarlo hasta que quites algunas imágenes o sonidos. Intenta reemplazarlos por archivos más pequeños, o comienza un proyecto nuevo."
       }
     }
   },
@@ -216,17 +216,23 @@
       "interrupted": "Se interrumpió la ejecución"
     },
     "aiErrorMessages": {
-      "loadingText": "Generating hint",
-      "buttonText": "Need help? Generate an AI hint",
-      "retryButtonText": "Try again",
-      "aiGeneratedHint": "AI generated hint",
-      "errorText": "We were not able to generate a hint, try again later.",
-      "notice": "AI hints can be wrong. Learn more and share feedback"
+      "loadingText": "Generando pista",
+      "buttonText": "¿Necesitas ayuda? Genera una pista de IA",
+      "retryButtonText": "Intentar de nuevo",
+      "aiGeneratedHint": "Pista generada por IA",
+      "errorText": "No pudimos generar una pista, vuelve a intentarlo más tarde.",
+      "notice": "Las pistas de IA pueden ser incorrectas. Aprende más y comparte comentarios"
     },
     "limitReached": "Se alcanzó el límite de salida. La salida adicional está oculta, pero tu programa sigue ejecutándose.",
     "newTab": "Vista previa en nueva pestaña",
     "preview": "vista previa",
     "senseHat": {
+      "view": {
+        "toggleTo2D": "Zoom in to 2D view",
+        "toggleTo3D": "Zoom out to 3D view",
+        "resetOrientation": "Reset Astro Pi orientation",
+        "description": "2D zoomed view of the Astro Pi 8 by 8 Sense HAT LED matrix"
+      },
       "controls": {
         "colour": "color",
         "humidity": "humedad",
@@ -323,10 +329,10 @@
     "saved": "Guardado"
   },
   "regions": {
-    "inputPanel": "Input panel",
-    "outputPanel": "Output panel",
-    "projectBar": "Project bar",
-    "sidebar": "Sidebar"
+    "inputPanel": "Panel de entrada",
+    "outputPanel": "Panel de salida",
+    "projectBar": "Barra de proyecto",
+    "sidebar": "Barra lateral"
   },
   "runners": {
     "HtmlOutput": "Vista previa de salida HTML"
