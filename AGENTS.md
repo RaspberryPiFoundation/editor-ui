@@ -57,7 +57,7 @@ yarn exec cypress open
 - SCSS linting via Stylelint (`stylelint-use-logical` enabled).
 - Web component uses Shadow DOM: new internal styles must be imported in
   `src/assets/stylesheets/InternalStyles.scss` (and external libs in
-  `ExternalStyles.scss`); avoid `rem`, prefer `em` and `--scale-factor`.
+  `ExternalStyles.scss`); avoid `rem`, prefer `em`.
 
 ## Translations / locale files
 - Only update `public/translations/en.json` when adding or changing translation keys.
