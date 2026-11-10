@@ -194,12 +194,12 @@
     "close": "Fermer ",
     "accept": "OK",
     "projectSaveFailed": {
-      "heading": "Your project could not be saved",
+      "heading": "Votre projet n’a pas pu être enregistré",
       "scratchAssetTooLarge": {
-        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+        "text": "L’image ou le son que vous avez ajouté est trop volumineux. Votre projet n’a donc pas pu être enregistré. Le projet est toujours dans l’éditeur, mais vous devrez enlever l’image ou le son pour pouvoir l’enregistrer. Essayez de remplacer cette image ou ce son par un fichier moins volumineux."
       },
       "scratchProjectTooLarge": {
-        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+        "text": "Votre projet est trop volumineux et n’a pas pu être enregistré. Il est toujours dans l’éditeur, mais vous devrez enlever des images ou des sons pour pouvoir l’enregistrer. Essayez de les remplacer par des fichiers moins volumineux ou commencez un nouveau projet."
       }
     }
   },
@@ -216,12 +216,12 @@
       "interrupted": "Exécution interrompue"
     },
     "aiErrorMessages": {
-      "loadingText": "Generating hint",
-      "buttonText": "Need help? Generate an AI hint",
-      "retryButtonText": "Try again",
-      "aiGeneratedHint": "AI generated hint",
-      "errorText": "We were not able to generate a hint, try again later.",
-      "notice": "AI hints can be wrong. Learn more and share feedback"
+      "loadingText": "Génération d’indice",
+      "buttonText": "Vous avez besoin d’aide? Demandez à l’IA de générer un indice.",
+      "retryButtonText": "Réessayer",
+      "aiGeneratedHint": "Indice généré par l’IA",
+      "errorText": "Il est impossible de générer un indice. Réessayez plus tard.",
+      "notice": "Les indices générés par l’IA peuvent être incorrects. Apprenez-en davantage et faites-nous part de vos commentaires."
     },
     "limitReached": "La limite d’affichage des résultats est atteinte. La suite est masquée, mais votre programme continue de s’exécuter.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
@@ -325,8 +325,8 @@
   "regions": {
     "inputPanel": "Input panel",
     "outputPanel": "Output panel",
-    "projectBar": "Project bar",
-    "sidebar": "Sidebar"
+    "projectBar": "Barre de projet",
+    "sidebar": "Barre latérale"
   },
   "runners": {
     "HtmlOutput": "Aperçu de la sortie HTML"
