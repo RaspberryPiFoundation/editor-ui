@@ -25,7 +25,7 @@ it("defaults to the visual output tab", () => {
   );
 });
 
-it("renders the astro pi component on page load", () => {
+it("renders the 3D astro pi component on page load", () => {
   getSkulptRunner().should("contain", "yaw");
 });
 
@@ -40,6 +40,17 @@ it("loads the sense hat library", () => {
   runCode("from sense_hat import SenseHat");
 
   getResults().should("contain", '"isErrorFree":true');
+});
+
+it("switches between 3D and 2D visuals", () => {
+  getSkulptRunner().should("contain", "yaw");
+  getSkulptRunner()
+    .findByRole("button", { name: "Zoom in to 2D view" })
+    .click();
+  getSkulptRunner().should("not.contain", "yaw");
+  getSkulptRunner()
+    .findByRole("button", { name: "Zoom out to 3D view" })
+    .click();
 });
 
 it("sets initial criteria correctly", () => {

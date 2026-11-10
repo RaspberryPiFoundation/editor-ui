@@ -157,10 +157,10 @@ describe("Running the code with skulpt", () => {
   });
 
   it("does not render astro pi component on page load", () => {
-    getSkulptRunner().should("not.contain", "yaw");
+    getSkulptRunner().should("not.contain", "Zoom in to 2D view");
   });
 
-  it("renders astro pi component if sense hat imported", () => {
+  it("renders 3D astro pi component if sense hat imported", () => {
     runCode("import sense_hat");
 
     getSkulptTabByName("Visual output").click();
