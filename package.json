@@ -81,7 +81,8 @@
     "stylelint": "stylelint 'src/**/*.scss' 'apps/**/*.scss'",
     "test": "vitest",
     "test:scratch-frame": "yarn workspace @raspberrypifoundation/scratch-frame test",
-    "watch-css": "sass --load-path=./ -q --watch src:src"
+    "watch-css": "sass --load-path=./ -q --watch src:src",
+    "test:e2e:pw": "playwright test"
   },
   "browserslist": {
     "production": [
@@ -96,6 +97,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@react-three/test-renderer": "^9.0.0",
     "@testing-library/cypress": "^10.1.0",
     "@testing-library/jest-dom": "^5.16.5",

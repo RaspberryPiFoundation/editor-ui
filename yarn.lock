@@ -1916,6 +1916,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@playwright/test@npm:^1.64.1":
+  version: 1.64.1
+  resolution: "@playwright/test@npm:1.64.1"
+  dependencies:
+    playwright: "npm:1.64.1"
+  bin:
+    playwright: cli.js
+  checksum: 10/589855c5fbc9ebbfb072e77e4b24a646f302ca9823d56ac3ff08a8e4ecf7ee13a390fe19236f4f9737e9a736194324f244f90c409a10edeb480c5f99ce77d10e
+  languageName: node
+  linkType: hard
+
 "@plotly/d3-sankey-circular@npm:0.33.1":
   version: 0.33.1
   resolution: "@plotly/d3-sankey-circular@npm:0.33.1"
@@ -2500,6 +2511,7 @@ __metadata:
     "@codemirror/view": "npm:^6.43.12"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
+    "@playwright/test": "npm:^1.64.1"
     "@raspberrypifoundation/design-system-react": "npm:^2.13.0"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
     "@raspberrypifoundation/rpf-markdown-core": "npm:^0.2.2"
@@ -13460,6 +13472,26 @@ __metadata:
   dependencies:
     find-up: "npm:^5.0.0"
   checksum: 10/b167bb8dac7bbf22b1d5e30ec223e6b064b84b63010c9d49384619a36734caf95ed23ad23d4f9bd975e8e8082b60a83395f43a89bb192df53a7c25a38ecb57d9
+  languageName: node
+  linkType: hard
+
+"playwright-core@npm:1.64.1":
+  version: 1.64.1
+  resolution: "playwright-core@npm:1.64.1"
+  bin:
+    playwright-core: cli.js
+  checksum: 10/4a173590bc784d8d5bfe2cace53ccc31316dac11475660b59cea24a2e833875d87183d41a957a20355301ac2b339a17940faaf0b42217156fa9c0c3cfdd4633c
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.64.1":
+  version: 1.64.1
+  resolution: "playwright@npm:1.64.1"
+  dependencies:
+    playwright-core: "npm:1.64.1"
+  bin:
+    playwright: cli.js
+  checksum: 10/1096fa91e433f84c8677433a26052aa4f269bf0811aa793fe667d7053feb1c2852e9f10f9f0cced77fa2678f8580ed47192f29adbc9c027efa5ba87b38e23e50
   languageName: node
   linkType: hard
 
