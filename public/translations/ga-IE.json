@@ -216,14 +216,15 @@
   },
   "output": {
     "errors": {
-      "interrupted": "Cur i bhfeidhm idirbhriste",
-      "aiErrorsHint": "AI hints will not give you the answer and may get things wrong. Learn how AI hints work"
+      "interrupted": "Cur i bhfeidhm idirbhriste"
     },
     "aiErrorMessages": {
       "loadingText": "Generating hint",
       "buttonText": "Need help? Generate an AI hint",
+      "retryButtonText": "Try again",
       "aiGeneratedHint": "AI generated hint",
-      "errorText": "Sorry, we couldn't generate a hint. Please try again."
+      "errorText": "We were not able to generate a hint, try again later.",
+      "notice": "AI hints can be wrong. Learn more and share feedback"
     },
     "limitReached": "Teorainn aschuir sroichte. Tá aschur breise folaithe, ach tá do chlár fós ag rith.",
     "newTab": "Réamhamharc i dtáb nua",
