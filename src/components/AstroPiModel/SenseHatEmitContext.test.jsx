@@ -120,14 +120,23 @@ describe("SenseHatEmitContextProvider", () => {
   });
 
   describe("is3d prop handling", () => {
-    test("calls invalidate() when is3d is true", () => {
+    test("calls invalidate() on event when is3d is true", () => {
       render(<SenseHatEmitContextProvider is3d={true} />);
+
+      act(() => {
+        Sk.sense_hat_emit("setpixel", 0);
+      });
 
       expect(invalidate).toHaveBeenCalledTimes(1);
     });
 
     test("invalidate() not called when not 3d", () => {
       render(<SenseHatEmitContextProvider is3d={false} />);
+
+      act(() => {
+        Sk.sense_hat_emit("setpixel", 0);
+      });
+
       expect(invalidate).not.toHaveBeenCalled();
     });
   });

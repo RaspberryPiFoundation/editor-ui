@@ -39,10 +39,10 @@ export function SenseHatEmitContextProvider({ children, is3d }) {
           sub.setPixels?.(Sk.sense_hat.pixels),
         );
       }
+      if (is3d) {
+        invalidate();
+      }
     };
-    if (is3d) {
-      invalidate();
-    }
   }, [is3d]);
 
   return (
