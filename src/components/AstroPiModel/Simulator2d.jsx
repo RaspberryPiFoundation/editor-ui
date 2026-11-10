@@ -11,13 +11,15 @@ const Simulator2d = () => {
   const [pixels, setPixels] = useState(
     Sk.sense_hat.pixels || Array(64).fill([0, 0, 0]),
   );
+
   const setPixel = useCallback(
-    (ledIndex, rgb) => {
-      const newPixels = [...pixels];
-      newPixels[ledIndex] = rgb;
-      setPixels(newPixels);
-    },
-    [pixels, setPixels],
+    (ledIndex, rgb) =>
+      setPixels((oldPixels) => {
+        const newPixels = [...oldPixels];
+        newPixels[ledIndex] = rgb;
+        return newPixels;
+      }),
+    [setPixels],
   );
 
   useSenseHatRenderer({
