@@ -1,58 +1,29 @@
 import Sk from "skulpt";
-import { useState, useEffect, useCallback } from "react";
-import {
-  quantisePixel,
-  rotationClockwise90degrees,
-} from "../../utils/senseHatUtils";
+import { useState, useCallback } from "react";
+import { rotationClockwise90degrees } from "../../utils/senseHatUtils";
 import { useTranslation } from "react-i18next";
-import { rotate, rotateInverse } from "../../utils/senseHatUtils";
+import { rotate } from "../../utils/senseHatUtils";
+import useSenseHatRenderer from "./useSenseHatRenderer";
 
-export const REGISTRY_ID = "2D";
-
-const Simulator2d = (props) => {
-  const { senseHatEmitRegistryRef } = props;
-
+const Simulator2d = () => {
   const { t } = useTranslation();
 
   const [pixels, setPixels] = useState(
     Sk.sense_hat.pixels || Array(64).fill([0, 0, 0]),
   );
-
-  const onSenseHatEmit = useCallback((event, data) => {
-    if (event && event === "setpixel") {
-      const index = data;
-      const newValue = quantisePixel(Sk.sense_hat.pixels[index]);
-      // Copy from Sk.sense_hat.pixels since it gets
-      // reset on every run and therefore may be vastly different
-      // from the current pixels state.
-      const newPixels = [...Sk.sense_hat.pixels];
-      newPixels[index] = newValue;
-      Sk.sense_hat.pixels[index] = newValue;
+  const setPixel = useCallback(
+    (ledIndex, rgb) => {
+      const newPixels = [...pixels];
+      newPixels[ledIndex] = rgb;
       setPixels(newPixels);
-    } else if (event && event === "setpixels") {
-      const rotation_mapping = data;
-      // rotate the pixels so that they are in framebuffer form.
-      const rotatedPixels = rotateInverse(
-        rotation_mapping,
-        Sk.sense_hat.pixels,
-      );
-      // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-      const quantisedPixels = rotatedPixels.map(quantisePixel);
-      Sk.sense_hat.pixels = quantisedPixels;
-      setPixels(quantisedPixels);
-    }
-  }, []);
+    },
+    [pixels, setPixels],
+  );
 
-  useEffect(() => {
-    const registry = senseHatEmitRegistryRef?.current;
-
-    if (registry) {
-      registry[REGISTRY_ID] = onSenseHatEmit;
-      return () => {
-        if (registry) delete registry[REGISTRY_ID];
-      };
-    }
-  }, [onSenseHatEmit, senseHatEmitRegistryRef]);
+  useSenseHatRenderer({
+    setPixel,
+    setPixels,
+  });
 
   return (
     <>
@@ -78,6 +49,7 @@ const Simulator2d = (props) => {
                 >
                   <div
                     className="sense-hat-model-2d-matrix__led-bulb"
+                    data-testid={`${key}-bulb`}
                     style={{
                       backgroundColor: `rgb(${r} ${g} ${b})`,
                     }}

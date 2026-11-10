@@ -2,19 +2,16 @@ import { useCallback, useEffect } from "react";
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
 import Sk from "skulpt";
-import { invalidate } from "@react-three/fiber";
-import { quantisePixel } from "../../utils/senseHatUtils";
-import { rotateInverse } from "../../utils/senseHatUtils";
+import useSenseHatRenderer from "./useSenseHatRenderer";
 
-export const REGISTRY_ID = "3D";
-
-const FlightCase = ({ senseHatEmitRegistryRef }) => {
+const FlightCase = () => {
   const { scene } = useGLTF(
     `${process.env.ASSETS_URL}/models/raspi-compressed.glb`,
   );
 
   const setPixel = useCallback(
-    (ledIndex, r, g, b) => {
+    (ledIndex, rgb) => {
+      const [r, g, b] = rgb;
       const x = ledIndex % 8;
       const y = Math.floor(ledIndex / 8);
       const object = scene.getObjectByName(`circle${x}_${7 - y}-1`);
@@ -32,18 +29,18 @@ const FlightCase = ({ senseHatEmitRegistryRef }) => {
   );
 
   const setPixels = useCallback(
-    (_, pix) => {
+    (pixels) => {
       for (let ledIndex = 0; ledIndex < 64; ledIndex += 1) {
-        setPixel(
-          ledIndex,
-          pix[ledIndex][0],
-          pix[ledIndex][1],
-          pix[ledIndex][2],
-        );
+        setPixel(ledIndex, pixels[ledIndex]);
       }
     },
     [setPixel],
   );
+
+  useSenseHatRenderer({
+    setPixel,
+    setPixels,
+  });
 
   // Initialise the LED array materials so they are not shared
   const initialise3dLeds = useCallback(() => {
@@ -75,32 +72,6 @@ const FlightCase = ({ senseHatEmitRegistryRef }) => {
     }
   }, [scene]);
 
-  const onSenseHatEmit = useCallback(
-    (event, data) => {
-      if (event && event === "setpixel") {
-        // change the led
-        const ledIndex = data;
-        const ledData = quantisePixel(Sk.sense_hat.pixels[ledIndex]);
-        // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-        Sk.sense_hat.pixels[ledIndex] = ledData;
-
-        setPixel(ledIndex, ledData[0], ledData[1], ledData[2]);
-      } else if (event && event === "setpixels") {
-        const rotation_mapping = data;
-        // rotate the pixels so that they are in framebuffer form.
-        const rotatedPixels = rotateInverse(
-          rotation_mapping,
-          Sk.sense_hat.pixels,
-        );
-        // Update the sense hat pixels array with the quantised value, so that `get_pixels` returns the correct value
-        Sk.sense_hat.pixels = rotatedPixels.map(quantisePixel);
-        setPixels(data, Sk.sense_hat.pixels);
-      }
-      invalidate();
-    },
-    [setPixel, setPixels],
-  );
-
   useEffect(() => {
     window.mod = scene;
 
@@ -108,29 +79,14 @@ const FlightCase = ({ senseHatEmitRegistryRef }) => {
 
     // Copy the pixel map from Sk.sense_hat.pixels
     if (Sk?.sense_hat?.pixels) {
-      setPixels(null, Sk.sense_hat.pixels);
+      setPixels(Sk.sense_hat.pixels);
     }
 
-    const registry = senseHatEmitRegistryRef?.current;
-    if (registry) {
-      registry[REGISTRY_ID] = onSenseHatEmit;
-    }
     return () => {
-      if (registry) delete registry[REGISTRY_ID];
-
       delete window.mod;
-
       teardown3dLeds();
     };
-  }, [
-    initialise3dLeds,
-    onSenseHatEmit,
-    scene,
-    senseHatEmitRegistryRef,
-    setPixel,
-    setPixels,
-    teardown3dLeds,
-  ]);
+  }, [initialise3dLeds, scene, setPixel, setPixels, teardown3dLeds]);
 
   return <primitive object={scene} scale={4} />;
 };
