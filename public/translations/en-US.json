@@ -227,6 +227,12 @@
     "newTab": "Preview in new tab",
     "preview": "preview",
     "senseHat": {
+      "view": {
+        "toggleTo2D": "Zoom in to 2D view",
+        "toggleTo3D": "Zoom out to 3D view",
+        "resetOrientation": "Reset Astro Pi orientation",
+        "description": "2D zoomed view of the Astro Pi 8 by 8 Sense HAT LED matrix"
+      },
       "controls": {
         "colour": "color",
         "humidity": "humidity",
