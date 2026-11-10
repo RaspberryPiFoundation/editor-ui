@@ -229,6 +229,12 @@
     "newTab": "Попередньо переглянути в новій вкладці",
     "preview": "перегляд",
     "senseHat": {
+      "view": {
+        "toggleTo2D": "Zoom in to 2D view",
+        "toggleTo3D": "Zoom out to 3D view",
+        "resetOrientation": "Reset Astro Pi orientation",
+        "description": "2D zoomed view of the Astro Pi 8 by 8 Sense HAT LED matrix"
+      },
       "controls": {
         "colour": "колір",
         "humidity": "вологість",
