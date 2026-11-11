@@ -1,11 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import SidebarPanel from "../SidebarPanel";
 import DownloadButton from "../../../DownloadButton/DownloadButton";
 import SaveButton from "../../../SaveButton/SaveButton";
 import UploadButton from "../../../UploadButton/UploadButton";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import DownloadIcon from "../../../../assets/icons/download.svg";
 import UploadIcon from "../../../../assets/icons/upload.svg";
 import { isOwner } from "../../../../utils/projectHelpers";
@@ -42,19 +42,19 @@ const DownloadPanel = () => {
           </div>
           <p className="download-panel__hint">{t("downloadPanel.logInHint")}</p>
           <div className="download-panel__button-container">
-            <DesignSystemButton
+            <Button
               className="download-panel__button"
               text={t("downloadPanel.logInButton")}
               type="primary"
               onClick={handleLogIn}
-              fill
+              fullWidth
             />
-            <DesignSystemButton
+            <Button
               className="download-panel__button"
               text={t("downloadPanel.signUpButton")}
               type="secondary"
               onClick={handleSignUp}
-              fill
+              fullWidth
             />
           </div>
         </div>
