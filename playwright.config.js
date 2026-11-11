@@ -63,8 +63,9 @@ export default defineConfig({
       },
     },
   ],
+  // Locally, the dev server. On CI, the built bundles served by `yarn preview:all`, the same way the `test-cypress` job serves them, so the timings are comparable. CI must run `yarn build:all` first.
   webServer: {
-    command: "yarn start",
+    command: process.env.CI ? "yarn preview:all" : "yarn start",
     url: "http://localhost:3011/web-component.html",
     reuseExistingServer: !process.env.CI,
     env: ciEnv,

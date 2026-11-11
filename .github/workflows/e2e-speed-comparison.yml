@@ -1,0 +1,120 @@
+# Data gathering for the Playwright migration spike. Never intended to merge.
+# Runs the two ported specs (spec-wc and spec-wc-pyodide) in Cypress and in Playwright, on identical runners, against the same built bundles that the `test-cypress` job in ci-cd.yml uses. Each job writes the duration of its test step to the run summary; compare jobs with `gh run view <id> --json jobs`.
+name: E2E speed comparison
+
+on:
+  pull_request:
+    branches:
+      - "**"
+  # Re-run by hand to collect more samples.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  REACT_APP_API_ENDPOINT: "https://test-editor-api.raspberrypi.org"
+  PUBLIC_URL: "http://localhost:3011"
+  ASSETS_URL: "http://localhost:3011"
+  REACT_APP_ALLOWED_IFRAME_ORIGINS: "http://localhost:3011"
+  CSP_API_MULTIPLE_ORIGINS: "http://localhost:3011,http://localhost:3009"
+  REACT_APP_SCRATCH_FRAME_URL: "http://localhost:3014"
+
+jobs:
+  # Cypress, both specs in one job: how test-cypress runs today.
+  # Cypress, one job per spec file: the free way to split Cypress across jobs.
+  cypress:
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'investigate/playwright-migration'
+    name: cypress (${{ matrix.label }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: both specs
+            spec: cypress/e2e/spec-wc.cy.js,cypress/e2e/spec-wc-pyodide.cy.js
+          - label: split, spec-wc
+            spec: cypress/e2e/spec-wc.cy.js
+          - label: split, spec-wc-pyodide
+            spec: cypress/e2e/spec-wc-pyodide.cy.js
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .tool-versions
+          cache: "yarn"
+      - run: yarn install --immutable
+      - run: yarn build:all
+      - name: Start servers
+        run: |
+          yarn preview:all &
+          npx --yes wait-on@8.0.1 http://localhost:3011/web-component.html http://localhost:3014/scratch.html
+      - name: Run Cypress
+        run: |
+          set +e
+          start=$(date +%s)
+          yarn exec cypress run --spec "${{ matrix.spec }}" --browser chrome --config-file cypress.config.mjs
+          status=$?
+          echo "Cypress (${{ matrix.label }}) test step: $(( $(date +%s) - start ))s, nproc $(nproc)" >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+
+  # Playwright, one job, at 1 worker (like-for-like with Cypress), the default (half the runner's CPUs) and 4 workers.
+  # Playwright, sharded across 2 jobs: the equivalent of the Cypress split.
+  playwright:
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'investigate/playwright-migration'
+    name: playwright (${{ matrix.label }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: 1 worker
+            args: --workers=1
+          - label: default workers
+            args: ""
+          - label: 4 workers
+            args: --workers=4
+          - label: shard 1 of 2
+            args: --shard=1/2
+          - label: shard 2 of 2
+            args: --shard=2/2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .tool-versions
+          cache: "yarn"
+      - run: yarn install --immutable
+      - run: yarn build:all
+      - name: Read Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Install Playwright browser
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: yarn exec playwright install --with-deps chromium
+      - name: Install Playwright OS dependencies
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: yarn exec playwright install-deps chromium
+      # Only the Cypress-parity project, so both tools run the same tests. Retries are off: the 2 known modal aria-hidden failures would otherwise run 4 times each and inflate the timing. Those 2 failures are expected, so the step is allowed to fail.
+      - name: Run Playwright
+        continue-on-error: true
+        run: |
+          set +e
+          start=$(date +%s)
+          yarn exec playwright test --project chromium --retries=0 ${{ matrix.args }}
+          status=$?
+          echo "Playwright (${{ matrix.label }}) test step: $(( $(date +%s) - start ))s, nproc $(nproc)" >> "$GITHUB_STEP_SUMMARY"
+          exit $status
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ strategy.job-index }}
+          path: playwright/report
+          retention-days: 7

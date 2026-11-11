@@ -9,6 +9,7 @@ Discovery spike on branch `investigate/playwright-migration`: `cypress/e2e/spec-
 - A full migration is estimated at **6.5–9 dev-days**, dominated by `spec-scratch` and `spec-wc-pyodide`.
 - The spike found one Cypress test that asserts nothing, and a CORS dependency hidden by `chromeWebSecurity: false`.
 - **Pyodide spec (phase 2): go.** `spec-wc-pyodide` migrated in under a day. Worker request interception works natively, and a separate project runs Pyodide under real cross-origin isolation for the first time. There were no flakes. The port also exposed a real accessibility bug in the app's modals. Single-worker speed matches Cypress; the 4× gain comes only from parallel workers. See [Phase 2](#phase-2-spec-wc-pyodide).
+- **Claude Code cloud (phase 3): works,** with two temporary workarounds for the browser download and the proxy certificate. Results match the Mac, but runs are 2.5–5× slower. See [Phase 3](#phase-3-claude-code-cloud).
 
 ## What was added
 
@@ -119,10 +120,57 @@ Local Mac, warm dev server, wall-clock seconds; Playwright's default here was 6 
 6. **Smaller items.** Pyodide plus PyPI needs a longer per-test timeout (`describe.configure({ timeout: 120_000 })`). `import.meta` doesn't work in specs because they compile to CommonJS, so the spec uses `__dirname`. `cy.intercept` with a fixture becomes `route.fulfill({ path })`.
 7. **Accessibility bug in the app: modals hide themselves from screen readers.** `GeneralModal` and `ErrorModal` set react-modal's `appElement` to the `editor-wc` host, but the modal renders inside that host's shadow root. Opening a modal therefore sets `aria-hidden="true"` on the element that contains it. The subagent also reported that the attribute stays after the new-file modal closes, which would hide the whole editor; I haven't checked that part myself. Playwright's `getByRole` respects `aria-hidden` across the shadow boundary, while Testing Library inside Cypress does not, which is why Cypress never noticed. The fix is probably `appElement` pointing at a sibling inside the shadow root. It will affect every spec that opens a modal.
 
+## Phase 3: Claude Code cloud
+
+Both ported specs were run in a Claude Code cloud session in the editor-ui environment, from commit `eb2bc705` with no code changes. These results come from that session's report; they haven't been re-run from here.
+
+**Verdict: Playwright works in Claude Code cloud,** unlike Cypress, which crashes there with `ECONNRESET`. It currently needs two temporary workarounds (below).
+
+| | Result | Mac baseline |
+|---|---|---|
+| `spec-wc` | 5 passed, 1 skipped | same |
+| `spec-wc-pyodide`, `chromium` | 28/30 | same |
+| `spec-wc-pyodide`, `chromium-isolated` | 28/30 | same |
+
+The only failures are the two known modal `aria-hidden` soft assertions, so no failures were caused by the environment.
+
+The editor-ui environment matters. The default cloud environment uses Node 22, its setup stops early, and it blocks test-editor-api, editor-assets and the Yarn registry. There, `spec-wc` failed one test and every Pyodide test failed.
+
+### Timings
+
+The cloud machine has 4 CPUs, so Playwright used 2 workers by default.
+
+| Run | Cloud | Mac |
+|---|---|---|
+| `spec-wc` | 35s | ~4s (6 workers) |
+| Pyodide, `chromium` | 158s | ~30s (6 workers) |
+| Pyodide, `chromium-isolated` | 160s | ~27s (6 workers) |
+| Pyodide, 1 worker | 291s | ~110s |
+
+Cloud runs are about 2.5–5× slower. Fewer workers explains part of it. The 1-worker run is also about 2.6× slower, which suggests live network fetches (Pyodide, PyPI, plotly) are slower there; the plotly test alone took 48s. Fine for an agent checking its own work, but not a fast feedback loop.
+
+### Workarounds currently needed
+
+1. **Browser download blocked.** `cdn.playwright.dev` returns 403, so `playwright install` fails. `--with-deps` gets the OS packages, because the Ubuntu mirrors are reachable, but the browser still fails. The image has Chrome for Testing 153 preinstalled in `/opt/pw-browsers`, as build 1243, while Playwright 1.64.1 expects build 1248. The workaround: create symlinks named for the 1248 builds that point at the 1243 ones, and set `PLAYWRIGHT_BROWSERS_PATH` to that folder. Proper fixes: allow `cdn.playwright.dev`, or pin `@playwright/test` to the version that matches the preinstalled build.
+2. **Chromium doesn't trust the proxy certificate.** curl reaches `pypi.org` and `files.pythonhosted.org`, but Chromium fails with `ERR_CERT_AUTHORITY_INVALID`, because it uses its own certificate store (NSS) rather than the system bundle. "runs a simple program with a module from PyPI" then fails after 1.4 minutes. The workaround:
+   - Copy `~/.pki/nssdb` into a scratch `HOME`.
+   - Add the certificate with `certutil -A -t C,, -n egress-gw`.
+   - Run the tests with `HOME` set to that folder.
+
+   Two catches:
+   - `/root/.ccr/ca-bundle.crt` contains both a production and a staging "Egress Gateway CA", and only the production one works. Match the full subject (`sandbox-egress-gateway-production`), not a loose name match.
+   - Overriding `HOME` makes Corepack download Yarn again from `repo.yarnpkg.com`, which only works because that host is allowed.
+
+   The cleaner fix is for the environment to install the certificate into Chromium's store.
+
+`cdn.jsdelivr.net` is also blocked, but no test needed it. There were no `ECONNRESET` errors, browser crashes or `/dev/shm` problems.
+
+**Environment:** Ubuntu 24.04, 4 CPUs, Node 24.19.0 (installed by the setup hook), Yarn 4.12.0, Playwright 1.64.1. The first two `spec-wc` tests took about 21s each while Vite warmed up, which accounts for much of that spec's 35s.
+
 ## Suggested next steps for the full experiment
 
 1. Fix or explicitly accept the modal `aria-hidden` bug (finding 7). It's an app fix in its own right, separate from the migration.
-2. Run the Playwright suite in a Claude Code cloud session to check it works behind the sandbox proxy.
+2. Make Playwright run in the editor-ui cloud environment without workarounds: allow `cdn.playwright.dev` (or pin Playwright to the preinstalled browser) and have Chromium trust the egress proxy certificate.
 3. Add a non-blocking Playwright CI job with `--shard` and compare its time and flake rate against `test-cypress`. Parallelism is the only real speed gain, so this is the measurement that matters.
 4. Decide on the CORS approach (route stub or API allowance) before dropping `--disable-web-security` from the parity project.
 5. Redesign the Scratch `postMessage` tests, rather than translating them line by line.
