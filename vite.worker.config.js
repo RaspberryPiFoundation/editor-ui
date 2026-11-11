@@ -1,11 +1,11 @@
 import { defineConfig, loadEnv } from "vite";
 
 const path = require("path");
-const { browserTargets } = require("./vite.lib.js");
+
+const MODULE_WORKER_TARGET = "es2022";
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname, "");
-  const target = await browserTargets();
   return {
     define: {
       "process.env.NODE_ENV": JSON.stringify(mode),
@@ -14,16 +14,17 @@ export default defineConfig(async ({ mode }) => {
       ),
     },
     build: {
-      target,
+      target: MODULE_WORKER_TARGET,
       outDir: path.resolve(__dirname, "build"),
       emptyOutDir: false,
       copyPublicDir: false,
+      lib: {
+        entry: path.resolve(__dirname, "src/PyodideWorker.js"),
+        formats: ["es"],
+        fileName: () => "PyodideWorker.js",
+      },
       rolldownOptions: {
-        input: path.resolve(__dirname, "src/PyodideWorker.js"),
-        output: {
-          entryFileNames: "PyodideWorker.js",
-          format: "iife",
-        },
+        preserveEntrySignatures: "exports-only",
       },
     },
   };

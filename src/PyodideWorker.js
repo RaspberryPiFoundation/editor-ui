@@ -1,4 +1,4 @@
-/* global globalThis, importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
+/* global SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
 const PYODIDE_INDEX_URL =
   "https://editor-assets.raspberrypi.org/pyodide/314.0.7/";
@@ -8,15 +8,15 @@ const MAX_OUTPUT_CHARACTERS = 250_000;
 // Prompts bypass the output limit so input remains usable.
 const MAX_INPUT_PROMPT_CHARACTERS = 10_000;
 
-// Nest the PyodideWorker function inside a globalThis object so we control when its initialised.
-const PyodideWorker = () => {
-  // Import scripts dynamically based on the environment
-  importScripts(
-    `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
-  );
-  importScripts(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`);
-  importScripts(`${PYODIDE_INDEX_URL}pyodide.js`);
+const [{ loadPyodide }] = await Promise.all([
+  import(/* @vite-ignore */ `${PYODIDE_INDEX_URL}pyodide.mjs`),
+  import(
+    /* @vite-ignore */ `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`
+  ),
+  import(/* @vite-ignore */ `${process.env.ASSETS_URL}/pyodide/shims/pygal.js`),
+]);
 
+const PyodideWorker = () => {
   const supportsAllFeatures = typeof SharedArrayBuffer !== "undefined";
 
   // eslint-disable-next-line no-restricted-globals
@@ -622,4 +622,4 @@ const PyodideWorker = () => {
   };
 };
 
-globalThis.PyodideWorker = PyodideWorker;
+export default PyodideWorker;

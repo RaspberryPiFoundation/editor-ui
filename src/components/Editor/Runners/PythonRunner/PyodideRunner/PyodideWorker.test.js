@@ -1,6 +1,10 @@
-/* global globalThis */
-
 import { waitFor } from "@testing-library/react";
+
+vi.mock(
+  "https://editor-assets.raspberrypi.org/pyodide/314.0.7/pyodide.mjs",
+  () => ({ loadPyodide: (...args) => global.loadPyodide(...args) }),
+);
+
 class MockPythonArray extends Array {
   toJs() {
     return this;
@@ -9,7 +13,6 @@ class MockPythonArray extends Array {
 
 // Mock global functions
 global.postMessage = vi.fn();
-global.importScripts = vi.fn();
 global.pygal = {};
 global._internal_sense_hat = {};
 
@@ -59,14 +62,14 @@ describe("PyodideWorker", () => {
       setStdin: vi.fn(),
     };
     global.loadPyodide = vi.fn().mockResolvedValue(pyodide);
-    await import("../../../../../PyodideWorker.js");
-    worker = globalThis.PyodideWorker();
-  });
-
-  test("it imports the pyodide script", () => {
-    expect(global.importScripts).toHaveBeenCalledWith(
-      "https://editor-assets.raspberrypi.org/pyodide/314.0.7/pyodide.js",
+    vi.doMock(
+      `${process.env.ASSETS_URL}/pyodide/shims/_internal_sense_hat.js`,
+      () => ({}),
     );
+    vi.doMock(`${process.env.ASSETS_URL}/pyodide/shims/pygal.js`, () => ({}));
+    const { default: PyodideWorker } =
+      await import("../../../../../PyodideWorker.js");
+    worker = PyodideWorker();
   });
 
   test("it notifies component when pyodide is loading", () => {
