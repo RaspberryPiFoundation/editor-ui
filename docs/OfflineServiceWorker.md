@@ -155,7 +155,7 @@ async function networkFirst(request, cacheName) {
 }
 
 // Cache-first: serve from cache when available, populate on first fetch.
-// importScripts produces opaque responses we can't modify, so we re-fetch as cors to get a modifiable response we can store with security headers
+// Re-fetch as cors so we get a modifiable response we can store with security headers
 async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request.url);
