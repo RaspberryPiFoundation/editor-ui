@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { Button } from "@raspberrypifoundation/design-system-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { validateFileName } from "../../utils/componentNameValidation";
-import DesignSystemButton from "../DesignSystemButton/DesignSystemButton";
 import {
   closeRenameFileModal,
   updateComponentName,
@@ -74,13 +74,13 @@ const RenameFileModal = () => {
       ]}
       defaultCallback={renameComponent}
       buttons={[
-        <DesignSystemButton
+        <Button
           key="rename"
           type="primary"
           text={t("filePanel.renameFileModal.save")}
           onClick={renameComponent}
         />,
-        <DesignSystemButton
+        <Button
           key="close"
           type="secondary"
           text={t("filePanel.renameFileModal.cancel")}
