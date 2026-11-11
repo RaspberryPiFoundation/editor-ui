@@ -465,15 +465,12 @@ const PyodideWorker = () => {
   const fakeBasthonPackage = {
     kernel: {
       display_event: (event) => {
-        const origin = event.toJs().get("display_type");
-        const content = event.toJs().get("content");
+        const { display_type: origin, content } = event.toJs();
 
         postMessage({ method: "handleVisual", origin, content });
       },
       write_file: (event) => {
-        const filename = event.toJs().get("filename");
-        const content = event.toJs().get("content");
-        const mode = event.toJs().get("mode");
+        const { filename, content, mode } = event.toJs();
         postMessage({ method: "handleFileWrite", filename, content, mode });
       },
       input_prompt: (prompt) => {
