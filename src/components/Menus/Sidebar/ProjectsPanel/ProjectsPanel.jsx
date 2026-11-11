@@ -48,7 +48,6 @@ const ProjectsPanel = () => {
     ? [
         <Button
           key="your-projects"
-          className="projects-panel__your-projects-button"
           onClick={navigateToProjectsPage}
           text={t("projectsPanel.yourProjectsButton")}
           type="primary"
@@ -68,7 +67,6 @@ const ProjectsPanel = () => {
       <div className="projects-panel__button">
         <DownloadButton
           buttonText={t("header.download")}
-          className="projects-panel__download-button"
           Icon={DownloadIcon}
           iconPosition="right"
           type="secondary"
