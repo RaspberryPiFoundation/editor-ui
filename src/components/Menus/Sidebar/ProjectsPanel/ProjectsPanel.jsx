@@ -1,6 +1,7 @@
 import React from "react";
 import SidebarPanel from "../SidebarPanel";
 import { useTranslation } from "react-i18next";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 import "../../../../assets/stylesheets/ProjectsPanel.scss?inline";
 import ProjectNameInput from "./ProjectNameInput";
@@ -13,7 +14,6 @@ import { MOBILE_MEDIA_QUERY } from "../../../../utils/mediaQueryBreakpoints";
 import { useMediaQuery } from "react-responsive";
 import SaveStatus from "../../../SaveStatus/SaveStatus";
 import { navigateToProjectsPageEvent } from "../../../../events/WebComponentCustomEvents";
-import DesignSystemButton from "../../../DesignSystemButton/DesignSystemButton";
 import { usePreviewMode } from "../../../../hooks/usePreviewMode";
 
 const ProjectsPanel = () => {
@@ -46,14 +46,13 @@ const ProjectsPanel = () => {
 
   const buttons = isLoggedIn
     ? [
-        <DesignSystemButton
+        <Button
           key="your-projects"
           className="projects-panel__your-projects-button"
           onClick={navigateToProjectsPage}
           text={t("projectsPanel.yourProjectsButton")}
           type="primary"
-          textAlways
-          fill
+          fullWidth
         />,
       ]
     : [];
