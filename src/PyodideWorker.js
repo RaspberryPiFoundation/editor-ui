@@ -1,7 +1,7 @@
 /* global globalThis, importScripts, loadPyodide, SharedArrayBuffer, Atomics, pygal, _internal_sense_hat */
 
 const PYODIDE_INDEX_URL =
-  "https://editor-assets.raspberrypi.org/pyodide/0.26.2/";
+  "https://editor-assets.raspberrypi.org/pyodide/314.0.7/";
 // Cap each run before its output reaches the main thread.
 const MAX_OUTPUT_LINES = 10_000;
 const MAX_OUTPUT_CHARACTERS = 250_000;

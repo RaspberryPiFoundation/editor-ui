@@ -25,7 +25,7 @@ The implementation below could be shipped as `public/service-worker.js` in edito
 // "editor-app-v1" and "editor-translations-v1" are replaced with the package version at build time
 const APP_CACHE = "editor-app-v1";
 const TRANSLATIONS_CACHE = "editor-translations-v1";
-const PYODIDE_CACHE = "pyodide-v0.26.2";
+const PYODIDE_CACHE = "pyodide-v314.0.7";
 
 // Minimal set of assets to pre-cache on install
 // All other assets (chunks, translations, etc.) are cached dynamically on first use via the network-first fetch handler below
