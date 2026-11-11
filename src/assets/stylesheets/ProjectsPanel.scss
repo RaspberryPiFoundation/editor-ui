@@ -1,22 +1,4 @@
 .projects-panel-wrapper {
-  .projects-panel__your-projects-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-
-    a {
-      color: var(--rpf-black);
-      text-decoration: none;
-    }
-  }
-
-  .projects-panel__download-button {
-    inline-size: 100%;
-    margin: 0;
-    justify-content: center;
-  }
-
   .projects-panel__project-name {
     display: grid;
     align-items: end;
