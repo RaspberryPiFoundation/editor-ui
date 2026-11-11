@@ -160,7 +160,10 @@ describe("PyodideWorker", () => {
       },
     });
     await waitFor(() =>
-      expect(pyodide.loadPackage).toHaveBeenCalledWith("numpy"),
+      expect(pyodide.loadPackage).toHaveBeenCalledWith("numpy", {
+        messageCallback: console.log,
+        errorCallback: console.error,
+      }),
     );
   });
 

@@ -40,6 +40,11 @@ const PyodideWorker = () => {
       ].join("\n"),
     );
   }
+  const consoleLoggingCallbacks = {
+    messageCallback: console.log,
+    errorCallback: console.error,
+  };
+
   let pyodide, pyodidePromise, stdinBuffer, interruptBuffer, stopped;
   let outputLineCount = 0;
   let outputCharacterCount = 0;
@@ -152,7 +157,7 @@ const PyodideWorker = () => {
     await Promise.all(imports.map((name) => loadDependency(name)));
 
     checkIfStopped();
-    await pyodide.loadPackagesFromImports(python);
+    await pyodide.loadPackagesFromImports(python, consoleLoggingCallbacks);
 
     checkIfStopped();
     await pyodide.runPythonAsync(
@@ -243,7 +248,7 @@ const PyodideWorker = () => {
 
     // If the import is for a package built into Pyodide then load it.
     // Built-ins: https://pyodide.org/en/stable/usage/packages-in-pyodide.html
-    await pyodide.loadPackage(name)?.catch(() => {});
+    await pyodide.loadPackage(name, consoleLoggingCallbacks)?.catch(() => {});
     let pyodidePackage;
     try {
       pyodidePackage = pyodide.pyimport(name);
@@ -255,7 +260,7 @@ const PyodideWorker = () => {
     // Ensure micropip is loaded which can fetch packages from PyPi.
     // See: https://pyodide.org/en/stable/usage/loading-packages.html
     if (!pyodide.micropip) {
-      await pyodide.loadPackage("micropip");
+      await pyodide.loadPackage("micropip", consoleLoggingCallbacks);
       pyodide.micropip = pyodide.pyimport("micropip");
     }
 
@@ -270,6 +275,7 @@ const PyodideWorker = () => {
       before: async () => {
         await pyodide.loadPackage(
           `${process.env.ASSETS_URL}/pyodide/packages/py_enigma-0.1-py3-none-any.whl`,
+          consoleLoggingCallbacks,
         );
       },
       after: () => {},
@@ -279,6 +285,7 @@ const PyodideWorker = () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
         await pyodide.loadPackage(
           `${process.env.ASSETS_URL}/pyodide/packages/turtle-0.0.1-py3-none-any.whl`,
+          consoleLoggingCallbacks,
         );
       },
       after: () =>
@@ -294,10 +301,13 @@ const PyodideWorker = () => {
     p5: {
       before: async () => {
         pyodide.registerJsModule("basthon", fakeBasthonPackage);
-        await pyodide.loadPackage([
-          "setuptools",
-          `${process.env.ASSETS_URL}/pyodide/packages/p5-0.0.1-py3-none-any.whl`,
-        ]);
+        await pyodide.loadPackage(
+          [
+            "setuptools",
+            `${process.env.ASSETS_URL}/pyodide/packages/p5-0.0.1-py3-none-any.whl`,
+          ],
+          consoleLoggingCallbacks,
+        );
       },
       after: () => {},
     },
@@ -315,10 +325,13 @@ const PyodideWorker = () => {
         pyodide.registerJsModule("_internal_sense_hat", {
           ..._internal_sense_hat,
         });
-        await pyodide.loadPackage([
-          "pillow",
-          `${process.env.ASSETS_URL}/pyodide/packages/sense_hat-0.0.1-py3-none-any.whl`,
-        ]);
+        await pyodide.loadPackage(
+          [
+            "pillow",
+            `${process.env.ASSETS_URL}/pyodide/packages/sense_hat-0.0.1-py3-none-any.whl`,
+          ],
+          consoleLoggingCallbacks,
+        );
 
         _internal_sense_hat.config.pyodide = pyodide;
         _internal_sense_hat.config.emit = (type) =>
@@ -355,7 +368,9 @@ const PyodideWorker = () => {
                 return __DummyDocument__
         js.document = __DummyDocument__()
         `);
-        await pyodide.loadPackage("matplotlib")?.catch(() => {});
+        await pyodide
+          .loadPackage("matplotlib", consoleLoggingCallbacks)
+          ?.catch(() => {});
         let pyodidePackage;
         try {
           pyodidePackage = pyodide.pyimport("matplotlib");
@@ -402,7 +417,7 @@ const PyodideWorker = () => {
         // Ensure micropip is loaded which can fetch packages from PyPi.
         // See: https://pyodide.org/en/stable/usage/loading-packages.html
         if (!pyodide.micropip) {
-          await pyodide.loadPackage("micropip");
+          await pyodide.loadPackage("micropip", consoleLoggingCallbacks);
           pyodide.micropip = pyodide.pyimport("micropip");
         }
 
@@ -437,7 +452,7 @@ const PyodideWorker = () => {
     plotly: {
       before: async () => {
         if (!pyodide.micropip) {
-          await pyodide.loadPackage("micropip");
+          await pyodide.loadPackage("micropip", consoleLoggingCallbacks);
           pyodide.micropip = pyodide.pyimport("micropip");
         }
 
@@ -532,7 +547,7 @@ const PyodideWorker = () => {
     _original_open = builtins.open
     `);
 
-    await pyodide.loadPackage("pyodide-http");
+    await pyodide.loadPackage("pyodide-http", consoleLoggingCallbacks);
     await pyodide.runPythonAsync(`
         import pyodide_http
         pyodide_http.patch_all()
