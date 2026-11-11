@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import "react-tabs/style/react-tabs.css?inline";
 import "react-toastify/dist/ReactToastify.css?inline";
 import classnames from "classnames";
+import { Button } from "@raspberrypifoundation/design-system-react";
 
 import "../../../assets/stylesheets/Project.scss?inline";
 import Output from "../Output/Output";
 import { showSavedMessage } from "../../../utils/Notifications";
 import GeneralModal from "../../Modals/GeneralModal";
-import DesignSystemButton from "../../DesignSystemButton/DesignSystemButton";
 import ProjectBar from "../../ProjectBar/ProjectBar";
 import Sidebar from "../../Menus/Sidebar/Sidebar";
 import EditorInput from "../EditorInput/EditorInput";
@@ -118,7 +118,7 @@ const Project = (props) => {
             },
           ]}
           buttons={[
-            <DesignSystemButton
+            <Button
               key="accept"
               type="primary"
               text={t("modals.accept")}
