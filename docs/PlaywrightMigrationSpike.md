@@ -1,15 +1,26 @@
 # Playwright migration spike
 
-Discovery spike on branch `investigate/playwright-migration`: `cypress/e2e/spec-wc.cy.js` ported to Playwright (`playwright/e2e/spec-wc.spec.js`) and benchmarked, plus a read-only inventory of the whole Cypress suite to estimate a full migration.
+Discovery spike on branch `investigate/playwright-migration`: `spec-wc` and `spec-wc-pyodide` ported from Cypress to Playwright and benchmarked locally, in Claude Code cloud and on GitHub Actions, plus a read-only inventory of the whole Cypress suite to scope a full migration.
+
+## What the spike covered
+
+- **Inventory of the Cypress suite.** A read-only review of all 8 specs (91 tests): which Cypress features each uses, how each maps to Playwright, fixed waits, CI setup and risks.
+- **Two specs ported.** `spec-wc` (5 tests) and `spec-wc-pyodide` (30 tests), with test names kept 1:1. Shared config, fixtures and helpers in `playwright/`.
+- **Two Playwright projects.** `chromium` matches Cypress's behaviour. `chromium-isolated` runs Pyodide with real cross-origin isolation, which Cypress can't do.
+- **Local benchmarks.** Both tools on a Mac, against the dev server and the built bundles, at 1 worker and in parallel.
+- **Claude Code cloud run.** Both specs in a cloud session, in the Default and editor-ui environments, to see what works behind the sandbox proxy.
+- **CI comparison.** A workflow on draft PR RaspberryPiFoundation/editor-ui#1754 runs both specs in 8 jobs: Cypress in one job and split by spec, Playwright at 1, 2 and 4 workers and across 2 shards.
+- **Modal investigation.** The port flagged modal `aria-hidden` markup. It was filed as RaspberryPiFoundation/digital-editor-issues#1978, checked with VoiceOver, and closed as having no user impact.
 
 ## Summary
 
 - The port works: all 5 active tests pass in both tools, with no flakes across ~15 Playwright and ~8 Cypress runs.
 - Playwright is roughly 2× faster single-worker and 3× faster with default workers on this spec, mostly by avoiding Cypress's ~5s startup. Per test it is not faster; see the caveat under Timings.
-- A full migration is estimated at **6.5–9 dev-days**, dominated by `spec-scratch` and `spec-wc-pyodide`.
+- The hardest part of a full migration is `spec-scratch`, whose `postMessage` tests need redesigning rather than translating.
 - The spike found one Cypress test that asserts nothing, and a CORS dependency hidden by `chromeWebSecurity: false`.
-- **Pyodide spec (phase 2): go.** `spec-wc-pyodide` migrated in under a day. Worker request interception works natively, and a separate project runs Pyodide under real cross-origin isolation for the first time. There were no flakes. The port also exposed a real accessibility bug in the app's modals. Single-worker speed matches Cypress; the 4× gain comes only from parallel workers. See [Phase 2](#phase-2-spec-wc-pyodide).
+- **Pyodide spec (phase 2): go.** `spec-wc-pyodide` migrated cleanly. Worker request interception works natively, and a separate project runs Pyodide under real cross-origin isolation for the first time. There were no flakes. The port also flagged incorrect `aria-hidden` markup on the app's modals; manual screen reader testing found no user impact. Single-worker speed matches Cypress; the 4× gain comes only from parallel workers. See [Phase 2](#phase-2-spec-wc-pyodide).
 - **Claude Code cloud (phase 3): works,** with two temporary workarounds for the browser download and the proxy certificate. Results match the Mac, but runs are 2.5–5× slower. See [Phase 3](#phase-3-claude-code-cloud).
+- **GitHub Actions (phase 4):** on one run, 4 Playwright workers ran the two specs 2.1× faster than Cypress (90s against 192s), and sharding across 2 jobs cut the slowest job's time by 40%. On one worker Playwright is only about 9% faster. No flakes or retries in either tool. See [Phase 4](#phase-4-github-actions).
 
 ## What was added
 
@@ -49,17 +60,17 @@ Run it with `yarn test:e2e:pw` (first run `yarn exec playwright install chromium
 
 8 specs, 1,533 lines, 91 tests. There are no custom commands: everything goes through `cypress/helpers/editor.js`, which is a clean seam to port.
 
-| Spec | Tests | Effort | Main drivers |
+| Spec | Tests | Status | Main work |
 |---|---|---|---|
-| `spec-wc` | 5 | done | (this spike) |
-| `spec-wc-block-to-text` | 1 | 0.1d | |
-| `spec-wc-instructions` | 1 | 0.25d | Request-body assertions become `waitForRequest` |
-| `spec-wc-resize` | 3 | 0.5d | Manual drag via `trigger` becomes `page.mouse`; geometry checks need re-tuning |
-| `missionZero-wc` | 20 | 0.5d | Synthetic `window.blur()` / `focus()` semantics |
-| `spec-wc-skulpt` | 17 | 0.75d | `crossOriginIsolated` overrides, uncaught-error handling |
-| `spec-wc-pyodide` | 30 | done (<1d) | (phase 2) |
-| `spec-scratch` | 14 | 1.5–2d | `cy.stub` on a cross-origin iframe's `postMessage`, downloads, autosave timing |
-| Shared config, fixtures, CI, docs, lint | | 1.5–2d | |
+| `spec-wc` | 5 | Done | (phase 1) |
+| `spec-wc-pyodide` | 30 | Done | (phase 2) |
+| `spec-wc-block-to-text` | 1 | To do | Straight port |
+| `spec-wc-instructions` | 1 | To do | Request-body assertions become `waitForRequest` |
+| `spec-wc-resize` | 3 | To do | Manual drag via `trigger` becomes `page.mouse`; geometry checks need re-tuning |
+| `missionZero-wc` | 20 | To do | Synthetic `window.blur()` / `focus()` semantics |
+| `spec-wc-skulpt` | 17 | To do | `crossOriginIsolated` overrides, uncaught-error handling |
+| `spec-scratch` | 14 | To do, hardest | `cy.stub` on a cross-origin iframe's `postMessage`, downloads, autosave timing |
+| Shared config, fixtures, CI, docs, lint | | To do | CI job, browser caching, lint and docs updates |
 
 **Risks, most severe first**
 
@@ -77,7 +88,7 @@ Run it with `yarn test:e2e:pw` (first run `yarn exec playwright install chromium
 - **Sharding:** `--shard` across a matrix is free, unlike Cypress Cloud.
 - **Lint:** `yarn lint` does not cover `playwright/`; extend the glob and replace the `cy` / `Cypress` globals override in `.eslintrc.json`.
 - **Docs:** `CLAUDE.md` says CI runs Cypress against `yarn start`, but CI actually uses `build:all` + `preview:all`; that line is already wrong. README, `scripts/claude-cloud-setup.sh` (`CYPRESS_INSTALL_BINARY=0`) and the `serveIndexAtRootForCypress` Vite plugin also need updating.
-- **Claude Code cloud sessions:** not tested. Playwright has no proxy layer like Cypress's, so the `ECONNRESET` crash should not apply, but the browser download host and test-editor-api must be reachable through the sandbox proxy.
+- **Claude Code cloud sessions:** tested in phase 3; see [Phase 3](#phase-3-claude-code-cloud).
 
 ## Phase 2: spec-wc-pyodide
 
@@ -93,7 +104,7 @@ Run it with `yarn test:e2e:pw` (first run `yarn exec playwright install chromium
 | Passing | 30/30 | 28/30 | 28/30 |
 | Flakes / retries | none in 4 runs | none in ~12 runs plus a 5× stress run of the network-heavy tests | same |
 
-The two Playwright failures ("runs a program with multiple files" and "reloads imported local files between code runs") are deliberate soft assertions on an accessibility bug (finding 7). The Python behaviour in both tests passes.
+The two Playwright failures ("runs a program with multiple files" and "reloads imported local files between code runs") are deliberate soft assertions on the modal `aria-hidden` markup (finding 7), which turned out to have no user impact. The Python behaviour in both tests passes.
 
 ### Timings
 
@@ -118,7 +129,9 @@ Local Mac, warm dev server, wall-clock seconds; Playwright's default here was 6 
 4. **Another assertion that checks nothing.** The pie-chart test's "no error" check ran before the code had run, the same pattern as finding 3 for `spec-wc`. It is fixed by waiting for the run to complete.
 5. **The UI is rendered twice.** Both the Skulpt and Pyodide runners are always in the DOM, and error messages appear in both, so Cypress's queries would pass even if the wrong runner ran. Playwright's strict mode caught the duplicates. Queries are now scoped to `pyodide-runner`, and an active-runner guard checks which runner is in use.
 6. **Smaller items.** Pyodide plus PyPI needs a longer per-test timeout (`describe.configure({ timeout: 120_000 })`). `import.meta` doesn't work in specs because they compile to CommonJS, so the spec uses `__dirname`. `cy.intercept` with a fixture becomes `route.fulfill({ path })`.
-7. **Accessibility bug in the app: modals hide themselves from screen readers.** `GeneralModal` and `ErrorModal` set react-modal's `appElement` to the `editor-wc` host, but the modal renders inside that host's shadow root. Opening a modal therefore sets `aria-hidden="true"` on the element that contains it. The subagent also reported that the attribute stays after the new-file modal closes, which would hide the whole editor; I haven't checked that part myself. Playwright's `getByRole` respects `aria-hidden` across the shadow boundary, while Testing Library inside Cypress does not, which is why Cypress never noticed. The fix is probably `appElement` pointing at a sibling inside the shadow root. It will affect every spec that opens a modal.
+7. **Incorrect `aria-hidden` markup on modals, with no user impact.** `GeneralModal` and `ErrorModal` set react-modal's `appElement` to the `editor-wc` host, but the modal renders inside that host's shadow root, so opening a modal marks the modal itself as hidden. On the dev server the attribute also stays after the modal closes, because React StrictMode's double mount leaves react-modal's open-modal count at 1; a production build clears it. Manual VoiceOver testing in production (Chrome and Firefox) found no user impact: the modal is read normally, its heading shows in the rotor, and navigation stays inside it because react-modal sets `aria-modal="true"`. RaspberryPiFoundation/digital-editor-issues#1978 was closed as not planned, since these modals are due to be replaced with design system ones.
+   - **Why only Playwright saw it:** Playwright's `getByRole` follows the ARIA spec and respects `aria-hidden` across the shadow boundary, so it can't find the open dialog. Testing Library inside Cypress, and real screen readers, are more lenient.
+   - **Effect on the specs:** the two soft assertions check the attribute after close, so they fail locally (dev server) and pass in CI (production build). They test a known, won't-fix dev-only symptom, so they should be removed. Any future spec that finds an open modal by role needs `getByLabel` or `includeHidden` until the modals are replaced.
 
 ## Phase 3: Claude Code cloud
 
@@ -167,11 +180,73 @@ Cloud runs are about 2.5–5× slower. Fewer workers explains part of it. The 1-
 
 **Environment:** Ubuntu 24.04, 4 CPUs, Node 24.19.0 (installed by the setup hook), Yarn 4.12.0, Playwright 1.64.1. The first two `spec-wc` tests took about 21s each while Vite warmed up, which accounts for much of that spec's 35s.
 
+## Phase 4: GitHub Actions
+
+The `E2E speed comparison` workflow ran both specs on standard GitHub runners (4 CPUs) against the built bundles, as `test-cypress` does. Draft PR RaspberryPiFoundation/editor-ui#1754, run 43007967303. **One run only**, so treat the numbers as indicative.
+
+### Results
+
+- **Cypress:** 35/35 passed, with no retries.
+- **Playwright:** 35/35 passed in every configuration (1 skipped in both tools). The two `aria-hidden` soft assertions that fail locally pass here, because CI tests the production build (see finding 7).
+- **No flakes** in either tool. Playwright ran with retries off.
+
+### Timings
+
+"Test step" is the time running the tests, including server start-up for Playwright. "Job" is the whole job, including checkout, install and build. For split runs, the slowest job sets the wall-clock time.
+
+| Setup | Test step | Job | Total runner time |
+|---|---|---|---|
+| Cypress, both specs | 192s | 274s | 274s |
+| Cypress, split by spec (2 jobs) | 36s + 171s | 244s (slowest) | 343s |
+| Playwright, 1 worker | 175s | 276s | 276s |
+| Playwright, default (2 workers) | 110s | 225s | 225s |
+| Playwright, 4 workers | 90s | 201s | 201s |
+| Playwright, sharded (2 jobs × 2 workers) | 52s + 56s | 165s (slowest) | 315s |
+
+For reference, the existing `test-cypress` job running all 8 specs took 375s on the same PR, 299s of it in Cypress.
+
+- **Like-for-like (1 worker):** Playwright is about 9% faster on the test step. The job times are equal, because every Playwright job paid 21–33s to download its browser: all jobs ran at once, so none could use the cache. Later runs should hit the cache.
+- **Parallel workers on one runner:** 4 workers cut the test step to 90s, 2.1× faster than Cypress. Going from 2 to 4 workers saved another 20s, so the 4-CPU runner isn't saturated.
+- **Splitting across jobs:** splitting Cypress by spec barely helps (244s against 274s), because `spec-wc-pyodide` alone takes 171s. Playwright splits individual tests, so its 2 shards were evenly balanced (18 and 17 tests, about 55s each) and the wall-clock time fell to 165s, 40% under Cypress. It costs more runner time in total than 4 workers in one job.
+- **Fixed overhead per job:** checkout, install and build take about 65–75s in every job, whichever tool. That is the cost of each extra job when splitting.
+- **Best value:** 4 workers in a single job. It's the cheapest in runner time and within about 35s of the sharded run.
+
 ## Suggested next steps for the full experiment
 
-1. Fix or explicitly accept the modal `aria-hidden` bug (finding 7). It's an app fix in its own right, separate from the migration.
+1. Remove the two modal `aria-hidden` soft assertions from `spec-wc-pyodide` (finding 7): the markup has no user impact and won't be fixed.
 2. Make Playwright run in the editor-ui cloud environment without workarounds: allow `cdn.playwright.dev` (or pin Playwright to the preinstalled browser) and have Chromium trust the egress proxy certificate.
-3. Add a non-blocking Playwright CI job with `--shard` and compare its time and flake rate against `test-cypress`. Parallelism is the only real speed gain, so this is the measurement that matters.
+3. Re-run the `E2E speed comparison` workflow a few more times to confirm the phase 4 numbers and get a flake rate, including runs with a warm browser cache.
 4. Decide on the CORS approach (route stub or API allowance) before dropping `--disable-web-security` from the parity project.
 5. Redesign the Scratch `postMessage` tests, rather than translating them line by line.
 6. Run both suites side by side in CI for a while before removing Cypress.
+
+## More reasons to migrate
+
+"Shown" means the spike demonstrated it. "Untested" means Playwright supports it, but we haven't tried it here.
+
+### Shown
+
+- **Easier to debug failures in CI.** Playwright uploads a full HTML report and can record a trace: a step-by-step replay of the test with the DOM, network and console. The Cypress job uploads only screenshots, and only when a test fails.
+- **Fewer dependencies and workarounds.** A full migration removes `@testing-library/cypress`, `cypress-real-events` (imported but unused), three `cy.task` download helpers, the `chromeWebSecurity: false` workaround, the `serveIndexAtRootForCypress` Vite plugin and `CYPRESS_INSTALL_BINARY=0` in the cloud setup.
+- **Real readiness checks instead of fixed waits.** Tests wait for the "run completed" signal instead of a guessed delay. The seaborn test went from 14–15s to 7.7s.
+- **Both Python runtimes tested as learners get them.** One suite covers Skulpt (no cross-origin isolation) and Pyodide (full isolation) without faking the browser's `crossOriginIsolated` value.
+- **Role queries that follow the ARIA spec.** `getByRole` respects `aria-hidden` and accessible names strictly, which is how the modal markup problem surfaced. Tests written this way also check basic accessibility.
+- **Browser cached by version in CI.** The Playwright browser is cached per version. Cypress's binary is downloaded during every `yarn install` and never cached; that cost hasn't been measured separately yet.
+
+### Untested
+
+- **Built-in visual regression testing.** `toHaveScreenshot()` compares screenshots against a saved baseline. Useful for the Button migration and the move to design system modals.
+- **Automated accessibility scans.** `@axe-core/playwright` runs axe checks inside the existing e2e tests.
+- **Safari and Firefox coverage.** Playwright runs WebKit and Firefox as well as Chromium. Relevant for schools using iPads. Pyodide in WebKit hasn't been checked.
+- **Less dependence on live services.** Record API responses once and replay them from a HAR file, so tests don't depend on `test-editor-api` or PyPI being up and fast.
+- **Controlled clock.** `page.clock` can fast-forward time, so the autosave tests don't need a real 2s wait.
+- **Phone and touch emulation.** Device presets set viewport, touch and user agent for checking the responsive layouts.
+- **No paid tier.** Parallel workers and sharding are free and open source. Cypress's built-in load balancing needs Cypress Cloud.
+
+## Trade-offs
+
+- **Slower per test.** Each test gets a fresh browser context with an empty cache, so on heavy specs one Playwright worker is no faster than Cypress.
+- **Version tied to the cloud image.** Using the preinstalled browser in Claude Code cloud means pinning `@playwright/test` to match it, and updating the pin when the image changes.
+- **Team familiarity.** The team knows Cypress, and its interactive runner is good for writing tests. Playwright's UI mode and codegen are the equivalents.
+- **Two suites for a while.** Both would need to run side by side until the migration is finished and trusted.
+- **Docs need fixing either way.** `CLAUDE.md` says CI runs Cypress against `yarn start`; it actually builds and serves with `preview:all`.
