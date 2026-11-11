@@ -331,7 +331,7 @@
   "regions": {
     "inputPanel": "Panel de entrada",
     "outputPanel": "Panel de salida",
-    "projectBar": "Barra de proyecto",
+    "projectBar": "Barra del proyecto",
     "sidebar": "Barra lateral"
   },
   "runners": {
