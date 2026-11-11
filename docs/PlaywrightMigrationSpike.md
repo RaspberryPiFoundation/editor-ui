@@ -211,15 +211,6 @@ For reference, the existing `test-cypress` job running all 8 specs took 375s on 
 - **Fixed overhead per job:** checkout, install and build take about 65–75s in every job, whichever tool. That is the cost of each extra job when splitting.
 - **Best value:** 4 workers in a single job. It's the cheapest in runner time and within about 35s of the sharded run.
 
-## Suggested next steps for the full experiment
-
-1. Remove the two modal `aria-hidden` soft assertions from `spec-wc-pyodide` (finding 7): the markup has no user impact and won't be fixed.
-2. Make Playwright run in the editor-ui cloud environment without workarounds: allow `cdn.playwright.dev` (or pin Playwright to the preinstalled browser) and have Chromium trust the egress proxy certificate.
-3. Re-run the `E2E speed comparison` workflow a few more times to confirm the phase 4 numbers and get a flake rate, including runs with a warm browser cache.
-4. Decide on the CORS approach (route stub or API allowance) before dropping `--disable-web-security` from the parity project.
-5. Redesign the Scratch `postMessage` tests, rather than translating them line by line.
-6. Run both suites side by side in CI for a while before removing Cypress.
-
 ## More reasons to migrate
 
 "Shown" means the spike demonstrated it. "Untested" means Playwright supports it, but we haven't tried it here.
