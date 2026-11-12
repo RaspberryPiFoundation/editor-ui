@@ -20,6 +20,7 @@ const AiHintToggle = () => {
         id="ai_hint_toggle"
         name="aiHintToggle"
         label={t("sidebar.settingsMenu.aiHint")}
+        icon
         reverse
         fullWidth
         aria-describedby="ai_hint_toggle_description"
