@@ -6,25 +6,27 @@ import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
 import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
-import { useTranslation } from "react-i18next";
+import { useCookies } from "react-cookie";
 import useIsOnline from "../../../hooks/useIsOnline";
+import useAiHintAvailable from "../../../hooks/useAiHintAvailable";
+import {
+  AI_HINTS_COOKIE,
+  aiHintsTurnedOn,
+} from "../../Menus/Sidebar/SettingsPanel/AiHintToggle/AiHintToggle";
 
 const ErrorMessage = () => {
-  const { i18n } = useTranslation();
-
   const error = useSelector((state) => state.editor.error);
-  const aiErrorsEnabled = useSelector((state) => state.editor.aiErrorsEnabled);
-  const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const friendlyError = useSelector((state) => state.editor.friendlyError);
   const settings = useContext(SettingsContext);
   const isOnline = useIsOnline();
+  const aiHintAvailable = useAiHintAvailable();
+  const [cookies] = useCookies([AI_HINTS_COOKIE]);
 
   const showAiHint =
+    aiHintAvailable &&
+    aiHintsTurnedOn(cookies) &&
     isOnline &&
-    aiErrorsEnabled &&
-    accessToken &&
-    friendlyError?.html &&
-    i18n.language?.startsWith("en");
+    friendlyError?.html;
 
   return error ? (
     <div className="error-message">

@@ -4,6 +4,7 @@ import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { render, screen } from "@testing-library/react";
 import useIsOnline from "../../../hooks/useIsOnline";
+import { Cookies, CookiesProvider } from "react-cookie";
 
 const mockI18n = vi.hoisted(() => ({ language: "en" }));
 
@@ -154,20 +155,30 @@ describe("AI hint", () => {
     user = { access_token: "token" },
     friendlyError = { html: "<div>Friendly error</div>" },
     language = "en",
+    aiHintsCookie,
   } = {}) => {
     mockI18n.language = language;
     const store = mockStore({
-      editor: { error: "Oops", aiErrorsEnabled, friendlyError },
+      editor: {
+        error: "Oops",
+        aiErrorsEnabled,
+        friendlyErrorsEnabled: true,
+        friendlyError,
+      },
       auth: { user },
     });
+    const cookies = new Cookies();
+    if (aiHintsCookie) cookies.set("aiHints", aiHintsCookie);
     render(
-      <Provider store={store}>
-        <SettingsContext.Provider
-          value={{ theme: "dark", fontSize: "myFontSize" }}
-        >
-          <ErrorMessage />
-        </SettingsContext.Provider>
-      </Provider>,
+      <CookiesProvider cookies={cookies}>
+        <Provider store={store}>
+          <SettingsContext.Provider
+            value={{ theme: "dark", fontSize: "myFontSize" }}
+          >
+            <ErrorMessage />
+          </SettingsContext.Provider>
+        </Provider>
+      </CookiesProvider>,
     );
   };
 
@@ -181,6 +192,7 @@ describe("AI hint", () => {
 
   afterEach(() => {
     mockI18n.language = "en";
+    new Cookies().remove("aiHints");
   });
 
   test("displays when all conditions are met", () => {
@@ -217,5 +229,15 @@ describe("AI hint", () => {
     useIsOnline.mockReturnValue(false);
     renderErrorMessage();
     expectAiHintHidden();
+  });
+
+  test("does not display when the user has turned AI hints off", () => {
+    renderErrorMessage({ aiHintsCookie: "off" });
+    expectAiHintHidden();
+  });
+
+  test("displays when the user has turned AI hints on", () => {
+    renderErrorMessage({ aiHintsCookie: "on" });
+    expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
   });
 });
