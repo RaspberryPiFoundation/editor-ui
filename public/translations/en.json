@@ -359,6 +359,8 @@
     "charity": "Raspberry Pi Foundation - UK registered charity 1129409",
     "settingsMenu": {
       "heading": "Settings",
+      "aiHint": "AI generated hints",
+      "aiHintDescription": "Show a “Generate an AI hint” button when your code has an error. Hints won’t give you the answer and can be wrong. Learn more about how AI hints work or share feedback.",
       "textSize": "Text size",
       "theme": "Theme",
       "textSizeOptions": {
