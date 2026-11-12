@@ -10,8 +10,8 @@ import { useCookies } from "react-cookie";
 import useIsOnline from "../../../hooks/useIsOnline";
 import useAiHintAvailable from "../../../hooks/useAiHintAvailable";
 import {
-  AI_HINTS_COOKIE,
-  aiHintsTurnedOn,
+  AI_HINT_COOKIE,
+  aiHintTurnedOn,
 } from "../../Menus/Sidebar/SettingsPanel/AiHintToggle/AiHintToggle";
 
 const ErrorMessage = () => {
@@ -20,11 +20,11 @@ const ErrorMessage = () => {
   const settings = useContext(SettingsContext);
   const isOnline = useIsOnline();
   const aiHintAvailable = useAiHintAvailable();
-  const [cookies] = useCookies([AI_HINTS_COOKIE]);
+  const [cookies] = useCookies([AI_HINT_COOKIE]);
 
   const showAiHint =
     aiHintAvailable &&
-    aiHintsTurnedOn(cookies) &&
+    aiHintTurnedOn(cookies) &&
     isOnline &&
     friendlyError?.html;
 

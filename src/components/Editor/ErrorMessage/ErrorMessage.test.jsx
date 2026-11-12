@@ -155,7 +155,7 @@ describe("AI hint", () => {
     user = { access_token: "token" },
     friendlyError = { html: "<div>Friendly error</div>" },
     language = "en",
-    aiHintsCookie,
+    aiHintCookie,
   } = {}) => {
     mockI18n.language = language;
     const store = mockStore({
@@ -168,7 +168,7 @@ describe("AI hint", () => {
       auth: { user },
     });
     const cookies = new Cookies();
-    if (aiHintsCookie) cookies.set("aiHints", aiHintsCookie);
+    if (aiHintCookie) cookies.set("aiHint", aiHintCookie);
     render(
       <CookiesProvider cookies={cookies}>
         <Provider store={store}>
@@ -192,7 +192,7 @@ describe("AI hint", () => {
 
   afterEach(() => {
     mockI18n.language = "en";
-    new Cookies().remove("aiHints");
+    new Cookies().remove("aiHint");
   });
 
   test("displays when all conditions are met", () => {
@@ -232,12 +232,12 @@ describe("AI hint", () => {
   });
 
   test("does not display when the user has turned AI hints off", () => {
-    renderErrorMessage({ aiHintsCookie: "off" });
+    renderErrorMessage({ aiHintCookie: "off" });
     expectAiHintHidden();
   });
 
   test("displays when the user has turned AI hints on", () => {
-    renderErrorMessage({ aiHintsCookie: "on" });
+    renderErrorMessage({ aiHintCookie: "on" });
     expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
   });
 });
