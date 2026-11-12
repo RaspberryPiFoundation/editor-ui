@@ -8,7 +8,7 @@ To support young people to learn how to code, in both formal and informal educat
 
 ## 2. Latest versioning and future releases
 
-The Code Editor from the Raspberry Pi Foundation is currently in beta. This means there may still be some issues and bugs which we’ll be working on fixing, and where contributors identify particularly useful features, we may consider implementing them. 
+We continue to improve the Code Editor from the Raspberry Pi Foundation by fixing issues and bugs, and considering useful features identified by contributors.
 
 Our current priority is extending the functionality so that it supports young people to learn to code.
 
