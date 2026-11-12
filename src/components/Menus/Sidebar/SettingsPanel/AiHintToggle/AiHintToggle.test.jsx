@@ -1,17 +1,26 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Cookies, CookiesProvider } from "react-cookie";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
 import AiHintToggle from "./AiHintToggle";
 
-const renderToggle = (cookieValue) => {
+const mockStore = configureStore([]);
+
+const renderToggle = (cookieValue, { focusRequested = false } = {}) => {
   const cookies = new Cookies();
   if (cookieValue) cookies.set("aiHint", cookieValue);
+  const store = mockStore({
+    editor: { aiHintToggleFocusRequested: focusRequested },
+  });
   render(
-    <CookiesProvider cookies={cookies}>
-      <AiHintToggle />
-    </CookiesProvider>,
+    <Provider store={store}>
+      <CookiesProvider cookies={cookies}>
+        <AiHintToggle />
+      </CookiesProvider>
+    </Provider>,
   );
-  return { cookies, toggle: screen.getByRole("switch") };
+  return { cookies, store, toggle: screen.getByRole("switch") };
 };
 
 describe("AiHintToggle", () => {
@@ -41,5 +50,21 @@ describe("AiHintToggle", () => {
     fireEvent.click(toggle);
     expect(cookies.get("aiHint")).toBe("on");
     expect(toggle).toBeChecked();
+  });
+
+  test("is not focused when focus has not been requested", () => {
+    const { toggle } = renderToggle();
+    expect(toggle).not.toHaveFocus();
+  });
+
+  test("focuses itself and clears the request when focus is requested", () => {
+    const { toggle, store } = renderToggle(undefined, {
+      focusRequested: true,
+    });
+    expect(toggle).toHaveFocus();
+    expect(store.getActions()).toContainEqual({
+      type: "editor/clearAiHintToggleFocusRequest",
+      payload: undefined,
+    });
   });
 });

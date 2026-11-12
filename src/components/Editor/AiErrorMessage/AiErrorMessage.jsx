@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../../assets/stylesheets/AiErrorMessage.scss?inline";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg";
+import SettingsIcon from "../../../assets/icons/settings.svg";
+import { openAiHintSettings } from "../../../redux/EditorSlice";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 
 export const MIN_LOADING_MS = 500;
+
+// TODO: replace with real URLs once available
+const LEARN_MORE_URL = "#";
+const FEEDBACK_URL = "#";
 
 const AiErrorMessage = () => {
   const errorDetails = useSelector((state) => state.editor.errorDetails);
@@ -16,6 +22,7 @@ const AiErrorMessage = () => {
     (state) => state.editor.reactAppApiEndpoint,
   );
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [hint, setHint] = useState("");
@@ -88,10 +95,28 @@ const AiErrorMessage = () => {
           }
         />
       )}
-      {/* Todo: Add link here */}
-      <p className="ai-error-message__notice">
-        {t("output.aiErrorMessages.notice")}
-      </p>
+      <div className="ai-error-message__footer">
+        <p className="ai-error-message__notice">
+          <Trans
+            i18nKey="output.aiErrorMessages.notice"
+            // Trans injects the link text, which ESLint can't see
+            /* eslint-disable jsx-a11y/anchor-has-content */
+            components={[
+              <a href={LEARN_MORE_URL} target="_blank" rel="noreferrer" />,
+              <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" />,
+            ]}
+            /* eslint-enable jsx-a11y/anchor-has-content */
+          />
+        </p>
+        <button
+          type="button"
+          className="ai-error-message__turn-off"
+          onClick={() => dispatch(openAiHintSettings())}
+        >
+          <SettingsIcon aria-hidden="true" />
+          {t("output.aiErrorMessages.turnOff")}
+        </button>
+      </div>
     </div>
   );
 };
