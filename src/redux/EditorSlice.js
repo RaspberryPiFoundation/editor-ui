@@ -124,6 +124,7 @@ export const editorInitialState = {
   renameFileModalShowing: false,
   sidebarShowing: true,
   selectedSidebarOption: undefined,
+  aiHintToggleFocusRequested: false,
   modals: {},
   errorDetails: {},
   errorLineDismissed: false,
@@ -442,6 +443,14 @@ const EditorSlice = createSlice({
     setSidebarOption: (state, action) => {
       state.selectedSidebarOption = action.payload;
     },
+    openAiHintSettings: (state) => {
+      state.sidebarShowing = true;
+      state.selectedSidebarOption = "settings";
+      state.aiHintToggleFocusRequested = true;
+    },
+    clearAiHintToggleFocusRequest: (state) => {
+      state.aiHintToggleFocusRequested = false;
+    },
     disableTheming: (state) => {
       state.isThemeable = false;
     },
@@ -569,6 +578,8 @@ export const {
   showSidebar,
   hideSidebar,
   setSidebarOption,
+  openAiHintSettings,
+  clearAiHintToggleFocusRequest,
   disableTheming,
   setErrorDetails,
   dismissErrorLine,
