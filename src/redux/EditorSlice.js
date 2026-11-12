@@ -118,7 +118,6 @@ export const editorInitialState = {
   offlineEnabled: false,
   senseHatEnabled: false,
   loadRemixDisabled: false,
-  betaModalShowing: false,
   errorModalShowing: false,
   newFileModalShowing: false,
   renameFileModalShowing: false,
@@ -405,12 +404,6 @@ const EditorSlice = createSlice({
       state.codeRunStopped = false;
       state.codeRunInProgress = false;
       state.runnerBeingLoaded = null;
-    },
-    showBetaModal: (state) => {
-      state.betaModalShowing = true;
-    },
-    closeBetaModal: (state) => {
-      state.betaModalShowing = false;
     },
     showErrorModal: (state) => {
       state.errorModalShowing = true;
