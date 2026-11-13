@@ -293,8 +293,6 @@
 // stylesheet consumes them.
 // They live here rather than in InternalStyles.scss so the whole layer, both
 // selectors and tokens, is deleted in one go when the Editor Button is retired.
-// This mirrors DesignSystemButton.scss, which keeps its own `.--light` /
-// `.--dark` blocks alongside its rules.
 
 .--light .btn {
   // Primary
