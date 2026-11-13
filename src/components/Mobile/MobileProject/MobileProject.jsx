@@ -25,9 +25,24 @@ const MobileProject = ({
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+  const aiHintToggleFocusRequested = useSelector(
+    (state) => state.editor.aiHintToggleFocusRequested,
+  );
   const includesInstructions = sidebarOptions.includes("instructions");
 
   const [selectedTab, setSelectedTab] = useState(1);
+  const [prevFocusRequested, setPrevFocusRequested] = useState(
+    aiHintToggleFocusRequested,
+  );
+
+  // Switch to the sidebar tab during render rather than in an effect: child
+  // effects run first, so AiHintToggle would try to focus while still hidden
+  if (aiHintToggleFocusRequested !== prevFocusRequested) {
+    setPrevFocusRequested(aiHintToggleFocusRequested);
+    if (aiHintToggleFocusRequested && withSidebar) {
+      setSelectedTab(0);
+    }
+  }
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
