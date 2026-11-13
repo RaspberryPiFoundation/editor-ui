@@ -26,6 +26,9 @@ const AiHintToggle = () => {
   }, [focusRequested, dispatch]);
 
   const handleChange = (e) => {
+    if (!e.target.checked && window.plausible) {
+      window.plausible("AI hints turned off");
+    }
     setCookie(AI_HINT_COOKIE, e.target.checked ? "on" : "off", { path: "/" });
   };
 
