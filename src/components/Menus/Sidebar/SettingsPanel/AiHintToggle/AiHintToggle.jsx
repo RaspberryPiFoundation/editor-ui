@@ -5,10 +5,10 @@ import { Trans, useTranslation } from "react-i18next";
 import { Switch } from "@raspberrypifoundation/design-system-react";
 import { clearAiHintToggleFocusRequest } from "../../../../../redux/EditorSlice";
 import { aiHintLinkComponents } from "../../../../../utils/aiHintLinks";
-
-export const AI_HINT_COOKIE = "aiHint";
-
-export const aiHintTurnedOn = (cookies) => cookies[AI_HINT_COOKIE] !== "off";
+import {
+  AI_HINT_COOKIE,
+  aiHintTurnedOn,
+} from "../../../../../utils/aiHintCookie";
 
 const AiHintToggle = () => {
   const { t } = useTranslation();

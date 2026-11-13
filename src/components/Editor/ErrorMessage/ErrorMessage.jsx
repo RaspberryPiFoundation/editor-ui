@@ -9,10 +9,7 @@ import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
 import { useCookies } from "react-cookie";
 import useIsOnline from "../../../hooks/useIsOnline";
 import useAiHintAvailable from "../../../hooks/useAiHintAvailable";
-import {
-  AI_HINT_COOKIE,
-  aiHintTurnedOn,
-} from "../../Menus/Sidebar/SettingsPanel/AiHintToggle/AiHintToggle";
+import { AI_HINT_COOKIE, aiHintTurnedOn } from "../../../utils/aiHintCookie";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
