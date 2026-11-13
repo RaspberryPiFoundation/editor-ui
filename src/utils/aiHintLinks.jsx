@@ -12,6 +12,7 @@ const NewTabLink = ({ href, children }) => {
   return (
     <a href={href} target="_blank" rel="noreferrer">
       {children}
+      {/* Hidden text that warns screen reader users the link opens a new tab */}
       <span className="rpf-visually-hidden">
         {` ${t("common.opensInNewTab")}`}
       </span>
