@@ -8,6 +8,7 @@ import SettingsPanel from "./SettingsPanel";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (str) => str, i18n: { language: "en" } }),
+  Trans: ({ i18nKey }) => i18nKey,
 }));
 
 describe("Settings panel", () => {

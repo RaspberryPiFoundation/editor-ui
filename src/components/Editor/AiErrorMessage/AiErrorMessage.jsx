@@ -7,12 +7,9 @@ import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg
 import SettingsIcon from "../../../assets/icons/settings.svg";
 import { openAiHintSettings } from "../../../redux/EditorSlice";
 import ApiCallHandler from "../../../utils/apiCallHandler";
+import { aiHintLinkComponents } from "../../../utils/aiHintLinks";
 
 export const MIN_LOADING_MS = 500;
-
-// TODO: replace with real URLs once available
-const LEARN_MORE_URL = "#";
-const FEEDBACK_URL = "#";
 
 const AiErrorMessage = () => {
   const errorDetails = useSelector((state) => state.editor.errorDetails);
@@ -99,13 +96,7 @@ const AiErrorMessage = () => {
         <p className="ai-error-message__notice">
           <Trans
             i18nKey="output.aiErrorMessages.notice"
-            // Trans injects the link text, which ESLint can't see
-            /* eslint-disable jsx-a11y/anchor-has-content */
-            components={[
-              <a href={LEARN_MORE_URL} target="_blank" rel="noreferrer" />,
-              <a href={FEEDBACK_URL} target="_blank" rel="noreferrer" />,
-            ]}
-            /* eslint-enable jsx-a11y/anchor-has-content */
+            components={aiHintLinkComponents}
           />
         </p>
         <button

@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { Switch } from "@raspberrypifoundation/design-system-react";
 import { clearAiHintToggleFocusRequest } from "../../../../../redux/EditorSlice";
+import { aiHintLinkComponents } from "../../../../../utils/aiHintLinks";
 
 export const AI_HINT_COOKIE = "aiHint";
 
@@ -42,7 +43,10 @@ const AiHintToggle = () => {
         onChange={handleChange}
       />
       <p id="ai_hint_toggle_description">
-        {t("sidebar.settingsMenu.aiHintDescription")}
+        <Trans
+          i18nKey="sidebar.settingsMenu.aiHintDescription"
+          components={aiHintLinkComponents}
+        />
       </p>
     </div>
   );

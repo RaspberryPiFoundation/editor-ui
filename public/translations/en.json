@@ -221,7 +221,7 @@
       "retryButtonText": "Try again",
       "aiGeneratedHint": "AI generated hint",
       "errorText": "We were not able to generate a hint, try again later.",
-      "notice": "AI hints can be wrong. <0>Learn more</0> and share <1>feedback</1>",
+      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
       "turnOff": "Turn off AI hints"
     },
     "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
@@ -361,7 +361,7 @@
     "settingsMenu": {
       "heading": "Settings",
       "aiHint": "AI generated hints",
-      "aiHintDescription": "Show a “Generate an AI hint” button when your code has an error. Hints won’t give you the answer and can be wrong. Learn more about how AI hints work or share feedback.",
+      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Text size",
       "theme": "Theme",
       "textSizeOptions": {
@@ -388,6 +388,7 @@
     "no": "No"
   },
   "common": {
+    "opensInNewTab": "(opens in a new tab)",
     "or": "or"
   }
 }
