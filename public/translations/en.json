@@ -221,7 +221,8 @@
       "retryButtonText": "Try again",
       "aiGeneratedHint": "AI generated hint",
       "errorText": "We were not able to generate a hint, try again later.",
-      "notice": "AI hints can be wrong. Learn more and share feedback"
+      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
+      "turnOff": "Turn off AI hints"
     },
     "limitReached": "Output limit reached. Further output is hidden, but your program is still running.",
     "newTab": "Preview in new tab",
@@ -359,6 +360,8 @@
     "charity": "Raspberry Pi Foundation - UK registered charity 1129409",
     "settingsMenu": {
       "heading": "Settings",
+      "aiHint": "AI generated hints",
+      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Text size",
       "theme": "Theme",
       "textSizeOptions": {
@@ -385,6 +388,7 @@
     "no": "No"
   },
   "common": {
+    "opensInNewTab": "(opens in a new tab)",
     "or": "or"
   }
 }

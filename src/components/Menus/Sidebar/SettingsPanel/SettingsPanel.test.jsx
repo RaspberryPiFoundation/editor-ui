@@ -6,6 +6,11 @@ import { MemoryRouter } from "react-router-dom";
 
 import SettingsPanel from "./SettingsPanel";
 
+vi.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (str) => str, i18n: { language: "en" } }),
+  Trans: ({ i18nKey }) => i18nKey,
+}));
+
 describe("Settings panel", () => {
   describe("When editor is themeable", () => {
     beforeEach(() => {
@@ -67,5 +72,47 @@ describe("Settings panel", () => {
         screen.queryByText("sidebar.settingsMenu.theme"),
       ).not.toBeInTheDocument();
     });
+  });
+});
+
+describe("AI hint toggle", () => {
+  const renderPanel = (editor, user = { access_token: "token" }) => {
+    const store = configureStore([])({
+      editor: { project: {}, ...editor },
+      auth: { user },
+    });
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <SettingsPanel />
+        </MemoryRouter>
+      </Provider>,
+    );
+  };
+
+  const aiHintAvailable = {
+    aiErrorsEnabled: true,
+    friendlyErrorsEnabled: true,
+  };
+
+  test("Renders when AI hints are available", () => {
+    renderPanel(aiHintAvailable);
+    expect(
+      screen.queryByText("sidebar.settingsMenu.aiHint"),
+    ).toBeInTheDocument();
+  });
+
+  test("Does not render when AI errors are disabled", () => {
+    renderPanel({ ...aiHintAvailable, aiErrorsEnabled: false });
+    expect(
+      screen.queryByText("sidebar.settingsMenu.aiHint"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("Does not render when the user is not logged in", () => {
+    renderPanel(aiHintAvailable, null);
+    expect(
+      screen.queryByText("sidebar.settingsMenu.aiHint"),
+    ).not.toBeInTheDocument();
   });
 });

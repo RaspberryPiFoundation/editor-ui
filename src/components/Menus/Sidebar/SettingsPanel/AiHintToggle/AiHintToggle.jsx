@@ -1,0 +1,58 @@
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
+import { Trans, useTranslation } from "react-i18next";
+import { Switch } from "@raspberrypifoundation/design-system-react";
+import { clearAiHintToggleFocusRequest } from "../../../../../redux/EditorSlice";
+import { aiHintLinkComponents } from "../../../../../utils/aiHintLinks";
+import {
+  AI_HINT_COOKIE,
+  aiHintTurnedOn,
+} from "../../../../../utils/aiHintCookie";
+
+const AiHintToggle = () => {
+  const { t } = useTranslation();
+  const [cookies, setCookie] = useCookies([AI_HINT_COOKIE]);
+  const dispatch = useDispatch();
+  const focusRequested = useSelector(
+    (state) => state.editor.aiHintToggleFocusRequested,
+  );
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (!focusRequested) return;
+    containerRef.current?.querySelector("#ai_hint_toggle")?.focus();
+    dispatch(clearAiHintToggleFocusRequest());
+  }, [focusRequested, dispatch]);
+
+  const handleChange = (e) => {
+    if (!e.target.checked && window.plausible) {
+      window.plausible("AI hints turned off");
+    }
+    setCookie(AI_HINT_COOKIE, e.target.checked ? "on" : "off", { path: "/" });
+  };
+
+  return (
+    <div ref={containerRef}>
+      <Switch
+        id="ai_hint_toggle"
+        name="aiHintToggle"
+        label={t("sidebar.settingsMenu.aiHint")}
+        icon
+        reverse
+        fullWidth
+        aria-describedby="ai_hint_toggle_description"
+        checked={aiHintTurnedOn(cookies)}
+        onChange={handleChange}
+      />
+      <p id="ai_hint_toggle_description">
+        <Trans
+          i18nKey="sidebar.settingsMenu.aiHintDescription"
+          components={aiHintLinkComponents}
+        />
+      </p>
+    </div>
+  );
+};
+
+export default AiHintToggle;

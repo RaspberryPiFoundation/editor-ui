@@ -14,8 +14,29 @@
   .select-buttons__options {
     flex-direction: column;
   }
+
+  &__ai-hint-toggle {
+    .rpf-input-field {
+      margin-block-end: 0;
+    }
+
+    p {
+      color: var(--rpf-text-secondary);
+      margin-block: var(--space-0-5) 0;
+    }
+  }
 }
 
 .sidebar--scratch .settings-panel__text-size {
   display: none;
+}
+
+.--dark {
+  .settings-panel {
+    &__ai-hint-toggle {
+      p {
+        color: var(--rpf-grey-300);
+      }
+    }
+  }
 }

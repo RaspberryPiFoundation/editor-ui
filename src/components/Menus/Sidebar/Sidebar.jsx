@@ -217,6 +217,14 @@ const Sidebar = ({
     }
   }, [dispatch, nextDefaultOption, optionIsAvailable, selectedSidebarOption]);
 
+  // Follow panel changes requested from elsewhere in the app (e.g. the
+  // "Turn off AI hints" link opening the settings panel)
+  useEffect(() => {
+    if (selectedSidebarOption !== undefined) {
+      setOption(selectedSidebarOption);
+    }
+  }, [selectedSidebarOption]);
+
   // Emit here rather than from each control: on mobile toggleOption never
   // collapses, so a control computing `expanded` itself would report
   // closures that don't happen

@@ -32,8 +32,10 @@ const buildState = ({ details = errorDetails } = {}) => ({
   auth: { user: { access_token: accessToken } },
 });
 
+let store;
+
 const renderAiErrorMessage = (state = buildState()) => {
-  const store = mockStore(state);
+  store = mockStore(state);
   return render(
     <Provider store={store}>
       <AiErrorMessage />
@@ -41,7 +43,9 @@ const renderAiErrorMessage = (state = buildState()) => {
   );
 };
 
-const clickButton = () => fireEvent.click(screen.getByRole("button"));
+const hintButton = () => document.querySelector(".ai-error-message__button");
+
+const clickButton = () => fireEvent.click(hintButton());
 
 const advanceTimers = (ms) => act(() => vi.advanceTimersByTimeAsync(ms));
 
@@ -109,7 +113,7 @@ describe("AiErrorMessage", () => {
     renderAiErrorMessage();
     clickButton();
 
-    expect(screen.getByRole("button")).toHaveAttribute("aria-busy", "true");
+    expect(hintButton()).toHaveAttribute("aria-busy", "true");
     expect(
       screen.getAllByText("output.aiErrorMessages.loadingText").length,
     ).toBeGreaterThan(0);
@@ -143,7 +147,7 @@ describe("AiErrorMessage", () => {
 
     await advanceTimers(MIN_LOADING_MS - 1);
     expect(screen.queryByText("A friendly hint")).not.toBeInTheDocument();
-    expect(screen.getByRole("button")).toHaveAttribute("aria-busy", "true");
+    expect(hintButton()).toHaveAttribute("aria-busy", "true");
 
     await advanceTimers(1);
     expect(screen.getByText("A friendly hint")).toBeInTheDocument();
@@ -234,5 +238,20 @@ describe("AiErrorMessage", () => {
     expect(
       screen.getByText("output.aiErrorMessages.buttonText"),
     ).toBeInTheDocument();
+  });
+
+  describe("turn off link", () => {
+    test("Opens the AI hint settings when turn off is clicked", () => {
+      renderAiErrorMessage();
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: "output.aiErrorMessages.turnOff",
+        }),
+      );
+      expect(store.getActions()).toContainEqual({
+        type: "editor/openAiHintSettings",
+        payload: undefined,
+      });
+    });
   });
 });
