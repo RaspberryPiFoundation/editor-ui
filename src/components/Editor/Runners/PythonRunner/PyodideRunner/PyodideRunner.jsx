@@ -34,11 +34,8 @@ const OUTPUT_BATCH_WINDOW_MS = 50;
 
 const getWorkerURL = (url) => {
   const content = `
-    /* global PyodideWorker */
-    console.log("Worker loading");
-    importScripts("${url}");
-    const pyodide = PyodideWorker();
-    console.log("Worker loaded");
+    import PyodideWorker from "${url}";
+    PyodideWorker();
   `;
   const blob = new Blob([content], { type: "application/javascript" });
   return URL.createObjectURL(blob);
@@ -89,7 +86,7 @@ const PyodideRunner = ({
       const workerUrl = getWorkerURL(
         `${process.env.PUBLIC_URL}/PyodideWorker.js`,
       );
-      const worker = new Worker(workerUrl);
+      const worker = new Worker(workerUrl, { type: "module" });
       setPyodideWorker(worker);
     }
   }, [active]);
