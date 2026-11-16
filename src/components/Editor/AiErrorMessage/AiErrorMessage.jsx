@@ -102,12 +102,7 @@ const AiErrorMessage = () => {
         <button
           type="button"
           className="ai-error-message__turn-off"
-          onClick={() => {
-            if (window.plausible) {
-              window.plausible("Turn off AI hints link");
-            }
-            dispatch(openAiHintSettings());
-          }}
+          onClick={() => dispatch(openAiHintSettings())}
         >
           <SettingsIcon aria-hidden="true" />
           {t("output.aiErrorMessages.turnOff")}
