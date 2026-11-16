@@ -2458,11 +2458,11 @@ __metadata:
   linkType: hard
 
 "@raspberrypifoundation/design-system-core@npm:^2.5.2":
-  version: 2.6.0
-  resolution: "@raspberrypifoundation/design-system-core@npm:2.6.0"
+  version: 2.7.0
+  resolution: "@raspberrypifoundation/design-system-core@npm:2.7.0"
   dependencies:
     classnames: "npm:^2.3.2"
-  checksum: 10/8a59304246b126225c67b3186bbf8b5374259513d7221dab20903f9fa11fdfbf9826c693fb1631b1459ee3959e030464d5832dbd91a199021f1adc71e9ea0aed
+  checksum: 10/83cbbb9b576f01a77502328b54eb9390e3154f022ffc5bdf64baf787750efe7778b50872db224aa21b11335ab7427646297a614859094ca5ab34e57b3d8d092e
   languageName: node
   linkType: hard
 
