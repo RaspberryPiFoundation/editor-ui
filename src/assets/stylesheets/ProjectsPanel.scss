@@ -31,17 +31,7 @@
   }
 
   .projects-panel__save-button {
-    inline-size: 100%;
     margin-block-end: var(--space-2);
-    justify-content: center;
-
-    .icon {
-      display: none;
-    }
-
-    .content {
-      margin: auto;
-    }
 
     span {
       font-weight: bold;
@@ -51,13 +41,5 @@
   .projects-panel__save-status {
     margin: auto;
     inline-size: fit-content;
-  }
-}
-
-.--dark {
-  .projects-panel__save-button {
-    .content {
-      color: white;
-    }
   }
 }
