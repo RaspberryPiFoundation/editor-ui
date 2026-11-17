@@ -169,6 +169,42 @@ describe("When sidebar is open", () => {
   });
 });
 
+describe("When AI hint toggle focus is requested", () => {
+  const buildState = (aiHintToggleFocusRequested) => ({
+    editor: {
+      project: {
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      openFiles: [],
+      focussedFileIndices: [],
+      sidebarShowing: true,
+      aiHintToggleFocusRequested,
+    },
+    auth: {},
+    instructions: {},
+  });
+
+  test("switches to the sidebar tab", () => {
+    const { rerender } = render(
+      <Provider store={mockStore(buildState(false))}>
+        <MobileProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+    const menuTab = screen.getByText("mobile.menu").closest("li");
+    expect(menuTab).toHaveAttribute("aria-selected", "false");
+
+    rerender(
+      <Provider store={mockStore(buildState(true))}>
+        <MobileProject withSidebar={true} sidebarOptions={["settings"]} />
+      </Provider>,
+    );
+    expect(menuTab).toHaveAttribute("aria-selected", "true");
+  });
+});
+
 describe("When withSidebar is false", () => {
   beforeEach(() => {
     const initialState = {

@@ -50,3 +50,9 @@ export const signUpEvent = webComponentCustomEvent("editor-signUp");
 
 export const themeUpdatedEvent = (detail) =>
   webComponentCustomEvent("editor-themeUpdated", detail);
+
+export const aiHintTurnOffLinkClickedEvent = (detail) =>
+  webComponentCustomEvent("editor-aiHintTurnOffLinkClicked", detail);
+
+export const aiHintToggledEvent = (detail) =>
+  webComponentCustomEvent("editor-aiHintToggled", detail);

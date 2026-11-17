@@ -41,6 +41,10 @@
 @use "./FriendlyErrorMessage" as *;
 @use "./AiErrorMessage" as *;
 
+.rpf-switch {
+  --rpf-input-outline-color: var(--editor-focus-color);
+}
+
 .--light {
   // Theme colours
   --editor-color-layer-1: var(--rpf-grey-50);
@@ -127,6 +131,13 @@
   --rpf-input-outline-color: var(--editor-color-theme);
   --rpf-label-hint-color: var(--editor-color-text-secondary);
   --rpf-label-text-color: var(--editor-color-text);
+
+  // Switch (.rpf-switch)
+  --rpf-switch-on-color: var(--editor-color-theme);
+  --rpf-switch-handle-on-color: var(--rpf-grey-600);
+  --rpf-switch-off-color: var(--rpf-grey-150);
+  --rpf-switch-icon-off-color: var(--rpf-text-primary);
+  --rpf-switch-track-color: var(--rpf-grey-500);
 
   // Link (.rpf-link)
 

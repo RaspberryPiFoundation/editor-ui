@@ -26,6 +26,8 @@ import reducer, {
   setFriendlyErrorsEnabled,
   setFriendlyError,
   setAiErrorsEnabled,
+  openAiHintSettings,
+  clearAiHintToggleFocusRequest,
 } from "./EditorSlice";
 
 const mockCreateRemix = vi.fn();
@@ -1233,6 +1235,28 @@ test("Action setAiErrorsEnabled sets aiErrorsEnabled to false", () => {
   const previousState = { aiErrorsEnabled: true };
   const expectedState = { aiErrorsEnabled: false };
   expect(reducer(previousState, setAiErrorsEnabled(false))).toEqual(
+    expectedState,
+  );
+});
+
+test("Action openAiHintSettings opens the settings panel and requests toggle focus", () => {
+  const previousState = {
+    sidebarShowing: false,
+    selectedSidebarOption: "file",
+    aiHintToggleFocusRequested: false,
+  };
+  const expectedState = {
+    sidebarShowing: true,
+    selectedSidebarOption: "settings",
+    aiHintToggleFocusRequested: true,
+  };
+  expect(reducer(previousState, openAiHintSettings())).toEqual(expectedState);
+});
+
+test("Action clearAiHintToggleFocusRequest clears the focus request", () => {
+  const previousState = { aiHintToggleFocusRequested: true };
+  const expectedState = { aiHintToggleFocusRequested: false };
+  expect(reducer(previousState, clearAiHintToggleFocusRequest())).toEqual(
     expectedState,
   );
 });
