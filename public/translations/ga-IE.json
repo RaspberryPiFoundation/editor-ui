@@ -224,7 +224,8 @@
       "retryButtonText": "Try again",
       "aiGeneratedHint": "AI generated hint",
       "errorText": "We were not able to generate a hint, try again later.",
-      "notice": "AI hints can be wrong. Learn more and share feedback"
+      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
+      "turnOff": "Turn off AI hints"
     },
     "limitReached": "Teorainn aschuir sroichte. Tá aschur breise folaithe, ach tá do chlár fós ag rith.",
     "newTab": "Réamhamharc i dtáb nua",
@@ -362,6 +363,8 @@
     "charity": "Raspberry Pi Foundation – Carthanas Cláraithe sa RA 1129409",
     "settingsMenu": {
       "heading": "Socruithe",
+      "aiHint": "AI generated hints",
+      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Méid téacs",
       "theme": "Téama",
       "textSizeOptions": {
@@ -388,6 +391,7 @@
     "no": "Níl"
   },
   "common": {
+    "opensInNewTab": "(opens in a new tab)",
     "or": "nó"
   }
 }
