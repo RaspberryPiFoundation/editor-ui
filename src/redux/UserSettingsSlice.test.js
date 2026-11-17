@@ -74,6 +74,43 @@ describe("loadUserSettings", () => {
     expect(store.getState().theme).toBe("dark");
   });
 
+  test("ignores a result that is not from the latest load", async () => {
+    let resolveFirstLoad;
+    getUserSettings
+      .mockImplementationOnce(
+        () => new Promise((resolve) => (resolveFirstLoad = resolve)),
+      )
+      .mockResolvedValueOnce({
+        data: { settings: { ...apiDefaults, theme: "light" } },
+      });
+    const store = createStore();
+
+    const firstLoad = store.dispatch(loadUserSettings(args));
+    await store.dispatch(loadUserSettings(args));
+    resolveFirstLoad({ data: { settings: { ...apiDefaults, theme: "dark" } } });
+    await firstLoad;
+
+    expect(store.getState().theme).toBe("light");
+  });
+
+  test("keeps settings changed while loading", async () => {
+    let resolveLoad;
+    getUserSettings.mockImplementationOnce(
+      () => new Promise((resolve) => (resolveLoad = resolve)),
+    );
+    const store = createStore();
+
+    const load = store.dispatch(loadUserSettings(args));
+    await store.dispatch(saveUserSettings({ settings: { fontSize: "large" } }));
+    resolveLoad({
+      data: { settings: { ...apiDefaults, theme: "dark", font_size: "small" } },
+    });
+    await load;
+
+    expect(store.getState().fontSize).toBe("large");
+    expect(store.getState().theme).toBe("dark");
+  });
+
   test("keeps the current state if the API fails", async () => {
     getUserSettings.mockRejectedValue(new Error("Network error"));
     const store = createStore();
@@ -116,14 +153,47 @@ describe("saveUserSettings", () => {
     expect(updateUserSettings).not.toHaveBeenCalled();
   });
 
-  test("keeps the new value if the API fails", async () => {
+  test("rolls back to the previous value if the API fails", async () => {
     updateUserSettings.mockRejectedValue(new Error("Network error"));
     const store = createStore();
 
     await store.dispatch(
-      saveUserSettings({ settings: { theme: "dark" }, accessToken: "token" }),
+      saveUserSettings({
+        settings: { theme: "dark" },
+        previousSettings: { theme: null },
+        accessToken: "token",
+      }),
     );
 
-    expect(store.getState().theme).toBe("dark");
+    expect(store.getState().theme).toBeNull();
+  });
+
+  test("does not roll back if the setting has changed again since", async () => {
+    let rejectFirstSave;
+    updateUserSettings
+      .mockImplementationOnce(
+        () => new Promise((_, reject) => (rejectFirstSave = reject)),
+      )
+      .mockResolvedValueOnce({ data: {} });
+    const store = createStore();
+
+    const firstSave = store.dispatch(
+      saveUserSettings({
+        settings: { fontSize: "large" },
+        previousSettings: { fontSize: "small" },
+        accessToken: "token",
+      }),
+    );
+    await store.dispatch(
+      saveUserSettings({
+        settings: { fontSize: "medium" },
+        previousSettings: { fontSize: "large" },
+        accessToken: "token",
+      }),
+    );
+    rejectFirstSave(new Error("Network error"));
+    await firstSave;
+
+    expect(store.getState().fontSize).toBe("medium");
   });
 });

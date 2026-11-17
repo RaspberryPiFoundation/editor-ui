@@ -11,6 +11,10 @@ export const userSettingsInitialState = {
   theme: null, // follow the OS setting
   fontSize: "small",
   aiFriendlyErrors: true,
+  // Tracks the latest API load, so older responses are ignored and settings
+  // changed while it is loading are not overwritten.
+  loadRequestId: null,
+  editedDuringLoad: [],
 };
 
 export const toApiSettings = (settings) =>
@@ -36,6 +40,8 @@ export const loadUserSettings = createAsyncThunk(
   },
 );
 
+// `previousSettings` holds the values before this change, so they can be
+// restored if the save fails.
 export const saveUserSettings = createAsyncThunk(
   "userSettings/save",
   async ({ settings, reactAppApiEndpoint, accessToken }) => {
@@ -53,14 +59,39 @@ const UserSettingsSlice = createSlice({
     setUserSettings: (state, action) => ({ ...state, ...action.payload }),
   },
   extraReducers: (builder) => {
-    builder.addCase(loadUserSettings.fulfilled, (state, action) => ({
-      ...state,
-      ...action.payload,
-    }));
-    builder.addCase(saveUserSettings.pending, (state, action) => ({
-      ...state,
-      ...action.meta.arg.settings,
-    }));
+    builder.addCase(loadUserSettings.pending, (state, action) => {
+      state.loadRequestId = action.meta.requestId;
+      state.editedDuringLoad = [];
+    });
+    builder.addCase(loadUserSettings.fulfilled, (state, action) => {
+      if (action.meta.requestId !== state.loadRequestId) return;
+
+      Object.entries(action.payload).forEach(([key, value]) => {
+        if (!state.editedDuringLoad.includes(key)) state[key] = value;
+      });
+      state.loadRequestId = null;
+      state.editedDuringLoad = [];
+    });
+    builder.addCase(loadUserSettings.rejected, (state, action) => {
+      if (action.meta.requestId !== state.loadRequestId) return;
+
+      state.loadRequestId = null;
+      state.editedDuringLoad = [];
+    });
+    builder.addCase(saveUserSettings.pending, (state, action) => {
+      const { settings } = action.meta.arg;
+      Object.assign(state, settings);
+      if (state.loadRequestId) {
+        state.editedDuringLoad.push(...Object.keys(settings));
+      }
+    });
+    builder.addCase(saveUserSettings.rejected, (state, action) => {
+      const { settings, previousSettings = {} } = action.meta.arg;
+      // Only roll back values the user hasn't changed again since.
+      Object.entries(previousSettings).forEach(([key, value]) => {
+        if (state[key] === settings[key]) state[key] = value;
+      });
+    });
   },
 });
 

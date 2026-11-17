@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { useCookies } from "react-cookie";
 import {
   loadUserSettings,
@@ -47,6 +47,7 @@ export const useLoadUserSettings = ({
   hostTheme,
 }) => {
   const dispatch = useDispatch();
+  const store = useStore();
   const [cookies, setCookie, removeCookie] = useCookies(COOKIE_NAMES);
   const includeTheme = !hostTheme;
   const userId = user?.profile?.user;
@@ -72,29 +73,61 @@ export const useLoadUserSettings = ({
     const { accessToken } = latest.current;
     if (!userId || !accessToken) return;
 
-    dispatch(loadUserSettings({ reactAppApiEndpoint, accessToken }))
+    const request = dispatch(
+      loadUserSettings({ reactAppApiEndpoint, accessToken }),
+    );
+    request
       .unwrap()
-      .then((settings) =>
-        writeSettingsCookies(settings, latest.current, { includeTheme }),
+      // Write what ended up in state, which keeps any changes made while loading
+      .then(() =>
+        writeSettingsCookies(store.getState().userSettings, latest.current, {
+          includeTheme,
+        }),
       )
       .catch(() => {
-        // API unavailable so keep using the cookie settings
+        // API unavailable or load cancelled, so keep the current settings
       });
-  }, [dispatch, userId, reactAppApiEndpoint, includeTheme]);
+
+    // Cancel the load if the user changes (e.g. switches account) or unmounts
+    return () => request.abort();
+  }, [dispatch, store, userId, reactAppApiEndpoint, includeTheme]);
 };
 
 export const useUpdateUserSettings = () => {
   const dispatch = useDispatch();
+  const store = useStore();
   const reactAppApiEndpoint = useSelector(
     (state) => state.editor.reactAppApiEndpoint,
   );
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const [, setCookie, removeCookie] = useCookies(COOKIE_NAMES);
 
-  return (settings) => {
-    writeSettingsCookies(settings, { setCookie, removeCookie });
-    return dispatch(
-      saveUserSettings({ settings, reactAppApiEndpoint, accessToken }),
+  return async (settings) => {
+    const currentSettings = store.getState().userSettings;
+    const previousSettings = Object.fromEntries(
+      Object.keys(settings).map((key) => [key, currentSettings[key]]),
     );
+
+    writeSettingsCookies(settings, { setCookie, removeCookie });
+    const result = await dispatch(
+      saveUserSettings({
+        settings,
+        previousSettings,
+        reactAppApiEndpoint,
+        accessToken,
+      }),
+    );
+
+    // The save failed and state was rolled back, so update the cookies to match
+    if (saveUserSettings.rejected.match(result)) {
+      const restored = store.getState().userSettings;
+      writeSettingsCookies(
+        Object.fromEntries(
+          Object.keys(settings).map((key) => [key, restored[key]]),
+        ),
+        { setCookie, removeCookie },
+      );
+    }
+    return result;
   };
 };

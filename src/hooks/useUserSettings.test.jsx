@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { Cookies, CookiesProvider } from "react-cookie";
 import rootReducer from "../redux/RootSlice";
+import { setUser } from "../redux/WebComponentAuthSlice";
 import ApiCallHandler from "../utils/apiCallHandler";
 import {
   settingsFromCookies,
@@ -121,6 +122,61 @@ describe("useLoadUserSettings", () => {
   });
 });
 
+describe("cancelling the load", () => {
+  test("does not apply or cache settings after unmounting", async () => {
+    let resolveLoad;
+    getUserSettings.mockImplementation(
+      () => new Promise((resolve) => (resolveLoad = resolve)),
+    );
+
+    const { unmount } = renderHook(
+      () => useLoadUserSettings({ reactAppApiEndpoint: "http://api", user }),
+      { wrapper },
+    );
+    unmount();
+    await act(async () =>
+      resolveLoad({
+        data: { settings: { ...apiDefaults, font_size: "large" } },
+      }),
+    );
+
+    expect(store.getState().userSettings.fontSize).toBe("small");
+    expect(cookies.get("fontSize")).toBeUndefined();
+  });
+
+  test("does not apply the old user's settings when the user changes", async () => {
+    let resolveFirstLoad;
+    getUserSettings
+      .mockImplementationOnce(
+        () => new Promise((resolve) => (resolveFirstLoad = resolve)),
+      )
+      .mockResolvedValueOnce({
+        data: { settings: { ...apiDefaults, font_size: "medium" } },
+      });
+    const otherUser = { access_token: "token-b", profile: { user: "user-b" } };
+
+    const { rerender } = renderHook(
+      ({ currentUser }) =>
+        useLoadUserSettings({
+          reactAppApiEndpoint: "http://api",
+          user: currentUser,
+        }),
+      { wrapper, initialProps: { currentUser: user } },
+    );
+    rerender({ currentUser: otherUser });
+    await act(async () =>
+      resolveFirstLoad({
+        data: { settings: { ...apiDefaults, font_size: "large" } },
+      }),
+    );
+
+    await waitFor(() =>
+      expect(store.getState().userSettings.fontSize).toBe("medium"),
+    );
+    expect(cookies.get("fontSize")).toBe("medium");
+  });
+});
+
 describe("useUpdateUserSettings", () => {
   test("updates state and cookies", async () => {
     const { result } = renderHook(() => useUpdateUserSettings(), { wrapper });
@@ -139,5 +195,16 @@ describe("useUpdateUserSettings", () => {
     await act(() => result.current({ theme: null }));
 
     expect(cookies.get("theme")).toBeUndefined();
+  });
+
+  test("rolls back state and cookies if the save fails", async () => {
+    updateUserSettings.mockRejectedValue(new Error("Network error"));
+    store.dispatch(setUser({ access_token: "token" }));
+    const { result } = renderHook(() => useUpdateUserSettings(), { wrapper });
+
+    await act(() => result.current({ fontSize: "large" }));
+
+    expect(store.getState().userSettings.fontSize).toBe("small");
+    expect(cookies.get("fontSize")).toBe("small");
   });
 });
