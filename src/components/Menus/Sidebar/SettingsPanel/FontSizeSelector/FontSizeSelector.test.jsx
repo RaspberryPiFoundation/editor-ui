@@ -1,50 +1,45 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import FontSizeSelector from "./FontSizeSelector";
+import { act, render, fireEvent, screen } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { Cookies, CookiesProvider } from "react-cookie";
+import FontSizeSelector from "./FontSizeSelector";
+import rootReducer from "../../../../../redux/RootSlice";
 
-describe("When font size cookie unset", () => {
+describe("When no font size is set", () => {
+  let store;
   let cookies;
-  let fontSelector;
 
   beforeEach(() => {
+    store = configureStore({ reducer: rootReducer });
     cookies = new Cookies();
-    fontSelector = render(
+    render(
       <CookiesProvider cookies={cookies}>
-        <FontSizeSelector />
+        <Provider store={store}>
+          <FontSizeSelector />
+        </Provider>
       </CookiesProvider>,
     );
   });
 
-  test("Cookie remains unset after render", () => {
-    expect(cookies.cookies.fontSize).toBeUndefined();
-  });
-
-  test("Sets cookie to large when first button clicked", async () => {
-    const largeButton = fontSelector.getByText(
-      "sidebar.settingsMenu.textSizeOptions.large",
-    );
-    fireEvent.click(largeButton);
-    expect(cookies.cookies.fontSize).toBe("large");
-  });
-
-  test("Sets cookie to medium when second button clicked", async () => {
-    const mediumButton = fontSelector.getByText(
-      "sidebar.settingsMenu.textSizeOptions.medium",
-    );
-    fireEvent.click(mediumButton);
-    expect(cookies.cookies.fontSize).toBe("medium");
-  });
-
-  test("Sets cookie to small when third button clicked", async () => {
-    const smallButton = fontSelector.getByText(
-      "sidebar.settingsMenu.textSizeOptions.small",
-    );
-    fireEvent.click(smallButton);
-    expect(cookies.cookies.fontSize).toBe("small");
-  });
-
   afterEach(() => {
-    cookies.remove("theme");
+    act(() => {
+      cookies.remove("fontSize", { path: "/" });
+    });
   });
+
+  test("Does not set a cookie on render", () => {
+    expect(cookies.get("fontSize")).toBeUndefined();
+  });
+
+  test.each(["large", "medium"])(
+    "Sets font size to %s when button clicked",
+    (size) => {
+      fireEvent.click(
+        screen.getByText(`sidebar.settingsMenu.textSizeOptions.${size}`),
+      );
+      expect(store.getState().userSettings.fontSize).toBe(size);
+      expect(cookies.get("fontSize")).toBe(size);
+    },
+  );
 });

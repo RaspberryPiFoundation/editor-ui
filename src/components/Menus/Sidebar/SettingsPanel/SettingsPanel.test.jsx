@@ -5,6 +5,7 @@ import configureStore from "redux-mock-store";
 import { MemoryRouter } from "react-router-dom";
 
 import SettingsPanel from "./SettingsPanel";
+import { userSettingsInitialState } from "../../../../redux/UserSettingsSlice";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (str) => str, i18n: { language: "en" } }),
@@ -21,6 +22,8 @@ describe("Settings panel", () => {
           project: {},
           isThemeable: true,
         },
+        userSettings: userSettingsInitialState,
+        auth: {},
       };
       const store = mockStore(initialState);
 
@@ -55,6 +58,8 @@ describe("Settings panel", () => {
           project: {},
           isThemeable: false,
         },
+        userSettings: userSettingsInitialState,
+        auth: {},
       };
       const store = mockStore(initialState);
 
@@ -80,6 +85,7 @@ describe("AI hint toggle", () => {
     const store = configureStore([])({
       editor: { project: {}, ...editor },
       auth: { user },
+      userSettings: userSettingsInitialState,
     });
     render(
       <Provider store={store}>

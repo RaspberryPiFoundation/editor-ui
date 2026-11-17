@@ -2,28 +2,42 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Cookies, CookiesProvider } from "react-cookie";
 import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
+import { configureStore } from "@reduxjs/toolkit";
 import AiHintToggle from "./AiHintToggle";
+import rootReducer from "../../../../../redux/RootSlice";
+import { editorInitialState } from "../../../../../redux/EditorSlice";
+import { userSettingsInitialState } from "../../../../../redux/UserSettingsSlice";
+import ApiCallHandler from "../../../../../utils/apiCallHandler";
 
-const mockStore = configureStore([]);
+vi.mock("../../../../../utils/apiCallHandler");
 
-const renderToggle = (cookieValue, { focusRequested = false } = {}) => {
-  const cookies = new Cookies();
-  if (cookieValue) cookies.set("aiHint", cookieValue);
-  const store = mockStore({
-    editor: {
-      aiHintToggleFocusRequested: focusRequested,
-      project: { identifier: "coach-gong-glide" },
+const updateUserSettings = vi.fn().mockResolvedValue({ data: {} });
+
+const renderToggle = ({
+  aiFriendlyErrors = true,
+  focusRequested = false,
+} = {}) => {
+  const store = configureStore({
+    reducer: rootReducer,
+    preloadedState: {
+      editor: {
+        ...editorInitialState,
+        aiHintToggleFocusRequested: focusRequested,
+        project: { identifier: "coach-gong-glide" },
+      },
+      instructions: {},
+      auth: { user: { access_token: "token" } },
+      userSettings: { ...userSettingsInitialState, aiFriendlyErrors },
     },
   });
   render(
     <Provider store={store}>
-      <CookiesProvider cookies={cookies}>
+      <CookiesProvider cookies={new Cookies()}>
         <AiHintToggle />
       </CookiesProvider>
     </Provider>,
   );
-  return { cookies, store, toggle: screen.getByRole("switch") };
+  return { store, toggle: screen.getByRole("switch") };
 };
 
 const aiHintToggledHandler = vi.fn();
@@ -31,13 +45,13 @@ const onAiHintToggled = (e) => aiHintToggledHandler(e.detail);
 
 describe("AiHintToggle", () => {
   beforeEach(() => {
-    aiHintToggledHandler.mockClear();
+    vi.clearAllMocks();
+    ApiCallHandler.mockImplementation(() => ({ updateUserSettings }));
     document.addEventListener("editor-aiHintToggled", onAiHintToggled);
   });
 
   afterEach(() => {
     document.removeEventListener("editor-aiHintToggled", onAiHintToggled);
-    new Cookies().remove("aiHint", { path: "/" });
   });
 
   test("is on by default", () => {
@@ -45,22 +59,30 @@ describe("AiHintToggle", () => {
     expect(toggle).toBeChecked();
   });
 
-  test("is off when the cookie is set to off", () => {
-    const { toggle } = renderToggle("off");
+  test("is off when the setting is off", () => {
+    const { toggle } = renderToggle({ aiFriendlyErrors: false });
     expect(toggle).not.toBeChecked();
   });
 
-  test("sets the cookie to off when turned off", () => {
-    const { cookies, toggle } = renderToggle();
+  test("saves the setting when turned off", () => {
+    const { store, toggle } = renderToggle();
     fireEvent.click(toggle);
-    expect(cookies.get("aiHint")).toBe("off");
+    expect(store.getState().userSettings.aiFriendlyErrors).toBe(false);
+    expect(updateUserSettings).toHaveBeenCalledWith(
+      { ai_friendly_errors: false },
+      "token",
+    );
     expect(toggle).not.toBeChecked();
   });
 
-  test("sets the cookie to on when turned back on", () => {
-    const { cookies, toggle } = renderToggle("off");
+  test("saves the setting when turned back on", () => {
+    const { store, toggle } = renderToggle({ aiFriendlyErrors: false });
     fireEvent.click(toggle);
-    expect(cookies.get("aiHint")).toBe("on");
+    expect(store.getState().userSettings.aiFriendlyErrors).toBe(true);
+    expect(updateUserSettings).toHaveBeenCalledWith(
+      { ai_friendly_errors: true },
+      "token",
+    );
     expect(toggle).toBeChecked();
   });
 
@@ -74,7 +96,7 @@ describe("AiHintToggle", () => {
   });
 
   test("dispatches the toggled event when turned on", () => {
-    const { toggle } = renderToggle("off");
+    const { toggle } = renderToggle({ aiFriendlyErrors: false });
     fireEvent.click(toggle);
     expect(aiHintToggledHandler).toHaveBeenCalledWith({
       projectIdentifier: "coach-gong-glide",
@@ -88,13 +110,8 @@ describe("AiHintToggle", () => {
   });
 
   test("focuses itself and clears the request when focus is requested", () => {
-    const { toggle, store } = renderToggle(undefined, {
-      focusRequested: true,
-    });
+    const { toggle, store } = renderToggle({ focusRequested: true });
     expect(toggle).toHaveFocus();
-    expect(store.getActions()).toContainEqual({
-      type: "editor/clearAiHintToggleFocusRequest",
-      payload: undefined,
-    });
+    expect(store.getState().editor.aiHintToggleFocusRequested).toBe(false);
   });
 });

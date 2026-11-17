@@ -6,10 +6,8 @@ import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
 import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
-import { useCookies } from "react-cookie";
 import useIsOnline from "../../../hooks/useIsOnline";
 import useAiHintAvailable from "../../../hooks/useAiHintAvailable";
-import { AI_HINT_COOKIE, aiHintTurnedOn } from "../../../utils/aiHintCookie";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
@@ -17,13 +15,12 @@ const ErrorMessage = () => {
   const settings = useContext(SettingsContext);
   const isOnline = useIsOnline();
   const aiHintAvailable = useAiHintAvailable();
-  const [cookies] = useCookies([AI_HINT_COOKIE]);
+  const aiFriendlyErrors = useSelector(
+    (state) => state.userSettings?.aiFriendlyErrors,
+  );
 
   const showAiHint =
-    aiHintAvailable &&
-    aiHintTurnedOn(cookies) &&
-    isOnline &&
-    friendlyError?.html;
+    aiHintAvailable && aiFriendlyErrors && isOnline && friendlyError?.html;
 
   return error ? (
     <div className="error-message">

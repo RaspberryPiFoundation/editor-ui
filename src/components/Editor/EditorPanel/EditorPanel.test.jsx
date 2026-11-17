@@ -1,7 +1,6 @@
 import configureStore from "redux-mock-store";
 import { configureStore as configureRealStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import { Cookies, CookiesProvider } from "react-cookie";
 import { SettingsContext } from "../../../utils/settings";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
@@ -194,7 +193,7 @@ describe("When there is a Python error", () => {
   const mainContent = "print('one')\nx = 1 / 0\nprint('three')";
   let store;
   let container;
-  let cookies;
+  let setTheme;
 
   const renderWithErrorDetails = ({
     fileName = "main",
@@ -217,14 +216,16 @@ describe("When there is a Python error", () => {
         },
       },
     });
-    cookies = new Cookies();
-    ({ container } = render(
-      <CookiesProvider cookies={cookies}>
-        <Provider store={store}>
+    const tree = (theme) => (
+      <Provider store={store}>
+        <SettingsContext.Provider value={{ theme, fontSize: "small" }}>
           <EditorPanel fileName={fileName} extension={extension} />
-        </Provider>
-      </CookiesProvider>,
-    ));
+        </SettingsContext.Provider>
+      </Provider>
+    );
+    let rerender;
+    ({ container, rerender } = render(tree("light")));
+    setTheme = (theme) => rerender(tree(theme));
   };
 
   const setErrorLine = (line, file = "main.py") =>
@@ -235,10 +236,6 @@ describe("When there is a Python error", () => {
   const highlightedLine = () => container.querySelector(".cm-error-line");
   const highlightedLineNumber = () =>
     container.querySelector(".cm-lineNumbers .cm-error-line-gutter");
-
-  afterEach(() => {
-    cookies.remove("theme");
-  });
 
   test("Highlights the line from a Pyodide error, which gives the line as a string", () => {
     renderWithErrorDetails();
@@ -312,7 +309,7 @@ describe("When there is a Python error", () => {
       clipboardData: { getData: () => "z" },
     });
     act(() => {
-      cookies.set("theme", "dark");
+      setTheme("dark");
     });
 
     expect(store.getState().editor.errorLineDismissed).toBe(true);
@@ -371,7 +368,7 @@ describe("When there is a Python error", () => {
     setErrorLine(2);
 
     act(() => {
-      cookies.set("theme", "dark");
+      setTheme("dark");
     });
 
     expect(highlightedLine()).toHaveTextContent("x = 1 / 0");
