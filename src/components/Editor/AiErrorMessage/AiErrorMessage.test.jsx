@@ -254,17 +254,29 @@ describe("AiErrorMessage", () => {
       });
     });
 
-    test("Dispatches the turn off link clicked event", () => {
+    test("Dispatches the turn off link clicked event with the error", () => {
       const handler = vi.fn();
-      document.addEventListener("editor-aiHintTurnOffLinkClicked", handler);
-      renderAiErrorMessage();
+      const onTurnOffLinkClicked = (e) => handler(e.detail);
+      document.addEventListener(
+        "editor-aiHintTurnOffLinkClicked",
+        onTurnOffLinkClicked,
+      );
+      const state = buildState();
+      state.editor.project.identifier = "coach-gong-glide";
+      renderAiErrorMessage(state);
       fireEvent.click(
         screen.getByRole("button", {
           name: "output.aiErrorMessages.turnOff",
         }),
       );
-      document.removeEventListener("editor-aiHintTurnOffLinkClicked", handler);
-      expect(handler).toHaveBeenCalledTimes(1);
+      document.removeEventListener(
+        "editor-aiHintTurnOffLinkClicked",
+        onTurnOffLinkClicked,
+      );
+      expect(handler).toHaveBeenCalledWith({
+        projectIdentifier: "coach-gong-glide",
+        errorDetails,
+      });
     });
   });
 });

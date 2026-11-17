@@ -18,6 +18,9 @@ const AiHintToggle = () => {
   const focusRequested = useSelector(
     (state) => state.editor.aiHintToggleFocusRequested,
   );
+  const projectIdentifier = useSelector(
+    (state) => state.editor.project?.identifier,
+  );
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const AiHintToggle = () => {
   const handleChange = (e) => {
     const enabled = e.target.checked;
     setCookie(AI_HINT_COOKIE, enabled ? "on" : "off", { path: "/" });
-    document.dispatchEvent(aiHintToggledEvent({ enabled }));
+    document.dispatchEvent(aiHintToggledEvent({ projectIdentifier, enabled }));
   };
 
   return (

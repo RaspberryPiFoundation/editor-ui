@@ -11,7 +11,10 @@ const renderToggle = (cookieValue, { focusRequested = false } = {}) => {
   const cookies = new Cookies();
   if (cookieValue) cookies.set("aiHint", cookieValue);
   const store = mockStore({
-    editor: { aiHintToggleFocusRequested: focusRequested },
+    editor: {
+      aiHintToggleFocusRequested: focusRequested,
+      project: { identifier: "coach-gong-glide" },
+    },
   });
   render(
     <Provider store={store}>
@@ -64,13 +67,19 @@ describe("AiHintToggle", () => {
   test("dispatches the toggled event when turned off", () => {
     const { toggle } = renderToggle();
     fireEvent.click(toggle);
-    expect(aiHintToggledHandler).toHaveBeenCalledWith({ enabled: false });
+    expect(aiHintToggledHandler).toHaveBeenCalledWith({
+      projectIdentifier: "coach-gong-glide",
+      enabled: false,
+    });
   });
 
   test("dispatches the toggled event when turned on", () => {
     const { toggle } = renderToggle("off");
     fireEvent.click(toggle);
-    expect(aiHintToggledHandler).toHaveBeenCalledWith({ enabled: true });
+    expect(aiHintToggledHandler).toHaveBeenCalledWith({
+      projectIdentifier: "coach-gong-glide",
+      enabled: true,
+    });
   });
 
   test("is not focused when focus has not been requested", () => {

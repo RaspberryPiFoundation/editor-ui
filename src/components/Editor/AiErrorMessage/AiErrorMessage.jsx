@@ -14,6 +14,9 @@ export const MIN_LOADING_MS = 500;
 
 const AiErrorMessage = () => {
   const errorDetails = useSelector((state) => state.editor.errorDetails);
+  const projectIdentifier = useSelector(
+    (state) => state.editor.project?.identifier,
+  );
   const projectCode = useSelector((state) => state.editor.project?.components);
   const accessToken = useSelector((state) => state.auth?.user?.access_token);
   const reactAppApiEndpoint = useSelector(
@@ -67,7 +70,9 @@ const AiErrorMessage = () => {
 
   const handleTurnOffClick = () => {
     dispatch(openAiHintSettings());
-    document.dispatchEvent(aiHintTurnOffLinkClickedEvent());
+    document.dispatchEvent(
+      aiHintTurnOffLinkClickedEvent({ projectIdentifier, errorDetails }),
+    );
   };
 
   return (
