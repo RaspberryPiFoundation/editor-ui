@@ -221,7 +221,8 @@
       "retryButtonText": "Intentar de nuevo",
       "aiGeneratedHint": "Pista generada por IA",
       "errorText": "No pudimos generar una pista, vuelve a intentarlo más tarde.",
-      "notice": "Las pistas de IA pueden ser incorrectas. Aprende más y comparte comentarios"
+      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
+      "turnOff": "Turn off AI hints"
     },
     "limitReached": "Se alcanzó el límite de salida. La salida adicional está oculta, pero tu programa sigue ejecutándose.",
     "newTab": "Vista previa en nueva pestaña",
@@ -359,6 +360,8 @@
     "charity": "Fundación Raspberry Pi, organización benéfica registrada en el Reino Unido 1129409",
     "settingsMenu": {
       "heading": "Configuración",
+      "aiHint": "AI generated hints",
+      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Tamaño del texto",
       "theme": "Tema",
       "textSizeOptions": {
@@ -385,6 +388,7 @@
     "no": "No"
   },
   "common": {
+    "opensInNewTab": "(opens in a new tab)",
     "or": "o"
   }
 }
