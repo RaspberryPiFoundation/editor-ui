@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@raspberrypifoundation/design-system-react";
 import "../../../assets/stylesheets/AiErrorMessage.scss?inline";
@@ -31,10 +31,19 @@ const AiErrorMessage = () => {
   const [failed, setFailed] = useState(false);
   const [hint, setHint] = useState("");
 
+  // The error currently on screen, so a pending request can tell whether
+  // the user has moved on before it settles.
+  const currentErrorRef = useRef(errorDetails);
+
   useEffect(() => {
+    currentErrorRef.current = errorDetails;
     setHint("");
     setFailed(false);
     setLoading(false);
+
+    return () => {
+      currentErrorRef.current = null;
+    };
   }, [errorDetails]);
 
   const handleButtonClick = async () => {
@@ -44,6 +53,8 @@ const AiErrorMessage = () => {
 
     setLoading(true);
     setFailed(false);
+
+    const isStale = () => currentErrorRef.current !== errorDetails;
     const minLoadingTime = new Promise((resolve) =>
       setTimeout(resolve, MIN_LOADING_MS),
     );
@@ -61,6 +72,7 @@ const AiErrorMessage = () => {
         ),
         minLoadingTime,
       ]);
+      if (isStale()) return;
       if (!data?.fem) throw new Error("Empty hint");
       setHint(data.fem);
       document.dispatchEvent(
@@ -72,6 +84,7 @@ const AiErrorMessage = () => {
       );
     } catch {
       await minLoadingTime;
+      if (isStale()) return;
       setFailed(true);
       document.dispatchEvent(
         aiHintRequestedEvent({
@@ -81,7 +94,7 @@ const AiErrorMessage = () => {
         }),
       );
     } finally {
-      setLoading(false);
+      if (!isStale()) setLoading(false);
     }
   };
 

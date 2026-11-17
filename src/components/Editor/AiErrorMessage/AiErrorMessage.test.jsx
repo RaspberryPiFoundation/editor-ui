@@ -276,6 +276,66 @@ describe("AiErrorMessage", () => {
         outcome,
       });
     });
+
+    describe("when the request settles after the user has moved on", () => {
+      let settleRequest;
+
+      beforeEach(() => {
+        getAiErrorHint.mockReturnValue(
+          new Promise((resolve, reject) => {
+            settleRequest = { resolve, reject };
+          }),
+        );
+      });
+
+      const settleWith = {
+        success: () => settleRequest.resolve({ data: { fem: "Stale hint" } }),
+        failure: () => settleRequest.reject(new Error("Bad gateway")),
+      };
+
+      test.each(Object.keys(settleWith))(
+        "Does not dispatch the event on %s after unmount",
+        async (result) => {
+          const { unmount } = renderAiErrorMessage();
+          clickButton();
+          unmount();
+
+          await act(async () => settleWith[result]());
+          await advanceTimers(MIN_LOADING_MS);
+
+          expect(handler).not.toHaveBeenCalled();
+        },
+      );
+
+      test.each(Object.keys(settleWith))(
+        "Does not dispatch the event or show a result on %s after the error changes",
+        async (result) => {
+          const { rerender } = renderAiErrorMessage();
+          clickButton();
+
+          const newStore = mockStore(
+            buildState({ details: { ...errorDetails, line: 2 } }),
+          );
+          rerender(
+            <Provider store={newStore}>
+              <AiErrorMessage />
+            </Provider>,
+          );
+
+          await act(async () => settleWith[result]());
+          await advanceTimers(MIN_LOADING_MS);
+
+          expect(handler).not.toHaveBeenCalled();
+          expect(screen.queryByText("Stale hint")).not.toBeInTheDocument();
+          expect(
+            screen.queryByText("output.aiErrorMessages.errorText"),
+          ).not.toBeInTheDocument();
+          expect(
+            screen.getByText("output.aiErrorMessages.buttonText"),
+          ).toBeInTheDocument();
+        },
+      );
+    });
   });
 
   describe("turn off link", () => {
