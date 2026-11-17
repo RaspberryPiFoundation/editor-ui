@@ -8,7 +8,10 @@ import SettingsIcon from "../../../assets/icons/settings.svg";
 import { openAiHintSettings } from "../../../redux/EditorSlice";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 import { aiHintLinkComponents } from "../../../utils/aiHintLinks";
-import { aiHintTurnOffLinkClickedEvent } from "../../../events/WebComponentCustomEvents";
+import {
+  aiHintRequestedEvent,
+  aiHintTurnOffLinkClickedEvent,
+} from "../../../events/WebComponentCustomEvents";
 
 export const MIN_LOADING_MS = 500;
 
@@ -60,9 +63,23 @@ const AiErrorMessage = () => {
       ]);
       if (!data?.fem) throw new Error("Empty hint");
       setHint(data.fem);
+      document.dispatchEvent(
+        aiHintRequestedEvent({
+          projectIdentifier,
+          errorDetails,
+          outcome: "shown",
+        }),
+      );
     } catch {
       await minLoadingTime;
       setFailed(true);
+      document.dispatchEvent(
+        aiHintRequestedEvent({
+          projectIdentifier,
+          errorDetails,
+          outcome: "failed",
+        }),
+      );
     } finally {
       setLoading(false);
     }

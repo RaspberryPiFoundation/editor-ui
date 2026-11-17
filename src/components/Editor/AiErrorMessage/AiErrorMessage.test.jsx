@@ -240,6 +240,44 @@ describe("AiErrorMessage", () => {
     ).toBeInTheDocument();
   });
 
+  describe("hint requested event", () => {
+    const handler = vi.fn();
+    const onHintRequested = (e) => handler(e.detail);
+
+    beforeEach(() => {
+      handler.mockClear();
+      document.addEventListener("editor-aiHintRequested", onHintRequested);
+    });
+
+    afterEach(() => {
+      document.removeEventListener("editor-aiHintRequested", onHintRequested);
+    });
+
+    test.each([
+      [
+        "shown",
+        () => getAiErrorHint.mockResolvedValue({ data: { fem: "A hint" } }),
+      ],
+      [
+        "failed",
+        () => getAiErrorHint.mockRejectedValue(new Error("Bad gateway")),
+      ],
+    ])("Dispatches the event with outcome %s", async (outcome, mockApi) => {
+      mockApi();
+      const state = buildState();
+      state.editor.project.identifier = "coach-gong-glide";
+      renderAiErrorMessage(state);
+      await clickButtonAndWait();
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler).toHaveBeenCalledWith({
+        projectIdentifier: "coach-gong-glide",
+        errorDetails,
+        outcome,
+      });
+    });
+  });
+
   describe("turn off link", () => {
     test("Opens the AI hint settings when turn off is clicked", () => {
       renderAiErrorMessage();
