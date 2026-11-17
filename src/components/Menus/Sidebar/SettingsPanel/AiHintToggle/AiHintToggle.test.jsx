@@ -23,8 +23,17 @@ const renderToggle = (cookieValue, { focusRequested = false } = {}) => {
   return { cookies, store, toggle: screen.getByRole("switch") };
 };
 
+const aiHintToggledHandler = vi.fn();
+const onAiHintToggled = (e) => aiHintToggledHandler(e.detail);
+
 describe("AiHintToggle", () => {
+  beforeEach(() => {
+    aiHintToggledHandler.mockClear();
+    document.addEventListener("editor-aiHintToggled", onAiHintToggled);
+  });
+
   afterEach(() => {
+    document.removeEventListener("editor-aiHintToggled", onAiHintToggled);
     new Cookies().remove("aiHint", { path: "/" });
   });
 
@@ -50,6 +59,18 @@ describe("AiHintToggle", () => {
     fireEvent.click(toggle);
     expect(cookies.get("aiHint")).toBe("on");
     expect(toggle).toBeChecked();
+  });
+
+  test("dispatches the toggled event when turned off", () => {
+    const { toggle } = renderToggle();
+    fireEvent.click(toggle);
+    expect(aiHintToggledHandler).toHaveBeenCalledWith({ enabled: false });
+  });
+
+  test("dispatches the toggled event when turned on", () => {
+    const { toggle } = renderToggle("off");
+    fireEvent.click(toggle);
+    expect(aiHintToggledHandler).toHaveBeenCalledWith({ enabled: true });
   });
 
   test("is not focused when focus has not been requested", () => {

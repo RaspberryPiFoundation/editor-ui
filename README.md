@@ -117,6 +117,8 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 
 The web component communicates with the host page via the following custom events:
 
+- `editor-aiHintToggled`: When the user turns AI hints on or off in the settings panel - event detail contains whether hints are now `enabled`
+- `editor-aiHintTurnOffLinkClicked`: When the user clicks the turn off link under an AI error hint, which opens the AI hint settings
 - `editor-codeChanged`: When the code in the editor is changed
 - `editor-navigateToProjectsPage`: When the user requests to navigate to the projects index page
 - `editor-projectIdentifierChanged`: When the project identifier changes - event detail is the new identifier

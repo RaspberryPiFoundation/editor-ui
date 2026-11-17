@@ -9,6 +9,7 @@ import {
   AI_HINT_COOKIE,
   aiHintTurnedOn,
 } from "../../../../../utils/aiHintCookie";
+import { aiHintToggledEvent } from "../../../../../events/WebComponentCustomEvents";
 
 const AiHintToggle = () => {
   const { t } = useTranslation();
@@ -26,7 +27,9 @@ const AiHintToggle = () => {
   }, [focusRequested, dispatch]);
 
   const handleChange = (e) => {
-    setCookie(AI_HINT_COOKIE, e.target.checked ? "on" : "off", { path: "/" });
+    const enabled = e.target.checked;
+    setCookie(AI_HINT_COOKIE, enabled ? "on" : "off", { path: "/" });
+    document.dispatchEvent(aiHintToggledEvent({ enabled }));
   };
 
   return (

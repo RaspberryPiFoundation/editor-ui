@@ -253,5 +253,18 @@ describe("AiErrorMessage", () => {
         payload: undefined,
       });
     });
+
+    test("Dispatches the turn off link clicked event", () => {
+      const handler = vi.fn();
+      document.addEventListener("editor-aiHintTurnOffLinkClicked", handler);
+      renderAiErrorMessage();
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: "output.aiErrorMessages.turnOff",
+        }),
+      );
+      document.removeEventListener("editor-aiHintTurnOffLinkClicked", handler);
+      expect(handler).toHaveBeenCalledTimes(1);
+    });
   });
 });

@@ -8,6 +8,7 @@ import SettingsIcon from "../../../assets/icons/settings.svg";
 import { openAiHintSettings } from "../../../redux/EditorSlice";
 import ApiCallHandler from "../../../utils/apiCallHandler";
 import { aiHintLinkComponents } from "../../../utils/aiHintLinks";
+import { aiHintTurnOffLinkClickedEvent } from "../../../events/WebComponentCustomEvents";
 
 export const MIN_LOADING_MS = 500;
 
@@ -64,6 +65,11 @@ const AiErrorMessage = () => {
     }
   };
 
+  const handleTurnOffClick = () => {
+    dispatch(openAiHintSettings());
+    document.dispatchEvent(aiHintTurnOffLinkClickedEvent());
+  };
+
   return (
     <div className="ai-error-message" aria-live="polite">
       {(hint || failed) && (
@@ -102,7 +108,7 @@ const AiErrorMessage = () => {
         <button
           type="button"
           className="ai-error-message__turn-off"
-          onClick={() => dispatch(openAiHintSettings())}
+          onClick={handleTurnOffClick}
         >
           <SettingsIcon aria-hidden="true" />
           {t("output.aiErrorMessages.turnOff")}
