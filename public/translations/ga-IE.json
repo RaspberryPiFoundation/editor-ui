@@ -197,12 +197,12 @@
     "close": "Dún",
     "accept": "OK",
     "projectSaveFailed": {
-      "heading": "Your project could not be saved",
+      "heading": "Níorbh fhéidir do thionscadal a shábháil",
       "scratchAssetTooLarge": {
-        "text": "The image or sound you added is too big, so we couldn't save your project. We've left it in the editor, but we won't be able to save your project until you remove it. Try replacing it with a smaller file."
+        "text": "Tá an íomhá nó an fhuaim a chuir tú leis rómhór, agus níorbh fhéidir linn do thionscadal a shábháil. D’fhágamar san editor é, ach ní bheidh muid in ann do thionscadal a shábháil go dtí go mbainfidh tú é. Bain triail as comhad níos lú a chur ina áit."
       },
       "scratchProjectTooLarge": {
-        "text": "Your project is too big, so we couldn't save it. We've left it in the editor, but we won't be able to save it until you remove some images or sounds. Try replacing them with smaller files, or start a new project."
+        "text": "Tá do thionscadal rómhór, agus níorbh fhéidir linn é a shábháil. D’fhágamar san editor é, ach ní bheidh muid in ann é a shábháil go dtí go mbainfidh tú cuid de na híomhánna nó de na comhaid fuaime de. Bain triail as comhaid níos lú a chur ina n-áit, nó cuir tús le tionscadal nua."
       }
     }
   },
@@ -219,11 +219,11 @@
       "interrupted": "Cur i bhfeidhm idirbhriste"
     },
     "aiErrorMessages": {
-      "loadingText": "Generating hint",
-      "buttonText": "Need help? Generate an AI hint",
-      "retryButtonText": "Try again",
-      "aiGeneratedHint": "AI generated hint",
-      "errorText": "We were not able to generate a hint, try again later.",
+      "loadingText": "Gin leid",
+      "buttonText": "An dteastaíonn cúnamh? Gin leid IS",
+      "retryButtonText": "Triail arís é",
+      "aiGeneratedHint": "Leid arna gineadh le IS",
+      "errorText": "Ní rabhamar in ann leid a ghiniúint. Bain triail eile as ar ball.",
       "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
       "turnOff": "Turn off AI hints"
     },
@@ -333,10 +333,10 @@
     "saved": "Sábháilte"
   },
   "regions": {
-    "inputPanel": "Input panel",
-    "outputPanel": "Output panel",
-    "projectBar": "Project bar",
-    "sidebar": "Sidebar"
+    "inputPanel": "Painéal ionchuir",
+    "outputPanel": "Painéal aschuir",
+    "projectBar": "Barra tionscadail",
+    "sidebar": "Taobh-bharr"
   },
   "runners": {
     "HtmlOutput": "Réamhamharc Aschuir HTML"
