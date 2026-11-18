@@ -221,7 +221,8 @@
       "retryButtonText": "Réessayer",
       "aiGeneratedHint": "Indice généré par l’IA",
       "errorText": "Il est impossible de générer un indice. Réessayez plus tard.",
-      "notice": "Les indices générés par l’IA peuvent être incorrects. Apprenez-en davantage et faites-nous part de vos commentaires."
+      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
+      "turnOff": "Turn off AI hints"
     },
     "limitReached": "La limite d’affichage des résultats est atteinte. La suite est masquée, mais votre programme continue de s’exécuter.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
@@ -359,6 +360,8 @@
     "charity": "The Raspberry Pi Foundation, organisme de charité enregistré au Royaume-Uni sous le numéro 1129409",
     "settingsMenu": {
       "heading": "Paramètres",
+      "aiHint": "AI generated hints",
+      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Taille du texte",
       "theme": "Thème",
       "textSizeOptions": {
@@ -385,6 +388,7 @@
     "no": "Non"
   },
   "common": {
+    "opensInNewTab": "(opens in a new tab)",
     "or": "ou"
   }
 }
