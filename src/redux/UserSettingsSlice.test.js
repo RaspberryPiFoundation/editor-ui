@@ -111,6 +111,28 @@ describe("loadUserSettings", () => {
     expect(store.getState().theme).toBe("dark");
   });
 
+  test("applies the loaded value if a save during the load fails", async () => {
+    let resolveLoad;
+    getUserSettings.mockImplementationOnce(
+      () => new Promise((resolve) => (resolveLoad = resolve)),
+    );
+    updateUserSettings.mockRejectedValue(new Error("Network error"));
+    const store = createStore();
+
+    const load = store.dispatch(loadUserSettings(args));
+    await store.dispatch(
+      saveUserSettings({
+        settings: { fontSize: "medium" },
+        previousSettings: { fontSize: "small" },
+        accessToken: "token",
+      }),
+    );
+    resolveLoad({ data: { settings: { ...apiDefaults, font_size: "large" } } });
+    await load;
+
+    expect(store.getState().fontSize).toBe("large");
+  });
+
   test("keeps the current state if the API fails", async () => {
     getUserSettings.mockRejectedValue(new Error("Network error"));
     const store = createStore();

@@ -89,7 +89,13 @@ const UserSettingsSlice = createSlice({
       const { settings, previousSettings = {} } = action.meta.arg;
       // Only roll back values the user hasn't changed again since.
       Object.entries(previousSettings).forEach(([key, value]) => {
-        if (state[key] === settings[key]) state[key] = value;
+        if (state[key] !== settings[key]) return;
+
+        state[key] = value;
+        // Let an in-flight load apply the saved value instead.
+        state.editedDuringLoad = state.editedDuringLoad.filter(
+          (editedKey) => editedKey !== key,
+        );
       });
     });
   },
