@@ -2457,20 +2457,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-core@npm:^2.5.2":
-  version: 2.6.0
-  resolution: "@raspberrypifoundation/design-system-core@npm:2.6.0"
+"@raspberrypifoundation/design-system-core@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@raspberrypifoundation/design-system-core@npm:2.7.0"
   dependencies:
     classnames: "npm:^2.3.2"
-  checksum: 10/8a59304246b126225c67b3186bbf8b5374259513d7221dab20903f9fa11fdfbf9826c693fb1631b1459ee3959e030464d5832dbd91a199021f1adc71e9ea0aed
+  checksum: 10/83cbbb9b576f01a77502328b54eb9390e3154f022ffc5bdf64baf787750efe7778b50872db224aa21b11335ab7427646297a614859094ca5ab34e57b3d8d092e
   languageName: node
   linkType: hard
 
-"@raspberrypifoundation/design-system-react@npm:^2.13.0":
-  version: 2.13.0
-  resolution: "@raspberrypifoundation/design-system-react@npm:2.13.0"
+"@raspberrypifoundation/design-system-react@npm:^2.13.1":
+  version: 2.13.1
+  resolution: "@raspberrypifoundation/design-system-react@npm:2.13.1"
   dependencies:
-    "@raspberrypifoundation/design-system-core": "npm:^2.5.2"
+    "@raspberrypifoundation/design-system-core": "npm:^2.7.0"
     classnames: "npm:^2.5.1"
     lucide-react: "npm:^0.553.0"
   peerDependencies:
@@ -2482,7 +2482,7 @@ __metadata:
       optional: false
     react-dom:
       optional: false
-  checksum: 10/faf95fe734e8160b5428e9317c960e7ab9843998c2c7b95bfa3fb589e1b85e457cbaee1583bd7c9bc718d99c2b9cf7bc30923f97ec96a6a4bd215a7bc6307abc
+  checksum: 10/29d83556ec038975c400018a628624095c556fd16e83982bcd24ae7b88fcd0019d127c827d540de33a2071ed3159c315eb6457d66dbc5e9b2b2c0b2475c7ed68
   languageName: node
   linkType: hard
 
@@ -2500,7 +2500,7 @@ __metadata:
     "@codemirror/view": "npm:^6.43.12"
     "@hello-pangea/dnd": "npm:^16.2.0"
     "@juggle/resize-observer": "npm:^3.3.1"
-    "@raspberrypifoundation/design-system-react": "npm:^2.13.0"
+    "@raspberrypifoundation/design-system-react": "npm:^2.13.1"
     "@raspberrypifoundation/python-friendly-error-messages": "npm:0.8.0"
     "@raspberrypifoundation/rpf-markdown-core": "npm:^0.2.2"
     "@react-three/drei": "npm:^10.7.8"
