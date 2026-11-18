@@ -63,6 +63,7 @@ const UserSettingsSlice = createSlice({
     builder.addCase(loadUserSettings.pending, (state, action) => {
       state.loadRequestId = action.meta.requestId;
       state.editedDuringLoad = [];
+      state.latestSaveIds = {};
     });
     builder.addCase(loadUserSettings.fulfilled, (state, action) => {
       if (action.meta.requestId !== state.loadRequestId) return;

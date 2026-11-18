@@ -133,6 +133,30 @@ describe("loadUserSettings", () => {
     expect(store.getState().fontSize).toBe("large");
   });
 
+  test("ignores a failed save from before the load", async () => {
+    let rejectSave;
+    updateUserSettings.mockImplementationOnce(
+      () => new Promise((_, reject) => (rejectSave = reject)),
+    );
+    getUserSettings.mockResolvedValue({
+      data: { settings: { ...apiDefaults, theme: "dark" } },
+    });
+    const store = createStore();
+
+    const save = store.dispatch(
+      saveUserSettings({
+        settings: { theme: "light" },
+        previousSettings: { theme: null },
+        accessToken: "token",
+      }),
+    );
+    await store.dispatch(loadUserSettings(args));
+    rejectSave(new Error("Network error"));
+    await save;
+
+    expect(store.getState().theme).toBe("dark");
+  });
+
   test("keeps the current state if the API fails", async () => {
     getUserSettings.mockRejectedValue(new Error("Network error"));
     const store = createStore();
