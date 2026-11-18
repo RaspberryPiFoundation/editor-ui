@@ -14,7 +14,7 @@ vi.mock("../../../../../utils/apiCallHandler");
 const updateUserSettings = vi.fn().mockResolvedValue({ data: {} });
 
 const renderToggle = ({
-  aiFriendlyErrors = true,
+  aiHintsEnabled = true,
   focusRequested = false,
 } = {}) => {
   const store = configureStore({
@@ -27,7 +27,7 @@ const renderToggle = ({
       },
       instructions: {},
       auth: { user: { access_token: "token" } },
-      userSettings: { ...userSettingsInitialState, aiFriendlyErrors },
+      userSettings: { ...userSettingsInitialState, aiHintsEnabled },
     },
   });
   render(
@@ -60,27 +60,27 @@ describe("AiHintToggle", () => {
   });
 
   test("is off when the setting is off", () => {
-    const { toggle } = renderToggle({ aiFriendlyErrors: false });
+    const { toggle } = renderToggle({ aiHintsEnabled: false });
     expect(toggle).not.toBeChecked();
   });
 
   test("saves the setting when turned off", () => {
     const { store, toggle } = renderToggle();
     fireEvent.click(toggle);
-    expect(store.getState().userSettings.aiFriendlyErrors).toBe(false);
+    expect(store.getState().userSettings.aiHintsEnabled).toBe(false);
     expect(updateUserSettings).toHaveBeenCalledWith(
-      { ai_friendly_errors: false },
+      { ai_hints_enabled: false },
       "token",
     );
     expect(toggle).not.toBeChecked();
   });
 
   test("saves the setting when turned back on", () => {
-    const { store, toggle } = renderToggle({ aiFriendlyErrors: false });
+    const { store, toggle } = renderToggle({ aiHintsEnabled: false });
     fireEvent.click(toggle);
-    expect(store.getState().userSettings.aiFriendlyErrors).toBe(true);
+    expect(store.getState().userSettings.aiHintsEnabled).toBe(true);
     expect(updateUserSettings).toHaveBeenCalledWith(
-      { ai_friendly_errors: true },
+      { ai_hints_enabled: true },
       "token",
     );
     expect(toggle).toBeChecked();
@@ -96,7 +96,7 @@ describe("AiHintToggle", () => {
   });
 
   test("dispatches the toggled event when turned on", () => {
-    const { toggle } = renderToggle({ aiFriendlyErrors: false });
+    const { toggle } = renderToggle({ aiHintsEnabled: false });
     fireEvent.click(toggle);
     expect(aiHintToggledHandler).toHaveBeenCalledWith({
       projectIdentifier: "coach-gong-glide",

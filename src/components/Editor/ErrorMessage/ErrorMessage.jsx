@@ -15,12 +15,12 @@ const ErrorMessage = () => {
   const settings = useContext(SettingsContext);
   const isOnline = useIsOnline();
   const aiHintAvailable = useAiHintAvailable();
-  const aiFriendlyErrors = useSelector(
-    (state) => state.userSettings?.aiFriendlyErrors,
+  const aiHintsEnabled = useSelector(
+    (state) => state.userSettings?.aiHintsEnabled,
   );
 
   const showAiHint =
-    aiHintAvailable && aiFriendlyErrors && isOnline && friendlyError?.html;
+    aiHintAvailable && aiHintsEnabled && isOnline && friendlyError?.html;
 
   return error ? (
     <div className="error-message">

@@ -4,13 +4,13 @@ import ApiCallHandler from "../utils/apiCallHandler";
 const API_KEYS = {
   theme: "theme",
   fontSize: "font_size",
-  aiFriendlyErrors: "ai_friendly_errors",
+  aiHintsEnabled: "ai_hints_enabled",
 };
 
 export const userSettingsInitialState = {
   theme: null, // follow the OS setting
   fontSize: "small",
-  aiFriendlyErrors: true,
+  aiHintsEnabled: true,
   // Tracks the latest API load, so older responses are ignored and settings
   // changed while it is loading are not overwritten.
   loadRequestId: null,

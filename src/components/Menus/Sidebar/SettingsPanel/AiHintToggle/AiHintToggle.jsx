@@ -9,8 +9,8 @@ import { aiHintToggledEvent } from "../../../../../events/WebComponentCustomEven
 
 const AiHintToggle = () => {
   const { t } = useTranslation();
-  const aiFriendlyErrors = useSelector(
-    (state) => state.userSettings.aiFriendlyErrors,
+  const aiHintsEnabled = useSelector(
+    (state) => state.userSettings.aiHintsEnabled,
   );
   const updateSettings = useUpdateUserSettings();
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const AiHintToggle = () => {
 
   const handleChange = (e) => {
     const enabled = e.target.checked;
-    updateSettings({ aiFriendlyErrors: enabled });
+    updateSettings({ aiHintsEnabled: enabled });
     document.dispatchEvent(aiHintToggledEvent({ projectIdentifier, enabled }));
   };
 
@@ -44,7 +44,7 @@ const AiHintToggle = () => {
         reverse
         fullWidth
         aria-describedby="ai_hint_toggle_description"
-        checked={aiFriendlyErrors}
+        checked={aiHintsEnabled}
         onChange={handleChange}
       />
       <p id="ai_hint_toggle_description">

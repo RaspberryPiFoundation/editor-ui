@@ -16,7 +16,7 @@ const updateUserSettings = vi.fn();
 const apiDefaults = {
   theme: null,
   font_size: "small",
-  ai_friendly_errors: true,
+  ai_hints_enabled: true,
 };
 
 const createStore = () => configureStore({ reducer });
@@ -32,15 +32,15 @@ beforeEach(() => {
 describe("mapping helpers", () => {
   test("toApiSettings converts keys to snake_case and drops unknown keys", () => {
     expect(
-      toApiSettings({ fontSize: "large", aiFriendlyErrors: false, foo: 1 }),
-    ).toEqual({ font_size: "large", ai_friendly_errors: false });
+      toApiSettings({ fontSize: "large", aiHintsEnabled: false, foo: 1 }),
+    ).toEqual({ font_size: "large", ai_hints_enabled: false });
   });
 
   test("fromApiSettings converts keys to camelCase and drops unknown keys", () => {
     expect(fromApiSettings({ ...apiDefaults, removed_setting: 1 })).toEqual({
       theme: null,
       fontSize: "small",
-      aiFriendlyErrors: true,
+      aiHintsEnabled: true,
     });
   });
 });
@@ -129,15 +129,15 @@ describe("saveUserSettings", () => {
 
     await store.dispatch(
       saveUserSettings({
-        settings: { aiFriendlyErrors: false },
+        settings: { aiHintsEnabled: false },
         reactAppApiEndpoint: "http://api",
         accessToken: "token",
       }),
     );
 
-    expect(store.getState().aiFriendlyErrors).toBe(false);
+    expect(store.getState().aiHintsEnabled).toBe(false);
     expect(updateUserSettings).toHaveBeenCalledWith(
-      { ai_friendly_errors: false },
+      { ai_hints_enabled: false },
       "token",
     );
   });

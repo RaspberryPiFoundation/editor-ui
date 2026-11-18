@@ -19,7 +19,7 @@ const updateUserSettings = vi.fn();
 const apiDefaults = {
   theme: null,
   font_size: "small",
-  ai_friendly_errors: true,
+  ai_hints_enabled: true,
 };
 const user = { access_token: "token", profile: { user: "user-id" } };
 

@@ -154,7 +154,7 @@ describe("AI hint", () => {
     user = { access_token: "token" },
     friendlyError = { html: "<div>Friendly error</div>" },
     language = "en",
-    aiFriendlyErrors = true,
+    aiHintsEnabled = true,
   } = {}) => {
     mockI18n.language = language;
     const store = mockStore({
@@ -165,7 +165,7 @@ describe("AI hint", () => {
         friendlyError,
       },
       auth: { user },
-      userSettings: { aiFriendlyErrors },
+      userSettings: { aiHintsEnabled },
     });
     render(
       <Provider store={store}>
@@ -227,12 +227,12 @@ describe("AI hint", () => {
   });
 
   test("does not display when the user has turned AI hints off", () => {
-    renderErrorMessage({ aiFriendlyErrors: false });
+    renderErrorMessage({ aiHintsEnabled: false });
     expectAiHintHidden();
   });
 
   test("displays when the user has turned AI hints on", () => {
-    renderErrorMessage({ aiFriendlyErrors: true });
+    renderErrorMessage({ aiHintsEnabled: true });
     expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
   });
 });
