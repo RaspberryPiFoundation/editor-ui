@@ -6,6 +6,11 @@ import WebComponentProject, {
   resetCodeRunEventTracking,
 } from "./WebComponentProject";
 import { RUN_EVENT_DEBOUNCE_MS } from "./runEventCodeSnapshot";
+import useAiHintOffered from "../../hooks/useAiHintOffered";
+
+vi.mock("../../hooks/useAiHintOffered", () => ({
+  default: vi.fn(() => false),
+}));
 
 const codeChangedHandler = vi.fn();
 const runStartedHandler = vi.fn();
@@ -253,6 +258,36 @@ describe("When code run finishes", () => {
         projectType: "python",
       }),
     );
+  });
+
+  describe("aiHintOffered", () => {
+    const failedRun = {
+      error: "NameError: name 'kettle' is not defined on line 5 of main.py",
+      errorDetails: { type: "NameError", file: "main.py", line: 5 },
+      friendlyError: { html: "<p>Friendly error</p>" },
+    };
+
+    afterEach(() => {
+      useAiHintOffered.mockReturnValue(false);
+    });
+
+    test("is true when the AI hint button is shown", () => {
+      useAiHintOffered.mockReturnValue(true);
+      renderRunCompletion(failedRun);
+
+      expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
+        expect.objectContaining({ aiHintOffered: true }),
+      );
+    });
+
+    test("is false when the AI hint button is not shown", () => {
+      useAiHintOffered.mockReturnValue(false);
+      renderRunCompletion(failedRun);
+
+      expect(runCompletedHandler.mock.lastCall[0].detail).toEqual(
+        expect.objectContaining({ aiHintOffered: false }),
+      );
+    });
   });
 
   test("Triggers runCompletedEvent with error details when outputOnly is true", () => {
