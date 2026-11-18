@@ -4,6 +4,7 @@
 .project-name {
   display: flex;
   align-items: center;
+  gap: var(--space-1);
   flex: 1 1 calc(5rem + var(--min-target-size));
   min-block-size: var(--min-target-size);
   min-inline-size: calc(5rem + var(--min-target-size));
