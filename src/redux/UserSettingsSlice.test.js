@@ -218,4 +218,30 @@ describe("saveUserSettings", () => {
 
     expect(store.getState().fontSize).toBe("medium");
   });
+
+  test("does not roll back if a newer save set the same value", async () => {
+    let rejectFirstSave;
+    updateUserSettings
+      .mockImplementationOnce(
+        () => new Promise((_, reject) => (rejectFirstSave = reject)),
+      )
+      .mockResolvedValue({ data: {} });
+    const store = createStore();
+    const save = (aiHintsEnabled) =>
+      store.dispatch(
+        saveUserSettings({
+          settings: { aiHintsEnabled },
+          previousSettings: { aiHintsEnabled: !aiHintsEnabled },
+          accessToken: "token",
+        }),
+      );
+
+    const firstSave = save(false);
+    await save(true);
+    await save(false);
+    rejectFirstSave(new Error("Network error"));
+    await firstSave;
+
+    expect(store.getState().aiHintsEnabled).toBe(false);
+  });
 });

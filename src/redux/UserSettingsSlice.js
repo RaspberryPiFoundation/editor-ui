@@ -15,6 +15,7 @@ export const userSettingsInitialState = {
   // changed while it is loading are not overwritten.
   loadRequestId: null,
   editedDuringLoad: [],
+  latestSaveIds: {},
 };
 
 export const toApiSettings = (settings) =>
@@ -81,18 +82,19 @@ const UserSettingsSlice = createSlice({
     builder.addCase(saveUserSettings.pending, (state, action) => {
       const { settings } = action.meta.arg;
       Object.assign(state, settings);
+      Object.keys(settings).forEach((key) => {
+        state.latestSaveIds[key] = action.meta.requestId;
+      });
       if (state.loadRequestId) {
         state.editedDuringLoad.push(...Object.keys(settings));
       }
     });
     builder.addCase(saveUserSettings.rejected, (state, action) => {
-      const { settings, previousSettings = {} } = action.meta.arg;
-      // Only roll back values the user hasn't changed again since.
+      const { previousSettings = {} } = action.meta.arg;
       Object.entries(previousSettings).forEach(([key, value]) => {
-        if (state[key] !== settings[key]) return;
+        if (state.latestSaveIds[key] !== action.meta.requestId) return;
 
         state[key] = value;
-        // Let an in-flight load apply the saved value instead.
         state.editedDuringLoad = state.editedDuringLoad.filter(
           (editedKey) => editedKey !== key,
         );
