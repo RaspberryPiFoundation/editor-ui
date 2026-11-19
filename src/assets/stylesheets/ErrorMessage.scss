@@ -5,15 +5,60 @@
   color: var(--rpf-red-900);
   background-color: var(--rpf-red-100);
   border-block: 1px solid var(--editor-color-outline);
-  padding: var(--space-1);
   overflow-y: auto;
+
+  &__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    list-style: none;
+    cursor: pointer;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  details[open] &__summary {
+    border-block: 1px solid var(--rpf-red-200);
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+    @include typography.style-1;
+    font-weight: bold;
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  &__chevron {
+    flex-shrink: 0;
+    fill: var(--rpf-text-primary);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  details[open] &__chevron {
+    transform: rotate(180deg);
+  }
+
+  &__content {
+    padding-block: var(--space-1);
+    padding-inline: var(--space-1-5);
+  }
 
   &__error {
     padding: 0;
     margin: 0;
+    font-family: inherit;
     white-space: pre-wrap;
     overflow-wrap: break-word;
-    font-weight: bold;
   }
 
   &__python {

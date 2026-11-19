@@ -2,7 +2,7 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import useIsOnline from "../../../hooks/useIsOnline";
 import { Cookies, CookiesProvider } from "react-cookie";
 
@@ -43,6 +43,23 @@ describe("When error is set", () => {
 
     test("Error message displays", () => {
       expect(screen.queryByText("Oops")).toBeInTheDocument();
+    });
+
+    test("Displays the error title in an expanded details section", () => {
+      const title = screen.getByText("output.errorMessage.title");
+      expect(title.closest("summary")).toBeInTheDocument();
+      expect(title.closest("details")).toHaveAttribute("open");
+    });
+
+    test("Clicking the title collapses and expands the error details", () => {
+      const title = screen.getByText("output.errorMessage.title");
+      const details = title.closest("details");
+
+      fireEvent.click(title);
+      expect(details).not.toHaveAttribute("open");
+
+      fireEvent.click(title);
+      expect(details).toHaveAttribute("open");
     });
 
     test("Font size class is set correctly", () => {

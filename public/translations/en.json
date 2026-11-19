@@ -215,6 +215,9 @@
     "errors": {
       "interrupted": "Execution interrupted"
     },
+    "errorMessage": {
+      "title": "Error running your code"
+    },
     "aiErrorMessages": {
       "loadingText": "Generating hint",
       "buttonText": "Need help? Generate an AI hint",
