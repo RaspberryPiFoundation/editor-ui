@@ -62,11 +62,6 @@ describe("When error is set", () => {
       expect(details).toHaveAttribute("open");
     });
 
-    test("Font size class is set correctly", () => {
-      const errorMessage = screen.queryByText("Oops").parentElement;
-      expect(errorMessage).toHaveClass("error-message__python--myFontSize");
-    });
-
     test("Does not display friendly error elements", () => {
       expect(
         document.querySelector(".error-message__friendly"),

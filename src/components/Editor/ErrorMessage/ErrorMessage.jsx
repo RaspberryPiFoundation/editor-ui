@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
 import "../../../assets/stylesheets/ErrorMessage.scss?inline";
 import { useSelector } from "react-redux";
 import DOMPurify from "dompurify";
 import { useTranslation } from "react-i18next";
-import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import ChevronDownIcon from "../../../assets/icons/chevron_down.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
@@ -12,7 +10,6 @@ import useAiHintOffered from "../../../hooks/useAiHintOffered";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
-  const settings = useContext(SettingsContext);
   const { t } = useTranslation();
   const aiHintOffered = useAiHintOffered();
 
@@ -27,9 +24,7 @@ const ErrorMessage = () => {
           <ChevronDownIcon className="error-message__chevron" />
         </summary>
         <div className="error-message__content">
-          <div
-            className={`error-message__python error-message__python--${settings.fontSize}`}
-          >
+          <div className="error-message__python">
             <pre
               className="error-message__error"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }}

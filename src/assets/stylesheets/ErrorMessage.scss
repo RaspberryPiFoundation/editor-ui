@@ -59,19 +59,11 @@
     font-family: inherit;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    @include typography.style-1;
   }
 
   &__python {
     display: flex;
     gap: var(--space-1);
-    @include typography.style-1;
-
-    &--medium {
-      @include typography.style-1;
-    }
-  
-    &--large {
-      @include typography.style-2;
-    }
   }
 }
