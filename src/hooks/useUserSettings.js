@@ -60,7 +60,7 @@ export const useLoadUserSettings = ({
     accessToken: user?.access_token,
   };
 
-  // Layout effect so cookie settings apply before the first paint
+  // Apply cookie settings before the first paint
   useLayoutEffect(() => {
     dispatch(
       setUserSettings(
@@ -78,17 +78,13 @@ export const useLoadUserSettings = ({
     );
     request
       .unwrap()
-      // Write what ended up in state, which keeps any changes made while loading
       .then(() =>
         writeSettingsCookies(store.getState().userSettings, latest.current, {
           includeTheme,
         }),
       )
-      .catch(() => {
-        // API unavailable or load cancelled, so keep the current settings
-      });
+      .catch(() => {});
 
-    // Cancel the load if the user changes (e.g. switches account) or unmounts
     return () => request.abort();
   }, [dispatch, store, userId, reactAppApiEndpoint, includeTheme]);
 };
@@ -118,7 +114,7 @@ export const useUpdateUserSettings = () => {
       }),
     );
 
-    // The save failed and state was rolled back, so update the cookies to match
+    // Match cookies to the rolled-back state
     if (saveUserSettings.rejected.match(result)) {
       const restored = store.getState().userSettings;
       writeSettingsCookies(

@@ -11,8 +11,6 @@ export const userSettingsInitialState = {
   theme: null, // follow the OS setting
   fontSize: "small",
   aiHintsEnabled: true,
-  // Tracks the latest API load, so older responses are ignored and settings
-  // changed while it is loading are not overwritten.
   loadRequestId: null,
   editedDuringLoad: [],
   latestSaveIds: {},
@@ -41,8 +39,6 @@ export const loadUserSettings = createAsyncThunk(
   },
 );
 
-// `previousSettings` holds the values before this change, so they can be
-// restored if the save fails.
 export const saveUserSettings = createAsyncThunk(
   "userSettings/save",
   async ({ settings, reactAppApiEndpoint, accessToken }) => {
