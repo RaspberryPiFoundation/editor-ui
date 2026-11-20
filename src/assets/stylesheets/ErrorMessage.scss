@@ -5,7 +5,20 @@
   color: var(--rpf-red-900);
   background-color: var(--rpf-red-100);
   border-block: 1px solid var(--editor-color-outline);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+
+  details {
+    display: flex;
+    flex-direction: column;
+    min-block-size: 0;
+
+    &::details-content {
+      min-block-size: 0;
+      overflow-y: auto;
+    }
+  }
 
   &__summary {
     display: flex;
