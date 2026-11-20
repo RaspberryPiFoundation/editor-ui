@@ -13,29 +13,40 @@ const ErrorMessage = () => {
   const { t } = useTranslation();
   const aiHintOffered = useAiHintOffered();
 
-  return error ? (
-    <div className="error-message">
-      <details open="true">
-        <summary className="error-message__summary">
-          <span className="error-message__title">
-            <CancelFillIcon />
-            {t("output.errorMessage.title")}
-          </span>
-          <ChevronDownIcon className="error-message__chevron" />
-        </summary>
-        <div className="error-message__content">
-          <div className="error-message__python">
-            <pre
-              className="error-message__error"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(error) }}
-            />
-          </div>
-          <FriendlyErrorMessage />
-          {aiHintOffered && <AiErrorMessage />}
+  return (
+    <>
+      {/* Screen readers are already watching it when an error appears.
+        Announces the title, without moving focus away from the Run button. */}
+      <div role="status" className="rpf-visually-hidden">
+        {error ? t("output.errorMessage.title") : ""}
+      </div>
+      {error ? (
+        <div className="error-message">
+          <details open="true">
+            <summary className="error-message__summary">
+              <span className="error-message__title">
+                <CancelFillIcon />
+                {t("output.errorMessage.title")}
+              </span>
+              <ChevronDownIcon className="error-message__chevron" />
+            </summary>
+            <div className="error-message__content">
+              <div className="error-message__python">
+                <pre
+                  className="error-message__error"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(error),
+                  }}
+                />
+              </div>
+              <FriendlyErrorMessage />
+              {aiHintOffered && <AiErrorMessage />}
+            </div>
+          </details>
         </div>
-      </details>
-    </div>
-  ) : null;
+      ) : null}
+    </>
+  );
 };
 
 export default ErrorMessage;

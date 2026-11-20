@@ -45,13 +45,13 @@ describe("When error is set", () => {
     });
 
     test("Displays the error title in an expanded details section", () => {
-      const title = screen.getByText("output.errorMessage.title");
+      const title = document.querySelector(".error-message__title");
       expect(title.closest("summary")).toBeInTheDocument();
       expect(title.closest("details")).toHaveAttribute("open");
     });
 
     test("Clicking the title collapses and expands the error details", () => {
-      const title = screen.getByText("output.errorMessage.title");
+      const title = document.querySelector(".error-message__title");
       const details = title.closest("details");
 
       fireEvent.click(title);
@@ -59,6 +59,12 @@ describe("When error is set", () => {
 
       fireEvent.click(title);
       expect(details).toHaveAttribute("open");
+    });
+
+    test("Announces the error title in a status region", () => {
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "output.errorMessage.title",
+      );
     });
 
     test("Does not display friendly error elements", () => {
@@ -155,6 +161,20 @@ describe("When error is set", () => {
       "href",
       "https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor",
     );
+  });
+});
+
+describe("When error is not set", () => {
+  test("Keeps an empty status region rendered for announcements", () => {
+    const store = configureStore([])({ editor: { error: "" } });
+    render(
+      <Provider store={store}>
+        <ErrorMessage />
+      </Provider>,
+    );
+
+    expect(screen.getByRole("status")).toBeEmptyDOMElement();
+    expect(document.querySelector(".error-message")).not.toBeInTheDocument();
   });
 });
 

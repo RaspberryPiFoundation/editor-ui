@@ -140,6 +140,30 @@ describe("AiErrorMessage", () => {
     ).not.toBeInTheDocument();
   });
 
+  test("Moves focus to the hint when it replaces the button", async () => {
+    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+    renderAiErrorMessage();
+    hintButton().focus();
+    await clickButtonAndWait();
+
+    expect(document.querySelector(".ai-error-message__hint")).toHaveFocus();
+  });
+
+  test("Moves focus to the error text when the request fails", async () => {
+    getAiErrorHint.mockRejectedValue(new Error("Bad gateway"));
+    renderAiErrorMessage();
+    hintButton().focus();
+    await clickButtonAndWait();
+
+    expect(document.querySelector(".ai-error-message__hint")).toHaveFocus();
+  });
+
+  test("Does not move focus before a hint is requested", () => {
+    renderAiErrorMessage();
+
+    expect(document.body).toHaveFocus();
+  });
+
   test("Keeps loading for the minimum time when the response is fast", async () => {
     getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
     renderAiErrorMessage();
