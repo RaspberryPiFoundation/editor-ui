@@ -6,21 +6,12 @@ import { SettingsContext } from "../../../utils/settings";
 import CancelFillIcon from "../../../assets/icons/cancel_FILL.svg";
 import FriendlyErrorMessage from "../FriendlyErrorMessage/FriendlyErrorMessage";
 import AiErrorMessage from "../AiErrorMessage/AiErrorMessage";
-import useIsOnline from "../../../hooks/useIsOnline";
-import useAiHintAvailable from "../../../hooks/useAiHintAvailable";
+import useAiHintOffered from "../../../hooks/useAiHintOffered";
 
 const ErrorMessage = () => {
   const error = useSelector((state) => state.editor.error);
-  const friendlyError = useSelector((state) => state.editor.friendlyError);
   const settings = useContext(SettingsContext);
-  const isOnline = useIsOnline();
-  const aiHintAvailable = useAiHintAvailable();
-  const aiHintsEnabled = useSelector(
-    (state) => state.userSettings?.aiHintsEnabled,
-  );
-
-  const showAiHint =
-    aiHintAvailable && aiHintsEnabled && isOnline && friendlyError?.html;
+  const aiHintOffered = useAiHintOffered();
 
   return error ? (
     <div className="error-message">
@@ -34,7 +25,7 @@ const ErrorMessage = () => {
         />
       </div>
       <FriendlyErrorMessage />
-      {showAiHint && <AiErrorMessage />}
+      {aiHintOffered && <AiErrorMessage />}
     </div>
   ) : null;
 };

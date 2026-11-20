@@ -27,9 +27,5 @@
 .project-bar__right {
   display: flex;
   align-items: center;
-  gap: 0;
-
-  @container (min-width: 560px) {
-    gap: 0 var(--space-1);
-  }
+  gap: 0 var(--space-1);
 }

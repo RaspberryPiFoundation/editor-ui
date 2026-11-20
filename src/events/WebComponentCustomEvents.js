@@ -59,3 +59,6 @@ export const aiHintToggledEvent = (detail) =>
 
 export const settingsUpdatedEvent = (detail) =>
   webComponentCustomEvent("editor-settingsUpdated", detail);
+
+export const aiHintRequestedEvent = (detail) =>
+  webComponentCustomEvent("editor-aiHintRequested", detail);
