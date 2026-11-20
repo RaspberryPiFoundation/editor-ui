@@ -4,7 +4,7 @@ import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
 import {
-  codeChangedEvent,
+  blocksProjectChangedEvent,
   runStartedEvent,
 } from "../../../events/WebComponentCustomEvents";
 import {
@@ -19,7 +19,7 @@ import {
 
 const SCRATCH_MIN_WIDTH = 1024;
 // Matches the editor-codeChanged debounce for text-based projects.
-const SCRATCH_CODE_CHANGED_DEBOUNCE_MS = 2000;
+const BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS = 2000;
 const SCRATCH_SCROLLBAR_OPTIONS = {
   overflow: {
     x: "scroll",
@@ -58,11 +58,6 @@ export default function ScratchContainer({ locale = "en" }) {
   });
   const projectIdentifierRef = useRef(projectIdentifier);
   projectIdentifierRef.current = projectIdentifier;
-  const currentStepPosition = useSelector(
-    (state) => state.instructions?.currentStepPosition,
-  );
-  const currentStepPositionRef = useRef(currentStepPosition);
-  currentStepPositionRef.current = currentStepPosition;
 
   useEffect(() => {
     return subscribeToScratchProjectIdentifierUpdates(
@@ -121,11 +116,10 @@ export default function ScratchContainer({ locale = "en" }) {
     };
   }, []);
 
-  // Scratch edits live in the iframe and never reach the Redux project that
-  // drives editor-codeChanged for text-based projects, so dispatch the same
-  // event from here. The iframe sends one message per edit, so debounce to
-  // one event per burst. This runs for every user, unlike
-  // useScratchSaveState, which ignores the message when autosave is off.
+  // Re-dispatch Scratch edits as a public event for host pages. The iframe
+  // sends one message per edit, so debounce to one event per burst. This runs
+  // for every user, unlike useScratchSaveState, which ignores the message
+  // when autosave is off.
   useEffect(() => {
     const allowedOrigin = getScratchAllowedOrigin();
     let debounceTimeout = null;
@@ -137,13 +131,8 @@ export default function ScratchContainer({ locale = "en" }) {
       clearTimeout(debounceTimeout);
       debounceTimeout = setTimeout(() => {
         debounceTimeout = null;
-        document.dispatchEvent(
-          codeChangedEvent({
-            step: currentStepPositionRef.current,
-            isInitialLoad: false,
-          }),
-        );
-      }, SCRATCH_CODE_CHANGED_DEBOUNCE_MS);
+        document.dispatchEvent(blocksProjectChangedEvent({}));
+      }, BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS);
     };
 
     window.addEventListener("message", handleScratchProjectChanged);
