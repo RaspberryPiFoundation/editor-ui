@@ -25,6 +25,7 @@ const MobileProject = ({
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
+  const error = useSelector((state) => state.editor.error);
   const aiHintToggleFocusRequested = useSelector(
     (state) => state.editor.aiHintToggleFocusRequested,
   );
@@ -55,6 +56,12 @@ const MobileProject = ({
       setSelectedTab(withSidebar ? 1 : 0);
     }
   }, [codeRunTriggered, sidebarShowing, withSidebar]);
+
+  useEffect(() => {
+    if (error) {
+      setSelectedTab(withSidebar ? 1 : 0);
+    }
+  }, [error, withSidebar]);
 
   return (
     <div

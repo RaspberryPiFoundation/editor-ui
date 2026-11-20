@@ -678,7 +678,7 @@ const SkulptRunner = ({
                     ref={output}
                   ></pre>
                 </TabPanel>
-                <ErrorMessage />
+                {isOutputOnly && <ErrorMessage />}
               </Tabs>
             </div>
           )}
@@ -718,7 +718,6 @@ const SkulptRunner = ({
               ref={output}
             ></pre>
           </TabPanel>
-          {!isOutputOnly && <ErrorMessage />}
         </Tabs>
       )}
     </div>
