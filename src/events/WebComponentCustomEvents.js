@@ -9,11 +9,6 @@ const webComponentCustomEvent = (type, detail) =>
 export const codeChangedEvent = (detail) =>
   webComponentCustomEvent("editor-codeChanged", detail);
 
-// Scratch (blocks) edits live in the Scratch iframe, so they never reach the
-// Redux project that drives editor-codeChanged. This is the blocks equivalent.
-export const blocksProjectChangedEvent = (detail) =>
-  webComponentCustomEvent("editor-blocksProjectChanged", detail);
-
 export const navigateToProjectsPageEvent = webComponentCustomEvent(
   "editor-navigateToProjectsPage",
 );
