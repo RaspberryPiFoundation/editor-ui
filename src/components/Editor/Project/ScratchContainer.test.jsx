@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import ScratchContainer from "./ScratchContainer";
 import EditorReducer from "../../../redux/EditorSlice";
+import InstructionsReducer from "../../../redux/InstructionsSlice";
 import * as scratchIframeUtils from "../../../utils/scratchIframe";
 import webComponentStore from "../../../redux/stores/WebComponentStore";
 import { setUser } from "../../../redux/WebComponentAuthSlice";
@@ -59,17 +60,23 @@ describe("ScratchContainer", () => {
     scratchApiEndpoint: "https://api.example.com/v1",
   };
 
-  const buildStore = ({ authReducer, editorOverrides } = {}) =>
+  const buildStore = ({
+    authReducer,
+    editorOverrides,
+    instructionsState,
+  } = {}) =>
     configureStore({
       reducer: {
         editor: EditorReducer,
         ...(authReducer ? { auth: authReducer } : {}),
+        ...(instructionsState ? { instructions: InstructionsReducer } : {}),
       },
       preloadedState: {
         editor: {
           ...defaultEditorState,
           ...editorOverrides,
         },
+        ...(instructionsState ? { instructions: instructionsState } : {}),
       },
     });
 
@@ -443,26 +450,22 @@ describe("ScratchContainer", () => {
   });
 
   describe("scratch-gui-project-changed message", () => {
-    const BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS = 2000;
-    let blocksProjectChangedHandler;
+    const CODE_CHANGED_DEBOUNCE_MS = 2000;
+    let codeChangedHandler;
     let unmount;
 
     beforeEach(() => {
       vi.useFakeTimers();
-      blocksProjectChangedHandler = vi.fn();
-      document.addEventListener(
-        "editor-blocksProjectChanged",
-        blocksProjectChangedHandler,
-      );
-      ({ unmount } = renderScratchContainer());
+      codeChangedHandler = vi.fn();
+      document.addEventListener("editor-codeChanged", codeChangedHandler);
+      ({ unmount } = renderScratchContainer(
+        buildStore({ instructionsState: { currentStepPosition: 3 } }),
+      ));
     });
 
     afterEach(() => {
       vi.useRealTimers();
-      document.removeEventListener(
-        "editor-blocksProjectChanged",
-        blocksProjectChangedHandler,
-      );
+      document.removeEventListener("editor-codeChanged", codeChangedHandler);
     });
 
     const dispatchProjectChanged = () => {
@@ -471,22 +474,22 @@ describe("ScratchContainer", () => {
       });
     };
 
-    const advanceTimers = (ms = BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS) => {
+    const advanceTimers = (ms = CODE_CHANGED_DEBOUNCE_MS) => {
       act(() => {
         vi.advanceTimersByTime(ms);
       });
     };
 
-    test("dispatches editor-blocksProjectChanged after the debounce", () => {
+    test("dispatches editor-codeChanged after the debounce", () => {
       dispatchProjectChanged();
-      advanceTimers(BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS - 1);
-      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+      advanceTimers(CODE_CHANGED_DEBOUNCE_MS - 1);
+      expect(codeChangedHandler).not.toHaveBeenCalled();
 
       advanceTimers(1);
-      expect(blocksProjectChangedHandler).toHaveBeenCalledTimes(1);
+      expect(codeChangedHandler).toHaveBeenCalledTimes(1);
 
-      const event = blocksProjectChangedHandler.mock.calls[0][0];
-      expect(event.detail).toEqual({});
+      const event = codeChangedHandler.mock.calls[0][0];
+      expect(event.detail).toEqual({ step: 3, isInitialLoad: false });
       expect(event.bubbles).toBe(true);
       expect(event.composed).toBe(true);
     });
@@ -499,7 +502,7 @@ describe("ScratchContainer", () => {
       dispatchProjectChanged();
       advanceTimers();
 
-      expect(blocksProjectChangedHandler).toHaveBeenCalledTimes(1);
+      expect(codeChangedHandler).toHaveBeenCalledTimes(1);
     });
 
     test("dispatches again for a separate burst after the quiet period", () => {
@@ -508,7 +511,7 @@ describe("ScratchContainer", () => {
       dispatchProjectChanged();
       advanceTimers();
 
-      expect(blocksProjectChangedHandler).toHaveBeenCalledTimes(2);
+      expect(codeChangedHandler).toHaveBeenCalledTimes(2);
     });
 
     test.each([
@@ -528,7 +531,7 @@ describe("ScratchContainer", () => {
       });
       advanceTimers();
 
-      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+      expect(codeChangedHandler).not.toHaveBeenCalled();
     });
 
     test("does not dispatch when unmounted before the debounce fires", () => {
@@ -536,7 +539,7 @@ describe("ScratchContainer", () => {
       unmount();
       advanceTimers();
 
-      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+      expect(codeChangedHandler).not.toHaveBeenCalled();
     });
 
     test("stops listening for messages after unmount", () => {
@@ -544,7 +547,7 @@ describe("ScratchContainer", () => {
       dispatchProjectChanged();
       advanceTimers();
 
-      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+      expect(codeChangedHandler).not.toHaveBeenCalled();
     });
   });
 

@@ -9,8 +9,11 @@ import InstructionsSlice from "../../redux/InstructionsSlice";
 import {
   applyScratchProjectIdentifierUpdate,
   setProject,
+  updateProjectComponent,
 } from "../../redux/EditorSlice";
 import { projectIdentifierChangedEvent } from "../../events/WebComponentCustomEvents";
+
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 const projectIdentifierChangedHandler = vi.fn();
 
@@ -114,6 +117,140 @@ describe("WebComponentProject", () => {
         projectIdentifierChangedEvent("student-remix"),
       );
     });
+  });
+});
+
+describe("editor-codeChanged isInitialLoad", () => {
+  const codeChangedHandler = vi.fn();
+  const CODE_CHANGED_DEBOUNCE_MS = 2000;
+
+  const flushCodeChangedDebounce = () => {
+    act(() => {
+      vi.advanceTimersByTime(CODE_CHANGED_DEBOUNCE_MS);
+    });
+  };
+
+  const editCode = (content) => {
+    act(() => {
+      store.dispatch(
+        updateProjectComponent({ name: "main", extension: "py", content }),
+      );
+    });
+  };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    codeChangedHandler.mockClear();
+    document.addEventListener("editor-codeChanged", codeChangedHandler);
+
+    const rootReducer = combineReducers({
+      editor: EditorReducer,
+      auth: WebComponentAuthSlice,
+      instructions: InstructionsSlice,
+    });
+    store = configureStore({ reducer: rootReducer });
+    // WebComponentLoader only mounts WebComponentProject after a load.
+    store.dispatch(
+      setProject({
+        identifier: "loaded-project",
+        project_type: "python",
+        components: [
+          {
+            id: "main-id",
+            name: "main",
+            extension: "py",
+            content: "print('hello')",
+          },
+        ],
+      }),
+    );
+
+    render(
+      <Provider store={store}>
+        <WebComponentProject />
+      </Provider>,
+    );
+  });
+
+  afterEach(() => {
+    document.removeEventListener("editor-codeChanged", codeChangedHandler);
+    vi.useRealTimers();
+  });
+
+  test("flags the event fired by the project load", () => {
+    flushCodeChangedDebounce();
+
+    expect(codeChangedHandler).toHaveBeenCalledTimes(1);
+    expect(codeChangedHandler.mock.lastCall[0].detail).toEqual(
+      expect.objectContaining({ isInitialLoad: true }),
+    );
+  });
+
+  test("does not flag a later user edit", () => {
+    flushCodeChangedDebounce();
+    editCode("print('edited')");
+    flushCodeChangedDebounce();
+
+    expect(codeChangedHandler).toHaveBeenCalledTimes(2);
+    expect(codeChangedHandler.mock.lastCall[0].detail.isInitialLoad).toBe(
+      false,
+    );
+  });
+
+  test("does not flag an edit made before the load event fires", () => {
+    editCode("print('edited')");
+    flushCodeChangedDebounce();
+
+    expect(codeChangedHandler).toHaveBeenCalledTimes(1);
+    expect(codeChangedHandler.mock.lastCall[0].detail.isInitialLoad).toBe(
+      false,
+    );
+  });
+
+  test("does not fire when a save only resyncs the initial snapshot", () => {
+    flushCodeChangedDebounce();
+    editCode("print('edited')");
+    flushCodeChangedDebounce();
+    expect(codeChangedHandler).toHaveBeenCalledTimes(2);
+
+    // Same identifier and no new files, so the reducer leaves the project
+    // alone and only rebuilds the initial snapshot.
+    act(() => {
+      store.dispatch({
+        type: "editor/saveProject/fulfilled",
+        payload: { autosave: true, project: store.getState().editor.project },
+      });
+    });
+    flushCodeChangedDebounce();
+
+    expect(codeChangedHandler).toHaveBeenCalledTimes(2);
+  });
+
+  test("does not flag a Scratch identifier change after the load", () => {
+    act(() => {
+      store.dispatch(
+        setProject({
+          identifier: "teacher-project",
+          project_type: "code_editor_scratch",
+          components: [],
+        }),
+      );
+    });
+    flushCodeChangedDebounce();
+    act(() => {
+      store.dispatch(
+        applyScratchProjectIdentifierUpdate({
+          projectIdentifier: "student-remix",
+        }),
+      );
+    });
+    flushCodeChangedDebounce();
+
+    expect(codeChangedHandler).toHaveBeenCalledTimes(2);
+    expect(codeChangedHandler.mock.calls[0][0].detail.isInitialLoad).toBe(true);
+    expect(codeChangedHandler.mock.calls[1][0].detail.isInitialLoad).toBe(
+      false,
+    );
   });
 });
 
