@@ -117,6 +117,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 
 The web component communicates with the host page via the following custom events:
 
+- `editor-aiHintRequested`: When an AI error hint request finishes after the user clicks the hint button (or retries after a failure) - event detail contains the `projectIdentifier`, the `errorDetails` of the error being shown, and the `outcome` (`"shown"` or `"failed"`)
 - `editor-aiHintToggled`: When the user turns AI hints on or off in the settings panel - event detail contains the `projectIdentifier` and whether hints are now `enabled`
 - `editor-aiHintTurnOffLinkClicked`: When the user clicks the turn off link under an AI error hint, which opens the AI hint settings - event detail contains the `projectIdentifier` and the `errorDetails` of the error being shown
 - `editor-codeChanged`: When the code in the editor is changed

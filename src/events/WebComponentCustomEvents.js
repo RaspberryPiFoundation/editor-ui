@@ -56,3 +56,6 @@ export const aiHintTurnOffLinkClickedEvent = (detail) =>
 
 export const aiHintToggledEvent = (detail) =>
   webComponentCustomEvent("editor-aiHintToggled", detail);
+
+export const aiHintRequestedEvent = (detail) =>
+  webComponentCustomEvent("editor-aiHintRequested", detail);

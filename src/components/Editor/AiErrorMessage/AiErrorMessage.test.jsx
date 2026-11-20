@@ -240,6 +240,104 @@ describe("AiErrorMessage", () => {
     ).toBeInTheDocument();
   });
 
+  describe("hint requested event", () => {
+    const handler = vi.fn();
+    const onHintRequested = (e) => handler(e.detail);
+
+    beforeEach(() => {
+      handler.mockClear();
+      document.addEventListener("editor-aiHintRequested", onHintRequested);
+    });
+
+    afterEach(() => {
+      document.removeEventListener("editor-aiHintRequested", onHintRequested);
+    });
+
+    test.each([
+      [
+        "shown",
+        () => getAiErrorHint.mockResolvedValue({ data: { fem: "A hint" } }),
+      ],
+      [
+        "failed",
+        () => getAiErrorHint.mockRejectedValue(new Error("Bad gateway")),
+      ],
+    ])("Dispatches the event with outcome %s", async (outcome, mockApi) => {
+      mockApi();
+      const state = buildState();
+      state.editor.project.identifier = "coach-gong-glide";
+      renderAiErrorMessage(state);
+      await clickButtonAndWait();
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler).toHaveBeenCalledWith({
+        projectIdentifier: "coach-gong-glide",
+        errorDetails,
+        outcome,
+      });
+    });
+
+    describe("when the request settles after the user has moved on", () => {
+      let settleRequest;
+
+      beforeEach(() => {
+        getAiErrorHint.mockReturnValue(
+          new Promise((resolve, reject) => {
+            settleRequest = { resolve, reject };
+          }),
+        );
+      });
+
+      const settleWith = {
+        success: () => settleRequest.resolve({ data: { fem: "Stale hint" } }),
+        failure: () => settleRequest.reject(new Error("Bad gateway")),
+      };
+
+      test.each(Object.keys(settleWith))(
+        "Does not dispatch the event on %s after unmount",
+        async (result) => {
+          const { unmount } = renderAiErrorMessage();
+          clickButton();
+          unmount();
+
+          await act(async () => settleWith[result]());
+          await advanceTimers(MIN_LOADING_MS);
+
+          expect(handler).not.toHaveBeenCalled();
+        },
+      );
+
+      test.each(Object.keys(settleWith))(
+        "Does not dispatch the event or show a result on %s after the error changes",
+        async (result) => {
+          const { rerender } = renderAiErrorMessage();
+          clickButton();
+
+          const newStore = mockStore(
+            buildState({ details: { ...errorDetails, line: 2 } }),
+          );
+          rerender(
+            <Provider store={newStore}>
+              <AiErrorMessage />
+            </Provider>,
+          );
+
+          await act(async () => settleWith[result]());
+          await advanceTimers(MIN_LOADING_MS);
+
+          expect(handler).not.toHaveBeenCalled();
+          expect(screen.queryByText("Stale hint")).not.toBeInTheDocument();
+          expect(
+            screen.queryByText("output.aiErrorMessages.errorText"),
+          ).not.toBeInTheDocument();
+          expect(
+            screen.getByText("output.aiErrorMessages.buttonText"),
+          ).toBeInTheDocument();
+        },
+      );
+    });
+  });
+
   describe("turn off link", () => {
     test("Opens the AI hint settings when turn off is clicked", () => {
       renderAiErrorMessage();
