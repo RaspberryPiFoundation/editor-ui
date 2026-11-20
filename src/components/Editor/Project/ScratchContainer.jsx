@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { ClickScrollPlugin, OverlayScrollbars } from "overlayscrollbars";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { applyScratchProjectIdentifierUpdate } from "../../../redux/EditorSlice";
-import { runStartedEvent } from "../../../events/WebComponentCustomEvents";
+import {
+  blocksProjectChangedEvent,
+  runStartedEvent,
+} from "../../../events/WebComponentCustomEvents";
 import {
   cancelPendingRunEventDebounce,
   scheduleRunEventCycle,
@@ -15,6 +18,8 @@ import {
 } from "../../../utils/scratchIframe";
 
 const SCRATCH_MIN_WIDTH = 1024;
+// Matches the editor-codeChanged debounce for text-based projects.
+const BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS = 2000;
 const SCRATCH_SCROLLBAR_OPTIONS = {
   overflow: {
     x: "scroll",
@@ -108,6 +113,32 @@ export default function ScratchContainer({ locale = "en" }) {
     return () => {
       window.removeEventListener("message", handleScratchRunStarted);
       cancelPendingRunEventDebounce();
+    };
+  }, []);
+
+  // Re-dispatch Scratch edits as a public event for host pages. The iframe
+  // sends one message per edit, so debounce to one event per burst. This runs
+  // for every user, unlike useScratchSaveState, which ignores the message
+  // when autosave is off.
+  useEffect(() => {
+    const allowedOrigin = getScratchAllowedOrigin();
+    let debounceTimeout = null;
+
+    const handleScratchProjectChanged = (event) => {
+      if (event.origin !== allowedOrigin) return;
+      if (event.data?.type !== "scratch-gui-project-changed") return;
+
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        debounceTimeout = null;
+        document.dispatchEvent(blocksProjectChangedEvent({}));
+      }, BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS);
+    };
+
+    window.addEventListener("message", handleScratchProjectChanged);
+    return () => {
+      window.removeEventListener("message", handleScratchProjectChanged);
+      clearTimeout(debounceTimeout);
     };
   }, []);
 
