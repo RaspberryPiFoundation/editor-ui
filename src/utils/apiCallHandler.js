@@ -16,6 +16,10 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     return await axios.put(url, body, config);
   };
 
+  const patch = async (url, body, config) => {
+    return await axios.patch(url, body, config);
+  };
+
   const headers = (accessToken) => {
     if (accessToken) {
       return { Accept: "application/json", Authorization: accessToken };
@@ -108,10 +112,25 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     );
   };
 
+  const getUserSettings = async (accessToken) => {
+    return await get(`${host}/api/user_settings`, {
+      headers: headers(accessToken),
+    });
+  };
+
+  const updateUserSettings = async (settings, accessToken) => {
+    return await patch(
+      `${host}/api/user_settings`,
+      { settings },
+      { headers: headers(accessToken) },
+    );
+  };
+
   return {
     get,
     post,
     put,
+    patch,
     createOrUpdateProject,
     deleteProject,
     loadRemix,
@@ -120,6 +139,8 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     loadAssets,
     createError,
     getAiErrorHint,
+    getUserSettings,
+    updateUserSettings,
   };
 };
 

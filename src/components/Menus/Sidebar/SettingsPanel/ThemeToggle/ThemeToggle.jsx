@@ -1,28 +1,22 @@
 import React, { startTransition } from "react";
-import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 import SelectButtons from "../../../../../utils/SelectButtons";
 import { themeUpdatedEvent } from "../../../../../events/WebComponentCustomEvents";
-
-const COOKIE_PATHS = ["/", "/projects", "/python"];
+import { useUpdateUserSettings } from "../../../../../hooks/useUserSettings";
 
 const ThemeToggle = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["theme"]);
+  const theme = useSelector((state) => state.userSettings.theme);
+  const updateSettings = useUpdateUserSettings();
   const isDarkMode =
-    cookies.theme === "dark" ||
-    (!cookies.theme &&
-      window.matchMedia("(prefers-color-scheme:dark)").matches);
+    theme === "dark" ||
+    (!theme && window.matchMedia("(prefers-color-scheme:dark)").matches);
   const { t } = useTranslation();
 
   const setTheme = (theme) => {
-    if (cookies.theme) {
-      COOKIE_PATHS.forEach((path) => {
-        removeCookie("theme", { path });
-      });
-    }
     startTransition(() => {
-      setCookie("theme", theme, { path: "/" });
+      updateSettings({ theme });
     });
     // Fire custom event
     document.dispatchEvent(themeUpdatedEvent(theme));

@@ -120,7 +120,8 @@ The web component communicates with the host page via the following custom event
 - `editor-aiHintRequested`: When an AI error hint request finishes after the user clicks the hint button (or retries after a failure) - event detail contains the `projectIdentifier`, the `errorDetails` of the error being shown, and the `outcome` (`"shown"` or `"failed"`)
 - `editor-aiHintToggled`: When the user turns AI hints on or off in the settings panel - event detail contains the `projectIdentifier` and whether hints are now `enabled`
 - `editor-aiHintTurnOffLinkClicked`: When the user clicks the turn off link under an AI error hint, which opens the AI hint settings - event detail contains the `projectIdentifier` and the `errorDetails` of the error being shown
-- `editor-codeChanged`: When the code in the editor is changed
+- `editor-blocksProjectChanged`: When the user edits a Scratch project - event detail is empty. Debounced to one event 2 seconds after the last edit in a burst, and fires for every user, logged in or not. Does not fire while the project first loads, but does fire when an `.sb3` is uploaded. Says only that something changed: there is no matching "saved" event
+- `editor-codeChanged`: When the code in the editor is changed. Editing blocks in a Scratch project doesn't trigger it (use `editor-blocksProjectChanged`), but it can still fire for a Scratch project when it loads or its identifier changes after a first save or remix
 - `editor-navigateToProjectsPage`: When the user requests to navigate to the projects index page
 - `editor-projectIdentifierChanged`: When the project identifier changes - event detail is the new identifier
 - `editor-projectDownloaded`: When the user clicks download - event detail contains the `projectType`. Fires on the click, not on a completed download
@@ -134,6 +135,7 @@ The web component communicates with the host page via the following custom event
 - `editor-logIn`: When the user requests to log in
 - `editor-signUp`: When the user requests to sign up
 - `editor-themeUpdated`: When the theme changes to light/dark mode - event detail contains the new theme
+- `editor-settingsUpdated`: When the user's settings load or change - event detail contains `{ theme, fontSize }` (`theme` is `null` when following the OS preference)
 
 These events allow the host page to respond to requests or changes made in the editor, for example, handling login or displaying data about the owner of a project or the latest code run.
 

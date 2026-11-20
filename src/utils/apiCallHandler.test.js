@@ -17,6 +17,8 @@ const {
   createRemix,
   createError,
   getAiErrorHint,
+  getUserSettings,
+  updateUserSettings,
 } = ApiCallHandler({ reactAppApiEndpoint: host });
 
 describe("Testing project API calls", () => {
@@ -248,5 +250,32 @@ describe("Testing AI error hint API calls", () => {
       { ...authHeaders, timeout: 20000 },
     );
     expect(response.data.fem).toBe("A friendly hint");
+  });
+});
+
+describe("Testing user settings API calls", () => {
+  test("Getting user settings", async () => {
+    axios.get.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200, data: { settings: {}, saved: false } }),
+    );
+
+    await getUserSettings(accessToken);
+    expect(axios.get).toHaveBeenCalledWith(
+      `${host}/api/user_settings`,
+      authHeaders,
+    );
+  });
+
+  test("Updating user settings", async () => {
+    axios.patch.mockImplementationOnce(() =>
+      Promise.resolve({ status: 200, data: { settings: {}, saved: true } }),
+    );
+
+    await updateUserSettings({ font_size: "large" }, accessToken);
+    expect(axios.patch).toHaveBeenCalledWith(
+      `${host}/api/user_settings`,
+      { settings: { font_size: "large" } },
+      authHeaders,
+    );
   });
 });

@@ -4,7 +4,6 @@ import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
 import { fireEvent, render, screen } from "@testing-library/react";
 import useIsOnline from "../../../hooks/useIsOnline";
-import { Cookies, CookiesProvider } from "react-cookie";
 
 const mockI18n = vi.hoisted(() => ({ language: "en" }));
 
@@ -167,7 +166,7 @@ describe("AI hint", () => {
     user = { access_token: "token" },
     friendlyError = { html: "<div>Friendly error</div>" },
     language = "en",
-    aiHintCookie,
+    aiHintsEnabled = true,
   } = {}) => {
     mockI18n.language = language;
     const store = mockStore({
@@ -178,19 +177,16 @@ describe("AI hint", () => {
         friendlyError,
       },
       auth: { user },
+      userSettings: { aiHintsEnabled },
     });
-    const cookies = new Cookies();
-    if (aiHintCookie) cookies.set("aiHint", aiHintCookie);
     render(
-      <CookiesProvider cookies={cookies}>
-        <Provider store={store}>
-          <SettingsContext.Provider
-            value={{ theme: "dark", fontSize: "myFontSize" }}
-          >
-            <ErrorMessage />
-          </SettingsContext.Provider>
-        </Provider>
-      </CookiesProvider>,
+      <Provider store={store}>
+        <SettingsContext.Provider
+          value={{ theme: "dark", fontSize: "myFontSize" }}
+        >
+          <ErrorMessage />
+        </SettingsContext.Provider>
+      </Provider>,
     );
   };
 
@@ -204,7 +200,6 @@ describe("AI hint", () => {
 
   afterEach(() => {
     mockI18n.language = "en";
-    new Cookies().remove("aiHint");
   });
 
   test("displays when all conditions are met", () => {
@@ -244,12 +239,12 @@ describe("AI hint", () => {
   });
 
   test("does not display when the user has turned AI hints off", () => {
-    renderErrorMessage({ aiHintCookie: "off" });
+    renderErrorMessage({ aiHintsEnabled: false });
     expectAiHintHidden();
   });
 
   test("displays when the user has turned AI hints on", () => {
-    renderErrorMessage({ aiHintCookie: "on" });
+    renderErrorMessage({ aiHintsEnabled: true });
     expect(screen.getByText("AiErrorMessage")).toBeInTheDocument();
   });
 });

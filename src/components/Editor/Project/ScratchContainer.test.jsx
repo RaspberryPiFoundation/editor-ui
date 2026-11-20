@@ -74,7 +74,7 @@ describe("ScratchContainer", () => {
     });
 
   const renderScratchContainer = (store = buildStore(), props = {}) => {
-    render(
+    const { unmount } = render(
       <Provider store={store}>
         <ScratchContainer {...props} />
       </Provider>,
@@ -83,6 +83,7 @@ describe("ScratchContainer", () => {
     return {
       iframe: screen.getByTitle("Scratch"),
       store,
+      unmount,
       viewport: screen.getByTestId("scratch-container-viewport"),
     };
   };
@@ -438,6 +439,112 @@ describe("ScratchContainer", () => {
       flushScratchRunDebounce();
 
       expect(runStartedHandler).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe("scratch-gui-project-changed message", () => {
+    const BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS = 2000;
+    let blocksProjectChangedHandler;
+    let unmount;
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+      blocksProjectChangedHandler = vi.fn();
+      document.addEventListener(
+        "editor-blocksProjectChanged",
+        blocksProjectChangedHandler,
+      );
+      ({ unmount } = renderScratchContainer());
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+      document.removeEventListener(
+        "editor-blocksProjectChanged",
+        blocksProjectChangedHandler,
+      );
+    });
+
+    const dispatchProjectChanged = () => {
+      act(() => {
+        dispatchMessage({ type: "scratch-gui-project-changed" });
+      });
+    };
+
+    const advanceTimers = (ms = BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS) => {
+      act(() => {
+        vi.advanceTimersByTime(ms);
+      });
+    };
+
+    test("dispatches editor-blocksProjectChanged after the debounce", () => {
+      dispatchProjectChanged();
+      advanceTimers(BLOCKS_PROJECT_CHANGED_DEBOUNCE_MS - 1);
+      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+
+      advanceTimers(1);
+      expect(blocksProjectChangedHandler).toHaveBeenCalledTimes(1);
+
+      const event = blocksProjectChangedHandler.mock.calls[0][0];
+      expect(event.detail).toEqual({});
+      expect(event.bubbles).toBe(true);
+      expect(event.composed).toBe(true);
+    });
+
+    test("collapses a burst of changes into one event", () => {
+      dispatchProjectChanged();
+      advanceTimers(1000);
+      dispatchProjectChanged();
+      advanceTimers(1000);
+      dispatchProjectChanged();
+      advanceTimers();
+
+      expect(blocksProjectChangedHandler).toHaveBeenCalledTimes(1);
+    });
+
+    test("dispatches again for a separate burst after the quiet period", () => {
+      dispatchProjectChanged();
+      advanceTimers();
+      dispatchProjectChanged();
+      advanceTimers();
+
+      expect(blocksProjectChangedHandler).toHaveBeenCalledTimes(2);
+    });
+
+    test.each([
+      {
+        name: "messages from other origins",
+        data: { type: "scratch-gui-project-changed" },
+        origin: "https://evil.example.com",
+      },
+      {
+        name: "other message types from the Scratch origin",
+        data: { type: "scratch-gui-ready", nonce: "nonce-1" },
+        origin: undefined,
+      },
+    ])("ignores $name", ({ data, origin }) => {
+      act(() => {
+        dispatchMessage(data, origin);
+      });
+      advanceTimers();
+
+      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+    });
+
+    test("does not dispatch when unmounted before the debounce fires", () => {
+      dispatchProjectChanged();
+      unmount();
+      advanceTimers();
+
+      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
+    });
+
+    test("stops listening for messages after unmount", () => {
+      unmount();
+      dispatchProjectChanged();
+      advanceTimers();
+
+      expect(blocksProjectChangedHandler).not.toHaveBeenCalled();
     });
   });
 

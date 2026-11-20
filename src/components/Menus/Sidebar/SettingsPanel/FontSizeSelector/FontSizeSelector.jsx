@@ -1,25 +1,19 @@
 import React from "react";
-import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import FontIconLg from "../../../../../assets/icons/font_icon_lg.svg";
 import FontIconRg from "../../../../../assets/icons/font_icon_rg.svg";
 import FontIconSm from "../../../../../assets/icons/font_icon_sm.svg";
 import SelectButtons from "../../../../../utils/SelectButtons";
-
-const COOKIE_PATHS = ["/", "/projects", "/python"];
+import { useUpdateUserSettings } from "../../../../../hooks/useUserSettings";
 
 const FontSizeSelector = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["fontSize"]);
-  const fontSize = cookies.fontSize || "small";
+  const fontSize = useSelector((state) => state.userSettings.fontSize);
+  const updateSettings = useUpdateUserSettings();
   const { t } = useTranslation();
 
   const setFontSize = (fontSize) => {
-    if (cookies.fontSize) {
-      COOKIE_PATHS.forEach((path) => {
-        removeCookie("fontSize", { path });
-      });
-    }
-    setCookie("fontSize", fontSize, { path: "/" });
+    updateSettings({ fontSize });
   };
 
   return (

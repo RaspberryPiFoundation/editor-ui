@@ -1,9 +1,42 @@
 import React from "react";
 import { act, render, fireEvent, screen } from "@testing-library/react";
-import ThemeToggle from "./ThemeToggle";
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 import { Cookies, CookiesProvider } from "react-cookie";
+import ThemeToggle from "./ThemeToggle";
+import rootReducer from "../../../../../redux/RootSlice";
+import { setUserSettings } from "../../../../../redux/UserSettingsSlice";
 
 const themeUpdatedHandler = vi.fn();
+
+const mockMatchMedia = (matches) => {
+  window.matchMedia = (query) => ({
+    matches,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // Deprecated
+    removeListener: vi.fn(), // Deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  });
+};
+
+let store;
+let cookies;
+
+const renderToggle = (theme = null) => {
+  store = configureStore({ reducer: rootReducer });
+  store.dispatch(setUserSettings({ theme }));
+  cookies = new Cookies();
+  render(
+    <CookiesProvider cookies={cookies}>
+      <Provider store={store}>
+        <ThemeToggle />
+      </Provider>
+    </CookiesProvider>,
+  );
+};
 
 beforeAll(() => {
   document.addEventListener("editor-themeUpdated", (e) =>
@@ -11,136 +44,66 @@ beforeAll(() => {
   );
 });
 
-describe("When default theme is light mode and cookie unset", () => {
-  let cookies;
-  let toggleContainer;
+afterEach(() => {
+  act(() => {
+    cookies.remove("theme", { path: "/" });
+  });
+});
 
+describe("When the OS prefers light mode and no theme is set", () => {
   beforeEach(() => {
-    window.matchMedia = (query) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(), // Deprecated
-      removeListener: vi.fn(), // Deprecated
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    });
-    cookies = new Cookies();
-    toggleContainer = render(
-      <CookiesProvider cookies={cookies}>
-        <ThemeToggle />
-      </CookiesProvider>,
-    );
+    mockMatchMedia(false);
+    renderToggle();
   });
 
-  test("Cookie remains unset after render", () => {
-    expect(cookies.cookies.theme).toBeUndefined();
+  test("Does not set a cookie on render", () => {
+    expect(cookies.get("theme")).toBeUndefined();
   });
 
-  test("Sets cookie to dark when button clicked", async () => {
-    const button = toggleContainer.getByText(
-      "sidebar.settingsMenu.themeOptions.dark",
-    );
-    fireEvent.click(button);
-    expect(cookies.cookies.theme).toBe("dark");
+  test("Sets the theme to dark when button clicked", () => {
+    fireEvent.click(screen.getByText("sidebar.settingsMenu.themeOptions.dark"));
+    expect(store.getState().userSettings.theme).toBe("dark");
+    expect(cookies.get("theme")).toBe("dark");
   });
 
-  test("Fires theme updated custom event when button clicked", async () => {
-    const button = screen.getByText("sidebar.settingsMenu.themeOptions.dark");
-    fireEvent.click(button);
+  test("Fires theme updated custom event when button clicked", () => {
+    fireEvent.click(screen.getByText("sidebar.settingsMenu.themeOptions.dark"));
     expect(themeUpdatedHandler).toHaveBeenCalledWith("dark");
   });
-
-  afterEach(() => {
-    act(() => {
-      cookies.remove("theme");
-    });
-  });
 });
 
-describe("When default theme is dark mode and cookie unset", () => {
-  let cookies;
-  let toggleContainer;
-
+describe("When the OS prefers dark mode and no theme is set", () => {
   beforeEach(() => {
-    window.matchMedia = (query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(), // Deprecated
-      removeListener: vi.fn(), // Deprecated
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    });
-    cookies = new Cookies();
-    toggleContainer = render(
-      <CookiesProvider cookies={cookies}>
-        <ThemeToggle />
-      </CookiesProvider>,
+    mockMatchMedia(true);
+    renderToggle();
+  });
+
+  test("Sets the theme to light when button clicked", () => {
+    fireEvent.click(
+      screen.getByText("sidebar.settingsMenu.themeOptions.light"),
     );
+    expect(store.getState().userSettings.theme).toBe("light");
+    expect(cookies.get("theme")).toBe("light");
   });
 
-  test("Cookie remains unset after render", () => {
-    expect(cookies.cookies.theme).toBeUndefined();
-  });
-
-  test("Sets cookie to light when button clicked", async () => {
-    const button = toggleContainer.getByText(
-      "sidebar.settingsMenu.themeOptions.light",
+  test("Fires theme updated custom event when button clicked", () => {
+    fireEvent.click(
+      screen.getByText("sidebar.settingsMenu.themeOptions.light"),
     );
-    fireEvent.click(button);
-    expect(cookies.cookies.theme).toBe("light");
-  });
-
-  test("Fires theme updated custom event when button clicked", async () => {
-    const button = screen.getByText("sidebar.settingsMenu.themeOptions.light");
-    fireEvent.click(button);
     expect(themeUpdatedHandler).toHaveBeenCalledWith("light");
   });
-
-  afterEach(() => {
-    act(() => {
-      cookies.remove("theme");
-    });
-  });
 });
 
-test("Cookie set to dark intially changes to light when button clicked", () => {
-  var cookies = new Cookies();
-  cookies.set("theme", "dark");
-  const toggleContainer = render(
-    <CookiesProvider cookies={cookies}>
-      <ThemeToggle />
-    </CookiesProvider>,
-  );
-  const button = toggleContainer.getByText(
-    "sidebar.settingsMenu.themeOptions.light",
-  );
-  act(() => {
-    fireEvent.click(button);
+describe("When the theme setting is dark", () => {
+  beforeEach(() => {
+    mockMatchMedia(false);
+    renderToggle("dark");
   });
-  expect(cookies.cookies.theme).toBe("light");
-});
 
-test("Cookie set to light intially changes to dark when button clicked", () => {
-  var cookies = new Cookies();
-  cookies.set("theme", "light");
-  var toggleContainer = render(
-    <CookiesProvider cookies={cookies}>
-      <ThemeToggle />
-    </CookiesProvider>,
-  );
-  const button = toggleContainer.getByText(
-    "sidebar.settingsMenu.themeOptions.dark",
-  );
-  act(() => {
-    fireEvent.click(button);
+  test("Changes to light when button clicked", () => {
+    fireEvent.click(
+      screen.getByText("sidebar.settingsMenu.themeOptions.light"),
+    );
+    expect(store.getState().userSettings.theme).toBe("light");
   });
-  expect(cookies.cookies.theme).toBe("dark");
-});
-
-afterAll(() => {
-  document.removeEventListener("editor-themeUpdated", themeUpdatedHandler);
 });
