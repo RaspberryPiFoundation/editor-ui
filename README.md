@@ -134,6 +134,7 @@ The web component communicates with the host page via the following custom event
 - `editor-logIn`: When the user requests to log in
 - `editor-signUp`: When the user requests to sign up
 - `editor-themeUpdated`: When the theme changes to light/dark mode - event detail contains the new theme
+- `editor-settingsUpdated`: When the user's settings load or change - event detail contains `{ theme, fontSize }` (`theme` is `null` when following the OS preference)
 
 These events allow the host page to respond to requests or changes made in the editor, for example, handling login or displaying data about the owner of a project or the latest code run.
 

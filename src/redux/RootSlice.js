@@ -4,11 +4,15 @@ import instructionsReducer, {
   instructionsInitialState,
 } from "./InstructionsSlice.js";
 import authReducer, { authInitialState } from "./WebComponentAuthSlice.js";
+import userSettingsReducer, {
+  userSettingsInitialState,
+} from "./UserSettingsSlice.js";
 
 const initialState = {
   editor: editorInitialState,
   instructions: instructionsInitialState,
   auth: authInitialState,
+  userSettings: userSettingsInitialState,
 };
 
 const RootSlice = createSlice({
@@ -25,6 +29,7 @@ const RootSlice = createSlice({
       state.editor = editorReducer(state.editor, action);
       state.instructions = instructionsReducer(state.instructions, action);
       state.auth = authReducer(state.auth, action);
+      state.userSettings = userSettingsReducer(state.userSettings, action);
     });
   },
 });

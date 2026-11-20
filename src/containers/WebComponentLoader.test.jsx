@@ -20,6 +20,10 @@ import { setUser } from "../redux/WebComponentAuthSlice";
 import { useProject } from "../hooks/useProject";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { Cookies, CookiesProvider } from "react-cookie";
+import UserSettingsReducer, {
+  setUserSettings,
+  userSettingsInitialState,
+} from "../redux/UserSettingsSlice";
 
 vi.mock("../hooks/useProject", () => ({
   useProject: vi.fn(),
@@ -72,6 +76,7 @@ describe("When initially rendered", () => {
       },
       instructions: {},
       auth: {},
+      userSettings: userSettingsInitialState,
     };
     store = mockStore(initialState);
     cookies = new Cookies();
@@ -228,6 +233,7 @@ describe("When no user is in state", () => {
       },
       instructions: {},
       auth: {},
+      userSettings: userSettingsInitialState,
     };
     store = mockStore(initialState);
     cookies = new Cookies();
@@ -345,8 +351,8 @@ describe("When no user is in state", () => {
       );
     });
 
-    test("Sets theme correctly", () => {
-      expect(cookies.cookies.theme).toEqual("light");
+    test("Does not overwrite the theme cookie with the host theme", () => {
+      expect(cookies.cookies.theme).toBeUndefined();
     });
 
     test("Sets theme class on the root element", () => {
@@ -456,6 +462,7 @@ describe("When user is in state", () => {
         },
         instructions: {},
         auth: { user },
+        userSettings: userSettingsInitialState,
       };
       store = mockStore(initialState);
       cookies = new Cookies();
@@ -614,6 +621,7 @@ describe("When user is in state", () => {
         },
         instructions: {},
         auth: { user },
+        userSettings: userSettingsInitialState,
       };
       store = mockStore(initialState);
       cookies = new Cookies();
@@ -652,13 +660,10 @@ describe("When user is in state", () => {
       });
 
       test("Does not trigger project load failed event", () => {
-        expect(document.dispatchEvent).not.toHaveBeenCalledWith(
-          new CustomEvent("editor-projectLoadFailed", {
-            bubbles: true,
-            cancelable: false,
-            composed: true,
-          }),
+        const eventTypes = document.dispatchEvent.mock.calls.map(
+          ([event]) => event.type,
         );
+        expect(eventTypes).not.toContain("editor-projectLoadFailed");
       });
     });
 
@@ -688,6 +693,7 @@ describe("When user is in state", () => {
         },
         instructions: {},
         auth: { user },
+        userSettings: userSettingsInitialState,
       };
       store = mockStore(initialState);
       cookies = new Cookies();
@@ -706,13 +712,10 @@ describe("When user is in state", () => {
     });
 
     test("triggers project load failed event", () => {
-      expect(document.dispatchEvent).toHaveBeenCalledWith(
-        new CustomEvent("editor-projectLoadFailed", {
-          bubbles: true,
-          cancelable: false,
-          composed: true,
-        }),
+      const eventTypes = document.dispatchEvent.mock.calls.map(
+        ([event]) => event.type,
       );
+      expect(eventTypes).toContain("editor-projectLoadFailed");
     });
 
     test("renders the load failed component", () => {
@@ -739,6 +742,7 @@ describe("When user is in state", () => {
         },
         instructions: {},
         auth: { user },
+        userSettings: userSettingsInitialState,
       };
       store = mockStore(initialState);
       cookies = new Cookies();
@@ -768,6 +772,7 @@ describe("when a Scratch remix updates the project identifier", () => {
         editor: EditorReducer,
         instructions: (state = {}) => state,
         auth: (state = { user }) => state,
+        userSettings: UserSettingsReducer,
       },
       preloadedState: {
         editor: {
@@ -781,6 +786,7 @@ describe("when a Scratch remix updates the project identifier", () => {
         },
       },
       auth: { user },
+      userSettings: userSettingsInitialState,
     });
 
     render(
@@ -832,6 +838,7 @@ describe("when the host swaps the identifier attribute", () => {
         project: { identifier: "teacher-original", components: [] },
       },
       auth: { user },
+      userSettings: userSettingsInitialState,
       instructions: {},
     });
     cookies = new Cookies();
@@ -857,5 +864,60 @@ describe("when the host swaps the identifier attribute", () => {
         loadRemix: false,
       }),
     );
+  });
+});
+
+describe("user settings", () => {
+  const renderWithSettings = (userSettings, props = {}) => {
+    document.dispatchEvent = vi.fn();
+    const mockStore = configureStore([]);
+    store = mockStore({
+      editor: {
+        ...editorInitialState,
+        loading: "success",
+        project: { components: [] },
+      },
+      instructions: {},
+      auth: {},
+      userSettings: { ...userSettingsInitialState, ...userSettings },
+    });
+    cookies = new Cookies();
+    return render(
+      <Provider store={store}>
+        <CookiesProvider cookies={cookies}>
+          <WebComponentLoader {...props} />
+        </CookiesProvider>
+      </Provider>,
+    );
+  };
+
+  test("uses the theme from user settings", () => {
+    const { container } = renderWithSettings({ theme: "dark" });
+    expect(container.querySelector("[id='wc']")).toHaveClass("--dark");
+  });
+
+  test("a theme passed by the host overrides user settings", () => {
+    const { container } = renderWithSettings(
+      { theme: "dark" },
+      { theme: "light" },
+    );
+    expect(container.querySelector("[id='wc']")).toHaveClass("--light");
+  });
+
+  test("seeds user settings from cookies", () => {
+    document.cookie = "fontSize=large; path=/";
+    renderWithSettings({});
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([setUserSettings({ fontSize: "large" })]),
+    );
+    document.cookie = "fontSize=; path=/; max-age=0";
+  });
+
+  test("fires the settings updated event", () => {
+    renderWithSettings({ theme: "dark", fontSize: "large" });
+    const event = document.dispatchEvent.mock.calls
+      .map(([e]) => e)
+      .find((e) => e.type === "editor-settingsUpdated");
+    expect(event.detail).toEqual({ theme: "dark", fontSize: "large" });
   });
 });

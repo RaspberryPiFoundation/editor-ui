@@ -7,7 +7,6 @@ import {
   setCascadeUpdate,
   updateProjectComponent,
 } from "../../../redux/EditorSlice";
-import { useCookies } from "react-cookie";
 import { useTranslation } from "react-i18next";
 import { basicSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
@@ -42,7 +41,6 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     (state) => state.editor.errorLineDismissed,
   );
   const errorLineShowing = useRef(false);
-  const [cookies] = useCookies(["theme", "fontSize"]);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const settings = useContext(SettingsContext);
@@ -89,11 +87,8 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         return html();
     }
   };
-  const isDarkMode =
-    cookies.theme === "dark" ||
-    (!cookies.theme &&
-      window.matchMedia("(prefers-color-scheme:dark)").matches);
-  const editorTheme = isDarkMode ? editorDarkTheme : editorLightTheme;
+  const editorTheme =
+    settings.theme === "dark" ? editorDarkTheme : editorLightTheme;
 
   const file = project.components.find(
     (item) => item.extension === extension && item.name === fileName,
@@ -158,7 +153,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
     return () => {
       view.destroy();
     };
-  }, [cookies]);
+  }, [settings.theme, settings.fontSize]);
 
   useEffect(() => {
     if (
@@ -189,7 +184,7 @@ const EditorPanel = ({ extension = "html", fileName = "index" }) => {
         : null;
     errorLineShowing.current = Boolean(errorLine);
     view.dispatch({ effects: setErrorLine.of(errorLine || null) });
-  }, [errorDetails, errorLineDismissed, cookies]);
+  }, [errorDetails, errorLineDismissed, settings.theme, settings.fontSize]);
 
   return (
     <div className="editor-wrapper">

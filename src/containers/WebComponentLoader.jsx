@@ -19,8 +19,8 @@ import { useProject } from "../hooks/useProject";
 import { useEmbeddedMode } from "../hooks/useEmbeddedMode";
 import { useProjectPersistence } from "../hooks/useProjectPersistence";
 import { useSyncUserFromLocalStorage } from "../hooks/useSyncUserFromLocalStorage";
+import { useLoadUserSettings } from "../hooks/useUserSettings";
 import { SettingsContext } from "../utils/settings";
-import { useCookies } from "react-cookie";
 import NewFileModal from "../components/Modals/NewFileModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import RenameFileModal from "../components/Modals/RenameFileModal";
@@ -37,6 +37,7 @@ import "../assets/stylesheets/Notifications.scss?inline";
 import {
   projectLoadFailed,
   projectOwnerLoadedEvent,
+  settingsUpdatedEvent,
 } from "../events/WebComponentCustomEvents";
 
 const CODE_EDITOR_FEEDBACK_URL =
@@ -106,20 +107,31 @@ const WebComponentLoader = (props) => {
 
   const { i18n } = useTranslation();
 
-  const [cookies, setCookie] = useCookies(["theme", "fontSize"]);
+  const userSettings = useSelector((state) => state.userSettings);
   const themeDefault = window.matchMedia("(prefers-color-scheme:dark)").matches
     ? "dark"
     : "light";
+  // A theme passed in by the host overrides the user's setting.
+  const activeTheme = theme || userSettings.theme || themeDefault;
 
   useEmbeddedMode(embedded);
   useSyncUserFromLocalStorage({ authKey, user });
+  useLoadUserSettings({ reactAppApiEndpoint, user, hostTheme: theme });
 
   useEffect(() => {
     if (theme) {
       dispatch(disableTheming());
-      setCookie("theme", theme, { path: "/" });
     }
-  }, [theme, setCookie, dispatch]);
+  }, [theme, dispatch]);
+
+  useEffect(() => {
+    document.dispatchEvent(
+      settingsUpdatedEvent({
+        theme: userSettings.theme,
+        fontSize: userSettings.fontSize,
+      }),
+    );
+  }, [userSettings.theme, userSettings.fontSize]);
 
   useEffect(() => {
     setProjectIdentifier(identifier);
@@ -239,14 +251,14 @@ const WebComponentLoader = (props) => {
     <>
       <SettingsContext.Provider
         value={{
-          theme: cookies.theme || themeDefault,
-          fontSize: cookies.fontSize || "small",
+          theme: activeTheme,
+          fontSize: userSettings.fontSize,
         }}
       >
         {webComponentStyles}
         {hostStyles && <style>{hostStyles}</style>}
 
-        <div id="wc" className={`--${cookies.theme || themeDefault}`}>
+        <div id="wc" className={`--${activeTheme}`}>
           <ToastContainer
             enableMultiContainer
             containerId="top-center"
@@ -280,7 +292,7 @@ const WebComponentLoader = (props) => {
   const renderFailedState = () => (
     <>
       {webComponentStyles}
-      <div className={`--${cookies.theme || themeDefault}`}>
+      <div className={`--${activeTheme}`}>
         <LoadFailed onRetry={() => window.location.reload()} />
       </div>
     </>
@@ -289,7 +301,7 @@ const WebComponentLoader = (props) => {
   const renderLoadingState = () => (
     <>
       {webComponentStyles}
-      <div className={`--${cookies.theme || themeDefault}`}>
+      <div className={`--${activeTheme}`}>
         <Loader delay={0} />
       </div>
     </>

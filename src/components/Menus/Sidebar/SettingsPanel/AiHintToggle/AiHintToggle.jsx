@@ -1,19 +1,18 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useCookies } from "react-cookie";
 import { Trans, useTranslation } from "react-i18next";
 import { Switch } from "@raspberrypifoundation/design-system-react";
 import { clearAiHintToggleFocusRequest } from "../../../../../redux/EditorSlice";
 import { aiHintLinkComponents } from "../../../../../utils/aiHintLinks";
-import {
-  AI_HINT_COOKIE,
-  aiHintTurnedOn,
-} from "../../../../../utils/aiHintCookie";
+import { useUpdateUserSettings } from "../../../../../hooks/useUserSettings";
 import { aiHintToggledEvent } from "../../../../../events/WebComponentCustomEvents";
 
 const AiHintToggle = () => {
   const { t } = useTranslation();
-  const [cookies, setCookie] = useCookies([AI_HINT_COOKIE]);
+  const aiHintsEnabled = useSelector(
+    (state) => state.userSettings.aiHintsEnabled,
+  );
+  const updateSettings = useUpdateUserSettings();
   const dispatch = useDispatch();
   const focusRequested = useSelector(
     (state) => state.editor.aiHintToggleFocusRequested,
@@ -31,7 +30,7 @@ const AiHintToggle = () => {
 
   const handleChange = (e) => {
     const enabled = e.target.checked;
-    setCookie(AI_HINT_COOKIE, enabled ? "on" : "off", { path: "/" });
+    updateSettings({ aiHintsEnabled: enabled });
     document.dispatchEvent(aiHintToggledEvent({ projectIdentifier, enabled }));
   };
 
@@ -45,7 +44,7 @@ const AiHintToggle = () => {
         reverse
         fullWidth
         aria-describedby="ai_hint_toggle_description"
-        checked={aiHintTurnedOn(cookies)}
+        checked={aiHintsEnabled}
         onChange={handleChange}
       />
       <p id="ai_hint_toggle_description">
