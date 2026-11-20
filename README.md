@@ -117,6 +117,7 @@ The `editor-wc` tag accepts the following attributes, which must be provided as 
 
 The web component communicates with the host page via the following custom events:
 
+- `editor-aiHintRequested`: When an AI error hint request finishes after the user clicks the hint button (or retries after a failure) - event detail contains the `projectIdentifier`, the `errorDetails` of the error being shown, and the `outcome` (`"shown"` or `"failed"`)
 - `editor-aiHintToggled`: When the user turns AI hints on or off in the settings panel - event detail contains the `projectIdentifier` and whether hints are now `enabled`
 - `editor-aiHintTurnOffLinkClicked`: When the user clicks the turn off link under an AI error hint, which opens the AI hint settings - event detail contains the `projectIdentifier` and the `errorDetails` of the error being shown
 - `editor-codeChanged`: When the code in the editor, or the blocks in a Scratch project, are changed - event detail contains the current `step` and `isInitialLoad`. Debounced to one event 2 seconds after the last change in a burst. It also fires once about 2 seconds after a project loads; that event has `isInitialLoad: true`, and every other event has `isInitialLoad: false`. For a Scratch project it fires for every user, logged in or not, including when an `.sb3` is uploaded, and also when the project identifier changes after a first save or remix.

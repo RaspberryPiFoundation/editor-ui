@@ -34,6 +34,7 @@ import {
   setPrevCodeRunTriggered,
   syncRunEventTrackingProject,
 } from "./runEventTrackingState";
+import useAiHintOffered from "../../hooks/useAiHintOffered";
 
 export { resetCodeRunEventTracking } from "./runEventTrackingState";
 
@@ -82,6 +83,7 @@ const WebComponentProject = ({
     (state) => state.instructions.currentStepPosition,
   );
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
+  const aiHintOffered = useAiHintOffered();
   const dispatch = useDispatch();
 
   const buildRunCompletedPayloadRef = useRef(() => ({}));
@@ -102,6 +104,7 @@ const WebComponentProject = ({
           step: currentStepPosition,
           errorDetails,
           friendlyErrorShown: Boolean(friendlyError?.html),
+          aiHintOffered,
           projectIdentifier,
           projectType,
           ...mz_criteria,

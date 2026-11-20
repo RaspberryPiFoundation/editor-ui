@@ -3,7 +3,7 @@
     display: grid;
     align-items: end;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--space-0-5);
+    gap: var(--space-1);
 
     > div:first-child,
     .rpf-input-field {
@@ -17,6 +17,11 @@
     .rpf-input {
       min-inline-size: 0;
     }
+  }
+
+  // Centre the 32px small button against the 48px input
+  .projects-panel__project-name-action {
+    margin-block-end: var(--space-1);
   }
 
   .projects-panel__item {
