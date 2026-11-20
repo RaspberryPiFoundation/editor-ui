@@ -16,6 +16,7 @@ import {
   setInstructionsEditable,
 } from "../../redux/EditorSlice";
 import { MOBILE_MEDIA_QUERY } from "../../utils/mediaQueryBreakpoints";
+import { projectHasChangedSinceInitialLoad } from "../../utils/projectHelpers";
 import {
   codeChangedEvent,
   projectIdentifierChangedEvent,
@@ -55,6 +56,15 @@ const WebComponentProject = ({
     (state) => state.editor.project.identifier,
   );
   const projectType = useSelector((state) => state.editor.project.project_type);
+  const initialComponents = useSelector(
+    (state) => state.editor.initialComponents,
+  );
+  const initialProjectName = useSelector(
+    (state) => state.editor.initialProjectName,
+  );
+  const initialProjectInstructions = useSelector(
+    (state) => state.editor.initialProjectInstructions,
+  );
 
   const isExperienceCSScratchProject = project.project_type === "scratch";
   const codeRunTriggered = useSelector(
@@ -105,12 +115,33 @@ const WebComponentProject = ({
     dispatch(setIsOutputOnly(outputOnly));
   }, [editableInstructions, outputSplitView, outputOnly, dispatch]);
 
+  // This component only mounts once a project has loaded, so the first
+  // codeChanged event after mount is caused by the load itself. Flag it so
+  // hosts can tell it apart from a user edit. The content check stops an edit
+  // made within the debounce window from being reported as the load.
+  const hasDispatchedCodeChangedRef = useRef(false);
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      document.dispatchEvent(codeChangedEvent({ step: currentStepPosition }));
+      const isInitialLoad =
+        !hasDispatchedCodeChangedRef.current &&
+        !projectHasChangedSinceInitialLoad(project, initialComponents, {
+          initialName: initialProjectName,
+          initialInstructions: initialProjectInstructions,
+        });
+      hasDispatchedCodeChangedRef.current = true;
+      document.dispatchEvent(
+        codeChangedEvent({ step: currentStepPosition, isInitialLoad }),
+      );
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [project, currentStepPosition]);
+  }, [
+    project,
+    currentStepPosition,
+    initialComponents,
+    initialProjectName,
+    initialProjectInstructions,
+  ]);
 
   useEffect(() => {
     if (projectIdentifier) {
