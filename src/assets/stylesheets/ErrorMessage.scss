@@ -4,7 +4,6 @@
 .error-message {
   color: var(--rpf-red-900);
   background-color: var(--rpf-red-100);
-  border-block: 1px solid var(--editor-color-outline);
   display: flex;
   flex-direction: column;
   min-block-size: 0;
@@ -32,9 +31,14 @@
     &::-webkit-details-marker {
       display: none;
     }
+
+    &:focus-visible {
+      outline: 3px solid var(--editor-focus-color);
+      outline-offset: -3px;
+    }
   }
 
-  details[open] &__summary {
+  details &__summary {
     border-block: 1px solid var(--rpf-red-200);
   }
 
