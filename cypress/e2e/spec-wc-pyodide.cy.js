@@ -1,15 +1,18 @@
 import {
+  ensureFilePanelOpen,
   getEditorShadow,
   getErrorLine,
   getErrorMessage,
-  getFriendlyErrorMessage,
   getFileButtonByName,
+  getFriendlyErrorMessage,
+  getInputPanel,
+  getOutputPanel,
   getProgramInput,
   getPyodideOutput,
   getPythonConsoleOutput,
+  getRunButton,
   getTextOutputTab,
   makeNewFile,
-  ensureFilePanelOpen,
   runCode,
   runProject,
   setCodeEditorContent,
@@ -39,6 +42,14 @@ describe("Running the code with pyodide", () => {
         configurable: true,
       });
     });
+  });
+
+  it("shows errors in the input panel and not the output panel", () => {
+    runCode("print(a)");
+    getInputPanel()
+      .find(".error-message__python")
+      .should("contain", "NameError");
+    getOutputPanel().find(".error-message").should("not.exist");
   });
 
   it("runs a simple program", () => {
@@ -350,5 +361,35 @@ describe("When friendly errors enabled with pyodide", () => {
       "contain",
       "This variable doesn't exist here",
     );
+  });
+});
+
+describe("Running the code with pyodide in an output-only embed", () => {
+  beforeEach(() => {
+    const params = new URLSearchParams();
+    params.set("code", "print(a)");
+    params.set("embedded", "true");
+    params.set("output_only", "true");
+    cy.visit({
+      url: `${origin}?${params.toString()}`,
+      headers: {
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "require-corp",
+      },
+    });
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: true,
+        configurable: true,
+      });
+    });
+  });
+
+  it("shows the error in the output panel", () => {
+    getRunButton().should("not.be.disabled");
+    runProject();
+    getPyodideOutput()
+      .find(".error-message__python")
+      .should("contain", "NameError");
   });
 });
