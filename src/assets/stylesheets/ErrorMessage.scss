@@ -4,22 +4,17 @@
 .error-message {
   color: var(--rpf-red-900);
   background-color: var(--rpf-red-100);
+  border-block-start: 1px solid var(--rpf-red-200);
   display: flex;
   flex-direction: column;
   min-block-size: 0;
-
-  details {
-    display: flex;
-    flex-direction: column;
-    min-block-size: 0;
-
-    &::details-content {
-      min-block-size: 0;
-      overflow-y: auto;
-    }
-  }
+  overflow-y: auto;
 
   &__summary {
+    position: sticky;
+    inset-block-start: 0;
+    background-color: var(--rpf-red-100);
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -38,8 +33,26 @@
     }
   }
 
+  @supports selector(::details-content) {
+    overflow-y: visible;
+    details {
+      display: flex;
+      flex-direction: column;
+      min-block-size: 0;
+
+      &::details-content {
+        min-block-size: 0;
+        overflow-y: auto;
+      }
+    }
+
+    .error-message__summary {
+      position: static;
+    }
+  }
+
   details &__summary {
-    border-block: 1px solid var(--rpf-red-200);
+    border-block-end: 1px solid var(--rpf-red-200);
   }
 
   &__title {
