@@ -119,15 +119,26 @@ const WebComponentProject = ({
   // codeChanged event after mount is caused by the load itself. Flag it so
   // hosts can tell it apart from a user edit. The content check stops an edit
   // made within the debounce window from being reported as the load.
+  //
+  // The snapshot is read through a ref rather than used as an effect dep:
+  // every save resyncs it with a fresh array, and that alone must not restart
+  // the debounce and fire an event when nothing changed.
+  const initialSnapshotRef = useRef();
+  initialSnapshotRef.current = {
+    components: initialComponents,
+    name: initialProjectName,
+    instructions: initialProjectInstructions,
+  };
   const hasDispatchedCodeChangedRef = useRef(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      const snapshot = initialSnapshotRef.current;
       const isInitialLoad =
         !hasDispatchedCodeChangedRef.current &&
-        !projectHasChangedSinceInitialLoad(project, initialComponents, {
-          initialName: initialProjectName,
-          initialInstructions: initialProjectInstructions,
+        !projectHasChangedSinceInitialLoad(project, snapshot.components, {
+          initialName: snapshot.name,
+          initialInstructions: snapshot.instructions,
         });
       hasDispatchedCodeChangedRef.current = true;
       document.dispatchEvent(
@@ -135,13 +146,7 @@ const WebComponentProject = ({
       );
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [
-    project,
-    currentStepPosition,
-    initialComponents,
-    initialProjectName,
-    initialProjectInstructions,
-  ]);
+  }, [project, currentStepPosition]);
 
   useEffect(() => {
     if (projectIdentifier) {
