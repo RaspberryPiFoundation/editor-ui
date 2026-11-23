@@ -236,3 +236,58 @@ describe("When withSidebar is false", () => {
     expect(screen.queryByTitle("sidebar.expand")).not.toBeInTheDocument();
   });
 });
+
+describe("When an error occurs", () => {
+  const buildState = (error) => ({
+    editor: {
+      project: {
+        project_type: "python",
+        components: [
+          { name: "main", extension: "py", content: "print('hello')" },
+        ],
+        image_list: [],
+      },
+      codeRunTriggered: true,
+      openFiles: [["main.py"]],
+      focussedFileIndices: [0],
+      error,
+    },
+    auth: {},
+  });
+
+  test("switches from the output tab to the code tab", () => {
+    const { rerender } = render(
+      <Provider store={mockStore(buildState(""))}>
+        <MobileProject />
+      </Provider>,
+    );
+    const codeTab = screen.getByText("mobile.code").closest("li");
+    const outputTab = screen.getByText("mobile.output").closest("li");
+    expect(outputTab).toHaveAttribute("aria-selected", "true");
+
+    rerender(
+      <Provider store={mockStore(buildState("NameError: boom"))}>
+        <MobileProject />
+      </Provider>,
+    );
+    expect(codeTab).toHaveAttribute("aria-selected", "true");
+  });
+
+  test("does not change tab when the error is cleared", () => {
+    const { rerender } = render(
+      <Provider store={mockStore(buildState("NameError: boom"))}>
+        <MobileProject />
+      </Provider>,
+    );
+    const outputTab = screen.getByText("mobile.output").closest("li");
+    fireEvent.click(outputTab);
+    expect(outputTab).toHaveAttribute("aria-selected", "true");
+
+    rerender(
+      <Provider store={mockStore(buildState(""))}>
+        <MobileProject />
+      </Provider>,
+    );
+    expect(outputTab).toHaveAttribute("aria-selected", "true");
+  });
+});

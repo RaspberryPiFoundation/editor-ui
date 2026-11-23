@@ -2,12 +2,17 @@ import {
   getErrorLine,
   getErrorMessage,
   getFriendlyErrorMessage,
+  getInputPanel,
+  getMobileTab,
+  getOutputPanel,
   getP5Canvas,
   getPythonConsoleOutput,
+  getRunButton,
   getSkulptRunner,
   getSkulptTabByName,
   getTurtleOutput,
   runCode,
+  runProject,
   stopProject,
 } from "../helpers/editor.js";
 
@@ -29,6 +34,14 @@ describe("Running the code with skulpt", () => {
         configurable: true,
       });
     });
+  });
+
+  it("shows errors in the input panel and not the output panel", () => {
+    runCode("print(a)");
+    getInputPanel()
+      .find(".error-message__python")
+      .should("contain", "NameError");
+    getOutputPanel().find(".error-message").should("not.exist");
   });
 
   it("runs a simple program", () => {
@@ -230,5 +243,63 @@ describe("When friendly errors enabled with skulpt", () => {
       "contain",
       "This variable doesn't exist here",
     );
+  });
+});
+
+describe("Running the code with skulpt on mobile", () => {
+  beforeEach(() => {
+    cy.viewport(400, 800);
+    cy.visit(origin);
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: false,
+        configurable: true,
+      });
+    });
+  });
+
+  it("switches to the code tab when an error occurs", () => {
+    runCode("print(a)");
+    getMobileTab("Code").should("have.attr", "aria-selected", "true");
+    getInputPanel()
+      .find(".error-message__python")
+      .should("be.visible")
+      .and("contain", "NameError");
+  });
+});
+
+describe("Running the code with skulpt in an output-only embed", () => {
+  const urlFor = (splitView) => {
+    const params = new URLSearchParams();
+    params.set("code", "import turtle\nprint(a)");
+    params.set("embedded", "true");
+    params.set("output_only", "true");
+    params.set("output_split_view", splitView);
+    return `${origin}?${params.toString()}`;
+  };
+
+  const visitAndRun = (splitView) => {
+    cy.visit(urlFor(splitView));
+    cy.window().then((win) => {
+      Object.defineProperty(win, "crossOriginIsolated", {
+        value: false,
+        configurable: true,
+      });
+    });
+    getRunButton().should("not.be.disabled");
+    runProject();
+    cy.get("#results").should("contain", "NameError");
+  };
+
+  it("shows the error in the output panel in split view", () => {
+    visitAndRun("true");
+    getSkulptRunner()
+      .find(".error-message__python")
+      .should("contain", "NameError");
+  });
+
+  it("does not show the error in tabbed view", () => {
+    visitAndRun("false");
+    getSkulptRunner().find(".error-message").should("not.exist");
   });
 });

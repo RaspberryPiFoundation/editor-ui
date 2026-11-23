@@ -6,6 +6,12 @@
   inline-size: 100%;
 }
 
+.editor-input .error-message {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  max-block-size: 50%;
+}
+
 .editor-input__view-only-banner {
   font-weight: var(--font-weight-bold);
   padding: var(--space-0-5) var(--space-1);
