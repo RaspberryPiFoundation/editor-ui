@@ -221,8 +221,8 @@
       "retryButtonText": "Réessayer",
       "aiGeneratedHint": "Indice généré par l’IA",
       "errorText": "Il est impossible de générer un indice. Réessayez plus tard.",
-      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
-      "turnOff": "Turn off AI hints"
+      "notice": "Les indices générés par l’IA peuvent être incorrects. <learnMore>Apprenez-en davantage</learnMore> et faites-nous part de vos <feedback>commentaires</feedback>",
+      "turnOff": "Désactiver les indices générés par l’IA"
     },
     "limitReached": "La limite d’affichage des résultats est atteinte. La suite est masquée, mais votre programme continue de s’exécuter.",
     "newTab": "Voir un aperçu dans un nouvel onglet",
@@ -360,8 +360,8 @@
     "charity": "The Raspberry Pi Foundation, organisme de charité enregistré au Royaume-Uni sous le numéro 1129409",
     "settingsMenu": {
       "heading": "Paramètres",
-      "aiHint": "AI generated hints",
-      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
+      "aiHint": "Indices générés par l’IA",
+      "aiHintDescription": "Lorsque votre code comporte une erreur, vous pouvez générer un indice avec l’IA. Les indices ne vous donnent pas la réponse et peuvent être incorrects. Apprenez-en davantage sur <learnMore>le fonctionnement des indices générés par l’IA</learnMore> ou <feedback>faites-nous part de vos commentaires</feedback>.",
       "textSize": "Taille du texte",
       "theme": "Thème",
       "textSizeOptions": {
@@ -388,7 +388,7 @@
     "no": "Non"
   },
   "common": {
-    "opensInNewTab": "(opens in a new tab)",
+    "opensInNewTab": "(ouvre dans un nouvel onglet)",
     "or": "ou"
   }
 }
