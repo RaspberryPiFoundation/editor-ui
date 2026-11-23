@@ -6,7 +6,7 @@ import "../../assets/stylesheets/RunBar.scss?inline";
 const RunBar = ({ embedded = false }) => {
   return (
     <div className="run-bar">
-      <RunnerControls embedded={embedded} />
+      <RunnerControls embedded={embedded} small />
     </div>
   );
 };
