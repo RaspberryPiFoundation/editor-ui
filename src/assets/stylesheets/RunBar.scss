@@ -5,12 +5,8 @@
   justify-content: flex-end;
   padding: var(--space-1);
 
-  .btn {
-    block-size: 32px;
-    min-block-size: unset;
-    min-inline-size: unset;
-    padding: 0 var(--space-1);
-    gap: var(--space-1);
+  .runner-controls {
+    padding: 0;
   }
 }
 
