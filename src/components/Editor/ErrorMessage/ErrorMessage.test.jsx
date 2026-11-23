@@ -2,7 +2,7 @@ import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { SettingsContext } from "../../../utils/settings";
 import ErrorMessage from "./ErrorMessage";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import useIsOnline from "../../../hooks/useIsOnline";
 
 const mockI18n = vi.hoisted(() => ({ language: "en" }));
@@ -44,9 +44,27 @@ describe("When error is set", () => {
       expect(screen.queryByText("Oops")).toBeInTheDocument();
     });
 
-    test("Font size class is set correctly", () => {
-      const errorMessage = screen.queryByText("Oops").parentElement;
-      expect(errorMessage).toHaveClass("error-message__python--myFontSize");
+    test("Displays the error title in an expanded details section", () => {
+      const title = document.querySelector(".error-message__title");
+      expect(title.closest("summary")).toBeInTheDocument();
+      expect(title.closest("details")).toHaveAttribute("open");
+    });
+
+    test("Clicking the title collapses and expands the error details", () => {
+      const title = document.querySelector(".error-message__title");
+      const details = title.closest("details");
+
+      fireEvent.click(title);
+      expect(details).not.toHaveAttribute("open");
+
+      fireEvent.click(title);
+      expect(details).toHaveAttribute("open");
+    });
+
+    test("Announces the error title in a status region", () => {
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "output.errorMessage.title",
+      );
     });
 
     test("Does not display friendly error elements", () => {
@@ -143,6 +161,20 @@ describe("When error is set", () => {
       "href",
       "https://help.editor.raspberrypi.org/hc/en-us/articles/30841379339924-What-Python-libraries-are-available-in-the-Code-Editor",
     );
+  });
+});
+
+describe("When error is not set", () => {
+  test("Keeps an empty status region rendered for announcements", () => {
+    const store = configureStore([])({ editor: { error: "" } });
+    render(
+      <Provider store={store}>
+        <ErrorMessage />
+      </Provider>,
+    );
+
+    expect(screen.getByRole("status")).toBeEmptyDOMElement();
+    expect(document.querySelector(".error-message")).not.toBeInTheDocument();
   });
 });
 
