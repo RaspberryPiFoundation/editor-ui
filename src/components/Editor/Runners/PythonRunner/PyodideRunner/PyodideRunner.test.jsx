@@ -27,6 +27,7 @@ import {
   openFile,
   setFocussedFileIndex,
   setFriendlyError,
+  setIsOutputOnly,
 } from "../../../../../redux/EditorSlice.js";
 import store from "../../../../../app/store";
 
@@ -683,6 +684,35 @@ describe("When an error is received", () => {
         );
       });
     });
+  });
+});
+
+describe("Error message in the output panel", () => {
+  beforeEach(() => {
+    act(() => {
+      store.dispatch(setError("NameError: boom"));
+    });
+  });
+
+  test("is not shown by default", () => {
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />
+      </Provider>,
+    );
+    expect(screen.queryByText("NameError: boom")).not.toBeInTheDocument();
+  });
+
+  test("is shown when output only", () => {
+    act(() => {
+      store.dispatch(setIsOutputOnly(true));
+    });
+    render(
+      <Provider store={store}>
+        <PyodideRunner active={true} />
+      </Provider>,
+    );
+    expect(screen.getByText("NameError: boom")).toBeInTheDocument();
   });
 });
 

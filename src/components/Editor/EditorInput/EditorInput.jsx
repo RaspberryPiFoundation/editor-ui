@@ -15,6 +15,7 @@ import EditorPanel from "../EditorPanel/EditorPanel";
 import DraggableTab from "../DraggableTabs/DraggableTab";
 import DroppableTabList from "../DraggableTabs/DroppableTabList";
 import RunBar from "../../RunButton/RunBar";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 import "../../../assets/stylesheets/EditorInput.scss?inline";
 import RunnerControls from "../../RunButton/RunnerControls";
@@ -31,6 +32,7 @@ const EditorInput = () => {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ query: MOBILE_MEDIA_QUERY });
   const readOnly = useSelector((state) => state.editor.readOnly);
+  const isPythonProject = project?.project_type !== "html";
 
   const [numberOfComponents, setNumberOfComponents] = useState(
     project?.components?.length,
@@ -186,6 +188,9 @@ const EditorInput = () => {
                 />
               </TabPanel>
             ))}
+            {isPythonProject && panelIndex === openFiles.length - 1 && (
+              <ErrorMessage />
+            )}
             {isMobile ? null : <RunBar />}
           </Tabs>
         ))}

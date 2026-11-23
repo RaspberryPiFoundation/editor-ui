@@ -4,6 +4,10 @@
   flex-direction: row;
   justify-content: flex-end;
   padding: var(--space-1);
+
+  .runner-controls {
+    padding: 0;
+  }
 }
 
 .--light {

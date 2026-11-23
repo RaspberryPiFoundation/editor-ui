@@ -31,6 +31,18 @@ test("Run button shows when code is not running", () => {
   expect(runButton).toBeInTheDocument();
 });
 
+test("Run button is small when small is set", () => {
+  const store = mockStore({ editor: {} });
+  render(
+    <Provider store={store}>
+      <RunnerControls small />
+    </Provider>,
+  );
+  const runButton = screen.getByText("runButton.run").closest("button");
+  expect(runButton).toHaveClass("btn--small");
+  expect(runButton.parentElement).not.toHaveClass("btn-outer");
+});
+
 test("Stop button shows when code is running", () => {
   const initialState = {
     editor: {
