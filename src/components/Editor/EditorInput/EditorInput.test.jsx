@@ -185,6 +185,36 @@ describe("When not read only", () => {
   });
 });
 
+describe("Error message", () => {
+  test("Shows error inside the input panel, above the run bar", () => {
+    setMedia({ width: "1000px" });
+    renderEditorInput({
+      editor: { ...initialState.editor, error: "NameError: boom" },
+    });
+    const error = screen.getByText("NameError: boom").closest(".error-message");
+    expect(error.closest(".editor-input")).toBeInTheDocument();
+    expect(error.nextElementSibling).toHaveClass("run-bar");
+  });
+
+  test("Does not show anything when there is no error", () => {
+    renderEditorInput({});
+    expect(
+      document.querySelector(".editor-input .error-message"),
+    ).not.toBeInTheDocument();
+  });
+
+  test("Does not show error for HTML projects", () => {
+    renderEditorInput({
+      editor: {
+        ...initialState.editor,
+        project: { ...initialState.editor.project, project_type: "html" },
+        error: "Something went wrong",
+      },
+    });
+    expect(screen.queryByText("Something went wrong")).not.toBeInTheDocument();
+  });
+});
+
 describe("When read only", () => {
   beforeEach(() => {
     renderEditorInput({ editor: { ...initialState.editor, readOnly: true } });

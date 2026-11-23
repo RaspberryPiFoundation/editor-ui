@@ -9,7 +9,11 @@ import { stopCodeRun, stopDraw, triggerCodeRun } from "../../redux/EditorSlice";
 import { runStoppedEvent } from "../../events/WebComponentCustomEvents";
 import "../../assets/stylesheets/RunnerControls.scss?inline";
 
-const RunnerControls = ({ embedded = false, skinny = false }) => {
+const RunnerControls = ({
+  embedded = false,
+  skinny = false,
+  small = false,
+}) => {
   const codeRunTriggered = useSelector(
     (state) => state.editor.codeRunTriggered,
   );
@@ -86,7 +90,7 @@ const RunnerControls = ({ embedded = false, skinny = false }) => {
         className={classNames("btn--primary", {
           "btn--run": !isRunning,
           "btn--stop": isRunning,
-          "btn--small": skinny,
+          "btn--small": skinny || small,
         })}
         disabled={
           !isRunning &&

@@ -64,6 +64,7 @@ const PyodideRunner = ({
   const user = useSelector((s) => s.auth.user);
   const userId = user?.profile?.user;
   const isSplitView = useSelector((s) => s.editor.isSplitView);
+  const isOutputOnly = useSelector((s) => s.editor.isOutputOnly);
   const isEmbedded = useSelector((s) => s.editor.isEmbedded);
   const reactAppApiEndpoint = useSelector((s) => s.editor.reactAppApiEndpoint);
   const codeRunTriggered = useSelector((s) => s.editor.codeRunTriggered);
@@ -612,7 +613,7 @@ const PyodideRunner = ({
                     ref={output}
                   ></pre>
                 </TabPanel>
-                <ErrorMessage />
+                {isOutputOnly && <ErrorMessage />}
               </Tabs>
             </div>
           )}
@@ -649,7 +650,7 @@ const PyodideRunner = ({
               ref={output}
             ></pre>
           </TabPanel>
-          <ErrorMessage />
+          {isOutputOnly && <ErrorMessage />}
         </Tabs>
       )}
     </div>

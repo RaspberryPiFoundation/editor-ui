@@ -69,6 +69,15 @@ export const getTurtleOutput = () => getEditorShadow().find("#turtleOutput");
 export const getErrorMessage = () =>
   getEditorShadow().find(".error-message__python");
 
+export const getInputPanel = () =>
+  getEditorShadow().findByRole("region", { name: "Input panel" });
+
+export const getOutputPanel = () =>
+  getEditorShadow().findByRole("region", { name: "Output panel" });
+
+export const getMobileTab = (name) =>
+  getEditorShadow().find(".mobile-nav").contains('[role="tab"]', name);
+
 export const getErrorLine = () => getEditorShadow().find(".cm-error-line");
 
 export const getFriendlyErrorMessage = () =>
