@@ -215,11 +215,14 @@
     "errors": {
       "interrupted": "Exécution interrompue"
     },
+    "errorMessage": {
+      "title": "Error running your code"
+    },
     "aiErrorMessages": {
       "loadingText": "Génération d’indice",
-      "buttonText": "Vous avez besoin d’aide? Demandez à l’IA de générer un indice.",
+      "buttonText": "Generate an AI hint",
       "retryButtonText": "Réessayer",
-      "aiGeneratedHint": "Indice généré par l’IA",
+      "aiGeneratedHint": "AI-generated hint",
       "errorText": "Il est impossible de générer un indice. Réessayez plus tard.",
       "notice": "Les indices générés par l’IA peuvent être incorrects. <learnMore>Apprenez-en davantage</learnMore> et faites-nous part de vos <feedback>commentaires</feedback>",
       "turnOff": "Désactiver les indices générés par l’IA"
@@ -360,7 +363,7 @@
     "charity": "The Raspberry Pi Foundation, organisme de charité enregistré au Royaume-Uni sous le numéro 1129409",
     "settingsMenu": {
       "heading": "Paramètres",
-      "aiHint": "Indices générés par l’IA",
+      "aiHint": "AI-generated hints",
       "aiHintDescription": "Lorsque votre code comporte une erreur, vous pouvez générer un indice avec l’IA. Les indices ne vous donnent pas la réponse et peuvent être incorrects. Apprenez-en davantage sur <learnMore>le fonctionnement des indices générés par l’IA</learnMore> ou <feedback>faites-nous part de vos commentaires</feedback>.",
       "textSize": "Taille du texte",
       "theme": "Thème",
