@@ -3,9 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Trans, useTranslation } from "react-i18next";
 import { Switch } from "@raspberrypifoundation/design-system-react";
 import { clearAiHintToggleFocusRequest } from "../../../../../redux/EditorSlice";
-import { aiHintLinkComponents } from "../../../../../utils/aiHintLinks";
+import { getAiHintLinkComponents } from "../../../../../utils/aiHintLinks";
 import { useUpdateUserSettings } from "../../../../../hooks/useUserSettings";
-import { aiHintToggledEvent } from "../../../../../events/WebComponentCustomEvents";
+import {
+  aiHintLearnMoreLinkClickedEvent,
+  aiHintToggledEvent,
+} from "../../../../../events/WebComponentCustomEvents";
 
 const AiHintToggle = () => {
   const { t } = useTranslation();
@@ -34,6 +37,15 @@ const AiHintToggle = () => {
     document.dispatchEvent(aiHintToggledEvent({ projectIdentifier, enabled }));
   };
 
+  const handleLearnMoreClick = () => {
+    document.dispatchEvent(
+      aiHintLearnMoreLinkClickedEvent({
+        projectIdentifier,
+        source: "settings",
+      }),
+    );
+  };
+
   return (
     <div ref={containerRef}>
       <Switch
@@ -50,7 +62,9 @@ const AiHintToggle = () => {
       <p id="ai_hint_toggle_description">
         <Trans
           i18nKey="sidebar.settingsMenu.aiHintDescription"
-          components={aiHintLinkComponents}
+          components={getAiHintLinkComponents({
+            onLearnMoreClick: handleLearnMoreClick,
+          })}
         />
       </p>
     </div>

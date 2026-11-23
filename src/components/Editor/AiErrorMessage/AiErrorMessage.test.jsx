@@ -3,8 +3,22 @@ import { Provider } from "react-redux";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import AiErrorMessage, { MIN_LOADING_MS } from "./AiErrorMessage";
 import ApiCallHandler from "../../../utils/apiCallHandler";
+import { AI_HINT_LEARN_MORE_URL } from "../../../utils/aiHintLinks";
 
 vi.mock("../../../utils/apiCallHandler");
+
+vi.mock("react-i18next", async () => {
+  const { cloneElement, createElement } = await vi.importActual("react");
+  return {
+    useTranslation: () => ({ t: (str) => str }),
+    Trans: ({ i18nKey, components = {} }) => [
+      createElement("span", { key: i18nKey }, i18nKey),
+      ...Object.entries(components).map(([name, element]) =>
+        cloneElement(element, { key: name }, name),
+      ),
+    ],
+  };
+});
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
@@ -375,6 +389,50 @@ describe("AiErrorMessage", () => {
         projectIdentifier: "coach-gong-glide",
         errorDetails,
       });
+    });
+  });
+
+  describe("learn more link", () => {
+    const learnMoreLink = () => screen.getByRole("link", { name: /learnMore/ });
+
+    test("Links to the AI hints help article in a new tab", () => {
+      renderAiErrorMessage();
+      expect(learnMoreLink()).toHaveAttribute("href", AI_HINT_LEARN_MORE_URL);
+      expect(learnMoreLink()).toHaveAttribute("target", "_blank");
+    });
+
+    test("Dispatches the learn more link clicked event with the error", () => {
+      const handler = vi.fn();
+      const onLearnMoreLinkClicked = (e) => handler(e.detail);
+      document.addEventListener(
+        "editor-aiHintLearnMoreLinkClicked",
+        onLearnMoreLinkClicked,
+      );
+      const state = buildState();
+      state.editor.project.identifier = "coach-gong-glide";
+      renderAiErrorMessage(state);
+      fireEvent.click(learnMoreLink());
+      document.removeEventListener(
+        "editor-aiHintLearnMoreLinkClicked",
+        onLearnMoreLinkClicked,
+      );
+      expect(handler).toHaveBeenCalledWith({
+        projectIdentifier: "coach-gong-glide",
+        errorDetails,
+        source: "errorMessage",
+      });
+    });
+
+    test("Does not dispatch the event when the feedback link is clicked", () => {
+      const handler = vi.fn();
+      document.addEventListener("editor-aiHintLearnMoreLinkClicked", handler);
+      renderAiErrorMessage();
+      fireEvent.click(screen.getByRole("link", { name: /feedback/ }));
+      document.removeEventListener(
+        "editor-aiHintLearnMoreLinkClicked",
+        handler,
+      );
+      expect(handler).not.toHaveBeenCalled();
     });
   });
 });

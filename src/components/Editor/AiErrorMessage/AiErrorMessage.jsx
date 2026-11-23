@@ -7,8 +7,9 @@ import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg
 import SettingsIcon from "../../../assets/icons/settings.svg";
 import { openAiHintSettings } from "../../../redux/EditorSlice";
 import ApiCallHandler from "../../../utils/apiCallHandler";
-import { aiHintLinkComponents } from "../../../utils/aiHintLinks";
+import { getAiHintLinkComponents } from "../../../utils/aiHintLinks";
 import {
+  aiHintLearnMoreLinkClickedEvent,
   aiHintRequestedEvent,
   aiHintTurnOffLinkClickedEvent,
 } from "../../../events/WebComponentCustomEvents";
@@ -105,6 +106,16 @@ const AiErrorMessage = () => {
     );
   };
 
+  const handleLearnMoreClick = () => {
+    document.dispatchEvent(
+      aiHintLearnMoreLinkClickedEvent({
+        projectIdentifier,
+        errorDetails,
+        source: "errorMessage",
+      }),
+    );
+  };
+
   return (
     <div className="ai-error-message" aria-live="polite">
       {(hint || failed) && (
@@ -137,7 +148,9 @@ const AiErrorMessage = () => {
         <p className="ai-error-message__notice">
           <Trans
             i18nKey="output.aiErrorMessages.notice"
-            components={aiHintLinkComponents}
+            components={getAiHintLinkComponents({
+              onLearnMoreClick: handleLearnMoreClick,
+            })}
           />
         </p>
         <button
