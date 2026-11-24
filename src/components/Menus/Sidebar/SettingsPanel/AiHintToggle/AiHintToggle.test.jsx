@@ -11,6 +11,19 @@ import ApiCallHandler from "../../../../../utils/apiCallHandler";
 
 vi.mock("../../../../../utils/apiCallHandler");
 
+vi.mock("react-i18next", async () => {
+  const { cloneElement, createElement } = await vi.importActual("react");
+  return {
+    useTranslation: () => ({ t: (str) => str }),
+    Trans: ({ i18nKey, components = {} }) => [
+      createElement("span", { key: i18nKey }, i18nKey),
+      ...Object.entries(components).map(([name, element]) =>
+        cloneElement(element, { key: name }, name),
+      ),
+    ],
+  };
+});
+
 const updateUserSettings = vi.fn().mockResolvedValue({ data: {} });
 
 const renderToggle = ({
@@ -101,6 +114,25 @@ describe("AiHintToggle", () => {
     expect(aiHintToggledHandler).toHaveBeenCalledWith({
       projectIdentifier: "coach-gong-glide",
       enabled: true,
+    });
+  });
+
+  test("dispatches the learn more link clicked event", () => {
+    const handler = vi.fn();
+    const onLearnMoreLinkClicked = (e) => handler(e.detail);
+    document.addEventListener(
+      "editor-aiHintLearnMoreLinkClicked",
+      onLearnMoreLinkClicked,
+    );
+    renderToggle();
+    fireEvent.click(screen.getByRole("link", { name: /learnMore/ }));
+    document.removeEventListener(
+      "editor-aiHintLearnMoreLinkClicked",
+      onLearnMoreLinkClicked,
+    );
+    expect(handler).toHaveBeenCalledWith({
+      projectIdentifier: "coach-gong-glide",
+      source: "settings",
     });
   });
 

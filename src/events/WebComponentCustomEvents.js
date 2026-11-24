@@ -59,6 +59,9 @@ export const themeUpdatedEvent = (detail) =>
 export const aiHintTurnOffLinkClickedEvent = (detail) =>
   webComponentCustomEvent("editor-aiHintTurnOffLinkClicked", detail);
 
+export const aiHintLearnMoreLinkClickedEvent = (detail) =>
+  webComponentCustomEvent("editor-aiHintLearnMoreLinkClicked", detail);
+
 export const aiHintToggledEvent = (detail) =>
   webComponentCustomEvent("editor-aiHintToggled", detail);
 
