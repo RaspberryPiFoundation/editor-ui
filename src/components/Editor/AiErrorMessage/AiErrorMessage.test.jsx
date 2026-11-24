@@ -425,7 +425,7 @@ describe("AiErrorMessage", () => {
       expect(learnMoreLink()).toHaveAttribute("target", "_blank");
     });
 
-    test("Dispatches the learn more link clicked event with the error", () => {
+    test("Dispatches the learn more link clicked event", () => {
       const handler = vi.fn();
       const onLearnMoreLinkClicked = (e) => handler(e.detail);
       document.addEventListener(
@@ -442,7 +442,6 @@ describe("AiErrorMessage", () => {
       );
       expect(handler).toHaveBeenCalledWith({
         projectIdentifier: "coach-gong-glide",
-        errorDetails,
         source: "errorMessage",
       });
     });

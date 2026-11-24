@@ -118,7 +118,6 @@ const AiErrorMessage = () => {
     document.dispatchEvent(
       aiHintLearnMoreLinkClickedEvent({
         projectIdentifier,
-        errorDetails,
         source: "errorMessage",
       }),
     );
