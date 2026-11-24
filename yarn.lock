@@ -2543,7 +2543,7 @@ __metadata:
     eslint-plugin-testing-library: "npm:^3.9.2"
     file-saver: "npm:^2.0.5"
     highcharts: "npm:^9.3.1"
-    i18next: "npm:^26.3.4"
+    i18next: "npm:^26.7.2"
     i18next-http-backend: "npm:^3.0.5"
     identity-obj-proxy: "npm:3.0.0"
     jest-axe: "npm:^11.0.0"
@@ -10060,15 +10060,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^26.3.4":
-  version: 26.3.4
-  resolution: "i18next@npm:26.3.4"
+"i18next@npm:^26.7.2":
+  version: 26.7.2
+  resolution: "i18next@npm:26.7.2"
   peerDependencies:
-    typescript: ^5 || ^6
+    typescript: ^5 || ^6 || ^7
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/133ba9a5f76c1d57337f0dcc1b0ab0ff987714a1863813dcc95024531074c6d92603a19b0bac9c16a6b04c734742d8d098da0c222bef5a9562bdde231ea4b221
+  checksum: 10/43bc0c79b4590108c81887dcf0cf583107bf6052fb7d658281fdabb5a8e7304a1869031acab7dd3cfeb267bb445dfa6f967643a39098666fcfdfcb1d9a494b82
   languageName: node
   linkType: hard
 
