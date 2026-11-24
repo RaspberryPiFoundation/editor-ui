@@ -216,26 +216,26 @@
       "interrupted": "Se interrumpió la ejecución"
     },
     "errorMessage": {
-      "title": "Error running your code"
+      "title": "Error al ejecutar tu código"
     },
     "aiErrorMessages": {
       "loadingText": "Generando pista",
-      "buttonText": "Generate an AI hint",
+      "buttonText": "Generar una pista de IA",
       "retryButtonText": "Intentar de nuevo",
-      "aiGeneratedHint": "AI-generated hint",
+      "aiGeneratedHint": "Pista generada mediante IA",
       "errorText": "No pudimos generar una pista, vuelve a intentarlo más tarde.",
-      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
-      "turnOff": "Turn off AI hints"
+      "notice": "Las pistas de IA pueden ser incorrectas. <learnMore>Obtén más información</learnMore> y comparte tus <feedback>comentarios</feedback>",
+      "turnOff": "Desactivar las pistas de IA"
     },
     "limitReached": "Se alcanzó el límite de salida. La salida adicional está oculta, pero tu programa sigue ejecutándose.",
     "newTab": "Vista previa en nueva pestaña",
     "preview": "vista previa",
     "senseHat": {
       "view": {
-        "toggleTo2D": "Zoom in to 2D view",
-        "toggleTo3D": "Zoom out to 3D view",
-        "resetOrientation": "Reset Astro Pi orientation",
-        "description": "2D zoomed view of the Astro Pi 8 by 8 Sense HAT LED matrix"
+        "toggleTo2D": "Acercar para vista 2D",
+        "toggleTo3D": "Alejar para vista 3D",
+        "resetOrientation": "Restablecer la orientación de Astro Pi",
+        "description": "Vista 2D con zoom de Astro Pi 8 con la matriz led de 8 Sense HAT LED"
       },
       "controls": {
         "colour": "color",
@@ -363,8 +363,8 @@
     "charity": "Fundación Raspberry Pi, organización benéfica registrada en el Reino Unido 1129409",
     "settingsMenu": {
       "heading": "Configuración",
-      "aiHint": "AI-generated hints",
-      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
+      "aiHint": "Pistas generadas mediante IA",
+      "aiHintDescription": "Si tu código tiene un error, puedes generar una pista usando IA. Las pistas no te dan la respuesta y pueden ser incorrectas. Obtén más información sobre <learnMore>cómo funcionan las pistas de IA</learnMore> o <feedback>comparte tus comentarios</feedback>.",
       "textSize": "Tamaño del texto",
       "theme": "Tema",
       "textSizeOptions": {
@@ -391,7 +391,7 @@
     "no": "No"
   },
   "common": {
-    "opensInNewTab": "(opens in a new tab)",
+    "opensInNewTab": "(se abre en una nueva pestaña)",
     "or": "o"
   }
 }
