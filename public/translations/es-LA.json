@@ -215,11 +215,14 @@
     "errors": {
       "interrupted": "Se interrumpió la ejecución"
     },
+    "errorMessage": {
+      "title": "Error running your code"
+    },
     "aiErrorMessages": {
       "loadingText": "Generando pista",
-      "buttonText": "¿Necesitas ayuda? Genera una pista de IA",
+      "buttonText": "Generate an AI hint",
       "retryButtonText": "Intentar de nuevo",
-      "aiGeneratedHint": "Pista generada por IA",
+      "aiGeneratedHint": "AI-generated hint",
       "errorText": "No pudimos generar una pista, vuelve a intentarlo más tarde.",
       "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
       "turnOff": "Turn off AI hints"
@@ -360,7 +363,7 @@
     "charity": "Fundación Raspberry Pi, organización benéfica registrada en el Reino Unido 1129409",
     "settingsMenu": {
       "heading": "Configuración",
-      "aiHint": "AI generated hints",
+      "aiHint": "AI-generated hints",
       "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Tamaño del texto",
       "theme": "Tema",

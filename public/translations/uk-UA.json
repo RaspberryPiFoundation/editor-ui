@@ -217,11 +217,14 @@
     "errors": {
       "interrupted": "Виконання перервано"
     },
+    "errorMessage": {
+      "title": "Error running your code"
+    },
     "aiErrorMessages": {
       "loadingText": "Generating hint",
-      "buttonText": "Need help? Generate an AI hint",
+      "buttonText": "Generate an AI hint",
       "retryButtonText": "Try again",
-      "aiGeneratedHint": "AI generated hint",
+      "aiGeneratedHint": "AI-generated hint",
       "errorText": "We were not able to generate a hint, try again later.",
       "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
       "turnOff": "Turn off AI hints"
@@ -362,7 +365,7 @@
     "charity": "Raspberry Pi Foundation — благодійна організація, зареєстрована у Великій Британії за номером 1129409",
     "settingsMenu": {
       "heading": "Налаштування",
-      "aiHint": "AI generated hints",
+      "aiHint": "AI-generated hints",
       "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
       "textSize": "Розмір тексту",
       "theme": "Тема",

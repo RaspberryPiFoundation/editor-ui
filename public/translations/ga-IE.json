@@ -218,24 +218,27 @@
     "errors": {
       "interrupted": "Cur i bhfeidhm idirbhriste"
     },
+    "errorMessage": {
+      "title": "Error running your code"
+    },
     "aiErrorMessages": {
       "loadingText": "Gin leid",
-      "buttonText": "An dteastaíonn cúnamh? Gin leid IS",
+      "buttonText": "Generate an AI hint",
       "retryButtonText": "Triail arís é",
       "aiGeneratedHint": "Leid arna gineadh le IS",
       "errorText": "Ní rabhamar in ann leid a ghiniúint. Bain triail eile as ar ball.",
-      "notice": "AI hints can be wrong. <learnMore>Learn more</learnMore> and share <feedback>feedback</feedback>",
-      "turnOff": "Turn off AI hints"
+      "notice": "D’fhéadfadh leideanna IS a bheith mícheart. <learnMore>Léigh tuilleadh </learnMore>agus roinn <feedback>aiseolas</feedback>",
+      "turnOff": "Múch leideanna IS"
     },
     "limitReached": "Teorainn aschuir sroichte. Tá aschur breise folaithe, ach tá do chlár fós ag rith.",
     "newTab": "Réamhamharc i dtáb nua",
     "preview": "réamhamharc",
     "senseHat": {
       "view": {
-        "toggleTo2D": "Zoom in to 2D view",
-        "toggleTo3D": "Zoom out to 3D view",
-        "resetOrientation": "Reset Astro Pi orientation",
-        "description": "2D zoomed view of the Astro Pi 8 by 8 Sense HAT LED matrix"
+        "toggleTo2D": "Zúmáil isteach ar an amharc 2T",
+        "toggleTo3D": "Zúmáil isteach ar an amharc 3T",
+        "resetOrientation": "Athshocraigh treoshuíomh Astro Pi",
+        "description": "Amharc zúmáilte isteach 2T ar mhaitrís LED 8 × 8 Sense HAT Astro Pi"
       },
       "controls": {
         "colour": "dath",
@@ -363,8 +366,8 @@
     "charity": "Raspberry Pi Foundation – Carthanas Cláraithe sa RA 1129409",
     "settingsMenu": {
       "heading": "Socruithe",
-      "aiHint": "AI generated hints",
-      "aiHintDescription": "When your code has an error, you can generate a hint using AI. Hints do not give you the answer and can be wrong. Learn more about <learnMore>how AI hints work</learnMore> or <feedback>share feedback</feedback>.",
+      "aiHint": "Leideanna arna ngineadh le IS",
+      "aiHintDescription": "Nuair a bhíonn earráid i do chód, is féidir leat leid a ghiniúint le cabhair IS. Ní thugann leideanna an freagra duit agus d’fhéadfadh siad a bheith mícheart. Foghlaim tuilleadh faoi <learnMore>conas a oibríonn leideanna IS</learnMore> nó <feedback>roinn aiseolas</feedback>.",
       "textSize": "Méid téacs",
       "theme": "Téama",
       "textSizeOptions": {
@@ -391,7 +394,7 @@
     "no": "Níl"
   },
   "common": {
-    "opensInNewTab": "(opens in a new tab)",
+    "opensInNewTab": "(osclaíonn i dtáb nua)",
     "or": "nó"
   }
 }

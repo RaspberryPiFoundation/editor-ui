@@ -47,6 +47,14 @@ const AiErrorMessage = () => {
     };
   }, [errorDetails]);
 
+  // Showing the hint removes the button that had focus, so move focus to the result.
+  const resultRef = useRef(null);
+  const showResult = Boolean(hint || failed);
+
+  useEffect(() => {
+    if (showResult) resultRef.current?.focus();
+  }, [showResult]);
+
   const handleButtonClick = async () => {
     const code =
       projectCode?.find((c) => c.name === "main" && c.extension === "py")
@@ -117,11 +125,11 @@ const AiErrorMessage = () => {
   };
 
   return (
-    <div className="ai-error-message" aria-live="polite">
-      {(hint || failed) && (
-        <div className="ai-error-message__hint">
+    <div className="ai-error-message">
+      {showResult && (
+        <div className="ai-error-message__hint" ref={resultRef} tabIndex={-1}>
           <p className="ai-error-message__hint-heading">
-            <BadgeQuestionMarkIcon />
+            <BadgeQuestionMarkIcon aria-hidden="true" />
             {t("output.aiErrorMessages.aiGeneratedHint")}
           </p>
           <p className="ai-error-message__hint-text">
