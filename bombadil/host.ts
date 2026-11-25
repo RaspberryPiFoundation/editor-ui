@@ -11,6 +11,7 @@ import {
   editorHost,
   editorMatchesSelectedTab,
   recordFailure,
+  selectedTabName,
   sleep,
   waitFor,
 } from "./lib/dom.ts";
@@ -18,6 +19,25 @@ import { oracleProperty } from "./lib/oracles.ts";
 
 // Locales that have a translation file in public/translations.
 const LOCALES = ["fr-FR", "ja-JP", "uk-UA", "nl-NL"];
+
+// Comment syntax per file extension, so the marker never changes how the
+// file behaves. A stray HTML comment in a CSS file, for example, would
+// invalidate the next rule. This goes by extension rather than CodeMirror's
+// data-language, because the editor highlights .csv and .txt files as HTML,
+// and in those files any marker would be data.
+const COMMENT_SYNTAX: Record<string, [string, string]> = {
+  py: ["# ", ""],
+  html: ["<!-- ", " -->"],
+  css: ["/* ", " */"],
+  js: ["// ", ""],
+};
+
+function commentSyntax(fileName: string | null): [string, string] | null {
+  const extension = fileName?.split(".").pop()?.toLowerCase() ?? "";
+  return Object.hasOwn(COMMENT_SYNTAX, extension)
+    ? COMMENT_SYNTAX[extension]
+    : null;
+}
 
 /**
  * Edit the code, then change the `locale` attribute the way a host page
@@ -39,11 +59,10 @@ const editThenSwitchLocale = registerCustomAction(
     ) {
       return;
     }
+    const syntax = commentSyntax(selectedTabName(host.shadowRoot));
+    if (!syntax) return; // no comment syntax: any marker would change the file
     const marker = `bombadil-locale-${Date.now().toString(36)}`;
-    const comment =
-      (content.getAttribute("data-language") ?? "") === "python"
-        ? `\n# ${marker}\n`
-        : `\n<!-- ${marker} -->\n`;
+    const comment = `\n${syntax[0]}${marker}${syntax[1]}\n`;
     view.dispatch({
       changes: { from: view.state.doc.length, insert: comment },
     });
@@ -82,6 +101,7 @@ const canSwitchLocale = extract((state) => {
   return (
     !!cmView(content) &&
     content.getAttribute("contenteditable") === "true" &&
+    !!commentSyntax(selectedTabName(root)) &&
     editorMatchesSelectedTab(root)
   );
 });

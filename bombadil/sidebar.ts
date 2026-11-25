@@ -8,6 +8,7 @@ import {
   weighted,
 } from "@antithesishq/bombadil/browser";
 import {
+  clickButton,
   editorHost,
   recordFailure,
   setNativeValue,
@@ -376,26 +377,101 @@ export const instructionsSanitised = always(
   () => instructions.current.bad.length === 0 && !instructions.current.pwned,
 );
 
-/** Type markdown into the instructions editor, then show the View tab. */
+// The instructions panel's Edit and View tabs, found by position because
+// their labels are translated.
+function instructionTab(
+  root: ShadowRoot,
+  tab: "edit" | "view",
+): HTMLElement | undefined {
+  return root.querySelectorAll('.c-instruction-tabs [role="tab"]')[
+    tab === "edit" ? 0 : 1
+  ] as HTMLElement | undefined;
+}
+
+/** Text of the step shown on the View tab, or "" when View isn't showing. */
+function viewedStepText(root: ShadowRoot): string {
+  return (
+    root.querySelector(
+      ".c-instruction-tabs .react-tabs__tab-panel--selected " +
+        ".project-instructions",
+    )?.textContent ?? ""
+  );
+}
+
+/**
+ * Type markdown into the instructions editor, then show the View tab.
+ *
+ * Non-empty markdown starts with a plain-text marker. If View doesn't show
+ * the marker, the payload never rendered and instructionsSanitised had
+ * nothing to check. That happens when the step has pre-rendered `content`
+ * (like every step in cool-html.json), because View shows `content` instead
+ * of `markdown_content`. In that case, add a step, which only has
+ * `markdown_content`, and type the markdown there.
+ */
 const typeInstructions = registerCustomAction(
   "typeInstructions",
   async (document, window, markdown: string) => {
     const root = editorHost(document)?.shadowRoot as ShadowRoot | null;
-    const textarea = root?.querySelector(
-      'textarea[data-testid="instructionTextarea"]',
-    ) as HTMLTextAreaElement | null;
-    if (!root || !textarea) return;
+    if (!root?.querySelector('textarea[data-testid="instructionTextarea"]')) {
+      return;
+    }
     // A user can't reach the textarea through an open dialog's overlay.
     if (root.querySelector(".ReactModal__Overlay")) return;
-    textarea.focus();
-    setNativeValue(window, textarea, markdown);
+    const marker = markdown
+      ? `bombadil-instructions-${Date.now().toString(36)}`
+      : "";
+    const text = marker ? `${marker}\n\n${markdown}` : markdown;
+
+    // "shown": View shows the marker. "hidden": the step kept the text but
+    // View doesn't show it. "skipped": the text didn't stick, for example
+    // because the current step position is past the last step after a
+    // project reset (stepCounterInRange covers that), so there's nothing
+    // to judge.
+    const typeAndView = async (): Promise<"shown" | "hidden" | "skipped"> => {
+      const textarea = root.querySelector(
+        'textarea[data-testid="instructionTextarea"]',
+      ) as HTMLTextAreaElement | null;
+      if (!textarea) return "skipped";
+      textarea.focus();
+      setNativeValue(window, textarea, text);
+      await sleep(50);
+      if (textarea.value !== text) return "skipped";
+      instructionTab(root, "view")?.click();
+      if (!marker) return "shown";
+      const shown = await waitFor(
+        () => viewedStepText(root).includes(marker),
+        1_000,
+      );
+      return shown ? "shown" : "hidden";
+    };
+
+    if ((await typeAndView()) !== "hidden") return;
+
+    instructionTab(root, "edit")?.click();
     await sleep(50);
-    (
-      Array.from(
-        root.querySelectorAll('.c-instruction-tabs [role="tab"]'),
-      ).find((t) => t.textContent?.trim() === "View") as HTMLElement | undefined
-    )?.click();
+    // The first step action is "Add a step"; the second removes a step.
+    const addStep = root.querySelector(
+      ".instructions-panel__step-actions button",
+    ) as HTMLElement | null;
+    if (!addStep) return;
+    clickButton(addStep);
+    await sleep(100);
+    if ((await typeAndView()) === "hidden") {
+      recordFailure(
+        window,
+        "instructionsViewShowsEdits",
+        `View didn't show ${marker} after typing it into a new step`,
+      );
+    }
   },
+);
+
+/**
+ * Markdown typed into a step that only has `markdown_content` shows up on
+ * the View tab. Checked by typeInstructions.
+ */
+export const instructionsViewShowsEdits = oracleProperty(
+  "instructionsViewShowsEdits",
 );
 
 // Payloads avoid network requests (data: and .invalid hosts only).

@@ -57,6 +57,7 @@ export {
   fileNameModalsBehave,
   stepCounterInRange,
   instructionsSanitised,
+  instructionsViewShowsEdits,
 } from "./sidebar.ts";
 
 export { localeSwitchKeepsUnsavedEdits } from "./host.ts";
