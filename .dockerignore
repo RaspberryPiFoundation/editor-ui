@@ -2,6 +2,7 @@ build/
 dist/
 .git/
 node_modules/
+bombadil-output/
 
 .yarn/*
 !.yarn/patches

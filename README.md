@@ -76,6 +76,8 @@ Integration testing is carried out via `cypress` and can be run using:
 
 Currently, there are `cypress` tests for various aspects of the web component, such as running `python` and `HTML` code and Mission Zero-related functionality. These can be found in the `cypress/e2e` directory. Screenshots and videos related to any failures in the most recent test run can be found in `cypress/screenshots` and `cypress/videos` respectively.
 
+Property-based exploration of the web component is available via [Bombadil](https://github.com/antithesishq/bombadil). Run `yarn test:bombadil` to let it click, type and run code for a couple of minutes while checking properties defined in `bombadil/`. See [docs/Bombadil.md](docs/Bombadil.md) for options, how to read the results and the violations it currently finds.
+
 ## Usage
 
 The editor web component can be included in a page using the `<editor-wc>` HTML element and a script tag pointing to the desired version of the web component (`https://editor-static.raspberrypi.org/releases/<version-number>/web-component.js`).

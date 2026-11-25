@@ -93,6 +93,10 @@ yarn exec cypress open
 - Unit tests: `CI=true yarn test` (without `CI=true`, Vitest enters interactive watch mode which hangs).
 - Lint: `yarn lint` (runs ESLint on `src/` and `cypress/`).
 - Cypress e2e requires the dev server to be running first (`yarn start`).
+- Bombadil property-based exploration: `yarn test:bombadil` (starts the dev
+  server if needed; exit code 2 means a property was violated). The spec lives
+  in `bombadil/` (TypeScript, bundled by Bombadil, not linted by `yarn lint`).
+  Read `docs/Bombadil.md` before changing it, including the known violations.
 
 ## Further Reading (relative links)
 - `README.md`
@@ -101,6 +105,7 @@ yarn exec cypress open
 - `docs/host-integration/SidebarPlugins.md`
 - `docs/host-integration/AutosaveFlush.md`
 - `docs/HTML.md`
+- `docs/Bombadil.md`
 - `docs/PythonDependencies.md`
 - `docs/Deployment.md`
 - `.github/workflows/ci-cd.yml`
