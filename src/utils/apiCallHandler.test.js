@@ -16,7 +16,6 @@ const {
   loadAssets,
   createRemix,
   createError,
-  getAiErrorHint,
   createAiHint,
   getAiHint,
   getUserSettings,
@@ -228,30 +227,6 @@ describe("Testing project errors API calls", () => {
       },
       undefined,
     );
-  });
-});
-
-describe("Testing AI error hint API calls", () => {
-  const errorDetails = {
-    message: "NameError: name 'prnt' is not defined on line 1 of main.py",
-    trace: "NameError: name 'prnt' is not defined on line 1 of main.py",
-    runtime: "skulpt",
-    code: 'prnt("Hello world")',
-  };
-
-  test("Posts error details with auth headers and a timeout", async () => {
-    axios.post.mockImplementationOnce(() =>
-      Promise.resolve({ status: 200, data: { fem: "A friendly hint" } }),
-    );
-
-    const response = await getAiErrorHint(errorDetails, accessToken);
-
-    expect(axios.post).toHaveBeenCalledWith(
-      `${host}/api/friendly_error_messages`,
-      errorDetails,
-      { ...authHeaders, timeout: 20000 },
-    );
-    expect(response.data.fem).toBe("A friendly hint");
   });
 });
 

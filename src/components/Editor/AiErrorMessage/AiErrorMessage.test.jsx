@@ -3,9 +3,11 @@ import { Provider } from "react-redux";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import AiErrorMessage, { MIN_LOADING_MS } from "./AiErrorMessage";
 import ApiCallHandler from "../../../utils/apiCallHandler";
+import pollAiHint from "../../../utils/pollAiHint";
 import { AI_HINT_LEARN_MORE_URL } from "../../../utils/aiHintLinks";
 
 vi.mock("../../../utils/apiCallHandler");
+vi.mock("../../../utils/pollAiHint");
 
 vi.mock("react-i18next", async () => {
   const { cloneElement, createElement } = await vi.importActual("react");
@@ -68,12 +70,17 @@ const clickButtonAndWait = async () => {
   await advanceTimers(MIN_LOADING_MS);
 };
 
-let getAiErrorHint;
+const hintId = "6f1c1e2a-3b4d-4e5f-8a9b-0c1d2e3f4a5b";
+
+let createAiHint;
+let getAiHint;
 
 beforeEach(() => {
   vi.useFakeTimers();
-  getAiErrorHint = vi.fn();
-  ApiCallHandler.mockImplementation(() => ({ getAiErrorHint }));
+  createAiHint = vi.fn().mockResolvedValue({ data: { id: hintId } });
+  getAiHint = vi.fn();
+  ApiCallHandler.mockImplementation(() => ({ createAiHint, getAiHint }));
+  pollAiHint.mockReset();
 });
 
 afterEach(() => {
@@ -98,15 +105,15 @@ describe("AiErrorMessage", () => {
     ).toBeInTheDocument();
   });
 
-  test("Sends the error details, main.py code and access token", async () => {
-    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+  test("Creates the hint with the error details, main.py code and access token", async () => {
+    pollAiHint.mockResolvedValue("A friendly hint");
     renderAiErrorMessage();
     await clickButtonAndWait();
 
     expect(ApiCallHandler).toHaveBeenCalledWith({
       reactAppApiEndpoint: "http://localhost:3009",
     });
-    expect(getAiErrorHint).toHaveBeenCalledWith(
+    expect(createAiHint).toHaveBeenCalledWith(
       {
         message: errorDetails.message,
         trace: errorDetails.trace,
@@ -117,9 +124,26 @@ describe("AiErrorMessage", () => {
     );
   });
 
+  test("Polls for the created hint with the access token and an abort signal", async () => {
+    pollAiHint.mockResolvedValue("A friendly hint");
+    renderAiErrorMessage();
+    await clickButtonAndWait();
+
+    expect(pollAiHint).toHaveBeenCalledWith(hintId, {
+      getAiHint: expect.any(Function),
+      signal: expect.any(AbortSignal),
+    });
+
+    const pollOptions = pollAiHint.mock.calls[0][1];
+    const pollGetAiHint = pollOptions.getAiHint;
+    const signal = pollOptions.signal;
+    pollGetAiHint(hintId, { signal });
+    expect(getAiHint).toHaveBeenCalledWith(hintId, accessToken, { signal });
+  });
+
   test("Shows loading text while the hint is being generated", async () => {
     let resolveRequest;
-    getAiErrorHint.mockReturnValue(
+    pollAiHint.mockReturnValue(
       new Promise((resolve) => {
         resolveRequest = resolve;
       }),
@@ -132,7 +156,7 @@ describe("AiErrorMessage", () => {
       screen.getAllByText("output.aiErrorMessages.loadingText").length,
     ).toBeGreaterThan(0);
 
-    await act(async () => resolveRequest({ data: { fem: "A friendly hint" } }));
+    await act(async () => resolveRequest("A friendly hint"));
     await advanceTimers(MIN_LOADING_MS);
     expect(screen.getByText("A friendly hint")).toBeInTheDocument();
     expect(
@@ -141,7 +165,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Shows the hint and heading, and hides the button, on success", async () => {
-    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+    pollAiHint.mockResolvedValue("A friendly hint");
     renderAiErrorMessage();
     await clickButtonAndWait();
 
@@ -155,7 +179,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Moves focus to the hint when it replaces the button", async () => {
-    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+    pollAiHint.mockResolvedValue("A friendly hint");
     renderAiErrorMessage();
     hintButton().focus();
     await clickButtonAndWait();
@@ -164,7 +188,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Moves focus to the error text when the request fails", async () => {
-    getAiErrorHint.mockRejectedValue(new Error("Bad gateway"));
+    pollAiHint.mockRejectedValue(new Error("Hint failed"));
     renderAiErrorMessage();
     hintButton().focus();
     await clickButtonAndWait();
@@ -179,7 +203,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Keeps loading for the minimum time when the response is fast", async () => {
-    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+    pollAiHint.mockResolvedValue("A friendly hint");
     renderAiErrorMessage();
     clickButton();
 
@@ -192,7 +216,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Keeps loading for the minimum time when the request fails fast", async () => {
-    getAiErrorHint.mockRejectedValue(new Error("Bad gateway"));
+    pollAiHint.mockRejectedValue(new Error("Hint failed"));
     renderAiErrorMessage();
     clickButton();
 
@@ -208,7 +232,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Shows the error text and keeps the button when the request fails", async () => {
-    getAiErrorHint.mockRejectedValue(new Error("Bad gateway"));
+    pollAiHint.mockRejectedValue(new Error("Hint failed"));
     renderAiErrorMessage();
     await clickButtonAndWait();
 
@@ -223,26 +247,32 @@ describe("AiErrorMessage", () => {
     ).toBeInTheDocument();
   });
 
-  test.each([{ fem: "" }, {}])(
-    "Shows the error text when the response has empty hint in the form of %o",
-    async (data) => {
-      getAiErrorHint.mockResolvedValue({ data });
-      renderAiErrorMessage();
-      await clickButtonAndWait();
+  test("Shows the error text without polling when creating the hint fails", async () => {
+    createAiHint.mockRejectedValue(new Error("Bad gateway"));
+    renderAiErrorMessage();
+    await clickButtonAndWait();
 
-      expect(
-        screen.getByText("output.aiErrorMessages.errorText"),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText("output.aiErrorMessages.aiGeneratedHint"),
-      ).toBeInTheDocument();
-    },
-  );
+    expect(
+      screen.getByText("output.aiErrorMessages.errorText"),
+    ).toBeInTheDocument();
+    expect(pollAiHint).not.toHaveBeenCalled();
+  });
+
+  test("Shows the error text without polling when no hint id is returned", async () => {
+    createAiHint.mockResolvedValue({ data: {} });
+    renderAiErrorMessage();
+    await clickButtonAndWait();
+
+    expect(
+      screen.getByText("output.aiErrorMessages.errorText"),
+    ).toBeInTheDocument();
+    expect(pollAiHint).not.toHaveBeenCalled();
+  });
 
   test("Clears the error text and shows the hint when a retry succeeds", async () => {
-    getAiErrorHint
-      .mockRejectedValueOnce(new Error("Bad gateway"))
-      .mockResolvedValueOnce({ data: { fem: "A friendly hint" } });
+    pollAiHint
+      .mockRejectedValueOnce(new Error("Hint failed"))
+      .mockResolvedValueOnce("A friendly hint");
     renderAiErrorMessage();
 
     await clickButtonAndWait();
@@ -258,7 +288,7 @@ describe("AiErrorMessage", () => {
   });
 
   test("Resets to the button when a new error occurs", async () => {
-    getAiErrorHint.mockResolvedValue({ data: { fem: "A friendly hint" } });
+    pollAiHint.mockResolvedValue("A friendly hint");
     const { rerender } = renderAiErrorMessage();
     await clickButtonAndWait();
     expect(screen.getByText("A friendly hint")).toBeInTheDocument();
@@ -278,6 +308,41 @@ describe("AiErrorMessage", () => {
     ).toBeInTheDocument();
   });
 
+  describe("stopping polling", () => {
+    const pollSignal = () => pollAiHint.mock.calls[0][1].signal;
+
+    beforeEach(() => {
+      pollAiHint.mockReturnValue(new Promise(() => {}));
+    });
+
+    test("Aborts polling when the component unmounts", async () => {
+      const { unmount } = renderAiErrorMessage();
+      await clickButtonAndWait();
+      expect(pollSignal().aborted).toBe(false);
+
+      unmount();
+
+      expect(pollSignal().aborted).toBe(true);
+    });
+
+    test("Aborts polling when a new error occurs", async () => {
+      const { rerender } = renderAiErrorMessage();
+      await clickButtonAndWait();
+
+      rerender(
+        <Provider
+          store={mockStore(
+            buildState({ details: { ...errorDetails, line: 2 } }),
+          )}
+        >
+          <AiErrorMessage />
+        </Provider>,
+      );
+
+      expect(pollSignal().aborted).toBe(true);
+    });
+  });
+
   describe("hint requested event", () => {
     const handler = vi.fn();
     const onHintRequested = (e) => handler(e.detail);
@@ -292,14 +357,8 @@ describe("AiErrorMessage", () => {
     });
 
     test.each([
-      [
-        "shown",
-        () => getAiErrorHint.mockResolvedValue({ data: { fem: "A hint" } }),
-      ],
-      [
-        "failed",
-        () => getAiErrorHint.mockRejectedValue(new Error("Bad gateway")),
-      ],
+      ["shown", () => pollAiHint.mockResolvedValue("A hint")],
+      ["failed", () => pollAiHint.mockRejectedValue(new Error("Hint failed"))],
     ])("Dispatches the event with outcome %s", async (outcome, mockApi) => {
       mockApi();
       const state = buildState();
@@ -319,7 +378,7 @@ describe("AiErrorMessage", () => {
       let settleRequest;
 
       beforeEach(() => {
-        getAiErrorHint.mockReturnValue(
+        pollAiHint.mockReturnValue(
           new Promise((resolve, reject) => {
             settleRequest = { resolve, reject };
           }),
@@ -327,8 +386,8 @@ describe("AiErrorMessage", () => {
       });
 
       const settleWith = {
-        success: () => settleRequest.resolve({ data: { fem: "Stale hint" } }),
-        failure: () => settleRequest.reject(new Error("Bad gateway")),
+        success: () => settleRequest.resolve("Stale hint"),
+        failure: () => settleRequest.reject(new Error("Hint failed")),
       };
 
       test.each(Object.keys(settleWith))(

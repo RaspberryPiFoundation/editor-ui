@@ -101,19 +101,6 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     });
   };
 
-  const getAiErrorHint = async (
-    { message, trace, runtime, code },
-    accessToken,
-  ) => {
-    // Timeout is set longer than editor-api's 15 seconds
-    // so that the backend's 502 bad gateway arrives first.
-    return await post(
-      `${host}/api/friendly_error_messages`,
-      { message, trace, runtime, code },
-      { headers: headers(accessToken), timeout: 20000 },
-    );
-  };
-
   const createAiHint = async (
     { message, trace, runtime, code },
     accessToken,
@@ -159,7 +146,6 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     readProject,
     loadAssets,
     createError,
-    getAiErrorHint,
     createAiHint,
     getAiHint,
     getUserSettings,

@@ -7,6 +7,7 @@ import BadgeQuestionMarkIcon from "../../../assets/icons/badge_question_mark.svg
 import SettingsIcon from "../../../assets/icons/settings.svg";
 import { openAiHintSettings } from "../../../redux/EditorSlice";
 import ApiCallHandler from "../../../utils/apiCallHandler";
+import pollAiHint from "../../../utils/pollAiHint";
 import { getAiHintLinkComponents } from "../../../utils/aiHintLinks";
 import {
   aiHintLearnMoreLinkClickedEvent,
@@ -32,19 +33,18 @@ const AiErrorMessage = () => {
   const [failed, setFailed] = useState(false);
   const [hint, setHint] = useState("");
 
-  // The error currently on screen, so a pending request can tell whether
-  // the user has moved on before it settles.
-  const currentErrorRef = useRef(errorDetails);
+  // Aborted when the error changes or the component unmounts, which stops
+  // polling and tells a pending request that the user has moved on.
+  const abortControllerRef = useRef(null);
 
   useEffect(() => {
-    currentErrorRef.current = errorDetails;
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     setHint("");
     setFailed(false);
     setLoading(false);
 
-    return () => {
-      currentErrorRef.current = null;
-    };
+    return () => controller.abort();
   }, [errorDetails]);
 
   // Showing the hint removes the button that had focus, so move focus to the result.
@@ -60,17 +60,21 @@ const AiErrorMessage = () => {
       projectCode?.find((c) => c.name === "main" && c.extension === "py")
         ?.content ?? "";
 
+    const { signal } = abortControllerRef.current;
+    const isStale = () => signal.aborted;
+
     setLoading(true);
     setFailed(false);
 
-    const isStale = () => currentErrorRef.current !== errorDetails;
     const minLoadingTime = new Promise((resolve) =>
       setTimeout(resolve, MIN_LOADING_MS),
     );
     try {
-      const { getAiErrorHint } = ApiCallHandler({ reactAppApiEndpoint });
-      const [{ data }] = await Promise.all([
-        getAiErrorHint(
+      const { createAiHint, getAiHint } = ApiCallHandler({
+        reactAppApiEndpoint,
+      });
+      const requestHint = async () => {
+        const { data } = await createAiHint(
           {
             message: errorDetails.message,
             trace: errorDetails.trace,
@@ -78,12 +82,16 @@ const AiErrorMessage = () => {
             code,
           },
           accessToken,
-        ),
-        minLoadingTime,
-      ]);
+        );
+        if (!data?.id) throw new Error("No hint id");
+        return await pollAiHint(data.id, {
+          getAiHint: (id, options) => getAiHint(id, accessToken, options),
+          signal,
+        });
+      };
+      const [hintText] = await Promise.all([requestHint(), minLoadingTime]);
       if (isStale()) return;
-      if (!data?.fem) throw new Error("Empty hint");
-      setHint(data.fem);
+      setHint(hintText);
       document.dispatchEvent(
         aiHintRequestedEvent({
           projectIdentifier,
