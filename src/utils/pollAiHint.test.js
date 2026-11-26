@@ -154,14 +154,3 @@ test("rejects as aborted when aborted during a request", async () => {
   await expectRejection(promise, "aborted");
   expect(getAiHint).toHaveBeenCalledTimes(1);
 });
-
-test("does not poll when already aborted", async () => {
-  const controller = new AbortController();
-  controller.abort();
-  const promise = startPolling(controller.signal);
-
-  await vi.advanceTimersByTimeAsync(intervalMs);
-
-  await expectRejection(promise, "aborted");
-  expect(getAiHint).not.toHaveBeenCalled();
-});

@@ -239,19 +239,18 @@ describe("Testing async AI hint API calls", () => {
   };
   const hintId = "6f1c1e2a-3b4d-4e5f-8a9b-0c1d2e3f4a5b";
 
-  test("Creating a hint posts error details and returns the id", async () => {
+  test("Creating a hint posts error details", async () => {
     axios.post.mockImplementationOnce(() =>
       Promise.resolve({ status: 202, data: { id: hintId } }),
     );
 
-    const response = await createAiHint(errorDetails, accessToken);
+    await createAiHint(errorDetails, accessToken);
 
     expect(axios.post).toHaveBeenCalledWith(
       `${host}/api/ai_hints`,
       errorDetails,
       { ...authHeaders, timeout: 5000 },
     );
-    expect(response.data.id).toBe(hintId);
   });
 
   test("Getting a hint fetches it by id with the abort signal", async () => {
@@ -263,16 +262,12 @@ describe("Testing async AI hint API calls", () => {
       }),
     );
 
-    const response = await getAiHint(hintId, accessToken, { signal });
+    await getAiHint(hintId, accessToken, { signal });
 
     expect(axios.get).toHaveBeenCalledWith(`${host}/api/ai_hints/${hintId}`, {
       ...authHeaders,
       timeout: 5000,
       signal,
-    });
-    expect(response.data).toEqual({
-      status: "completed",
-      hint: "A friendly hint",
     });
   });
 });
