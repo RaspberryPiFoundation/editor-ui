@@ -1,6 +1,8 @@
 import axios from "axios";
 import omit from "lodash/omit";
 
+const AI_HINT_REQUEST_TIMEOUT_MS = 5000;
+
 const ApiCallHandler = ({ reactAppApiEndpoint }) => {
   const host = reactAppApiEndpoint;
 
@@ -112,6 +114,25 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     );
   };
 
+  const createAiHint = async (
+    { message, trace, runtime, code },
+    accessToken,
+  ) => {
+    return await post(
+      `${host}/api/ai_hints`,
+      { message, trace, runtime, code },
+      { headers: headers(accessToken), timeout: AI_HINT_REQUEST_TIMEOUT_MS },
+    );
+  };
+
+  const getAiHint = async (id, accessToken, { signal } = {}) => {
+    return await get(`${host}/api/ai_hints/${encodeURIComponent(id)}`, {
+      headers: headers(accessToken),
+      timeout: AI_HINT_REQUEST_TIMEOUT_MS,
+      signal,
+    });
+  };
+
   const getUserSettings = async (accessToken) => {
     return await get(`${host}/api/user_settings`, {
       headers: headers(accessToken),
@@ -139,6 +160,8 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     loadAssets,
     createError,
     getAiErrorHint,
+    createAiHint,
+    getAiHint,
     getUserSettings,
     updateUserSettings,
   };

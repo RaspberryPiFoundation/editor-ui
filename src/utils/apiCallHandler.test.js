@@ -17,6 +17,8 @@ const {
   createRemix,
   createError,
   getAiErrorHint,
+  createAiHint,
+  getAiHint,
   getUserSettings,
   updateUserSettings,
 } = ApiCallHandler({ reactAppApiEndpoint: host });
@@ -250,6 +252,53 @@ describe("Testing AI error hint API calls", () => {
       { ...authHeaders, timeout: 20000 },
     );
     expect(response.data.fem).toBe("A friendly hint");
+  });
+});
+
+describe("Testing async AI hint API calls", () => {
+  const errorDetails = {
+    message: "NameError: name 'prnt' is not defined on line 1 of main.py",
+    trace: "NameError: name 'prnt' is not defined on line 1 of main.py",
+    runtime: "skulpt",
+    code: 'prnt("Hello world")',
+  };
+  const hintId = "6f1c1e2a-3b4d-4e5f-8a9b-0c1d2e3f4a5b";
+
+  test("Creating a hint posts error details and returns the id", async () => {
+    axios.post.mockImplementationOnce(() =>
+      Promise.resolve({ status: 202, data: { id: hintId } }),
+    );
+
+    const response = await createAiHint(errorDetails, accessToken);
+
+    expect(axios.post).toHaveBeenCalledWith(
+      `${host}/api/ai_hints`,
+      errorDetails,
+      { ...authHeaders, timeout: 5000 },
+    );
+    expect(response.data.id).toBe(hintId);
+  });
+
+  test("Getting a hint fetches it by id with the abort signal", async () => {
+    const { signal } = new AbortController();
+    axios.get.mockImplementationOnce(() =>
+      Promise.resolve({
+        status: 200,
+        data: { status: "completed", hint: "A friendly hint" },
+      }),
+    );
+
+    const response = await getAiHint(hintId, accessToken, { signal });
+
+    expect(axios.get).toHaveBeenCalledWith(`${host}/api/ai_hints/${hintId}`, {
+      ...authHeaders,
+      timeout: 5000,
+      signal,
+    });
+    expect(response.data).toEqual({
+      status: "completed",
+      hint: "A friendly hint",
+    });
   });
 });
 
