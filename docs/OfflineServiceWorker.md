@@ -25,7 +25,7 @@ The implementation below could be shipped as `public/service-worker.js` in edito
 // "editor-app-v1" and "editor-translations-v1" are replaced with the package version at build time
 const APP_CACHE = "editor-app-v1";
 const TRANSLATIONS_CACHE = "editor-translations-v1";
-const PYODIDE_CACHE = "pyodide-v0.26.2";
+const PYODIDE_CACHE = "pyodide-v314.0.7";
 
 // Minimal set of assets to pre-cache on install
 // All other assets (chunks, translations, etc.) are cached dynamically on first use via the network-first fetch handler below
@@ -155,7 +155,7 @@ async function networkFirst(request, cacheName) {
 }
 
 // Cache-first: serve from cache when available, populate on first fetch.
-// importScripts produces opaque responses we can't modify, so we re-fetch as cors to get a modifiable response we can store with security headers
+// Re-fetch as cors so we get a modifiable response we can store with security headers
 async function cacheFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request.url);

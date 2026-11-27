@@ -3,11 +3,13 @@
   Vite (migrated from an ejected-CRA webpack setup).
 - Primary entry is the web component bundle served by the dev server at
   `http://localhost:3011`.
-- Three Vite configs at the repo root, each producing one unhashed, classic
-  (non-module) IIFE bundle so it can be loaded via a plain `<script>` tag:
-  `vite.config.js` (`web-component.js` + dev server), `vite.html-renderer.config.js`
-  (`html-renderer.js`), `vite.worker.config.js` (`PyodideWorker.js`). Shared
-  helpers live in `vite.lib.js`. `yarn build` chains all three in that order.
+- Three Vite configs at the repo root, each producing one unhashed bundle:
+  `vite.config.js` (`web-component.js` + dev server) and
+  `vite.html-renderer.config.js` (`html-renderer.js`) are classic (non-module)
+  IIFE bundles so they can be loaded via a plain `<script>` tag, while
+  `vite.worker.config.js` (`PyodideWorker.js`) is an ES module because Pyodide
+  only runs in a module worker. Shared helpers live in `vite.lib.js`.
+  `yarn build` chains all three in that order.
 
 ## Repository Structure
 - `src/`: application code, redux, web component entrypoints.
