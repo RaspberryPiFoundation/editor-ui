@@ -54,6 +54,9 @@ them. Don't edit until confirmed. Also raise:
 - **Tag count changes:** other locales keep the old `Trans` tags until Crowdin
   syncs, so they may show old wording without its link.
 
+Once confirmed, give the UI location (as in step 6) and ask the user to take
+"before" screenshots (desktop and mobile) now, while the old copy shows.
+
 ## 4. Make the change
 
 - Edit only `public/translations/en.json`; Crowdin overwrites other locales.
@@ -94,7 +97,10 @@ The user runs the dev server. For each changed string give:
 - the state that shows it (an error, a sidebar panel, a setting)
 - where to look and any layout risk (much longer text, an empty gap)
 
-Wait for the user to confirm.
+Wait for the user to confirm. Ask them to take "after" screenshots and drag
+all before and after files into the chat, which gives their paths (usually on
+the Desktop). If an image arrives without a path, ask for it: `--attach`
+needs a file. Never copy screenshots into the repo.
 
 ## 7. Commit and draft PR (only when asked)
 
@@ -105,8 +111,10 @@ Wait for the user to confirm.
 - PR description: link `owner/repo#number`, where the change shows, only
   `en.json` edited (Crowdin does the rest), any renames, references left out
   on purpose. Don't touch `CHANGELOG.md`.
-- End with an empty `## Screenshots` section (desktop and mobile, before and
-  after) and remind the user to fill it in; Macroscope needs it to approve.
+- End with a `## Screenshots` before/after table (desktop and mobile rows)
+  and attach the user's files with `--attach`, following the
+  `github-attachments` skill. Macroscope needs them to approve. If there are
+  no screenshots, leave the section empty and remind the user to fill it in.
 - Use a quoted heredoc (`<<'EOF'`) and don't backslash-escape inside it.
 
 ## 8. Renames (only when asked, after the copy commit)
