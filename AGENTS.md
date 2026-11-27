@@ -15,6 +15,8 @@
 - `cypress/`: end-to-end tests and fixtures.
 - `config/`: deploy helpers (e.g. `nginx.conf.erb`); not used by the Vite build.
 - `.github/workflows/`: CI/CD and deploy pipelines.
+- `.agents/skills/`: shared agent skills (`<name>/SKILL.md`).
+  `.claude/skills` is a symlink to it; add new skills here.
 
 ## Quickstart Commands
 ```
