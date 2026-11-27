@@ -1,6 +1,8 @@
 import axios from "axios";
 import omit from "lodash/omit";
 
+const AI_HINT_REQUEST_TIMEOUT_MS = 5000;
+
 const ApiCallHandler = ({ reactAppApiEndpoint }) => {
   const host = reactAppApiEndpoint;
 
@@ -99,17 +101,23 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     });
   };
 
-  const getAiErrorHint = async (
+  const createAiHint = async (
     { message, trace, runtime, code },
     accessToken,
   ) => {
-    // Timeout is set longer than editor-api's 15 seconds
-    // so that the backend's 502 bad gateway arrives first.
     return await post(
-      `${host}/api/friendly_error_messages`,
+      `${host}/api/ai_hints`,
       { message, trace, runtime, code },
-      { headers: headers(accessToken), timeout: 20000 },
+      { headers: headers(accessToken), timeout: AI_HINT_REQUEST_TIMEOUT_MS },
     );
+  };
+
+  const getAiHint = async (id, accessToken, { signal } = {}) => {
+    return await get(`${host}/api/ai_hints/${encodeURIComponent(id)}`, {
+      headers: headers(accessToken),
+      timeout: AI_HINT_REQUEST_TIMEOUT_MS,
+      signal,
+    });
   };
 
   const getUserSettings = async (accessToken) => {
@@ -138,7 +146,8 @@ const ApiCallHandler = ({ reactAppApiEndpoint }) => {
     readProject,
     loadAssets,
     createError,
-    getAiErrorHint,
+    createAiHint,
+    getAiHint,
     getUserSettings,
     updateUserSettings,
   };
