@@ -227,7 +227,7 @@
       "retryButtonText": "Triail arís é",
       "aiGeneratedHint": "Leid arna gineadh le IS",
       "errorText": "Ní rabhamar in ann leid a ghiniúint. Bain triail eile as ar ball.",
-      "notice": "D’fhéadfadh leideanna IS a bheith mícheart. <learnMore>Léigh tuilleadh </learnMore>agus roinn <feedback>aiseolas</feedback>",
+      "notice": "D’fhéadfadh leideanna IS a bheith mícheart. <learnMore>Léigh tuilleadh</learnMore> agus roinn <feedback>aiseolas</feedback>",
       "turnOff": "Múch leideanna IS"
     },
     "limitReached": "Teorainn aschuir sroichte. Tá aschur breise folaithe, ach tá do chlár fós ag rith.",
