@@ -19,6 +19,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@antithesishq/bombadil@npm:0.7.10":
+  version: 0.7.10
+  resolution: "@antithesishq/bombadil@npm:0.7.10"
+  bin:
+    bombadil: bin/bombadil.js
+  checksum: 10/c9f6d4432694580854b9a4189fae7fe2dc6dc935e19038140641308be9fdc8083e362a733963562fef9f8aeb94ab75e95efce40eba22732ff6f51567f57a4d76
+  languageName: node
+  linkType: hard
+
 "@asamuzakjp/css-color@npm:^3.2.0":
   version: 3.2.0
   resolution: "@asamuzakjp/css-color@npm:3.2.0"
@@ -2467,6 +2476,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@raspberrypifoundation/editor-ui@workspace:."
   dependencies:
+    "@antithesishq/bombadil": "npm:0.7.10"
     "@codemirror/commands": "npm:^6.11.1"
     "@codemirror/lang-css": "npm:^6.3.1"
     "@codemirror/lang-html": "npm:^6.4.12"
